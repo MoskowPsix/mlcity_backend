@@ -17,12 +17,16 @@
 
 - В терминале выполнить команду ```php artisan migrate```
 
+- В терминале выполнить команду ```php artisan key:generate```
+
 - В терминале выполнить команду ```php artisan db:seed```
 
 - Открыть новую вкладку в терминале и выполнить команду ```php artisan serve```
 
 - Перейти по указанному адресу
 
+### Пример разворота (deploy) на хостинге:
+https://www.youtube.com/watch?v=Vle7D38pmDg
 
 ### API:
 
