@@ -39,6 +39,9 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 
 ### Регистрация и получение токена
 
+Перед регистрацией необходимо запросить CRSF токен
+http://127.0.0.1:8000/sanctum/csrf-cookie
+
 - URL: http://127.0.0.1:8000/api/register
 
 - Method: POST
@@ -80,6 +83,8 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 ```
 
 ### Авторизация
+Перед авторизацией необходимо запросить CRSF токен
+http://127.0.0.1:8000/sanctum/csrf-cookie
 
 - URL: http://127.0.0.1:8000/api/login
 
