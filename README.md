@@ -11,7 +11,7 @@
 
 - Установить **composer**
 
-- Клонировать проект git clone https://github.com/refus91/citylife_backend
+- Клонировать проект ```git clone https://github.com/refus91/citylife_backend```
 
 - В файле .env установить ключ приложения (**APP_KEY**) и настройки подключения к БД (**DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD**)
 
