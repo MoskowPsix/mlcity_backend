@@ -37,7 +37,7 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 
 ### Используйте Postman для теста API
 
-#### Регистрация и получение токена
+### Регистрация и получение токена
 
 - URL: http://127.0.0.1:8000/api/register
 
@@ -57,7 +57,29 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 - Вы получите токен, например, ``1|FLolPZ7eg1LGixtlRR1AE3TTAg2HU9DvDWP7maX3``
 - Запомните имя и почтовый адрес, запишите токен - он понадобится для авторизации на других маршутах
 
-#### Авторизация
+Успешный ответ:
+```
+{
+"status": "success",
+"message": "Вы успешно зарегистрированы!",
+"access_token": "1|zMno0E4VJi9BB6tIhKAjVTHhS5CkvrbLQaHB2Hl7",
+"token_type": "Bearer",
+"user_name": "Admin1"
+}
+```
+Ответ в случае ошибки (могут быть разными):
+```
+{
+    "message": "Такое значение поля email адрес уже существует.",
+    "errors": {
+        "email": [
+            "Такое значение поля email адрес уже существует."
+        ]
+    }
+}
+```
+
+### Авторизация
 
 - URL: http://127.0.0.1:8000/api/login
 
@@ -72,9 +94,45 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
   | Введите пароль: | password | пароль, который использовали при регистрации         |
   | Введите токен:  | token    | токен который получили при регистрации               |
 
-#### Выход
+Успешный ответ:
+```
+{
+    "status": "success",
+    "message": "Вы успешно авторизовались!",
+    "access_token": "2|hleVPEQPAEUIRt8SnHEZGhUN11PXBQOZ7yHCjY9r",
+    "token_type": "Bearer",
+    "user_name": "Admin1"
+}
+```
+Ответ в случае ошибки (могут быть разными):
+```
+{
+    "status": "error",
+    "message": "Неудачная авторизации"
+}
+```
+
+### Выход
 
 - URL: http://127.0.0.1:8000/api/logout
 
-- Method: POST
-  Перейдите на вкладку Headers и введите key => Accept, value => application/json
+- Перейдите на вкладку Headers
+
+- Введите key => Accept, value => application/json
+
+- Введите токен: key => Authorization, value => 'Bearer '.$accessToken
+  должна получится строка вида - ``Bearer 1\|FLolPZ7eg1LGixtlRR1AE3TTAg2HU9DvDWP7maX3``
+
+Успешный ответ:
+```
+{
+    "status": "success",
+    "message": "Пользователь успешно вышел"
+}
+```
+Ответ в случае ошибки (могут быть разными):
+```
+{
+    "message": "Unauthenticated."
+}
+```
