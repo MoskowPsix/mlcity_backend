@@ -14,7 +14,7 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
-    public function register(RegisterRequest $request)
+    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->all();
         $input['password']  =  bcrypt($input['password']);
@@ -31,12 +31,12 @@ class AuthController extends Controller
             'message'       => __('messages.register.success'),
             'access_token'  => $token,
             'token_type'    => 'Bearer',
-            'user_name'     => $userName
+            'user'          => $user
         ], 200);
 
     }
 
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
@@ -48,18 +48,18 @@ class AuthController extends Controller
         $user = Auth::user();
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        $userName = $user->name;
+        //$userName = $user->name;
 
         return response()->json([
             'status'        => 'success',
             'message'       => __('messages.login.success'),
             'access_token'  => $token,
             'token_type'    => 'Bearer',
-            'user_name'     => $userName
+            'user'          => $user
         ], 200);
     }
 
-    public function logout()
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         try {
             Auth::user()->tokens()->delete();

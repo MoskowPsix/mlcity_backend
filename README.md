@@ -70,7 +70,14 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 "message": "Вы успешно зарегистрированы!",
 "access_token": "1|zMno0E4VJi9BB6tIhKAjVTHhS5CkvrbLQaHB2Hl7",
 "token_type": "Bearer",
-"user_name": "Admin1"
+ "user": {
+        "id": 1,
+        "name": "Admin1",
+        "email": "123@rambler.ru",
+        "email_verified_at": null,
+        "created_at": "2023-01-12T16:16:33.000000Z",
+        "updated_at": "2023-01-12T16:16:33.000000Z"
+    }
 }
 ```
 Ответ в случае ошибки (могут быть разными):
@@ -106,10 +113,17 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 ```
 {
     "status": "success",
-    "message": "Вы успешно авторизовались!",
-    "access_token": "2|hleVPEQPAEUIRt8SnHEZGhUN11PXBQOZ7yHCjY9r",
+    "message": "Вы успешно авторизовались",
+    "access_token": "6|igmhnoW7duePpVqyxBbnG6ZlZokFoXPyVcutaSmq",
     "token_type": "Bearer",
-    "user_name": "Admin1"
+    "user": {
+        "id": 1,
+        "name": "Admin1",
+        "email": "123@rambler.ru",
+        "email_verified_at": null,
+        "created_at": "2023-01-12T16:16:33.000000Z",
+        "updated_at": "2023-01-12T16:16:33.000000Z"
+    }
 }
 ```
 Ответ в случае ошибки (могут быть разными):
