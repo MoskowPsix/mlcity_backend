@@ -7,6 +7,9 @@
 1. [Как запустить](#install)
 2. [Пример развертывания проекта (deploy) на хостинге](#deploy)
 3. [API](#api)
+   - [Регистрация и получение токена](#api_register)
+   - [Авторизация](#api_login)
+   - [Выход](#api_logout)
 
 ### <a name="install"><h4>Как запустить:</h4></a>
 
@@ -37,7 +40,7 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 
 ### Используйте Postman для теста API
 
-### Регистрация и получение токена
+### <a name="api_register"><h4>Регистрация и получение токена:</h4></a>
 
 Перед регистрацией необходимо запросить CRSF токен
 http://127.0.0.1:8000/sanctum/csrf-cookie
@@ -82,7 +85,7 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 }
 ```
 
-### Авторизация
+### <a name="api_login"><h4>Авторизация:</h4></a>
 Перед авторизацией необходимо запросить CRSF токен
 http://127.0.0.1:8000/sanctum/csrf-cookie
 
@@ -117,7 +120,7 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 }
 ```
 
-### Выход
+### <a name="api_logout"><h4>Выход:</h4></a>
 
 - URL: http://127.0.0.1:8000/api/logout
 
