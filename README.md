@@ -49,9 +49,9 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 
 - Method: POST
 
-- Перейдите на вкладку Headers и введите key => Accept, value => application/json
+- Перейдите на вкладку ``Headers`` и введите ``key => Accept, value => application/json``
 
-- Перейдите на вкладку Body и выберите form-data
+- Перейдите на вкладку ``Body`` и выберите ``form-data``
 
   |                   |  **key**   |             **value**             |
   |-------------------|:---------------------------------:|:---------------------------------:|
@@ -92,8 +92,8 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 - URL: http://127.0.0.1:8000/api/login
 
 - Method: POST
-  Перейдите на вкладку Headers и введите key => Accept, value => application/json
-- Перейдите на вкладку Body и выберите form-data
+  Перейдите на вкладку ``Headers`` и введите ``key => Accept, value => application/json``
+- Перейдите на вкладку ``Body`` и выберите ``form-data``
 
   |                 |  **key** |                       **value**                      |
     |-----------------|:--------:|:----------------------------------------------------:|
@@ -124,11 +124,11 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 
 - URL: http://127.0.0.1:8000/api/logout
 
-- Перейдите на вкладку Headers
+- Перейдите на вкладку ``Headers``
 
-- Введите key => Accept, value => application/json
+- Введите ``key => Accept, value => application/json``
 
-- Введите токен: key => Authorization, value => 'Bearer '.$accessToken
+- Введите токен: ``key => Authorization, value => 'Bearer '.$accessToken``
   должна получится строка вида - ``Bearer 1\|FLolPZ7eg1LGixtlRR1AE3TTAg2HU9DvDWP7maX3``
 
 Успешный ответ:
