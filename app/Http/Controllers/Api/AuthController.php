@@ -28,7 +28,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status'        => 'success',
-            'message'       => 'Вы успешно зарегистрированы!',
+            'message'       => __('messages.register.success'),
             'access_token'  => $token,
             'token_type'    => 'Bearer',
             'user_name'     => $userName
@@ -41,7 +41,7 @@ class AuthController extends Controller
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Неудачная авторизации'
+                'message' => __('messages.login.error')
             ], 401);
         }
 
@@ -52,7 +52,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status'        => 'success',
-            'message'       => 'Вы успешно авторизовались!',
+            'message'       => __('messages.login.success'),
             'access_token'  => $token,
             'token_type'    => 'Bearer',
             'user_name'     => $userName
@@ -68,7 +68,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status'        => 'success',
-                'message'       => 'Пользователь успешно вышел'
+                'message'       => __('messages.logout.success')
             ], 200);
         } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
