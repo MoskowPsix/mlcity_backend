@@ -23,6 +23,7 @@
 
 - В файле .env установить ключ приложения (**APP_KEY**) и настройки подключения к БД (**DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD**)
 
+- В файле .env удалить ```SESSION_DRIVER=file``` и установить ```SESSION_DRIVER=cookie SESSION_DOMAIN=localhost SANCTUM_STATEFUL_DOMAINS=localhost```
 - В терминале выполнить команду ```php artisan migrate```
 
 - В терминале выполнить команду ```php artisan key:generate```
