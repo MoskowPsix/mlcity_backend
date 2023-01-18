@@ -11,12 +11,12 @@ class AuthSocialController extends Controller
 {
     public function index($driver): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver($driver)->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        return Socialite::driver($driver)->stateless()->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
     }
 
     public function callback($driver): \Illuminate\Http\JsonResponse
     {
-        $user = Socialite::driver($driver)->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        $user = Socialite::driver($driver)->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
 
         $socialService = new SocialService();
         $user = $socialService->saveSocialData($user);
