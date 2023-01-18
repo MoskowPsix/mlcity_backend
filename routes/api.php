@@ -27,6 +27,6 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
-    Route::post('social-auth', 'index');
-    Route::post('social-auth/callback', 'callback');
+    Route::post('social-auth/{vkontakte}', 'index');
+    Route::post('social-auth/{vkontakte}/callback', 'callback');
 });

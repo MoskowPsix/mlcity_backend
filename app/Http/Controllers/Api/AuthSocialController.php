@@ -9,14 +9,14 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthSocialController extends Controller
 {
-    public function index(): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
+    public function index($driver): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver('vkontakte')->redirect();
+        return Socialite::driver($driver)->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
     }
 
-    public function callback(): \Illuminate\Http\JsonResponse
+    public function callback($driver): \Illuminate\Http\JsonResponse
     {
-        $user = Socialite::driver('vkontakte')->user();
+        $user = Socialite::driver($driver)->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
 
         $socialService = new SocialService();
         $user = $socialService->saveSocialData($user);
