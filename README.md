@@ -33,7 +33,7 @@
 
 - В файле .env установить реквизиты приложения Вконтакте и редирект после авторизации 
     ```
-    VKONTAKTE_CLIENT_ID=51439579 
+    VKONTAKTE_CLIENT_ID=51440111 
     VKONTAKTE_CLIENT_SECRET=PsB4W0SVkFGP1M3I2BAH 
     VKONTAKTE_REDIRECT_URI=http://DOMAIN/social-auth/callback
     ```

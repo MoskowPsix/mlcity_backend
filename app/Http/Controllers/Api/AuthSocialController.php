@@ -22,7 +22,7 @@ class AuthSocialController extends Controller
         $user = $socialService->findOrCreateUser($socialUser, $provider);
 
         if (!$user->isEmpty()){
-            $token = $user->createToken('auth_token')->plainTextToken;
+//            $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
                 'status'        => 'success',
