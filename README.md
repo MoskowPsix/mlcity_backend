@@ -9,6 +9,7 @@
 3. [API](#api)
    - [Регистрация и получение токена](#api_register)
    - [Авторизация](#api_login)
+   - [Авторизация через соцсети](#api_socialAuth)
    - [Выход](#api_logout)
 
 ## <a name="install"><h4>Как запустить:</h4></a>
@@ -34,7 +35,7 @@
     ```
     VKONTAKTE_CLIENT_ID=51439579 
     VKONTAKTE_CLIENT_SECRET=PsB4W0SVkFGP1M3I2BAH 
-    VKONTAKTE_REDIRECT_URI=http://localhost:8000/social-auth/callback
+    VKONTAKTE_REDIRECT_URI=http://DOMAIN/social-auth/callback
     ```
 
 - В терминале выполнить команду ```composer update```
@@ -59,9 +60,9 @@ https://www.youtube.com/watch?v=Vle7D38pmDg
 ### <a name="api_register"><h4>Регистрация и получение токена:</h4></a>
 
 Перед регистрацией необходимо запросить CRSF токен
-http://127.0.0.1:8000/sanctum/csrf-cookie
+http://DOMAIN/sanctum/csrf-cookie
 
-- URL: http://127.0.0.1:8000/api/register
+- URL: http://DOMAIN/api/register
 
 - Method: POST
 
@@ -110,9 +111,9 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 
 ### <a name="api_login"><h4>Авторизация:</h4></a>
 Перед авторизацией необходимо запросить CRSF токен
-http://127.0.0.1:8000/sanctum/csrf-cookie
+http://DOMAIN/sanctum/csrf-cookie
 
-- URL: http://127.0.0.1:8000/api/login
+- URL: http://DOMAIN/api/login
 
 - Method: POST
   Перейдите на вкладку ``Headers`` и введите ``key => Accept, value => application/json``
@@ -149,9 +150,14 @@ http://127.0.0.1:8000/sanctum/csrf-cookie
 }
 ```
 
+### <a name="api_socialAuth"><h4>Авторизация соц. сети:</h4></a>
+Пока реализована авторизация через Vkontakte. 
+
+URL: http://DOMAIN/social-auth
+
 ### <a name="api_logout"><h4>Выход:</h4></a>
 
-- URL: http://127.0.0.1:8000/api/logout
+- URL: http://DOMAIN/api/logout
 
 - Перейдите на вкладку ``Headers``
 
