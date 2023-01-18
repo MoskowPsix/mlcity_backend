@@ -23,7 +23,19 @@
 
 - В файле .env установить ключ приложения (**APP_KEY**) и настройки подключения к БД (**DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD**)
 
-- В файле .env удалить ```SESSION_DRIVER=file``` и установить ```SESSION_DRIVER=cookie SESSION_DOMAIN=localhost SANCTUM_STATEFUL_DOMAINS=localhost```
+- В файле .env удалить ```SESSION_DRIVER=file``` и установить 
+    ```
+    SESSION_DRIVER=cookie 
+    SESSION_DOMAIN=localhost 
+    SANCTUM_STATEFUL_DOMAINS=localhost
+    ```
+
+- В файле .env установить реквизиты приложения Вконтакте и редирект после авторизации 
+    ```
+    VKONTAKTE_CLIENT_ID=51439579 
+    VKONTAKTE_CLIENT_SECRET=PsB4W0SVkFGP1M3I2BAH 
+    VKONTAKTE_REDIRECT_URI=http://localhost:8000/social-auth/callback
+    ```
 
 - В терминале выполнить команду ```composer update```
 

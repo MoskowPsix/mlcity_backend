@@ -24,7 +24,7 @@ class AuthController extends Controller
         $userName = $user->name;
         $token = $user->createToken('auth_token')->plainTextToken;
 
-        Auth::login($user);
+//        Auth::login($user);
 
         return response()->json([
             'status'        => 'success',
@@ -46,6 +46,15 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
+//        $user = User::where('email', $request->email)->first();
+//
+//        if (!$user || $request->password != $user->password) {
+//            return response()->json([
+//                'status' => 'error',
+//                'message' => __('messages.login.error.')
+//            ], 401);
+//        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         //$userName = $user->name;
