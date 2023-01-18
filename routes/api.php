@@ -27,6 +27,6 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
-    Route::get('social-auth/{driver}', 'index');
-    Route::get('social-auth/{driver}/callback', 'callback');
+    Route::get('social-auth/{provider}', 'index')->name('auth.social');
+    Route::get('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
 });

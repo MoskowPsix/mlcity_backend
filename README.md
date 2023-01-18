@@ -153,8 +153,8 @@ http://DOMAIN/sanctum/csrf-cookie
 ### <a name="api_socialAuth"><h4>Авторизация соц. сети:</h4></a>
 Пока реализована авторизация через Vkontakte. 
 
-Вместо DRIVER укажите соц сеть, например vkontakte
-URL: http://DOMAIN/social-auth/DRIVER
+Вместо PROVIDER укажите соц сеть, например vkontakte
+URL: http://DOMAIN/social-auth/PROVIDER
 
 
 ### <a name="api_logout"><h4>Выход:</h4></a>

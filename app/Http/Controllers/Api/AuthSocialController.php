@@ -9,17 +9,17 @@ use Laravel\Socialite\Facades\Socialite;
 
 class AuthSocialController extends Controller
 {
-    public function index($driver): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
+    public function index($provider): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver($driver)->stateless()->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        return Socialite::driver($provider)->stateless()->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
     }
 
-    public function callback($driver): \Illuminate\Http\JsonResponse
+    public function callback($provider): \Illuminate\Http\JsonResponse
     {
-        $user = Socialite::driver($driver)->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        $socialUser = Socialite::driver($provider)->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
 
         $socialService = new SocialService();
-        $user = $socialService->saveSocialData($user);
+        $user = $socialService->findOrCreateUser($socialUser, $provider);
 
         if (!$user->isEmpty()){
             $token = $user->createToken('auth_token')->plainTextToken;
