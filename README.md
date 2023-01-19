@@ -35,8 +35,9 @@
     ```
     VKONTAKTE_CLIENT_ID=51440111 
     VKONTAKTE_CLIENT_SECRET=PsB4W0SVkFGP1M3I2BAH 
-    VKONTAKTE_REDIRECT_URI=http://DOMAIN/social-auth/callback
+    VKONTAKTE_REDIRECT_URI=http://DOMAIN/social-auth/PROVIDER/callback
     ```
+    где ```PROVIDER``` нужная соц сеть, например vkontakte.
 
 - В терминале выполнить команду ```composer update```
 
@@ -150,11 +151,15 @@ http://DOMAIN/sanctum/csrf-cookie
 }
 ```
 
-### <a name="api_socialAuth"><h4>Авторизация соц. сети:</h4></a>
-Пока реализована авторизация через Vkontakte. 
+### <a name="api_socialAuth"><h4>Авторизация через соц. сети:</h4></a>
 
-Вместо PROVIDER укажите соц сеть, например vkontakte
 URL: http://DOMAIN/social-auth/PROVIDER
+
+где  PROVIDER нужная соц сеть, например vkontakte.
+Для подключения нужного провайдера его нужно подключить через команду
+
+```composer require socialiteproviders/PROVIDER```
+ Подробнее смотри на https://socialiteproviders.com/
 
 
 ### <a name="api_logout"><h4>Выход:</h4></a>

@@ -55,8 +55,4 @@ class SocialService {
             'token'         => $socialUser->token,
         ]);
     }
-
-    public function createToken($user){
-        return $user->createToken('auth_token')->plainTextToken;
-    }
 }
