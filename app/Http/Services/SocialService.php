@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 class SocialService {
 
-    public function findOrCreateUser($socialUser, $provider): bool
+    public function findOrCreateUser($socialUser, $provider)
     {
         if ($user = $this->findUserBySocialId($provider, $socialUser->getId())) {
             return $user;
@@ -20,9 +20,9 @@ class SocialService {
         }
 
         $user = User::create([
-            'email'     => $user->getEmail(),
-            'name'      => $user->getName(),
-            'avatar'    => $user->getAvatar(),
+            'email'     => $socialUser->getEmail(),
+            'name'      => $socialUser->getName(),
+            'avatar'    => $socialUser->getAvatar(),
             'password'  => bcrypt(Str::random(8)),
         ]);
 
@@ -31,7 +31,7 @@ class SocialService {
         return $user;
     }
 
-    public function findUserBySocialId($provider, $id): bool
+    public function findUserBySocialId($provider, $id)
     {
         $socialAccount = SocialAccount::where('provider', $provider)
             ->where('provider_id', $id)

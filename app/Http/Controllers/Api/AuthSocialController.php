@@ -16,20 +16,20 @@ class AuthSocialController extends Controller
 
     public function callback($provider): \Illuminate\Http\JsonResponse
     {
-        $socialUser = Socialite::driver($provider)->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
-
+        $socialUser = Socialite::driver($provider)->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        //->setHttpClient(new \GuzzleHttp\Client(['verify' => false])) на проде убрать, так как будет сертификат
         $socialService = new SocialService();
         $user = $socialService->findOrCreateUser($socialUser, $provider);
 
-        if (!$user->isEmpty()){
+        if ($user) {
             $token = $user->createToken('auth_token')->plainTextToken;
 
             return response()->json([
-                'status'        => 'success',
-                'message'       => __('messages.login.success'),
-                'access_token'  => $token,
-                'token_type'    => 'Bearer',
-                'user'          => $user
+                'status'            => 'success',
+                'message'           => __('messages.login.success'),
+                'access_token'      => $token,
+                'token_type'        => 'Bearer',
+                'user'              => $user->load('socialAccount')
             ], 200);
         }
 
