@@ -21,8 +21,7 @@ class AuthController extends Controller
 
         $user  =  User::create($input);
 
-        $userName = $user->name;
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $this->getAccessToken($user);
 
 //        Auth::login($user);
 
@@ -44,18 +43,18 @@ class AuthController extends Controller
                 'message' => __('messages.login.error')
             ], 401);
         }
+        $user = User::where('email', $request->email)->firstOrFail();
+//        $user = Auth::user();
+////        $user = User::where('email', $request->email)->first();
+////
+////        if (!$user || $request->password != $user->password) {
+////            return response()->json([
+////                'status' => 'error',
+////                'message' => __('messages.login.error.')
+////            ], 401);
+////        }
 
-        $user = Auth::user();
-//        $user = User::where('email', $request->email)->first();
-//
-//        if (!$user || $request->password != $user->password) {
-//            return response()->json([
-//                'status' => 'error',
-//                'message' => __('messages.login.error.')
-//            ], 401);
-//        }
-
-        $token = $user->createToken('auth_token')->plainTextToken;
+        $token = $this->getAccessToken($user);
 
         //$userName = $user->name;
 
@@ -68,10 +67,12 @@ class AuthController extends Controller
         ], 200);
     }
 
-    public function logout(): \Illuminate\Http\JsonResponse
+    public function logout($id): \Illuminate\Http\JsonResponse
     {
         try {
-            Auth::user()->tokens()->delete();
+            $user = User::where($id);
+            //Auth::user()->tokens()->delete();
+            $user->tokens()->delete();
             Session::flush();
 //            Auth::user()->logout();
 
@@ -85,5 +86,9 @@ class AuthController extends Controller
                 'message' => $ex->getMessage()
             ], 401);
         }
+    }
+
+    public function getAccessToken($user){
+        return $user->createToken('auth_token')->plainTextToken;
     }
 }
