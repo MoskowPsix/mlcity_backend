@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_type', function (Blueprint $table) {
+        Schema::create('etypes', function (Blueprint $table) {
             $table->id();
             $table->string('name');
             $table->string('ico');
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('event_type');
+        Schema::dropIfExists('etypes');
     }
 };

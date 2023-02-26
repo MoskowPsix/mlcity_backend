@@ -13,10 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sight_type', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('ico');
+        Schema::create('events_etypes', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->integer('event_id');
+            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+
+            $table->integer('etype_id');
+            $table->foreign('etype_id')->references('id')->on('etypes')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sight_type');
+        Schema::dropIfExists('events_etypes');
     }
 };
