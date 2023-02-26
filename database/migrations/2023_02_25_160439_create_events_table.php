@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('description');
             $table->integer('price');
             $table->string('materials');
-            $table->dateTime('dateStart');
-            $table->dateTime('dateEnd');
+            $table->dateTime('date_start');
+            $table->dateTime('date_end');
             $table->timestamps();
         });
     }
