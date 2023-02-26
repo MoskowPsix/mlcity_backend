@@ -54,6 +54,8 @@
 
 - Перейти по указанному адресу
 
+- Для отката всей БД и нового ее заполнения используй команду ```php artisan migrate:refresh --seed```
+
 ## <a name="deploy"><h4>Пример развертывания проекта (deploy) на хостинге:</h4></a>
 https://www.youtube.com/watch?v=Vle7D38pmDg
 
