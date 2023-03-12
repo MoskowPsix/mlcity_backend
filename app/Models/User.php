@@ -11,6 +11,8 @@ use Laravel\Sanctum\HasApiTokens;
 
 use App\Models\SocialAccount;
 use App\Models\Role;
+use App\Models\Event;
+use App\Models\Sight;
 
 class User extends Authenticatable
 {
@@ -54,8 +56,30 @@ class User extends Authenticatable
         return $this->hasOne(SocialAccount::class);
     }
 
+    //избранные события юзера
+    public function favoritesEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Event::class);
+    }
+    //избранные достопримечательности юзера
+    public function favoritesSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Sight::class);
+    }
+
+    //События созданные юзером
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Event::class);
+    }
+    //Достопримечательности созданные юзером
+    public function sights(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Sight::class);
+    }
+
 //    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
 //    {
-//        return $this->belongsToMany(Role::class,);
+//        return $this->belongsToMany(Role::class);
 //    }
 }

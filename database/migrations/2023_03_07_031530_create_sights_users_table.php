@@ -13,15 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sights', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('sponsor');
-            $table->string('address');
-            $table->string('coords');
-            $table->longText('description');
-            $table->string('price')->nullable();
-            $table->longText('materials')->nullable();
+        Schema::create('sights_users', function (Blueprint $table) {
+            $table->bigIncrements('id');
+
+            $table->integer('sight_id');
+            $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
+
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sights');
+        Schema::dropIfExists('sights_users');
     }
 };

@@ -21,9 +21,10 @@ return [
         localhost:3000,
         localhost:4200,
         localhost:8000,
+        http://localhost:8100,
         127.0.0.1,
         127.0.0.1:4200,
-        127.0.0.1,
+        http://127.0.0.1:8100,
         127.0.0.1:8000,::1',
         Sanctum::currentApplicationUrlWithPort()
     ))),

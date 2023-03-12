@@ -19,6 +19,6 @@ class SightType extends Model
 
     public function sights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class);
+        return $this->belongsToMany(Sight::class,'sights_stypes','stype_id','sight_id');
     }
 }

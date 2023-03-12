@@ -19,6 +19,6 @@ class EventType extends Model
 
     public function events(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class,'events_etypes','etype_id','event_id');
     }
 }

@@ -11,7 +11,7 @@ class UserController extends Controller
 {
     public function getUser($id): \Illuminate\Http\JsonResponse
     {
-        $user = User::with('roles')->findOrFail($id);
+        $user = User::with('roles', 'socialAccount')->findOrFail($id);
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
