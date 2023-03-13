@@ -44,6 +44,8 @@ Route::controller(AuthSocialController::class)->group(function() {
 
 Route::controller(EventController::class)->group(function() {
     Route::get('events', 'getAll');
+    Route::get('events/publish/{city?}/{page?}', 'getPublishByCity');//для страницы мероприятия
+    Route::get('events//map/{lat_coords}/{lon_coords}', 'getPublishByCoords');//для страницы карта
     Route::get('events/{id}', 'show');
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     Route::put('events/{id}', 'update')->middleware('auth:sanctum');

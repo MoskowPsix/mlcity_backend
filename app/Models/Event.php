@@ -16,13 +16,17 @@ class Event extends Model
     protected $fillable = [
         'name',
         'sponsor',
-        'coords',
+        'latitude',
+        'longitude',
+        'city',
+        'address',
         'description',
         'price',
         'materials',
         'date_start',
         'date_end',
         'user_id',
+        'vk_post_id',
     ];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

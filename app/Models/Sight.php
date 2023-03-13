@@ -13,6 +13,19 @@ class Sight extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'sponsor',
+        'latitude',
+        'longitude',
+        'city',
+        'address',
+        'description',
+        'price',
+        'materials',
+        'user_id',
+    ];
+
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(SightType::class,'sights_stypes','sight_id','stype_id');

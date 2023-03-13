@@ -7,12 +7,31 @@ use App\Http\Requests\EventCreateRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
+use App\Constants\StatusesConstants;
 
 class EventController extends Controller
 {
-    public function getAll(): \Illuminate\Http\JsonResponse
+    public function getPublishByCity($city = '*', $page = 1): \Illuminate\Http\JsonResponse
     {
-        $events = Event::all();
+        $events = Event::with('types')->where('city',$city)->whereHas('statuses', function($q){
+            $q->where('name', StatusesConstants::STATUS_PUBLISH);
+        })->orderBy('date_start','asc')->paginate(10, ['*'], 'page' , $page);
+
+        return response()->json([
+            'status' => 'success',
+            'events' => $events
+        ], 200);
+    }
+
+    public function getPublishByCoords($lat_coords, $lon_coords): \Illuminate\Http\JsonResponse
+    {
+        //$lat_coords и $lon_coords массивы вида [56.843600, 95.843600]
+        $events = Event::with('types')
+            ->whereBetween('latitude', $lat_coords)
+            ->whereBetween('longitude', $lon_coords)
+            ->whereHas('statuses', function($q){
+                $q->where('name', StatusesConstants::STATUS_PUBLISH);
+            })->get();
 
         return response()->json([
             'status' => 'success',
@@ -27,17 +46,24 @@ class EventController extends Controller
 
     public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
     {
+        $coords = explode(',',$request->coords);
+        $latitude   = $coords[0]; // широта
+        $longitude  = $coords[1]; // долгота
+
         $event = Event::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
+            'city'          => $request->city,
             'address'       => $request->address,
-            'coords'        => $request->coords,
+            'latitude'      => $latitude,
+            'longitude'     => $longitude,
             'description'   => $request->description,
             'price'         => $request->price,
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,
             'date_end'      => $request->dateEnd,
             'user_id'       => Auth::user()->id,
+            'vk_post_id'    => $request->vkPostId,
         ]);
 
         $event->types()->sync($request->type);
@@ -51,11 +77,7 @@ class EventController extends Controller
             $this->saveLocalFiles($event, $request->localFiles);
         }
 
-        return response()->json([
-            'event-id' => $event->id,
-            'files' => $request->localFiles,
-            'vk-files' => $request->vkFiles
-        ], 200);
+        return response()->json(['status' => 'success',], 200);
     }
 
     public function update($id): \Illuminate\Http\JsonResponse
