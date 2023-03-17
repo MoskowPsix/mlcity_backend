@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('link',5000);
+            $table->integer('local')->default(0);
             $table->integer('sight_id');
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
             $table->timestamps();

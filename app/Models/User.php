@@ -57,14 +57,15 @@ class User extends Authenticatable
     }
 
     //избранные события юзера
-    public function favoritesEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favoriteEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class)->withTimestamps();
     }
+
     //избранные достопримечательности юзера
-    public function favoritesSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favoriteSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class);
+        return $this->belongsToMany(Sight::class)->withTimestamps();
     }
 
     //События созданные юзером
@@ -72,6 +73,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Event::class);
     }
+
     //Достопримечательности созданные юзером
     public function sights(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

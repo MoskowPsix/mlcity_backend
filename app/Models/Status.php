@@ -18,11 +18,11 @@ class Status extends Model
 
     public function events(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class);
+        return $this->belongsToMany(Event::class)->withPivot('last')->withTimestamps();
     }
 
     public function sights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class);
+        return $this->belongsToMany(Sight::class)->withPivot('last')->withTimestamps();
     }
 }

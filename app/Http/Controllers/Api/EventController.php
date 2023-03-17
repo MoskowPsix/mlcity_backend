@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCreateRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
@@ -11,11 +12,26 @@ use App\Constants\StatusesConstants;
 
 class EventController extends Controller
 {
-    public function getPublishByCity($city = '*', $page = 1): \Illuminate\Http\JsonResponse
+    public function getLastPublish(Request $request): \Illuminate\Http\JsonResponse
     {
-        $events = Event::with('types')->where('city',$city)->whereHas('statuses', function($q){
-            $q->where('name', StatusesConstants::STATUS_PUBLISH);
-        })->orderBy('date_start','asc')->paginate(10, ['*'], 'page' , $page);
+        $city = $request->city;
+        $page = $request->page;
+        $lat_coords = $request->latitude ? $request->latitude : [];
+        $lon_coords = $request->longitude ? $request->longitude : [];
+
+        $events = Event::with('types', 'files')
+        ->whereHas('statuses', function($q){
+            $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
+        })
+        ->where('city',$city)
+        ->orWhere(function($q) use ($lat_coords, $lon_coords){
+            $q->whereBetween('latitude', [56.843600, 95.843600])
+            ->whereBetween('longitude', [56.843600, 95.843600]);
+//            $q->whereBetween('latitude', $lat_coords)
+//                ->whereBetween('longitude', $lon_coords);
+        })
+        ->orderBy('date_start','desc')
+        ->paginate(10, ['*'], 'page' , $page);
 
         return response()->json([
             'status' => 'success',
@@ -23,9 +39,12 @@ class EventController extends Controller
         ], 200);
     }
 
-    public function getPublishByCoords($lat_coords, $lon_coords): \Illuminate\Http\JsonResponse
+    public function getPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
     {
         //$lat_coords и $lon_coords массивы вида [56.843600, 95.843600]
+        $lat_coords = $request->latitude;
+        $lon_coords = $request->longitude;
+
         $events = Event::with('types')
             ->whereBetween('latitude', $lat_coords)
             ->whereBetween('longitude', $lon_coords)
@@ -37,6 +56,17 @@ class EventController extends Controller
             'status' => 'success',
             'events' => $events
         ], 200);
+    }
+
+    //Проверить этот метод
+    public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse
+    {
+        $events = Auth::user()->events()->with('types', 'files', 'statuses')->paginate(10, ['*'], 'page' , $request->page);
+
+        return response()->json([
+             'status' => 'success',
+             'events' => $events
+         ], 200);
     }
 
     public function show($id): \Illuminate\Http\JsonResponse
@@ -102,13 +132,14 @@ class EventController extends Controller
     private function saveLocalFiles($event, $files){
 
         foreach ($files as $file) {
-            $filename = uniqid('img_').$file->getClientOriginalName();
+            $filename = uniqid('img_');
 
             $path = $file->store('events/'.$event->id, 'public');
 
             $event->files()->create([
-                "name" => $filename,
-                "link" => '/storage/'.$path,
+                'name'  => $filename,
+                'link'  => '/storage/'.$path,
+                'local' => 1
             ]);
 
         }

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('link',5000);
+            $table->integer('local')->default(0);
             $table->integer('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
             $table->timestamps();

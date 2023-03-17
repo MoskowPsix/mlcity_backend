@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('sponsor');
-            $table->string('city');
+            $table->string('city')->nullable();
             $table->string('address');
             $table->decimal('latitude', 8, 6);
             $table->decimal('longitude', 8, 6);
