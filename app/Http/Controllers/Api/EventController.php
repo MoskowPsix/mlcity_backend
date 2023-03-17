@@ -39,6 +39,7 @@ class EventController extends Controller
         ], 200);
     }
 
+    //Проверить этот метод
     public function getPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
     {
         //$lat_coords и $lon_coords массивы вида [56.843600, 95.843600]
@@ -49,7 +50,7 @@ class EventController extends Controller
             ->whereBetween('latitude', $lat_coords)
             ->whereBetween('longitude', $lon_coords)
             ->whereHas('statuses', function($q){
-                $q->where('name', StatusesConstants::STATUS_PUBLISH);
+                $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
             })->get();
 
         return response()->json([
@@ -97,7 +98,7 @@ class EventController extends Controller
         ]);
 
         $event->types()->sync($request->type);
-        $event->statuses()->attach($request->status);
+        $event->statuses()->attach($request->status, ['last' => true]);
 
         if ($request->vkFiles){
             $this->saveVkFiles($event, $request->vkFiles);
