@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_status', function (Blueprint $table) {
-            $table->bigIncrements('id');
-
-            $table->integer('status_id');
-            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
-
+        Schema::create('event_likes', function (Blueprint $table) {
+            $table->id();
+            $table->integer('vk_count')->default(0);
+            $table->integer('local_count')->default(0);
             $table->integer('event_id');
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
-
-            $table->boolean('last')->default(false);
-
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events_statuses');
+        Schema::dropIfExists('event_likes');
     }
 };

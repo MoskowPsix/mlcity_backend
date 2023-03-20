@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('event_user', function (Blueprint $table) {
+        Schema::create('sight_user_favorite', function (Blueprint $table) {
             $table->bigIncrements('id');
 
-            $table->integer('event_id');
-            $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
+            $table->integer('sight_id');
+            $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
 
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('events_users');
+        Schema::dropIfExists('sights_users');
     }
 };

@@ -7,18 +7,19 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Sight;
 
-class SightFile extends Model
+class SightLike extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        'link',
-        'local'
+        'vk_count',
+        'local_count',
+        'sight_id'
     ];
 
     public function sight(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Sight::class);
     }
+
 }

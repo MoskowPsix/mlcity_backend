@@ -18,15 +18,22 @@ class EventController extends Controller
         $page = $request->page;
         $lat_coords = $request->latitude ? $request->latitude : [];
         $lon_coords = $request->longitude ? $request->longitude : [];
+        $userId = $request->user_id; // чтобы жадно выкинуть избранное для авторизованного юзера
 
-        $events = Event::with('types', 'files')
+        $events = Event::with('types', 'files', 'likes')
+        ->withExists(['favoritesUsers' => function($q) use ($userId){
+                $q->where('user_id', $userId);
+        }])
+        ->withExists(['likedUsers' => function($q) use ($userId){
+            $q->where('user_id', $userId);
+        }])
         ->whereHas('statuses', function($q){
             $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
         })
         ->where('city',$city)
         ->orWhere(function($q) use ($lat_coords, $lon_coords){
-            $q->whereBetween('latitude', [56.843600, 95.843600])
-            ->whereBetween('longitude', [56.843600, 95.843600]);
+            $q->whereBetween('latitude', [55.843600, 95.843600])
+            ->whereBetween('longitude', [55.843600, 95.843600]);
 //            $q->whereBetween('latitude', $lat_coords)
 //                ->whereBetween('longitude', $lon_coords);
         })
@@ -35,12 +42,12 @@ class EventController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'events' => $events
+            'events' => $events,
         ], 200);
     }
 
     //Проверить этот метод
-    public function getPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
+    public function getLastPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
     {
         //$lat_coords и $lon_coords массивы вида [56.843600, 95.843600]
         $lat_coords = $request->latitude;
@@ -70,6 +77,24 @@ class EventController extends Controller
          ], 200);
     }
 
+    public function updateVkLikes(Request $request){
+        $event = Event::find($request->event_id);
+        $event->likes()->update(['vk_count' => $request->likes_count]);
+    }
+
+    //Создаем отношение - юзер лайкнул ивент
+    public function setEvenUserLiked(Request $request): \Illuminate\Http\JsonResponse{
+        $event = Event::find($request->event_id);
+        $likedUser = false;
+
+        if (!$event->likedUsers()->where('user_id',Auth::user()->id)->exists()){
+            $event->likedUsers()->sync(Auth::user()->id);
+            $likedUser = true;
+        }
+
+        return response()->json(['likedUser' => $likedUser], 200);
+    }
+
     public function show($id): \Illuminate\Http\JsonResponse
     {
         dd('show');
@@ -94,11 +119,17 @@ class EventController extends Controller
             'date_start'    => $request->dateStart,
             'date_end'      => $request->dateEnd,
             'user_id'       => Auth::user()->id,
+            'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
         ]);
 
         $event->types()->sync($request->type);
         $event->statuses()->attach($request->status, ['last' => true]);
+        $event->likes()->create();
+//        $event->likes()->create([
+//            "vk_count" => $request->vkLikesCount ? $request->vkLikesCount : 0,
+//        ]);
+
 
         if ($request->vkFiles){
             $this->saveVkFiles($event, $request->vkFiles);

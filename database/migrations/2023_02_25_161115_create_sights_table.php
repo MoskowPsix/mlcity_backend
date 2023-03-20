@@ -22,10 +22,12 @@ return new class extends Migration
             $table->decimal('latitude', 8, 6);
             $table->decimal('longitude', 8, 6);
             $table->longText('description');
-            $table->string('price')->nullable();
+            $table->integer('price')->nullable();
             $table->longText('materials')->nullable();
             $table->integer('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('vk_group_id')->nullable();
+            $table->string('vk_post_id')->nullable();
             $table->timestamps();
         });
     }

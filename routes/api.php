@@ -35,8 +35,8 @@ Route::controller(AuthController::class)->group(function() {
 Route::controller(UserController::class)->group(function() {
     Route::get('users/{id}', 'getUser')->middleware('auth:sanctum');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
-    Route::post('users/favorite-events-ids', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');//для страницы мероприятия
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное
+    Route::post('users/like-event-toggle', 'toggleLikedEvent')->middleware('auth:sanctum');// добавляем убираем лайк
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
@@ -48,6 +48,8 @@ Route::controller(EventController::class)->group(function() {
     //Route::get('events', 'getAll');
     Route::post('events/publish/last', 'getLastPublish');//для страницы мероприятия
     Route::post('events/publish/coords', 'getPublishByCoords');//для страницы карта
+    Route::post('events/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
+    Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     //Route::get('events/{id}', 'show');
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     //Route::put('events/{id}', 'update')->middleware('auth:sanctum');

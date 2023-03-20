@@ -13,8 +13,8 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sight_user', function (Blueprint $table) {
-            $table->bigIncrements('id');
+        Schema::create('sight_user_liked', function (Blueprint $table) {
+            $table->id();
 
             $table->integer('sight_id');
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sights_users');
+        Schema::dropIfExists('sight_user_liked');
     }
 };

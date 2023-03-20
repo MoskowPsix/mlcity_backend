@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\SightType;
 use App\Models\Status;
 use App\Models\SightFile;
+use App\Models\SightLike;
 
 class Sight extends Model
 {
@@ -36,20 +37,26 @@ class Sight extends Model
         return $this->belongsToMany(Status::class)->withPivot('last')->withTimestamps();;
     }
 
-    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
-    }
-
-    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'desc')->first();
-    }
+//    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
+//    }
+//
+//    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'desc')->first();
+//    }
 
     //У кого в избранном
     public function favoritesUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class,'sight_user_favorite')->withTimestamps();
+    }
+
+    //Кто лайкнул
+    public function likedUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class,'sight_user_liked')->withTimestamps();
     }
 
     public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -60,5 +67,10 @@ class Sight extends Model
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(SightFile::class);
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\hasOne
+    {
+        return $this->hasOne(SightLike::class);
     }
 }

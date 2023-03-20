@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\EventType;
 use App\Models\Status;
 use App\Models\EventFile;
+use App\Models\EventLike;
 
 class Event extends Model
 {
@@ -39,20 +40,26 @@ class Event extends Model
         return $this->belongsToMany(Status::class)->withPivot('last')->withTimestamps();
     }
 
-    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
-    }
-
-    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-    {
-        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'desc')->first();
-    }
+//    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
+//    }
+//
+//    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+//    {
+//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'desc')->first();
+//    }
 
     //У кого в избранном
     public function favoritesUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class)->withTimestamps();
+        return $this->belongsToMany(User::class,'event_user_favorite')->withTimestamps();
+    }
+
+    //Кто лайкнул
+    public function likedUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class,'event_user_liked')->withTimestamps();
     }
 
    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -63,6 +70,11 @@ class Event extends Model
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
         return $this->hasMany(EventFile::class);
+    }
+
+    public function likes(): \Illuminate\Database\Eloquent\Relations\hasOne
+    {
+        return $this->hasOne(EventLike::class);
     }
 
 }

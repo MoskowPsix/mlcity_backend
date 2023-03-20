@@ -13,17 +13,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sight_status', function (Blueprint $table) {
-            $table->id('id');
-
-            $table->integer('status_id');
-            $table->foreign('status_id')->references('id')->on('statuses')->onDelete('cascade');
-
+        Schema::create('sight_likes', function (Blueprint $table) {
+            $table->id();
+            $table->integer('vk_count')->default(0);
+            $table->integer('local_count')->default(0);
             $table->integer('sight_id');
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
-
-            $table->boolean('last')->default(false);
-
             $table->timestamps();
         });
     }
@@ -35,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sights_statuses');
+        Schema::dropIfExists('sight_likes');
     }
 };
