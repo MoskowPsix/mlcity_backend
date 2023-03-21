@@ -16,29 +16,22 @@ class EventController extends Controller
     {
         $city = $request->city;
         $page = $request->page;
-        $lat_coords = $request->latitude ? $request->latitude : [];
-        $lon_coords = $request->longitude ? $request->longitude : [];
+        $lat_coords = $request->latitude ? $request->latitude : [0.1,0.2];
+        $lon_coords = $request->longitude ? $request->longitude :  [0.1,0.2];
         $userId = $request->user_id; // чтобы жадно выкинуть избранное для авторизованного юзера
 
         $events = Event::with('types', 'files', 'likes')
         ->withExists(['favoritesUsers' => function($q) use ($userId){
                 $q->where('user_id', $userId);
-        }])
-        ->withExists(['likedUsers' => function($q) use ($userId){
+        }])->withExists(['likedUsers' => function($q) use ($userId){
             $q->where('user_id', $userId);
-        }])
-        ->whereHas('statuses', function($q){
+        }])->whereHas('statuses', function($q){
             $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
-        })
-        ->where('city',$city)
+        })->where('city',$city)
         ->orWhere(function($q) use ($lat_coords, $lon_coords){
-            $q->whereBetween('latitude', [55.843600, 95.843600])
-            ->whereBetween('longitude', [55.843600, 95.843600]);
-//            $q->whereBetween('latitude', $lat_coords)
-//                ->whereBetween('longitude', $lon_coords);
-        })
-        ->orderBy('date_start','desc')
-        ->paginate(10, ['*'], 'page' , $page);
+            $q->whereBetween('latitude', $lat_coords)
+                ->whereBetween('longitude', $lon_coords);
+        })->orderBy('date_start','desc')->paginate(10, ['*'], 'page' , $page);
 
         return response()->json([
             'status' => 'success',
@@ -49,22 +42,29 @@ class EventController extends Controller
     //Проверить этот метод
     public function getLastPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
     {
-        //$lat_coords и $lon_coords массивы вида [56.843600, 95.843600]
-        $lat_coords = $request->latitude;
-        $lon_coords = $request->longitude;
+        //$lat_coords массив вида [56.843600, 95.843600] и $lon_coords массив вида [56.843600, 95.843600]
+        $lat_coords = $request->latitude ? $request->latitude : [0.1,0.2];
+        $lon_coords = $request->longitude ? $request->longitude : [0.1,0.2];
+        $userId = $request->user_id;
 
-        $events = Event::with('types')
+        $events = Event::with('types','files', 'likes')
+            ->withExists(['favoritesUsers' => function($q) use ($userId){
+                $q->where('user_id', $userId);
+            }])->withExists(['likedUsers' => function($q) use ($userId){
+                $q->where('user_id', $userId);
+            }])->whereHas('statuses', function($q){
+                $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
+            })
             ->whereBetween('latitude', $lat_coords)
             ->whereBetween('longitude', $lon_coords)
-            ->whereHas('statuses', function($q){
-                $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
-            })->get();
+            ->orderBy('date_start','desc')->get();
 
         return response()->json([
             'status' => 'success',
             'events' => $events
         ], 200);
     }
+
 
     //Проверить этот метод
     public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse

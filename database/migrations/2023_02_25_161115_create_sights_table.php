@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('sponsor');
             $table->string('city')->nullable();
             $table->string('address');
-            $table->decimal('latitude', 8, 6);
-            $table->decimal('longitude', 8, 6);
+            $table->decimal('latitude', 17, 14);
+            $table->decimal('longitude', 17, 14);
             $table->longText('description');
             $table->integer('price')->nullable();
             $table->longText('materials')->nullable();
