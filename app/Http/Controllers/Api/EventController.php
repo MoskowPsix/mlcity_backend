@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Event\EventCity;
+use App\Filters\Event\EventFavoritesUserExists;
+use App\Filters\Event\EventGeoPositionInArea;
+use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventStatuses;
+use App\Filters\Event\EventStatusesLast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCreateRequest;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use Illuminate\Support\Facades\Storage;
@@ -12,70 +19,45 @@ use App\Constants\StatusesConstants;
 
 class EventController extends Controller
 {
-    public function getLastPublish(Request $request): \Illuminate\Http\JsonResponse
+    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
-        $city = $request->city;
+        $pagination = $request->pagination;
         $page = $request->page;
-        $lat_coords = $request->latitude ? $request->latitude : [0.1,0.2];
-        $lon_coords = $request->longitude ? $request->longitude :  [0.1,0.2];
-        $userId = $request->user_id; // чтобы жадно выкинуть избранное для авторизованного юзера
 
-        $events = Event::with('types', 'files', 'likes')
-        ->withExists(['favoritesUsers' => function($q) use ($userId){
-                $q->where('user_id', $userId);
-        }])->withExists(['likedUsers' => function($q) use ($userId){
-            $q->where('user_id', $userId);
-        }])->whereHas('statuses', function($q){
-            $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
-        })->where('city',$city)
-        ->orWhere(function($q) use ($lat_coords, $lon_coords){
-            $q->whereBetween('latitude', $lat_coords)
-                ->whereBetween('longitude', $lon_coords);
-        })->orderBy('date_start','desc')->paginate(10, ['*'], 'page' , $page);
+        $events = Event::query()->with('types', 'files', 'likes','statuses');
 
-        return response()->json([
-            'status' => 'success',
-            'events' => $events,
-        ], 200);
-    }
+        $response =
+            app(Pipeline::class)
+            ->send($events)
+            ->through([
+                EventLikedUserExists::class,
+                EventFavoritesUserExists::class,
+                EventStatuses::class,
+                EventStatusesLast::class,
+                EventCity::class,
+                EventGeoPositionInArea::class
+            ])
+            ->via('apply')
+            ->then(function ($events) use ($pagination , $page){
+                return $pagination === 'true'
+                    ? $events->orderBy('date_start','desc')->paginate(6, ['*'], 'page' , $page)
+                    : $events->orderBy('date_start','desc')->get();
+            });
 
-    //Проверить этот метод
-    public function getLastPublishByCoords(Request $request): \Illuminate\Http\JsonResponse
-    {
-        //$lat_coords массив вида [56.843600, 95.843600] и $lon_coords массив вида [56.843600, 95.843600]
-        $lat_coords = $request->latitude ? $request->latitude : [0.1,0.2];
-        $lon_coords = $request->longitude ? $request->longitude : [0.1,0.2];
-        $userId = $request->user_id;
-
-        $events = Event::with('types','files', 'likes')
-            ->withExists(['favoritesUsers' => function($q) use ($userId){
-                $q->where('user_id', $userId);
-            }])->withExists(['likedUsers' => function($q) use ($userId){
-                $q->where('user_id', $userId);
-            }])->whereHas('statuses', function($q){
-                $q->where('name', StatusesConstants::STATUS_PUBLISH)->where('last', true);
-            })
-            ->whereBetween('latitude', $lat_coords)
-            ->whereBetween('longitude', $lon_coords)
-            ->orderBy('date_start','desc')->get();
-
-        return response()->json([
-            'status' => 'success',
-            'events' => $events
-        ], 200);
+        return response()->json(['status' => 'success', 'events' => $response], 200);
     }
 
 
     //Проверить этот метод
-    public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse
-    {
-        $events = Auth::user()->events()->with('types', 'files', 'statuses')->paginate(10, ['*'], 'page' , $request->page);
-
-        return response()->json([
-             'status' => 'success',
-             'events' => $events
-         ], 200);
-    }
+   // public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse
+//    {
+//        $events = Auth::user()->events()->with('types', 'files', 'statuses')->paginate(10, ['*'], 'page' , $request->page);
+//
+//        return response()->json([
+//             'status' => 'success',
+//             'events' => $events
+//         ], 200);
+//    }
 
     public function updateVkLikes(Request $request){
         $event = Event::find($request->event_id);
