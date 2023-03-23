@@ -24,6 +24,7 @@ class AuthSocialController extends Controller
 
         if ($user) {
             return redirect('http://localhost:8100/login/'.$user->id);
+            //return redirect('http://80.90.190.252:3000/login/'.$user->id);
 //            return redirect('http://localhost:4200/login/'.$user->id);
         }
 //            $token = $user->createToken('auth_token')->plainTextToken;
@@ -46,6 +47,7 @@ class AuthSocialController extends Controller
 //        ], 401);
 
         //return redirect('http://localhost:4200/login');
+        //return redirect('http://80.90.190.252:3000/login/'.$user->id);
         return redirect('http://localhost:8100/login');
     }
 }

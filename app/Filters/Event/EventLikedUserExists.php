@@ -10,8 +10,8 @@ class EventLikedUserExists implements Pipe {
 
     public function apply($events, Closure $next)
     {
-        if((request()->has('userId') || Auth::user()->id ) && request()->has('likedUser')){
-            $userId = request()->get('userId') || Auth::user()->id;
+        if(request()->has('userId') && request()->has('likedUser')){
+            $userId = request()->get('userId');
 
             $events->withExists(['likedUsers' => function($q) use ($userId){
                 $q->where('user_id', $userId);

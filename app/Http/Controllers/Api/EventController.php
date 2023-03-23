@@ -14,8 +14,6 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
-use Illuminate\Support\Facades\Storage;
-use App\Constants\StatusesConstants;
 
 class EventController extends Controller
 {

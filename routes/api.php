@@ -33,7 +33,7 @@ Route::controller(AuthController::class)->group(function() {
 });
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('users/{id}', 'getUser')->middleware('auth:sanctum');
+    Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное
     Route::post('users/like-event-toggle', 'toggleLikedEvent')->middleware('auth:sanctum');// добавляем убираем лайк
