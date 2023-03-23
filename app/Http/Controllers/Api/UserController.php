@@ -94,14 +94,16 @@ class UserController extends Controller
         $event =  Event::find($request->event_id); // верно
 
         if (Auth::user()->likedEvents()->where('event_id',$request->event_id)->exists()){
-            $event->likes->increment('local_count');
-        } else if ($event->likes->local_count > 0){
-            $event->likes->decrement('local_count');
+            $event->likes()->where('event_id',$request->event_id)->exists()
+                ? $event->likes->increment('local_count')
+                : $event->likes()->create(["local_count" => 1]);
+        } else if ($event->likes()->where('event_id',$request->event_id)->exists()){
+            if ($event->likes->local_count > 0)
+                $event->likes->decrement('local_count');
         }
 
-
         return response()->json([
-            'status'            => 'success',
+            'status'  => 'success',
         ], 200);
     }
 }
