@@ -48,7 +48,7 @@ Route::controller(EventController::class)->group(function() {
     Route::get('events', 'getEvents'); // Запрос ивентов с фильтрами
     Route::post('events/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
-    //Route::get('events/{id}', 'show');
+    Route::get('events/{id}', 'show');
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     //Route::put('events/{id}', 'update')->middleware('auth:sanctum');
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');

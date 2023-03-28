@@ -77,7 +77,9 @@ class EventController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        dd('show');
+        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses')->firstOrFail();
+
+        return response()->json($event, 200);
     }
 
     public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
