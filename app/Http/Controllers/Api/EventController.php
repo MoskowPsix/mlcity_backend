@@ -75,6 +75,26 @@ class EventController extends Controller
         return response()->json(['likedUser' => $likedUser], 200);
     }
 
+    //Проверяем лайкал ли авторизованный юзер этот ивент
+    public function checkLiked($id): \Illuminate\Http\JsonResponse
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+
+        $liked = $event->likedUsers()->where('user_id', Auth::user()->id)->exists();
+
+        return  response()->json($liked, 200);
+    }
+
+    //Проверяем добавил ли авторизованный юзер этот ивент в избранное
+    public function checkFavorite($id): \Illuminate\Http\JsonResponse
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+
+        $favorite = $event->favoritesUsers()->where('user_id', Auth::user()->id)->exists();
+
+        return  response()->json($favorite, 200);
+    }
+
     public function show($id): \Illuminate\Http\JsonResponse
     {
         $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses')->firstOrFail();
