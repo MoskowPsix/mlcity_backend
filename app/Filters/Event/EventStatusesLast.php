@@ -7,16 +7,16 @@ use App\Filters\Pipe;
 
 class EventStatusesLast implements Pipe {
 
-    public function apply($events, Closure $next)
+    public function apply($content, Closure $next)
     {
         if(request()->has('statuses') && request()->has('statusLast')){
             $statuses = explode(',', request()->get('statuses'));
 
-            $events->whereHas('statuses', function($q) use ($statuses){
+            $content->whereHas('statuses', function($q) use ($statuses){
                 $q->whereIn('name', $statuses)->where('last', true);
             });
         }
 
-        return $next($events);
+        return $next($content);
     }
 }

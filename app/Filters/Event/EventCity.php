@@ -7,12 +7,12 @@ use App\Filters\Pipe;
 
 class EventCity implements Pipe {
 
-    public function apply($events, Closure $next)
+    public function apply($content, Closure $next)
     {
         if(request()->has('city')){
-            $events->where('city', request()->get('city'));
+            $content->where('city', request()->get('city'));
         }
 
-        return $next($events);
+        return $next($content);
     }
 }

@@ -8,16 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class EventLikedUserExists implements Pipe {
 
-    public function apply($events, Closure $next)
+    public function apply($content, Closure $next)
     {
         if(request()->has('userId') && request()->has('likedUser')){
             $userId = request()->get('userId');
 
-            $events->withExists(['likedUsers' => function($q) use ($userId){
+            $content->withExists(['likedUsers' => function($q) use ($userId){
                 $q->where('user_id', $userId);
             }]);
         }
 
-        return $next($events);
+        return $next($content);
     }
 }
