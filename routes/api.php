@@ -56,6 +56,10 @@ Route::controller(EventController::class)->group(function() {
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
+Route::controller(SightController::class)->group(function() {
+    Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
+});
+
 Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
 });

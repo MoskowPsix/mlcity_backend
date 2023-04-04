@@ -6,6 +6,7 @@ use App\Filters\Event\EventCity;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Http\Controllers\Controller;
@@ -21,6 +22,7 @@ class EventController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
 
         $events = Event::query()->with('types', 'files', 'likes','statuses');
 
@@ -33,12 +35,13 @@ class EventController extends Controller
                 EventStatuses::class,
                 EventStatusesLast::class,
                 EventCity::class,
-                EventGeoPositionInArea::class
+                EventGeoPositionInArea::class,
+                EventSearchText::class
             ])
             ->via('apply')
-            ->then(function ($events) use ($pagination , $page){
+            ->then(function ($events) use ($pagination , $page, $limit){
                 return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->paginate(6, ['*'], 'page' , $page)
+                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)
                     : $events->orderBy('date_start','desc')->get();
             });
 
