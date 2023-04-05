@@ -13,10 +13,19 @@ class EventGeoPositionInArea implements Pipe {
             $lat_coords = explode(',', request()->get('latitude'));
             $lon_coords = explode(',', request()->get('longitude'));
 
-            $content->where(function($q) use ($lat_coords, $lon_coords){
-                $q->whereBetween('latitude', $lat_coords)
-                    ->whereBetween('longitude', $lon_coords);
-            });
+            if (request()->has('forEventPage')){
+                $content->where('address', 'LIKE', '%'.request()->get('region').'%')
+                    ->where('city', request()->get('city'))
+                    ->orWhere(function($q) use ($lat_coords, $lon_coords){
+                        $q->whereBetween('latitude', $lat_coords)
+                            ->whereBetween('longitude', $lon_coords);
+                });
+            } else {
+                $content->where(function($q) use ($lat_coords, $lon_coords){
+                    $q->whereBetween('latitude', $lat_coords)
+                        ->whereBetween('longitude', $lon_coords);
+                });
+            }
         }
 
         return $next($content);

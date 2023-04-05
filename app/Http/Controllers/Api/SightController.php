@@ -6,6 +6,7 @@ use App\Filters\Event\EventCity;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
@@ -34,6 +35,7 @@ class SightController extends Controller
                     EventStatuses::class,
                     EventStatusesLast::class,
                     EventCity::class,
+                    EventRegion::class,
                     EventGeoPositionInArea::class,
                     EventSearchText::class
                 ])

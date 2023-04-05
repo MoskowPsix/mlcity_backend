@@ -6,6 +6,7 @@ use App\Filters\Event\EventCity;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
@@ -35,6 +36,7 @@ class EventController extends Controller
                 EventStatuses::class,
                 EventStatusesLast::class,
                 EventCity::class,
+                EventRegion::class,
                 EventGeoPositionInArea::class,
                 EventSearchText::class
             ])
@@ -45,7 +47,7 @@ class EventController extends Controller
                     : $events->orderBy('date_start','desc')->get();
             });
 
-        return response()->json(['status' => 'success', 'events' => $response], 200);
+        return response()->json(['status' => 'success', 'events' => $response, 'region' => $request->region], 200);
     }
 
 
