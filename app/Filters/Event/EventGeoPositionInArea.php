@@ -9,9 +9,9 @@ class EventGeoPositionInArea implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('latitude') && request()->has('longitude')){
-            $lat_coords = explode(',', request()->get('latitude'));
-            $lon_coords = explode(',', request()->get('longitude'));
+        if(request()->has('latitudeBounds') && request()->has('longitudeBounds')){
+            $lat_coords = explode(',', request()->get('latitudeBounds'));
+            $lon_coords = explode(',', request()->get('longitudeBounds'));
 
             if (request()->has('forEventPage')){
                 $content->where('address', 'LIKE', '%'.request()->get('region').'%')

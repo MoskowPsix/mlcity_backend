@@ -10,6 +10,7 @@ use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
+use App\Filters\Sight\SightTypes;
 use App\Http\Controllers\Controller;
 use App\Models\Sight;
 use Illuminate\Http\Request;
@@ -36,6 +37,7 @@ class SightController extends Controller
                     EventStatusesLast::class,
                     EventCity::class,
                     EventRegion::class,
+                    SightTypes::class,
                     EventGeoPositionInArea::class,
                     EventSearchText::class
                 ])

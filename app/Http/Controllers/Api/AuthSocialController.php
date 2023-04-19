@@ -11,17 +11,20 @@ class AuthSocialController extends Controller
 {
     public function index($provider): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver($provider)->stateless()->scopes(['offline', 'groups', 'stats', 'wall'])->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        return Socialite::driver($provider)
+            ->stateless()
+            ->scopes(['offline', 'groups', 'stats', 'wall'])
+            ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
     }
 
     public function callback($provider): \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
     {
         //->setHttpClient(new \GuzzleHttp\Client(['verify' => false])) на проде убрать, так как будет сертификат
-        if (env( 'APP_ENV' ) === 'local') {
+        if (env('APP_ENV') === 'local') {
             $socialUser = Socialite::driver($provider)->setHttpClient(new \GuzzleHttp\Client(['verify' => false]))->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
         }
 
-        if (env( 'APP_ENV' ) === 'production') {
+        if (env('APP_ENV') === 'production') {
             $socialUser = Socialite::driver($provider)->stateless()->user(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
         }
 
@@ -29,10 +32,9 @@ class AuthSocialController extends Controller
         $user = $socialService->findOrCreateUser($socialUser, $provider);
 
         if ($user) {
-            return redirect(env ( 'FRONT_APP_URL' ).'/login/'.$user->id);
-
+            return redirect(env('FRONT_APP_URL' ).'/login/'.$user->id);
         }
 
-        return redirect(env( 'FRONT_APP_URL' ).'/login');
+        return redirect(env('FRONT_APP_URL' ).'/login');
     }
 }
