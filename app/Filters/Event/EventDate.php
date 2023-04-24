@@ -3,7 +3,6 @@
 namespace App\Filters\Event;
 
 use Closure;
-use Carbon\Carbon;
 use App\Filters\Pipe;
 
 class EventDate implements Pipe {

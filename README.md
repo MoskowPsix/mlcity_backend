@@ -162,6 +162,7 @@ URL: http://DOMAIN/social-auth/PROVIDER
 
 где  PROVIDER нужная соц сеть, например vkontakte.
 Для подключения нужного провайдера его нужно подключить через команду
+- Method: GET
 
 ```composer require socialiteproviders/PROVIDER```
  Подробнее смотри на https://socialiteproviders.com/
@@ -170,6 +171,8 @@ URL: http://DOMAIN/social-auth/PROVIDER
 ### <a name="api_logout"><h4>Выход:</h4></a>
 
 - URL: http://DOMAIN/api/logout
+
+- Method: POST
 
 - Перейдите на вкладку ``Headers``
 
@@ -185,7 +188,7 @@ URL: http://DOMAIN/social-auth/PROVIDER
     "message": "Пользователь успешно вышел"
 }
 ```
-Ответ в случае ошибки (могут быть разными):
+Возможный ответ в случае ошибки:
 ```
 {
     "message": "Unauthenticated."

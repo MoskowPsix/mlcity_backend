@@ -44,8 +44,8 @@ class SightController extends Controller
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
                     return $pagination === 'true'
-                        ? $sights->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)
-                        : $sights->orderBy('date_start','desc')->get();
+                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)
+                        : $sights->orderBy('created_at','desc')->get();
                 });
 
         return response()->json(['status' => 'success', 'sights' => $response], 200);
