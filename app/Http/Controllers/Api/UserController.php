@@ -9,6 +9,15 @@ use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
 
+use Illuminate\Pipeline\Pipeline;
+use App\Filters\Users\UsersEmail;
+use App\Filters\Users\UsersName;
+use App\Filters\Users\UsersId;
+use App\Filters\Users\UsersCreated;
+use App\Filters\Users\UsersUpdated;
+use App\Http\Requests\UsersCreateRequest;
+use DragonCode\Contracts\Cashier\Http\Response;
+
 class UserController extends Controller
 {
     // Получить юзера по ИД
@@ -105,5 +114,48 @@ class UserController extends Controller
         return response()->json([
             'status'  => 'success',
         ], 200);
+    }
+
+    //Методы для Админ панели
+    //Получить всех юзеров через фильтры
+    public function listUsers(Request $request) 
+    {
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+        $name = $request->name ? $request->name : '';
+        $users = User::with('roles');
+
+        $response =
+            app(Pipeline::class)
+            ->send($users)
+            ->via('apply')
+            ->through([
+                UsersId::class,
+                UsersName::class,
+                UsersEmail::class,
+                UsersCreated::class,
+                UsersUpdated::class,
+
+            ])
+            ->then(function ($users) use ($page, $limit, $request){
+                return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+            });
+
+            return response()->json(['status' => 'success', 'users' => $response], 200);
+    }  
+
+
+    //Добавить нового юзера уже есть в AuthController
+
+    public function updateUsers($id): \Illuminate\Http\JsonResponse
+    {
+        dd('update'); //reauest
+    }
+
+    public function deleteUsers($id): \Illuminate\Http\JsonResponse
+    {
+        User::find($id)->delete();
+        dd('delete');
+        return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 }
