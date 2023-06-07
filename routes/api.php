@@ -34,8 +34,8 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(UserController::class)->group(function() {
     Route::get('listUsers/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
-    Route::get('updateUsers/', 'updateUsers'); // Для админ панели(изменить инфу о юзере)
-    Route::get('deleteUsers/{id}', 'deleteUsers'); //  Для админ панели(удалить юзера)
+    Route::put('updateUsers/', 'updateUsers'); // Для админ панели(изменить инфу о юзере)
+    Route::delete('deleteUsers/{id}', 'deleteUsers'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное

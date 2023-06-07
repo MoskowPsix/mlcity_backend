@@ -1,8 +1,7 @@
 <script>
-import { mapActions } from 'pinia';
 import {useUsersStore} from '../../stores/usersStore'
 import { defineComponent } from 'vue';
-import { mapGetters } from 'pinia';
+
 
 //const store = useUsersStore().closeModal();
  export default defineComponent({
@@ -20,7 +19,7 @@ import { mapGetters } from 'pinia';
       user_name = '';
       user_email = '';
       user_password = '';
-    }
+    },
    }  
   })
 </script>
@@ -29,7 +28,7 @@ import { mapGetters } from 'pinia';
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
 		style="background: rgba(0,0,0,.7);">
 		<div
-			class="border border-teal-500 shadow-lg modal-container dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+			class="border border-green-400 shadow-lg modal-container dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
 			<div class="modal-content py-6 text-left px-6 ">
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">

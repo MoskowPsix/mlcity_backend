@@ -2,11 +2,12 @@
 import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
+import { useToastStore } from '../stores/toastStore';
 
 
 
 export default {
-  name: 'Login',
+  name: 'login',
   setup() {
     const email = ref('');
     const password = ref('');
@@ -17,15 +18,16 @@ export default {
       const response = await axios.post('http://localhost:8000/api/login', {
         email: email.value,
         password: password.value,
-      });
+      }).catch(error => console.log(useToastStore().warning(error.response.data.message)));
+      //useToastStore().error(error.response.data.message)
       localStorage.setItem('token', response.data.access_token);
       // Получаеи роль
       const url = 'http://localhost:8000/api/listUsers?id=' + response.data.user.id;
-      const res = await fetch(url);
-      const data = await res.json();
-      localStorage.setItem('role', data.users.data[0].roles[0].name);
-      localStorage.setItem('role_id', data.users.data[0].roles[0].pivot.role_id);
-      console.log(localStorage)
+      const data = await axios(url)
+      .catch(error => console.log(error));
+      localStorage.setItem('role', data.data.users.data[0].roles[0].name);
+      localStorage.setItem('role_id', data.data.users.data[0].roles[0].pivot.role_id);
+      //console.log(localStorage)
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
     };

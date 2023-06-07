@@ -145,17 +145,23 @@ class UserController extends Controller
     }  
 
 
-    //Добавить нового юзера уже есть в AuthController
+    public function updateUsers(Request $request, User $user)
+        {
+        $input = $request->all();
+        $user->name = $input['name'];
+        $user->email = $input['email'];
+        $user->save();
+        return response()->json([
+        "success" => true,
+        "message" => "User updated successfully.",
+        "data" => $user
+        ]);
+        }
 
-    public function updateUsers($id): \Illuminate\Http\JsonResponse
-    {
-        dd('update'); //reauest
-    }
 
     public function deleteUsers($id): \Illuminate\Http\JsonResponse
     {
         User::find($id)->delete();
-        dd('delete');
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 }

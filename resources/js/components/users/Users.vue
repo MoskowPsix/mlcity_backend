@@ -1,12 +1,19 @@
 <script setup>
 import {useUsersStore} from '../../stores/usersStore'
+import { useToastStore } from '../../stores/toastStore'
 import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
+import ModalDel from './ModalDelUsers.vue'
 
 
 const store = useUsersStore();
+const store_toast = useToastStore();
+
 useUsersStore().getUsers();
+
+
+
 const pageN = "Вперёд &raquo;";
 const pageP = "&laquo; Назад";
 
@@ -16,7 +23,7 @@ const pageP = "&laquo; Назад";
 <section class="container px-4 mx-auto"> 
     <SearchUsers class="my-1"/>
     <Loader v-if="store.loader === true"/>
-    <Modal v-if="store.showModalUsers === true"/>
+    <Modal v-if="store.show_modal_users === true"/>
     <div v-if="store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -107,8 +114,14 @@ const pageP = "&laquo; Назад";
                                         <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
                                         </button>
-                                        <button v-on:click="store.delUsers(user.id)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
-
+                                        <button @click="store.showModalDel(user.id, user.name)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
+                                        <ModalDel v-if="store.del_modal_users === true">
+                                            <div class="border border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg text-gray-200">
+                                                <h2>ID Пользователя: {{ user.id }}</h2>
+                                                <h2>Имя поьзователя: {{ user.name }}</h2>
+                                                <h2>Почта пользователя: {{ user.email }}</h2>
+				                            </div>
+                                        </ModalDel>
                                     </div>
                                 </td>
                             </tr>
@@ -156,7 +169,6 @@ const pageP = "&laquo; Назад";
             </div>
         </div>
     </div>
-    <label>{{store.user_id}}</label>
 </section> 
 </template>
 
