@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\EventTypeController;
 use App\Http\Controllers\Api\SightController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
+use App\Http\Controllers\Api\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -34,7 +35,7 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(UserController::class)->group(function() {
     Route::get('listUsers/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
-    Route::put('updateUsers/', 'updateUsers'); // Для админ панели(изменить инфу о юзере)
+    Route::put('updateUsers/{id}/', 'updateUsers'); // Для админ панели(изменить инфу о юзере)
     Route::delete('deleteUsers/{id}', 'deleteUsers'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
@@ -74,3 +75,12 @@ Route::controller(SightTypeController::class)->group(function() {
 Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
 });
+
+Route::controller(RoleController::class)->group(function() {
+    Route::get('getRole', 'getRole');
+    Route::post('addRole', 'addRole');
+    Route::put('updateRole', 'updateRole');
+    Route::delete('deleteRole', 'deleteRole');
+});
+
+

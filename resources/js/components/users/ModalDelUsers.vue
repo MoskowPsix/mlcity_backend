@@ -40,7 +40,7 @@ import { defineComponent } from 'vue';
 				</div>
 				<!--Body-->
                 <slot></slot>
-                
+                <p class="text-1xl font-bold text-gray-300"> Имя: {{ store.user_del.name }} <br> ID: {{store.user_del.id}} <br> Email: {{ store.user_del.email }}</p>
                 <!--Footer-->
 				<div class="flex justify-end pt-2">
 					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>

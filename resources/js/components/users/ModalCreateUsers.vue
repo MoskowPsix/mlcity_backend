@@ -6,8 +6,11 @@ import { defineComponent } from 'vue';
 //const store = useUsersStore().closeModal();
  export default defineComponent({
    setup() {
+    const user_email = '';
+    const user_name = '';
+    const user_password = '';
     const store = useUsersStore();
-    return {store};
+    return {store, user_email, user_name, user_password};
     },
    methods: {
     closeModal() {
@@ -51,7 +54,7 @@ import { defineComponent } from 'vue';
                                           d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"/>
                                 </svg>
                                 <input type="text" v-model="user_name" placeholder="Имя пользователя..."
-                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none text-gray-700"/>
+                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none"/>
                             </div>
           </div>
           <div class="flex justify-center">
@@ -61,7 +64,7 @@ import { defineComponent } from 'vue';
                                           d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"/>
                                 </svg>
                                 <input type="text" v-model="user_email" placeholder="Email пользователя..."
-                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none text-gray-700"/>
+                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none"/>
                             </div>
           </div>
           <div class="flex justify-center">
@@ -71,7 +74,7 @@ import { defineComponent } from 'vue';
                                           d="M12 12a5 5 0 1 1 0-10 5 5 0 0 1 0 10zm0-2a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm9 11a1 1 0 0 1-2 0v-2a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v2a1 1 0 0 1-2 0v-2a5 5 0 0 1 5-5h8a5 5 0 0 1 5 5v2z"/>
                                 </svg>
                                 <input type="text" v-model="user_password" placeholder="Пароль пользователя..."
-                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none text-gray-700"/>
+                                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none "/>
                             </div>
           </div>
 				</div>

@@ -6,6 +6,12 @@ import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 
 export default {
     name: 'searchUsers',
+    setup: () => {
+        const user_name = '';
+        const user_email = '';
+        const time = '';
+        return {user_name, user_email, time}
+    },
     methods: mapActions(useUsersStore, ['getUsers']),
      clear() {
         user_email = '';
@@ -42,7 +48,7 @@ export default {
                         </div>
                          
             
-                            <vue-tailwind-datepicker :dateFormat="yyyy-DD-MM-HH-MM-SS" :formatter="formatter" v-model="time" placeholder="Когда был зарегистрирован..." />
+                            <vue-tailwind-datepicker v-model="time" placeholder="Когда был зарегистрирован..." />
                             
                         
                     </div>

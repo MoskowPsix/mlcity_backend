@@ -1,13 +1,14 @@
 <template>
-  
-  <LEFTBAR/>
+  <LeftBar/>
   <div class="justify-items-center sm:ml-64">
-    <RouterView/>
+    <RouterView />
   </div>
 </template>
 
 <script setup>
-import LEFTBAR from './components/LeftBar.vue'
+import LeftBar from './components/LeftBar.vue'
+
+
 
 
 

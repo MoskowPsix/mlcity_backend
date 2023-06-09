@@ -1,19 +1,18 @@
 <script setup>
 import {useUsersStore} from '../../stores/usersStore'
-import { useToastStore } from '../../stores/toastStore'
+import {useRoleStore} from '../../stores/roleStore'
+import { defineComponent } from 'vue'
 import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
 import ModalDel from './ModalDelUsers.vue'
-
-
-const store = useUsersStore();
-const store_toast = useToastStore();
+import ModalCreateUsers from './ModalUpdateUsers.vue'
 
 useUsersStore().getUsers();
+useRoleStore().getRole();
 
-
-
+const store_role = useRoleStore();
+const store = useUsersStore();
 const pageN = "Вперёд &raquo;";
 const pageP = "&laquo; Назад";
 
@@ -34,7 +33,6 @@ const pageP = "&laquo; Назад";
                             <tr>
                                 <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <div class="flex items-center gap-x-3">
-                                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
                                         <button class="flex items-center gap-x-2">
                                             <span>ID</span>
 
@@ -65,16 +63,7 @@ const pageP = "&laquo; Назад";
                                 <th scope="col" class="relative py-3.5 px-4">
                                         <div class="flex justify-center bg text-gray-200">
                                             <button class="p-2 w-1/8 rounded-md bg-green-800 text-green-100" @click="store.showModal" >Создать пользователя</button>
-                                            <!-- Modal -->
-
-        
-                                        
-                        
-                                            <!-- ModalEnd -->
-
-
                                         </div>
-                                    
                                 </th>
                             </tr>
                         </thead>
@@ -87,12 +76,10 @@ const pageP = "&laquo; Назад";
                                 </td>
                                     <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{user.created_at}}</td>
                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800" v-for="role in user.roles" :key="roles">
-                                        <h2 v-if="role.name === 'Admin'" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ role.name }}</h2>
-                                        <h2 v-else-if="role.name === 'Moderator'" class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs" >{{ role.name }}</h2>
-                                    </div>
-                                    <div v-if="user.roles.length === 0" class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                                        <h2 class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800" >
+                                        <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
+                                        <h2 v-else-if="user.roles[0].name === 'Admin'" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
+                                        <h2 v-else-if=" user.roles[0].name === 'Moderator'" class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -107,20 +94,17 @@ const pageP = "&laquo; Назад";
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ user.updated_at }}</td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                        <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-                                            Подробнее
-                                        </button>
+                                        <!-- <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                            Подробнее(?)
+                                        </button> -->
 
-                                        <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                        <button @click="store.showModalUpd(user.id, user.name, user.email)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
                                         </button>
-                                        <button @click="store.showModalDel(user.id, user.name)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
+                                        <ModalCreateUsers v-if="store.user_upd === true">
+                                        </ModalCreateUsers>
+                                        <button @click="store.showModalDel(user.id, user.name, user.email)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
                                         <ModalDel v-if="store.del_modal_users === true">
-                                            <div class="border border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg text-gray-200">
-                                                <h2>ID Пользователя: {{ user.id }}</h2>
-                                                <h2>Имя поьзователя: {{ user.name }}</h2>
-                                                <h2>Почта пользователя: {{ user.email }}</h2>
-				                            </div>
                                         </ModalDel>
                                     </div>
                                 </td>
@@ -132,8 +116,8 @@ const pageP = "&laquo; Назад";
         </div>
     </div>
     
-    <div class="flex items-center justify-between mt-6" >
-        <div v-for="link in store.users.users.links" :key="link.id">
+    <div class="flex items-center justify-between mt-6">
+        <div v-for="link in store.links">
             <div v-if=" link.label  === pageP">
                 <a @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">

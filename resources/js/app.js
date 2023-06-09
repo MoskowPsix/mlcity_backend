@@ -13,6 +13,7 @@ import "vue-toastification/dist/index.css";
 // Пока хз зачем, но вроде надо
 axios.defaults.baseURL = 'http://localhost:8000/api/';
 
+
 const options = {
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,

@@ -15,8 +15,6 @@ use App\Filters\Users\UsersName;
 use App\Filters\Users\UsersId;
 use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
-use App\Http\Requests\UsersCreateRequest;
-use DragonCode\Contracts\Cashier\Http\Response;
 
 class UserController extends Controller
 {
@@ -145,18 +143,29 @@ class UserController extends Controller
     }  
 
 
-    public function updateUsers(Request $request, User $user)
-        {
-        $input = $request->all();
-        $user->name = $input['name'];
-        $user->email = $input['email'];
-        $user->save();
-        return response()->json([
-        "success" => true,
-        "message" => "User updated successfully.",
-        "data" => $user
+    public function updateUsers(Request $request, $id)
+    {
+        $validated = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
         ]);
-        }
+    
+        $data = $request->all();
+        $user = User::where('id', $id)->firstOrFail();
+        $user->fill($data);
+        $user->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]
+        ];
+    
+        return response()->json($jsonData);
+    }
 
 
     public function deleteUsers($id): \Illuminate\Http\JsonResponse
