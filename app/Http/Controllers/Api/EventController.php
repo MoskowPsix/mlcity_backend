@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Event\EventName;
 use App\Filters\Event\EventCity;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -33,6 +34,7 @@ class EventController extends Controller
             app(Pipeline::class)
             ->send($events)
             ->through([
+                EventName::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
