@@ -9,6 +9,7 @@ use App\Models\EventType;
 use App\Models\Status;
 use App\Models\EventFile;
 use App\Models\EventLike;
+use App\Models\Comment;
 
 class Event extends Model
 {
@@ -72,9 +73,14 @@ class Event extends Model
         return $this->hasMany(EventFile::class);
     }
 
-    public function likes(): \Illuminate\Database\Eloquent\Relations\hasOne
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(EventLike::class);
+    }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 
 }

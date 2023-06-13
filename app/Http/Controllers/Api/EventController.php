@@ -27,7 +27,7 @@ class EventController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $events = Event::query()->with('types', 'files', 'likes','statuses');
+        $events = Event::query()->with('types', 'files', 'likes','statuses', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -106,7 +106,7 @@ class EventController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'comments')->firstOrFail();
 
         return response()->json($event, 200);
     }
