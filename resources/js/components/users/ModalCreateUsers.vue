@@ -1,28 +1,32 @@
 <script>
 import {useUsersStore} from '../../stores/usersStore'
 import { defineComponent } from 'vue';
+import {useRoleStore} from '../../stores/roleStore'
 
 
 //const store = useUsersStore().closeModal();
  export default defineComponent({
    setup() {
+    const store_role = useRoleStore();
+    const user_role = '';
     const user_email = '';
     const user_name = '';
     const user_password = '';
     const store = useUsersStore();
-    return {store, user_email, user_name, user_password};
+    return {store, user_email, user_name, user_password, store_role, user_role};
     },
    methods: {
     closeModal() {
       this.store.closeModal()
     },
-    createUser(name, email, pass) {
-      this.store.createUser(name, email, pass);
-      console.log(name + email + pass);
+    createUser(name, email, pass, role) {
+      this.store.createUser(name, email, pass, role);
       user_name = '';
       user_email = '';
       user_password = '';
+      user_role = '';
     },
+
    }  
   })
 </script>
@@ -77,11 +81,22 @@ import { defineComponent } from 'vue';
                                        class="bg-gray-800 text-gray-200  max-w-full focus:outline-none "/>
                             </div>
           </div>
+          
+          <div class="flex justify-center text-gray-200">
+            <div class="flex rounded bg-gray-800 items-center p-2 text-gray-200 "><h1>Роль пльзователя:</h1>
+                <select v-model="user_role" class="bg-gray-800 text-gray-200  max-w-full focus:outline-none ">
+                  <option v-for="role in store_role.role.data" :value="role.id">
+                    {{ role.name }}
+                  </option>
+                </select>
+            </div>
+          </div>
+          
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
 					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
-					<button @click="createUser(user_name, user_email, user_password)" class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Создать</button>
+					<button @click="createUser(user_name, user_email, user_password, user_role)" class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Создать</button>
 				</div>
 			</div>
 		</div>

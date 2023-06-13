@@ -18,9 +18,9 @@ import {useRoleStore} from '../../stores/roleStore'
     closeModal() {
       this.store.closeModalUpd()
     },
-    updateUser(name, email) {
-      this.store.updateUser(name, email);
-    },
+    updateUser(name, email, role_id) {
+      this.store.updateUser(name, email, role_id);
+    }
    }  
   })
 </script>
@@ -79,7 +79,7 @@ import {useRoleStore} from '../../stores/roleStore'
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
 					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
-					<button @click="updateUser(user_name, user_email)" class="focus:outline-none px-4 bg-blue-500 p-3 ml-3 rounded-lg text-white hover:bg-blue-400">Редактировать</button>
+					<button @click="updateUser(user_name, user_email, user_role)" class="focus:outline-none px-4 bg-blue-500 p-3 ml-3 rounded-lg text-white hover:bg-blue-400">Редактировать</button>
 				</div>
 			</div>
 		</div>

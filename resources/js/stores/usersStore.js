@@ -1,9 +1,11 @@
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import { useToastStore } from './toastStore';
+import { useRoleStore } from './roleStore';
 
 
 const toast = useToastStore();
+const stole_role = useRoleStore();
 
 export const useUsersStore = defineStore('usersStore', {
     actions: {
@@ -23,13 +25,11 @@ export const useUsersStore = defineStore('usersStore', {
             await axios.get(url)
             .then(response => {(this.users = response.data), this.links = response.data.users.links})
             .catch(error => toast.error('Ошибка:' + error));
-            console.log(this.users);
-            console.log(this.links);
             this.loader = false;
         },
 
         // Создание юзера
-        async createUser (name, email, password) {
+        async createUser (name, email, password, role_id) {
             this.loader = true;
             const errors = [];
             console.log(name + ' ' + email + ' ' + password);
@@ -40,10 +40,20 @@ export const useUsersStore = defineStore('usersStore', {
                 password: password,
                 password_confirmation: password,
             })
-            .then(response => {
+            .then(async response => {
                 if (response.status === 200) {
+                    if (role_id){
+                        await axios.put('http://localhost:8000/api/updateRoleUser/' + response.data.user.id + '/' + role_id)
+                            .then(async response => {
+                                await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role)
+                                    .then(resp => toast.success('Пользователю ' + name + ', назначена роль ' +resp.data.role.name))
+                                    .catch(error => console.log(error));
+                                console.log(response);
+                        }).catch(error => console.log(error));
+                    }
                     toast.success('Ползователь: ' + name + ' с почтой: ' + email + ' успешно создан!');
                     this.closeModal();
+                    console.log(response)   
                     this.loader = false;
                 }
             })
@@ -53,17 +63,8 @@ export const useUsersStore = defineStore('usersStore', {
                     this.loader = false;
                 }
             })
-            
-            if (res.response.status === 200){
-                toast.success('Ползователь: ' + name + ' с почтой: ' + email + ' успешно создан!')
-            } else if (res.response.status === 422) {
-                console.log(res.response.data.errors)
-                toast.warning(res.response.data.errors.name[0]);
-                toast.warning(res.response.data.errors.email[0]);
-                toast.warning(res.response.data.errors.password[0]);
-            }
-            //console.log(name + ' ' + email + ' ' + password + ' ' + response);
             this.closeModal();
+            await this.getPage(this.users.users.first_page_url);
             this.loader = false;
         },
         // Удалить юзера
@@ -79,8 +80,25 @@ export const useUsersStore = defineStore('usersStore', {
         // Обновить юзера
         async updateUser(name, email, role_id) {
             this.loader = true;
-            const url = 'http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?name=' + name + '&email=' + email;
-            await axios.put(url).then(response => toast.success('Обновлено: имя - ' + response.data.user.name + ', почта - ' + response.data.user.email)).catch(error => console.log(error));
+            //Меняем инфу об юзере
+            if (name != '') {
+                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?name=' + name).then(response => toast.success('Обновлено: имя - ' + response.data.user.name )).catch(error => console.log(error));
+            }
+            if (email != '') {
+                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?email=' + email).then(response => toast.success('Обновлено: почта - ' + response.data.user.email)).catch(error => console.log(error));
+            }
+            //Меняем роль
+            if (role_id) {
+                await axios.put('http://localhost:8000/api/updateRoleUser/' + this.user_upd_id.id + '/' + role_id)
+                .then(async response => {
+                    await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role)
+                    .then(resp => response.data.update_role = resp.data.role.name);
+                    await axios.get('http://localhost:8000/api/users/' + this.user_upd_id.id)
+                    .then(resp => response.data.user = resp.data.user.name);
+                    toast.success('Пользователь: ' + response.data.user + ', теперь имеет роль ' + response.data.update_role);
+                });
+            }
+
             await this.getPage(this.users.users.first_page_url);
             this.closeModalUpd();
             this.loader = false;
@@ -102,13 +120,11 @@ export const useUsersStore = defineStore('usersStore', {
           },
         async showModalDel(id, name, email) {
             this.user_del = {id: id, name: name, email: email};
-            console.log(this.user_del);
             this.del_modal_users = await true;
           },
           // Млдальное окно редактирования
         async showModalUpd(id, name, email) {
             this.user_upd_id = {id: id, name: name, email: email};
-            console.log(this.user_upd_id);
             this.user_upd = true;
         },
         async closeModalUpd() {

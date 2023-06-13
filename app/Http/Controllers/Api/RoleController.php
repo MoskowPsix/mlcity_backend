@@ -10,9 +10,16 @@ use App\Models\User;
 
 class RoleController extends Controller
 {
-    public function getRole()
+    public function allRole()
     {
     return Role::all();
+    }
+
+    public function getRole($id) 
+    {
+        $role = Role::where('id', $id)->firstOrFail();
+
+        return response()->json(['status' => 'success', 'role' => $role], 200);
     }
 
     public function addRole(Request $request)
@@ -22,17 +29,53 @@ class RoleController extends Controller
         return response()->json(['status'  => 'success', 'role' => $role], 201);
     }
 
-    public function updateRole(Request $request, Role $role)
+    public function updateRole(Request $request, $id)
     {
-        $role->update($request->all());
 
-        return response()->json(['status'  => 'success', 'role' => $role], 200);
+        $data = $request->all();
+        $role = Role::where('id', $id)->firstOrFail();
+        $role->fill($data);
+        $role->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'role' => [
+                'id' => $role->id,
+                'name' => $role->name
+            ]
+        ];
+
+        return response()->json($jsonData);
     }
 
-    public function deleteRole(Role $role)
+    public function deleteRole($id): \Illuminate\Http\JsonResponse
     {
-        $role->delete();
+        Role::find($id)->delete();
+        return response()->json(['status' => 'success', 'delete_role' => $id], 200);
+    }
 
-        return response()->json(['status'  => 'success'], 204);
+    public function addRoleUser($user_id, $role_id) 
+    {
+        $user = User::where('id', $user_id)->firstOrFail();
+
+        $user->roles()->attach($role_id);
+        return response()->json(['status' => 'success', 'user' => $user_id, 'update role' => $role_id], 200);
+    }
+
+    public function updateRoleUser($user_id, $role_id) 
+    {
+        $user = User::where('id', $user_id)->firstOrFail();
+
+        $user->roles()->sync($role_id);
+        return response()->json(['status' => 'success', 'user' => $user_id, 'update_role' => $role_id], 200);
+    }
+
+    public function deleteRoleUser($user_id, $role_id) 
+    {
+        $user = User::where('id', $user_id)->firstOrFail();
+        $user->roles()->detach($role_id);
+        $user->roles()->detach();
+
+        return response()->json(['status' => 'success', 'user' => $user_id, 'delete role' => $role_id], 200);
     }
 }

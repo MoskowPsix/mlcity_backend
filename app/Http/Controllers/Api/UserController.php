@@ -145,10 +145,6 @@ class UserController extends Controller
 
     public function updateUsers(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required',
-            'email' => 'required',
-        ]);
     
         $data = $request->all();
         $user = User::where('id', $id)->firstOrFail();

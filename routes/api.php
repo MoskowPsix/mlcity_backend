@@ -77,10 +77,15 @@ Route::controller(StatusController::class)->group(function() {
 });
 
 Route::controller(RoleController::class)->group(function() {
-    Route::get('getRole', 'getRole');
-    Route::post('addRole', 'addRole');
-    Route::put('updateRole', 'updateRole');
-    Route::delete('deleteRole', 'deleteRole');
+    Route::get('allRole', 'allRole');
+    Route::get('getRole/{id}', 'getRole');
+    Route::post('addRole/', 'addRole');
+    Route::put('updateRole/{id}', 'updateRole');
+    Route::delete('deleteRole/{id}', 'deleteRole');
+
+    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser');
+    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser');
+    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser');
 });
 
 
