@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\Event\EventName;
+use App\Filters\Event\EventAuthorEmail;
+use App\Filters\Event\EventAuthorName;
+use App\Filters\Event\EventSponsor;
+use App\Filters\Event\EventAddress;
 use App\Filters\Event\EventCity;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -19,6 +23,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
+use App\Models\User;
 
 class EventController extends Controller
 {
@@ -28,7 +33,7 @@ class EventController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $events = Event::query()->with('types', 'files', 'likes','statuses');
+        $events = Event::query()->with('types', 'files', 'likes','statuses', 'author');
 
         $response =
             app(Pipeline::class)
@@ -44,7 +49,12 @@ class EventController extends Controller
                 EventDate::class,
                 EventTypes::class,
                 EventGeoPositionInArea::class,
-                EventSearchText::class
+                EventSearchText::class,
+                EventAddress::class,
+                EventSponsor::class,
+                EventAuthorName::class,
+                EventAuthorEmail::class,
+                
             ])
             ->via('apply')
             ->then(function ($events) use ($pagination , $page, $limit){

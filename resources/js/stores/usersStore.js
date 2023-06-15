@@ -18,6 +18,12 @@ export const useUsersStore = defineStore('usersStore', {
                 toast.warning('Пользователи не были найдены');
             }
         },
+        // Имя по ИД юзера
+        getUserId(id) {
+            axios.get('http://localhost:8000/api/users/' + id).then(response => id = response.data.user.name).catch(error => toast.error(error));
+            console.log(id);
+            return id;
+        },
 
         // Получить страницу с юзерами
         async getPage(url) {

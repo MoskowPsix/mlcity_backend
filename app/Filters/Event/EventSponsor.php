@@ -5,13 +5,13 @@ namespace App\Filters\Event;
 use Closure;
 use App\Filters\Pipe;
 
-class EventCity implements Pipe {
+class EventSponsor implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('city')){
+        if(request()->has('sponsor')){
             $content->where(function($query) {
-                $query->orWhere('city', 'LIKE', '%'.request()->get('city').'%');
+                $query->orWhere('sponsor', 'LIKE', '%'.request()->get('sponsor').'%');
             });
         }
 

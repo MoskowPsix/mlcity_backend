@@ -1,12 +1,29 @@
 <script setup>
+import { useEventsStore } from '../../stores/eventsStore';
+import { useUsersStore } from '../../stores/usersStore';
+import { useStatusStore } from '../../stores/statusStore';
+import  SearchEvent from './SearchEvent.vue';
+import Loader from '../Loader.vue';
+import ModalEvent from './ModalEvent.vue';
 
 
+const event_store = useEventsStore();
+const user_store = useUsersStore();
+useStatusStore().getStatus();
+useEventsStore().getEvents();
+
+
+const pageN = "Вперёд &raquo;";
+const pageP = "&laquo; Назад";
 </script>
 
 
 <template>
 <section class="container px-4 mx-auto">
-    <div class="flex flex-col">
+    <SearchEvent class="my-1"/>
+    <Loader v-if="event_store.loader === true"/>
+    <ModalEvent v-if="event_store.ModalUpdate === true"/>
+    <div v-if="event_store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -14,9 +31,7 @@
                         <thead class="bg-gray-50 dark:bg-gray-800">
                             <tr>
                                 <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    <div class="flex items-center gap-x-3">
-                                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
-                                        <button class="flex items-center gap-x-2">
+                                    <div class="flex items-center gap-x-3">                                        <button class="flex items-center gap-x-2">
                                             <span>ID</span>
 
                                             <svg class="h-3" viewBox="0 0 10 11" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -29,7 +44,7 @@
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Название (группа/пост)
+                                    Название
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -41,7 +56,7 @@
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Создатель
+                                    Автор
                                 </th>
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Начало
@@ -49,52 +64,61 @@
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Конец
                                 </th>
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Статус
+                                </th>
                                 <th scope="col" class="relative py-3.5 px-10">
                                     <span class="sr-only">Actions</span>
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
+                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="event of event_store.events.data" :key="event.id">
                             <tr>
                                 <td class="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                     <div class="inline-flex items-center gap-x-3">
-                                        <span>3066</span>
+                                        <span>{{ event.id }}</span>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">Название какое-то</h2>
+                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.name }}</h2>
                                     <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
                                         
                                         <button class=" text-blue-500 transition-colors duration-200 dark:hover:text-indigo-500 hover:text-indigo-500 focus:outline-none">
                                             Группа
-                                        </button><br>
+                                        </button>
                                         
-                                        
-                                        <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                        /
+                                        <button class="px-1 text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Пост
                                         </button>
                                         
                                     </p>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">Спонсор какой-то</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.sponsor }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                     <div class="flex items-center gap-x-2">
                                         <div>
-                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">Екб</h2>
-                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">Ленина 31</p>
+                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.city }}</h2>
+                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ event.address }}</p>
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">юзер который создал</td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">2023-09-20</td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">2023-10-20</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.user_id }} {{ event.author.name }}</h2>
+                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ event.author.email }}</p>
+                                </td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_start }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_end }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                    <div v-for="status of event.statuses">{{ status.name }}</div>
+                                </td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
                                         <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
                                             Подробнее
                                         </button>
 
-                                        <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                        <button @click="event_store.showUpdateEvent(event)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
                                         </button>
                                     </div>
@@ -109,36 +133,41 @@
     </div>
 
     <div class="flex items-center justify-between mt-6">
-        <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-            </svg>
+        <div v-for="link in event_store.links">
+            <div v-if=" link.label  === pageP">
+                <a href="#" @click="event_store.getEventUrl(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                    </svg>
 
-            <span>
-                previous
-            </span>
-        </a>
+                    <span>
+                        Назад
+                    </span>
+                </a>
+            </div>
 
-        <div class="items-center hidden md:flex gap-x-3">
-            <a href="#" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">1</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">2</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">3</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">...</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">12</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">13</a>
-            <a href="#" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">14</a>
+            <div>
+                <div v-if="link.active === true" class="items-center hidden md:flex gap-x-3">
+                    <a href="#" @click="event_store.getEventUrl(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
+                </div>
+
+                <div v-else-if="link.active == false && link.label !== pageP && link.label !== pageN">
+                    <a href="#" @click="event_store.getEventUrl(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
+                </div>
+            </div>
+
+            <div v-if="link.label === pageN">
+                <a href="#" @click="event_store.getEventUrl(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                    <span>
+                        Вперёд
+                    </span>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                    </svg>
+                </a>
+            </div>
         </div>
-
-        
-        <a href="#" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-            <span>
-                Next
-            </span>
-
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-            </svg>
-        </a>
     </div>
-</section>
+</section> 
 </template>

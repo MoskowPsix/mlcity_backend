@@ -64,7 +64,7 @@ class Event extends Model
 
    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
    }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany
