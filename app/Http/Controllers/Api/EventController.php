@@ -118,7 +118,7 @@ class EventController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'author')->firstOrFail();
 
         return response()->json($event, 200);
     }
@@ -165,9 +165,33 @@ class EventController extends Controller
         return response()->json(['status' => 'success',], 200);
     }
 
-    public function update($id): \Illuminate\Http\JsonResponse
+    public function updateEvent(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        dd('update');
+        $data = $request->all();
+        $event = Event::where('id', $id)->firstOrFail();
+        $event->fill($data);
+        $event->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'event' => [
+                'id' => $event->id,
+                'name' => $event->name,
+                'sponsor' => $event->email,
+                'city' => $event->city,
+                'address' => $event->address,
+                'description' => $event->description,
+                'latitude' => $event->latitude,
+                'longitude' => $event->longitude,
+                'price' => $event->price,
+                'materials' => $event->materials,
+                'date_start' => $event->date_start,
+                'date_end' => $event->date_end,
+                
+            ]
+        ];
+    
+        return response()->json($jsonData);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

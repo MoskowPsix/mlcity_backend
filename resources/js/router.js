@@ -19,6 +19,7 @@ const router = createRouter({
       name: 'events',
       component: () => import('./components/event/Event.vue')
     },
+    
     {
       path: '/role',
       name: 'role',

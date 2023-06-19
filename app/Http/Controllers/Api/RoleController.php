@@ -59,7 +59,7 @@ class RoleController extends Controller
         $user = User::where('id', $user_id)->firstOrFail();
 
         $user->roles()->attach($role_id);
-        return response()->json(['status' => 'success', 'user' => $user_id, 'update role' => $role_id], 200);
+        return response()->json(['status' => 'success', 'user' => $user_id, 'add_role' => $role_id], 200);
     }
 
     public function updateRoleUser($user_id, $role_id) 
@@ -76,6 +76,6 @@ class RoleController extends Controller
         $user->roles()->detach($role_id);
         $user->roles()->detach();
 
-        return response()->json(['status' => 'success', 'user' => $user_id, 'delete role' => $role_id], 200);
+        return response()->json(['status' => 'success', 'user' => $user_id, 'delete_role' => $role_id], 200);
     }
 }

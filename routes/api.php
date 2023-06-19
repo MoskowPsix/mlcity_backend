@@ -56,7 +56,7 @@ Route::controller(EventController::class)->group(function() {
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('events/create', 'create')->middleware('auth:sanctum');
-    //Route::put('events/{id}', 'update')->middleware('auth:sanctum');
+    Route::put('updateEvent/{id}/', 'updateEvent');
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
@@ -66,6 +66,10 @@ Route::controller(SightController::class)->group(function() {
 
 Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
+    Route::get('getTypesId/{id}', 'getTypesId');
+    Route::post('/addTypeEvent/{event_id}/{type_id}', 'addTypeEvent');
+    Route::put('/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent');
+    Route::delete('/deleteTypeEvent/{event_id}/{type_id}', 'deleteTypeUser');
 });
 
 Route::controller(SightTypeController::class)->group(function() {
@@ -74,6 +78,11 @@ Route::controller(SightTypeController::class)->group(function() {
 
 Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
+    Route::get('getStatusId/{id}', 'getStatusId');
+    Route::post('/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent');
+    Route::put('/updateStatusEvent/{event_id}/{status_id}', 'updateStatusEvent');
+    Route::delete('/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent');
+
 });
 
 Route::controller(RoleController::class)->group(function() {

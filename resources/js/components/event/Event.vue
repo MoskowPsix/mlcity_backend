@@ -20,9 +20,9 @@ const pageP = "&laquo; Назад";
 
 <template>
 <section class="container px-4 mx-auto">
+    <ModalEvent v-if="event_store.ModalEvent === true"/>
     <SearchEvent class="my-1"/>
     <Loader v-if="event_store.loader === true"/>
-    <ModalEvent v-if="event_store.ModalUpdate === true"/>
     <div v-if="event_store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -109,8 +109,11 @@ const pageP = "&laquo; Назад";
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_start }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_end }}</td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                <td  v-if="event.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                     <div v-for="status of event.statuses">{{ status.name }}</div>
+                                </td>
+                                <td  v-if="event.statuses.length === 0" class="px-4 py-4 text-sm text-red-800 dark:text-red-500 whitespace-nowrap">
+                                    <div>Не определено</div>
                                 </td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
