@@ -9,6 +9,7 @@ use App\Models\SightType;
 use App\Models\Status;
 use App\Models\SightFile;
 use App\Models\SightLike;
+use App\Models\Comment;
 
 class Sight extends Model
 {
@@ -69,8 +70,13 @@ class Sight extends Model
         return $this->hasMany(SightFile::class);
     }
 
-    public function likes(): \Illuminate\Database\Eloquent\Relations\hasOne
+    public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(SightLike::class);
+    }
+
+    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Comment::class);
     }
 }

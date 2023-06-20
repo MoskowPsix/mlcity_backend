@@ -8,7 +8,11 @@ use App\Http\Controllers\Api\EventTypeController;
 use App\Http\Controllers\Api\SightController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
+<<<<<<< HEAD
 use App\Http\Controllers\Api\RoleController;
+=======
+use App\Http\Controllers\Api\CommentController;
+>>>>>>> 6d4ad108c26a8cb85cf760cc86ddca15895766fe
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -62,6 +66,17 @@ Route::controller(EventController::class)->group(function() {
 
 Route::controller(SightController::class)->group(function() {
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
+    Route::post('sights/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
+    Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
+    Route::get('sights/{id}', 'show');
+    Route::get('sights/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
+    Route::get('sights/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
+    Route::post('sights/create', 'create')->middleware('auth:sanctum');
+});
+
+Route::controller(CommentController::class)->group(function() {
+    Route::post('comment/create', 'create')->middleware('auth:sanctum');
+    Route::delete('comment/{id}/delete', 'delete')->middleware('auth:sanctum');
 });
 
 Route::controller(EventTypeController::class)->group(function() {
