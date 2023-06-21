@@ -7,7 +7,8 @@ module.exports = {
     "./resources//*.blade.php",
     "./resources//*.js",
     "./resources/**/*.vue",
-    "./node_modules/vue-tailwind-datepicker/**/*.js"
+    "./node_modules/vue-tailwind-datepicker/**/*.js",
+    "./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}"
   ],
   theme: {
     extend: {
@@ -17,5 +18,6 @@ module.exports = {
       },
     },
   },
+  darkMode: "class",
 
 }

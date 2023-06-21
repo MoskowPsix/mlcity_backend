@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
+use Carbon\Carbon;
 
 use Illuminate\Pipeline\Pipeline;
 use App\Filters\Users\UsersEmail;
@@ -133,6 +134,7 @@ class UserController extends Controller
                 UsersEmail::class,
                 UsersCreated::class,
                 UsersUpdated::class,
+
 
             ])
             ->then(function ($users) use ($page, $limit, $request){

@@ -52,20 +52,20 @@ export default defineComponent({
 </script>
 
 <template>
-<div class="border border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
+<div class="border border-gray-300 dark:border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="grid grid-cols-2 gap-2 rounded">
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_name" placeholder="Название мероприятия"
-                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-400 dark:text-gray-200  max-w-full focus:outline-none "/>
             </div>
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_sponsor" placeholder="Спонсор мероприятия"
-                       class="bg-gray-800 text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
-            <div class="flex rounded -center dark:bg-gray-800 p-1 px-2 text-gray-200 justify-center items-center"> 
-                <h1 class="px-2">Статус: </h1>
-                <select v-model="event_status" class="bg-gray-800 text-gray-200 max-w-full focus:outline-none">
+            <div class="flex rounded -center bg-gray-300 dark:bg-gray-800 p-1 px-2 text-gray-200 justify-center items-center"> 
+                <h1 class="px-2 text-gray-400 dark:text-gray-200">Статус: </h1>
+                <select v-model="event_status" class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none">
                     <option v-for="status in status_store.status" :value="status.name">
                         {{ status.name }}
                     </option>
@@ -75,24 +75,24 @@ export default defineComponent({
             <vue-tailwind-datepicker v-model="event_date" placeholder="Временные рамки" />
         </div>
         <div class="grid grid-cols-2 gap-2 rounded">
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_author_name" placeholder="Имя автора"
-                       class="bg-gray-800 text-gray-200  max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200  max-w-full focus:outline-none "/>
             </div>
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_author_email" placeholder="Почта автора"
-                       class="bg-gray-800 text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_city" placeholder="Город Мероприятия"
-                       class="bg-gray-800 text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
-            <div class="flex rounded bg-gray-800 items-center p-2 ">
+            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_address" placeholder="Адрес мероприятия"
-                       class="bg-gray-800 text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>           
         </div>
         </div>   
-        <div class="flex justify-center text-gray-200"><button v-on:click="event_store.getEventSearch(event_name, event_sponsor, event_date, event_author_name,event_author_email, event_city, event_address, event_status), clear()" class="p-2 w-1/4 rounded-md bg-blue-800 text-blue-100">Найти</button></div>
+        <div class="flex justify-center ext-gray-400 dark:text-gray-200"><button v-on:click="event_store.getEventSearch(event_name, event_sponsor, event_date, event_author_name,event_author_email, event_city, event_address, event_status), clear()" class="p-2 w-1/4 rounded-md bg-blue-800 text-blue-100">Найти</button></div>
 </div>
 </template>

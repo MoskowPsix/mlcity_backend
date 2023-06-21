@@ -8,11 +8,8 @@ use App\Http\Controllers\Api\EventTypeController;
 use App\Http\Controllers\Api\SightController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
-<<<<<<< HEAD
 use App\Http\Controllers\Api\RoleController;
-=======
 use App\Http\Controllers\Api\CommentController;
->>>>>>> 6d4ad108c26a8cb85cf760cc86ddca15895766fe
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

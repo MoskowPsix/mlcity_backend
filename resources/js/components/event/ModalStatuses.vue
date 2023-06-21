@@ -19,13 +19,13 @@ useStatusStore().getStatus();
 
 <template>
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
-    <section class="text-gray-400 bg-gray-800 body-font relative rounded-lg">
-        <label for="status" class="leading-7 px-5 text-sm text-gray-400" v-if="event_store.event.statuses.length !== 0" v-for="status of event_store.event.statuses">Текущий тип мероприятия: {{ status.name }}</label>
-        <label for="status" class="leading-7 px-5 text-red-400" v-if="event_store.event.statuses.length === 0">Текущий тип не определён</label>
+    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg">
+        <label for="status" class="leading-7 px-5 text-sm text-gray-700 dark:text-gray-400" v-if="event_store.event.statuses.length !== 0" v-for="status of event_store.event.statuses">Текущий тип мероприятия: {{ status.name }}</label>
+        <label for="status" class="leading-7 px-5 text-red-700 dark:text-red-400" v-if="event_store.event.statuses.length === 0">Текущий тип не определён</label>
             <div class="flex justify-between items-center pb-3 py-5 px-5">
-                    <div class="w-full bg-gray-800 rounded border border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                    <div class="w-full bg-gray-200 dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         Cменить на:
-                        <select v-model="event_store.new_status" class="border border-gray-700 rounded bg-gray-900 text-gray-200  max-w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out ">
+                        <select v-model="event_store.new_status" class="border border-gray-500 dark:border-gray-700 rounded bg-gray-300 dark:bg-gray-900 text-gray-700 dark:text-gray-200  max-w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out ">
                             <option v-for="status in status_store.status" :value="status.id">
                                 {{ status.name }}
                             </option>

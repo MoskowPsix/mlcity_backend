@@ -24,11 +24,11 @@ import  {useRoleStore} from '../../stores/roleStore'
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
 		style="background: rgba(0,0,0,.2);">
 		<div
-			class="border border-red-400 shadow-lg modal-container dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+			class="border border-red-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
 			<div class="modal-content py-6 text-left px-6 ">
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">
-					<p class="text-2xl font-bold text-gray-300">Удалить пользователя?</p>
+					<p class="text-2xl font-bold text-gray-700 dark:text-gray-300">Удалить пользователя?</p>
 					<div @click="closeModal()" class="modal-close cursor-pointer z-50">
 						<svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 							viewBox="0 0 18 18">
@@ -40,7 +40,7 @@ import  {useRoleStore} from '../../stores/roleStore'
 				</div>
 				<!--Body-->
                 <slot></slot>
-                <p class="text-1xl font-bold text-gray-300">ID: {{store_role.role_id}}</p>
+                <p class="text-1xl font-bold text-gray-600 dark:text-gray-300">ID: {{store_role.role_id}}</p>
                 <!--Footer-->
 				<div class="flex justify-end pt-2">
 					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>

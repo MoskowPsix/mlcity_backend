@@ -67,6 +67,9 @@ const pageP = "&laquo; Назад";
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Статус
                                 </th>
+                                <th scope="col" class="px-20 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Тип
+                                </th>
                                 <th scope="col" class="relative py-3.5 px-10">
                                     <span class="sr-only">Actions</span>
                                 </th>
@@ -117,10 +120,16 @@ const pageP = "&laquo; Назад";
                                 </td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                        <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-                                            Подробнее
-                                        </button>
-
+                                            <div v-if="event.types.length !== 0" class="w-full  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                <p class="leading-relaxed" v-for="types of event.types">
+                                                    <p>{{ types.name }}</p>
+                                                </p>
+                                            </div>
+                                            <div v-if="event.types.length === 0" class="w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-red-500 dark:text-red-400 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                <p class="leading-relaxed">
+                                                    <p>Тип неопределён</p>
+                                                </p>
+                                            </div>
                                         <button @click="event_store.showUpdateEvent(event)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
                                         </button>
