@@ -1,20 +1,32 @@
-<script setup>
+<script>
 import {useUsersStore} from '../../stores/usersStore'
 import {useRoleStore} from '../../stores/roleStore'
-import { defineComponent } from 'vue'
+import { defineComponent } from 'vue';
 import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
 import ModalDel from './ModalDelUsers.vue'
 import ModalCreateUsers from './ModalUpdateUsers.vue'
 
+
+export default defineComponent({
+    setup() {
+        const store = useUsersStore();
+        const pageN = "Вперёд &raquo;";
+        const pageP = "&laquo; Назад";
+        return {store, pageN, pageP};
+    },
+    methods: {
+        localeDate(date) {
+            return (new Date(date)).toLocaleString()
+        },
+
+    },
+    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers}
+})
+
 useUsersStore().getUsers();
 useRoleStore().getRole();
-
-const store_role = useRoleStore();
-const store = useUsersStore();
-const pageN = "Вперёд &raquo;";
-const pageP = "&laquo; Назад";
 
 </script>
 
@@ -74,12 +86,12 @@ const pageP = "&laquo; Назад";
                                     <div class="inline-flex items-center gap-x-3">                                        <span>{{ user.id }}</span>
                                     </div>
                                 </td>
-                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{user.created_at}}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>
                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800" >
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-gray-100/60 dark:bg-gray-700/20 dark:bg-gray-800" >
                                         <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
-                                        <h2 v-else-if="user.roles[0].name === 'Admin'" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
-                                        <h2 v-else-if=" user.roles[0].name === 'Moderator'" class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
+                                        <h2 v-else-if="user.roles[0].name" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
+                    
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -91,7 +103,7 @@ const pageP = "&laquo; Назад";
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ user.updated_at }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ localeDate(user.updated_at) }}</td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
                                         <!-- <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
