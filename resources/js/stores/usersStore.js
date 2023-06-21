@@ -10,10 +10,11 @@ const stole_role = useRoleStore();
 export const useUsersStore = defineStore('usersStore', {
     actions: {
         // Получить всех юзеров по фильтрам
-        async getUsers(name = '', email = '', time = ['', ''], limit = 10) {
+        async getUsers(name = '', email = '', time = '', limit = 10) {
             this.loader = true;
-            const url = 'http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time[0] + '&cteatedDateEnd=' + time[1];
-            await this.getPage(url);
+            //const url = 'http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd=');
+            //console.log(url);
+            await this.getPage('http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd='));
             if (this.users.users.total === 0) {
                 toast.warning('Пользователи не были найдены');
             }

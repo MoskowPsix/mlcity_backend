@@ -35,7 +35,9 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async getEventSearch(name = '', sponsor = '', date = ['', ''], user_name = '', user_email = '', city = '', address = '', status = '') {
             this.loader = true;
-            const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&date_start=' + date[0] + '&date_end=' + date[1] + '&user_name=' + user_name +'&user_email=' + user_email +'&city=' + city + '&address=' + address + '&statuses=' + status; 
+            console.log(date);
+            const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&dateStart=' + date.replace('~', '&dateEnd=') + '&user_name=' + user_name +'&user_email=' + user_email +'&city=' + city + '&address=' + address + '&statuses=' + status; 
+            console.log(url);
             await this.getEventUrl(url);
             this.loader = false;
         }, 
