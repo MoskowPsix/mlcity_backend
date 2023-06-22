@@ -36,12 +36,12 @@ class StatusController extends Controller
         $event->statuses()->attach($status_id);
         return response()->json(['status' => 'success', 'event' => $event_id, 'add_status' => $status_id], 200);
     }
-    public function updateStatusEvent($event_id, $status_id) 
+    public function updateStatusEvent(Request $request) 
     {
-        $event = Event::where('id', $event_id)->firstOrFail();
-
-        $event->statuses()->sync($status_id);
-        return response()->json(['status' => 'success', 'event' => $event_id, 'update_status' => $status_id], 200);
+        $event = Event::where('id', $request->event_id)->firstOrFail();
+            $event->statuses()->sync([$request->status_id => ['descriptions' => $request->descriptions]]);
+            $event->statuses()->sync($request->status_id);
+        return response()->json(['status' => 'success', 'event' => $request->event_id, 'update_status' => $request->status_id, 'descriptions' => $request->descriptions], 200);
     }
     public function deleteStatusEvent($event_id, $status_id) 
     {
