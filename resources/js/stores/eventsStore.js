@@ -46,44 +46,40 @@ export const useEventsStore = defineStore('EventsStore', {
         }, 
         async updateEvent() {
             this.loader = true;
-            axios.put('http://localhost:8000/api/updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id, config)
+            await axios.put('http://localhost:8000/api/updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id, config)
             .then(response => { 
-                toast.success('Событие' + response.data.event.name + ' изменено!');
-                
-                this.closeUpdate();
+                toast.success('Событие ' + response.data.event.name + ' изменено!');
             })
             .catch(error => console.log(error));
+            await this.getEventId(this.event.id)
             this.loader = false;
         },
         async updateEventTypes() {
             await axios.put('http://localhost:8000/api/updateTypeEvent/' + this.event.id + '/' + this.new_types, config)
-            .then(async response => {
-                await axios.get('http://localhost:8000/api/getTypesId/' + types_id).then(response => types_id = response.data.types, config).catch(error => toast.error('Ошибка в методе getTypesId'));
-                toast.success('Статус изменён на ' + types_id.name);
-            })
+            .then(axios.get('http://localhost:8000/api/getTypesId/' + this.new_types, config).then(response => toast.success('Тип изменён на ' + response.data.types.name)).catch(error => toast.error('Ошибка при обновлении типа мероприятия!')))
             .catch(error => console.log(error));
-            this.getEvents;
-            console.log(this.links);
+            await this.getEventId(this.event.id)
+            await this.getEvents;
             this.new_types = '';
-            this.ModalUpdate = false;
+            this.closeUpdate();
 
         },
         async updateEventStatus() {
-            await axios.put('http://localhost:8000/api/updateStatusEvent/' + this.event.id + '/' + this.new_status, config)
+            await axios.put('http://localhost:8000/api/updateStatusEvent?event_id=' + this.event.id + '&status_id=' + this.event.statuses[0].id + '&descriptions=' + this.event.statuses[0].pivot.descriptions, config)
             .then(async response => {
-                await axios.get('http://localhost:8000/api/getStatusId/' + this.new_status, config)
+                await axios.get('http://localhost:8000/api/getStatusId/' + this.event.statuses[0].id, config)
                 .then(resp => this.new_status = resp.data.statuses.name)
                 .catch(error => toast.error('Ошибка в загрузке имени статуса'));
                 toast.success('Статус сменён на ' + this.new_status);
             })
             .catch(error => toast.error('Статус не изменён ' + error));
-            this.new_status = ''; 
+            await this.getEvents;
+            await this.getEventId(this.event.id)
             this.closeStatuses();
         },
         async showUpdateEvent(id) {
             this.event = id;
             this.ModalEvent = true;
-            console.log(id);
         }, 
         async showUpdate() {
             this.ModalUpdate = true;

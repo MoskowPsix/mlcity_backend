@@ -79,7 +79,7 @@ useTypesStore().getTypes();
                         class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                 </div>
                 <div class="relative mb-4">
-                    <label for="types" class="leading-7 text-sm text-gray-600 dark:text-gray-400" v-if="event_store.event.types.length !== 0" v-for="types of event_store.event.types">Текущий тип мероприятия: {{ types.name }}</label>
+                    <label for="types" class="leading-7 text-sm text-gray-600 dark:text-gray-400" v-if="event_store.event.types.length !== 0" >Текущий тип мероприятия: {{ event_store.event.types[0].name }}</label>
                     <label for="types" class="leading-7 text-sm text-red-400" v-if="event_store.event.types.length === 0">Текущий тип не определён</label>
                     <div class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
                         Изменить на:
@@ -103,15 +103,15 @@ useTypesStore().getTypes();
                     </div>
                 </div>
                 <div class="relative mb-4">
-                    <label for="message" class="leading-7 text-sm text-gray-400">Описание</label>
-                        <textarea  class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{event_store.event.description}}</textarea>
+                    <label for="message" class="leading-7 text-sm text-gray-400">Описание {{event_store.event.description}}</label>
+                        <textarea v-model="event_store.event.description"  class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"></textarea>
                 </div>
                 <div class="flex justify-center">
                     <div class="px-6">
                         <button v-on:click="event_store.closeUpdate(); event_store.getEventId(event_store.event.id)" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
                     </div>
                     <div class="px-6">
-                        <button v-on:click="event_store.updateEvent(); updateTypes(new_types)" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
+                        <button v-on:click="event_store.updateEvent(); event_store.updateEventTypes()" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
                     </div>
                 </div>
             </div>

@@ -30,7 +30,7 @@ export default {
       const data = await axios(url, config)
       .catch(error => console.log(error));
       //localStorage.setItem('role', CryptoJS.AES.encrypt(data.data.users.data[0].roles[0].pivot.role_id, data.data.users.data[0].roles[0].name));
-      localStorage.setItem('role', data.data.users.data[0].roles[0].pivot.role_id, data.data.users.data[0].roles[0].name);
+      localStorage.setItem('role', data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
     };
