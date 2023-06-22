@@ -62,6 +62,8 @@
 <script>
    import { useRouter } from 'vue-router';
    import { useDark, useToggle } from '@vueuse/core';
+   import axios from 'axios';
+
 
 export default {
    name: 'LeftBar',
@@ -71,8 +73,8 @@ export default {
       const toggleDark = useToggle(isDark);
       const router = useRouter();
       const Logout = () => {
-        localStorage.clear();
-        router.push({ path: '/login' });
+      router.push({ path: '/login' });
+      localStorage.clear();
       };
       return { Logout, isDark, toggleDark };
       },

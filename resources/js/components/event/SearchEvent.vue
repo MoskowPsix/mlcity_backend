@@ -57,11 +57,11 @@ export default defineComponent({
         <div class="grid grid-cols-2 gap-2 rounded">
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_name" placeholder="Название мероприятия"
-                       class="bg-gray-300 dark:bg-gray-800 text-gray-400 dark:text-gray-200  max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             </div>
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_sponsor" placeholder="Спонсор мероприятия"
-                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
             <div class="flex rounded -center bg-gray-300 dark:bg-gray-800 p-1 px-2 text-gray-200 justify-center items-center"> 
                 <h1 class="px-2 text-gray-400 dark:text-gray-200">Статус: </h1>
@@ -77,19 +77,19 @@ export default defineComponent({
         <div class="grid grid-cols-2 gap-2 rounded">
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_author_name" placeholder="Имя автора"
-                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200  max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             </div>
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_author_email" placeholder="Почта автора"
-                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_city" placeholder="Город Мероприятия"
-                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_address" placeholder="Адрес мероприятия"
-                       class="bg-gray-300 dark:bg-gray-800 ext-gray-400 dark:text-gray-200 max-w-full focus:outline-none "/>
+                       class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
             </div>           
         </div>
         </div>   

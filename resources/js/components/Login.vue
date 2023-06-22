@@ -3,6 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useToastStore } from '../stores/toastStore';
+import CryptoJS from "crypto-js";
 
 
 
@@ -12,6 +13,9 @@ export default {
     const email = ref('');
     const password = ref('');
     const router = useRouter();
+    const config = {
+        headers: { Authorization: `Bearer ${localStorage.token}` }
+    };
 
     const submit = async () => {
       // получаем токен
@@ -23,12 +27,10 @@ export default {
       localStorage.setItem('token', response.data.access_token);
       // Получаеи роль
       const url = 'http://localhost:8000/api/listUsers?id=' + response.data.user.id;
-      const data = await axios(url)
+      const data = await axios(url, config)
       .catch(error => console.log(error));
-      console.log(data);
-      localStorage.setItem('role', data.data.users.data[0].roles[0].name);
-      localStorage.setItem('role_id', data.data.users.data[0].roles[0].pivot.role_id);
-      console.log(localStorage)
+      //localStorage.setItem('role', CryptoJS.AES.encrypt(data.data.users.data[0].roles[0].pivot.role_id, data.data.users.data[0].roles[0].name));
+      localStorage.setItem('role', data.data.users.data[0].roles[0].pivot.role_id, data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
     };

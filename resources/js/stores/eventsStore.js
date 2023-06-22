@@ -3,6 +3,9 @@ import axios from 'axios';
 import { useToastStore } from './toastStore';
 
 const toast = useToastStore();
+const config = {
+    headers: { Authorization: `Bearer ${localStorage.token}` }
+};
 
 export const useEventsStore = defineStore('EventsStore', {
     state: () => ({
@@ -19,16 +22,16 @@ export const useEventsStore = defineStore('EventsStore', {
     actions: {
         async getEventId(id) {
             const url = 'http://localhost:8000/api/events/'+ id;
-            await axios.get(url).then(response => { this.event = response.data}).catch(error => console.log(error));
+            await axios.get(url, config).then(response => { this.event = response.data}).catch(error => console.log(error));
         },
         async getEvents() {
             this.loader = true;
             const url = 'http://localhost:8000/api/events?pagination=true';
-            await this.getEventUrl(url);
+            await this.getEventUrl(url, config);
             this.loader = false;
         },
         async getEventUrl(url) {
-            await axios.get(url + '&pagination=true').then(response => {
+            await axios.get(url + '&pagination=true', config).then(response => {
                 this.events = response.data.events; 
                 this.links = response.data.events.links;
             }).catch(error => console.log(error));
@@ -37,13 +40,13 @@ export const useEventsStore = defineStore('EventsStore', {
             this.loader = true;
             console.log(date);
             const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&dateStart=' + date.replace('~', '&dateEnd=') + '&user_name=' + user_name +'&user_email=' + user_email +'&city=' + city + '&address=' + address + '&statuses=' + status; 
-            console.log(url);
+            console.log(url, config);
             await this.getEventUrl(url);
             this.loader = false;
         }, 
         async updateEvent() {
             this.loader = true;
-            axios.put('http://localhost:8000/api/updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id)
+            axios.put('http://localhost:8000/api/updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id, config)
             .then(response => { 
                 toast.success('Событие' + response.data.event.name + ' изменено!');
                 
@@ -53,9 +56,9 @@ export const useEventsStore = defineStore('EventsStore', {
             this.loader = false;
         },
         async updateEventTypes() {
-            await axios.put('http://localhost:8000/api/updateTypeEvent/' + this.event.id + '/' + this.new_types)
+            await axios.put('http://localhost:8000/api/updateTypeEvent/' + this.event.id + '/' + this.new_types, config)
             .then(async response => {
-                await axios.get('http://localhost:8000/api/getTypesId/' + types_id).then(response => types_id = response.data.types).catch(error => toast.error('Ошибка в методе getTypesId'));
+                await axios.get('http://localhost:8000/api/getTypesId/' + types_id).then(response => types_id = response.data.types, config).catch(error => toast.error('Ошибка в методе getTypesId'));
                 toast.success('Статус изменён на ' + types_id.name);
             })
             .catch(error => console.log(error));
@@ -66,9 +69,9 @@ export const useEventsStore = defineStore('EventsStore', {
 
         },
         async updateEventStatus() {
-            await axios.put('http://localhost:8000/api/updateStatusEvent/' + this.event.id + '/' + this.new_status)
+            await axios.put('http://localhost:8000/api/updateStatusEvent/' + this.event.id + '/' + this.new_status, config)
             .then(async response => {
-                await axios.get('http://localhost:8000/api/getStatusId/' + this.new_status)
+                await axios.get('http://localhost:8000/api/getStatusId/' + this.new_status, config)
                 .then(resp => this.new_status = resp.data.statuses.name)
                 .catch(error => toast.error('Ошибка в загрузке имени статуса'));
                 toast.success('Статус сменён на ' + this.new_status);

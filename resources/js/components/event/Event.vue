@@ -44,7 +44,8 @@ const pageP = "&laquo; Назад";
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Название
+                                    <div>Название</div>
+                                    <div>(post_id / siurce_id)</div>
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -87,12 +88,12 @@ const pageP = "&laquo; Назад";
                                     <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
                                         
                                         <button class=" text-blue-500 transition-colors duration-200 dark:hover:text-indigo-500 hover:text-indigo-500 focus:outline-none">
-                                            Группа
+                                            {{ event.vk_post_id }}
                                         </button>
                                         
                                         /
                                         <button class="px-1 text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                            Пост
+                                            {{ event.vk_group_id }}
                                         </button>
                                         
                                     </p>

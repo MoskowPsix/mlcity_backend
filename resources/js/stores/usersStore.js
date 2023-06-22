@@ -1,27 +1,26 @@
 import { defineStore } from 'pinia'
 import axios from 'axios';
 import { useToastStore } from './toastStore';
-import { useRoleStore } from './roleStore';
 
 
 const toast = useToastStore();
-const stole_role = useRoleStore();
+const config = {
+    headers: { Authorization: `Bearer ${localStorage.token}` }
+};
 
 export const useUsersStore = defineStore('usersStore', {
     actions: {
         // Получить всех юзеров по фильтрам
         async getUsers(name = '', email = '', time = '', limit = 10) {
             this.loader = true;
-            //const url = 'http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd=');
-            //console.log(url);
-            await this.getPage('http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd='));
+            await this.getPage('http://localhost:8000/api/listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd='), config);
             if (this.users.users.total === 0) {
                 toast.warning('Пользователи не были найдены');
             }
         },
         // Имя по ИД юзера
         getUserId(id) {
-            axios.get('http://localhost:8000/api/users/' + id).then(response => id = response.data.user.name).catch(error => toast.error(error));
+            axios.get('http://localhost:8000/api/users/' + id).then(response => id = response.data.user.name).catch(error => toast.error('Метод загрузки пользователя по ID не работает!'), config);
             console.log(id);
             return id;
         },
@@ -29,9 +28,9 @@ export const useUsersStore = defineStore('usersStore', {
         // Получить страницу с юзерами
         async getPage(url) {
             this.loader = true;
-            await axios.get(url)
+            await axios.get(url, config)
             .then(response => {(this.users = response.data), this.links = response.data.users.links})
-            .catch(error => toast.error('Ошибка:' + error));
+            .catch(error => toast.error('Ошибка, страница не получена!'));
             this.loader = false;
         },
 
@@ -46,17 +45,16 @@ export const useUsersStore = defineStore('usersStore', {
                 email: email,
                 password: password,
                 password_confirmation: password,
-            })
+            }, config)
             .then(async response => {
                 if (response.status === 200) {
                     if (role_id){
-                        await axios.put('http://localhost:8000/api/updateRoleUser/' + response.data.user.id + '/' + role_id)
+                        await axios.put('http://localhost:8000/api/updateRoleUser/' + response.data.user.id + '/' + role_id, config)
                             .then(async response => {
-                                await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role)
+                                await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role, config)
                                     .then(resp => toast.success('Пользователю ' + name + ', назначена роль ' +resp.data.role.name))
                                     .catch(error => console.log(error));
-                                console.log(response);
-                        }).catch(error => console.log(error));
+                        }).catch(error => toast.warning('Ошибка при создании пользователя!'));
                     }
                     toast.success('Ползователь: ' + name + ' с почтой: ' + email + ' успешно создан!');
                     this.closeModal();
@@ -78,7 +76,7 @@ export const useUsersStore = defineStore('usersStore', {
         async delUsers() {
             this.loader = true;
             const url = 'http://localhost:8000/api/deleteUsers/' + this.user_del.id;
-            await axios.delete(url).catch(error => console.log(error));
+            await axios.delete(url, config).catch(error => toast.warning('Ошибка, пользователь не удалён!'));
             await this.getPage(this.users.users.first_page_url);
             toast.success('Пользователь удалён!')
             await this.closeModalDel();
@@ -89,21 +87,27 @@ export const useUsersStore = defineStore('usersStore', {
             this.loader = true;
             //Меняем инфу об юзере
             if (name != '') {
-                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?name=' + name).then(response => toast.success('Обновлено: имя - ' + response.data.user.name )).catch(error => console.log(error));
+                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?name=' + name, config)
+                .then(response => toast.success('Обновлено: имя - ' + response.data.user.name ))
+                .catch(error => toast.error('Ошибка, имя не обновлено!'));
             }
             if (email != '') {
-                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?email=' + email).then(response => toast.success('Обновлено: почта - ' + response.data.user.email)).catch(error => console.log(error));
+                await axios.put('http://localhost:8000/api/updateUsers/' + this.user_upd_id.id + '?email=' + email, config)
+                .then(response => toast.success('Обновлено: почта - ' + response.data.user.email))
+                .catch(error => toast.error('Ошибка, почта не обновлено!'));
             }
             //Меняем роль
             if (role_id) {
-                await axios.put('http://localhost:8000/api/updateRoleUser/' + this.user_upd_id.id + '/' + role_id)
+                await axios.put('http://localhost:8000/api/updateRoleUser/' + this.user_upd_id.id + '/' + role_id, config)
                 .then(async response => {
-                    await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role)
-                    .then(resp => response.data.update_role = resp.data.role.name);
-                    await axios.get('http://localhost:8000/api/users/' + this.user_upd_id.id)
-                    .then(resp => response.data.user = resp.data.user.name);
+                    await axios.get('http://localhost:8000/api/getRole/' + response.data.update_role, config)
+                    .then(resp => response.data.update_role = resp.data.role.name)
+                    .catch(error => toast.warning('Ошибка получения получения имени роли!'))
+                    await axios.get('http://localhost:8000/api/users/' + this.user_upd_id.id, config)
+                    .then(resp => response.data.user = resp.data.user.name)
+                    .catch(error => toast.warning('Ошибка получения имени пользователя!'))
                     toast.success('Пользователь: ' + response.data.user + ', теперь имеет роль ' + response.data.update_role);
-                });
+                }).catch(error => toast.error('Ошибка, роль не обновлена!'));
             }
 
             await this.getPage(this.users.users.first_page_url);
