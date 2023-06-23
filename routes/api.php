@@ -57,7 +57,7 @@ Route::controller(EventController::class)->group(function() {
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('events/create', 'create')->middleware('auth:sanctum');
-    Route::put('updateEvent/{id}/', 'updateEvent');
+    Route::put('updateEvent/{id}/', 'updateEvent')->middleware('auth:sanctum');
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
@@ -80,7 +80,7 @@ Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
     Route::get('getTypesId/{id}', 'getTypesId');
     Route::post('/addTypeEvent/{event_id}/{type_id}', 'addTypeEvent')->middleware('auth:sanctum');
-    Route::put('/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent');
+    Route::put('/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent')->middleware('auth:sanctum');
     Route::delete('/deleteTypeEvent/{event_id}/{type_id}', 'deleteTypeUser')->middleware('auth:sanctum');
 });
 
@@ -91,22 +91,22 @@ Route::controller(SightTypeController::class)->group(function() {
 Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
     Route::get('getStatusId/{id}', 'getStatusId');
-    Route::post('/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent');
-    Route::put('/updateStatusEvent', 'updateStatusEvent');
-    Route::delete('/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent');
+    Route::post('/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent')->middleware('auth:sanctum');
+    Route::put('/updateStatusEvent', 'updateStatusEvent')->middleware('auth:sanctum');
+    Route::delete('/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent')->middleware('auth:sanctum');
 
 });
 
 Route::controller(RoleController::class)->group(function() {
     Route::get('allRole', 'allRole')->middleware('auth:sanctum');
     Route::get('getRole/{id}', 'getRole')->middleware('auth:sanctum');
-    Route::post('addRole/', 'addRole')->middleware('auth:sanctum');
-    Route::put('updateRole/{id}', 'updateRole')->middleware('auth:sanctum');
-    Route::delete('deleteRole/{id}', 'deleteRole')->middleware('auth:sanctum');
+    Route::post('addRole/', 'addRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::put('updateRole/{id}', 'updateRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::delete('deleteRole/{id}', 'deleteRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
 
-    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('auth:sanctum');
-    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('auth:sanctum');
-    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('auth:sanctum');
+    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
 });
 
 
