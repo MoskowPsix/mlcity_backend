@@ -13,6 +13,7 @@ import "vue-toastification/dist/index.css";
 
 // Пока хз зачем, но вроде надо
 axios.defaults.baseURL = 'http://localhost:8000/api/';
+axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.token}`}
 
 const options = {
     transition: "Vue-Toastification__bounce",

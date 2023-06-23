@@ -36,8 +36,8 @@ Route::controller(AuthController::class)->group(function() {
 
 Route::controller(UserController::class)->group(function() {
     Route::get('listUsers/', 'listUsers')->middleware('auth:sanctum'); // Для админ панели(поиск юзера по фильтрам)
-    Route::put('updateUsers/{id}/', 'updateUsers')->middleware('auth:sanctum');; // Для админ панели(изменить инфу о юзере)
-    Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('auth:sanctum');; //  Для админ панели(удалить юзера)
+    Route::put('updateUsers/{id}/', 'updateUsers')->middleware('auth:sanctum'); // Для админ панели(изменить инфу о юзере)
+    Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('auth:sanctum'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное
@@ -100,13 +100,13 @@ Route::controller(StatusController::class)->group(function() {
 Route::controller(RoleController::class)->group(function() {
     Route::get('allRole', 'allRole')->middleware('auth:sanctum');
     Route::get('getRole/{id}', 'getRole')->middleware('auth:sanctum');
-    Route::post('addRole/', 'addRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
-    Route::put('updateRole/{id}', 'updateRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
-    Route::delete('deleteRole/{id}', 'deleteRole')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::post('addRole/', 'addRole')->middleware('auth:sanctum');
+    Route::put('updateRole/{id}', 'updateRole')->middleware('auth:sanctum');
+    Route::delete('deleteRole/{id}', 'deleteRole')->middleware('auth:sanctum');
 
-    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
-    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
-    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('auth:sanctum')->middleware('auth:sanctum');
+    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('auth:sanctum');
+    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('auth:sanctum');
+    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('auth:sanctum');
 });
 
 

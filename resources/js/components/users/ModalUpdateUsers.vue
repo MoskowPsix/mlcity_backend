@@ -13,15 +13,7 @@ import {useRoleStore} from '../../stores/roleStore'
     const user_name = '';
     const user_role = '';
     return {store, store_role, user_email, user_name, user_role};
-    },
-   methods: {
-    closeModal() {
-      this.store.closeModalUpd()
-    },
-    updateUser(name, email, role_id) {
-      this.store.updateUser(name, email, role_id);
-    }
-   }  
+    }, 
   })
 </script>
 
@@ -70,8 +62,8 @@ import {useRoleStore} from '../../stores/roleStore'
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
-					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
-					<button @click="updateUser(user_name, user_email, user_role)" class="focus:outline-none px-4 bg-blue-500 p-3 ml-3 rounded-lg text-white hover:bg-blue-400">Редактировать</button>
+					<button @click="store.closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
+					<button @click="store.updateUser(user_name, user_email, user_role)" class="focus:outline-none px-4 bg-blue-500 p-3 ml-3 rounded-lg text-white hover:bg-blue-400">Редактировать</button>
 				</div>
 			</div>
 		</div>
