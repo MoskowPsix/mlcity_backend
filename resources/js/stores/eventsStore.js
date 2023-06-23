@@ -2,13 +2,17 @@ import { defineStore } from 'pinia'
 import axios from 'axios';
 import { useToastStore } from './toastStore';
 
-const toast = useToastStore();
+
 const config = {
     headers: { Authorization: `Bearer ${localStorage.token}` }
 };
 
 export const useEventsStore = defineStore('EventsStore', {
+    data() {
+        const toast = useToastStore();
+    },
     state: () => ({
+        toast: useToastStore(),
         events: [],
         event: '',
         new_types: '',
@@ -18,6 +22,7 @@ export const useEventsStore = defineStore('EventsStore', {
         ModalEvent: false,
         ModalUpdate: false,
         ModalStatuses: false,
+        count_moder: '',
     }),
     actions: {
         async getEventId(id) {
@@ -34,13 +39,14 @@ export const useEventsStore = defineStore('EventsStore', {
             await axios.get(url + '&pagination=true', config).then(response => {
                 this.events = response.data.events; 
                 this.links = response.data.events.links;
-            }).catch(error => console.log(error));
+            }).catch(error => this.toast.error(error.message));
+            
         },
         async getEventSearch(name = '', sponsor = '', date = ['', ''], user_name = '', user_email = '', city = '', address = '', status = '') {
             this.loader = true;
-            console.log(date);
+            if (status === 'Все') { status = '' }
+            console.log(status);
             const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&dateStart=' + date.replace('~', '&dateEnd=') + '&user_name=' + user_name +'&user_email=' + user_email +'&city=' + city + '&address=' + address + '&statuses=' + status; 
-            console.log(url, config);
             await this.getEventUrl(url);
             this.loader = false;
         }, 
@@ -48,7 +54,7 @@ export const useEventsStore = defineStore('EventsStore', {
             this.loader = true;
             await axios.put('http://localhost:8000/api/updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id, config)
             .then(response => { 
-                toast.success('Событие ' + response.data.event.name + ' изменено!');
+                this.toast.success('Событие ' + response.data.event.name + ' изменено!');
             })
             .catch(error => console.log(error));
             await this.getEventId(this.event.id)
@@ -56,7 +62,7 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async updateEventTypes() {
             await axios.put('http://localhost:8000/api/updateTypeEvent/' + this.event.id + '/' + this.new_types, config)
-            .then(axios.get('http://localhost:8000/api/getTypesId/' + this.new_types, config).then(response => toast.success('Тип изменён на ' + response.data.types.name)).catch(error => toast.error('Ошибка при обновлении типа мероприятия!')))
+            .then(axios.get('http://localhost:8000/api/getTypesId/' + this.new_types, config).then(response => this.toast.success('Тип изменён на ' + response.data.types.name)).catch(error => this.toast.error('Ошибка при обновлении типа мероприятия!')))
             .catch(error => console.log(error));
             await this.getEventId(this.event.id)
             await this.getEvents;
@@ -69,13 +75,17 @@ export const useEventsStore = defineStore('EventsStore', {
             .then(async response => {
                 await axios.get('http://localhost:8000/api/getStatusId/' + this.event.statuses[0].id, config)
                 .then(resp => this.new_status = resp.data.statuses.name)
-                .catch(error => toast.error('Ошибка в загрузке имени статуса'));
-                toast.success('Статус сменён на ' + this.new_status);
+                .catch(error => this.toast.error('Ошибка в загрузке имени статуса'));
+                this.toast.success('Статус сменён на ' + this.new_status);
             })
-            .catch(error => toast.error('Статус не изменён ' + error));
+            .catch(error => this.toast.error('Статус не изменён ' + error));
             await this.getEvents;
             await this.getEventId(this.event.id)
             this.closeStatuses();
+        },
+        async counterEvent() {
+            await axios.get('http://localhost:8000/api/events?statuses=На%модерации&pagination=true', config)
+            .then(response =>{ this.count_moder = response.data.events.total; })
         },
         async showUpdateEvent(id) {
             this.event = id;

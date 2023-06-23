@@ -13,7 +13,7 @@ export default defineComponent({
         const event_author_email = '';
         const event_city = '';
         const event_address = '';
-        const event_status = '';
+        const event_status = 'На модерации';
         const event_store = useEventsStore();
         const status_store = useStatusStore();
         return {
@@ -69,7 +69,7 @@ export default defineComponent({
                     <option v-for="status in status_store.status" :value="status.name">
                         {{ status.name }}
                     </option>
-                    <option>Убрать статус</option>
+                    <option>Все</option>
                 </select>
             </div>
             <vue-tailwind-datepicker v-model="event_date" placeholder="Временные рамки" />

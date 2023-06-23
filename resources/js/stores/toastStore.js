@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useToast, TYPE } from "vue-toastification";
+import { useToast } from "vue-toastification";
 
 export const useToastStore = defineStore('toastStore', {
     actions: {

@@ -1,6 +1,5 @@
 <script setup>
 import { useEventsStore } from '../../stores/eventsStore';
-import { useUsersStore } from '../../stores/usersStore';
 import { useStatusStore } from '../../stores/statusStore';
 import  SearchEvent from './SearchEvent.vue';
 import Loader from '../Loader.vue';
@@ -8,9 +7,8 @@ import ModalEvent from './ModalEvent.vue';
 
 
 const event_store = useEventsStore();
-const user_store = useUsersStore();
 useStatusStore().getStatus();
-useEventsStore().getEvents();
+useEventsStore().getEventSearch('', '', '', '', '', '', '', 'На модерации');
 
 
 const pageN = "Вперёд &raquo;";
@@ -19,7 +17,7 @@ const pageP = "&laquo; Назад";
 
 
 <template>
-<section class="container px-4 mx-auto">
+<section class="container  mx-auto">
     <ModalEvent v-if="event_store.ModalEvent === true"/>
     <SearchEvent class="my-1"/>
     <Loader v-if="event_store.loader === true"/>
@@ -71,14 +69,12 @@ const pageP = "&laquo; Назад";
                                 <th scope="col" class="px-20 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Тип
                                 </th>
-                                <th scope="col" class="relative py-3.5 px-10">
-                                    <span class="sr-only">Actions</span>
-                                </th>
+                
                             </tr>
                         </thead>
                         <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="event of event_store.events.data" :key="event.id">
-                            <tr>
-                                <td class="px-2 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                            <tr @click="event_store.showUpdateEvent(event)" class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
+                                <td class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                     <div class="inline-flex items-center gap-x-3">
                                         <span>{{ event.id }}</span>
                                     </div>
@@ -131,9 +127,6 @@ const pageP = "&laquo; Назад";
                                                     <p>Тип неопределён</p>
                                                 </p>
                                             </div>
-                                        <button @click="event_store.showUpdateEvent(event)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                            Редактировать
-                                        </button>
                                     </div>
                                 </td>
                             </tr>
