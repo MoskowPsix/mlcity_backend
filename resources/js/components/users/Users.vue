@@ -1,6 +1,7 @@
 <script>
 import {useUsersStore} from '../../stores/usersStore'
 import {useRoleStore} from '../../stores/roleStore'
+import { useEventsStore } from '../../stores/eventsStore';
 import { defineComponent } from 'vue';
 import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
@@ -11,10 +12,11 @@ import ModalCreateUsers from './ModalUpdateUsers.vue'
 
 export default defineComponent({
     setup() {
+        const event_store = useEventsStore();
         const store = useUsersStore();
         const pageN = "Вперёд &raquo;";
         const pageP = "&laquo; Назад";
-        return {store, pageN, pageP};
+        return {store, pageN, pageP, event_store};
     },
     methods: {
         localeDate(date) {
@@ -22,11 +24,12 @@ export default defineComponent({
         },
 
     },
-    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers}
+    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers},
 })
 
 useUsersStore().getUsers();
 useRoleStore().getRole();
+
 
 </script>
 
