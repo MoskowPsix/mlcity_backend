@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
+use App\Models\Sight;
 
 use App\Models\Status;
 
@@ -29,6 +30,8 @@ class StatusController extends Controller
             'statuses'          => $status
         ], 200);
     }
+
+    // Для событий
     public function addStatusEvent($event_id, $status_id) 
     {
         $event = Event::where('id', $event_id)->firstOrFail();
@@ -51,4 +54,29 @@ class StatusController extends Controller
 
         return response()->json(['status' => 'success', 'event' => $event_id, 'delete_status' => $status_id], 200);
     }
+
+    // Для достопримечательностей
+    public function addStatusSight($sight_id, $status_id) 
+    {
+        $event = Sight::where('id', $sight_id)->firstOrFail();
+
+        $event->statuses()->attach($status_id);
+        return response()->json(['status' => 'success', 'sight' => $sight_id, 'add_status' => $status_id], 200);
+    }
+    public function updateStatusSight(Request $request) 
+    {
+        $event = Sight::where('id', $request->sight_id)->firstOrFail();
+            $event->statuses()->sync([$request->status_id => ['descriptions' => $request->descriptions]]);
+            $event->statuses()->sync($request->status_id);
+        return response()->json(['status' => 'success', 'sight' => $request->sight_id, 'update_status' => $request->status_id, 'descriptions' => $request->descriptions], 200);
+    }
+    public function deleteStatusSight($sight_id, $status_id) 
+    {
+        $event = Sight::where('id', $sight_id)->firstOrFail();
+        $event->statuses()->detach($status_id);
+        $event->statuses()->detach();
+
+        return response()->json(['status' => 'success', 'sight' => $sight_id, 'delete_status' => $status_id], 200);
+    }
+
 }

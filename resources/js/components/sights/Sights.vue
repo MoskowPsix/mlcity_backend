@@ -1,27 +1,39 @@
-<script setup>
-import { useEventsStore } from '../../stores/eventsStore';
-import  SearchEvent from './SearchEvent.vue';
+<script>
 import Loader from '../Loader.vue';
-import ModalEvent from './ModalEvent.vue';
+import SearchSights from './SearchSights.vue';
+import ModalSight from './ModalSight.vue'
+import { defineComponent } from 'vue';
+import { useSightsStore } from '../../stores/SightsStore'
 
+export default defineComponent({
+    setup: () => {
+        const sights_store = useSightsStore();
+        const pageN = "Вперёд &raquo;";
+        const pageP = "&laquo; Назад";
 
+        return { 
+            sights_store,
+            pageN, 
+            pageP,
 
-const event_store = useEventsStore();
-useEventsStore().getStatus();
-useEventsStore().getEventSearch('', '', '', '', '', '', '', 'На модерации');
+        }
+    },
+    components: { Loader, SearchSights, ModalSight },
+    
+})
 
+useSightsStore().getAllSights();
+useSightsStore().getTypesSights();
+useSightsStore().getStatusesSights();
 
-const pageN = "Вперёд &raquo;";
-const pageP = "&laquo; Назад";
 </script>
 
-
 <template>
-<section class="container  mx-auto">
-    <ModalEvent v-if="event_store.ModalEvent === true"/>
-    <SearchEvent class="my-1"/>
-    <Loader v-if="event_store.loader === true"/>
-    <div v-if="event_store.loader === false" class="flex flex-col">
+<section class="container  mx-auto"> 
+    <SearchSights class="my-1"/>
+    <ModalSight v-if="sights_store.ModalSight === true"/>
+    <Loader v-if="sights_store.loader === true"/>
+    <div v-if="sights_store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
@@ -55,13 +67,8 @@ const pageP = "&laquo; Назад";
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Автор
-                                </th>
-                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Начало
-                                </th>
-                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Конец
+                                    ID / Автор
+                                    <p>(Почта)</p>
                                 </th>
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Статус
@@ -72,57 +79,55 @@ const pageP = "&laquo; Назад";
                 
                             </tr>
                         </thead>
-                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="event of event_store.events.data" :key="event.id">
-                            <tr @click="event_store.showUpdateEvent(event)" class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
+                        <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="sight of sights_store.sights" :key="sight.id" >
+                            <tr @click="sights_store.showUpdateSight(sight)" class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
                                 <td class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                     <div class="inline-flex items-center gap-x-3">
-                                        <span>{{ event.id }}</span>
+                                        <span>{{ sight.id }}</span>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.name }}</h2>
+                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ sight.name }}</h2>
                                     <p class="text-xs font-normal text-gray-600 dark:text-gray-400">
                                         
                                         <button class=" text-blue-500 transition-colors duration-200 dark:hover:text-indigo-500 hover:text-indigo-500 focus:outline-none">
-                                            {{ event.vk_post_id }}
+                                            {{ sight.vk_post_id }}
                                         </button>
                                         
                                         /
                                         <button class="px-1 text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
-                                            {{ event.vk_group_id }}
+                                            {{ sight.vk_group_id }}
                                         </button>
                                         
                                     </p>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.sponsor }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ sight.sponsor }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                     <div class="flex items-center gap-x-2">
                                         <div>
-                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.city }}</h2>
-                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ event.address }}</p>
+                                            <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ sight.city }}</h2>
+                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ sight.address }}</p>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ event.user_id }} {{ event.author.name }}</h2>
-                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ event.author.email }}</p>
+                                    <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ sight.user_id }} / {{ sight.author.name }}</h2>
+                                            <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ sight.author.email }}</p>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_start }}</td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_end }}</td>
-                                <td  v-if="event.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <div>{{ event.statuses[0].name }}</div>
+                                <td  v-if="sight.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                    <div>{{ sight.statuses[0].name }}</div>
                                 </td>
-                                <td  v-if="event.statuses.length === 0" class="px-4 py-4 text-sm text-red-800 dark:text-red-500 whitespace-nowrap">
+                                <td  v-if="sight.statuses.length === 0" class="px-4 py-4 text-sm text-red-800 dark:text-red-500 whitespace-nowrap">
                                     <div>Не определено</div>
                                 </td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                            <div v-if="event.types.length !== 0" class="w-full  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                                                <p class="leading-relaxed" v-for="types of event.types">
+                                            <div v-if="sight.types.length !== 0" class="w-full  focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                                <p class="leading-relaxed" v-for="types of sight.types">
                                                     <p>{{ types.name }}</p>
                                                 </p>
                                             </div>
-                                            <div v-if="event.types.length === 0" class="w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-red-500 dark:text-red-400 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
+                                            <div v-if="sight.types.length === 0" class="w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-red-500 dark:text-red-400 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                 <p class="leading-relaxed">
                                                     <p>Тип неопределён</p>
                                                 </p>
@@ -139,9 +144,9 @@ const pageP = "&laquo; Назад";
     </div>
 
     <div class="flex items-center justify-between mt-6">
-        <div v-for="link in event_store.links">
+        <div v-for="link in sights_store.links">
             <div v-if=" link.label  === pageP">
-                <a href="#" @click="event_store.getEventUrl(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <a href="#" @click="sights_store.getUrlSights(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                     </svg>
@@ -154,16 +159,16 @@ const pageP = "&laquo; Назад";
 
             <div>
                 <div v-if="link.active === true" class="items-center hidden md:flex gap-x-3">
-                    <a href="#" @click="event_store.getEventUrl(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
+                    <a href="#" @click="sights_store.getUrlSights(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
                 </div>
 
                 <div v-else-if="link.active == false && link.label !== pageP && link.label !== pageN">
-                    <a href="#" @click="event_store.getEventUrl(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
+                    <a href="#" @click="sights_store.getUrlSights(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
                 </div>
             </div>
 
             <div v-if="link.label === pageN">
-                <a href="#" @click="event_store.getEventUrl(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <a href="#" @click="sights_store.getUrlSights(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <span>
                         Вперёд
                     </span>

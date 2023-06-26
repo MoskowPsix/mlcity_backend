@@ -1,7 +1,6 @@
 <script>
 import { defineComponent } from 'vue';
 import { useEventsStore } from '../../stores/eventsStore';
-import { useStatusStore } from '../../stores/statusStore';
 
 export default defineComponent({
     setup: () => {
@@ -15,10 +14,8 @@ export default defineComponent({
         const event_address = '';
         const event_status = 'На модерации';
         const event_store = useEventsStore();
-        const status_store = useStatusStore();
         return {
             event_store,
-            status_store,
             event_name,
             event_sponsor,
             event_date,
@@ -66,7 +63,7 @@ export default defineComponent({
             <div class="flex rounded -center bg-gray-300 dark:bg-gray-800 p-1 px-2 text-gray-200 justify-center items-center"> 
                 <h1 class="px-2 text-gray-400 dark:text-gray-200">Статус: </h1>
                 <select v-model="event_status" class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none">
-                    <option v-for="status in status_store.status" :value="status.name">
+                    <option v-for="status in event_store.status" :value="status.name">
                         {{ status.name }}
                     </option>
                     <option>Все</option>

@@ -22,6 +22,10 @@ export const useEventsStore = defineStore('EventsStore', {
         ModalUpdate: false,
         ModalStatuses: false,
         count_moder: '',
+        status: [],
+        new_status: '',
+        status_id: '',
+        types: [],
     }),
     actions: {
         async getEventId(id) {
@@ -62,8 +66,8 @@ export const useEventsStore = defineStore('EventsStore', {
             this.loader = false;
         },
         async updateEventTypes() {
-            await axios.put('http://localhost:8000/api/updateTypeEvent/' + this.event.id + '/' + this.new_types, this.bodyParameters, this.config)
-            .then(axios.get('http://localhost:8000/api/getTypesId/' + this.new_types, this.bodyParameters, this.config).then(response => this.toast.success('Тип изменён на ' + response.data.types.name)).catch(error => this.toast.error('Ошибка при обновлении типа мероприятия!')))
+            await axios.put('http://localhost:8000/api/events/updateTypeEvent/' + this.event.id + '/' + this.new_types, this.bodyParameters, this.config)
+            .then(axios.get('http://localhost:8000/api/events/getTypesId/' + this.new_types, this.bodyParameters, this.config).then(response => this.toast.success('Тип изменён на ' + response.data.types.name)).catch(error => this.toast.error('Ошибка при обновлении типа мероприятия!')))
             .catch(error => console.log(error));
             await this.getEventId(this.event.id)
             await this.getEvents;
@@ -72,17 +76,28 @@ export const useEventsStore = defineStore('EventsStore', {
 
         },
         async updateEventStatus() {
-            await axios.put('http://localhost:8000/api/updateStatusEvent?event_id=' + this.event.id + '&status_id=' + this.event.statuses[0].id + '&descriptions=' + this.event.statuses[0].pivot.descriptions, this.bodyParameters, this.config)
+            await axios.put('http://localhost:8000/api/events/updateStatusEvent?event_id=' + this.event.id + '&status_id=' + this.event.statuses[0].id + '&descriptions=' + this.event.statuses[0].pivot.descriptions, this.bodyParameters, this.config)
             .then(async response => {
                 await axios.get('http://localhost:8000/api/getStatusId/' + this.event.statuses[0].id, this.bodyParameters, this.config)
                 .then(resp => this.new_status = resp.data.statuses.name)
                 .catch(error => this.toast.error('Ошибка в загрузке имени статуса'));
-                this.toast.success('Статус сменён на ' + this.new_status);
+                this.toast.success('Статус сменён на: "' + this.new_status + '"');
             })
             .catch(error => this.toast.error('Статус не изменён ' + error));
             await this.getEvents;
             await this.getEventId(this.event.id)
             this.closeStatuses();
+        },
+        async getStatus() {
+            await axios.get('http://localhost:8000/api/statuses', this.bodyParameters, this.config)
+            .then(response => this.status = response.data.statuses)
+            .catch(error => this.toast.error('Проблема с загрузкой статусов ' + error));
+        },
+        async getTypes() {
+            await axios.get('http://localhost:8000/api/event-types', this.bodyParameters, this.config).then(response => this.types = response.data.types).catch(error => this.toast.error('Ошибка в методе getTypes'));
+        },
+        async getTypesId() {
+            await axios.get('http://localhost:8000/api/events/getTypesId', this.bodyParameters, this.config).then(response => this.types = response.data.types).catch(error => this.toast.error('Ошибка в методе getTypesId'));
         },
         async counterEvent() {
             await axios.get('http://localhost:8000/api/events?statuses=На%модерации&pagination=true', this.bodyParameters, this.config)

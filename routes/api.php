@@ -78,22 +78,31 @@ Route::controller(CommentController::class)->group(function() {
 
 Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
-    Route::get('getTypesId/{id}', 'getTypesId');
-    Route::post('/addTypeEvent/{event_id}/{type_id}', 'addTypeEvent')->middleware('auth:sanctum');
-    Route::put('/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent')->middleware('auth:sanctum');
-    Route::delete('/deleteTypeEvent/{event_id}/{type_id}', 'deleteTypeUser')->middleware('auth:sanctum');
+    Route::get('events/getTypesId/{id}', 'getTypesId');
+    Route::post('events/addTypeEvent/{event_id}/{type_id}', 'addTypeEvent')->middleware('auth:sanctum');
+    Route::put('events/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent')->middleware('auth:sanctum');
+    Route::delete('events/deleteTypeEvent/{event_id}/{type_id}', 'deleteTypeUser')->middleware('auth:sanctum');
 });
 
 Route::controller(SightTypeController::class)->group(function() {
     Route::get('sight-types', 'getTypes');
+    Route::get('sights/getTypesId/{id}', 'getTypesId');
+    Route::post('sights/addTypeSight/{sight_id}/{type_id}', 'addTypeSight');
+    Route::put('sights/updateTypeSight/{sight_id}/{type_id}', 'updateTypeSight');
+    Route::delete('sights/deleteTypeSight/{sight_id}/{type_id}', 'deleteTypeSight');
 });
 
 Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
     Route::get('getStatusId/{id}', 'getStatusId');
-    Route::post('/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent')->middleware('auth:sanctum');
-    Route::put('/updateStatusEvent', 'updateStatusEvent')->middleware('auth:sanctum');
-    Route::delete('/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent')->middleware('auth:sanctum');
+    // Для событий
+    Route::post('events/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent')->middleware('auth:sanctum');
+    Route::put('events/updateStatusEvent', 'updateStatusEvent')->middleware('auth:sanctum');
+    Route::delete('events/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent')->middleware('auth:sanctum');
+    //Для достопримечательностей
+    Route::post('sights/addStatusSight/{sight_id}/{status_id}', 'addStatusSight');
+    Route::put('sights/updateStatusSight/', 'updateStatusSight');
+    Route::delete('sights/deleteStatusSight/{sight_id}/{status_id}', 'deleteStatusSight');
 
 });
 

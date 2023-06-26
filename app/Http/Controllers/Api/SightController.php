@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\Event\EventCity;
+use App\Filters\Event\EventAddress;
+use App\Filters\Event\EventName;
+use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
@@ -11,6 +14,7 @@ use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
+use App\Filters\Sight\SightAuthor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
 use App\Models\Sight;
@@ -25,7 +29,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'comments');
+        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -33,12 +37,16 @@ class SightController extends Controller
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
                     EventLikedUserExists::class,
+                    EventName::class,
+                    EventSponsor::class,
                     EventFavoritesUserExists::class,
                     EventStatuses::class,
                     EventStatusesLast::class,
                     EventCity::class,
+                    EventAddress::class,
                     EventRegion::class,
                     SightTypes::class,
+                    SightAuthor::class,
                     EventGeoPositionInArea::class,
                     EventSearchText::class
                 ])

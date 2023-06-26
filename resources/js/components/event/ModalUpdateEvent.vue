@@ -1,14 +1,12 @@
 <script>
 import { useEventsStore } from '../../stores/eventsStore';  
-import { useTypesStore} from '../../stores/typesStore';
 import { defineComponent } from 'vue';
 
 
 export default defineComponent({
     setup: () => {
         const event_store = useEventsStore();
-        const types_store = useTypesStore();
-        return { event_store, types_store }
+        return { event_store }
     },
     methods: {
         updateTypes(new_types) {
@@ -21,7 +19,7 @@ export default defineComponent({
     
 })
 
-useTypesStore().getTypes();
+useEventsStore().getTypes();
 
 </script>
 
@@ -84,7 +82,7 @@ useTypesStore().getTypes();
                     <div class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
                         Изменить на:
                         <select v-model="event_store.new_types" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
-                            <option v-for="types in types_store.types" :value="types.id">
+                            <option v-for="types in event_store.types" :value="types.id">
                                 {{ types.name }}
                             </option>
                             <option> </option>

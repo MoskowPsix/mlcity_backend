@@ -1,6 +1,5 @@
 <script>
 import { useEventsStore } from '../../stores/eventsStore';  
-import { useStatusStore } from '../../stores/statusStore';
 import { defineComponent } from 'vue';
 
 
@@ -8,13 +7,12 @@ import { defineComponent } from 'vue';
 export default defineComponent({
     setup: () => {
         const event_store = useEventsStore();
-        const status_store = useStatusStore();
-        return { event_store, status_store }
+        return { event_store }
     },
     
 })
 
-useStatusStore().getStatus();
+useEventsStore().getStatus();
 </script>
 
 <template>
@@ -26,7 +24,7 @@ useStatusStore().getStatus();
                 <div class="w-full bg-gray-200 dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         Cменить на:
                         <select v-model="event_store.event.statuses[0].id" class="border border-gray-500 dark:border-gray-700 rounded bg-gray-300 dark:bg-gray-900 text-gray-700 dark:text-gray-200  max-w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out ">
-                            <option v-for="status in status_store.status" :value="status.id">
+                            <option v-for="status in event_store.status" :value="status.id">
                                 {{ status.name }}
                             </option>
                             <option> </option>
