@@ -22,7 +22,7 @@ export default defineComponent({
     
 })
 
-useSightsStore().getAllSights();
+useSightsStore().getSightsSearch('', '', '', '', '', 'На модерации', 'Все');
 useSightsStore().getTypesSights();
 useSightsStore().getStatusesSights();
 

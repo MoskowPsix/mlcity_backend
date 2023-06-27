@@ -45,10 +45,11 @@ export const useEventsStore = defineStore('EventsStore', {
             }).catch(error => this.toast.error(error.message));
             
         },
-        async getEventSearch(name = '', sponsor = '', date = ['', ''], user_name = '', user_email = '', city = '', address = '', status = '') {
+        async getEventSearch(name = '', sponsor = '', date = ['', ''], user = '', city = '', address = '', status = '', types = '') {
             this.loader = true;
             if (status === 'Все') { status = '' }
-            const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&dateStart=' + date.replace('~', '&dateEnd=') + '&user_name=' + user_name +'&user_email=' + user_email +'&city=' + city + '&address=' + address + '&statuses=' + status; 
+            if (types === 'Все') { types = '' }
+            const url = 'http://localhost:8000/api/events?name=' + name + '&sponsor=' + sponsor + '&dateStart=' + date.replace('~', '&dateEnd=') + '&user=' + user + '&city=' + city + '&address=' + address + '&eventTypes=' + types + '&statuses=' + status ; 
             await this.getEventUrl(url);
             this.loader = false;
         }, 

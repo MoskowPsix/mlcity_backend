@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
+use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightTypes;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventAddress;
 use App\Filters\Event\EventCity;
@@ -53,6 +55,8 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
+                SightAuthor::class,
+                SightTypes::class,
                 
             ])
             ->via('apply')

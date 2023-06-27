@@ -10,8 +10,8 @@ export default defineComponent({
         const sights_author = '';
         const sights_city = '';
         const sights_address = '';
-        const sights_status = '';
-        const sights_types ='';
+        const sights_status = 'На модерации';
+        const sights_types ='Все';
         const sights_text = '';
         const sights_store = useSightsStore();
         return {
@@ -67,7 +67,7 @@ export default defineComponent({
             <div class="flex rounded -center bg-gray-300 dark:bg-gray-800 p-1 px-2 text-gray-200 justify-center items-center"> 
                 <h1 class="px-2 text-gray-400 dark:text-gray-200">Тип: </h1>
                 <select v-model="sights_types" class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none">
-                    <option v-for="types in sights_store.types" :value="types.name">
+                    <option v-for="types in sights_store.types" :value="types.id">
                         {{ types.name }}
                     </option>
                     <option>Все</option>

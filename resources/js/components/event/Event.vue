@@ -8,7 +8,8 @@ import ModalEvent from './ModalEvent.vue';
 
 const event_store = useEventsStore();
 useEventsStore().getStatus();
-useEventsStore().getEventSearch('', '', '', '', '', '', '', 'На модерации');
+useEventsStore().getEventSearch('', '', '', '', '', '', 'На модерации', 'Все');
+useEventsStore().getTypes();
 
 
 const pageN = "Вперёд &raquo;";

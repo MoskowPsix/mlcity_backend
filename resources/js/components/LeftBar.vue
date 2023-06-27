@@ -77,7 +77,7 @@
    import { useDark, useToggle } from '@vueuse/core';
    import { useEventsStore } from '../stores/eventsStore';
    import { useSightsStore } from '../stores/SightsStore';
-   import axios from 'axios';
+   
 
 export default {
    name: 'LeftBar',

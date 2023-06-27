@@ -37,7 +37,6 @@ export const useSightsStore = defineStore('SightsStore', {
             this.loader = true;
             await axios.get(url)
             .then(response => {
-                console.log(response);
                 this.sights = response.data.sights.data;
                 this.links = response.data.sights.links;
                 this.first_page_url = response.data.sights.first_page_url;
@@ -46,7 +45,7 @@ export const useSightsStore = defineStore('SightsStore', {
             this.loader = false;
         },
         async getStatusesSights() {
-            await axios.get('http://localhost:8000/api/statuses', this.bodyParameters, this.config)
+            await axios.get('http://localhost:8000/api/statuses')
             .then(response => this.status = response.data.statuses)
             .catch(error => this.toast.error('Проблема с загрузкой статусов ' + error));
         },
@@ -54,7 +53,7 @@ export const useSightsStore = defineStore('SightsStore', {
             this.loader = true;
             if (status === 'Все') { status = '' }
             if (types === 'Все') { types = '' }
-            const url = 'http://localhost:8000/api/sights?name=' + name + '&sponsor=' + sponsor +  '&user=' + user +'&city=' + city + '&address=' + address + '&statuses=' + status + '&types=' + types + '&searchText=' + text + '&pagination=true'; 
+            const url = 'http://localhost:8000/api/sights?name=' + name + '&sponsor=' + sponsor +  '&user=' + user +'&city=' + city + '&address=' + address + '&statuses=' + status + '&sightTypes=' + types + '&searchText=' + text + '&pagination=true'; 
             await this.getUrlSights(url);
             this.loader = false;
         },
