@@ -99,10 +99,10 @@ export default {
       },
       mounted:function () {
          this.event_store.counterEvent(),
-         this.sights_store.counterEvent(),
+         this.sights_store.counterSight(),
          this.inter = setInterval(() => {
             this.event_store.counterEvent();
-            this.sights_store.counterEvent();
+            this.sights_store.counterSight();
          }, 10000)
       },
    }

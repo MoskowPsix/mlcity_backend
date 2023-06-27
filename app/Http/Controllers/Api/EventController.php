@@ -58,7 +58,7 @@ class EventController extends Controller
             ->via('apply')
             ->then(function ($events) use ($pagination , $page, $limit){
                 return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)
+                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
                     : $events->orderBy('date_start','desc')->get();
             });
 
@@ -176,7 +176,7 @@ class EventController extends Controller
             'event' => [
                 'id' => $event->id,
                 'name' => $event->name,
-                'sponsor' => $event->email,
+                'sponsor' => $event->sponsor,
                 'city' => $event->city,
                 'address' => $event->address,
                 'description' => $event->description,

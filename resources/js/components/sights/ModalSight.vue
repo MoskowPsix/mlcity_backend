@@ -1,8 +1,8 @@
 <script>
 import { useSightsStore } from '../../stores/SightsStore';  
 import { defineComponent } from 'vue';
-// import ModalUpdateEvent from './ModalUpdateEvent.vue';
-// import ModalStatuses from './ModalStatuses.vue';
+import ModalUpdateSight from './ModalUpdateSight.vue';
+import ModalStatuses from './ModalStatusSight.vue';
 
 
 export default defineComponent({
@@ -10,22 +10,20 @@ export default defineComponent({
         const sights_store = useSightsStore();
         return { sights_store }
     },
-    //components: {ModalUpdateEvent, ModalStatuses},
-    
+    components: { ModalUpdateSight, ModalStatuses },
 })
 </script>
 
 <template>
 
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
-    <!-- <ModalUpdateEvent v-if="event_store.ModalUpdate === true"/>
-    <ModalStatuses v-if="event_store.ModalStatuses === true"/> -->
-    <!-- <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg" v-if="sights_store.ModalUpdate === false"> -->
-        <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg">
+    <ModalUpdateSight v-if="sights_store.ModalUpdateSight === true"/>
+    <ModalStatuses v-if="sights_store.ModalStatusSight === true"/> 
+    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg" v-if="sights_store.ModalUpdateSight === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ sights_store.sight.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ sights_store.sight.sponsor }}</p>
-            <div @click="sights_store.closeUpdateSight()" class="relative p-5 modal-close cursor-pointer z-50">
+            <div @click="sights_store.closeSight()" class="relative p-5 modal-close cursor-pointer z-50">
                 <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                     viewBox="0 0 18 18">
                     <path
@@ -98,13 +96,13 @@ export default defineComponent({
                     <label for="message" class="leading-7 text-sm text-gray-400">Описание</label>
                     <textarea disabled wrap="soft | hard" class="w-full bg-gray-300 dark:bg-gray-800 rounded border-gray-400 border dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{sights_store.sight.description}}</textarea>
                 </div>
-                <!-- <div class="flex justify-center">
-                    <button v-on:click="event_store.showUpdate()" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Редактировать</button>
+                <div class="flex justify-center">
+                    <button v-on:click="sights_store.showUpdateSight()" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Редактировать</button>
                     <div class="px-6"></div>
-                    <button v-on:click="event_store.showStatuses()" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Сменить статус</button>
-                </div> -->
+                    <button v-on:click="sights_store.showStatusesSight()" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Сменить статус</button>
+                </div>
                 <div class="py-2"></div>
-                <button v-on:click="sights_store.closeUpdateSight()" class="text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">Закрыть</button>
+                <button v-on:click="sights_store.closeSight()" class="text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">Закрыть</button>
             </div>
         </div>
     </section>

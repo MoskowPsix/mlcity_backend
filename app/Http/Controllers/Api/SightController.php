@@ -53,7 +53,7 @@ class SightController extends Controller
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
                     return $pagination === 'true'
-                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)
+                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
                         : $sights->orderBy('created_at','desc')->get();
                 });
 
@@ -100,7 +100,7 @@ class SightController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'comments')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments')->firstOrFail();
 
         return response()->json($sight, 200);
     }
@@ -145,9 +145,33 @@ class SightController extends Controller
         return response()->json(['status' => 'success',], 200);
     }
 
-    public function update($id): \Illuminate\Http\JsonResponse
+    public function updateSight(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        dd('update');
+        $data = $request->all();
+        $sight = Sight::where('id', $id)->firstOrFail();
+        $sight->fill($data);
+        $sight->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'sight' => [
+                'id' => $sight->id,
+                'name' => $sight->name,
+                'sponsor' => $sight->sponsor,
+                'city' => $sight->city,
+                'address' => $sight->address,
+                'description' => $sight->description,
+                'latitude' => $sight->latitude,
+                'longitude' => $sight->longitude,
+                'price' => $sight->price,
+                'materials' => $sight->materials,
+                'date_start' => $sight->date_start,
+                'date_end' => $sight->date_end,
+                
+            ]
+        ];
+    
+        return response()->json($jsonData);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

@@ -64,6 +64,7 @@ Route::controller(EventController::class)->group(function() {
 Route::controller(SightController::class)->group(function() {
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
     Route::post('sights/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
+    Route::put('sights/updateSight/{id}', 'updateSight');
     Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('sights/{id}', 'show');
     Route::get('sights/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
