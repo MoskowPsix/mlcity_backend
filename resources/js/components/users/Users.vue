@@ -1,14 +1,35 @@
-<script setup>
+<script>
 import {useUsersStore} from '../../stores/usersStore'
+import {useRoleStore} from '../../stores/roleStore'
+import { useEventsStore } from '../../stores/eventsStore';
+import { defineComponent } from 'vue';
 import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
+import ModalDel from './ModalDelUsers.vue'
+import ModalCreateUsers from './ModalUpdateUsers.vue'
 
 
-const store = useUsersStore();
+export default defineComponent({
+    setup() {
+        const event_store = useEventsStore();
+        const store = useUsersStore();
+        const pageN = "Вперёд &raquo;";
+        const pageP = "&laquo; Назад";
+        return {store, pageN, pageP, event_store};
+    },
+    methods: {
+        localeDate(date) {
+            return (new Date(date)).toLocaleString()
+        },
+
+    },
+    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers},
+})
+
 useUsersStore().getUsers();
-const pageN = "Вперёд &raquo;";
-const pageP = "&laquo; Назад";
+useRoleStore().getRole();
+
 
 </script>
 
@@ -16,7 +37,7 @@ const pageP = "&laquo; Назад";
 <section class="container px-4 mx-auto"> 
     <SearchUsers class="my-1"/>
     <Loader v-if="store.loader === true"/>
-    <Modal v-if="store.showModalUsers === true"/>
+    <Modal v-if="store.show_modal_users === true"/>
     <div v-if="store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -27,7 +48,6 @@ const pageP = "&laquo; Назад";
                             <tr>
                                 <th scope="col" class="py-3.5 px-4 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <div class="flex items-center gap-x-3">
-                                        <input type="checkbox" class="text-blue-500 border-gray-300 rounded dark:bg-gray-900 dark:ring-offset-gray-900 dark:border-gray-700">
                                         <button class="flex items-center gap-x-2">
                                             <span>ID</span>
 
@@ -58,16 +78,7 @@ const pageP = "&laquo; Назад";
                                 <th scope="col" class="relative py-3.5 px-4">
                                         <div class="flex justify-center bg text-gray-200">
                                             <button class="p-2 w-1/8 rounded-md bg-green-800 text-green-100" @click="store.showModal" >Создать пользователя</button>
-                                            <!-- Modal -->
-
-        
-                                        
-                        
-                                            <!-- ModalEnd -->
-
-
                                         </div>
-                                    
                                 </th>
                             </tr>
                         </thead>
@@ -78,14 +89,12 @@ const pageP = "&laquo; Назад";
                                     <div class="inline-flex items-center gap-x-3">                                        <span>{{ user.id }}</span>
                                     </div>
                                 </td>
-                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{user.created_at}}</td>
+                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>
                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
-                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800" v-for="role in user.roles" :key="roles">
-                                        <h2 v-if="role.name === 'Admin'" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ role.name }}</h2>
-                                        <h2 v-else-if="role.name === 'Moderator'" class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs" >{{ role.name }}</h2>
-                                    </div>
-                                    <div v-if="user.roles.length === 0" class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-emerald-100/60 dark:bg-gray-800">
-                                        <h2 class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
+                                    <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-gray-100/60 dark:bg-gray-700/20 dark:bg-gray-800" >
+                                        <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
+                                        <h2 v-else-if="user.roles[0].name" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
+                    
                                     </div>
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
@@ -97,18 +106,21 @@ const pageP = "&laquo; Назад";
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ user.updated_at }}</td>
+                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ localeDate(user.updated_at) }}</td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                        <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-                                            Подробнее
-                                        </button>
+                                        <!-- <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                            Подробнее(?)
+                                        </button> -->
 
-                                        <button class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                        <button @click="store.showModalUpd(user.id, user.name, user.email)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
                                         </button>
-                                        <button v-on:click="store.delUsers(user.id)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
-
+                                        <ModalCreateUsers v-if="store.user_upd === true">
+                                        </ModalCreateUsers>
+                                        <button @click="store.showModalDel(user.id, user.name, user.email)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
+                                        <ModalDel v-if="store.del_modal_users === true">
+                                        </ModalDel>
                                     </div>
                                 </td>
                             </tr>
@@ -119,10 +131,10 @@ const pageP = "&laquo; Назад";
         </div>
     </div>
     
-    <div class="flex items-center justify-between mt-6" >
-        <div v-for="link in store.users.users.links" :key="link.id">
+    <div class="flex items-center justify-between mt-6">
+        <div v-for="link in store.links">
             <div v-if=" link.label  === pageP">
-                <a @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <a href="#" @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                     </svg>
@@ -135,16 +147,16 @@ const pageP = "&laquo; Назад";
 
             <div>
                 <div v-if="link.active === true" class="items-center hidden md:flex gap-x-3">
-                    <a @click="store.getPage(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
+                    <a href="#" @click="store.getPage(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
                 </div>
 
                 <div v-else-if="link.active == false && link.label !== pageP && link.label !== pageN">
-                    <a @click="store.getPage(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
+                    <a href="#" @click="store.getPage(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
                 </div>
             </div>
 
             <div v-if="link.label === pageN">
-                <a @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <a href="#" @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <span>
                         Вперёд
                     </span>
@@ -156,7 +168,6 @@ const pageP = "&laquo; Назад";
             </div>
         </div>
     </div>
-    <label>{{store.user_id}}</label>
 </section> 
 </template>
 

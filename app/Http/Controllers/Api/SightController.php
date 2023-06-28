@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\Event\EventCity;
+use App\Filters\Event\EventAddress;
+use App\Filters\Event\EventName;
+use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
@@ -11,6 +14,7 @@ use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
+use App\Filters\Sight\SightAuthor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
 use App\Models\Sight;
@@ -25,7 +29,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'comments');
+        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -33,19 +37,23 @@ class SightController extends Controller
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
                     EventLikedUserExists::class,
+                    EventName::class,
+                    EventSponsor::class,
                     EventFavoritesUserExists::class,
                     EventStatuses::class,
                     EventStatusesLast::class,
                     EventCity::class,
+                    EventAddress::class,
                     EventRegion::class,
                     SightTypes::class,
+                    SightAuthor::class,
                     EventGeoPositionInArea::class,
                     EventSearchText::class
                 ])
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
                     return $pagination === 'true'
-                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)
+                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
                         : $sights->orderBy('created_at','desc')->get();
                 });
 
@@ -92,7 +100,7 @@ class SightController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'comments')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments')->firstOrFail();
 
         return response()->json($sight, 200);
     }
@@ -137,9 +145,33 @@ class SightController extends Controller
         return response()->json(['status' => 'success',], 200);
     }
 
-    public function update($id): \Illuminate\Http\JsonResponse
+    public function updateSight(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        dd('update');
+        $data = $request->all();
+        $sight = Sight::where('id', $id)->firstOrFail();
+        $sight->fill($data);
+        $sight->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'sight' => [
+                'id' => $sight->id,
+                'name' => $sight->name,
+                'sponsor' => $sight->sponsor,
+                'city' => $sight->city,
+                'address' => $sight->address,
+                'description' => $sight->description,
+                'latitude' => $sight->latitude,
+                'longitude' => $sight->longitude,
+                'price' => $sight->price,
+                'materials' => $sight->materials,
+                'date_start' => $sight->date_start,
+                'date_end' => $sight->date_end,
+                
+            ]
+        ];
+    
+        return response()->json($jsonData);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

@@ -2,6 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Event\EventName;
+use App\Filters\Event\EventAuthorEmail;
+use App\Filters\Event\EventAuthorName;
+use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightTypes;
+use App\Filters\Event\EventSponsor;
+use App\Filters\Event\EventAddress;
 use App\Filters\Event\EventCity;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -18,6 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
+use App\Models\User;
 
 class EventController extends Controller
 {
@@ -26,13 +34,13 @@ class EventController extends Controller
         $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-
-        $events = Event::query()->with('types', 'files', 'likes','statuses', 'comments');
+        $events = Event::query()->with('types', 'files', 'likes','statuses', 'author', 'comments');
 
         $response =
             app(Pipeline::class)
             ->send($events)
             ->through([
+                EventName::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
@@ -42,12 +50,19 @@ class EventController extends Controller
                 EventDate::class,
                 EventTypes::class,
                 EventGeoPositionInArea::class,
-                EventSearchText::class
+                EventSearchText::class,
+                EventAddress::class,
+                EventSponsor::class,
+                EventAuthorName::class,
+                EventAuthorEmail::class,
+                SightAuthor::class,
+                SightTypes::class,
+                
             ])
             ->via('apply')
             ->then(function ($events) use ($pagination , $page, $limit){
                 return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)
+                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
                     : $events->orderBy('date_start','desc')->get();
             });
 
@@ -106,7 +121,7 @@ class EventController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'comments')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments')->firstOrFail();
 
         return response()->json($event, 200);
     }
@@ -153,9 +168,33 @@ class EventController extends Controller
         return response()->json(['status' => 'success',], 200);
     }
 
-    public function update($id): \Illuminate\Http\JsonResponse
+    public function updateEvent(Request $request, $id): \Illuminate\Http\JsonResponse
     {
-        dd('update');
+        $data = $request->all();
+        $event = Event::where('id', $id)->firstOrFail();
+        $event->fill($data);
+        $event->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'event' => [
+                'id' => $event->id,
+                'name' => $event->name,
+                'sponsor' => $event->sponsor,
+                'city' => $event->city,
+                'address' => $event->address,
+                'description' => $event->description,
+                'latitude' => $event->latitude,
+                'longitude' => $event->longitude,
+                'price' => $event->price,
+                'materials' => $event->materials,
+                'date_start' => $event->date_start,
+                'date_end' => $event->date_end,
+                
+            ]
+        ];
+    
+        return response()->json($jsonData);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

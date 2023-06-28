@@ -38,7 +38,7 @@ class Event extends Model
 
     public function statuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Status::class)->withPivot('last')->withTimestamps();
+        return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->withTimestamps();
     }
 
 //    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -65,7 +65,7 @@ class Event extends Model
 
    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
    {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'user_id');
    }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany

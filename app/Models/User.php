@@ -51,6 +51,8 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $dates = ['deleted_at'];
+
 //    protected $with = ['socialAccount'];
 
     public function socialAccount(): \Illuminate\Database\Eloquent\Relations\HasOne

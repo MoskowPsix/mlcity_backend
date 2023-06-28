@@ -9,8 +9,10 @@ class EventCity implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('city') && !request()->has('forEventPage')){
-            $content->where('city', request()->get('city'));
+        if(request()->has('city')){
+            $content->where(function($query) {
+                $query->orWhere('city', 'LIKE', '%'.request()->get('city').'%');
+            });
         }
 
         return $next($content);

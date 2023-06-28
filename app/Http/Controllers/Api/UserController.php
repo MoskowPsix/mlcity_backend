@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
+use Carbon\Carbon;
 
 use Illuminate\Pipeline\Pipeline;
 use App\Filters\Users\UsersEmail;
@@ -15,8 +16,6 @@ use App\Filters\Users\UsersName;
 use App\Filters\Users\UsersId;
 use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
-use App\Http\Requests\UsersCreateRequest;
-use DragonCode\Contracts\Cashier\Http\Response;
 
 class UserController extends Controller
 {
@@ -136,6 +135,7 @@ class UserController extends Controller
                 UsersCreated::class,
                 UsersUpdated::class,
 
+
             ])
             ->then(function ($users) use ($page, $limit, $request){
                 return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
@@ -145,17 +145,30 @@ class UserController extends Controller
     }  
 
 
-    //Добавить нового юзера уже есть в AuthController
-
-    public function updateUsers($id): \Illuminate\Http\JsonResponse
+    public function updateUsers(Request $request, $id)
     {
-        dd('update'); //reauest
+    
+        $data = $request->all();
+        $user = User::where('id', $id)->firstOrFail();
+        $user->fill($data);
+        $user->save();
+    
+        $jsonData = [
+            'status' => 'SUCCESS',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]
+        ];
+    
+        return response()->json($jsonData);
     }
+
 
     public function deleteUsers($id): \Illuminate\Http\JsonResponse
     {
         User::find($id)->delete();
-        dd('delete');
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 }

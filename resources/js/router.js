@@ -13,13 +13,29 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: () => import('./components/Login.vue')
+    },
+    {
+      path: '/sights',
+      name: 'sights',
+      component: () => import('./components/sights/Sights.vue')
+    },
+    {
+      path: '/events',
+      name: 'events',
+      component: () => import('./components/event/Event.vue')
+    },
+    
+    {
+      path: '/role',
+      name: 'role',
+      component: () => import('./components/role/Role.vue')
     }
   ]
 
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && localStorage.role !== 'Admin' && localStorage.role_id !== 1) next({ name: 'login' })
+  if (to.name !== 'login' && localStorage.role !== 'Admin' ) next({ name: 'login' })
   else next()
 })
 
