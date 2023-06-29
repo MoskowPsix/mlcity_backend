@@ -5,12 +5,6 @@ import { useToastStore } from './toastStore';
 
 export const useRoleStore = defineStore('RoleStore', {
     state: () => ({
-        config: {
-            headers: { Authorization: `Bearer ${localStorage.token}` }
-        },
-        bodyParameters: {
-            key: "value"
-        },
         toast: useToastStore(),
         role: [],
         role_id: '',
@@ -22,20 +16,20 @@ export const useRoleStore = defineStore('RoleStore', {
     actions: {
         async getRole() {
             this.loader = true;
-            await axios.get('http://localhost:8000/api/allRole', this.config)
+            await axios.get('allRole')
             .then(response => this.role = response)
             .catch(error => this.toast.error('Ошибка, роль не получена!'));
             this.loader = false;
         
         },
         async updateRole(role_id, user_id) {
-            await axios.put('http://localhost:8000/api/updateRoleUser/' + user_id + '/' + role_id, this.bodyParameters, this.config)
+            await axios.put('updateRoleUser/' + user_id + '/' + role_id)
             .then(response => console.log(response))
             .catch(error => this.toast.error('Ошибка, роль не обновлена!'));
         },
         async deleteRole() {
             this.loader = true;
-            await axios.delete('http://localhost:8000/api/deleteRole/' + this.role_id, this.bodyParameters, this.config)
+            await axios.delete('deleteRole/' + this.role_id)
             .then(response => this.toast.success('Роль с ID: ' + this.role_id + ', удалена!'))
             .catch(error => this.toast.error('Ошибка, роль не обновлена!'));
             this.getRole();
@@ -44,7 +38,7 @@ export const useRoleStore = defineStore('RoleStore', {
         },
         async updateRoleName(name) {
             this.loader = true;
-            await axios.put('http://localhost:8000/api/updateRole/' + this.role_id + '?name=' + name, this.bodyParameters, this.config)
+            await axios.put('updateRole/' + this.role_id + '?name=' + name)
             .then(response => this.toast.success('Роль переименована на ' + response.data.role.name))
             .catch(error => this.toast.error('Ошибка, имя не обновлена!'));
             this.getRole();
@@ -53,9 +47,9 @@ export const useRoleStore = defineStore('RoleStore', {
         },
         async createRole(name) {
             this.loader = true;
-            await axios.post('http://localhost:8000/api/addRole/', {
+            await axios.post('addRole/', {
                 name: name,
-            }, this.config)
+            })
             .then(response => this.toast.success('Роль ' + response.data.role.name + ' создана!'))
             .catch(error => this.toast.error('Ошибка, роль не создана!'));
             this.getRole();

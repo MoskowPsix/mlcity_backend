@@ -5,6 +5,7 @@ import ModalSight from './ModalSight.vue'
 import { defineComponent } from 'vue';
 import { useSightsStore } from '../../stores/SightsStore'
 
+
 export default defineComponent({
     setup: () => {
         const sights_store = useSightsStore();
@@ -21,6 +22,7 @@ export default defineComponent({
     components: { Loader, SearchSights, ModalSight },
     
 })
+
 
 useSightsStore().getSightsSearch('', '', '', '', '', 'На модерации', 'Все');
 useSightsStore().getTypesSights();

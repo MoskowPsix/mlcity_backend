@@ -1,10 +1,23 @@
-<script setup>
+<script>
 import { useRoleStore } from '../../stores/roleStore';
 import ModalRenameRole from './ModalRenameRole.vue';
 import ModalCreateRole from './ModalCreateRole.vue';
 import ModalDeleteRole from './ModalDeleteRole.vue';
 import Loader from '../Loader.vue';
-const store_role = useRoleStore();
+
+
+export default {
+    setup() {
+        const store_role = useRoleStore();
+        return {store_role} 
+    },
+    components: {
+        ModalRenameRole,
+        ModalCreateRole,
+        ModalDeleteRole,
+        Loader
+    }
+}
 </script>
 
 <template>

@@ -4,6 +4,14 @@ import vue from '@vitejs/plugin-vue'
 
 
 export default defineConfig({
+    configureWebpack: {
+        optimization: {
+            splitChunks: {
+                minSize: 10000,
+                maxSize: 250000,
+            }
+        }
+    },
     plugins: [
         vue(),
         laravel({

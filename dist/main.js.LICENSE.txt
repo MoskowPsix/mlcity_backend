@@ -1,0 +1,11 @@
+/*!
+  * pinia v2.1.4
+  * (c) 2023 Eduardo San Martin Morote
+  * @license MIT
+  */
+
+/*!
+  * vue-router v4.2.2
+  * (c) 2023 Eduardo San Martin Morote
+  * @license MIT
+  */

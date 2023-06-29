@@ -8,6 +8,7 @@ import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
 import ModalDel from './ModalDelUsers.vue'
 import ModalCreateUsers from './ModalUpdateUsers.vue'
+import.meta.env.$APP_URL
 
 
 export default defineComponent({
@@ -22,10 +23,10 @@ export default defineComponent({
         localeDate(date) {
             return (new Date(date)).toLocaleString()
         },
-
     },
     components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers},
 })
+
 
 useUsersStore().getUsers();
 useRoleStore().getRole();

@@ -1,19 +1,14 @@
-import './bootstrap'
-
 import {createApp} from 'vue'
 import App from './app.vue'
 import router from './router'
 import axios from 'axios'
 import { createPinia } from 'pinia'
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 
-
-// Пока хз зачем, но вроде надо
-axios.defaults.baseURL = 'http://localhost:8000/api/';
-axios.defaults.headers.common = {'Authorization': `Bearer ${localStorage.token}`}
+axios.defaults.baseURL = import.meta.env.VITE_APP_URL + '/api/';
+axios.defaults.headers = {'Authorization': `Bearer ${localStorage.token}`}
 
 const options = {
     transition: "Vue-Toastification__bounce",
@@ -25,7 +20,6 @@ const options = {
 createApp(App)
 .use(Toast, options)
 .use(router)
-.use(VueTailwindDatepicker)
 .use(createPinia())
 .mount("#app")
 

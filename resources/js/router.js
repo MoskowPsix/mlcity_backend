@@ -1,8 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHistory, createWebHashHistory  } from 'vue-router'
+import { useBarStore } from './stores/barStore'
 
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory ("/"),
   routes: [
     {
       path: '/',
@@ -35,8 +36,12 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && localStorage.role !== 'Admin' ) next({ name: 'login' })
-  else next()
+  if (to.name !== 'login' && localStorage.role !== 'Admin' ) { 
+    next({  name: 'login' })
+  } else { 
+    useBarStore().showBar()
+    next() 
+  }
 })
 
 export default router

@@ -1,19 +1,23 @@
-<script setup>
+<script>
 import { useEventsStore } from '../../stores/eventsStore';
 import  SearchEvent from './SearchEvent.vue';
 import Loader from '../Loader.vue';
 import ModalEvent from './ModalEvent.vue';
 
 
+export default {
+    setup() {
+        const event_store = useEventsStore();
+        const pageN = "Вперёд &raquo;";
+        const pageP = "&laquo; Назад";
+        return {event_store, pageN, pageP}
+    },
+    components: {SearchEvent, Loader, ModalEvent}
+}
 
-const event_store = useEventsStore();
 useEventsStore().getStatus();
 useEventsStore().getEventSearch('', '', '', '', '', '', 'На модерации', 'Все');
 useEventsStore().getTypes();
-
-
-const pageN = "Вперёд &raquo;";
-const pageP = "&laquo; Назад";
 </script>
 
 

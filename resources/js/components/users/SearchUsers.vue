@@ -18,7 +18,8 @@ export default {
         this.user_name = '';
         this.time = '';
         }
-    }
+    },
+    components: {VueTailwindDatepicker}
     
     
 }
@@ -47,7 +48,7 @@ export default {
                                        class="bg-gray-200 dark:bg-gray-800 dark:text-gray-200 text-gray-200 max-w-full focus:outline-none text-gray-700"/>
                             </div>
                         </div>
-                        <vue-tailwind-datepicker v-model="time" placeholder="Когда был зарегистрирован..." />
+                        <VueTailwindDatepicker v-model="time" placeholder="Когда был зарегистрирован..." />
                     </div>
                     <div class="flex justify-center text-gray-200"><button v-on:click="user_store.getUsers(user_name, user_email, time); clear()" class="p-2 w-1/4 rounded-md bg-blue-800 text-blue-100">Найти</button></div>
                 </div>

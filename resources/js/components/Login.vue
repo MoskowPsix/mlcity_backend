@@ -3,8 +3,7 @@ import { ref } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
 import { useToastStore } from '../stores/toastStore';
-import CryptoJS from "crypto-js";
-
+import { useBarStore } from '../stores/barStore'
 
 
 export default {
@@ -13,24 +12,20 @@ export default {
     const email = ref('');
     const password = ref('');
     const router = useRouter();
-    const config = {
-        headers: { Authorization: `Bearer ${localStorage.token}` }
-    };
+
 
     const submit = async () => {
       // получаем токен
-      const response = await axios.post('http://localhost:8000/api/login', {
+      const response = await axios.post('login', {
         email: email.value,
         password: password.value,
       }).catch(error => console.log(useToastStore().warning(error.response.data.message)));
       //useToastStore().error(error.response.data.message)
       localStorage.setItem('token', response.data.access_token);
       // Получаеи роль
-      const url = 'http://localhost:8000/api/listUsers?id=' + response.data.user.id;
-      const data = await axios(url, config)
+      const url = 'listUsers?id=' + response.data.user.id;
+      const data = await axios(url)
       .catch(error => console.log(error));
-      console.log(data)
-      //localStorage.setItem('role', CryptoJS.AES.encrypt(data.data.users.data[0].roles[0].pivot.role_id, data.data.users.data[0].roles[0].name));
       localStorage.setItem('role', data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
@@ -43,21 +38,19 @@ export default {
     };
   },
 };
+useBarStore().closeBar()
 </script>
 
 <template>
 
   <section class="bg-gray-50 dark:bg-gray-900">
   <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-      <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
-          <!-- <img class="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"> -->
-              
-      </a>
       <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
           <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                  Форма входа
-              </h1>
+            <a href="#" class="flex items-center  items-center justify-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+                <img src="../../assets/favicon.png" class="h-6 mr-3 sm:h-7" alt="Flowbite Logo" />
+                <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">MyLittleCity<p class="text-xs items-center">AdminPanel</p></span>
+            </a>
               <form class="space-y-4 md:space-y-6" @submit.prevent="submit">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Еmail</label>
@@ -74,7 +67,7 @@ export default {
                           </div>
                       </div>
                   </div>
-                  <button type="submit" class="w-full text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Войти</button>              </form>
+                  <button type="submit" class="w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Войти</button></form>
           </div>
       </div>
   </div>

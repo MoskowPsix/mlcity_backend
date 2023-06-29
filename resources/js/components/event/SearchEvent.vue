@@ -1,6 +1,7 @@
 <script>
 import { defineComponent } from 'vue';
 import { useEventsStore } from '../../stores/eventsStore';
+import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 
 export default defineComponent({
     setup: () => {
@@ -39,7 +40,8 @@ export default defineComponent({
             this.event_address = '';
             this.event_status = '';
         }
-    }
+    },
+    components: {VueTailwindDatepicker}
 })
 
 
@@ -81,7 +83,7 @@ export default defineComponent({
                 <input type="text" v-model="event_author" placeholder="Имя или почта автора"
                        class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             </div>
-            <vue-tailwind-datepicker v-model="event_date" placeholder="Временные рамки" />
+            <VueTailwindDatepicker v-model="event_date" placeholder="Временные рамки" />
             <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
                 <input type="text" v-model="event_city" placeholder="Город Мероприятия"
                        class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>

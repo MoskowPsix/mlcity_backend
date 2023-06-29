@@ -4,7 +4,6 @@ import { defineComponent } from 'vue';
 import {useRoleStore} from '../../stores/roleStore'
 
 
-//const store = useUsersStore().closeModal();
  export default defineComponent({
    setup() {
     const store = useUsersStore();
@@ -69,47 +68,3 @@ import {useRoleStore} from '../../stores/roleStore'
 		</div>
 	</div>
   </template>
-
-<style>
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-
-.animated.faster {
-  -webkit-animation-duration: 500ms;
-  animation-duration: 500ms;
-}
-
-.fadeIn {
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-}
-
-.fadeOut {
-  -webkit-animation-name: fadeOut;
-  animation-name: fadeOut;
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes fadeOut {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
-  }
-}
-</style>
