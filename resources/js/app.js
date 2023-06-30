@@ -7,7 +7,7 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 
-axios.defaults.baseURL = import.meta.env.VITE_APP_URL + '/api/';
+axios.defaults.baseURL = '/api/';
 axios.defaults.headers = {'Authorization': `Bearer ${localStorage.token}`}
 
 const options = {

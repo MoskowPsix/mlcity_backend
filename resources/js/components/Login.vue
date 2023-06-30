@@ -19,12 +19,12 @@ export default {
       const response = await axios.post('login', {
         email: email.value,
         password: password.value,
-      }).catch(error => console.log(useToastStore().warning(error.response.data.message)));
-      //useToastStore().error(error.response.data.message)
+      }).catch(error => {
+        useToastStore().warning('Ошибка авторизации: ' + error.message);
+      });
       localStorage.setItem('token', response.data.access_token);
       // Получаеи роль
-      const url = 'listUsers?id=' + response.data.user.id;
-      const data = await axios(url)
+      const data = await axios.get('listUsers?id=' + response.data.user.id)
       .catch(error => console.log(error));
       localStorage.setItem('role', data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу

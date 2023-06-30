@@ -26,7 +26,7 @@ import {useRoleStore} from '../../stores/roleStore'
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">
                     <p class="text-1xl font-bold text-gray-600 dark:text-gray-300">Редактировать пользователя <br> Имя: {{ store.user_upd_id.name }} <br> ID: {{store.user_upd_id.id}} <br> Email: {{ store.user_upd_id.email }}</p>
-					<div @click="closeModal()" class="modal-close cursor-pointer z-50">
+					<div @click="store.closeModalUpd()" class="modal-close cursor-pointer z-50">
 						<svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 							viewBox="0 0 18 18">
 							<path
@@ -61,7 +61,7 @@ import {useRoleStore} from '../../stores/roleStore'
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
-					<button @click="store.closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
+					<button @click="store.closeModalUpd()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
 					<button @click="store.updateUser(user_name, user_email, user_role)" class="focus:outline-none px-4 bg-blue-500 p-3 ml-3 rounded-lg text-white hover:bg-blue-400">Редактировать</button>
 				</div>
 			</div>
