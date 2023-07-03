@@ -109,7 +109,7 @@ useEventsStore().getTypes();
                         <button v-on:click="event_store.closeUpdate(); event_store.getEventId(event_store.event.id)" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
                     </div>
                     <div class="px-6">
-                        <button v-on:click="event_store.updateEvent();" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
+                        <button v-on:click="event_store.updateEvent(); event_store.closeUpdate();" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
                     </div>
                 </div>
             </div>

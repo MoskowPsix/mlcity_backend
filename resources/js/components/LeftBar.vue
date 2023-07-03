@@ -106,7 +106,6 @@ export default {
 
 input:checked ~ .dot {
 transform: translateX(100%);
-/* background-color: #132b50; */
 }
 </style>
 
