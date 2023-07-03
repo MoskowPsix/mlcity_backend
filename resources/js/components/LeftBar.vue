@@ -12,14 +12,14 @@
          <img src="../../assets/favicon.png" class="h-6 mr-3 sm:h-7" alt="Flowbite Logo" />
          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">MyLittleCity<p class="text-xs items-center">AdminPanel</p></span>
          <div class="flex flex-row justify-between toggle mx-10">
-            <label class="flex items-center cursor-pointer">
-                  <div class="relative">
-                  <input @click="toggleDark()" type="checkbox" class="checkbox hidden">
-                  <div class="block border-[1px] dark:border-white border-gray-900 w-8 h-5 rounded-full"></div>
-                  <div class="dot absolute left-1 top-1 dark:bg-white bg-gray-800 w-3 h-3 rounded-full transition"></div>
-                  </div>
-            </label>
-         </div>
+        <label class="flex items-center cursor-pointer">
+            <div class="relative">
+            <input  @click="toggleDark()" type="checkbox" class="checkbox hidden">
+            <div class="block border-[1px] dark:border-white border-gray-900 w-8 h-5 rounded-full"></div>
+            <div class="dot absolute left-1 top-1 dark:bg-white bg-gray-800 w-3 h-3 rounded-full transition"></div>
+            </div>
+        </label>
+        </div>
       </a>
       <ul class="space-y-2 font-medium">
          <li>
@@ -101,4 +101,12 @@ export default {
       },
    }
   </script>
+
+<style>
+
+input:checked ~ .dot {
+transform: translateX(100%);
+/* background-color: #132b50; */
+}
+</style>
 
