@@ -40,6 +40,12 @@ Route::controller(UserController::class)->group(function() {
     Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('auth:sanctum'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
+    
+    Route::get('users/favorite-events/{id}', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
+    Route::get('users/liked-events/{id}', 'getUserLikedEventsIds')->middleware('auth:sanctum');
+    Route::get('users/favorite-sights/{id}', 'getUserFavoriteSightsIds')->middleware('auth:sanctum');
+    Route::get('users/liked-sights/{id}', 'getUserLikedSightsIds')->middleware('auth:sanctum');
+
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное
     Route::post('users/like-event-toggle', 'toggleLikedEvent')->middleware('auth:sanctum');// добавляем убираем лайк
 });

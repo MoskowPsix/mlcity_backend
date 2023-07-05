@@ -63,13 +63,13 @@ class User extends Authenticatable
     //избранные события юзера
     public function favoriteEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_favorite')->withTimestamps();
+        return $this->belongsToMany(Event::class,'event_user_favorite')->withTimestamps()->with('author', 'types');
     }
 
     //избранные достопримечательности юзера
     public function favoriteSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_favorite')->withTimestamps();
+        return $this->belongsToMany(Sight::class,'sight_user_favorite')->withTimestamps()->with('author', 'types');
     }
 
     //События созданные юзером
@@ -87,13 +87,13 @@ class User extends Authenticatable
     /// события юзера которы лайкнул
     public function likedEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps();
+        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps()->with('author', 'types');
     }
 
     // достопримечательности юзера, которые лайкнул
     public function likedSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_liked')->withTimestamps();
+        return $this->belongsToMany(Sight::class,'sight_user_liked')->withTimestamps()->with('author', 'types');
     }
 
 //    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

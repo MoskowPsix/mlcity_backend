@@ -133,25 +133,75 @@ export const useUsersStore = defineStore('usersStore', {
         async closeModalUpd() {
             this.user_upd_id = '';
             this.user_upd = false;
+        },
+        async showModalDetailed(id) {
+            this.detailed_modal_users = true;
+            this.user_id = id;
+            await this.showLikeEvent(id);
+        },
+        async closeModalDetailed(){
+            this.detailed_modal_users = false;
+            this.user_id = '';
+        },
+        async showLikeEvent() {
+            this.menu_user_loader = true;
+            this.link_menu_user = 'LikeEvent';
+            axios.get('users/liked-events/' + this.user_id )
+            .then(response => this.events_sights_user = response.data.result)
+            .catch(error => console.log(error));
+            console.log(this.events_sights_user); 
+            this.menu_user_loader = false;
+        }, 
+        async showFavoritesEvent() {
+            this.menu_user_loader = true;
+            this.link_menu_user = 'FavoritesEvent';
+            axios.get('users/favorite-events/' + this.user_id )
+            .then(response => this.events_sights_user = response.data.result)
+            .catch(error => console.log(error));
+            console.log(this.events_sights_user);
+            this.menu_user_loader = false;
+        }, 
+        async showLikeSight() {
+            this.menu_user_loader = true;
+            this.link_menu_user = 'LikeSight';
+            axios.get('users/liked-sights/' + this.user_id )
+            .then(response => this.events_sights_user = response.data.result)
+            .catch(error => console.log(error));
+            this.menu_user_loader = false;
+        }, 
+        async showFavoritesSight() {
+            this.menu_user_loader = true;
+            this.link_menu_user = 'FavoritesSight';
+            axios.get('users/favorite-sights/' + this.user_id )
+            .then(response => this.events_sights_user = response.data.result)
+            .catch(error => console.log(error));
+            this.menu_user_loader = false;
+        },
+        async showPage(url) {
+            axios.get(url)
+            .then(response => this.events_sights_user = response.data.result)
+            .catch(error => this.toast.warning(error.message));
         }
 
     },
     
     state: () => ({
         users: [],
-        loader: false,
+        loader: true,
         user_id: '',
         show_modal_users: false,
         del_modal_users: false,
+        detailed_modal_users: false,
         user_del: '',
         user_upd: '',
         user_upd_id: '',
         links: [],
         types: [],
-        bodyParameters: {
-            key: "value"
-        },
         toast: useToastStore(),
+        link_menu_user: '',
+        menu_user_loader: false,
+        events_sights_user: [],
+        modal_links: [],
     }),
     getters: {
         

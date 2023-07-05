@@ -8,6 +8,7 @@ import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
 import ModalDel from './ModalDelUsers.vue'
 import ModalCreateUsers from './ModalUpdateUsers.vue'
+import ModalDetailedUsers from './ModalDetailedUsers.vue';
 import.meta.env.$APP_URL
 
 
@@ -24,7 +25,7 @@ export default defineComponent({
             return (new Date(date)).toLocaleString()
         },
     },
-    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers},
+    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers, ModalDetailedUsers},
 })
 
 
@@ -39,6 +40,8 @@ useRoleStore().getRole();
     <SearchUsers class="my-1"/>
     <Loader v-if="store.loader === true"/>
     <Modal v-if="store.show_modal_users === true"/>
+    <ModalDetailedUsers v-if="store.detailed_modal_users === true"/>
+
     <div v-if="store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
@@ -110,9 +113,9 @@ useRoleStore().getRole();
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ localeDate(user.updated_at) }}</td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                        <!-- <button class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
-                                            Подробнее(?)
-                                        </button> -->
+                                        <button @click="store.showModalDetailed(user.id)" class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                            Лайки и Избронное
+                                        </button>
 
                                         <button @click="store.showModalUpd(user.id, user.name, user.email)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать

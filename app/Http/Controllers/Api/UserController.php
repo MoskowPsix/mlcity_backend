@@ -5,10 +5,12 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Closure;
 use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
 use Carbon\Carbon;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 use Illuminate\Pipeline\Pipeline;
 use App\Filters\Users\UsersEmail;
@@ -46,21 +48,30 @@ class UserController extends Controller
     }
 
     //Получаем массив с ид ивентов, которые юзер добавил в избранное
-//    public function getUserFavoriteEventsIds(): \Illuminate\Http\JsonResponse
-//    {
-//        $favoriteEvents = $this->getUserFavoriteEvents();
-//
-//        $favoriteEventsIds = [];
-//
-//        foreach ($favoriteEvents as $event){
-//            $favoriteEventsIds[] = $event->id;
-//        }
-//
-//        return response()->json([
-//            'status'            => 'success',
-//            'favoriteEventsIds' => $favoriteEventsIds
-//        ], 200);
-//    }
+   public function getUserFavoriteEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
+   {
+        $favoriteEvents = User::findOrFail($id)->favoriteEvents;
+
+        $favoriteEventsIds = [];
+
+        foreach ($favoriteEvents as $event){
+           $favoriteEventsIds[] = $event;
+        }
+        
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6; 
+
+        $paginator = new LengthAwarePaginator($favoriteEventsIds, count($favoriteEventsIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+           'status' =>  'success',
+           'result' =>  $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+        ], 200);
+   }
 
     //Добавляем убираем из избранного
     public function toggleFavoriteEvent(Request $request): \Illuminate\Http\JsonResponse
@@ -79,21 +90,77 @@ class UserController extends Controller
     }
 
     //Получаем массив с ид ивентов, которые юзер лайкнул
-//    public function getUserLikedEventsIds(): \Illuminate\Http\JsonResponse
-//    {
-//        $likedEvents = $this->getUserLikedEvents();
-//
-//        $likedEventsIds = [];
-//
-//        foreach ($likedEvents as $event){
-//            $likedEventsIds[] = $event->id;
-//        }
-//
-//        return response()->json([
-//            'status'            => 'success',
-//            'likedEventsIds' => $likedEventsIds
-//        ], 200);
-//    }
+   public function getUserLikedEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
+   {
+        $likedEvents = User::findOrFail($id)->likedEvents;
+        $likedEventsIds = [];
+
+        foreach ($likedEvents as $event){
+            $likedEventsIds[] = $event;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedEventsIds, count($likedEventsIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+       ], 200);
+   }
+
+   public function getUserFavoriteSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
+   {
+        $favoriteSights = User::findOrFail($id)->favoriteSights;
+
+        $favoriteSightsIds = [];
+
+        foreach ($favoriteSights as $sight){
+           $favoriteSightsIds[] = $sight;
+        }
+        
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6; 
+
+        $paginator = new LengthAwarePaginator($favoriteSightsIds, count($favoriteSightsIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+           'status' =>  'success',
+           'result' =>  $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+        ], 200);
+   }
+   public function getUserLikedSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
+   {
+        $likedSights = User::findOrFail($id)->likedSights;
+
+        $likedSightsIds = [];
+
+        foreach ($likedSights as $sight){
+           $likedSightsIds[] = $sight;
+        }
+        
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6; 
+
+        $paginator = new LengthAwarePaginator($likedSightsIds, count($likedSightsIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+           'status' =>  'success',
+           'result' =>  $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+        ], 200);
+   }
 
     //Добавляем убираем лайк
     public function toggleLikedEvent(Request $request): \Illuminate\Http\JsonResponse
