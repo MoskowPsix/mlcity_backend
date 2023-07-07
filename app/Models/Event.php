@@ -38,7 +38,7 @@ class Event extends Model
 
     public function statuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->withTimestamps();
+        return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->withTimestamps()->orderBy('created_at','desc');
     }
 
 //    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

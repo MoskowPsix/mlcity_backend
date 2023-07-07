@@ -90,7 +90,8 @@ useRoleStore().getRole();
                         <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="user in store.users.users.data" :key="user.id">
                             <tr>
                                 <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
-                                    <div class="inline-flex items-center gap-x-3">                                        <span>{{ user.id }}</span>
+                                    <div class="inline-flex items-center gap-x-3">
+                                        <span>{{ user.id }}</span>
                                     </div>
                                 </td>
                                     <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>

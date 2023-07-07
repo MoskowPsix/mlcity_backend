@@ -16,7 +16,7 @@ export default {
 }
 
 useEventsStore().getStatus();
-useEventsStore().getEventSearch('', '', '', '', '', '', 'На модерации', 'Все');
+useEventsStore().getEventSearch();
 useEventsStore().getTypes();
 </script>
 
@@ -114,8 +114,12 @@ useEventsStore().getTypes();
                                 </td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_start }}</td>
                                 <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ event.date_end }}</td>
-                                <td  v-if="event.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <div>{{ event.statuses[0].name }}</div>
+                                <td  v-if="event.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300">
+                                    <div v-for="status of event.statuses">
+                                        <div v-if="status.pivot.last === true">
+                                            {{ status.name }}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td  v-if="event.statuses.length === 0" class="px-4 py-4 text-sm text-red-800 dark:text-red-500 whitespace-nowrap">
                                     <div>Не определено</div>

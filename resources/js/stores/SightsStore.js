@@ -19,6 +19,18 @@ export const useSightsStore = defineStore('SightsStore', {
         ModalSight: false,
         ModalUpdateSight: false,
         ModalStatusSight: false,
+        ModalHistoryStatus: false,
+        sight_search: {
+            name: '',
+            sponsor: '',
+            author: '',
+            city: '',
+            address: '',
+            status: 'На модерации',
+            types: 'Все',
+            text: '',
+            last: true,
+        },
     }),
     actions: {
         async getAllSights() {
@@ -34,6 +46,7 @@ export const useSightsStore = defineStore('SightsStore', {
                 this.sights = response.data.sights.data;
                 this.links = response.data.sights.links;
                 this.first_page_url = response.data.sights.first_page_url;
+                console.log(response);
             })
             .catch(error => this.toast.error('При получении url: "' + url + '" произошла ошибка: ' + error.message));
             this.loader = false;
@@ -43,13 +56,40 @@ export const useSightsStore = defineStore('SightsStore', {
             .then(response => this.status = response.data.statuses)
             .catch(error => this.toast.error('Проблема с загрузкой статусов ' + error));
         },
-        async getSightsSearch(name = '', sponsor = '', user = '', city = '', address = '', status = '', types = '', text ='') {
+        async getSightsSearch() {
             this.loader = true;
-            if (status === 'Все') { status = '' }
-            if (types === 'Все') { types = '' }
-            const url = 'sights?name=' + name + '&sponsor=' + sponsor +  '&user=' + user +'&city=' + city + '&address=' + address + '&statuses=' + status + '&sightTypes=' + types + '&searchText=' + text + '&pagination=true'; 
+            var status = '';
+            var types = '';
+            var last = '';
+            if (this.sight_search.last === false) { last = ''} else { last = '&statusLast=' + this.sight_search.last;}
+            if (this.sight_search.status === 'Все') { status = '' } else { status = '&statuses=' + this.sight_search.status }
+            if (this.sight_search.types === 'Все') { types = '' } else  { types = '&sightTypes=' + this.sight_search.types }
+            const url = 
+                'sights?name=' + this.sight_search.name + 
+                '&sponsor=' + this.sight_search.sponsor +  
+                '&user=' + this.sight_search.author + 
+                '&city=' + this.sight_search.city + 
+                '&address=' + this.sight_search.address + 
+                status + 
+                types + 
+                last + 
+                '&searchText=' + this.sight_search.text + 
+                '&pagination=true'; 
+                console.log(url)
             await this.getUrlSights(url);
             this.loader = false;
+        },
+        async clearSightsSearch() {
+            this.sight_search.name = '';
+            this.sight_search.sponsor = '';
+            this.sight_search.author = '';
+            this.sight_search.city = '';
+            this.sight_search.address = '';
+            this.sight_search.status = 'Все';
+            this.sight_search.types = 'Все';
+            this.sight_search.text = '';
+            this.sight_search.last = true;
+            await this.getSightsSearch();
         },
         async getTypesSights() {
             await axios.get('sight-types')
@@ -62,7 +102,7 @@ export const useSightsStore = defineStore('SightsStore', {
             .then(response => this.toast.success('Событие ' + response.data.sight.name + ' изменено!'))
             .catch(error => this.toast.error('Достопримечательность не обновлена: ' + error.message));
             await this.getSightId(this.sight.id);
-            this.getUrlSights(this.first_page_url);
+            await this.getUrlSights(this.first_page_url);
             this.loader = false;
         },
         async updateSightsTypes() {
@@ -72,15 +112,18 @@ export const useSightsStore = defineStore('SightsStore', {
                 .catch(error => this.toast.error('Ошибка загрузки имени типа: ' + error.message));
                 this.new_types = '';
                 await this.getUrlSights(this.first_page_url);
+                await this.getSightId(this.sight.id);
             }
         },
         async updateSightStatus() {
-            await axios.put('sights/updateStatusSight?sight_id=' + this.sight.id + '&status_id=' + this.sight.statuses[0].id + '&descriptions=' + this.sight.statuses[0].pivot.descriptions)
+            await axios.post('sights/addStatusSight?sight_id=' + this.sight.id + '&status_id=' + this.sight.statuses[0].id + '&descriptions=' + this.sight.statuses[0].pivot.descriptions)
             .then(async response => {
                 await axios.get('getStatusId/' + this.sight.statuses[0].id)
                 .then(resp => this.new_status = resp.data.statuses.name)
                 .catch(error => this.toast.error('Ошибка в загрузке имени статуса'));
                 this.toast.success('Статус сменён на: "' + this.new_status + '"');
+                await this.getUrlSights(this.first_page_url);
+                await this.getSightId(this.sight.id);
             })
             .catch(error => this.toast.error('Статус не изменён ' + error));
             this.getUrlSights(this.first_page_url);
@@ -89,7 +132,7 @@ export const useSightsStore = defineStore('SightsStore', {
             await axios.get('sights/'+ id).then(response => this.sight = response.data).catch(error => this.toast.error(error.message));
         },
         async counterSight() {
-            await axios.get('sights?statuses=На%модерации&pagination=true')
+            await axios.get('sights?statusLast=true&statuses=На модерации&pagination=true&limit=1')
             .then(response =>{ this.count_sights = response.data.sights.total; })
         },
         async showSight(id) {
@@ -102,6 +145,9 @@ export const useSightsStore = defineStore('SightsStore', {
         async showStatusesSight() {
             this.ModalStatusSight = true;
         },
+        async showModalHistory() {
+            this.ModalHistoryStatus = true;
+        },
         async closeSight() {
             this.sight = '';
             this.ModalSight = false;
@@ -111,6 +157,9 @@ export const useSightsStore = defineStore('SightsStore', {
         },
         async closeStatusesSight() {
             this.ModalStatusSight = false;
+        },
+        async closeModalHistory() {
+            this.ModalHistoryStatus = false;
         },
     },
 })

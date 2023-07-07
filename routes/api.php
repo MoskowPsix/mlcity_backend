@@ -103,12 +103,10 @@ Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
     Route::get('getStatusId/{id}', 'getStatusId');
     // Для событий
-    Route::post('events/addStatusEvent/{event_id}/{status_id}', 'addStatusEvent')->middleware('auth:sanctum');
-    Route::put('events/updateStatusEvent', 'updateStatusEvent')->middleware('auth:sanctum');
+    Route::post('events/addStatusEvent', 'addStatusEvent')->middleware('auth:sanctum');
     Route::delete('events/deleteStatusEvent/{event_id}/{status_id}', 'deleteStatusEvent')->middleware('auth:sanctum');
     //Для достопримечательностей
-    Route::post('sights/addStatusSight/{sight_id}/{status_id}', 'addStatusSight');
-    Route::put('sights/updateStatusSight/', 'updateStatusSight');
+    Route::post('sights/addStatusSight', 'addStatusSight');
     Route::delete('sights/deleteStatusSight/{sight_id}/{status_id}', 'deleteStatusSight');
 
 });

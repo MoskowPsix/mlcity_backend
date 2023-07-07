@@ -24,7 +24,7 @@ export default defineComponent({
 })
 
 
-useSightsStore().getSightsSearch('', '', '', '', '', 'На модерации', 'Все');
+useSightsStore().getSightsSearch();
 useSightsStore().getTypesSights();
 useSightsStore().getStatusesSights();
 
@@ -117,7 +117,11 @@ useSightsStore().getStatusesSights();
                                             <p class="text-xs font-normal text-gray-600 dark:text-gray-400">{{ sight.author.email }}</p>
                                 </td>
                                 <td  v-if="sight.statuses.length !== 0" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
-                                    <div>{{ sight.statuses[0].name }}</div>
+                                    <div v-for="status of sight.statuses">
+                                        <div v-if="status.pivot.last === true">
+                                            {{ status.name }}
+                                        </div>
+                                    </div>
                                 </td>
                                 <td  v-if="sight.statuses.length === 0" class="px-4 py-4 text-sm text-red-800 dark:text-red-500 whitespace-nowrap">
                                     <div>Не определено</div>
