@@ -28,6 +28,7 @@
         "@types/webpack-bundle-analyzer": "^4.6.0",
         "@vitejs/plugin-vue": "^4.2.1",
         "@vueuse/core": "^10.2.0",
+        "flowbite": "^1.7.0",
         "npm": "^9.6.7",
         "pinia": "^2.1.3",
         "vue-axios": "^3.5.2",

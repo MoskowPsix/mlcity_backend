@@ -7,6 +7,7 @@ import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 
+
 axios.defaults.baseURL = '/api/';
 axios.defaults.headers = {'Authorization': `Bearer ${localStorage.token}`}
 

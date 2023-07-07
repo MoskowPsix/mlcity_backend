@@ -4,6 +4,9 @@ const colors = require("tailwindcss/colors")
 const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPlugin
 
 module.exports = {
+  plugins: [
+      require('flowbite/plugin')
+  ],
   content: [
     "./resources//*.blade.php",
     "./resources//*.js",
@@ -20,5 +23,4 @@ module.exports = {
     },
   },
   darkMode: "class",
-
 }
