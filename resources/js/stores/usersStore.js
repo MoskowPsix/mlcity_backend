@@ -146,7 +146,7 @@ export const useUsersStore = defineStore('usersStore', {
         async showLikeEvent() {
             this.menu_user_loader = true;
             this.link_menu_user = 'LikeEvent';
-            axios.get('users/liked-events/' + this.user_id )
+            axios.get('users/' + this.user_id + '/liked-events/')
             .then(response => this.events_sights_user = response.data.result)
             .catch(error => console.log(error));
             console.log(this.events_sights_user); 
@@ -155,7 +155,7 @@ export const useUsersStore = defineStore('usersStore', {
         async showFavoritesEvent() {
             this.menu_user_loader = true;
             this.link_menu_user = 'FavoritesEvent';
-            axios.get('users/favorite-events/' + this.user_id )
+            axios.get('users/' + this.user_id + '/favorite-events')
             .then(response => this.events_sights_user = response.data.result)
             .catch(error => console.log(error));
             console.log(this.events_sights_user);
@@ -164,7 +164,7 @@ export const useUsersStore = defineStore('usersStore', {
         async showLikeSight() {
             this.menu_user_loader = true;
             this.link_menu_user = 'LikeSight';
-            axios.get('users/liked-sights/' + this.user_id )
+            axios.get('users/' + this.user_id + '/liked-sights')
             .then(response => this.events_sights_user = response.data.result)
             .catch(error => console.log(error));
             this.menu_user_loader = false;
@@ -172,7 +172,7 @@ export const useUsersStore = defineStore('usersStore', {
         async showFavoritesSight() {
             this.menu_user_loader = true;
             this.link_menu_user = 'FavoritesSight';
-            axios.get('users/favorite-sights/' + this.user_id )
+            axios.get('users/' + this.user_id + '/favorite-sights' )
             .then(response => this.events_sights_user = response.data.result)
             .catch(error => console.log(error));
             this.menu_user_loader = false;

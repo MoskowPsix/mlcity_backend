@@ -41,10 +41,10 @@ Route::controller(UserController::class)->group(function() {
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     
-    Route::get('users/favorite-events/{id}', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
-    Route::get('users/liked-events/{id}', 'getUserLikedEventsIds')->middleware('auth:sanctum');
-    Route::get('users/favorite-sights/{id}', 'getUserFavoriteSightsIds')->middleware('auth:sanctum');
-    Route::get('users/liked-sights/{id}', 'getUserLikedSightsIds')->middleware('auth:sanctum');
+    Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
+    Route::get('users/{id}/liked-events', 'getUserLikedEventsIds')->middleware('auth:sanctum');
+    Route::get('users/{id}/favorite-sights', 'getUserFavoriteSightsIds')->middleware('auth:sanctum');
+    Route::get('users/{id}/liked-sights', 'getUserLikedSightsIds')->middleware('auth:sanctum');
 
     Route::post('users/favorite-event-toggle', 'toggleFavoriteEvent')->middleware('auth:sanctum');// добавляем убираем в избранное
     Route::post('users/like-event-toggle', 'toggleLikedEvent')->middleware('auth:sanctum');// добавляем убираем лайк
