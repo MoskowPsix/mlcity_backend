@@ -35,15 +35,25 @@ export default defineComponent({
               </th>
             </tr>
           </thead>
-          <tbody v-for="sight of sights_store.sight.statuses">
-            <tr class="border-b">
+          <tbody v-for="status of sights_store.sight.statuses">
+            <tr v-if="status.pivot.last === true" class="border-b">
+              <td class="text-sm text-green-900 dark:text-green-300 font-medium px-6 py-4">
+                {{ status.name }}
+              </td>
+              <td class="text-sm text-green-900 dark:text-green-300 font-light px-6 py-4">
+                {{ status.pivot.created_at }}
+              </td>
+              <td class="flex text-sm text-green-900 dark:text-green-300 font-light py-4"><textarea disabled wrap="soft | hard" class="rounded dark:bg-green-800 text-sm text-green-900 dark:text-green-300 ease-in-out text-base outline-none" id="journal-scroll">{{ status.pivot.descriptions }}</textarea>
+              </td>
+            </tr>
+            <tr v-if="status.pivot.last === false" class="border-b">
               <td class="text-sm text-gray-900 dark:text-gray-300 font-medium px-6 py-4">
-                {{ sight.name }}
+                {{ status.name }}
               </td>
               <td class="text-sm text-gray-900 dark:text-gray-300 font-light px-6 py-4">
-                {{ sight.pivot.created_at }}
+                {{ status.pivot.created_at }}
               </td>
-              <td class="flex text-sm text-gray-900 dark:text-gray-300 font-light py-4"><textarea disabled wrap="soft | hard" class="dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-300 ease-in-out text-base outline-none" id="journal-scroll">{{ sight.pivot.descriptions }}</textarea>
+              <td class="flex text-sm text-gray-900 dark:text-gray-300 font-light py-4"><textarea disabled wrap="soft | hard" class="dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-300 ease-in-out text-base outline-none" id="journal-scroll">{{ status.pivot.descriptions }}</textarea>
               </td>
             </tr>
             </tbody>

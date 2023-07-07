@@ -39,7 +39,17 @@ export default defineComponent ({
             </tr>
           </thead>
           <tbody v-for="status of event_store.event.statuses">
-            <tr class="border-b">
+            <tr v-if="status.pivot.last === true" class="border-b">
+              <td class="text-sm text-green-900 dark:text-green-300 font-medium px-6 py-4">
+                {{ status.name }}
+              </td>
+              <td class="text-sm text-green-900 dark:text-green-300 font-light px-6 py-4">
+                {{ status.pivot.created_at }}
+              </td>
+              <td class="flex text-sm text-green-900 dark:text-green-300 font-light py-4"><textarea disabled wrap="soft | hard" class="rounded dark:bg-green-800 text-sm text-green-900 dark:text-green-300 ease-in-out text-base outline-none" id="journal-scroll">{{ status.pivot.descriptions }}</textarea>
+              </td>
+            </tr>
+            <tr v-if="status.pivot.last === false" class="border-b">
               <td class="text-sm text-gray-900 dark:text-gray-300 font-medium px-6 py-4">
                 {{ status.name }}
               </td>
