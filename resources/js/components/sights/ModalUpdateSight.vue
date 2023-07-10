@@ -74,8 +74,10 @@ useSightsStore().getTypesSights();
                     </div>
                     <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-400">Статус</label>
                     <div v-if="sights_store.sight.statuses.length !== 0" class="w-full bg-gray-400 dark:bg-gray-800 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
-                        <p class="leading-relaxed" v-for="status of sights_store.sight.statuses">
-                            {{ status.name }}
+                        <p class="leading-relaxed" v-for="status of event_store.event.statuses">
+                            <div v-if="status.pivot.last === true">
+                                    {{ status.name }}     
+                            </div>
                         </p>
                     </div>
                     <div v-if="sights_store.sight.statuses.length === 0" class="w-full bg-red-900 rounded border border-red-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
