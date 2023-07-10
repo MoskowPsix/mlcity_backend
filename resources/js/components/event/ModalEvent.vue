@@ -132,10 +132,11 @@ export default defineComponent ({
                         <p class="leading-relaxed" v-for="status of event_store.event.statuses">
                             <div v-if="status.pivot.last === true">
                                     {{ status.name }}
+
                             </div>
                         </p>
                     </div>
-                    <button v-on:click="event_store.showModalHistory()" class="px-3 text-blue-300 hover:text-blue-500 dark:text-blue-600 dark:hover:text-blue-700">История статусов</button>
+                    <button v-on:click="event_store.showModalHistory()" class="text-sm px-1 text-blue-300 hover:text-blue-500 dark:text-blue-600 dark:hover:text-blue-700">История статусов</button>
                     <div v-if="event_store.event.statuses.length === 0" class="w-full bg-red-300 dark:bg-red-800 rounded border border-red-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <p class="leading-relaxed">
                             Статус не определён
@@ -143,7 +144,7 @@ export default defineComponent ({
                     </div>
                 </div>
                 <div class="relative mb-4">
-                    <label for="message" class="leading-7 text-sm text-gray-400">писание</label>
+                    <label for="message" class="leading-7 text-sm text-gray-400">Описание</label>
                     <textarea disabled wrap="soft | hard" class="w-full bg-gray-300 dark:bg-gray-800 rounded border-gray-400 border dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{event_store.event.description}}</textarea>
                 </div>
                 <div class="flex justify-center">

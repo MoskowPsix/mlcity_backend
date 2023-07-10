@@ -128,7 +128,7 @@ export default defineComponent({
                             </div>
                         </p>
                     </div>
-                    <button v-on:click="sights_store.showModalHistory()" class="px-3 text-blue-300 hover:text-blue-500 dark:text-blue-600 dark:hover:text-blue-700">История статусов</button>
+                    <button v-on:click="sights_store.showModalHistory()" class="text-sm px-1 text-blue-300 hover:text-blue-500 dark:text-blue-600 dark:hover:text-blue-700">История статусов</button>
                     <div v-if="sights_store.sight.statuses.length === 0" class="w-full bg-red-300 dark:bg-red-800 rounded border border-red-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <p class="leading-relaxed">
                             Статус не определён
