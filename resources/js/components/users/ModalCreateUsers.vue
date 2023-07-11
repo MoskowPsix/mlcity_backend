@@ -34,8 +34,7 @@ import {useRoleStore} from '../../stores/roleStore'
 <template>
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
 		style="background: rgba(0,0,0,.7);">
-		<div
-			class="border border-green-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+		<div class="border border-green-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
 			<div class="modal-content py-6 text-left px-6 ">
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">
@@ -50,36 +49,27 @@ import {useRoleStore} from '../../stores/roleStore'
 					</div>
 				</div>
 				<!--Body-->
-				<div class="border border-gray-300 dark:border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
-					<div class="flex justify-center">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
-                                <input type="text" v-model="user_name" placeholder="Имя пользователя..."
-                                       class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
-                            </div>
-          </div>
-          <div class="flex justify-center">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
-                                <input type="text" v-model="user_email" placeholder="Email пользователя..."
-                                       class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
-                            </div>
-          </div>
-          <div class="flex justify-center">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
-                                <input type="text" v-model="user_password" placeholder="Пароль пользователя..."
-                                       class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none "/>
-                            </div>
-          </div>
-          
-          <div class="flex justify-center text-gray-200">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 text-gray-500 items-center p-2 dark:text-gray-200 "><h1>Роль пльзователя:</h1>
-                <select v-model="user_role" class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none ">
-                  <option v-for="role in store_role.role.data" :value="role.id">
-                    {{ role.name }}
-                  </option>
-                </select>
+        <div class="flex justify-between rounded bg-gray-300 dark:bg-gray-800">
+          <div class="border border-gray-300 dark:border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
+            <input type="text" v-model="user_name" placeholder="Имя пользователя..."
+              class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
+            <input type="text" v-model="user_email" placeholder="Email пользователя..."
+              class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
+            <input type="text" v-model="user_password" placeholder="Пароль пользователя..."
+              class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none "/>
+            <input type="text" v-model="user_city" placeholder="Город пользователя..."
+              class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
+            <input type="text" v-model="user_region" placeholder="Регион пользователя..."
+              class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
+            <div class="flex justify-center rounded bg-gray-300 dark:bg-gray-800 text-gray-500 p-2 dark:text-gray-200  grid grid-cols-1 gap-1">
+            <h1 class="text-xs">Роль пльзователя: </h1>
+              <select v-model="user_role" class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none ">
+                <option v-for="role in store_role.role.data" :value="role.id">
+                  {{ role.name }}
+                </option>
+              </select>
             </div>
           </div>
-          
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">

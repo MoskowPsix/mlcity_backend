@@ -7,7 +7,7 @@ import Loader from '../Loader.vue'
 import SearchUsers from './SearchUsers.vue'
 import Modal from './ModalCreateUsers.vue'
 import ModalDel from './ModalDelUsers.vue'
-import ModalCreateUsers from './ModalUpdateUsers.vue'
+import ModalUpdateUsers from './ModalUpdateUsers.vue'
 import ModalDetailedUsers from './ModalDetailedUsers.vue';
 import.meta.env.$APP_URL
 
@@ -25,7 +25,7 @@ export default defineComponent({
             return (new Date(date)).toLocaleString()
         },
     },
-    components: {Loader, SearchUsers, Modal, ModalDel, ModalCreateUsers, ModalDetailedUsers},
+    components: {Loader, SearchUsers, Modal, ModalDel, ModalUpdateUsers, ModalDetailedUsers},
 })
 
 
@@ -41,6 +41,7 @@ useRoleStore().getRole();
     <Loader v-if="store.loader === true"/>
     <Modal v-if="store.show_modal_users === true"/>
     <ModalDetailedUsers v-if="store.detailed_modal_users === true"/>
+    <ModalUpdateUsers v-if="store.user_upd === true"/>
 
     <div v-if="store.loader === false" class="flex flex-col">
         <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -71,7 +72,9 @@ useRoleStore().getRole();
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Роль
                                 </th>
-
+                                <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                                    Регион/Город
+                                </th>
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     Name and email
                                 </th>
@@ -88,21 +91,23 @@ useRoleStore().getRole();
                         </thead>
                          <!-- Конец полей таблицы  -->
                         <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="user in store.users.users.data" :key="user.id">
-                            <tr>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
+                            <tr class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
+                                <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                     <div class="inline-flex items-center gap-x-3">
                                         <span>{{ user.id }}</span>
                                     </div>
                                 </td>
-                                    <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>
-                                <td class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
+                                <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>
+                                <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                     <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-gray-100/60 dark:bg-gray-700/20 dark:bg-gray-800" >
                                         <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
                                         <h2 v-else-if="user.roles[0].name" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
                     
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
+                                <td @click="store.showModalUpd(user)" v-if="user.region && user.city" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ user.region }}, {{ user.city }}</td>
+                                <td @click="store.showModalUpd(user)" v-if="!user.region && !user.city" class="px-4 py-4 text-sm text-red-500 dark:text-red-300 whitespace-nowrap">Не определено</td>
+                                <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">
                                     <div class="flex items-center gap-x-2">
                                         <img class="object-cover w-8 h-8 rounded-full" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80" alt="">
                                         <div>
@@ -111,18 +116,16 @@ useRoleStore().getRole();
                                         </div>
                                     </div>
                                 </td>
-                                <td class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ localeDate(user.updated_at) }}</td>
+                                <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{ localeDate(user.updated_at) }}</td>
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
-                                        <button @click="store.showModalDetailed(user.id)" class="text-gray-500 transition-colors duration-200 dark:hover:text-indigo-500 dark:text-gray-300 hover:text-indigo-500 focus:outline-none">
+                                        <button @click="store.showModalDetailed(user.id)" class="text-blue-500 transition-colors duration-200 dark:hover:text-blue-500 dark:text-blue-300 hover:text-blue-500 focus:outline-none">
                                             Лайки и Избронное
                                         </button>
 
-                                        <button @click="store.showModalUpd(user.id, user.name, user.email)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
+                                        <!-- <button @click="store.showModalUpd(user)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">
                                             Редактировать
-                                        </button>
-                                        <ModalCreateUsers v-if="store.user_upd === true">
-                                        </ModalCreateUsers>
+                                        </button> -->
                                         <button @click="store.showModalDel(user.id, user.name, user.email)" class="text-red-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">Удалить</button>
                                         <ModalDel v-if="store.del_modal_users === true">
                                         </ModalDel>
