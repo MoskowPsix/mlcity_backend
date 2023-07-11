@@ -1,5 +1,5 @@
 <script>
-import { useStore } from '../../stores/eventsStore';  
+import { useEventsStore } from '../../stores/eventsStore';  
 import { defineComponent } from 'vue';
 
 
@@ -20,11 +20,11 @@ export default defineComponent ({
             <div class="w-[500px] rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-800 bg-white py-4 px-2 shadow-md shadow-gray-600">
                 <div class="flex items-stretch justify-between px-2 text-base font-medium text-gray-700 dark:text-gray-300 ml-10">
 
-                    <div v-if="event_store.ModalLikedFavorites.window === 'liked'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Event</div>
-                    <button v-on:click="event_store.showModalLiked()" v-if="event_store.ModalLikedFavorites.window !== 'liked'" class="rounded px-2 py-1 ">Like Event</button>
+                    <div v-if="event_store.ModalLikedFavorites.window === 'liked'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Eventp <p class="text-xs" v-if="event_store.ModalLikedFavorites.loader === false">Всего: {{ event_store.ModalLikedFavorites.result.total }}</p></div>
+                    <button v-on:click="event_store.showModalLiked()" v-if="event_store.ModalLikedFavorites.window !== 'liked'" class="rounded px-2 py-3 ">Like Event</button>
 
-                    <div v-if="event_store.ModalLikedFavorites.window === 'favorites'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Event</div>
-                    <button v-on:click="event_store.showModalFavorites()" v-if="event_store.ModalLikedFavorites.window !== 'favorites'" class="rounded px-2 py-1 ">Favorites Event</button>
+                    <div v-if="event_store.ModalLikedFavorites.window === 'favorites'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Event<p class="text-xs" v-if="event_store.ModalLikedFavorites.loader === false">Всего: {{ event_store.ModalLikedFavorites.result.total }}</p></div>
+                    <button v-on:click="event_store.showModalFavorites()" v-if="event_store.ModalLikedFavorites.window !== 'favorites'" class="rounded px-2 py-3 ">Favorites Event</button>
 
                     <div>
                         <button v-on:click="event_store.closeModalLikedFavorites()" class="flex h-5 w-5 items-center justify-center text-gray-800 dark:text-gray-500 rounded-full bg-gray-200 dark:bg-gray-800 text-black">

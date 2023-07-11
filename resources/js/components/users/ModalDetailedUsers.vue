@@ -22,17 +22,17 @@ export default defineComponent({
             <div class="w-[500px] rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-800 bg-white py-4 px-2 shadow-md shadow-gray-600">
                 <div class="flex items-center justify-between px-2 text-base font-medium text-gray-700 dark:text-gray-300">
 
-                    <div v-if="user_store.link_menu_user === 'LikeEvent'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Event</div>
-                    <button v-on:click="user_store.showLikeEvent()" v-if="user_store.link_menu_user !== 'LikeEvent'" class="rounded px-2 py-1 ">Like Event</button>
+                    <div v-if="user_store.link_menu_user === 'LikeEvent'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Event<p class="text-xs" v-if="user_store.menu_user_loader === false">Всего: {{ user_store.events_sights_user.total }}</p></div>
+                    <button v-on:click="user_store.showLikeEvent()" v-if="user_store.link_menu_user !== 'LikeEvent'" class="rounded px-2 py-3 ">Like Event</button>
 
-                    <div v-if="user_store.link_menu_user === 'FavoritesEvent'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Event</div>
-                    <button v-on:click="user_store.showFavoritesEvent()" v-if="user_store.link_menu_user !== 'FavoritesEvent'" class="rounded px-2 py-1 ">Favorites Event</button>
+                    <div v-if="user_store.link_menu_user === 'FavoritesEvent'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Event<p class="text-xs" v-if="user_store.menu_user_loader === false">Всего: {{ user_store.events_sights_user.total }}</p></div>
+                    <button v-on:click="user_store.showFavoritesEvent()" v-if="user_store.link_menu_user !== 'FavoritesEvent'" class="rounded px-2 py-3 ">Favorites Event</button>
 
-                    <div v-if="user_store.link_menu_user === 'LikeSight'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Sight</div>
-                    <button v-on:click="user_store.showLikeSight()" v-if="user_store.link_menu_user !== 'LikeSight'" class="rounded px-2 py-1 ">Like Sight</button>
+                    <div v-if="user_store.link_menu_user === 'LikeSight'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Like Sight<p class="text-xs" v-if="user_store.menu_user_loader === false">Всего: {{ user_store.events_sights_user.total }}</p></div>
+                    <button v-on:click="user_store.showLikeSight()" v-if="user_store.link_menu_user !== 'LikeSight'" class="rounded px-2 py-3 ">Like Sight</button>
 
-                    <div v-if="user_store.link_menu_user === 'FavoritesSight'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Sight</div>
-                    <button v-on:click="user_store.showFavoritesSight()" v-if="user_store.link_menu_user !== 'FavoritesSight'" class="rounded px-2 py-1 ">Favorites Sight</button>
+                    <div v-if="user_store.link_menu_user === 'FavoritesSight'" class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">Favorites Sight<p class="text-xs" v-if="user_store.menu_user_loader === false">Всего: {{ user_store.events_sights_user.total }}</p></div>
+                    <button v-on:click="user_store.showFavoritesSight()" v-if="user_store.link_menu_user !== 'FavoritesSight'" class="rounded px-2 py-3 ">Favorites Sight</button>
 
                     <div>
                         <button @click="user_store.closeModalDetailed" class="flex h-5 w-5 items-center justify-center rounded-full bg-gray-200 dark:bg-gray-800 dark:hover:bg-red-800 text-black">
@@ -42,8 +42,13 @@ export default defineComponent({
                 </button>
                     </div>
                 </div>
-                <div class="mt-4">
-                    <div class="min-h-[500px] flex items-center justify-center p-5 bg-gray-100 min-w-screen dark:bg-gray-900" v-if="user_store.menu_user_loader === true">
+                <div class="mt-4 min-h-[400px]">
+                    <div class="flex max-h-[451px] min-h-[451px] items-center justify-center p-5 bg-gray-100 min-w-screen dark:bg-gray-800" v-if="user_store.events_sights_user.total === 0 && user_store.menu_user_loader === false">
+                        <div class="flex space-x-2">
+                            <div class="rounded-full text-gray-500 text-2xl">Нет результатов</div>
+                        </div>
+                    </div>
+                    <div class="flex min-h-[400px] flex items-center justify-center p-5 bg-gray-100 min-w-screen dark:bg-gray-800" v-if="user_store.menu_user_loader === true">
                         <div class="flex space-x-2 animate-pulse">
                             <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
                             <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
@@ -65,9 +70,9 @@ export default defineComponent({
                     </div>
                     
                 </div>
-                <div class="flex items-center justify-between mt-6">
+                <div class="flex items-center justify-between mt-6" v-if="user_store.events_sights_user.total !== 0 ">
                 <div v-for="link in user_store.events_sights_user.links">
-                    <div v-if=" link.label  === pageP">
+                    <div v-if=" link.label  === pageP && link.url !== null">
                         <a href="#" @click="user_store.showPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
@@ -89,7 +94,7 @@ export default defineComponent({
                         </div>
                     </div>
 
-                    <div v-if="link.label === pageN">
+                    <div v-if="link.label === pageN && link.url !== null">
                         <a href="#" @click="user_store.showPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                             <span>
                                 Вперёд
