@@ -19,13 +19,13 @@ import {useRoleStore} from '../../stores/roleStore'
 <template>
 
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
-		style="background: rgba(0,0,0,.2);">
+		style="background: rgba(0,0,0,.7);">
 		<div
-			class="border border-blue-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded shadow-lg z-50 overflow-y-auto">
+			class="border border-blue-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
 			<div class="modal-content py-6 text-left px-6 ">
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">
-                    <p class="text-1xl font-bold text-gray-600 dark:text-gray-300">Редактировать пользователя <br> Имя: {{ store.user_upd_id.name }} <br> ID: {{store.user_upd_id.id}} <br> Email: {{ store.user_upd_id.email }}</p>
+                    <p class="text-1xl font-bold text-gray-600 dark:text-gray-300">Редактировать пользователя <br>  ID: {{store.user_upd_id.id}}</p>
 					<div @click="store.closeModalUpd()" class="modal-close cursor-pointer z-50">
 						<svg class="fill-current text-black" xmlns="http://www.w3.org/2000/svg" width="18" height="18"
 							viewBox="0 0 18 18">
@@ -37,27 +37,19 @@ import {useRoleStore} from '../../stores/roleStore'
 				</div>
 				<!--Body-->
 				<div class="border border-gray-300 dark:border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
-					<div class="flex justify-center">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
-              <input type="text" v-model="user_name" placeholder="Имя пользователя..."
-              class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none"/>
-            </div>
-          </div>
-          <div class="flex justify-center text-gray-200">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 items-center p-2 ">
-              <input type="text" v-model="user_email" placeholder="Email пользователя..."
-              class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
-            </div>
-          </div>
-          <div class="flex justify-center text-gray-200">
-            <div class="flex rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 items-center p-2 ">
-                <select v-model="user_role" class="bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none ">
-                  <option v-for="role in store_role.role.data" :value="role.id">
-                    {{ role.name }}
-                  </option>
-                </select>
-            </div>
-          </div>
+          <input type="text" v-model="store.user_upd_id.name" placeholder="Имя пользователя..."
+            class="rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none"/>
+          <input type="text" v-model="store.user_upd_id.email" placeholder="Email пользователя..."
+            class="rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
+          <input type="text" v-model="store.user_upd_id.city" placeholder="Город..."
+            class="rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none"/>
+          <input type="text" v-model="store.user_upd_id.region" placeholder="Регион..."
+            class="rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none"/>
+          <select v-model="store.user_upd_id.roles[0].id" class="rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none ">
+            <option v-for="role in store_role.role.data" :value="role.id">
+              {{ role.name }}
+            </option>
+          </select>
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">

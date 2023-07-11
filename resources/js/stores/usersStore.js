@@ -6,12 +6,31 @@ import { useToastStore } from './toastStore';
 export const useUsersStore = defineStore('usersStore', {
     actions: {
         // Получить всех юзеров по фильтрам
-        async getUsers(name = '', email = '', time = '', limit = 10) {
+        async getUsers(limit = 10) {
             this.loader = true;
-            await this.getPage('listUsers?limit=' + limit + '&name=' + name + '&email=' + email + '&createdDateStart=' + time.replace('~', '&cteatedDateEnd='));
+            var city = '';
+            var region = '';
+            if (this.user_search.city) { city = '&city=' + this.user_search.city }
+            if (this.user_search.region) { region = '&region=' + this.user_search.region}
+            await this.getPage(
+                'listUsers?limit=' + limit + 
+                '&name=' + this.user_search.name + 
+                '&email=' + this.user_search.email + 
+                '&createdDateStart=' + this.user_search.time.replace('~', '&cteatedDateEnd=') + 
+                city +
+                region
+            );
             if (this.users.users.total === 0) {
                 this.toast.warning('Пользователи не были найдены');
             }
+        },
+        async clearSearch() {
+            this.user_search.name = '';
+            this.user_search.email = '';
+            this.user_search.city = '';
+            this.user_search.region = '';
+            this.user_search.time = '';
+            await this.getUsers();
         },
         // Имя по ИД юзера
         getUserId(id) {
@@ -23,7 +42,7 @@ export const useUsersStore = defineStore('usersStore', {
         async getPage(url) {
             this.loader = true;
             await axios.get(url)
-            .then(response => {(this.users = response.data), this.links = response.data.users.links})
+            .then(response => {(this.users = response.data); this.links = response.data.users.links})
             .catch(error => this.toast.error('Ошибка, страница не получена!'));
             this.loader = false;
         },
@@ -72,33 +91,38 @@ export const useUsersStore = defineStore('usersStore', {
             this.loader = false;
         },
         // Обновить юзера
-        async updateUser(name, email, role_id) {
+        async updateUser() {
             this.loader = true;
+            console.log(this.user_upd_id);
             //Меняем инфу об юзере
-            if (name) {
-                await axios.put('updateUsers/' + this.user_upd_id.id + '?name=' + name)
-                .then(response => this.toast.success('Обновлено: имя - ' + response.data.user.name ))
-                .catch(error => this.toast.error('Name update: ' + error.message));
-            }
-            if (email) {
-                await axios.put('updateUsers/' + this.user_upd_id.id + '?email=' + email)
-                .then(response => this.toast.success('Обновлено: почта - ' + response.data.user.email))
-                .catch(error => this.toast.error('Email update: ' + error.message));
-            }
-            //Меняем роль
-            if (role_id) {
-                await axios.put('updateRoleUser/' + this.user_upd_id.id + '/' + role_id)
-                .then(async response => {
-                    await axios.get('getRole/' + response.data.update_role)
-                    .then(resp => response.data.update_role = resp.data.role.name)
-                    .catch(error => this.toast.warning('Ошибка получения получения имени роли!' + error.message))
-                    await axios.get('users/' + this.user_upd_id.id)
-                    .then(resp => response.data.user = resp.data.user.name)
-                    .catch(error => this.toast.warning('Ошибка получения имени пользователя! ' + error.message))
-                    this.toast.success('Пользователь: ' + response.data.user + ', теперь имеет роль ' + response.data.update_role);
-                }).catch(error => this.toast.error('Role update: ' + error.message));
-            }
+            await axios.put(
+                'updateUsers/' + this.user_upd_id.id + 
+                '?name=' + this.user_upd_id.name + 
+                '&email=' + this.user_upd_id.email + 
+                '&city=' + this.user_upd_id.city + 
+                '&region=' + this.user_upd_id.region
+            )
+            .then(
+                response => this.toast.success(
+                    'Обновлено: имя - ' + response.data.user.name + 
+                    ', почта - '+ response.data.user.email +
+                    ', город - ' + response.data.user.city +
+                    ', регион - ' + response.data.user.region
+                )
+            )
+            .catch(error => this.toast.error('Name update: ' + error.message));
 
+            //Меняем роль
+            await axios.put('updateRoleUser/' + this.user_upd_id.id + '/' + this.user_upd_id.roles[0].id)
+            .then(async response => {
+                await axios.get('getRole/' + response.data.update_role)
+                .then(resp => response.data.update_role = resp.data.role.name)
+                .catch(error => this.toast.warning('Ошибка получения получения имени роли!' + error.message))
+                await axios.get('users/' + this.user_upd_id.id)
+                .then(resp => response.data.user = resp.data.user.name)
+                .catch(error => this.toast.warning('Ошибка получения имени пользователя! ' + error.message))
+                this.toast.success('Пользователь: ' + response.data.user + ', роль: ' + response.data.update_role);
+            }).catch(error => this.toast.error('Ошибка при обновлении роли пользователя: ' + error.message));
             await this.getPage(this.users.users.first_page_url);
             this.closeModalUpd();
             this.loader = false;
@@ -123,8 +147,8 @@ export const useUsersStore = defineStore('usersStore', {
             this.del_modal_users = await true;
           },
           // Млдальное окно редактирования
-        async showModalUpd(id, name, email) {
-            this.user_upd_id = {id: id, name: name, email: email};
+        async showModalUpd(user) {
+            this.user_upd_id = user;
             this.user_upd = true;
         },
         async closeModalUpd() {
@@ -184,6 +208,13 @@ export const useUsersStore = defineStore('usersStore', {
         users: [],
         loader: true,
         user_id: '',
+        user_search: {
+            name: '',
+            email: '',
+            city: '',
+            region: '',
+            time: '',
+        },
         show_modal_users: false,
         del_modal_users: false,
         detailed_modal_users: false,

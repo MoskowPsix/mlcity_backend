@@ -18,6 +18,8 @@ use App\Filters\Users\UsersName;
 use App\Filters\Users\UsersId;
 use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
+use App\Filters\Users\UsersCity;
+use App\Filters\Users\UsersRegion;
 
 class UserController extends Controller
 {
@@ -201,8 +203,8 @@ class UserController extends Controller
                 UsersEmail::class,
                 UsersCreated::class,
                 UsersUpdated::class,
-
-
+                UsersCity::class,
+                UsersRegion::class
             ])
             ->then(function ($users) use ($page, $limit, $request){
                 return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
@@ -226,6 +228,8 @@ class UserController extends Controller
                 'id' => $user->id,
                 'name' => $user->name,
                 'email' => $user->email,
+                'city' => $user->city,
+                'region' => $user->region,
             ]
         ];
     
