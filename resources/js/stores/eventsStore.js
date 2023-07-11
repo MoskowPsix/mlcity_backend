@@ -172,7 +172,7 @@ export const useEventsStore = defineStore('EventsStore', {
             this.ModalLikedFavorites.loader =true;
             this.ModalLikedFavorites.status = true;
             this.ModalLikedFavorites.window = 'liked';
-            axios.get('events/' + this.event.id + '/liked-users')
+            await axios.get('events/' + this.event.id + '/liked-users')
             .then(response => {
                 this.ModalLikedFavorites.result = response.data.result;
             })
@@ -183,7 +183,7 @@ export const useEventsStore = defineStore('EventsStore', {
             this.ModalLikedFavorites.loader =true;
             this.ModalLikedFavorites.status = true;
             this.ModalLikedFavorites.window = 'favorites';
-            axios.get('events/' + this.event.id + '/favorites-users')
+            await axios.get('events/' + this.event.id + '/favorites-users')
             .then(response => { 
                 this.ModalLikedFavorites.result = response.data.result;
 
@@ -193,7 +193,7 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async getFavoritesLikedPage(url) {
             this.ModalLikedFavorites.loader =true;
-            axios.get(url)
+            await axios.get(url)
             .then(response => this.ModalLikedFavorites.result = response.data.result)
             .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
             this.ModalLikedFavorites.loader = false;

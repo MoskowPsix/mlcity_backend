@@ -153,10 +153,10 @@ export const useSightsStore = defineStore('SightsStore', {
             this.ModalHistoryStatus = true;
         },
         async showModalLiked() {
-            this.ModalLikedFavorites.loader =true;
+            this.ModalLikedFavorites.loader = true;
             this.ModalLikedFavorites.status = true;
             this.ModalLikedFavorites.window = 'liked';
-            axios.get('sights/' + this.sight.id + '/liked-users')
+            await axios.get('sights/' + this.sight.id + '/liked-users')
             .then(response => {
                 this.ModalLikedFavorites.result = response.data.result;
             })
@@ -167,7 +167,7 @@ export const useSightsStore = defineStore('SightsStore', {
             this.ModalLikedFavorites.loader =true;
             this.ModalLikedFavorites.status = true;
             this.ModalLikedFavorites.window = 'favorites';
-            axios.get('sights/' + this.sight.id + '/favorites-users')
+            await axios.get('sights/' + this.sight.id + '/favorites-users')
             .then(response => { 
                 this.ModalLikedFavorites.result = response.data.result;
 
@@ -177,7 +177,7 @@ export const useSightsStore = defineStore('SightsStore', {
         },
         async getFavoritesLikedPage(url) {
             this.ModalLikedFavorites.loader =true;
-            axios.get(url)
+            await axios.get(url)
             .then(response => this.ModalLikedFavorites.result = response.data.result)
             .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
             this.ModalLikedFavorites.loader = false;
