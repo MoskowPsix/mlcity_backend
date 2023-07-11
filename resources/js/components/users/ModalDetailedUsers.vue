@@ -50,7 +50,6 @@ export default defineComponent({
                             <div class="w-3 h-3 bg-gray-500 rounded-full"></div>
                         </div>
                     </div>
-                    
                     <div class="flex max-h-[400px] w-full flex-col  overflow-y-scroll" id="journal-scroll" v-if="user_store.menu_user_loader === false">
                         <button class="group flex items-center gap-x-5 rounded-md px-2.5 py-2 my-0.5 transition-all duration-75 bg-gray-200 dark:bg-gray-700 hover:bg-green-100 dark:bg-gray-700 dark:hover:bg-green-700 rounded-xl" v-for="item in user_store.events_sights_user.data" :key="item.id">
                             <div class="flex h-12 w-12 items-center rounded-lg bg-gray-200 text-black group-hover:bg-green-200">

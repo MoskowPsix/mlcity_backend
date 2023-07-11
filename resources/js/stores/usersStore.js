@@ -16,7 +16,6 @@ export const useUsersStore = defineStore('usersStore', {
         // Имя по ИД юзера
         getUserId(id) {
             axios.get('users/' + id).then(response => id = response.data.user.name).catch(error => this.toast.error('Метод загрузки пользователя по ID не работает!'));
-            console.log(id);
             return id;
         },
 
@@ -32,7 +31,6 @@ export const useUsersStore = defineStore('usersStore', {
         // Создание юзера
         async createUser (name, email, password, role_id) {
             this.loader = true;
-            console.log(name + ' ' + email + ' ' + password);
             await axios.post('register/', {
                 name: name,
                 email: email,
@@ -50,8 +48,7 @@ export const useUsersStore = defineStore('usersStore', {
                         }).catch(error => this.toast.warning('Ошибка при создании пользователя!'));
                     }
                     this.toast.success('Ползователь: ' + name + ' с почтой: ' + email + ' успешно создан!');
-                    this.closeModal();
-                    console.log(response)   
+                    this.closeModal();   
                     this.loader = false;
                 }
             })
@@ -148,8 +145,7 @@ export const useUsersStore = defineStore('usersStore', {
             this.link_menu_user = 'LikeEvent';
             axios.get('users/' + this.user_id + '/liked-events/')
             .then(response => this.events_sights_user = response.data.result)
-            .catch(error => console.log(error));
-            console.log(this.events_sights_user); 
+            .catch(error => console.log(error)); 
             this.menu_user_loader = false;
         }, 
         async showFavoritesEvent() {
@@ -158,7 +154,6 @@ export const useUsersStore = defineStore('usersStore', {
             axios.get('users/' + this.user_id + '/favorite-events')
             .then(response => this.events_sights_user = response.data.result)
             .catch(error => console.log(error));
-            console.log(this.events_sights_user);
             this.menu_user_loader = false;
         }, 
         async showLikeSight() {

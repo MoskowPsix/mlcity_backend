@@ -64,6 +64,8 @@ Route::controller(EventController::class)->group(function() {
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('auth:sanctum');
+    Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
+    Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds')->middleware('auth:sanctum');
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
@@ -76,6 +78,8 @@ Route::controller(SightController::class)->group(function() {
     Route::get('sights/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('sights/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('sights/create', 'create')->middleware('auth:sanctum');
+    Route::get('sights/{id}/liked-users', 'getSightUserLikedIds')->middleware('auth:sanctum');
+    Route::get('sights/{id}/favorites-users', 'getSightUserFavoritesIds')->middleware('auth:sanctum');
 });
 
 Route::controller(CommentController::class)->group(function() {
