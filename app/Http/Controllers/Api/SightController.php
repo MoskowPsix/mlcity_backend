@@ -19,6 +19,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
 use App\Models\Sight;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
 
 class SightController extends Controller
@@ -143,6 +144,52 @@ class SightController extends Controller
         }
 
         return response()->json(['status' => 'success',], 200);
+    }
+
+    public function getSightUserLikedIds($id, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $likedUsers = Sight::findOrFail($id)->likedUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+       ], 200);
+    }
+
+    public function getSightUserFavoritesIds($id, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $likedUsers = Sight::findOrFail($id)->favoritesUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+       ], 200);
     }
 
     public function updateSight(Request $request, $id): \Illuminate\Http\JsonResponse

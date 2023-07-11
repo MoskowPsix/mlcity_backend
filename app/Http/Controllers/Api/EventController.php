@@ -26,6 +26,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\User;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
 {
@@ -166,6 +167,52 @@ class EventController extends Controller
         }
 
         return response()->json(['status' => 'success',], 200);
+    }
+
+    public function getEventUserLikedIds($id, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $likedUsers = Event::findOrFail($id)->likedUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+       ], 200);
+    }
+
+    public function getEventUserFavoritesIds($id, Request $request): \Illuminate\Http\JsonResponse
+    {
+        $likedUsers = Event::findOrFail($id)->favoritesUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return response()->json([
+            'status' => 'success',
+            'result' => $paginator->setCollection(
+                                $items->forPage($page, $limit)
+                                )->appends(request()->except(['page']))
+                                ->withPath($request->url())
+       ], 200);
     }
 
     public function updateEvent(Request $request, $id): \Illuminate\Http\JsonResponse

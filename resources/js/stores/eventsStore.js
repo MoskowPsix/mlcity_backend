@@ -17,6 +17,13 @@ export const useEventsStore = defineStore('EventsStore', {
         ModalUpdate: false,
         ModalStatuses: false,
         ModalHistoryStatus: false,
+        ModalLikedFavorites: {
+            status: false,
+            window: '',
+            result: [],
+            loader: true,
+        },
+        ModalComents: false,
         count_moder: '',
         status: [],
         new_status: '',
@@ -158,6 +165,39 @@ export const useEventsStore = defineStore('EventsStore', {
         async showModalHistory() {
             this.ModalHistoryStatus = true;
         },
+        async showModalComents() {
+            this.ModalComents = true;
+        },
+        async showModalLiked() {
+            this.ModalLikedFavorites.loader =true;
+            this.ModalLikedFavorites.status = true;
+            this.ModalLikedFavorites.window = 'liked';
+            axios.get('events/' + this.event.id + '/liked-users')
+            .then(response => {
+                this.ModalLikedFavorites.result = response.data.result;
+            })
+            .catch(error => this.toast.error('При загрузке лайков произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader =false;
+        },
+        async showModalFavorites() {
+            this.ModalLikedFavorites.loader =true;
+            this.ModalLikedFavorites.status = true;
+            this.ModalLikedFavorites.window = 'favorites';
+            axios.get('events/' + this.event.id + '/favorites-users')
+            .then(response => { 
+                this.ModalLikedFavorites.result = response.data.result;
+
+            })
+            .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader = false;
+        },
+        async getFavoritesLikedPage(url) {
+            this.ModalLikedFavorites.loader =true;
+            axios.get(url)
+            .then(response => this.ModalLikedFavorites.result = response.data.result)
+            .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader = false;
+        },
         async closeUpdateEvent() {
             this.event = '';
             this.ModalEvent = false;
@@ -170,6 +210,14 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async closeModalHistory() {
             this.ModalHistoryStatus = false;
+        },
+        async closeModalComents() {
+            this.ModalComents = false;
+        },
+        async closeModalLikedFavorites() {
+            this.ModalLikedFavorites.status = false;
+            this.ModalLikedFavorites.window = '';
+            this.ModalLikedFavorites.result = '';
         },
 
     }

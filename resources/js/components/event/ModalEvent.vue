@@ -4,6 +4,7 @@ import { defineComponent } from 'vue';
 import ModalUpdateEvent from './ModalUpdateEvent.vue';
 import ModalStatuses from './ModalStatuses.vue';
 import ModalHistoryStatus from './ModalHistoryStatus.vue';
+import ModalLikedFavorites from './ModalLikedFavorites.vue';
 
 
 
@@ -13,7 +14,12 @@ export default defineComponent ({
         const event_store = useEventsStore();
         return { event_store }
     },
-    components: {ModalUpdateEvent, ModalStatuses, ModalHistoryStatus},
+    components: {
+        ModalUpdateEvent, 
+        ModalStatuses, 
+        ModalHistoryStatus,
+        ModalLikedFavorites,
+    },
 
 })
 </script>
@@ -21,9 +27,12 @@ export default defineComponent ({
 <template>
 
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
+    <!-- Окно изменения события статусов-->
     <ModalUpdateEvent v-if="event_store.ModalUpdate === true"/>
+    <!--Окно изменения статусов-->
     <ModalStatuses v-if="event_store.ModalStatuses === true"/>
-    <ModalHistoryStatus v-if="event_store.ModalHistoryStatus === true">
+    <!--Окно просмотра истории статусов-->
+    <ModalHistoryStatus v-if="event_store.ModalHistoryStatus === true"> <!-- История статусов-->
         <table class="text-center w-full">
           <thead class="border-b">
             <tr>
@@ -62,7 +71,12 @@ export default defineComponent ({
             </tbody>
         </table>
     </ModalHistoryStatus>
-    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg" v-if="event_store.ModalUpdate === false">
+    <!-- Окно списка коментариев (пока сломано) -->
+
+    <!-- Окно просмотра юзеров лайнувцих и добавивших в избранное -->
+    <ModalLikedFavorites  v-if="event_store.ModalLikedFavorites.status === true"/>
+
+    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg " v-if="event_store.ModalUpdate === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ event_store.event.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ event_store.event.sponsor }}</p>
@@ -95,6 +109,9 @@ export default defineComponent ({
             </div>
             </div>
             <div class="lg:w-1/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
+                <div class="items-center">
+                    <button v-on:click="event_store.showModalLiked()" class="rounded text-sm mr-3 border dark:border-gray-500/30 p-1 dark:bg-gray-400/20 dark:hover:bg-gray-400/30 dark:text-gray-300 dark:hover:text-gray-100 text-gray-600 bg-gray-500/30 hover:bg-gray-500/20">Просмотр пользователей</button>
+                </div>
                 <label for="email" class="leading-7 text-sm text-gray-400">Автор</label>
                     <div class="w-full bg-gray-300 dark:bg-gray-800 rounded border-gray-400 border dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <p class="leading-relaxed">
@@ -132,7 +149,6 @@ export default defineComponent ({
                         <p class="leading-relaxed" v-for="status of event_store.event.statuses">
                             <div v-if="status.pivot.last === true">
                                     {{ status.name }}
-
                             </div>
                         </p>
                     </div>
@@ -143,11 +159,13 @@ export default defineComponent ({
                         </p>
                     </div>
                 </div>
-                <div class="relative mb-4">
-                    <label for="message" class="leading-7 text-sm text-gray-400">Описание</label>
+                <div class="relative mb-1">
+                    <label class="leading-7 text-sm text-gray-400">Описание</label>
                     <textarea disabled wrap="soft | hard" class="w-full bg-gray-300 dark:bg-gray-800 rounded border-gray-400 border dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 h-32 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">{{event_store.event.description}}</textarea>
                 </div>
-                <div class="flex justify-center">
+                <!-- Коменты пока сломаны -->
+                <!-- <button class="rounded text-sm text-blue-300 hover:text-blue-500 dark:text-blue-600 dark:hover:text-blue-700">Просмотреть коментарии</button> -->
+                <div class="flex justify-center mt-3">
                     <button v-on:click="event_store.showUpdate()" class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg">Редактировать</button>
                     <div class="px-6"></div>
                     <button v-on:click="event_store.showStatuses()" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Сменить статус</button>

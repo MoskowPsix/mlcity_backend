@@ -20,6 +20,12 @@ export const useSightsStore = defineStore('SightsStore', {
         ModalUpdateSight: false,
         ModalStatusSight: false,
         ModalHistoryStatus: false,
+        ModalLikedFavorites: {
+            status: false,
+            window: '',
+            result: [],
+            loader: true,
+        },
         sight_search: {
             name: '',
             sponsor: '',
@@ -46,7 +52,6 @@ export const useSightsStore = defineStore('SightsStore', {
                 this.sights = response.data.sights.data;
                 this.links = response.data.sights.links;
                 this.first_page_url = response.data.sights.first_page_url;
-                console.log(response);
             })
             .catch(error => this.toast.error('При получении url: "' + url + '" произошла ошибка: ' + error.message));
             this.loader = false;
@@ -75,7 +80,6 @@ export const useSightsStore = defineStore('SightsStore', {
                 last + 
                 '&searchText=' + this.sight_search.text + 
                 '&pagination=true'; 
-                console.log(url)
             await this.getUrlSights(url);
             this.loader = false;
         },
@@ -148,6 +152,36 @@ export const useSightsStore = defineStore('SightsStore', {
         async showModalHistory() {
             this.ModalHistoryStatus = true;
         },
+        async showModalLiked() {
+            this.ModalLikedFavorites.loader =true;
+            this.ModalLikedFavorites.status = true;
+            this.ModalLikedFavorites.window = 'liked';
+            axios.get('sights/' + this.sight.id + '/liked-users')
+            .then(response => {
+                this.ModalLikedFavorites.result = response.data.result;
+            })
+            .catch(error => this.toast.error('При загрузке лайков произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader =false;
+        },
+        async showModalFavorites() {
+            this.ModalLikedFavorites.loader =true;
+            this.ModalLikedFavorites.status = true;
+            this.ModalLikedFavorites.window = 'favorites';
+            axios.get('sights/' + this.sight.id + '/favorites-users')
+            .then(response => { 
+                this.ModalLikedFavorites.result = response.data.result;
+
+            })
+            .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader = false;
+        },
+        async getFavoritesLikedPage(url) {
+            this.ModalLikedFavorites.loader =true;
+            axios.get(url)
+            .then(response => this.ModalLikedFavorites.result = response.data.result)
+            .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
+            this.ModalLikedFavorites.loader = false;
+        },
         async closeSight() {
             this.sight = '';
             this.ModalSight = false;
@@ -160,6 +194,11 @@ export const useSightsStore = defineStore('SightsStore', {
         },
         async closeModalHistory() {
             this.ModalHistoryStatus = false;
+        },
+        async closeModalLikedFavorites() {
+            this.ModalLikedFavorites.status = false;
+            this.ModalLikedFavorites.window = '';
+            this.ModalLikedFavorites.result = '';
         },
     },
 })
