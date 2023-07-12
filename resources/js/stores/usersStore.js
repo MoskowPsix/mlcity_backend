@@ -153,6 +153,8 @@ export const useUsersStore = defineStore('usersStore', {
           // Млдальное окно редактирования
         async showModalUpd(user) {
             this.user_upd_id = user;
+            if (this.user_upd_id.roles.length === 0) {this.user_upd_id.roles = {0: {id: ''}}}
+            console.log(this.user_upd_id)
             this.user_upd = true;
         },
         async closeModalUpd() {
