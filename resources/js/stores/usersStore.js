@@ -10,12 +10,16 @@ export const useUsersStore = defineStore('usersStore', {
             this.loader = true;
             var city = '';
             var region = '';
+            var name = '';
+            var email = '';
             if (this.user_search.city) { city = '&city=' + this.user_search.city }
             if (this.user_search.region) { region = '&region=' + this.user_search.region}
+            if (this.user_search.name) { name = '&name=' + this.user_search.name }
+            if (this.user_search.city) { email = '&email=' + this.user_search.email}
             await this.getPage(
                 'listUsers?limit=' + limit + 
-                '&name=' + this.user_search.name + 
-                '&email=' + this.user_search.email + 
+                name + 
+                email + 
                 '&createdDateStart=' + this.user_search.time.replace('~', '&cteatedDateEnd=') + 
                 city +
                 region
