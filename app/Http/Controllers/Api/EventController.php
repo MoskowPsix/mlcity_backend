@@ -257,7 +257,6 @@ class EventController extends Controller
             ]);
         }
     }
-
     private function saveLocalFiles($event, $files){
 
         foreach ($files as $file) {

@@ -133,26 +133,6 @@ export const useEventsStore = defineStore('EventsStore', {
                 this.toast.success('Статус сменён на: "' + this.new_status + '"');
             })
             .catch(error => this.toast.error('Статус не изменён ' + error));
-            console.log(this.event)
-            if (this.event.statuses[0].name === 'Опубликовано' && this.event.vk_post_id === null) {
-                await axios.post(
-                    import.meta.env.VITE_PUSHER_VK_API_URL + 
-                    'wall.post?message=' + this.event.description +
-                    'access_token' + import.meta.env.VITE_PUSHER_VK_TOKEN +
-                    '&owner_id=' + import.meta.env.VITE_PUSHER_VK_OWNER_ID +
-                    '&lat=' + this.event.latitude +
-                    '&long=' + this.event.longitude +
-                    '&copyright=' + import.meta.env.VITE_APP_URL +
-                    'v=5.131'
-                    // '&attachments=' Пока нет вложений никаких (потом)
-                ).then(response => {
-                    this.toast.success('Пост создан в вк!')
-                    axios.put('updateEvent/' + this.event.id + '?vk_group_id=' + import.meta.env.VITE_PUSHER_VK_OWNER_ID + '&vk_post_id=' + response.data.response.post_id)
-                    .then(response => this.toast.info('Пост вк добавлен в БД, post_id:' + response.data.event.vk_post_id + ', source+_id: ' + response.data.event.vk_group_id))
-                    .catch(error => this.toast.error('Ошибка при добавлении поста вк в БД: ' + error.message));
-                    console.log(response);
-                }).catch(error => this.toast.error('Событие не удалось опубликовать в вк: ' + error.message))   
-            }
             await this.getEventId(this.event.id);
             await this.getEvents(this.first_page_url);
             this.closeStatuses();

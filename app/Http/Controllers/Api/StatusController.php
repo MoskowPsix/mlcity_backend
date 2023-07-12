@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Sight;
+use Illuminate\Support\Facades\Http;
 
 use App\Models\Status;
 
@@ -33,12 +34,21 @@ class StatusController extends Controller
 
     // Для событий
     public function addStatusEvent(Request $request) 
-    {
+    {   
+        $vk_post = '';
         $event = Event::where('id', $request->event_id)->firstOrFail();
         $status = Status::all('id');
         $event->statuses()->updateExistingPivot( $status, ['last' => false]);
         $event->statuses()->attach($request->status_id, ['last' => true, 'descriptions' => $request->descriptions]);
-        return response()->json(['status' => 'success', 'event' => $request->event_id, 'add_status' => $request->status_id], 200);
+
+        $status_post = Status::where('id', $request->status_id)->firstOrFail();
+
+        if ($status_post->name === 'Опубликовано') {
+            $url = 'https://api.vk.com/method/wall.post?message=' . $event->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $event->latitude . '&long=' . $event->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
+            $vk_post = Http::post($url)->json();
+        }
+
+        return response()->json(['status' => 'success', 'event' => $request->event_id, 'add_status' => $request->status_id, 'vk' => $vk_post], 200);
     }
     // Для достопримечательностей
     public function addStatusSight(Request $request) 

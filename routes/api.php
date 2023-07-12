@@ -66,6 +66,7 @@ Route::controller(EventController::class)->group(function() {
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('auth:sanctum');
     Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
     Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds')->middleware('auth:sanctum');
+    Route::get('ev', 'postEvent');
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
