@@ -91,9 +91,9 @@ export default defineComponent ({
             </div>
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
-            <div v-if="event_store.event.files.length !== 0" class="w-32 px-1.5 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
+            <div v-if="event_store.event.files.length !== 0" class="w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in event_store.event.files">
-                    <img class="h-auto max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name">
+                    <a :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
                 </div>
             </div>
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
