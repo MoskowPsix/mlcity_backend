@@ -124,10 +124,10 @@ export default defineComponent({
                     <label for="name" class="leading-7 text-sm text-gray-400">ВК</label>
                     <div  class="w-full bg-gray-300 dark:bg-gray-800 rounded border-gray-400 border dark:border-gray-700 dark:border-gray-700 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-gray-500 dark:text-gray-100 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                         <p class="leading-relaxed">
-                            Пост: <a>https://vk.com/public{{ sights_store.sight.vk_group_id }}</a>
+                            Источник: <a class="text-blue-500 dark:hover:text-blue-600 hover:text-blue-700" :href="'https://vk.com/public' + sights_store.sight.vk_group_id">{{ sights_store.sight.vk_group_id }}</a>
                         </p>
                         <p class="leading-relaxed">
-                            Источник: <a>https://vk.com/wall-{{ sights_store.sight.vk_group_id }}_{{ sights_store.sight.vk_post_id }}</a>
+                            Пост: <a class="text-blue-500 dark:hover:text-blue-600 hover:text-blue-700" :href="'https://vk.com/wall-' + sights_store.sight.vk_group_id + '_' + sights_store.sight.vk_post_id">{{ sights_store.sight.vk_post_id }}</a>
                         </p>
                     </div>
                 </div>
