@@ -88,6 +88,11 @@ export default defineComponent({
             </div>
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
+            <div v-if="sights_store.sight.files.length !== 0" class="w-32 px-1.5 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
+                <div v-for="img in sights_store.sight.files">
+                    <img class="h-auto max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name">
+                </div>
+            </div>
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
                 <iframe width="100%" height="100%" title="map" class="absolute inset-0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.16);"></iframe>
             <div class="bg-gray-200 dark:bg-gray-900 relative flex flex-wrap py-6 rounded shadow-md">
