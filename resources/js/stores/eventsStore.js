@@ -131,8 +131,13 @@ export const useEventsStore = defineStore('EventsStore', {
                 })
                 .catch(error => this.toast.error('Ошибка в загрузке имени статуса'));
                 this.toast.success('Статус сменён на: "' + this.new_status + '"');
+                if (response.data.vk_post_id && this.new_status === 'Опубликовано' ) {
+                    this.toast.info('ID поста: ' + response.data.vk_post_id + ', ID источника: ' + response.data.vk_post_id);
+                }
             })
-            .catch(error => this.toast.error('Статус не изменён ' + error));
+            .catch(error => {
+                this.toast.error('Статус не изменён ' + error);
+            });
             await this.getEventId(this.event.id);
             await this.getEvents(this.first_page_url);
             this.closeStatuses();
