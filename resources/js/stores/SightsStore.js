@@ -132,6 +132,10 @@ export const useSightsStore = defineStore('SightsStore', {
             .catch(error => this.toast.error('Статус не изменён ' + error));
             this.getUrlSights(this.first_page_url);
         },
+        async updateCoord(lat, long) {
+            this.sight.latitude = lat;
+            this.sight.longitude = long;
+        },
         async getSightId(id) {
             await axios.get('sights/'+ id).then(response => this.sight = response.data).catch(error => this.toast.error(error.message));
         },

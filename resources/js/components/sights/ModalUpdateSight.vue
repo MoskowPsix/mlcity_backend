@@ -1,13 +1,43 @@
 <script>
 import { useSightsStore } from '../../stores/SightsStore';  
 import { defineComponent } from 'vue';
+import { YandexMap, YandexMarker } from 'vue-yandex-maps';
+
 
 
 export default defineComponent({
     setup: () => {
         const sights_store = useSightsStore();
-        return { sights_store }
+        const settings = {
+            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
+            lang: 'ru_RU', // Используемый язык
+            coordorder: 'latlong', // Порядок задания географических координат
+            debug: true, // Режим отладки
+            version: '2.1' // Версия Я.Карт
+        };
+        const onMarker = (e) => {
+            useSightsStore().updateCoord(e.originalEvent.target.geometry._coordinates[0], e.originalEvent.target.geometry._coordinates[1])
+        };
+        const close = async () => {
+            await useSightsStore().getSightId(sights_store.sight.id);
+            await useSightsStore().closeUpdateSight(); 
+        };
+        const update = async () => {
+            await useSightsStore().updateSights(); 
+            await useSightsStore().updateSightsTypes(); 
+            await useSightsStore().getSightId(sights_store.sight.id)
+            await useSightsStore().closeUpdateSight(); 
+        };
+        return { 
+            sights_store,
+            close,
+            onMarker,
+            settings,
+            update
+        }
     },
+    components: {YandexMap, YandexMarker},
+    
 })
 
 useSightsStore().getTypesSights();
@@ -27,20 +57,38 @@ useSightsStore().getTypesSights();
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-800 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <iframe width="100%" height="100%" title="map" class="absolute inset-0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.16);"></iframe>
-            <div class="bg-gray-200 dark:bg-gray-800 relative flex flex-wrap py-6 rounded shadow-md">
+                <YandexMap
+                    class="absolute inset-0"
+                    :settings="settings"
+                    :zoom="16"
+                    :behaviors="['drag', 'scrollZoom']"
+                    :controls="['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']"
+                    :coordinates="[ sights_store.sight.latitude, sights_store.sight.longitude]">
+                    <YandexMarker 
+                    
+                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]" 
+                    :marker-id="sights_store.sight.id"               
+                    :options="{
+                        preset: 'islands#violetDotIcon',
+                        draggable:'true',
+                    }"
+                    :events="['dragend']"
+                    @dragend="onMarker">
+                    </YandexMarker>
+                </YandexMap>            
+            <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
                 <div class="lg:w-1/2 px-6">
                     <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>
                             <input type="text" v-model="sights_store.sight.city" placeholder="Город"
-                                class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
+                                class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                     <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Адресс</label>
                         <input type="text" v-model="sights_store.sight.address" placeholder="Адрес"
-                            class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
+                            class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                     <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-400">Цена</label>
                     <input type="text" v-model="sights_store.sight.price" placeholder="Имя"
-                        class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
+                        class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                 </div>
             </div>
             </div>
@@ -92,10 +140,10 @@ useSightsStore().getTypesSights();
                 </div>
                 <div class="flex justify-center">
                     <div class="px-6">
-                        <button v-on:click="sights_store.closeUpdateSight(); sights_store.getSightId(sights_store.sight.id)" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
+                        <button v-on:click="close" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
                     </div>
                     <div class="px-6">
-                        <button v-on:click="sights_store.closeUpdateSight(); sights_store.updateSights(); sights_store.updateSightsTypes(); sights_store.getSightId(sights_store.sight.id)" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
+                        <button v-on:click="update" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
                     </div>
                 </div>
             </div>

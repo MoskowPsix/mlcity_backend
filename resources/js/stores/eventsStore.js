@@ -23,6 +23,7 @@ export const useEventsStore = defineStore('EventsStore', {
             result: [],
             loader: true,
         },
+        Map: true,
         ModalComents: false,
         count_moder: '',
         status: [],
@@ -110,6 +111,7 @@ export const useEventsStore = defineStore('EventsStore', {
             }
             await this.getEventId(this.event.id);
             await this.getEventUrl(this.first_page_url);
+            await this.closeUpdate();
             this.loader = false;
         },
         async updateEventTypes() {
@@ -141,6 +143,10 @@ export const useEventsStore = defineStore('EventsStore', {
             await this.getEventId(this.event.id);
             await this.getEvents(this.first_page_url);
             this.closeStatuses();
+        },
+        async updateCoord(lat, long) {
+            this.event.latitude = lat;
+            this.event.longitude = long;
         },
         async getStatus() {
             await axios.get('statuses')
@@ -203,6 +209,9 @@ export const useEventsStore = defineStore('EventsStore', {
             .catch(error => this.toast.error('При загрузке фаворитов произошла ошибка: ' + error.message))
             this.ModalLikedFavorites.loader = false;
         },
+        async showMap() {
+            this.Map = true;
+        },
         async closeUpdateEvent() {
             this.event = '';
             this.ModalEvent = false;
@@ -223,6 +232,9 @@ export const useEventsStore = defineStore('EventsStore', {
             this.ModalLikedFavorites.status = false;
             this.ModalLikedFavorites.window = '';
             this.ModalLikedFavorites.result = '';
+        },
+        async closeMap() {
+            this.Map = false;
         },
 
     }

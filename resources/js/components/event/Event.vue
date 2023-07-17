@@ -3,6 +3,7 @@ import { useEventsStore } from '../../stores/eventsStore';
 import  SearchEvent from './SearchEvent.vue';
 import Loader from '../Loader.vue';
 import ModalEvent from './ModalEvent.vue';
+import { YandexMap, YandexMarker } from 'vue-yandex-maps'
 
 
 export default {
@@ -10,9 +11,33 @@ export default {
         const event_store = useEventsStore();
         const pageN = "Вперёд &raquo;";
         const pageP = "&laquo; Назад";
-        return {event_store, pageN, pageP}
+        const coordinates = [55, 33];
+        const controls = ['fullscreenControl'];
+        const detailedControls = { zoomControl: { position: { right: 10, top: 50 } } };
+        const settings = {
+            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
+            lang: 'ru_RU', // Используемый язык
+            coordorder: 'latlong', // Порядок задания географических координат
+            debug: true, // Режим отладки
+            version: '2.1' // Версия Я.Карт
+        }
+        return {
+            event_store, 
+            pageN, 
+            pageP,
+            settings,
+            coordinates,
+            controls,
+            detailedControls
+        }
     },
-    components: {SearchEvent, Loader, ModalEvent}
+    components: {
+        SearchEvent, 
+        Loader, 
+        ModalEvent, 
+        YandexMap, 
+        YandexMarker
+    }
 }
 
 useEventsStore().getStatus();
@@ -139,7 +164,6 @@ useEventsStore().getTypes();
             </div>
         </div>
     </div>
-
     <div class="flex items-center justify-between mt-6">
         <div v-for="link in event_store.links">
             <div v-if="link.label  === pageP && link.url !== null">

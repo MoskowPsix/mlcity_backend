@@ -5,27 +5,41 @@ import ModalUpdateEvent from './ModalUpdateEvent.vue';
 import ModalStatuses from './ModalStatuses.vue';
 import ModalHistoryStatus from './ModalHistoryStatus.vue';
 import ModalLikedFavorites from './ModalLikedFavorites.vue';
-
-
+import { YandexMap, YandexMarker } from 'vue-yandex-maps'
 
 
 export default defineComponent ({
     setup: () => {
         const event_store = useEventsStore();
-        return { event_store }
+        const settings = {
+            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
+            lang: 'ru_RU', // Используемый язык
+            coordorder: 'latlong', // Порядок задания географических координат
+            debug: true, // Режим отладки
+            version: '2.1' // Версия Я.Карт
+        };
+        return { 
+            event_store,
+            settings,
+        }
     },
     components: {
         ModalUpdateEvent, 
         ModalStatuses, 
         ModalHistoryStatus,
         ModalLikedFavorites,
-    },
-
+        YandexMap, 
+        YandexMarker,
+    },  
 })
+
+
 </script>
 
-<template>
+<style>
+</style>
 
+<template>
 <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
     <!-- Окно изменения события статусов-->
     <ModalUpdateEvent v-if="event_store.ModalUpdate === true"/>
@@ -96,22 +110,33 @@ export default defineComponent ({
                     <a :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
                 </div>
             </div>
-            <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <iframe width="100%" height="100%" title="map" class="absolute inset-0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.16);">
-                </iframe>
-            <div class="bg-gray-200 dark:bg-gray-900 relative flex flex-wrap py-6 rounded shadow-md">
-                <div class="lg:w-1/2 px-6">
-                <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ event_store.event.city }}</h2>
-                <p class="mt-2 text-gray-600 dark:text-gray-200">Адрес мероприятия: {{ event_store.event.address }}</p>
+            <div class="lg:w-2/3 md:w-1/2 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+                <YandexMap
+                    class="absolute inset-0"
+                    :settings="settings"
+                    :zoom="16"
+                    :behaviors="[]"
+                    :controls="[ ]"
+                    :coordinates="[event_store.event.latitude, event_store.event.longitude]">
+                    <YandexMarker 
+                    :coordinates="[event_store.event.latitude, event_store.event.longitude]" 
+                    :marker-id="event_store.event.id"               
+                    :events="[]">
+                    </YandexMarker>
+                </YandexMap>
+                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
+                    <div class="lg:w-1/2 px-6">
+                    <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ event_store.event.city }} </h2>
+                    <p class="mt-2 text-gray-600 dark:text-gray-200">Адрес мероприятия: {{ event_store.event.address }}</p>
+                    </div>
+                    <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
+                    <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Время</h2>
+                    <p class="leading-relaxed text-gray-600 dark:text-gray-200">Начало: {{ event_store.event.date_start }}</p>
+                    <p class="leading-relaxed text-gray-600 dark:text-gray-200">Конец: {{ event_store.event.date_end }}</p>
+                    <h2 class="title-font font-semibold mt-4 text-black dark:text-white tracking-widest text-xs">Цена</h2>
+                    <p class="leading-relaxed text-gray-600 dark:text-gray-200">{{ event_store.event.price }} руб.</p>
+                    </div>
                 </div>
-                <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-                <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Время</h2>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-200">Начало: {{ event_store.event.date_start }}</p>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-200">Конец: {{ event_store.event.date_end }}</p>
-                <h2 class="title-font font-semibold mt-4 text-black dark:text-white tracking-widest text-xs">Цена</h2>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-200">{{ event_store.event.price }} руб.</p>
-                </div>
-            </div>
             </div>
             <div class="lg:w-1/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
                 <div class="items-center">
@@ -203,3 +228,4 @@ export default defineComponent ({
             /*outline: 1px solid slategrey;*/
         }
 </style> 
+

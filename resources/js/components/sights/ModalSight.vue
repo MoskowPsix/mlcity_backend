@@ -5,18 +5,31 @@ import ModalUpdateSight from './ModalUpdateSight.vue';
 import ModalStatuses from './ModalStatusSight.vue';
 import ModalHistoryStatus from './ModalHistoryStatus.vue';
 import ModalLikedFavorites from './ModalLikedFavorites.vue';
+import { YandexMap, YandexMarker } from 'vue-yandex-maps'
 
 
 export default defineComponent({
     setup: () => {
         const sights_store = useSightsStore();
-        return { sights_store}
+        const settings = {
+            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
+            lang: 'ru_RU', // Используемый язык
+            coordorder: 'latlong', // Порядок задания географических координат
+            debug: true, // Режим отладки
+            version: '2.1' // Версия Я.Карт
+        };
+        return { 
+            sights_store,
+            settings
+        }
     },
     components: { 
         ModalUpdateSight, 
         ModalStatuses, 
         ModalHistoryStatus,
         ModalLikedFavorites,
+        YandexMap, 
+        YandexMarker
     },
 })
 </script>
@@ -94,18 +107,30 @@ export default defineComponent({
                 </div>
             </div>
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <iframe width="100%" height="100%" title="map" class="absolute inset-0" frameborder="0" marginheight="0" marginwidth="0" scrolling="no" src="https://maps.google.com/maps?width=100%&amp;height=600&amp;hl=en&amp;q=%C4%B0zmir+(My%20Business%20Name)&amp;ie=UTF8&amp;t=&amp;z=14&amp;iwloc=B&amp;output=embed" style="filter: grayscale(1) contrast(1.2) opacity(0.16);"></iframe>
-            <div class="bg-gray-200 dark:bg-gray-900 relative flex flex-wrap py-6 rounded shadow-md">
-                <div class="lg:w-1/2 px-6">
-                <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ sights_store.sight.city }}</h2>
-                <p class="mt-2 text-gray-600 dark:text-gray-200">Адрес мероприятия: {{ sights_store.sight.address }}</p>
+                <YandexMap
+                    class="absolute inset-0"
+                    :settings="settings"
+                    :zoom="16"
+                    :behaviors="[]"
+                    :controls="[ ]"
+                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]">
+                    <YandexMarker 
+                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]" 
+                    :marker-id="sights_store.sight.id"               
+                    :events="[]">
+                    </YandexMarker>
+                </YandexMap>
+                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
+                    <div class="lg:w-1/2 px-6">
+                    <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ sights_store.sight.city }}</h2>
+                    <p class="mt-2 text-gray-600 dark:text-gray-200">Адрес мероприятия: {{ sights_store.sight.address }}</p>
+                    </div>
+                    <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
+                    <h2 class="title-font font-semibold mt-4 text-black dark:text-white tracking-widest text-xs">Цена</h2>
+                    <p class="leading-relaxed text-gray-600 dark:text-gray-200">{{ sights_store.sight.price }} руб.</p>
+                    
+                    </div>
                 </div>
-                <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
-                <h2 class="title-font font-semibold mt-4 text-black dark:text-white tracking-widest text-xs">Цена</h2>
-                <p class="leading-relaxed text-gray-600 dark:text-gray-200">{{ sights_store.sight.price }} руб.</p>
-                
-                </div>
-            </div>
             </div>
             <div class="lg:w-1/3 md:w-1/2 flex flex-col md:ml-auto w-full md:py-8 mt-8 md:mt-0">
                 <div class="items-center">
