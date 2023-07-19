@@ -44,7 +44,7 @@ useRoleStore().getRole();
     <ModalUpdateUsers v-if="store.user_upd === true"/>
 
     <div v-if="store.loader === false" class="flex flex-col">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" id="journal-scroll">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border border-gray-200 dark:border-gray-700 md:rounded-lg">
                    <!-- Начало полей таблицы  -->
@@ -182,3 +182,23 @@ useRoleStore().getRole();
 </section> 
 </template>
 
+<style> 
+#journal-scroll::-webkit-scrollbar {
+    width: 4px;
+    cursor: pointer;
+    /*background-color: rgba(229, 231, 235, var(--bg-opacity));*/
+
+}
+#journal-scroll::-webkit-scrollbar-track {
+    background-color: rgba(229, 231, 235, var(--bg-opacity));
+    cursor: pointer;
+    
+    /*background: red;*/
+}
+#journal-scroll::-webkit-scrollbar-thumb {
+    cursor: pointer;
+    background-color: #6c7786;
+    border-radius: 25px;
+    /*outline: 1px solid slategrey;*/
+}
+</style> 
