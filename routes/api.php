@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
+use App\Http\Controllers\Api\LogApiController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\EventTypeController;
@@ -126,6 +127,10 @@ Route::controller(RoleController::class)->group(function() {
     Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('auth:sanctum');
     Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('auth:sanctum');
     Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('auth:sanctum');
+});
+
+Route::controller(LogApiController::class)->group(function() {
+    Route::get('logs', 'getLogs')->middleware('auth:sanctum');
 });
 
 

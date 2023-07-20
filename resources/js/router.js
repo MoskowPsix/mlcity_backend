@@ -30,6 +30,12 @@ const router = createRouter({
       path: '/role',
       name: 'role',
       component: () => import('./components/role/Role.vue')
+    },
+
+    {
+      path: '/logs',
+      name: 'logs',
+      component: () => import('./components/logs/Logs.vue')
     }
   ]
 

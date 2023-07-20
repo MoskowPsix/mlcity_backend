@@ -26,6 +26,7 @@ export default {
       // Получаеи роль
       const data = await axios.get('listUsers?id=' + response.data.user.id)
       .catch(error => console.log(error));
+      console.log(data);
       localStorage.setItem('role', data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
