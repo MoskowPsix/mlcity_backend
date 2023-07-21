@@ -19,7 +19,7 @@ class LogApiController extends Controller
 {
     public function getLogs(Request $request)
     {
-        $page = $request->page;
+        $url = $request->fullUrl();
         $limit = $request->limit ? $request->limit : 10;
         $logs = LogApi::query()->with('logUser');
 
@@ -36,9 +36,10 @@ class LogApiController extends Controller
                 LogApiUserId::class,
             ])
             ->via('apply')
-            ->then(function ($logs) use ($page, $limit){
-                return $logs->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+            ->then(function ($logs) use ($limit){
+                return $logs->orderBy('created_at','desc')->cursorPaginate($limit)->appends(request()->except('page'));
             });
-        return response()->json(['status' => 'success', 'logs' => $response], 200);
+
+        return response()->json(['status' => 'success', 'logs' => $response, 'current_url' => $url], 200);
     }
 }

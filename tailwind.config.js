@@ -6,7 +6,8 @@ const BundleAnalyzerPlugin = require("webpack-bundle-analyzer").BundleAnalyzerPl
 module.exports = {
   plugins: [
       require('flowbite/plugin'),
-      { src: '~/plugins/ymapPlugin.js',  mode: 'client' }
+      { src: '~/plugins/ymapPlugin.js',  mode: 'client' },
+      require("tw-elements/dist/plugin.cjs")
   ],
   content: [
     "./resources//*.blade.php",

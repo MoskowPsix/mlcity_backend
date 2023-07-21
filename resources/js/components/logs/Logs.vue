@@ -3,7 +3,6 @@ import Loader from '../Loader.vue';
 import { useLogsApiStore } from '../../stores/logsApiStore';
 
 
-
 export default {
     setup() {
         const log_api_store = useLogsApiStore();
@@ -12,23 +11,22 @@ export default {
         return {
             log_api_store,
             pageN,
-            pageP
-
+            pageP,
         }
     },
     components: {
-        Loader,
-
+        Loader
     },
     methods: {
         short: (str, maxlen) => str.length <= maxlen ? str : str.slice(0, maxlen) + '...',
     },
     mounted: async function () {
         this.log_api_store.reloadPage();
-      },
+    },
 }
 useLogsApiStore().getLogs();
 </script>
+
 
 <template>
     <section class="container mx-auto">
@@ -87,7 +85,11 @@ useLogsApiStore().getLogs();
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                <tr  class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.created_at">
+                                <tr 
+                                data-te-animation-init
+                                data-te-animation-start="onLoad"
+                                data-te-animation-reset="true"
+                                data-te-animation="[slide-right_1s_ease-in-out]" class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.id">
                                     <td class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                         <div class="inline-flex items-center gap-x-3">
                                             <span>{{ log.id }}</span>
@@ -97,7 +99,7 @@ useLogsApiStore().getLogs();
                                         <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ log.method }}</h2>
                                     </td>
                                     <td class="px-4 py-4 text-sm max-w-4/12 text-gray-500 dark:text-gray-300 " v-text="short(log.url, 80)"></td>
-                                    <td class="px-4 py-4 text-sm text-gray-500 w-2/12 dark:text-gray-300">
+                                    <td v-if="log.log_user" class="px-4 py-4 text-sm text-gray-500 w-2/12 dark:text-gray-300">
                                         <div class="flex items-center gap-x-2">
                                             <img v-if="log.log_user.avatar" class="object-cover w-8 h-8 rounded-full" :src="log.log_user.avatar" >
                                             <svg v-if="!log.log_user.avatar" class="object-cover w-8 h-8 rounded-full" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -109,6 +111,7 @@ useLogsApiStore().getLogs();
                                             </div>
                                         </div>
                                     </td>
+                                    <td v-if="!log.log_user" class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">Пользователь не определён!</td>
                                     <td class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">{{ log.ip }}</td>
                                     <td  class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">
                                         {{ log.status_code }}
@@ -125,40 +128,28 @@ useLogsApiStore().getLogs();
             </div>
         </div>
         <div class="flex items-center justify-between mt-6">
-            <div v-for="link in log_api_store.links">
-                <div v-if="link.label  === pageP && link.url !== null">
-                    <a href="#/events" @click="log_api_store.getLogUrl(link.url)" class="flex items-center px-5 mx-2 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
-                        </svg>
-    
-                        <span>
-                            Назад
-                        </span>
-                    </a>
-                </div>
-    
-                <div>
-                    <div v-if="link.active === true" class="items-center hidden md:flex gap-x-3">
-                        <a href="#/logs" @click="log_api_store.getLogUrl(link.url)" class="px-2 py-1 text-sm text-blue-500 rounded-md dark:bg-gray-800 bg-blue-100/60">{{ link.label }}</a>
-                    </div>
-    
-                    <div v-else-if="link.active == false && link.label !== pageP && link.label !== pageN">
-                        <a href="#/logs" @click="log_api_store.getLogUrl(link.url)" class="px-2 py-1 text-sm text-gray-500 rounded-md dark:hover:bg-gray-800 dark:text-gray-300 hover:bg-gray-100">{{ link.label }}</a>
-                    </div>
-                </div>
-    
-                <div v-if="link.label === pageN && link.url !== null">
-                    <a href="#/logs" @click="log_api_store.getLogUrl(link.url)" class="flex items-center mx-2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
-                        <span>
-                            Вперёд
-                        </span>
-    
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
-                        </svg>
-                    </a>
-                </div>
+            <div v-if="log_api_store.perv_page !== null">
+                <a href="#/logs" @click="log_api_store.getLogUrl(log_api_store.perv_page)" class="flex items-center px-5 mx-2 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+                    </svg>
+
+                    <span>
+                        Назад
+                    </span>
+                </a>
+            </div>
+
+            <div v-if="log_api_store.url !== null">
+                <a href="#/logs" @click="log_api_store.getLogUrl(log_api_store.next_page)" class="flex items-center mx-2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                    <span>
+                        Вперёд
+                    </span>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                    </svg>
+                </a>
             </div>
         </div>
     </section> 
