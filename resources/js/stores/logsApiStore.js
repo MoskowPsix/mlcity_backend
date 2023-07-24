@@ -30,7 +30,7 @@ export const useLogsApiStore = defineStore('LogsApiStore', {
             await axios.get(
                 'logs?method=' + this.search_logs.method + 
                 '&url=' + this.search_logs.url + 
-                // this.search_logs.date + // Пока нет аргумента в апи
+                '&dateStart=' + this.search_logs.date.replace('~', '&dateEnd=') +
                 user +
                 '&ip=' + this.search_logs.ip + 
                 '&status_code=' + this.search_logs.status_code

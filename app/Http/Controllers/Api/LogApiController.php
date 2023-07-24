@@ -9,6 +9,7 @@ use App\Filters\LogApi\LogApiRequest;
 use App\Filters\LogApi\LogApiResponse;
 use App\Filters\LogApi\LogApiStatusCode;
 use App\Filters\LogApi\LogApiUserId;
+use App\Filters\LogApi\LogApiDate;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -34,6 +35,7 @@ class LogApiController extends Controller
                 LogApiStatusCode::class,
                 LogApiResponse::class,
                 LogApiUserId::class,
+                LogApiDate::class
             ])
             ->via('apply')
             ->then(function ($logs) use ($limit){

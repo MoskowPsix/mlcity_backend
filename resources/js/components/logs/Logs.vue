@@ -21,6 +21,9 @@ export default {
     },
     methods: {
         short: (str, maxlen) => str.length <= maxlen ? str : str.slice(0, maxlen) + '...',
+        localeDate(date) {
+            return (new Date(date)).toLocaleString()
+    },
     },
     mounted: async function () {
         this.log_api_store.reloadPage();
@@ -96,7 +99,7 @@ useLogsApiStore().getLogs();
                                         {{ log.status_code }}
                                     </td>
                                     <td  class="px-4 py-4 text-sm text-gray-500 w-2/12 dark:text-gray-300">
-                                        {{ log.created_at }}
+                                        {{ localeDate(log.created_at) }}
                                     </td>
                                 </tr>
                                 <!-- Конец списка -->
