@@ -27,7 +27,7 @@ export const useLogsApiStore = defineStore('LogsApiStore', {
     actions: {
         async getLogs() {
             this.loader = true;
-            const user = '';
+            var user = '';
             if (this.search_logs.user_id) {user = '&user_id=' + this.search_logs.user_id}
             await axios.get(
                 'logs?method=' + this.search_logs.method + 
