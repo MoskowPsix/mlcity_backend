@@ -1,6 +1,7 @@
 <script>
 import Loader from '../Loader.vue';
 import { useLogsApiStore } from '../../stores/logsApiStore';
+import SearchLogs from './SearchLogs.vue';
 
 
 export default {
@@ -15,7 +16,8 @@ export default {
         }
     },
     components: {
-        Loader
+        Loader,
+        SearchLogs
     },
     methods: {
         short: (str, maxlen) => str.length <= maxlen ? str : str.slice(0, maxlen) + '...',
@@ -30,6 +32,7 @@ useLogsApiStore().getLogs();
 
 <template>
     <section class="container mx-auto">
+        <SearchLogs class="m-1"/>
         <Loader v-if="log_api_store.loader === true"/>
         <div v-if="log_api_store.loader === false" class="flex flex-col">
             <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 " id="journal-scroll">
@@ -61,35 +64,11 @@ useLogsApiStore().getLogs();
                                     </th>
                                     <th scope="col" class="px-4 py-3.5 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                         Дата и Время
-                                        <div>
-                                            <select @click="log_api_store.reloadPage()" v-model="log_api_store.time" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out">
-                                                <option @click="log_api_store.reloadPage()"  :value="300000">
-                                                    5 мин.
-                                                </option>
-                                                <option @click="log_api_store.reloadPage()" :value="180000">
-                                                    3 мин.
-                                                </option>
-                                                <option @click="log_api_store.reloadPage()" :value="60000">
-                                                    1 мин.
-                                                </option>
-                                                <!-- Пока сервер не справляется переполняется память -->
-                                                <!-- <option @click="log_api_store.reloadPage()" :value="30000">
-                                                    30 сек.
-                                                </option>
-                                                <option @click="log_api_store.reloadPage()" :value="5000">
-                                                    5 сек.
-                                                </option> -->
-                                            </select>
-                                        </div>
                                     </th>
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                <tr 
-                                data-te-animation-init
-                                data-te-animation-start="onLoad"
-                                data-te-animation-reset="true"
-                                data-te-animation="[slide-right_1s_ease-in-out]" class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.id">
+                                <tr class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.id">
                                     <td class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                         <div class="inline-flex items-center gap-x-3">
                                             <span>{{ log.id }}</span>
@@ -98,7 +77,7 @@ useLogsApiStore().getLogs();
                                     <td class="px-4 py-4 w-1/12 text-sm text-gray-500 dark:text-gray-300 ">
                                         <h2 class="text-sm font-medium text-gray-800 dark:text-white ">{{ log.method }}</h2>
                                     </td>
-                                    <td class="px-4 py-4 text-sm max-w-4/12 text-gray-500 dark:text-gray-300 " v-text="short(log.url, 80)"></td>
+                                    <td class="px-4 py-4 text-sm max-w-4/12 text-gray-500 dark:text-gray-300 " v-text="short(log.url, 100)"></td>
                                     <td v-if="log.log_user" class="px-4 py-4 text-sm text-gray-500 w-2/12 dark:text-gray-300">
                                         <div class="flex items-center gap-x-2">
                                             <img v-if="log.log_user.avatar" class="object-cover w-8 h-8 rounded-full" :src="log.log_user.avatar" >

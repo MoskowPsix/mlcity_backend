@@ -16,16 +16,16 @@ export default defineComponent({
 </script>
 
 <template>
-<div class="border border-gray-300 dark:border-gray-800 p-6 grid grid-cols-1 gap-6 dark:bg-gray-700 shadow-lg rounded-lg">
+<div class="border border-gray-300 dark:border-gray-700 p-6 grid grid-cols-1 gap-6 dark:bg-gray-800 shadow-lg rounded-lg">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div class="grid grid-cols-2 gap-2 rounded">
             <input type="text" v-model="sights_store.sight_search.name" placeholder="Название мероприятия"
-                class="rounded px-5 bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
+                class="rounded px-5 bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             <input type="text" v-model="sights_store.sight_search.sponsor" placeholder="Спонсор мероприятия"
-                class="rounded px-5 bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
-            <div class=" rounded border border-gray-600 dark:border-gray-500 bg-gray-300 dark:bg-gray-800 px-5 text-gray-200 items-center"> 
-                <h1 class="px-2 text-gray-600 text-sm dark:text-gray-200">Статус </h1>
-                <select v-model="sights_store.sight_search.status" class="bg-gray-300 dark:bg-gray-800 w-10/12 text-gray-600 dark:text-gray-200 focus:outline-none">
+                class="rounded px-5 bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
+            <div class=" rounded border border-gray-500 dark:border-gray-500 bg-gray-300 dark:bg-gray-900 px-5 text-gray-200 items-center"> 
+                <h1 class="px-2 text-gray-600 text-sm dark:text-gray-200 /12">Статус </h1>
+                <select v-model="sights_store.sight_search.status" class="rounded bg-gray-300 dark:bg-gray-900 w-10/12 text-gray-600 dark:text-gray-200 focus:outline-none">
                     <option v-for="status in sights_store.status" :value="status.name">
                         {{ status.name }}
                     </option>
@@ -33,7 +33,7 @@ export default defineComponent({
                 </select>
                 <p>
                     <div class="inline-flex text-sm items-center">
-                        <label class="px-2 text-gray-600 dark:text-gray-300">
+                        <label class="px-2 text-gray-600 dark:text-gray-300 w-8/12">
                             Искать по всем статусам?
                         </label>
                         <label
@@ -68,9 +68,9 @@ export default defineComponent({
                         </div>
                 </p>
             </div>
-            <div class="flex rounded border border-gray-600 bg-gray-300 dark:border-gray-500 dark:bg-gray-800 px-5 text-gray-200 items-center"> 
-                <h1 class="px-2 text-gray-600 dark:text-gray-200 text-sm">Тип досторимечательностей
-                <select v-model="sights_store.sight_search.types" class="bg-gray-300 dark:bg-gray-800 w-10/12 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none">
+            <div class="flex rounded border border-gray-500 bg-gray-300 dark:border-gray-500 dark:bg-gray-900 px-5 text-gray-200 items-center"> 
+                <h1 class="px-2 text-gray-600 dark:text-gray-200 text-sm">Тип мест интереса
+                <select v-model="sights_store.sight_search.types" class="rounded bg-gray-300 dark:bg-gray-900 w-10/12 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none">
                     <option v-for="types in sights_store.types" :value="types.id">
                         {{ types.name }}
                     </option>
@@ -81,18 +81,19 @@ export default defineComponent({
         </div>
         <div class="grid grid-cols-2 gap-2 rounded">
             <input type="text" v-model="sights_store.sight_search.author" placeholder="Имя или почта автора"
-                    class="rounded px-5 bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
+                    class="rounded px-5 bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             <input type="text" v-model="sights_store.sight_search.text" placeholder="Имя, почта или описание..."
-                class="px-5 rounded bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
+                class="px-5 rounded bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200  max-w-full focus:outline-none "/>
             <input type="text" v-model="sights_store.sight_search.city" placeholder="Город Мероприятия"
-                    class="rounded px-5 my-6 bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
+                    class="rounded px-5 my-6 bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
             <input type="text" v-model="sights_store.sight_search.address" placeholder="Адрес мероприятия"
-                class="rounded px-5 my-6 bg-gray-300 dark:bg-gray-800 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
+                class="rounded px-5 my-6 bg-gray-300 dark:bg-gray-900 text-gray-600 dark:text-gray-200 max-w-full focus:outline-none "/>
         </div>
         </div>   
-        <div class="flex justify-center ext-gray-400 dark:text-gray-200"><button v-on:click="sights_store.getSightsSearch()" class="p-2 w-1/4 rounded-md bg-blue-800 text-blue-100">Найти</button></div>
+        <div class="flex justify-center ext-gray-400 dark:text-gray-200">
+            <button v-on:click="sights_store.getSightsSearch()" class="p-2 w-1/4 rounded-md bg-blue-600 dark:bg-blue-800 hover:bg-blue-500 dark:hover:bg-blue-700 text-blue-100">Найти</button></div>
         <div class=" text-gray-400 dark:text-gray-200">
-            <button v-on:click="sights_store.clearSightsSearch()" class="px-1 rounded-md dark:bg-green-800 text-green-100 dark:hover:bg-green-700 bg-green-600 hover:bg-green-500">
+            <button v-on:click="sights_store.clearSightsSearch()" class="px-2 py-1 rounded-md dark:bg-green-800 text-green-100 dark:hover:bg-green-700 bg-green-500 hover:bg-green-400 dark:hover:bg-green-700">
                 Сбросить фильтры
             </button>
         </div>

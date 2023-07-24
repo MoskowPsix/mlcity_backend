@@ -36,7 +36,7 @@ export default defineComponent({
 
 <template>
 
-<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
+<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-scroll" id="journal-scroll" style="background: rgba(0,0,0,.5);">
     <!-- Окно редактирования достопримечательностей -->
     <ModalUpdateSight v-if="sights_store.ModalUpdateSight === true"/>
     <!-- Окно изменения статусов достопримечательностей -->
