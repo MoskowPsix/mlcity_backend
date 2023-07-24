@@ -7,6 +7,7 @@ export const useLogsApiStore = defineStore('LogsApiStore', {
     state: () => ({
         toast: useToastStore(),
         logs: [],
+        log: [],
         perv_page: '',
         next_page_url: '',
         current_url: '',
@@ -20,7 +21,8 @@ export const useLogsApiStore = defineStore('LogsApiStore', {
             time: '5000',
             status_code: '',
             date: '',
-        }
+        },
+        ModalLog: false,
     }),
     actions: {
         async getLogs() {
@@ -69,5 +71,13 @@ export const useLogsApiStore = defineStore('LogsApiStore', {
             this.search_logs.date = '';
             await this.getLogs();
         },
+        async showModalLog(log) {
+            this.log = log;
+            this.ModalLog = true;
+        }, 
+        async closeModalLog() {
+            this.log = '';
+            this.ModalLog = false;
+        }
     }
 })

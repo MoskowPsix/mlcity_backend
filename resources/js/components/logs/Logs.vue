@@ -2,6 +2,7 @@
 import Loader from '../Loader.vue';
 import { useLogsApiStore } from '../../stores/logsApiStore';
 import SearchLogs from './SearchLogs.vue';
+import ModalLog from './ModalLog.vue'
 
 
 export default {
@@ -17,7 +18,8 @@ export default {
     },
     components: {
         Loader,
-        SearchLogs
+        SearchLogs,
+        ModalLog
     },
     methods: {
         short: (str, maxlen) => str.length <= maxlen ? str : str.slice(0, maxlen) + '...',
@@ -35,6 +37,7 @@ useLogsApiStore().getLogs();
 
 <template>
     <section class="container mx-auto">
+        <ModalLog v-if="log_api_store.ModalLog === true"></ModalLog>
         <SearchLogs class="m-1"/>
         <Loader v-if="log_api_store.loader === true"/>
         <div v-if="log_api_store.loader === false" class="flex flex-col">
@@ -71,7 +74,7 @@ useLogsApiStore().getLogs();
                                 </tr>
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900">
-                                <tr class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.id">
+                                <tr class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900 dark:hover:bg-gray-800" v-for="log of log_api_store.logs" :key="log.id" @click="log_api_store.showModalLog(log)">
                                     <td class="px-3 py-2 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                         <div class="inline-flex items-center gap-x-3">
                                             <span>{{ log.id }}</span>
@@ -96,7 +99,15 @@ useLogsApiStore().getLogs();
                                     <td v-if="!log.log_user" class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">Пользователь не определён!</td>
                                     <td class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">{{ log.ip }}</td>
                                     <td  class="px-4 py-4 text-sm text-gray-500 w-1/12 dark:text-gray-300">
-                                        {{ log.status_code }}
+                                        <!-- {{ log.status_code }} -->
+                                        <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-gray-100/60 dark:bg-gray-700/20 dark:bg-gray-800" >
+                                            <h2 v-if="499 < log.status_code && log.status_code < 600" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">{{ log.status_code }}</h2>
+                                            <h2 v-if="399 < log.status_code && log.status_code < 500" class="bg-yellow-200 text-yellow-600 py-1 px-3 rounded-full text-xs">{{ log.status_code }}</h2>
+                                            <h2 v-if="299 < log.status_code && log.status_code < 400" class="bg-orange-200 text-orange-600 py-1 px-3 rounded-full text-xs">{{ log.status_code }}</h2>
+                                            <h2 v-if="199 < log.status_code && log.status_code < 300" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs">{{ log.status_code }}</h2>
+                                            <h2 v-if="99 < log.status_code && log.status_code < 200" class="bg-blue-200 text-blue-600 py-1 px-3 rounded-full text-xs">{{ log.status_code }}</h2>
+                                            <!-- <h2 class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ log.status_code }}</h2> -->
+                                        </div>
                                     </td>
                                     <td  class="px-4 py-4 text-sm text-gray-500 w-2/12 dark:text-gray-300">
                                         {{ localeDate(log.created_at) }}
@@ -110,6 +121,12 @@ useLogsApiStore().getLogs();
             </div>
         </div>
         <div class="flex items-center justify-between mt-6">
+            <div v-if="log_api_store.perv_page === null">
+                <a>
+                    <span> 
+                    </span>
+                </a>
+            </div>
             <div v-if="log_api_store.perv_page !== null">
                 <a href="#/logs" @click="log_api_store.getLogUrl(log_api_store.perv_page)" class="flex items-center px-5 mx-2 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">

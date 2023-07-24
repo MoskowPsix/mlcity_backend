@@ -34,11 +34,7 @@ class RequestLoggerMiddleware
         }
         $log_api->ip = $request->ip();
         $log_api->status_code = $response->getStatusCode();
-        if ((stripos($request->fullUrl(), $url_logs) !== true) && ($response->getStatusCode() === 200)) {
-            $log_api->response = '{"command":"show_log"}';
-        } else {
-            $log_api->response = json_encode($response->getContent(), true);
-        }
+        $log_api->response = ((strpos($request->fullUrl(), $url_logs) !== false) and ($response->getStatusCode() === 200)) ? '{"command":"show_log"}' : json_encode($response->getContent(), true);
         $log_api->save();
 
     }
