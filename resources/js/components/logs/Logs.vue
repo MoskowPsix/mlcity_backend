@@ -139,7 +139,7 @@ useLogsApiStore().getLogs();
                 </a>
             </div>
 
-            <div v-if="log_api_store.url !== null">
+            <div v-if="log_api_store.next_page !== null">
                 <a href="#/logs" @click="log_api_store.getLogUrl(log_api_store.next_page)" class="flex items-center mx-2 px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <span>
                         Вперёд
