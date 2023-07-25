@@ -16,18 +16,20 @@ export default {
 
     const submit = async () => {
       // получаем токен
-      const response = await axios.post('login', {
+      await axios.post('login', {
         email: email.value,
         password: password.value,
+      }).then(async response =>  {
+        console.log(response.data.user.id)
+        await localStorage.setItem('token', response.data.access_token);
+        await axios.get('users/' + response.data.user.id)
+        .then(response => {
+          localStorage.setItem('role', response.data.user.roles[0].name);
+        })
+        .catch()
       }).catch(error => {
         useToastStore().warning('Ошибка авторизации: ' + error.message);
       });
-      localStorage.setItem('token', response.data.access_token);
-      // Получаеи роль
-      const data = await axios.get('listUsers?id=' + response.data.user.id)
-      .catch(error => console.log(error));
-      console.log(data);
-      localStorage.setItem('role', data.data.users.data[0].roles[0].name);
       // Отправляем на стартовую страницу
       await router.push({ path: '/' });
     };
