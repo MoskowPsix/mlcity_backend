@@ -1,43 +1,14 @@
 <script>
-import { ref } from 'vue';
-import axios from 'axios';
-import { useRouter } from 'vue-router';
-import { useToastStore } from '../stores/toastStore';
 import { useBarStore } from '../stores/barStore'
+import {useLoginStore} from '../stores/loginStore'
 
 
 export default {
   name: 'login',
   setup() {
-    const email = ref('');
-    const password = ref('');
-    const router = useRouter();
-
-
-    const submit = async () => {
-      // получаем токен
-      await axios.post('login', {
-        email: email.value,
-        password: password.value,
-      }).then(async response =>  {
-        console.log(response.data.user.id)
-        await localStorage.setItem('token', response.data.access_token);
-        await axios.get('users/' + response.data.user.id)
-        .then(response => {
-          localStorage.setItem('role', response.data.user.roles[0].name);
-        })
-        .catch()
-      }).catch(error => {
-        useToastStore().warning('Ошибка авторизации: ' + error.message);
-      });
-      // Отправляем на стартовую страницу
-      await router.push({ path: '/' });
-    };
-
+    const login_store = useLoginStore();
     return {
-      email,
-      password,
-      submit,
+      login_store
     };
   },
 };
@@ -57,11 +28,11 @@ useBarStore().closeBar()
               <form class="space-y-4 md:space-y-6" @submit.prevent="submit">
                   <div>
                       <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Еmail</label>
-                      <input type="email" name="email" id="email" v-model="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
+                      <input type="email" name="email" id="email" v-model="login_store.email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@company.com" required="">
                   </div>
                   <div>
                       <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Пароль</label>
-                      <input type="password" name="password" id="password" v-model="password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
+                      <input type="password" name="password" id="password" v-model="login_store.password" placeholder="••••••••" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required="">
                   </div>
                   <div class="flex items-center justify-between">
                       <div class="flex items-start">
@@ -70,7 +41,7 @@ useBarStore().closeBar()
                           </div>
                       </div>
                   </div>
-                  <button type="submit" class="w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Войти</button></form>
+                  <button @click="login_store.login()" class="w-full dark:text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">Войти</button></form>
           </div>
       </div>
   </div>
