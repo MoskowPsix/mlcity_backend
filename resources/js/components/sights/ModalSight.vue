@@ -36,7 +36,7 @@ export default defineComponent({
 
 <template>
 
-<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-scroll" id="journal-scroll" style="background: rgba(0,0,0,.5);">
+<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
     <!-- Окно редактирования достопримечательностей -->
     <ModalUpdateSight v-if="sights_store.ModalUpdateSight === true"/>
     <!-- Окно изменения статусов достопримечательностей -->
@@ -87,7 +87,7 @@ export default defineComponent({
     <!-- Окно просмотра юзеров лайнувцих и добавивших в избранное -->
     <ModalLikedFavorites v-if="sights_store.ModalLikedFavorites.status === true"/>
 
-    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg" v-if="sights_store.ModalUpdateSight === false">
+    <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-y-scroll" id="journal-scroll" v-if="sights_store.ModalUpdateSight === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ sights_store.sight.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ sights_store.sight.sponsor }}</p>
@@ -101,7 +101,7 @@ export default defineComponent({
             </div>
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
-            <div v-if="sights_store.sight.files.length !== 0" class="w-32 px-1.5 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
+            <div v-if="sights_store.sight.files.length !== 0" class="md:w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in sights_store.sight.files">
                     <img class="h-auto max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name">
                 </div>

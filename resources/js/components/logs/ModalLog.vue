@@ -24,8 +24,8 @@ export default {
 </script>
 
 <template>
-<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-scroll" id="journal-scroll" style="background: rgba(0,0,0,.5);">
-    <div class="rounded-lg dark:bg-gray-800 max-h-[900px] min-w-[1000px] shadow-lg rounded p-8 bg-white overflow-y-auto" id="journal-scroll">
+<div class="main-modal fixed w-full h-full inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-scroll" id="journal-scroll" style="background: rgba(0,0,0,.5);">
+    <div class="rounded-lg dark:bg-gray-800 h-5/6 w-10/12 shadow-lg rounded p-8 bg-white overflow-y-auto" id="journal-scroll">
         <div @click="log_api_store.closeModalLog" class="relative p-5 modal-close cursor-pointer z-50">
                 <svg class="absolute right-0 fill-current text-gray-500 " xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                     viewBox="0 0 18 18">
@@ -67,12 +67,12 @@ export default {
         <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[200px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.stringify(JSON.parse(log_api_store.log.request_arg), null, 2) }}</textarea>
         <h1 class="dark:text-gray-300">Response</h1>
         <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[300px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.stringify(JSON.parse(JSON.parse(log_api_store.log.response)), null, 2) }}</textarea>
-  <div class="flex items-center justify-end mt-4">
-    <button @click="log_api_store.closeModalLog()" class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 mr-4">
-      Закрыть
-    </button>
-  </div>
-</div>
+        <div class="flex items-center justify-end mt-4">
+            <button @click="log_api_store.closeModalLog()" class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 mr-4">
+            Закрыть
+            </button>
+        </div>
+    </div>
 </div>
 </template>
 

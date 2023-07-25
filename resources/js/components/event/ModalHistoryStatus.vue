@@ -18,7 +18,7 @@ export default defineComponent({
 <template>
     <div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
         <div class="flex h-screen w-full flex-col items-center justify-center gap-y-2">
-            <div class="w-[700px] rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-800 bg-white py-4 px-2 shadow-md shadow-gray-600">
+            <div class="w-5/6 rounded-xl border border-gray-200 dark:border-gray-600 dark:bg-gray-800 bg-white py-4 px-2 shadow-md shadow-gray-600">
                 <div class="flex items-center justify-between px-2 text-base font-medium text-gray-700 dark:text-gray-300">
                         <div class="rounded px-2 py-1 bg-green-300 dark:bg-green-700">История</div>
                     <div>

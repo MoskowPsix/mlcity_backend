@@ -40,7 +40,7 @@ export default defineComponent ({
 </style>
 
 <template>
-<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster overflow-y-scroll" id="journal-scroll" style="background: rgba(0,0,0,.5);">
+<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.5);">
     <!-- Окно изменения события статусов-->
     <ModalUpdateEvent v-if="event_store.ModalUpdate === true"/>
     <!--Окно изменения статусов-->
@@ -90,7 +90,7 @@ export default defineComponent ({
     <!-- Окно просмотра юзеров лайнувцих и добавивших в избранное -->
     <ModalLikedFavorites  v-if="event_store.ModalLikedFavorites.status === true"/>
 
-    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg " v-if="event_store.ModalUpdate === false">
+    <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-scroll" id="journal-scroll" v-if="event_store.ModalUpdate === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ event_store.event.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ event_store.event.sponsor }}</p>
@@ -98,14 +98,13 @@ export default defineComponent ({
                 <svg class="fill-current text-gray-500" xmlns="http://www.w3.org/2000/svg" width="25" height="25"
                     viewBox="0 0 18 18">
                     <path
-
                         d="M14.53 4.53l-1.06-1.06L9 7.94 4.53 3.47 3.47 4.53 7.94 9l-4.47 4.47 1.06 1.06L9 10.06l4.47 4.47 1.06-1.06L10.06 9z">
                     </path>
                 </svg>
             </div>
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
-            <div v-if="event_store.event.files.length !== 0" class="w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
+            <div v-if="event_store.event.files.length !== 0" class="md:w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in event_store.event.files">
                     <a :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
                 </div>

@@ -46,7 +46,7 @@ useSightsStore().getTypesSights();
 
 
 <template>
-    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg">
+    <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-y-scroll" id="journal-scroll">
         <div class="flex justify-between items-center pb-3 py-5 px-5">
             <label for="name" class="leading-7 px-5 text-sm text-gray-600 dark:text-gray-200">Имя</label>
                     <input type="text" v-model="sights_store.sight.name" placeholder="Имя"
@@ -76,7 +76,7 @@ useSightsStore().getTypesSights();
                     @dragend="onMarker">
                     </YandexMarker>
                 </YandexMap>            
-            <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
+            <div class="h-1/2 bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md overflow-y-scroll" id="journal-scroll">
                 <div class="lg:w-1/2 px-6">
                     <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>
                             <input type="text" v-model="sights_store.sight.city" placeholder="Город"

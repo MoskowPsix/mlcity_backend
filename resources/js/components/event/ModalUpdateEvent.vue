@@ -48,7 +48,7 @@ useEventsStore().getTypes();
 
 
 <template>
-    <section class="text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg">
+    <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-y-scroll" id="journal-scroll">
         <div class="flex justify-between items-center pb-3 py-5 px-5">
             <label for="name" class="leading-7 px-5 text-sm text-gray-600 dark:text-gray-200">Имя</label>
                     <input type="text" v-model="event_store.event.name" placeholder="Имя"
@@ -79,7 +79,7 @@ useEventsStore().getTypes();
                     @dragend="onMarker">
                     </YandexMarker>
                 </YandexMap>
-                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
+                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md h-2/6 overflow-y-scroll" id="journal-scroll">
                 <div class="lg:w-1/2 px-6">
                     <label for="city" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>
                             <input type="text" v-model="event_store.event.city" placeholder="Город"
@@ -90,13 +90,13 @@ useEventsStore().getTypes();
                 </div>
                 <div class="lg:w-1/2 px-6 mt-4 lg:mt-0">
                 <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Время</h2>
-                <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-400">Начало</label>
+                <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-200">Начало</label>
                         <input type="text" v-model="event_store.event.date_start" placeholder="Адрес"
                             class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
-                            <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-400">Конец</label>
+                            <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-200">Конец</label>
                         <input type="text" v-model="event_store.event.date_end" placeholder="Адрес"
                             class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
-                <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-400">Цена</label>
+                <label for="email" class="leading-7 text-sm text-gray-600 dark:text-gray-200">Цена</label>
                     <input type="text" v-model="event_store.event.price" placeholder="Имя"
                         class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                 </div>
@@ -160,3 +160,24 @@ useEventsStore().getTypes();
         </div>
     </section>
 </template>
+
+<style>
+  #journal-scroll::-webkit-scrollbar {
+            width: 4px;
+            cursor: pointer;
+            /*background-color: rgba(229, 231, 235, var(--bg-opacity));*/
+
+        }
+        #journal-scroll::-webkit-scrollbar-track {
+            background-color: rgba(229, 231, 235, var(--bg-opacity));
+            cursor: pointer;
+            
+            /*background: red;*/
+        }
+        #journal-scroll::-webkit-scrollbar-thumb {
+            cursor: pointer;
+            background-color: #6c7786;
+            border-radius: 25px;
+            /*outline: 1px solid slategrey;*/
+        }
+</style> 

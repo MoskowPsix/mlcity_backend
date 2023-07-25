@@ -52,7 +52,7 @@ useEventsStore().getTypes();
     <SearchEvent class="m-1"/>
     <Loader v-if="event_store.loader === true"/>
     <div v-if="event_store.loader === false" class="flex flex-col">
-        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8 " id="journal-scroll">
+        <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8" id="journal-scroll">
             <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
                 <div class="overflow-hidden border m-1 border-gray-200 dark:border-gray-700 md:rounded-lg">
                     <table class=" min-w-full md:w-auto divide-y divide-gray-200 dark:divide-gray-700">
