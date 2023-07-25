@@ -9,6 +9,7 @@ use Closure;
 use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
+use App\Models\Sight;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -85,6 +86,15 @@ class UserController extends Controller
         ], 200);
     }
 
+    public function toggleFavoriteSight(Request $request): \Illuminate\Http\JsonResponse
+    {
+        Auth::user()->favoriteSights()->toggle($request->event_id);
+
+        return response()->json([
+            'status'  => 'success',
+        ], 200);
+    }
+    
     // Получаем ивенты, которые юзер айкнул
     private function getUserLikedEvents()
     {
@@ -177,6 +187,25 @@ class UserController extends Controller
         } else if ($event->likes()->where('event_id',$request->event_id)->exists()){
             if ($event->likes->local_count > 0)
                 $event->likes->decrement('local_count');
+        }
+
+        return response()->json([
+            'status'  => 'success',
+        ], 200);
+    }
+
+    public function toggleLikedSight(Request $request): \Illuminate\Http\JsonResponse
+    {
+        Auth::user()->likedSights()->toggle($request->sight_id); // верно
+        $sight =  Sight::find($request->sight_id); // верно
+
+        if (Auth::user()->likedSights()->where('sight_id',$request->sight_id)->exists()){
+            $sight->likes()->where('sight_id',$request->sight_id)->exists()
+                ? $sight->likes->increment('local_count')
+                : $sight->likes()->create(["local_count" => 1]);
+        } else if ($sight->likes()->where('sight_id',$request->sight_id)->exists()){
+            if ($sight->likes->local_count > 0)
+                $sight->likes->decrement('local_count');
         }
 
         return response()->json([
