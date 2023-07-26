@@ -12,19 +12,32 @@ import {useRoleStore} from '../../stores/roleStore'
     const user_email = '';
     const user_name = '';
     const user_password = '';
+    const user_region = '';
+    const user_city = '';
     const store = useUsersStore();
-    return {store, user_email, user_name, user_password, store_role, user_role};
+    return {
+      store, 
+      user_email, 
+      user_name, 
+      user_password, 
+      store_role, 
+      user_region,
+      user_city,
+      user_role
+    };
     },
    methods: {
     closeModal() {
       this.store.closeModal()
     },
-    createUser(name, email, pass, role) {
-      this.store.createUser(name, email, pass, role);
+    createUser(name, email, pass, role, user_region, user_city) {
+      this.store.createUser(name, email, pass, role, user_region, user_city);
       user_name = '';
       user_email = '';
       user_password = '';
       user_role = '';
+      user_region = '';
+      user_city = '';
     },
 
    }  
@@ -62,7 +75,7 @@ import {useRoleStore} from '../../stores/roleStore'
             <input type="text" v-model="user_region" placeholder="Регион пользователя..."
               class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none"/>
             <div class="flex justify-center rounded bg-gray-300 dark:bg-gray-800 text-gray-500 p-2 dark:text-gray-200  grid grid-cols-1 gap-1">
-            <h1 class="text-xs">Роль пльзователя: </h1>
+            <h1 class="text-xs">Роль пользователя: </h1>
               <select v-model="user_role" class="bg-gray-300 dark:bg-gray-800 text-gray-500 dark:text-gray-200  max-w-full focus:outline-none ">
                 <option v-for="role in store_role.role.data" :value="role.id">
                   {{ role.name }}
@@ -74,7 +87,7 @@ import {useRoleStore} from '../../stores/roleStore'
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
 					<button @click="closeModal()" class="px-4 bg-gray-400 p-3 rounded-lg text-black hover:bg-gray-300">Отмена</button>
-					<button @click="createUser(user_name, user_email, user_password, user_role)" class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Создать</button>
+					<button @click="createUser(user_name, user_email, user_password, user_role, user_email, user_region, user_city)" class="focus:outline-none px-4 bg-teal-500 p-3 ml-3 rounded-lg text-white hover:bg-teal-400">Создать</button>
 				</div>
 			</div>
 		</div>

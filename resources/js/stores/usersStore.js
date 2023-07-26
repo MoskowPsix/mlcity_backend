@@ -52,13 +52,15 @@ export const useUsersStore = defineStore('usersStore', {
         },
 
         // Создание юзера
-        async createUser (name, email, password, role_id) {
+        async createUser (name, email, password, role_id, user_region, user_city) {
             this.loader = true;
             await axios.post('register/', {
                 name: name,
                 email: email,
                 password: password,
                 password_confirmation: password,
+                region: user_region,
+                city: user_city,
             })
             .then(async response => {
                 if (response.status === 200) {
@@ -70,7 +72,7 @@ export const useUsersStore = defineStore('usersStore', {
                                     .catch(error => console.log(error));
                         }).catch(error => this.toast.warning('Ошибка при создании пользователя!'));
                     }
-                    this.toast.success('Ползователь: ' + name + ' с почтой: ' + email + ' успешно создан!');
+                    this.toast.success('Пользователь: ' + name + ' с почтой: ' + email + ' успешно создан!');
                     this.closeModal();   
                     this.loader = false;
                 }
@@ -141,7 +143,7 @@ export const useUsersStore = defineStore('usersStore', {
             this.show_modal_users = await false;
             this.loader = false;
           },
-        // Млдальное окно удаления
+        // Модальное окно удаления
         async closeModalDel() {
             this.user_del = '';
             this.del_modal_users = await false;
@@ -150,7 +152,7 @@ export const useUsersStore = defineStore('usersStore', {
             this.user_del = {id: id, name: name, email: email};
             this.del_modal_users = await true;
           },
-          // Млдальное окно редактирования
+          // Модальное окно редактирования
         async showModalUpd(user) {
             this.user_upd_id = user;
             if (this.user_upd_id.roles.length === 0) {this.user_upd_id.roles = {0: {id: ''}}}
