@@ -5,22 +5,15 @@ import ModalUpdateSight from './ModalUpdateSight.vue';
 import ModalStatuses from './ModalStatusSight.vue';
 import ModalHistoryStatus from './ModalHistoryStatus.vue';
 import ModalLikedFavorites from './ModalLikedFavorites.vue';
-import { YandexMap, YandexMarker } from 'vue-yandex-maps'
+import ShowMap from './ShowMap.vue';
+import Loader from '../Loader.vue'
 
 
 export default defineComponent({
     setup: () => {
         const sights_store = useSightsStore();
-        const settings = {
-            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
-            lang: 'ru_RU', // Используемый язык
-            coordorder: 'latlong', // Порядок задания географических координат
-            debug: true, // Режим отладки
-            version: '2.1' // Версия Я.Карт
-        };
         return { 
             sights_store,
-            settings
         }
     },
     components: { 
@@ -28,8 +21,8 @@ export default defineComponent({
         ModalStatuses, 
         ModalHistoryStatus,
         ModalLikedFavorites,
-        YandexMap, 
-        YandexMarker
+        ShowMap,
+        Loader
     },
 })
 </script>
@@ -88,6 +81,8 @@ export default defineComponent({
     <ModalLikedFavorites v-if="sights_store.ModalLikedFavorites.status === true"/>
 
     <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-y-scroll" id="journal-scroll" v-if="sights_store.ModalUpdateSight === false">
+        <Loader class="min-h-full" v-if="sights_store.loader === true"/> 
+        <div v-if="sights_store.loader === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ sights_store.sight.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ sights_store.sight.sponsor }}</p>
@@ -107,19 +102,7 @@ export default defineComponent({
                 </div>
             </div>
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <YandexMap
-                    class="absolute inset-0"
-                    :settings="settings"
-                    :zoom="16"
-                    :behaviors="[]"
-                    :controls="[ ]"
-                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]">
-                    <YandexMarker 
-                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]" 
-                    :marker-id="sights_store.sight.id"               
-                    :events="[]">
-                    </YandexMarker>
-                </YandexMap>
+                <ShowMap/>
                 <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
                     <div class="lg:w-1/2 px-6">
                     <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ sights_store.sight.city }}</h2>
@@ -197,6 +180,7 @@ export default defineComponent({
                 <button v-on:click="sights_store.closeSight()" class="text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">Закрыть</button>
             </div>
         </div>
+    </div>
     </section>
 </div>
 </template>

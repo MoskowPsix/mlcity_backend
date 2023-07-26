@@ -5,22 +5,16 @@ import ModalUpdateEvent from './ModalUpdateEvent.vue';
 import ModalStatuses from './ModalStatuses.vue';
 import ModalHistoryStatus from './ModalHistoryStatus.vue';
 import ModalLikedFavorites from './ModalLikedFavorites.vue';
-import { YandexMap, YandexMarker } from 'vue-yandex-maps'
+import Loader from '../Loader.vue'
+
+import showMap from './showMap.vue'
 
 
 export default defineComponent ({
     setup: () => {
         const event_store = useEventsStore();
-        const settings = {
-            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
-            lang: 'ru_RU', // Используемый язык
-            coordorder: 'latlong', // Порядок задания географических координат
-            debug: true, // Режим отладки
-            version: '2.1' // Версия Я.Карт
-        };
         return { 
-            event_store,
-            settings,
+            event_store
         }
     },
     components: {
@@ -28,8 +22,8 @@ export default defineComponent ({
         ModalStatuses, 
         ModalHistoryStatus,
         ModalLikedFavorites,
-        YandexMap, 
-        YandexMarker,
+        showMap,
+        Loader
     },  
 })
 
@@ -91,6 +85,8 @@ export default defineComponent ({
     <ModalLikedFavorites  v-if="event_store.ModalLikedFavorites.status === true"/>
 
     <section class="max-h-full text-gray-400 bg-gray-100 dark:bg-gray-800 body-font relative rounded-lg overflow-scroll" id="journal-scroll" v-if="event_store.ModalUpdate === false">
+        <Loader class="min-h-full" v-if="event_store.loader === true"/> 
+        <div v-if="event_store.loader === false">
         <div class="flex justify-between items-center pb-3">
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Название: {{ event_store.event.name }}</p>
             <p class="text-2xl font-bold text-gray-700 dark:text-gray-300 px-5">Спонсор: {{ event_store.event.sponsor }}</p>
@@ -104,26 +100,14 @@ export default defineComponent ({
             </div>
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
-            <div v-if="event_store.event.files.length !== 0" class="md:w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
+            <div v-if="event_store.event.files.length !== 0" class="w-2/12 px-2 flex max-h-10/12 flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in event_store.event.files">
                     <a :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
                 </div>
             </div>
-            <div class="lg:w-2/3 md:w-1/2 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <YandexMap
-                    class="absolute inset-0"
-                    :settings="settings"
-                    :zoom="16"
-                    :behaviors="[]"
-                    :controls="[ ]"
-                    :coordinates="[event_store.event.latitude, event_store.event.longitude]">
-                    <YandexMarker 
-                    :coordinates="[event_store.event.latitude, event_store.event.longitude]" 
-                    :marker-id="event_store.event.id"               
-                    :events="[]">
-                    </YandexMarker>
-                </YandexMap>
-                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
+            <div class="lg:w-2/3 md:w-1/2 min-w-8/12 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+                <showMap/>
+                <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md max-w-[600px]">
                     <div class="lg:w-1/2 px-6">
                     <h2 class="title-font font-semibold text-black dark:text-white tracking-widest text-xs">Город: {{ event_store.event.city }} </h2>
                     <p class="mt-2 text-gray-600 dark:text-gray-200">Адрес мероприятия: {{ event_store.event.address }}</p>
@@ -202,6 +186,7 @@ export default defineComponent ({
                 <div class="py-2"></div>
                 <button v-on:click="event_store.closeUpdateEvent()" class="text-white bg-gray-500 border-0 py-2 px-6 focus:outline-none hover:bg-gray-600 rounded text-lg">Закрыть</button>
             </div>
+        </div>
         </div>
     </section>
 </div>

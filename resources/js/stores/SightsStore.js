@@ -120,17 +120,21 @@ export const useSightsStore = defineStore('SightsStore', {
             }
         },
         async updateSightStatus() {
+            this.loader = true;
             await axios.post('sights/addStatusSight?sight_id=' + this.sight.id + '&status_id=' + this.sight.statuses[0].id + '&descriptions=' + this.sight.statuses[0].pivot.descriptions)
-            .then(async response => {
-                await axios.get('getStatusId/' + this.sight.statuses[0].id)
+            .then(response => {
+                axios.get('getStatusId/' + this.sight.statuses[0].id)
                 .then(resp => this.new_status = resp.data.statuses.name)
                 .catch(error => this.toast.error('Ошибка в загрузке имени статуса'));
                 this.toast.success('Статус сменён на: "' + this.new_status + '"');
-                await this.getUrlSights(this.first_page_url);
-                await this.getSightId(this.sight.id);
+                this.getUrlSights(this.first_page_url);
+                this.getSightId(this.sight.id);
             })
             .catch(error => this.toast.error('Статус не изменён ' + error));
-            this.getUrlSights(this.first_page_url);
+            await this.getUrlSights(this.first_page_url);
+            await this.getSightId(this.sight.id);
+            await this.closeStatusesSight();
+            this.loader = false;
         },
         async updateCoord(lat, long) {
             this.sight.latitude = lat;

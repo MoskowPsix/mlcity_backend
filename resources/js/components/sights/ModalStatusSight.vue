@@ -36,10 +36,10 @@ export default defineComponent({
             </div>
             <div class="flex justify-center py-5">
                 <div class="px-6">
-                    <button v-on:click="sights_store.closeStatusesSight(); sights_store.getSightId(sights_store.sight.id)" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
+                    <button v-on:click="sights_store.closeStatusesSight()" class="text-white bg-red-500 border-0 py-2 px-6 focus:outline-none hover:bg-red-600 rounded text-lg">Отмена</button>
                 </div>
                 <div class="px-6">
-                    <button v-on:click="sights_store.updateSightStatus(); sights_store.getSightId(sights_store.sight.id); sights_store.closeStatusesSight();" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
+                    <button v-on:click="sights_store.updateSightStatus()" class="text-white bg-green-500 border-0 py-2 px-6 focus:outline-none hover:bg-green-600 rounded text-lg">Применить</button>
                 </div>
             </div>
     </section>

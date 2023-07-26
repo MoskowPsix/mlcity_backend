@@ -1,23 +1,13 @@
 <script>
 import { useSightsStore } from '../../stores/SightsStore';  
 import { defineComponent } from 'vue';
-import { YandexMap, YandexMarker } from 'vue-yandex-maps';
+import UpdateMap from './UpdateMap.vue';
 
 
 
 export default defineComponent({
     setup: () => {
         const sights_store = useSightsStore();
-        const settings = {
-            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
-            lang: 'ru_RU', // Используемый язык
-            coordorder: 'latlong', // Порядок задания географических координат
-            debug: true, // Режим отладки
-            version: '2.1' // Версия Я.Карт
-        };
-        const onMarker = (e) => {
-            useSightsStore().updateCoord(e.originalEvent.target.geometry._coordinates[0], e.originalEvent.target.geometry._coordinates[1])
-        };
         const close = async () => {
             await useSightsStore().getSightId(sights_store.sight.id);
             await useSightsStore().closeUpdateSight(); 
@@ -31,12 +21,10 @@ export default defineComponent({
         return { 
             sights_store,
             close,
-            onMarker,
-            settings,
             update
         }
     },
-    components: {YandexMap, YandexMarker},
+    components: { UpdateMap},
     
 })
 
@@ -57,25 +45,7 @@ useSightsStore().getTypesSights();
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-800 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <YandexMap
-                    class="absolute inset-0"
-                    :settings="settings"
-                    :zoom="16"
-                    :behaviors="['drag', 'scrollZoom']"
-                    :controls="['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']"
-                    :coordinates="[ sights_store.sight.latitude, sights_store.sight.longitude]">
-                    <YandexMarker 
-                    
-                    :coordinates="[sights_store.sight.latitude, sights_store.sight.longitude]" 
-                    :marker-id="sights_store.sight.id"               
-                    :options="{
-                        preset: 'islands#violetDotIcon',
-                        draggable:'true',
-                    }"
-                    :events="['dragend']"
-                    @dragend="onMarker">
-                    </YandexMarker>
-                </YandexMap>            
+                <UpdateMap/> 
             <div class="h-1/2 bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md overflow-y-scroll" id="journal-scroll">
                 <div class="lg:w-1/2 px-6">
                     <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>

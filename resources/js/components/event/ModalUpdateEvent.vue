@@ -1,36 +1,22 @@
 <script>
 import { useEventsStore } from '../../stores/eventsStore';  
 import { defineComponent } from 'vue';
-import { YandexMap, YandexMarker} from 'vue-yandex-maps'
+import UpdateMap from './UpdateMap.vue'
 
 
 export default defineComponent({
     setup: () => {
         const event_store = useEventsStore();
-        const settings = {
-            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
-            lang: 'ru_RU', // Используемый язык
-            coordorder: 'latlong', // Порядок задания географических координат
-            debug: true, // Режим отладки
-            version: '2.1' // Версия Я.Карт
-        };
-        const onMarker = (e) => {
-            console.log(e.originalEvent.target.geometry._coordinates);
-            useEventsStore().updateCoord(e.originalEvent.target.geometry._coordinates[0], e.originalEvent.target.geometry._coordinates[1])
-            // + event_store.event.longitude)
-        };
         const close = async () => {
             await event_store.getEventId(event_store.event.id); 
             await event_store.closeUpdate();
         };
         return { 
-            settings,
             event_store,
-            onMarker,
             close,
         }
     },
-    components: {YandexMap, YandexMarker},
+    components: {UpdateMap},
     methods: {
         updateTypes(new_types) {
             if(new_types) {
@@ -59,26 +45,7 @@ useEventsStore().getTypes();
         </div>
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
             <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-800 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
-                <YandexMap
-                    v-model="event_store.event.name"
-                    class="absolute inset-0"
-                    :settings="settings"
-                    :zoom="16"
-                    :behaviors="['drag', 'scrollZoom']"
-                    :controls="['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']"
-                    :coordinates="[ event_store.event.latitude, event_store.event.longitude]">
-                    <YandexMarker 
-                    
-                    :coordinates="[event_store.event.latitude, event_store.event.longitude]" 
-                    :marker-id="event_store.event.id"               
-                    :options="{
-                        preset: 'islands#violetDotIcon',
-                        draggable:'true',
-                    }"
-                    :events="['dragend']"
-                    @dragend="onMarker">
-                    </YandexMarker>
-                </YandexMap>
+                <UpdateMap/>
                 <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md h-2/6 overflow-y-scroll" id="journal-scroll">
                 <div class="lg:w-1/2 px-6">
                     <label for="city" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>

@@ -101,6 +101,7 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async updateEvent() {
             this.loader = true;
+            if (this.event.price === null) {this.event.price = ''}
             await axios.put('updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id)
             .then(response => { 
                 this.toast.success('Событие ' + response.data.event.name + ' изменено!');
@@ -125,6 +126,8 @@ export const useEventsStore = defineStore('EventsStore', {
 
         },
         async updateEventStatus() {
+            //this.ModalEvent = false;
+            this.loader = true;
             await axios.post('events/addStatusEvent?event_id=' + this.event.id + '&status_id=' + this.event.statuses[0].id + '&descriptions=' + this.event.statuses[0].pivot.descriptions)
             .then(async response => {
                 await axios.get('getStatusId/' + this.event.statuses[0].id)
@@ -142,7 +145,9 @@ export const useEventsStore = defineStore('EventsStore', {
             });
             await this.getEventId(this.event.id);
             await this.getEvents(this.first_page_url);
+            //this.showUpdateEvent(this.event);
             this.closeStatuses();
+            this.loader = false;
         },
         async updateCoord(lat, long) {
             this.event.latitude = lat;
@@ -163,8 +168,8 @@ export const useEventsStore = defineStore('EventsStore', {
             await axios.get('events?statusLast=true&statuses=На модерации&pagination=true&limit=1')
             .then(response =>{ this.count_moder = response.data.events.total; })
         },
-        async showUpdateEvent(id) {
-            this.event = id;
+        async showUpdateEvent(event) {
+            this.event = event;
             this.ModalEvent = true;
         }, 
         async showUpdate() {
