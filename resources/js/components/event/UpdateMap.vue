@@ -15,7 +15,6 @@
             };
             const onMarker = (e) => {
                 useEventsStore().updateCoord(e.originalEvent.target.geometry._coordinates[0], e.originalEvent.target.geometry._coordinates[1])
-                // + event_store.event.longitude)
             };
             return{
                 event_store,

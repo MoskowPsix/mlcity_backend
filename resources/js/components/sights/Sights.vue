@@ -50,7 +50,7 @@ useSightsStore().getStatusesSights();
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
                                     <div>Название</div>
-                                    <div>(post_id / siurce_id)</div>
+                                    <div>(post_id / source_id)</div>
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -128,7 +128,7 @@ useSightsStore().getStatusesSights();
                                             </div>
                                             <div v-if="sight.types.length === 0" class="w-full focus:border-indigo-500 focus:ring-2 focus:ring-indigo-900 text-base outline-none text-red-500 dark:text-red-400 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out">
                                                 <p class="leading-relaxed">
-                                                    <p>Тип неопределён</p>
+                                                    <p>Тип не определён</p>
                                                 </p>
                                             </div>
                                     </div>

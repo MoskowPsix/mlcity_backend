@@ -66,7 +66,7 @@ useRoleStore().getRole();
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
-                                    Зарегестрирован
+                                    Зарегистрирован
                                 </th>
 
                                 <th scope="col" class="px-4 py-3.5 text-sm font-normal text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -100,7 +100,7 @@ useRoleStore().getRole();
                                 <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm text-gray-500 dark:text-gray-300 whitespace-nowrap">{{localeDate(user.created_at)}}</td>
                                 <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm font-medium text-gray-700 whitespace-nowrap">
                                     <div class="inline-flex items-center px-3 py-1 rounded-full gap-x-2 text-emerald-500 bg-gray-100/60 dark:bg-gray-700/20 dark:bg-gray-800" >
-                                        <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Роль не определина</h2>
+                                        <h2 v-if="user.roles.length === 0" class="bg-red-200 text-red-600 py-1 px-3 rounded-full text-xs">Нет роли</h2>
                                         <h2 v-else-if="user.roles[0].name" class="bg-green-200 text-green-600 py-1 px-3 rounded-full text-xs" >{{ user.roles[0].name }}</h2>
                     
                                     </div>
@@ -123,7 +123,7 @@ useRoleStore().getRole();
                                 <td class="px-4 py-4 text-sm whitespace-nowrap">
                                     <div class="flex items-center gap-x-6">
                                         <button @click="store.showModalDetailed(user.id)" class="text-blue-500 transition-colors duration-200 dark:hover:text-blue-500 dark:text-blue-300 hover:text-blue-500 focus:outline-none">
-                                            Лайки и Избронное
+                                            Лайки и Избранное
                                         </button>
 
                                         <!-- <button @click="store.showModalUpd(user)" class="text-blue-500 transition-colors duration-200 hover:text-indigo-500 focus:outline-none">

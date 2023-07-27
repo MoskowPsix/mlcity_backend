@@ -51,7 +51,7 @@ useSightsStore().getTypesSights();
                     <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Город</label>
                             <input type="text" v-model="sights_store.sight.city" placeholder="Город"
                                 class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
-                    <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Адресс</label>
+                    <label for="email" class="leading-7 text-sm text-gray-700 dark:text-gray-200">Адрес</label>
                         <input type="text" v-model="sights_store.sight.address" placeholder="Адрес"
                             class="w-full bg-gray-400/30 dark:bg-gray-900/30 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"/>
                 </div>
