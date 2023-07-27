@@ -9,7 +9,7 @@ use Tests\TestCase;
 
 class UserApiTest extends TestCase
 {
-    use DatabaseMigrations;
+    //use DatabaseMigrations;
     use RefreshDatabase;
     private $user_1 = [
         'name' => 'Test',
@@ -260,6 +260,7 @@ class UserApiTest extends TestCase
         ]);
     }
 
+
     public function test_user_delete()
     {
         $response = $this->postJson('/api/register', 
@@ -276,17 +277,11 @@ class UserApiTest extends TestCase
         $response->withHeaders(['Bearer Token' => $response->baseResponse->original['access_token']]);
 
 
-        $user_id = $response->baseResponse->original['user']->id;
-
-        $response = $this->deleteJson('/api/deleteUsers/' . $user_id);
-        
-        $response = $this->getJson('/api/users/' . $user_id);        
-        
-        // print_r($response->baseResponse->original);
+        $response = $this->deleteJson('/api/deleteUsers/' . $user_id);   
 
         $response->assertJson([
             'status' => 'success',
-            //'user' => null
+            'delete user' => $user_id
         ]);
     }
 
