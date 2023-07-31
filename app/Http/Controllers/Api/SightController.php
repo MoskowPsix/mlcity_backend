@@ -21,6 +21,7 @@ use App\Models\Sight;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Auth;
 
 class SightController extends Controller
 {
@@ -92,7 +93,7 @@ class SightController extends Controller
     //Проверяем добавил ли авторизованный юзер этот место в избранное
     public function checkFavorite($id): \Illuminate\Http\JsonResponse
     {
-        $sight =  Event::where('id', $id)->firstOrFail();
+        $sight =  Sight::where('id', $id)->firstOrFail();
 
         $favorite = $sight->favoritesUsers()->where('user_id', Auth::user()->id)->exists();
 
