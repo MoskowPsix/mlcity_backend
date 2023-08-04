@@ -22,9 +22,16 @@ use App\Filters\Users\UsersUpdated;
 use App\Filters\Users\UsersCity;
 use App\Filters\Users\UsersRegion;
 
+
 class UserController extends Controller
 {
     // Получить юзера по ИД
+    /**
+     * @OA\Get(
+     *     path="/users/",
+     *     @OA\Response(response="200", description="Display a listing of projects.")
+     * )
+     */
     public function getUser($id): \Illuminate\Http\JsonResponse
     {
         $user = User::with('roles', 'socialAccount')->findOrFail($id);

@@ -7,7 +7,17 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
+/**
+ * @OA\Info(
+ *     description="API MlCity",
+ *     version="1.0.0",
+ *     title="User Management API"
+ * )
+ */
+
+
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    
 }
