@@ -25,13 +25,37 @@ use App\Filters\Users\UsersRegion;
 
 class UserController extends Controller
 {
-    // Получить юзера по ИД
     /**
      * @OA\Get(
-     *     path="/users/",
-     *     @OA\Response(response="200", description="Display a listing of projects.")
+     *     path="/users/{id}",
+     *     tags={"User"},
+     *     summary="Get user by id",
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         required=true,
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     * 
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Display a listing of projects."
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="not found"
+     *     ),
      * )
      */
+
+    
+    // Получить юзера по ИД
     public function getUser($id): \Illuminate\Http\JsonResponse
     {
         $user = User::with('roles', 'socialAccount')->findOrFail($id);
@@ -221,6 +245,34 @@ class UserController extends Controller
     }
 
     //Методы для Админ панели
+    /**
+     * @OA\Get(
+     *     path="/listUsers",
+     *     tags={"User"},
+     *     summary="Get all users by filters, method for AdminPanel",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     * 
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Display a listing of projects."
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=404,
+     *         description="not found"
+     *     ),
+     * )
+     */
     //Получить всех юзеров через фильтры
     public function listUsers(Request $request) 
     {

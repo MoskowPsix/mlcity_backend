@@ -9,10 +9,15 @@ class UsersId implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('id')){
-            $content->where('id', request()->get('id'));
+        if(!empty(request()->get('id'))){
+            if(request()->has('id')){
+                $content->where(function($query) {
+                    $query->orWhere('id', request()->get('id'));
+                });
+            }
+        } else {
+            $content->orWhere('id', 'LIKE' , '%%');
         }
-
-        return $next($content);
+        return $next($content);  
     }
 }

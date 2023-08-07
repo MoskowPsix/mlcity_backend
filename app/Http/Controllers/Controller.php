@@ -11,8 +11,13 @@ use Illuminate\Routing\Controller as BaseController;
  * @OA\Info(
  *     description="API MlCity",
  *     version="1.0.0",
- *     title="User Management API"
- * )
+ *     title="API Docs MlCity Project"
+ * ),
+ * @OA\Server(
+ *     url=L5_SWAGGER_CONST_HOST,
+ *     description="API Server",
+ * ),
+ * 
  */
 
 
