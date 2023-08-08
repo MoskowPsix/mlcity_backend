@@ -12,6 +12,26 @@ use App\Models\Status;
 
 class StatusController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/statuses",
+     *     tags={"Statuses"},
+     *     summary="Get all statuses",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="not authentication"
+     *     ),
+     * )
+     */
     public function getStatuses(): \Illuminate\Http\JsonResponse
     {
         $statuses = Status::all();
@@ -21,7 +41,33 @@ class StatusController extends Controller
             'statuses'   => $statuses
         ], 200);
     }
-
+    /**
+     * @OA\Get(
+     *     path="/getStatusId/{id}",
+     *     tags={"Statuses"},
+     *     summary="Get statuses by id",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         name="id",
+     *         in="path",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="not authentication"
+     *     ),
+     * )
+     */
     public function getStatusId($id): \Illuminate\Http\JsonResponse
     {
         $status = Status::where('id', $id)->firstOrFail();
@@ -31,7 +77,40 @@ class StatusController extends Controller
             'statuses'          => $status
         ], 200);
     }
-
+     /**
+     * @OA\Post(
+     *     path="/events/addStatusEvent",
+     *     tags={"Statuses"},
+     *     summary="Add statuses for event",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         name="status_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="event_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="not authentication"
+     *     ),
+     * )
+     */
     // Для событий
     public function addStatusEvent(Request $request) 
     {   
@@ -62,6 +141,40 @@ class StatusController extends Controller
                 'vk_group_id' => getenv('VK_OWNER_ID') 
         ], 200);
     }
+    /**
+     * @OA\Post(
+     *     path="/sights/addStatusEvent",
+     *     tags={"Statuses"},
+     *     summary="Add statuses for sight",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         name="status_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="sight_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="not authentication"
+     *     ),
+     * )
+     */
     // Для достопримечательностей
     public function addStatusSight(Request $request) 
     {

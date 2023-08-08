@@ -138,6 +138,2187 @@
                 }
             }
         },
+        "/events": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get all events by filters",
+                "operationId": "cc651c086e91a2395d28f9b3d4b0ddbc",
+                "parameters": [
+                    {
+                        "name": "pagination",
+                        "in": "query",
+                        "description": "Pagination on then true",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Event name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "statuses",
+                        "in": "query",
+                        "description": "Statuses event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "statusLast",
+                        "in": "query",
+                        "description": "True = last statuses event. False = search by all statuses event",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    },
+                    {
+                        "name": "dateStart",
+                        "in": "query",
+                        "description": "Date start event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "dateEnd",
+                        "in": "query",
+                        "description": "Date end event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "eventTypes",
+                        "in": "query",
+                        "description": "Type event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchText",
+                        "in": "query",
+                        "description": "Search text by name event, sponsor event and description event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_name",
+                        "in": "query",
+                        "description": "Name user author",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_email",
+                        "in": "query",
+                        "description": "Email user author",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Email and name user author",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Region event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Latitude event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Longitude event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/update-vk-likes": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Update vk likes event",
+                "operationId": "4dec2f8eada86728d7b4697c155dd9ef",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "likes_count",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/set-event-user-liked": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Set event user liked",
+                "operationId": "addfe8626fea0d7c8f961198f03f6e19",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}/check-user-liked": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Check user liked",
+                "operationId": "cf0877b9da7df53527bfd7008d187f3f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}/check-user-favorite": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Check user favorite",
+                "operationId": "03970c2c1f29f9d09a085c5f78d5e78d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get event by id",
+                "operationId": "abf4f4bbfe75221b5bab720a701f17b8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/create": {
+            "post": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Create new event",
+                "operationId": "67c2a3d06de9d1f76f54277de07764c8",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coords",
+                        "in": "query",
+                        "description": "Coords event <lat, long>",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Price event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "materials",
+                        "in": "query",
+                        "description": "Materials event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dateStart",
+                        "in": "query",
+                        "description": "Date start event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "dateEnd",
+                        "in": "query",
+                        "description": "Date end event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "vkGroupId",
+                        "in": "query",
+                        "description": "id group vk event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "vkPostId",
+                        "in": "query",
+                        "description": "id post vk event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}/liked-users": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get users like event",
+                "operationId": "a86685c1b62431a5f28dfb1b5cfad1ba",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/{id}/favorites-users": {
+            "get": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Get users like event",
+                "operationId": "24996fbdaf2975e73f6374717ec5a150",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/updateEvent/{id}": {
+            "put": {
+                "tags": [
+                    "Event"
+                ],
+                "summary": "Update event by id",
+                "operationId": "6f79231f935ed89a212766dfb8b47240",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Latitude event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Longitude event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Price event",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "materials",
+                        "in": "query",
+                        "description": "Materials event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "dateStart",
+                        "in": "query",
+                        "description": "Date start event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "dateEnd",
+                        "in": "query",
+                        "description": "Date end event",
+                        "schema": {
+                            "type": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/event-types": {
+            "get": {
+                "tags": [
+                    "Event-type"
+                ],
+                "summary": "Get all event type",
+                "operationId": "a8cf2248fd70bd5747eab92fa316b898",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/getTypesId/{id}": {
+            "get": {
+                "tags": [
+                    "Event-type"
+                ],
+                "summary": "Get event type by id",
+                "operationId": "7ec5523eafe887e83b87fc0c193860f4",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/addTypeEvent/{event_id}/{type_id}": {
+            "post": {
+                "tags": [
+                    "Event-type"
+                ],
+                "summary": "add type in event",
+                "operationId": "3a9378f11227b180feed666f92422ed2",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$event_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/updateTypeEvent/{event_id}/{type_id}": {
+            "put": {
+                "tags": [
+                    "Event-type"
+                ],
+                "summary": "add type in event",
+                "operationId": "8c6980167e8ac93ee6eecd4ac65c0224",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$event_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/deleteTypeEvent/{event_id}/{type_id}": {
+            "delete": {
+                "tags": [
+                    "Event-type"
+                ],
+                "summary": "add type in event",
+                "operationId": "45c15964a4ffc7e0a3a143da369c897a",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$event_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/logs": {
+            "get": {
+                "tags": [
+                    "Logs"
+                ],
+                "summary": "Check logs api",
+                "operationId": "46a1457b7328d92aaeab0a65d7e7c6bf",
+                "parameters": [
+                    {
+                        "name": "url",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ip",
+                        "in": "query",
+                        "schema": {
+                            "type": "ip"
+                        }
+                    },
+                    {
+                        "name": "method",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "request",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "status_code",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "response",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "dateStart",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "dateEnd",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/allRole": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get all role",
+                "operationId": "290a599539b1e805c27799d0613bac43",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/allRole/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get role by id",
+                "operationId": "4bd9284dc478c1633ed971eae5168b46",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "404": {
+                        "description": "Not found role"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/addRole/": {
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Add new role",
+                "operationId": "be8c23fcb3972ca3c385f7bafed009fd",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/updateRole/{id}": {
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update role",
+                "operationId": "3f910c56dc1adcc93a15edea4b483f2b",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/deleteRole/{id}": {
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete role",
+                "operationId": "ed3e37114efe991493129b88fa621d0d",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/addRoleUser/{user_id}/{role_id}": {
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Add roles in user",
+                "operationId": "2f2707d24a329f88d7a4a7b926e68a18",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/updateRoleUser/{user_id}/{role_id}": {
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update roles in user",
+                "operationId": "5f9dce5cf935d2996e3b97e5ef9648e2",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/deleteRoleUser/{user_id}/{role_id}": {
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete roles in user",
+                "operationId": "71f1eb30ac12d76ef45ea6d40aa5debc",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "role_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "Not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights": {
+            "get": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Get all sights by filters",
+                "operationId": "7a0f2b46a70e5704c7fd004ac47df360",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Sight name",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "statuses",
+                        "in": "query",
+                        "description": "Statuses sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "statusLast",
+                        "in": "query",
+                        "description": "True = last statuses event. False = search by all statuses sight",
+                        "schema": {
+                            "type": "bool"
+                        }
+                    },
+                    {
+                        "name": "sightTypes",
+                        "in": "query",
+                        "description": "Type sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchText",
+                        "in": "query",
+                        "description": "Search text by name event, sponsor event and description event",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Email and name user author",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "description": "Region sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Latitude sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Longitude sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/update-vk-likes": {
+            "post": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Update vk likes sight",
+                "operationId": "29d5b359f2596b6bcaf60c73befd4a45",
+                "parameters": [
+                    {
+                        "name": "sight_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "likes_count",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/set-sight-user-liked": {
+            "post": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Set sight user liked",
+                "operationId": "150c1787679a9330d64fb8ad5ac98596",
+                "parameters": [
+                    {
+                        "name": "sight_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/{id}/check-user-liked": {
+            "post": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Check user liked",
+                "operationId": "037fa3e5577a365ba1893b6eebffb7b9",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/{id}/check-user-favorite": {
+            "post": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Check user favorite",
+                "operationId": "f4fefa3e9aec439c2b8afe15a12635be",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/{id}": {
+            "get": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Get sight by id",
+                "operationId": "7947b0b8c3c2597f8ffdf027b9d64824",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/create": {
+            "post": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Create new sight",
+                "operationId": "d4cbbedab374cf70ecafabe2548af1b5",
+                "parameters": [
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "coords",
+                        "in": "query",
+                        "description": "Coords sight <lat, long>",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Price sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "materials",
+                        "in": "query",
+                        "description": "Materials sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "vkGroupId",
+                        "in": "query",
+                        "description": "id group vk sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "vkPostId",
+                        "in": "query",
+                        "description": "id post vk sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/{id}/liked-users": {
+            "get": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Get users like sight",
+                "operationId": "d4510a2ff860e515ca36ddce9c397eca",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/{id}/favorites-users": {
+            "get": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Get users like sight",
+                "operationId": "ec9d8f4ce9dda93feaa63d3123b91d8e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/updateSight/{id}": {
+            "put": {
+                "tags": [
+                    "Sight"
+                ],
+                "summary": "Update sight by id",
+                "operationId": "7cdb62ac2b02cc480c16783741f5c025",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "description": "Name sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "sponsor",
+                        "in": "query",
+                        "description": "Sponsor sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "description": "City sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "address",
+                        "in": "query",
+                        "description": "Address sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "latitude",
+                        "in": "query",
+                        "description": "Latitude sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "longitude",
+                        "in": "query",
+                        "description": "Longitude sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "description",
+                        "in": "query",
+                        "description": "Description sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "price",
+                        "in": "query",
+                        "description": "Price sight",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "materials",
+                        "in": "query",
+                        "description": "Materials sight",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sight-types": {
+            "get": {
+                "tags": [
+                    "Sight-type"
+                ],
+                "summary": "Get all sight type",
+                "operationId": "d570f8a7676ffddff030f7f91609a129",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/getTypesId/{id}": {
+            "get": {
+                "tags": [
+                    "Sight-type"
+                ],
+                "summary": "Get sight type by id",
+                "operationId": "79bdc20ce9da863b7700332764ba7cf6",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/addTypeSight/{sight_id}/{type_id}": {
+            "post": {
+                "tags": [
+                    "Sight-type"
+                ],
+                "summary": "add type in sight",
+                "operationId": "5554ba6a1e6ab0c28f8b0bc4f142f046",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$sight_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/updateTypeSight/{sight_id}/{type_id}": {
+            "put": {
+                "tags": [
+                    "Sight-type"
+                ],
+                "summary": "add type in event",
+                "operationId": "e974fac5bb43c4dc638295db3fe0311d",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$sight_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/deleteTypeSight/{sight_id}/{type_id}": {
+            "delete": {
+                "tags": [
+                    "Sight-type"
+                ],
+                "summary": "add type in sight",
+                "operationId": "804a6bb4570139edaa49025ed55d0430",
+                "parameters": [
+                    {
+                        "name": "type_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "$sight_id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/statuses": {
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get all statuses",
+                "operationId": "1976c83876b0986ffe1fe8af73221069",
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/getStatusId/{id}": {
+            "get": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Get statuses by id",
+                "operationId": "09fb7418787ce408e160c56a5dc93f36",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/events/addStatusEvent": {
+            "post": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Add statuses for event",
+                "operationId": "91ae16621a82ef1be87f1754e6d14b62",
+                "parameters": [
+                    {
+                        "name": "status_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/sights/addStatusEvent": {
+            "post": {
+                "tags": [
+                    "Statuses"
+                ],
+                "summary": "Add statuses for sight",
+                "operationId": "133afee3dcb80ab83add5690da97031f",
+                "parameters": [
+                    {
+                        "name": "status_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "sight_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
         "/users/{id}": {
             "get": {
                 "tags": [
@@ -157,7 +2338,7 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Display a listing of projects."
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -166,6 +2347,312 @@
                         "description": "not found"
                     }
                 }
+            }
+        },
+        "/users/{id}/social-account": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get social account user",
+                "operationId": "a39182ea029b41eb0f8fc41a420ded60",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/favorite-events": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get favorites events user",
+                "operationId": "9427ef2fc2617ce17437086435c32c27",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/liked-events": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get liked events user",
+                "operationId": "be37b0a7dc5d40e62f2f2d2556a9bc68",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/favorite-sights": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get favorites sights user",
+                "operationId": "3bc33b6c3b7089053c8ea8dd57a59a93",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/{id}/liked-sights": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get liked sights user",
+                "operationId": "275c92d082bc412bde7d1b95af4a59a8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/like-event-toggle": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add event in like",
+                "operationId": "8d144ed7e22b57ccc863ef9522a2ab2e",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/like-sight-toggle": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add sight in like",
+                "operationId": "0ccd073ad81c75c6bf137b7c80f478ee",
+                "parameters": [
+                    {
+                        "name": "sight_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/favorite-event-toggle": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add event in favorite",
+                "operationId": "bc0b963611cdd37286a06c083824ba19",
+                "parameters": [
+                    {
+                        "name": "event_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/users/favorite-sight-toggle": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add sight in favorite",
+                "operationId": "38d4df7a571e322a8d646ee0587d7e48",
+                "parameters": [
+                    {
+                        "name": "sight_id",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
             }
         },
         "/listUsers": {
@@ -177,8 +2664,174 @@
                 "operationId": "761e9d165e5a3affe1b279665a67065e",
                 "parameters": [
                     {
-                        "name": "user_id",
+                        "name": "id",
                         "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "createdDateStart",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "createdDateEnd",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "updatedDateStart",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "updatedDateEnd",
+                        "in": "query",
+                        "schema": {
+                            "type": "date"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/updateUsers/{id}": {
+            "put": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update user by id, method for AdminPanel",
+                "operationId": "88fb5922a5bd98274255fcd8a7090f94",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "name",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "email",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "city",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "region",
+                        "in": "query",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "500": {
+                        "description": "not authentication"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/deleteUsers/{id}": {
+            "delete": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete soft user by id, method for AdminPanel",
+                "operationId": "2d9ae0ccd4935df16c4d3fcb8aa2f1cd",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
                         "schema": {
                             "type": "integer"
                         }
@@ -186,13 +2839,13 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Display a listing of projects."
+                        "description": "Success"
                     },
                     "400": {
                         "description": "Bad Request"
                     },
-                    "404": {
-                        "description": "not found"
+                    "500": {
+                        "description": "not authentication"
                     }
                 },
                 "security": [

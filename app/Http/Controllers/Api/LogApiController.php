@@ -18,6 +18,89 @@ use App\Models\LogApi;
 
 class LogApiController extends Controller
 {
+    /**
+     * @OA\Get(
+     *     path="/logs",
+     *     tags={"Logs"},
+     *     summary="Check logs api",
+     *     security={ {"sanctum": {} }},
+     *     @OA\Parameter(
+     *         name="url",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="ip",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="ip"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="method",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="request",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="status_code",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="response",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="string"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="user_id",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="integer"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="dateStart",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="date"
+     *         ),
+     *     ),
+     *     @OA\Parameter(
+     *         name="dateEnd",
+     *         in="query",
+     *         @OA\Schema(
+     *             type="date"
+     *         ),
+     *     ),
+     *     @OA\Response(
+     *         response="200", 
+     *         description="Success"
+     *     ),
+     *     @OA\Response(
+     *         response=400,
+     *         description="Bad Request"
+     *     ),
+     *     @OA\Response(
+     *         response=500,
+     *         description="not authentication"
+     *     ),
+     * )
+     */
     public function getLogs(Request $request)
     {
         $url = $request->fullUrl();
