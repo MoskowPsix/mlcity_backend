@@ -580,11 +580,11 @@ class EventController extends Controller
 //        ]);
 
 
-        if ($request->vkFiles){
-            $this->saveVkFiles($event, $request->vkFiles);
+        if ($request->vkFilesImg){
+            $this->saveVkFiles($event, $request->vkFilesImg);
         }
 
-        if ($request->localFiles){
+        if ($request->localFilesImg){
             $this->saveLocalFiles($event, $request->localFiles);
         }
 

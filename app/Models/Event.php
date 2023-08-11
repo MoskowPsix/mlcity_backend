@@ -70,7 +70,7 @@ class Event extends Model
 
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
-        return $this->hasMany(EventFile::class);
+        return $this->hasMany(EventFile::class)->with('file_types');
     }
 
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
