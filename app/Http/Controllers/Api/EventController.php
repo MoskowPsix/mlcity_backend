@@ -25,7 +25,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
-use App\Models\User;
+use App\Models\FileType;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
@@ -548,7 +548,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
     {
         $coords = explode(',',$request->coords);
@@ -581,11 +581,18 @@ class EventController extends Controller
 
 
         if ($request->vkFilesImg){
-            $this->saveVkFiles($event, $request->vkFilesImg);
+            $this->saveVkFilesImg($event, $request->vkFilesImg);
+        }
+
+        if ($request->vkFilesVideo){
+            $this->saveVkFilesVideo($event, $request->vkFilesVideo);
+        }
+        if ($request->vkFilesLink){
+            $this->saveVkFilesLink($event, $request->vkFilesLink);
         }
 
         if ($request->localFilesImg){
-            $this->saveLocalFiles($event, $request->localFiles);
+            $this->saveLocalFilesImg($event, $request->localFiles);
         }
 
         return response()->json(['status' => 'success',], 200);
@@ -852,26 +859,48 @@ class EventController extends Controller
         dd('delete');
     }
 
-    private function saveVkFiles($event, $files){
+    private function saveVkFilesImg($event, $files){
+        $type = FileType::where('name', 'image')->get();
+        \Illuminate\Support\Facades\Log::info($type);
         foreach ($files as $file) {
             $event->files()->create([
                 "name" => uniqid('img_'),
                 "link" => $file,
-            ]);
+            ])->file_types()->attach($type[0]->id);
         }
     }
-    private function saveLocalFiles($event, $files){
+    private function saveVkFilesVideo($event, $files){
+        $type = FileType::where('name', 'video')->get();
+        foreach ($files as $file) {
+            $event->files()->create([
+                "name" => uniqid('video_'),
+                "link" => $file,
+            ])->file_types()->sync($type[0]->id);
+        }
+    }
+    private function saveVkFilesLink($event, $files){
+        $type = FileType::where('name', 'link')->get();
+        foreach ($files as $file) {
+            $event->files()->create([
+                "name" => uniqid('link_'),
+                "link" => $file,
+            ])->file_types()->sync($type[0]->id);
+        }
+    }
+    private function saveLocalFilesImg($event, $files){
 
         foreach ($files as $file) {
-            $filename = uniqid('img_');
+            $filename = uniqid('file_');
 
             $path = $file->store('events/'.$event->id, 'public');
+
+            $type = FileType::where('name', 'image')->get();
 
             $event->files()->create([
                 'name'  => $filename,
                 'link'  => '/storage/'.$path,
                 'local' => 1
-            ]);
+            ])->file_types()->sync($type[0]->id);
 
         }
 

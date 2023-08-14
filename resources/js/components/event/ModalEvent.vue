@@ -102,7 +102,8 @@ export default defineComponent ({
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
             <div v-if="event_store.event.files.length !== 0" class="w-2/12 px-2 flex max-h-10/12 flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in event_store.event.files">
-                    <a :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
+                    <a v-if="img.file_types.name === 'image'" :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
+                    <iframe v-if="img.file_types[0].name === 'video'" :src="img.link + '&autoplay=1&mute=1'" allow="encrypted-media; fullscreen; picture-in-picture;" autoplay width="100%" height="100%" frameborder="0"></iframe>
                 </div>
             </div>
             <div class="lg:w-2/3 md:w-1/2 min-w-8/12 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
