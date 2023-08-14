@@ -33,6 +33,8 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('register', 'register');
     Route::post('login', 'login');
     Route::post('logout/{id}', 'logout')->middleware('auth:sanctum');
+    Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
+    Route::put('reset_password_user', 'resetPasswordForAdmin')->middleware('auth:sanctum');
 });
 
 

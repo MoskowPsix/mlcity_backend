@@ -8,6 +8,7 @@ use App\Http\Requests\LoginRequest;
 //use Illuminate\Http\Request;
 
 use Illuminate\Support\Facades\Auth;
+use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
 
 use App\Models\User;
@@ -192,6 +193,44 @@ class AuthController extends Controller
             'token_type'    => 'Bearer',
             'user'          => $user
         ], 200);
+    }
+
+    public function resetPassword(Request $request)
+    {
+        if (password_verify($request->old_password, auth('api')->user()->password)) {
+            if ($request->new_password === $request->retry_password) {
+                User::where('id', auth('api')->user()->id)->update(['password' => bcrypt($request->new_password)]);
+                return response()->json([
+                    'status' => 'success',
+                    'message' => 'Password changed!'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'The new password does not match!'
+                ], 403);
+            }
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The old password is incorrect!'
+            ], 403);
+        }
+
+    }
+    public function resetPasswordForAdmin(Request $request) {
+        if ($request->new_password === $request->retry_password) {
+            User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Password changed!'
+            ]);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The new password does not match!'
+            ], 403);
+        }
     }
 
     public function logout($id): \Illuminate\Http\JsonResponse
