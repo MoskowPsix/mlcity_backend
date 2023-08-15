@@ -23,9 +23,9 @@ class SightFile extends Model
         return $this->belongsTo(Sight::class);
     }
     
-    public function type(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function file_types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(FileType::class);
+        return $this->belongsToMany(FileType::class, 'sight_file_types','file_id','type_id');
 
     }
 }

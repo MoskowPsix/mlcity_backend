@@ -98,10 +98,11 @@ export default defineComponent({
         <div class="container px-5 py-5 mx-auto flex sm:flex-nowrap flex-wrap">
             <div v-if="sights_store.sight.files.length !== 0" class="md:w-2/12 px-2 flex max-h-[750px] flex-col overflow-y-scroll" id="journal-scroll">
                 <div v-for="img in sights_store.sight.files">
-                    <img class="h-auto max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name">
+                    <a v-if="img.file_types[0].name === 'image'" :href="img.link"><img class=" max-w-full rounded-lg my-2 hover:scale-110 transition duration-500 cursor-pointer object-cover" :src="img.link" :alt="img.name"></a>
+                    <iframe v-if="img.file_types[0].name === 'video'" :src="img.link + '&autoplay=1&mute=1'" allow="encrypted-media; fullscreen; picture-in-picture;" autoplay width="100%" height="100%" frameborder="0"></iframe>
                 </div>
             </div>
-            <div class="lg:w-2/3 md:w-1/2 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
+            <div class="lg:w-5/12 md:w-5/12 bg-gray-500 dark:bg-gray-900 rounded-lg overflow-hidden sm:mr-10 p-10 flex items-end justify-start relative">
                 <ShowMap/>
                 <div class="bg-gray-200/50 hover:bg-gray-200/80 dark:bg-gray-900/30 hover:dark:bg-gray-900/50 relative flex flex-wrap py-6 rounded shadow-md">
                     <div class="lg:w-1/2 px-6">

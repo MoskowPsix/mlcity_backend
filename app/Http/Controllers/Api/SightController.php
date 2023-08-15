@@ -22,6 +22,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
+use App\Models\FileType;
 
 class SightController extends Controller
 {
@@ -502,13 +503,20 @@ class SightController extends Controller
 //            "vk_count" => $request->vkLikesCount ? $request->vkLikesCount : 0,
 //        ]);
 
-
-        if ($request->vkFiles){
-            $this->saveVkFiles($sight, $request->vkFiles);
+        \Illuminate\Support\Facades\Log::info('Файлы'.$request);
+        if ($request->vkFilesImg){
+            $this->saveVkFilesImg($sight, $request->vkFilesImg);
         }
 
-        if ($request->localFiles){
-            $this->saveLocalFiles($sight, $request->localFiles);
+        if ($request->vkFilesVideo){
+            $this->saveVkFilesVideo($sight, $request->vkFilesVideo);
+        }
+        if ($request->vkFilesLink){
+            $this->saveVkFilesLink($sight, $request->vkFilesLink);
+        }
+
+        if ($request->localFilesImg){
+            $this->saveLocalFilesImg($sight, $request->localFilesImg);
         }
 
         return response()->json(['status' => 'success',], 200);
@@ -759,19 +767,39 @@ class SightController extends Controller
         dd('delete');
     }
 
-    private function saveVkFiles($sight, $files){
+    private function saveVkFilesImg($sight, $files){
+        $type = FileType::where('name', 'image')->get();
         foreach ($files as $file) {
             $sight->files()->create([
                 "name" => uniqid('img_'),
                 "link" => $file,
-            ]);
+            ])->file_types()->attach($type[0]->id);
+        }
+    }
+    private function saveVkFilesVideo($sight, $files){
+        $type = FileType::where('name', 'video')->get();
+        foreach ($files as $file) {
+            $sight->files()->create([
+                "name" => uniqid('video_'),
+                "link" => $file,
+            ])->file_types()->sync($type[0]->id);
+        }
+    }
+    private function saveVkFilesLink($sight, $files){
+        $type = FileType::where('name', 'link')->get();
+        foreach ($files as $file) {
+            $sight->files()->create([
+                "name" => uniqid('link_'),
+                "link" => $file,
+            ])->file_types()->sync($type[0]->id);
         }
     }
 
-    private function saveLocalFiles($sight, $files){
-
+    private function saveLocalFilesImg($sight, $files){
         foreach ($files as $file) {
             $filename = uniqid('img_');
+
+            $type = FileType::where('name', 'image')->get();
 
             $path = $file->store('sights/'.$sight->id, 'public');
 
@@ -779,7 +807,7 @@ class SightController extends Controller
                 'name'  => $filename,
                 'link'  => '/storage/'.$path,
                 'local' => 1
-            ]);
+            ])->file_types()->sync($type[0]->id);
 
         }
 

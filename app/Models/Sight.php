@@ -68,7 +68,7 @@ class Sight extends Model
 
     public function files(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(SightFile::class);
+        return $this->hasMany(SightFile::class)->with('file_types');
     }
 
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne

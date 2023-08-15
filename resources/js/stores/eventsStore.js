@@ -170,6 +170,7 @@ export const useEventsStore = defineStore('EventsStore', {
         },
         async showUpdateEvent(event) {
             this.event = event;
+            console.log(event)
             this.ModalEvent = true;
         }, 
         async showUpdate() {

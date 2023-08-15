@@ -592,7 +592,7 @@ class EventController extends Controller
         }
 
         if ($request->localFilesImg){
-            $this->saveLocalFilesImg($event, $request->localFiles);
+            $this->saveLocalFilesImg($event, $request->localFilesImg);
         }
 
         return response()->json(['status' => 'success',], 200);
@@ -861,7 +861,6 @@ class EventController extends Controller
 
     private function saveVkFilesImg($event, $files){
         $type = FileType::where('name', 'image')->get();
-        \Illuminate\Support\Facades\Log::info($type);
         foreach ($files as $file) {
             $event->files()->create([
                 "name" => uniqid('img_'),
@@ -890,7 +889,7 @@ class EventController extends Controller
     private function saveLocalFilesImg($event, $files){
 
         foreach ($files as $file) {
-            $filename = uniqid('file_');
+            $filename = uniqid('img_');
 
             $path = $file->store('events/'.$event->id, 'public');
 
@@ -906,3 +905,5 @@ class EventController extends Controller
 
     }
 }
+
+
