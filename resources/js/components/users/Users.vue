@@ -91,7 +91,7 @@ useRoleStore().getRole();
                         </thead>
                          <!-- Конец полей таблицы  -->
                         <tbody class="bg-white divide-y divide-gray-200 dark:divide-gray-700 dark:bg-gray-900" v-for="user in store.users.users.data" :key="user.id">
-                            <tr class="capitalize transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
+                            <tr class=" transition-colors duration-200 rounded-md gap-x-2 hover:bg-gray-200 dark:bg-gray-900  dark:hover:bg-gray-800">
                                 <td @click="store.showModalUpd(user)" class="px-4 py-4 text-sm font-medium text-gray-700 dark:text-gray-200 whitespace-nowrap">
                                     <div class="inline-flex items-center gap-x-3">
                                         <span>{{ user.id }}</span>
@@ -145,7 +145,7 @@ useRoleStore().getRole();
     <div class="flex items-center justify-between mt-6">
         <div v-for="link in store.links">
             <div v-if=" link.label  === pageP && link.url !== null">
-                <a href="#" @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700 capitalize transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
+                <a href="#" @click="store.getPage(link.url)" class="flex items-center px-5 py-2 text-sm text-gray-700  transition-colors duration-200 bg-white border rounded-md gap-x-2 hover:bg-gray-100 dark:bg-gray-900 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-800">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5 rtl:-scale-x-100">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
                     </svg>

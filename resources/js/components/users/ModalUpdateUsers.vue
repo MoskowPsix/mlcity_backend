@@ -2,26 +2,28 @@
 import {useUsersStore} from '../../stores/usersStore'
 import { defineComponent } from 'vue';
 import {useRoleStore} from '../../stores/roleStore'
+import ModalResetPassword from './ModalResetPassword.vue'
 
 
- export default defineComponent({
-   setup() {
-    const store = useUsersStore();
-    const store_role = useRoleStore();
-    const user_email = '';
-    const user_name = '';
-    const user_role = '';
-    return {store, store_role, user_email, user_name, user_role};
-    }, 
-  })
+ export default defineComponent ({
+   	setup() {
+		const store = useUsersStore();
+		const store_role = useRoleStore();
+		const user_email = '';
+		const user_name = '';
+		const user_role = '';
+		return {store, store_role, user_email, user_name, user_role};
+    },
+	components: {
+		ModalResetPassword
+	},
+})
 </script>
 
 <template>
-
-<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster"
-		style="background: rgba(0,0,0,.7);">
-		<div
-			class="border border-blue-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
+	<ModalResetPassword class="" v-if="store.modal_reset_pass === true"/>	
+	<div class="main-modal fixed w-full h-100 inset-0 z-50 overflow-hidden flex justify-center items-center animated fadeIn faster" style="background: rgba(0,0,0,.7);" v-if="store.modal_reset_pass === false">	
+		<div class="border border-blue-400 shadow-lg modal-container bg-gray-100 dark:bg-gray-800 w-11/12 md:max-w-md mx-auto rounded-xl shadow-lg z-50 overflow-y-auto">
 			<div class="modal-content py-6 text-left px-6 ">
 				<!--Title-->
 				<div class="flex justify-between items-center pb-3">
@@ -50,6 +52,7 @@ import {useRoleStore} from '../../stores/roleStore'
               {{ role.name }}
             </option>
           </select>
+		  <button @click="store.showModalResetPass()" class="px-4 bg-green-400 dark:bg-green-500 p-3 rounded-lg dark:text-gray-200 text-black hover:bg-green-300 hover:dark:bg-green-400">Сменить пароль</button>
 				</div>
 				<!--Footer-->
 				<div class="flex justify-end pt-2">
@@ -59,4 +62,4 @@ import {useRoleStore} from '../../stores/roleStore'
 			</div>
 		</div>
 	</div>
-  </template>
+</template>

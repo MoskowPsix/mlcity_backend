@@ -133,7 +133,23 @@ export const useUsersStore = defineStore('usersStore', {
             this.closeModalUpd();
             this.loader = false;
         },
-
+        async resetPassword(pass, retry_pass) {
+            if (pass === retry_pass) {
+                await axios.put('/reset_password_user?user_id=' +  this.user_upd_id.id + '&new_password=' + pass + '&retry_password=' + retry_pass)
+                .then(response => {this.toast.success('Пароль изменён!'); console.log(response)})
+                .catch(error => this.toast.error('Ошибка при обновлении пароля пользователя: ' + error.message))
+                console.log(pass, retry_pass)
+            } else {
+                this.toast.warning('Пароли не совпадают!')
+            }
+        },
+        // Модальное окно смены пароля
+        async showModalResetPass() {
+            this.modal_reset_pass = true;
+        },
+        async closeModalResetPass() {
+            this.modal_reset_pass = false;
+        },
         //Модальное окно добавления
         async showModal() {
             this.show_modal_users = await true;
@@ -235,6 +251,7 @@ export const useUsersStore = defineStore('usersStore', {
         menu_user_loader: false,
         events_sights_user: [],
         modal_links: [],
+        modal_reset_pass: false,
     }),
     getters: {
         
