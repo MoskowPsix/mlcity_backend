@@ -195,6 +195,54 @@ class AuthController extends Controller
         ], 200);
     }
 
+     /**
+     * @OA\Put(
+     ** path="/reset_password",
+     *   tags={"Auth"},
+     *   summary="reset password",
+     *   operationId="reset_password",
+     *
+     *   @OA\Parameter(
+     *      name="new_password",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *           type="string"
+     *      )
+     *   ),
+     *   @OA\Parameter(
+     *      name="retry_password",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *          type="string"
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=401,
+     *       description="Unauthenticated"
+     *   ),
+     *   @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     *   @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *)
+     **/
     public function resetPassword(Request $request)
     {
         if (password_verify($request->old_password, auth('api')->user()->password)) {
@@ -218,6 +266,61 @@ class AuthController extends Controller
         }
 
     }
+    /**
+     * @OA\Put(
+     ** path="/reset_password_user",
+     *   tags={"Auth"},
+     *   summary="reset password user",
+     *   operationId="reset_password_user",
+     *   @OA\Parameter(
+     *      name="user_id",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *           type="integer"
+     *      )
+     *   ),
+     *   @OA\Parameter(
+     *      name="new_password",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *           type="string"
+     *      )
+     *   ),
+     *   @OA\Parameter(
+     *      name="retry_password",
+     *      in="query",
+     *      required=true,
+     *      @OA\Schema(
+     *          type="string"
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=200,
+     *       description="Success",
+     *      @OA\MediaType(
+     *           mediaType="application/json",
+     *      )
+     *   ),
+     *   @OA\Response(
+     *      response=401,
+     *       description="Unauthenticated"
+     *   ),
+     *   @OA\Response(
+     *      response=400,
+     *      description="Bad Request"
+     *   ),
+     *   @OA\Response(
+     *      response=404,
+     *      description="not found"
+     *   ),
+     *      @OA\Response(
+     *          response=403,
+     *          description="Forbidden"
+     *      )
+     *)
+     **/
     public function resetPasswordForAdmin(Request $request) {
         if ($request->new_password === $request->retry_password) {
             User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);

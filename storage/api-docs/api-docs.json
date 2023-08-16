@@ -138,6 +138,108 @@
                 }
             }
         },
+        "/reset_password": {
+            "put": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "reset password",
+                "operationId": "reset_password",
+                "parameters": [
+                    {
+                        "name": "new_password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "retry_password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
+        "/reset_password_user": {
+            "put": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "reset password user",
+                "operationId": "reset_password_user",
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "new_password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "retry_password",
+                        "in": "query",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success",
+                        "content": {
+                            "application/json": {}
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthenticated"
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "not found"
+                    },
+                    "403": {
+                        "description": "Forbidden"
+                    }
+                }
+            }
+        },
         "/events": {
             "get": {
                 "tags": [
