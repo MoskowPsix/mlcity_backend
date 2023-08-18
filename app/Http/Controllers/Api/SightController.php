@@ -755,7 +755,8 @@ class SightController extends Controller
                 'materials' => $sight->materials,
                 'date_start' => $sight->date_start,
                 'date_end' => $sight->date_end,
-                
+                'vk_group_id'   => $request->vk_group_id,
+                'vk_post_id'    => $request->vk_post_id,
             ]
         ];
     

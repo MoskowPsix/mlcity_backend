@@ -42,7 +42,7 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
-  if (to.name !== 'login' && localStorage.role !== 'Admin' ) {
+  if (to.name !== 'login' && localStorage.role !== 'Admin' && localStorage.role !== 'root' ) {
     useBarStore().closeBar()
     next({  name: 'login' })
   } else { 
