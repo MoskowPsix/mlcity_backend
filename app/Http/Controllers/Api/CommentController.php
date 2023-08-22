@@ -4,22 +4,30 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CommentRequest;
+use App\Models\Sight;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Comment;
 
 class CommentController extends Controller
 {
+
     public function create(CommentRequest $request): \Illuminate\Http\JsonResponse
     {
         if ($request->has('eventID')){
             $event =  Event::where('id', $request->eventID)->firstOrFail();
-            $event->comments()->save($request->text);
+            $event->comments()->create([
+                'text' => $request->text,
+                'user_id' => auth()->user()->id,
+            ]);
         }
 
         if ($request->has('sightID')){
-            $sight =  Event::where('id', $request->sightID)->firstOrFail();
-            $sight->comments()->save($request->text);
+            $sight =  Sight::where('id', $request->sightID)->firstOrFail();
+            $sight->comments()->create([
+                'text' => $request->text,
+                'user_id' => auth()->user()->id,
+            ]);
         }
 
         return response()->json(['status' => 'success',], 200);
@@ -27,7 +35,7 @@ class CommentController extends Controller
 
     public function delete($id): \Illuminate\Http\JsonResponse
     {
-        $comment = Comment::where('id', $id)->delete();
+        Comment::where('id', $id)->delete();
         return response()->json(['status' => 'success',], 200);
     }
 }

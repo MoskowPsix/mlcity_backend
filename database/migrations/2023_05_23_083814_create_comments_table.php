@@ -18,10 +18,10 @@ return new class extends Migration
 
             $table->text('text');
 
-            $table->integer('event_id');
+            $table->integer('event_id')->nullable();
             $table->foreign('event_id')->references('id')->on('events')->onDelete('cascade');
 
-            $table->integer('sight_id');
+            $table->integer('sight_id')->nullable();
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
 
             $table->integer('user_id');
