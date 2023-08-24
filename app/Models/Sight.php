@@ -78,6 +78,6 @@ class Sight extends Model
 
     public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Comment::class)->with('user');
+        return $this->hasMany(Comment::class)->where('comment_id')->with('user', 'comments');
     }
 }
