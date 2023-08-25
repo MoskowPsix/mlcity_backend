@@ -93,6 +93,7 @@ Route::controller(SightController::class)->group(function() {
 
 Route::controller(CommentController::class)->group(function() {
     Route::get('comment/{id}', 'showCommentId');
+    Route::put('comment/{id}/update', 'update')->middleware('auth:sanctum');
     Route::post('comment/create', 'create')->middleware('auth:sanctum');
     Route::delete('comment/{id}/delete', 'delete')->middleware('auth:sanctum');
 });

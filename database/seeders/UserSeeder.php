@@ -17,6 +17,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
+        $root = Role::where('name','root')->first();
         $admin = Role::where('name','Admin')->first();
         $moderator = Role::where('name','Moderator')->first();
 
@@ -25,6 +26,6 @@ class UserSeeder extends Seeder
         $su->email = '123n@mail.ru';
         $su->password = bcrypt('Qwerty123');
         $su->save();
-        $su->roles()->attach($admin); //добавляем юзеру роль
+        $su->roles()->attach($root); //добавляем юзеру роль
     }
 }

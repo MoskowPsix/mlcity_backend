@@ -28,23 +28,23 @@ class EventSeeder extends Seeder
         // $type1->materials = 'Материалы';
         // $type1->date_start = '2023-09-12';
         // $type1->date_end = '2023-09-13';
-        // $type1->user_id = '8';
+        // $type1->user_id = '1';
         // $type1->save();
 
-        // $type2 = new Event();
-        // $type2->name = 'Прогулка';
-        // $type2->sponsor = 'Какой-то Спонсор';
-        // $type2->city = 'Рефтинский';
-        // $type2->address = 'Комсомольская 19';
-        // $type2->latitude = '55.7522';
-        // $type2->longitude = '58.7522';
-        // $type2->description = 'Описание какое-то';
-        // $type2->price = '3000';
-        // $type2->materials = 'Материалы';
-        // $type2->date_start = '2022-09-12';
-        // $type2->date_end = '2022-10-13';
-        // $type2->user_id = '4';
-        // $type2->save();
+        $type2 = new Event();
+        $type2->name = 'Прогулка';
+        $type2->sponsor = 'Какой-то Спонсор';
+        $type2->city = 'Рефтинский';
+        $type2->address = 'Комсомольская 19';
+        $type2->latitude = '55.7522';
+        $type2->longitude = '58.7522';
+        $type2->description = 'Описание какое-то';
+        $type2->price = '3000';
+        $type2->materials = 'Материалы';
+        $type2->date_start = '2022-09-12';
+        $type2->date_end = '2022-10-13';
+        $type2->user_id = '1';
+        $type2->save();
 
         // $type3 = new Event();
         // $type3->name = 'Мероприятие';
@@ -58,7 +58,7 @@ class EventSeeder extends Seeder
         // $type3->materials = 'Материалы';
         // $type3->date_start = '2023-05-12';
         // $type3->date_end = '2023-10-13';
-        // $type3->user_id = '7';
+        // $type3->user_id = '1';
         // $type3->save();
     }
 }

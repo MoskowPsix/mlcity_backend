@@ -60,9 +60,32 @@ class CommentController extends Controller
         return response()->json(['status' => 'success', 'comments' => $comment], 200);
     }
 
+    public function update($id, CommentRequest $request): \Illuminate\Http\JsonResponse
+    {
+
+        $comment = Comment::where('id', $id)->firstOrFail();  
+        $user = auth('api')->user();
+        if ($user->id === $comment->firstOrFail()->user_id) {
+            //Update
+            $comment->text = $request->text;
+            $comment->save();
+            $comment->user;
+            $comment->comments;
+            return response()->json(['status' => 'success', 'comment' => $comment], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'The comment does not belong to the user!'], 403);
+        }
+    }
+
     public function delete($id): \Illuminate\Http\JsonResponse
     {
-        Comment::where('id', $id)->delete();
-        return response()->json(['status' => 'success',], 200);
+        $comment = Comment::find($id);  
+        $user = auth('api')->user();
+        if ($user->id === $comment->user_id) {
+            $comment->delete();
+            return response()->json(['status' => 'success','delete_comment' => $id], 200);
+        } else {
+            return response()->json(['status' => 'error', 'message' => 'The comment does not belong to the user!'], 403);
+        }
     }
 }
