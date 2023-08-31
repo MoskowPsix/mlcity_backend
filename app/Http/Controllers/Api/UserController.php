@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
 use Closure;
 use App\Models\User;
@@ -21,6 +22,9 @@ use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
 use App\Filters\Users\UsersCity;
 use App\Filters\Users\UsersRegion;
+use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventFavoritesUserExists;
+
 
 
 class UserController extends Controller
@@ -135,26 +139,26 @@ class UserController extends Controller
     //Получаем массив с ид ивентов, которые юзер добавил в избранное
    public function getUserFavoriteEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
-        $favoriteEvents = User::findOrFail($id)->favoriteEvents;
-
-        $favoriteEventsIds = [];
-
-        foreach ($favoriteEvents as $event){
-           $favoriteEventsIds[] = $event;
-        }
-        
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6; 
+        $limit = $request->limit ? $request->limit : 6;
+        $request->merge(['userId' => $id]); 
 
-        $paginator = new LengthAwarePaginator($favoriteEventsIds, count($favoriteEventsIds), $limit);
-        $items = $paginator->getCollection();
+        $favoriteEvents = User::findOrFail($id)->favoriteEvents();
 
+        $response =
+            app(Pipeline::class)
+            ->send($favoriteEvents)
+            ->through([
+                EventLikedUserExists::class,
+                EventFavoritesUserExists::class   
+            ])
+            ->via('apply')
+            ->then(function ($favoriteEvents) use ($page, $limit){
+                return $favoriteEvents->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+            });
         return response()->json([
            'status' =>  'success',
-           'result' =>  $paginator->setCollection(
-                                $items->forPage($page, $limit)
-                                )->appends(request()->except(['page']))
-                                ->withPath($request->url())
+           'result' => $response,
         ], 200);
    }
     
@@ -197,6 +201,7 @@ class UserController extends Controller
         $likedEventsIds = [];
 
         foreach ($likedEvents as $event){
+            $event['liked_users_exists'] = true;
             $likedEventsIds[] = $event;
         }
         $page = $request->page;
@@ -242,27 +247,27 @@ class UserController extends Controller
      */
    public function getUserFavoriteSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
-        $favoriteSights = User::findOrFail($id)->favoriteSights;
+    $page = $request->page;
+    $limit = $request->limit ? $request->limit : 6;
+    $request->merge(['userId' => $id]); 
 
-        $favoriteSightsIds = [];
+    $favoriteSights = User::findOrFail($id)->favoriteSights();
 
-        foreach ($favoriteSights as $sight){
-           $favoriteSightsIds[] = $sight;
-        }
-        
-        $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6; 
-
-        $paginator = new LengthAwarePaginator($favoriteSightsIds, count($favoriteSightsIds), $limit);
-        $items = $paginator->getCollection();
-
-        return response()->json([
-           'status' =>  'success',
-           'result' =>  $paginator->setCollection(
-                                $items->forPage($page, $limit)
-                                )->appends(request()->except(['page']))
-                                ->withPath($request->url())
-        ], 200);
+    $response =
+        app(Pipeline::class)
+        ->send($favoriteSights)
+        ->through([
+            EventLikedUserExists::class,
+            EventFavoritesUserExists::class   
+        ])
+        ->via('apply')
+        ->then(function ($favoriteSights) use ($page, $limit){
+            return $favoriteSights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+        });
+    return response()->json([
+       'status' =>  'success',
+       'result' => $response,
+    ], 200);
    }
     /**
      * @OA\Get(
@@ -298,7 +303,9 @@ class UserController extends Controller
         $likedSightsIds = [];
 
         foreach ($likedSights as $sight){
-           $likedSightsIds[] = $sight;
+            $sight['liked_users_exists'] = true;
+
+            $likedSightsIds[] = $sight;
         }
         
         $page = $request->page;
