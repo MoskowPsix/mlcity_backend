@@ -26,7 +26,7 @@ class View extends Model
 
     public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsToMany(Event::class, 'event_id');
+        return $this->belongsTo(Event::class, 'event_id');
     }
 
     public function sight(): \Illuminate\Database\Eloquent\Relations\BelongsTo
