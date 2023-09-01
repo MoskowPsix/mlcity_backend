@@ -26,7 +26,9 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\View;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -205,7 +207,8 @@ class EventController extends Controller
         $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        $events = Event::query()->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        //$events = Event::query()->with('types', 'files', 'likes','statuses', 'author', 'comments', 'views');
+        $events = Event::query()->with('views');
 
         $response =
             app(Pipeline::class)
@@ -236,6 +239,15 @@ class EventController extends Controller
                     : $events->orderBy('date_start','desc')->get();
             });
 
+            // foreach ($response['data'] as $event) {
+            //     /////////TEST_TEST_TEST///////////////
+            //     View::create([
+            //         'user_id'  => auth('api')->user()->id,
+            //         'event_id' => $event['id'],
+            //     ]);
+            //     //Log::info($event);
+            // }
+            // Log::info($response['data']);
         return response()->json(['status' => 'success', 'events' => $response], 200);
     }
 

@@ -11,6 +11,7 @@ use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ViewController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -134,6 +135,10 @@ Route::controller(RoleController::class)->group(function() {
     Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('root');
     Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('root');
     Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('root');
+});
+
+Route::controller(ViewController::class)->group(function() {
+    Route::post('events/view','addView')->middleware('auth:sanctum');
 });
 
 Route::controller(LogApiController::class)->group(function() {
