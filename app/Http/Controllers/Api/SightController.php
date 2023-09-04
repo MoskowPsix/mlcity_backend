@@ -162,7 +162,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)

@@ -25,7 +25,8 @@ class ViewController extends Controller
         } else {
             return response()->json([
                 'status' => 'error',
-                'message' => 'Error time'
+                'message' => 'Error time',
+                'r' => $request->time
             ], 403);
         }
     }

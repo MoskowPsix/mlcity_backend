@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('sight_id')->nullable();
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
 
-            $table->float('time_view');
+            $table->decimal('time_view', 9, 3);
 
             $table->timestamps();
         });

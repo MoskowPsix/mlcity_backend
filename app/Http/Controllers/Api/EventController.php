@@ -207,8 +207,7 @@ class EventController extends Controller
         $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        //$events = Event::query()->with('types', 'files', 'likes','statuses', 'author', 'comments', 'views');
-        $events = Event::query()->with('views');
+        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)

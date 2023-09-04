@@ -80,4 +80,8 @@ class Sight extends Model
     {
         return $this->hasMany(Comment::class)->where('comment_id')->with('user', 'comments');
     }
+    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'view', 'sight_id','user_id');
+    }
 }

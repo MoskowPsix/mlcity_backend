@@ -83,13 +83,13 @@ class Event extends Model
     {
         return $this->hasMany(Comment::class)->where('comment_id')->with('user', 'comments');
     }
-    public function views(): \Illuminate\Database\Eloquent\Relations\HasOne
-    {
-        return $this->hasOne(View::has('id'));
-    }
-    // public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    // public function views(): \Illuminate\Database\Eloquent\Relations\HasOne
     // {
-    //     return $this->belongsToMany(User::class, 'view', 'event_id','user_id')->count();
+    //     return $this->hasOne(View::has('id'));
     // }
+    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'view', 'event_id','user_id');
+    }
 
 }
