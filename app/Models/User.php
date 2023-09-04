@@ -66,13 +66,13 @@ class User extends Authenticatable
     //избранные события юзера
     public function favoriteEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_favorite', 'user_id','event_id')->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        return $this->belongsToMany(Event::class,'event_user_favorite', 'user_id','event_id')->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
 
     //избранные достопримечательности юзера
     public function favoriteSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_favorite', 'user_id','sight_id')->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        return $this->belongsToMany(Sight::class,'sight_user_favorite', 'user_id','sight_id')->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
 
     //События созданные юзером
@@ -90,13 +90,13 @@ class User extends Authenticatable
     /// события юзера которы лайкнул
     public function likedEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps()->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
 
     // достопримечательности юзера, которые лайкнул
     public function likedSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_liked')->withTimestamps()->with('types', 'files', 'likes','statuses', 'author', 'comments');
+        return $this->belongsToMany(Sight::class,'sight_user_liked')->withTimestamps()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
 
 //    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
