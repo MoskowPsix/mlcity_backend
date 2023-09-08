@@ -15,6 +15,8 @@ class SightType extends Model
     protected $fillable = [
         'name',
         'ico',
+        'cult_id',
+        'stype_id'
     ];
 
     public function sights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
