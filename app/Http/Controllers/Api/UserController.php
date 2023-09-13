@@ -20,7 +20,7 @@ use App\Filters\Users\UsersName;
 use App\Filters\Users\UsersId;
 use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
-use App\Filters\Users\UsersCity;
+use App\Filters\Users\UsersLocation;
 use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -575,7 +575,7 @@ class UserController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
         $name = $request->name ? $request->name : '';
-        $users = User::with('roles');
+        $users = User::with('roles', 'locations');
 
         $response =
             app(Pipeline::class)
@@ -587,8 +587,7 @@ class UserController extends Controller
                 UsersEmail::class,
                 UsersCreated::class,
                 UsersUpdated::class,
-                UsersCity::class,
-                UsersRegion::class
+                UsersLocation::class,
             ])
             ->then(function ($users) use ($page, $limit, $request){
                 return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));

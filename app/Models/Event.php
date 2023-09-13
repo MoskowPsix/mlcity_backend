@@ -92,4 +92,9 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'view', 'event_id','user_id');
     }
 
+    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Location::class, 'location_id');
+    }
+
 }

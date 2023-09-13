@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Filters\Users;
+namespace App\Filters\Event;
 
 use Closure;
 use App\Filters\Pipe;
 
-class UsersRegion implements Pipe {
+class EventLocation implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('region')){
+        if(request()->has('locationId')){
             $content->where(function($query) {
-                $query->orWhere('region', 'LIKE', '%'.request()->get('region').'%');
+                $query->orWhere('location_id', request()->get('locationId'));
             });
         }
 

@@ -40,7 +40,7 @@ Route::controller(AuthController::class)->group(function() {
 
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('listUsers/', 'listUsers')->middleware('moderator'); // Для админ панели(поиск юзера по фильтрам)
+    Route::get('listUsers/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
     Route::put('updateUsers/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
     Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');

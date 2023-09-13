@@ -18,6 +18,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
         $schedule->command('addView')->twiceDaily(1, 13);
         $schedule->command('download-element')->weekly();
+        $schedule->command('clear-log')->weekly();
     }
 
     /**
