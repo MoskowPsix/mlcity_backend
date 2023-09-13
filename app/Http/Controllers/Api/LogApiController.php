@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use App\Filters\LogApi\LogApiUrl;
 use App\Models\LogApi;
+use Illuminate\Support\Facades\Crypt;
 
 class LogApiController extends Controller
 {
@@ -106,6 +107,14 @@ class LogApiController extends Controller
         $url = $request->fullUrl();
         $limit = $request->limit ? $request->limit : 10;
         $logs = LogApi::query()->with('logUser');
+
+        // $i = 0;
+        // foreach($logs as $log) {
+        //     $logs[$i]->url = decrypt($logs[$i]->url);
+        //     // $response->$logs[$i]->request_arg = (string)Crypt::decryptString( $response->$logs[$i]->request_arg);
+        //     // $response->$logs[$i]->request_header = (string)Crypt::decryptString( $response->$logs[$i]->request_header);
+        //     $i++;
+        // }
 
         $response =
             app(Pipeline::class)

@@ -8,6 +8,9 @@ use App\Models\User;
 class SocialAccount extends Model
 {
     protected $guarded = [];
+    protected $casts = [
+      'token' => 'encrypted',
+    ];
 
     public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

@@ -10,6 +10,7 @@ class LogApi extends Model
 {
     use HasFactory;
 
+
     protected $fillable = [
         'url',
         'method',
@@ -20,6 +21,22 @@ class LogApi extends Model
         'status_code',
         'response'
     ];
+    protected $casts = [
+      'url' => 'encrypted',
+      'request_arg' => 'encrypted',
+      'request_header' => 'encrypted',
+      'response' => 'encrypted'
+    ];
+    // protected static function booted() {
+    //     static::retrieved(function($logs) {
+    //         $logs->url = decrypt($logs->url);
+    //         $logs->request_arg = decrypt($logs->request_arg);
+    //         $logs->request_header = decrypt($logs->request_header);
+    //         $logs->response = decrypt($logs->response);
+
+    //       return $logs;
+    //     });
+    //   }
 
     public function logUser(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

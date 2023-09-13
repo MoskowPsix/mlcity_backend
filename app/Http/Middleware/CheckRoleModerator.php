@@ -17,8 +17,8 @@ class CheckRoleModerator
     public function handle(Request $request, Closure $next)
     {
         if (auth('api')->user()->hasRole('Moderator') || auth('api')->user()->hasRole('Admin')) {
-            $request->merge(["city"=>auth('api')->user()->city]);
-            $request->merge(["region"=>auth('api')->user()->region]);
+            //$request->merge(["city"=>auth('api')->user()->city]);
+            //$request->merge(["region"=>auth('api')->user()->region]);
             return $next($request);
         } elseif (auth('api')->user()->hasRole('root')){ 
             return $next($request);

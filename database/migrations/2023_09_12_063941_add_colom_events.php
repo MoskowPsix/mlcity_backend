@@ -13,9 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('sights', function (Blueprint $table) {
-            $table->integer('cult_id')->nullable();
-            $table->longText('work_time')->nullable();
+        Schema::table('events', function (Blueprint $table) {
+            $table->integer('location_id')->nullable();
+            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            $table->dropColumn(['city']);
         });
     }
 
@@ -26,9 +27,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('sights', function (Blueprint $table) {
-            $table->dropColumn('cult_id');
-            $table->dropColumn('work_time');
+        Schema::table('events', function (Blueprint $table) {
+            $table->dropColumn('location_id');
         });
     }
 };

@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('addView')->twiceDaily(1, 13);;
+        $schedule->command('addView')->twiceDaily(1, 13);
+        $schedule->command('download-element')->weekly();
     }
 
     /**

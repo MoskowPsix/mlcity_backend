@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('user_id');
             $table->string('provider_id');
             $table->string('provider');
-            $table->string('token');
+            $table->longText('token');
             $table->timestamps();
 
             $table->foreign('user_id')

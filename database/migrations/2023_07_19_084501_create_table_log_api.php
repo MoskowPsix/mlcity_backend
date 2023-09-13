@@ -17,13 +17,13 @@ return new class extends Migration
             $table->id();
             $table->longText('url');
             $table->string('method');
-            $table->json('request_arg')->nullable();
-            $table->json('request_header');
+            $table->longText('request_arg')->nullable();
+            $table->longText('request_header');
             $table->integer('user_id')->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->ipAddress('ip');
             $table->integer('status_code');
-            $table->json('response')->nullable();
+            $table->longText('response')->nullable();
             $table->timestamps();
         });
     }

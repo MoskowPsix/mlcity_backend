@@ -20,12 +20,14 @@ class Sight extends Model
         'sponsor',
         'latitude',
         'longitude',
-        'city',
+        'location_id',
         'address',
         'description',
         'price',
         'materials',
         'user_id',
+        'cult_id',
+        'work_time'
     ];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

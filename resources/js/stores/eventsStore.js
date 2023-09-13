@@ -77,7 +77,7 @@ export const useEventsStore = defineStore('EventsStore', {
                 '&sponsor=' + this.event_search.sponsor + 
                 '&dateStart=' + this.event_search.date.replace('~', '&dateEnd=') + 
                 '&user=' + this.event_search.author + 
-                '&city=' + this.event_search.city + 
+                //'&city=' + this.event_search.city + 
                 '&address=' + this.event_search.address + 
                 types  + 
                 status + 
@@ -102,7 +102,20 @@ export const useEventsStore = defineStore('EventsStore', {
         async updateEvent() {
             this.loader = true;
             if (this.event.price === null) {this.event.price = ''}
-            await axios.put('updateEvent/' + this.event.id + '?name=' + this.event.name + '&sponsor=' + this.event.sponsor + '&city=' + this.event.city + '&address=' + this.event.address + '&description=' + this.event.description + '&latitude=' + this.event.latitude + '&longitude=' + this.event.longitude + '&price=' + this.event.price + '&date_start=' + this.event.date_start + '&date_end=' + this.event.date_end + '&vk_post_id=' + this.event.vk_post_id + '&vk_group_id=' + this.event.vk_group_id)
+            await axios.put(
+                'updateEvent/' + this.event.id + 
+                '?name=' + this.event.name + 
+                '&sponsor=' + this.event.sponsor + 
+                //'&city=' + this.event.city + 
+                '&address=' + this.event.address + 
+                '&description=' + this.event.description + 
+                '&latitude=' + this.event.latitude + 
+                '&longitude=' + this.event.longitude + 
+                '&price=' + this.event.price + 
+                '&date_start=' + this.event.date_start + 
+                '&date_end=' + this.event.date_end + 
+                '&vk_post_id=' + this.event.vk_post_id + 
+                '&vk_group_id=' + this.event.vk_group_id)
             .then(response => { 
                 this.toast.success('Событие ' + response.data.event.name + ' изменено!');
             })

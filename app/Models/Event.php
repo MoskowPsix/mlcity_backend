@@ -21,7 +21,7 @@ class Event extends Model
         'sponsor',
         'latitude',
         'longitude',
-        'city',
+        'location_id',
         'address',
         'description',
         'price',

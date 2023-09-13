@@ -40,7 +40,7 @@ export default {
         <h1 class="dark:text-gray-300">Date and Time</h1>
         <p class="font-light text-gray-700 leading-relaxed dark:text-gray-400">{{ localeDate(log_api_store.log.created_at) }}</p>
         <h1 class="dark:text-gray-300">User</h1>
-        <div class="bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 p-1 px-5">
+        <div class="bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 p-1 px-5" v-if="log_api_store.log.log_user">
             <h1 class=" text-gray-600 dark:text-gray-300">ID</h1>
             <p class="px-2 text-xs font-normal text-gray-600 dark:text-gray-400">{{log_api_store.log.log_user.id}}</p> 
             <h1 class=" text-gray-600 dark:text-gray-300">Name</h1>
@@ -62,11 +62,11 @@ export default {
         <h1 class="dark:text-gray-300">Ip Address</h1>
         <p class="font-light text-gray-700 leading-relaxed dark:text-gray-400">{{ log_api_store.log.ip }}</p>
         <h1 class="dark:text-gray-300">Request Header</h1>
-        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[300px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.stringify(JSON.parse(log_api_store.log.request_header), null, 2) }}</textarea>
+        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[300px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.parse(log_api_store.log.request_header) }}</textarea>
         <h1 class="dark:text-gray-300">Request Arguments</h1>
-        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[200px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.stringify(JSON.parse(log_api_store.log.request_arg), null, 2) }}</textarea>
+        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[200px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.parse(log_api_store.log.request_arg) }}</textarea>
         <h1 class="dark:text-gray-300">Response</h1>
-        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[300px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.stringify(JSON.parse(JSON.parse(log_api_store.log.response)), null, 2) }}</textarea>
+        <textarea id="journal-scroll" class="w-full bg-gray-400 dark:bg-gray-900 rounded border border-gray-500 dark:border-gray-700 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-200 min-h-[300px] text-base outline-none text-gray-600 dark:text-gray-100 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out" > {{ JSON.parse(log_api_store.log.response) }}</textarea>
         <div class="flex items-center justify-end mt-4">
             <button @click="log_api_store.closeModalLog()" class="py-2 px-4 bg-white border border-gray-200 text-gray-600 rounded hover:bg-gray-100 active:bg-gray-200 disabled:opacity-50 mr-4">
             Закрыть
