@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Console\Commands\View;
+namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
 use App\Models\Event;
@@ -22,7 +22,7 @@ class addView extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'add count view';
 
     /**
      * Execute the console command.

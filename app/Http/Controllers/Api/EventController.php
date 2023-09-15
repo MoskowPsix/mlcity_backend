@@ -219,7 +219,6 @@ class EventController extends Controller
                 EventStatuses::class,
                 EventStatusesLast::class,
                 EventLocation::class,
-                EventRegion::class,
                 EventDate::class,
                 EventTypes::class,
                 EventGeoPositionInArea::class,
@@ -229,6 +228,7 @@ class EventController extends Controller
                 EventAuthorName::class,
                 EventAuthorEmail::class,
                 SightAuthor::class,
+                
                 
             ])
             ->via('apply')

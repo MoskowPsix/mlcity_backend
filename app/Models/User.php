@@ -104,9 +104,9 @@ class User extends Authenticatable
 //    {
 //        return $this->belongsToMany(Role::class);
 //    }
-    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsTo(Location::class, 'location_id');
+        return $this->belongsToMany(Location::class);
     }
 
 }
