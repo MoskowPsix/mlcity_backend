@@ -123,13 +123,13 @@ class StatusController extends Controller
         $status_post = Status::where('id', $request->status_id)->firstOrFail();
         $vk_post['response']['post_id'] = $event->vk_post_id;
 
-        if ($status_post->name === 'Опубликовано' && empty($event->vk_post_id)) {
-            $url = 'https://api.vk.com/method/wall.post?message=' . $event->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $event->latitude . '&long=' . $event->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
-            $vk_post = Http::post($url)->json();
-            $event->vk_post_id = $vk_post['response']['post_id'];
-            $event->vk_group_id = getenv('VK_OWNER_ID');
-            $event->save();
-        }
+        // if ($status_post->name === 'Опубликовано' && empty($event->vk_post_id)) {
+        //     $url = 'https://api.vk.com/method/wall.post?message=' . $event->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $event->latitude . '&long=' . $event->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
+        //     $vk_post = Http::post($url)->json();
+        //     $event->vk_post_id = $vk_post['response']['post_id'];
+        //     $event->vk_group_id = getenv('VK_OWNER_ID');
+        //     $event->save();
+        // }
 
         return response()->json(
             [
@@ -186,13 +186,13 @@ class StatusController extends Controller
 
         $status_post = Status::where('id', $request->status_id)->firstOrFail();
 
-        if ($status_post->name === 'Опубликовано' && empty($event->vk_post_id)) {
-            $url = 'https://api.vk.com/method/wall.post?message=' . $sight->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $sight->latitude . '&long=' . $sight->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
-            $vk_post = Http::post($url)->json();
-            $sight->vk_group_id = $vk_post['response']['post_id'];
-            $sight->vk_post_id = getenv('VK_OWNER_ID');
-            $sight->save();
-        }
+        // if ($status_post->name === 'Опубликовано' && empty($event->vk_post_id)) {
+        //     $url = 'https://api.vk.com/method/wall.post?message=' . $sight->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $sight->latitude . '&long=' . $sight->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
+        //     $vk_post = Http::post($url)->json();
+        //     $sight->vk_group_id = $vk_post['response']['post_id'];
+        //     $sight->vk_post_id = getenv('VK_OWNER_ID');
+        //     $sight->save();
+        // }
 
         return response()->json(
             [
@@ -200,7 +200,7 @@ class StatusController extends Controller
                 'sight' => $request->sight_id, 
                 'add_status' => $request->status_id, 
                 'descriptions' => $request->descriptions,
-                'vk_post_id' => $vk_post['response']['post_id'], 
+                'vk_post_id' => $vk_post['response']['post_id'],    
                 'vk_group_id' => getenv('VK_OWNER_ID') 
             ], 200);
     }

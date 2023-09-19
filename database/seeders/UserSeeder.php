@@ -27,5 +27,13 @@ class UserSeeder extends Seeder
         $su->password = bcrypt('Qwerty123');
         $su->save();
         $su->roles()->attach($root); //добавляем юзеру роль
+
+
+        $su2 = new User();
+        $su2->name = 'Test_user';
+        $su2->email = '123@mail.ru';
+        $su2->password = bcrypt('qwerty');
+        $su2->save();
+        $su2->roles()->attach($moderator);
     }
 }

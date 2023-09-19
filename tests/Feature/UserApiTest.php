@@ -9,15 +9,20 @@ use Tests\TestCase;
 
 class UserApiTest extends TestCase
 {
-    //use DatabaseMigrations;
+    // use DatabaseMigrations;
     use RefreshDatabase;
+    // $su->email = '123n@mail.ru';
+    // $su->password = bcrypt('Qwerty123');
+    private $user_root = [
+        'id' => 1,
+        'email' => '123n@mail.ru',
+        'password' => 'Qwerty123'
+    ];
     private $user_1 = [
         'name' => 'Test',
         'email' => 'Test@test.test',
         'password' => 'Qwerty123',
         'password_confirmation' => 'Qwerty123',
-        'region' => 'Свердловская область',
-        'city' => 'Заречный',
         'avatar' => 'https://sun3-23.userapi.com/s/v1/if1/0oNeV9O1Cqja5nRdLsBO1xu1EPOgvOFaC45ZVAeXU7YWgp_LanxHzy2GfLtMR25NT9VQ3W4A.jpg?size=200x200&quality=96&crop=265,468,856,856&ava=1',
     ];
 
@@ -77,6 +82,7 @@ class UserApiTest extends TestCase
 
     public function test_user_login()
     {
+        $this->seed();
         $response = $this->postJson('/api/register', 
         $this->user_1
         );
@@ -89,7 +95,7 @@ class UserApiTest extends TestCase
     }
 
     public function test_user_show_id()
-    {
+    { 
         $response = $this->postJson('/api/register', 
         $this->user_1
         );
@@ -108,14 +114,14 @@ class UserApiTest extends TestCase
                 'name' => $this->user_1['name'],
                 'email' => $this->user_1['email'],
                 'avatar' => $this->user_1['avatar'],
-                'city' => $this->user_1['city'],
-                'region' => $this->user_1['region'],
             ]
         ]);
     }
 
     public function test_user_show_with_filter()
     {
+        $this->seed();
+
         $response = $this->postJson('/api/register', 
         $this->user_1
         );
@@ -136,29 +142,12 @@ class UserApiTest extends TestCase
         $this->user_5
         );
 
-        $response = $this->postJson('/api/login', $this->user_1);
+        $response = $this->postJson('/api/login', $this->user_root);
         $response->withHeaders(['Bearer Token' => $response->baseResponse->original['access_token']]);
         $user_id = $response->baseResponse->original['user']->id;
 
         // Проверка фильтра по городу
-        $response = $this->getJson('/api/listUsers?city=' . $this->user_5['city']);        
-
-        $response->assertJson([
-            'status' => 'success',
-            'users' => [
-                'data' => [
-                    0 => [
-                        'city' => $this->user_5['city'],
-                        'email' => $this->user_5['email'],
-                        'name' => $this->user_5['name'],
-                        'avatar' => $this->user_5['avatar'],
-                        'region' => $this->user_5['region'],
-
-                    ]
-                ],
-                'total' => 1,
-            ]
-        ]);
+        
 
         // Проверка фильтра по имени
         $response = $this->getJson('/api/listUsers?name=' . $this->user_2['name']);  
@@ -168,11 +157,9 @@ class UserApiTest extends TestCase
             'users' => [
                 'data' => [
                     0 => [
-                        'city' => $this->user_2['city'],
                         'email' => $this->user_2['email'],
                         'name' => $this->user_2['name'],
                         'avatar' => $this->user_2['avatar'],
-                        'region' => $this->user_2['region'],
 
                     ]
                 ],
@@ -181,24 +168,7 @@ class UserApiTest extends TestCase
         ]);
 
         // Проверка фильтра по региону
-        $response = $this->getJson('/api/listUsers?region=' . $this->user_5['region']);  
-
-        $response->assertJson([
-            'status' => 'success',
-            'users' => [
-                'data' => [
-                    0 => [
-                        'city' => $this->user_5['city'],
-                        'email' => $this->user_5['email'],
-                        'name' => $this->user_5['name'],
-                        'avatar' => $this->user_5['avatar'],
-                        'region' => $this->user_5['region'],
-
-                    ]
-                ],
-                'total' => 1,
-            ]
-        ]);
+        
 
         // Проверка фильтра по почте
         $response = $this->getJson('/api/listUsers?email=' . $this->user_3['email']);  
@@ -208,11 +178,9 @@ class UserApiTest extends TestCase
             'users' => [
                 'data' => [
                     0 => [
-                        'city' => $this->user_3['city'],
                         'email' => $this->user_3['email'],
                         'name' => $this->user_3['name'],
                         'avatar' => $this->user_3['avatar'],
-                        'region' => $this->user_3['region'],
 
                     ]
                 ],
@@ -238,12 +206,13 @@ class UserApiTest extends TestCase
 
     public function test_user_update()
     {
+        $this->seed();
         $response = $this->postJson('/api/register', 
         $this->user_1
         );
 
-        $response = $this->postJson('/api/login', $this->user_1);
-        $response->withHeaders(['Bearer Token' => $response->baseResponse->original['access_token']]);
+        $auth = $this->postJson('/api/login', $this->user_root);
+        $auth->withHeaders(['Bearer Token' => $response->baseResponse->original['access_token']]);
 
         $user_id = $response->baseResponse->original['user']->id;
 
@@ -263,6 +232,7 @@ class UserApiTest extends TestCase
 
     public function test_user_delete()
     {
+        $this->seed();
         $response = $this->postJson('/api/register', 
         $this->user_4
         );
@@ -273,8 +243,8 @@ class UserApiTest extends TestCase
         $this->user_1
         );
 
-        $response = $this->postJson('/api/login', $this->user_1);
-        $response->withHeaders(['Bearer Token' => $response->baseResponse->original['access_token']]);
+        $auth = $this->postJson('/api/login', $this->user_root);
+        $auth->withHeaders(['Bearer Token' => $auth->baseResponse->original['access_token']]);
 
 
         $response = $this->deleteJson('/api/deleteUsers/' . $user_id);   

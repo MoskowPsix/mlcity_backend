@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use App\Models\Event;
+use App\models\User;
 
 class EventSeeder extends Seeder
 {
@@ -16,20 +17,21 @@ class EventSeeder extends Seeder
      */
     public function run()
     {
-        // $type1 = new Event();
-        // $type1->name = 'Встреча';
-        // $type1->sponsor = 'Спонсор 1';
-        // $type1->city = 'Ревда';
-        // $type1->address = 'Ленина 32';
-        // $type1->latitude = '54.7522';
-        // $type1->longitude = '67.7522';
-        // $type1->description = 'Описание';
-        // $type1->price = '1500';
-        // $type1->materials = 'Материалы';
-        // $type1->date_start = '2023-09-12';
-        // $type1->date_end = '2023-09-13';
-        // $type1->user_id = '1';
-        // $type1->save();
+
+        $user_id = User::all()[0]->id;
+        $type1 = new Event();
+        $type1->name = 'Встреча';
+        $type1->sponsor = 'Спонсор 1';
+        $type1->address = 'Ленина 32';
+        $type1->latitude = '54.7522';
+        $type1->longitude = '67.7522';
+        $type1->description = 'Описание';
+        $type1->price = '1500';
+        $type1->materials = 'Материалы';
+        $type1->date_start = '2023-09-12';
+        $type1->date_end = '2023-09-13';
+        $type1->user_id = $user_id;
+        $type1->save();
 
         // $type2 = new Event();
         // $type2->name = 'Прогулка';
