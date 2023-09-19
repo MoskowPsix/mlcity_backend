@@ -14,8 +14,6 @@ return new class extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->dropColumn(['city', 'region']);
         });
     }
@@ -28,7 +26,8 @@ return new class extends Migration
     public function down()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('location_id');
+            $table->string('city')->nullable();
+            $table->string('region')->nullable();
         });
     }
 };

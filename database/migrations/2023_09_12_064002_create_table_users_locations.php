@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->integer('cult_id')->nullable();
-            $table->integer('location_id')->nullable();
+        Schema::create('location_user', function (Blueprint $table) {
+            $table->id();
+            $table->integer('location_id');
             $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
-            $table->dropColumn(['city']);
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -28,8 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('location_id');
-        });
+        Schema::dropIfExists('location_user');
     }
 };

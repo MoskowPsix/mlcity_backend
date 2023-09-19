@@ -9,7 +9,7 @@ use App\Filters\Sight\SightAuthor;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventAddress;
-use App\Filters\Event\EventCity;
+use App\Filters\Event\EventLocation;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventGeoPositionInArea;
@@ -207,7 +207,7 @@ class EventController extends Controller
         $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -218,8 +218,7 @@ class EventController extends Controller
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
                 EventStatusesLast::class,
-                EventCity::class,
-                EventRegion::class,
+                EventLocation::class,
                 EventDate::class,
                 EventTypes::class,
                 EventGeoPositionInArea::class,
@@ -229,6 +228,7 @@ class EventController extends Controller
                 EventAuthorName::class,
                 EventAuthorEmail::class,
                 SightAuthor::class,
+                
                 
             ])
             ->via('apply')
@@ -439,7 +439,7 @@ class EventController extends Controller
      */
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations')->firstOrFail();
 
         return response()->json($event, 200);
     }
@@ -569,7 +569,6 @@ class EventController extends Controller
         $event = Event::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
-            'city'          => $request->city,
             'address'       => $request->address,
             'latitude'      => $latitude,
             'longitude'     => $longitude,
@@ -578,6 +577,7 @@ class EventController extends Controller
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,
             'date_end'      => $request->dateEnd,
+            'location_id'   => $request->locationId,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
@@ -849,7 +849,7 @@ class EventController extends Controller
                 'id' => $event->id,
                 'name' => $event->name,
                 'sponsor' => $event->sponsor,
-                'city' => $event->city,
+                'location_id' => $event->location_id,
                 'address' => $event->address,
                 'description' => $event->description,
                 'latitude' => $event->latitude,

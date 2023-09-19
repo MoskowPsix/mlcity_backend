@@ -5,13 +5,13 @@ namespace App\Filters\Users;
 use Closure;
 use App\Filters\Pipe;
 
-class UsersCity implements Pipe {
+class UsersLocation implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('city')){
+        if(request()->has('locationId')){
             $content->where(function($query) {
-                $query->orWhere('city', 'LIKE', '%'.request()->get('city').'%');
+                $query->orWhere('location_id', request()->get('locationId'));
             });
         }
 

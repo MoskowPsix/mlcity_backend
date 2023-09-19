@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\ViewController;
+use App\Http\Controllers\Api\LocationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -40,7 +41,7 @@ Route::controller(AuthController::class)->group(function() {
 
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('listUsers/', 'listUsers')->middleware('moderator'); // Для админ панели(поиск юзера по фильтрам)
+    Route::get('listUsers/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
     Route::put('updateUsers/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
     Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
     Route::get('users/{id}', 'getUser');
@@ -139,6 +140,13 @@ Route::controller(RoleController::class)->group(function() {
 
 Route::controller(ViewController::class)->group(function() {
     Route::post('events/view','addView')->middleware('auth:sanctum');
+});
+
+Route::controller(LocationController::class)->group(function() {
+    Route::get('location/{id}','getLocationsIds');
+    Route::get('location/name/{name}','getLocationsName');
+    Route::get('locations','getLocationsAll');
+    Route::get('locationWithRegion','getLocationsAndRegion');
 });
 
 Route::controller(LogApiController::class)->group(function() {

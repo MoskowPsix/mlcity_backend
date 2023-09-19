@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\Event\EventCity;
+use App\Filters\Event\EventLocation;
 use App\Filters\Event\EventAddress;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSponsor;
@@ -162,7 +162,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -175,7 +175,7 @@ class SightController extends Controller
                     EventFavoritesUserExists::class,
                     EventStatuses::class,
                     EventStatusesLast::class,
-                    //EventCity::class,
+                    EventLocation::class,
                     EventAddress::class,
                     //EventRegion::class,
                     SightTypes::class,
@@ -371,7 +371,7 @@ class SightController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations')->firstOrFail();
 
         return response()->json($sight, 200);
     }
@@ -484,7 +484,7 @@ class SightController extends Controller
         $sight = Sight::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
-            'city'          => $request->city,
+            'location_id'   => $request->locationId,
             'address'       => $request->address,
             'latitude'      => $latitude,
             'longitude'     => $longitude,
@@ -746,7 +746,7 @@ class SightController extends Controller
                 'id' => $sight->id,
                 'name' => $sight->name,
                 'sponsor' => $sight->sponsor,
-                'city' => $sight->city,
+                'location' => $sight->location_id,
                 'address' => $sight->address,
                 'description' => $sight->description,
                 'latitude' => $sight->latitude,
