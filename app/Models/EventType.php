@@ -15,6 +15,7 @@ class EventType extends Model
     protected $fillable = [
         'name',
         'ico',
+        'cult_id'
     ];
 
     public function events(): \Illuminate\Database\Eloquent\Relations\BelongsToMany

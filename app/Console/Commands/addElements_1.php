@@ -16,14 +16,14 @@ class addElements extends Command
      *
      * @var string
      */
-    protected $signature = 'download-element';
+    protected $signature = 'download-element-1';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'get elements';
+    protected $description = 'get elements-1';
 
     /**
      * Execute the console command.
@@ -70,7 +70,7 @@ class addElements extends Command
         $total = 10;
         
 
-        $output->writeln('<info>Download start</info>');
+        $output->writeln('<info>Download start element-1</info>');
         $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
         $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
         if (!Location::where('cult_id', $null_location->_id)->first()) {
@@ -285,6 +285,6 @@ class addElements extends Command
         $output->writeln("<info>my message</info>");
         $output->write("<info>my message</info>");
         
-        return print_r('Download end!');
+        return print_r('Download element-1 end!');
     }
 }
