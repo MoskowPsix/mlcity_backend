@@ -207,7 +207,7 @@ class addElements extends Command
             foreach ($sights->items as $sight) {
                 if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted') {
                     // Берём тип
-                    SightType::where('cult_id', );
+                    // SightType::where('cult_id', );
                     // Сохраняем место
                     if ($sight->locale) {
                         if( str_contains($sight->text,'[HTML]') ) {
@@ -250,7 +250,7 @@ class addElements extends Command
                             'cult_id'       => $sight->_id,
                             'work_time'     => $sight->workTime,
                         ]);
-                        $output->writeln('Sights is not have city: ' . $sight->_id);
+                        $institutes_download[] = ['id' => $sight->_id, 'error' => 'No locale'];
                     }
 
                     // Берём тип и ставим тип
@@ -261,10 +261,14 @@ class addElements extends Command
                     }
                     $sight_one = json_decode(file_get_contents('https://www.culture.ru/api/institutes/' .  $sight->_id . '?fields=thumbnailFile', TRUE));
                     // Подвязываем фото
-                    Sight::where('cult_id', $sight->_id)->first()->files()->create([
-                        "name" => $sight->thumbnailFile->originalName,
-                        "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
-                    ])->file_types()->sync($type->id);
+                    if ($sight_one) {
+                        Sight::where('cult_id', $sight->_id)->first()->files()->create([
+                            "name" => $sight->thumbnailFile->originalName,
+                            "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
+                        ])->file_types()->sync($type->id);
+                    } else {
+                        $institutes_download[] = ['id' => $sight->_id, 'error' => 'No photo'];
+                    }
                     // Ставим статус
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
