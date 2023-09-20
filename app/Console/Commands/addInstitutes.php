@@ -9,21 +9,21 @@ use App\Models\Sight;
 use App\Models\Status;
 use App\Models\Location;
 
-class addElements extends Command
+class addInstitutes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'download-element-1';
+    protected $signature = 'institutes_save';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'get elements-1';
+    protected $description = 'get institutes';
 
     /**
      * Execute the console command.

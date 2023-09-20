@@ -9,14 +9,14 @@ use App\Models\Location;
 use App\Models\Status;
 use Illuminate\Console\Command;
 
-class addElement_2 extends Command
+class addEvents extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'download-element-2';
+    protected $signature = 'events_save';
 
     /**
      * The console command description.
