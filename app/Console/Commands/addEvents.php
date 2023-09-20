@@ -99,12 +99,13 @@ class addEvents extends Command
             $output->writeln((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
-            $events = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_events.'&limit='.$limit_events, true));
+            $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events, true));
 
             // Разбираем полученный массив
             foreach ($events->items as $event) {
                 //date_default_timezone_set('UTC');
-                echo $event->endDate;
+                //echo $event->_id;
+                //echo $event->endDate;
                 if ((!Event::where('cult_id', $event->_id)->first()) && (strtotime($event->endDate) >= time())) {
                     if ($event['locale']) {
                         if( str_contains($event->text,'[HTML]') ) {

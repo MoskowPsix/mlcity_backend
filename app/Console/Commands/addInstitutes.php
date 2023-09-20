@@ -209,7 +209,7 @@ class addInstitutes extends Command
                     // Берём тип
                     // SightType::where('cult_id', );
                     // Сохраняем место
-                    if ($sight->locale) {
+                    if ($sight['locale']) {
                         if( str_contains($sight->text,'[HTML]') ) {
                             Sight::create([
                                 'name'          => $sight->title,
