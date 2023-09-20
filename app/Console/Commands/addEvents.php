@@ -106,13 +106,13 @@ class addEvents extends Command
                 //date_default_timezone_set('UTC');
                 //echo $event->_id;
                 //echo $event->endDate;
-                if ((!Event::where('cult_id', $event->_id)->first()) && (strtotime($event->endDate) >= time())) {
-                    if ($event['locale']) {
+                if (!Event::where('cult_id', $event->_id)->first() && (strtotime($event->endDate) >= time())) {
+                    if ($event['locales']) {
                         if( str_contains($event->text,'[HTML]') ) {
                             Event::create([
                                 'name'          => $event->title,
                                 'sponsor'       => $event->organization->name,
-                                'location_id'  => Location::where('cult_id', $event->locale->_id)->firstOrFail()->id,
+                                'location_id'   => Location::where('cult_id', $event->locale->_id)->firstOrFail()->id,
                                 'address'       => $event->address,
                                 'latitude'      => $event->location->coordinates[1],
                                 'longitude'     => $event->location->coordinates[0],
