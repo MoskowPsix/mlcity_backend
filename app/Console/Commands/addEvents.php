@@ -107,7 +107,7 @@ class addEvents extends Command
                 $output->writeln($event->_id);
                 //echo $event->endDate;
                 if (!Event::where('cult_id', $event->_id)->first() && (strtotime($event->endDate) >= time())) {
-                    foreach ($event->places) {
+                    foreach ($event->places as $place) {
 
                     }
 
