@@ -99,40 +99,158 @@ class addEvents extends Command
             $output->writeln((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
-            $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events, true));
+            $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
 
             // Разбираем полученный массив
             foreach ($events->items as $event) {
                 //date_default_timezone_set('UTC');
-                $output->writeln($event->_id);
+                //$output->writeln($event->_id);
                 //echo $event->endDate;
-                if (!Event::where('cult_id', $event->_id)->first() && (strtotime($event->endDate) >= time())) {
-                    foreach ($event->places as $place) {
-
-                    }
-
-
-
+                if (!Event::where('cult_id', $event->_id)->first()) {
                     $event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
+                    foreach ($event->places as $place) {
+                        if (isset($place->locale)) {
+                            if( str_contains($event->text,'[HTML]') ) {
+                                $event_create = Event::create([
+                                    'name'          => $event->title,
+                                    'sponsor'       => $event->organizations[0]->name,
+                                    'location_id'   => Location::where('cult_id', $place->locale->_id)->firstOrFail()->id,
+                                    'address'       => $place->address,
+                                    'latitude'      => $place->location->coordinates[1],
+                                    'longitude'     => $place->location->coordinates[0],
+                                    'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
+                                    'date_start'    => $event->startDate,
+                                    'date_end'      => $event->endDate,
+                                    'user_id'       => 1,
+                                    'cult_id'       => $event->_id,
+                                ]);
+                                // Подвязываем первое фото
+                                if ($event_one) {
+                                    Event::where('id', $event_create->id)->first()->files()->create([
+                                        "name" => $event->thumbnailFile->originalName,
+                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
+                                    ])->file_types()->sync($type->id);
+                                } else {
+                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                                }
+                                // Берём тип и ставим тип
+                                foreach ($event->genres as $genre) {
+                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                                    // Ставим тип
+                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
+                                }
+                                // Ставим статус
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                            } else {
+                                $event_create = Event::create([
+                                    'name'          => $event->title,
+                                    'sponsor'       => $event->organizations[0]->name,
+                                    'location_id'  => Location::where('cult_id', $place->locale->_id)->firstOrFail()->id,
+                                    'address'       => $place->address,
+                                    'latitude'      => $place->location->coordinates[1],
+                                    'longitude'     => $place->location->coordinates[0],
+                                    'description'   => strip_tags($event->text),
+                                    'date_start'    => $event->startDate,
+                                    'date_end'      => $event->endDate,
+                                    'user_id'       => 1,
+                                    'cult_id'       => $event->_id,
+                                ]);
+                                if ($event_one) {
+                                    Event::where('id', $event_create->id)->first()->files()->create([
+                                        "name" => $event->thumbnailFile->originalName,
+                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
+                                    ])->file_types()->sync($type->id);
+                                } else {
+                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                                }
+                                // Берём тип и ставим тип
+                                foreach ($event->genres as $genre) {
+                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                                    // Ставим тип
+                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
+                                }
+                                // Ставим статус
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                            }
+                        } else {
+                            if( str_contains($event->text,'[HTML]') ) {
+                                $event_create = Event::create([
+                                    'name'          => $event->title,
+                                    'sponsor'       => $event->organizations[0]->name,
+                                    'location_id'   => 1,
+                                    'address'       => $place->address,
+                                    'latitude'      => $place->location->coordinates[1],
+                                    'longitude'     => $place->location->coordinates[0],
+                                    'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
+                                    'date_start'    => $event->startDate,
+                                    'date_end'      => $event->endDate,
+                                    'user_id'       => 1,
+                                    'cult_id'       => $event->_id,
+                                ]);
+                                if ($event_one) {
+                                    Event::where('id', $event_create->id)->first()->files()->create([
+                                        "name" => $event->thumbnailFile->originalName,
+                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
+                                    ])->file_types()->sync($type->id);
+                                } else {
+                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                                }
+                                // Берём тип и ставим тип
+                                foreach ($event->genres as $genre) {
+                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                                    // Ставим тип
+                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
+                                }
+                                // Ставим статус
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                            } else {
+                                $event_create = Event::create([
+                                    'name'          => $event->title,
+                                    'sponsor'       => $event->organizations[0]->name,
+                                    'location_id'   => 1,
+                                    'address'       => $place->address,
+                                    'latitude'      => $place->location->coordinates[1],
+                                    'longitude'     => $place->location->coordinates[0],
+                                    'description'   => strip_tags($event->text),
+                                    'date_start'    => $event->startDate,
+                                    'date_end'      => $event->endDate,
+                                    'user_id'       => 1,
+                                    'cult_id'       => $event->_id,
+                                ]);
+                                if ($event_one) {
+                                    Event::where('id', $event_create->id)->first()->files()->create([
+                                        "name" => $event->thumbnailFile->originalName,
+                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
+                                    ])->file_types()->sync($type->id);
+                                } else {
+                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                                }
+                                // Берём тип и ставим тип
+                                foreach ($event->genres as $genre) {
+                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                                    // Ставим тип
+                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
+                                }
+                                // Ставим статус
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
+                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                            }
+                            $events_download[] = ['id' => $event->_id, 'error' => 'No locale'];
+                        }
+                    }
                     // Подвязываем первое фото
-                    if ($event_one) {
-                        Event::where('cult_id', $event->_id)->first()->files()->create([
-                            "name" => $event->thumbnailFile->originalName,
-                            "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                        ])->file_types()->sync($type->id);
-                    } else {
-                        $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                    }
+                    // if ($event_one) {
+                    //     Event::where('cult_id', $event->_id)->first()->files()->create([
+                    //         "name" => $event->thumbnailFile->originalName,
+                    //         "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
+                    //     ])->file_types()->sync($type->id);
+                    // } else {
+                    //     $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                    // }
                 
-                // Берём тип и ставим тип
-                    foreach ($event->genres as $genre) {
-                        $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                        // Ставим тип
-                        Event::where('cult_id', $event->_id)->first()->types()->attach($types_id);
-                    }
-                    // Ставим статус
-                    Event::where('cult_id', $event->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                    Event::where('cult_id', $event->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
                 }
             }
             $total_events = $total_events - 1;

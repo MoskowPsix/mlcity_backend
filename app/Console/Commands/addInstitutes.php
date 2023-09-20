@@ -261,7 +261,7 @@ class addInstitutes extends Command
                     }
                     $sight_one = json_decode(file_get_contents('https://www.culture.ru/api/institutes/' .  $sight->_id . '?fields=thumbnailFile', TRUE));
                     // Подвязываем фото
-                    if ($sight_one) {
+                    if (isset($sight_one->thumbnailFile)) {
                         Sight::where('cult_id', $sight->_id)->first()->files()->create([
                             "name" => $sight->thumbnailFile->originalName,
                             "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
