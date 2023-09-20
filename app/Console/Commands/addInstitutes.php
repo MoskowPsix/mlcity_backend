@@ -267,6 +267,7 @@ class addInstitutes extends Command
                             "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
                         ])->file_types()->sync($type->id);
                     } else {
+                        $output->writeln($sight_one->_id);
                         $institutes_download[] = ['id' => $sight->_id, 'error' => 'No photo'];
                     }
                     // Ставим статус
