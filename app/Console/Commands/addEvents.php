@@ -104,65 +104,15 @@ class addEvents extends Command
             // Разбираем полученный массив
             foreach ($events->items as $event) {
                 //date_default_timezone_set('UTC');
-                //echo $event->_id;
+                $output->writeln($event->_id);
                 //echo $event->endDate;
                 if (!Event::where('cult_id', $event->_id)->first() && (strtotime($event->endDate) >= time())) {
-                    if ($event['locales']) {
-                        if( str_contains($event->text,'[HTML]') ) {
-                            Event::create([
-                                'name'          => $event->title,
-                                'sponsor'       => $event->organization->name,
-                                'location_id'   => Location::where('cult_id', $event->locale->_id)->firstOrFail()->id,
-                                'address'       => $event->address,
-                                'latitude'      => $event->location->coordinates[1],
-                                'longitude'     => $event->location->coordinates[0],
-                                'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
-                                'user_id'       => 1,
-                                'materials'     => $event->saleLink,
-                                'date_start'    => $event->startDate,
-                                'date_end'      => $event->endDate,
-                                'cult_id'       => $event->_id,
-                            ]);
-                        } else {
-                            Event::create([
-                                'name'          => $event->title,
-                                'sponsor'       => $event->organization->name,
-                                'location_id'   => Location::where('cult_id', $event->locale->_id)->firstOrFail()->id,
-                                'address'       => $event->address,
-                                'latitude'      => $event->location->coordinates[1],
-                                'longitude'     => $event->location->coordinates[0],
-                                'description'   => strip_tags($event->text),
-                                'user_id'       => 1,
-                                'materials'     => $event->saleLink,
-                                'date_start'    => $event->startDate,
-                                'date_end'      => $event->endDate,
-                                'cult_id'       => $event->_id,
-                            ]);
-                        }
-                    } else {
-                        Event::create([
-                            'name'          => $event->title,
-                            'sponsor'       => $event->organization->name,
-                            'location_id'   => 0,
-                            'address'       => $event->address,
-                            'latitude'      => $event->location->coordinates[1],
-                            'longitude'     => $event->location->coordinates[0],
-                            'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
-                            'user_id'       => 1,
-                            'materials'     => $event->saleLink,
-                            'date_start'    => $event->startDate,
-                            'date_end'      => $event->endDate,
-                            'cult_id'       => $event->_id,
-                        ]);
-                        $institutes_download[] = ['id' => $event->_id, 'error' => 'No locale'];
+                    foreach ($event->places) {
+
                     }
-                
-                // Берём тип и ставим тип
-                    foreach ($event->genres as $genre) {
-                        $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                        // Ставим тип
-                        Event::where('cult_id', $event->_id)->first()->types()->attach($types_id);
-                    }
+
+
+
                     $event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
                     // Подвязываем первое фото
                     if ($event_one) {
@@ -171,7 +121,14 @@ class addEvents extends Command
                             "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
                         ])->file_types()->sync($type->id);
                     } else {
-                        $institutes_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                        $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
+                    }
+                
+                // Берём тип и ставим тип
+                    foreach ($event->genres as $genre) {
+                        $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                        // Ставим тип
+                        Event::where('cult_id', $event->_id)->first()->types()->attach($types_id);
                     }
                     // Ставим статус
                     Event::where('cult_id', $event->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
@@ -187,7 +144,7 @@ class addEvents extends Command
             $output->writeln(date_default_timezone_get());
         }
 
-        $output->writeln("<info>Errors: </info>" . $institutes_download); 
+        $output->writeln("<info>Errors: </info>" . $events_download); 
         return print_r('Download element-2 end!');
     }
 }

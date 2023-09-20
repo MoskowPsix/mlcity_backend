@@ -241,7 +241,7 @@ class addInstitutes extends Command
                         Sight::create([
                             'name'          => $sight->title,
                             'sponsor'       => $sight->passport->organization,
-                            'location_id'  => 0,
+                            'location_id'   => 1,
                             'address'       => $sight->address,
                             'latitude'      => $sight->location->coordinates[1],
                             'longitude'     => $sight->location->coordinates[0],
