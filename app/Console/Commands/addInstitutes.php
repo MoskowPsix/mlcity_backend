@@ -73,122 +73,122 @@ class addInstitutes extends Command
         $output->writeln('<info>Download start element-1</info>');
         $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
         $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
-        // if (!Location::where('cult_id', $null_location->_id)->first()) {
-        //     Location::create([
-        //         'name' => $null_location->title,
-        //         'time_zone' => $null_location->timezone,
-        //         'cult_id' => $null_location->_id
-        //     ]);
-        // }
-        // while ($level_max_locations >= $level_locations) {
-        //     $page_locations = 1;
-        //     $total_locations = json_decode(file_get_contents('https://www.culture.ru/api/locales?limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true))->pagination->total;
-        //     $total_locations_progress = $total_locations / 100;
-        //     $output->writeln('Level '.$level_locations.' locations start:');
-        //     while ($total_locations >= 0) {
-        //         // Отображение прогресса
-        //         $progress = ($total_locations_progress * 100 - $total_locations) / $total_locations_progress;
-        //         $output->writeln((int)$progress . '%');
+        if (!Location::where('cult_id', $null_location->_id)->first()) {
+            Location::create([
+                'name' => $null_location->title,
+                'time_zone' => $null_location->timezone,
+                'cult_id' => $null_location->_id
+            ]);
+        }
+        while ($level_max_locations >= $level_locations) {
+            $page_locations = 1;
+            $total_locations = json_decode(file_get_contents('https://www.culture.ru/api/locales?limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true))->pagination->total;
+            $total_locations_progress = $total_locations / 100;
+            $output->writeln('Level '.$level_locations.' locations start:');
+            while ($total_locations >= 0) {
+                // Отображение прогресса
+                $progress = ($total_locations_progress * 100 - $total_locations) / $total_locations_progress;
+                $output->writeln((int)$progress . '%');
 
-        //         $locales = json_decode(file_get_contents('https://www.culture.ru/api/locales?&limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true));
-        //         foreach ($locales->items as $local) {
-        //             if (!Location::where('cult_id', $local->_id)->first()) {
-        //                 //print_r($local);
-        //                 Location::create([
-        //                     'name' => $local->title,
-        //                     'time_zone' => $local->timezone,
-        //                     'cult_id' => $local->_id,
-        //                     'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id
-        //                 ]);
-        //             } 
-        //         }
-        //         $total_locations = $total_locations - 1;
-        //         $page_locations = $page_locations + 1;
-        //     }
-        //     $level_locations = $level_locations + 1;
-        // }   
+                $locales = json_decode(file_get_contents('https://www.culture.ru/api/locales?&limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true));
+                foreach ($locales->items as $local) {
+                    if (!Location::where('cult_id', $local->_id)->first()) {
+                        //print_r($local);
+                        Location::create([
+                            'name' => $local->title,
+                            'time_zone' => $local->timezone,
+                            'cult_id' => $local->_id,
+                            'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id
+                        ]);
+                    } 
+                }
+                $total_locations = $total_locations - 1;
+                $page_locations = $page_locations + 1;
+            }
+            $level_locations = $level_locations + 1;
+        }   
 
 
-        // $output->writeln('Download step 2: download rubrics');
-        //  while ($total_rubrics >= 0) {
-        //     // Отображение прогресса
-        //     $progress = ($total_rubric_progress * 100 - $total_rubrics) / $total_rubric_progress;
-        //     $output->writeln((int)$progress . '%');
+        $output->writeln('Download step 2: download rubrics');
+         while ($total_rubrics >= 0) {
+            // Отображение прогресса
+            $progress = ($total_rubric_progress * 100 - $total_rubrics) / $total_rubric_progress;
+            $output->writeln((int)$progress . '%');
 
-        //     $rubrics = json_decode(file_get_contents('https://www.culture.ru/api/rubrics?sort=level&limit='.$limit_rubrics.'&page=' . $page_rubrics, true));
-        //     foreach ($rubrics->items as $rubric) {
-        //         if (!$rubric->parentId){
-        //             if(!SightType::where('cult_id', $rubric->_id)->first()) {
+            $rubrics = json_decode(file_get_contents('https://www.culture.ru/api/rubrics?sort=level&limit='.$limit_rubrics.'&page=' . $page_rubrics, true));
+            foreach ($rubrics->items as $rubric) {
+                if (!$rubric->parentId){
+                    if(!SightType::where('cult_id', $rubric->_id)->first()) {
 
-        //                 SightType::create([
-        //                     'name' => $rubric->title,
-        //                     'ico' => 'none',
-        //                     'cult_id' => $rubric->_id,
-        //                 ]);
+                        SightType::create([
+                            'name' => $rubric->title,
+                            'ico' => 'none',
+                            'cult_id' => $rubric->_id,
+                        ]);
 
-        //             }
-        //         } else {
-        //             if (SightType::where('cult_id', $rubric->parentId)->first()) {
-        //                 if(!SightType::where('cult_id', $rubric->_id)->first()) {
-        //                     SightType::create([
-        //                         'name' => $rubric->title,
-        //                         'ico' => 'none',
-        //                         'cult_id' => $rubric->_id,
-        //                         'stype_id' => SightType::where('cult_id', $rubric->parentId)->firstOrFail()->id,
-        //                     ]);
-        //                 }
-        //             } else {
-        //                 $rubrics_download[] = $rubric;
-        //             }
-        //         }
-        //     }
-        //     $total_rubrics = $total_rubrics - 1;
-        //     $page_rubrics = $page_rubrics + 1;
-        // }
-        // $output->writeln('Download step 2: check rubrics');
-        // function retrySearch($rubrics) { 
-        //     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        //     $output->write('.'); 
-        //     foreach($rubrics as $rubric) {
-        //         if (SightType::where('cult_id', $rubric->parentId)->first()) {
+                    }
+                } else {
+                    if (SightType::where('cult_id', $rubric->parentId)->first()) {
+                        if(!SightType::where('cult_id', $rubric->_id)->first()) {
+                            SightType::create([
+                                'name' => $rubric->title,
+                                'ico' => 'none',
+                                'cult_id' => $rubric->_id,
+                                'stype_id' => SightType::where('cult_id', $rubric->parentId)->firstOrFail()->id,
+                            ]);
+                        }
+                    } else {
+                        $rubrics_download[] = $rubric;
+                    }
+                }
+            }
+            $total_rubrics = $total_rubrics - 1;
+            $page_rubrics = $page_rubrics + 1;
+        }
+        $output->writeln('Download step 2: check rubrics');
+        function retrySearch($rubrics) { 
+            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
+            $output->write('.'); 
+            foreach($rubrics as $rubric) {
+                if (SightType::where('cult_id', $rubric->parentId)->first()) {
 
-        //             SightType::create([
-        //                 'name' => $rubric->title,
-        //                 'ico' => 'none',
-        //                 'cult_id' => $rubric->_id,
-        //                 'stype_id' => SightType::where('cult_id', $rubric->parentId)->firstOrFail()->id,
-        //             ]);
+                    SightType::create([
+                        'name' => $rubric->title,
+                        'ico' => 'none',
+                        'cult_id' => $rubric->_id,
+                        'stype_id' => SightType::where('cult_id', $rubric->parentId)->firstOrFail()->id,
+                    ]);
 
-        //         } else {
+                } else {
 
-        //             $rubrics_retry[] = $rubric;
-        //             $rubric_parent = json_decode(file_get_contents('https://www.culture.ru/api/rubrics/' . $rubric->parentId, true));
+                    $rubrics_retry[] = $rubric;
+                    $rubric_parent = json_decode(file_get_contents('https://www.culture.ru/api/rubrics/' . $rubric->parentId, true));
 
-        //             if (!$rubric_parent->parentId) {
+                    if (!$rubric_parent->parentId) {
 
-        //                 SightType::create([
-        //                     'name' => $rubric_parent->title,
-        //                     'ico' => 'none',
-        //                     'cult_id' => $rubric_parent->_id,
-        //                 ]);
+                        SightType::create([
+                            'name' => $rubric_parent->title,
+                            'ico' => 'none',
+                            'cult_id' => $rubric_parent->_id,
+                        ]);
 
-        //             } else {
+                    } else {
 
-        //                 SightType::create([
-        //                     'name' => $rubric_parent->title,
-        //                     'ico' => 'none',
-        //                     'cult_id' => $rubric_parent->_id,
-        //                     'stype_id' => SightType::where('cult_id', $rubric_parent->parentId)->firstOrFail()->id,
-        //                 ]);
+                        SightType::create([
+                            'name' => $rubric_parent->title,
+                            'ico' => 'none',
+                            'cult_id' => $rubric_parent->_id,
+                            'stype_id' => SightType::where('cult_id', $rubric_parent->parentId)->firstOrFail()->id,
+                        ]);
 
-        //             }
-        //         }
-        //     }
-        //      if (!empty($rubrics_retry)) {
-        //         retrySearch($rubrics_retry);
-        //     }
-        // }
-        // retrySearch($rubrics_download);
+                    }
+                }
+            }
+             if (!empty($rubrics_retry)) {
+                retrySearch($rubrics_retry);
+            }
+        }
+        retrySearch($rubrics_download);
         $output->writeln('Download step 3: check success');
 
         $type = FileType::where('name', 'image')->firstOrFail();
