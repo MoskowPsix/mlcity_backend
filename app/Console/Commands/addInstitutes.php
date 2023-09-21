@@ -231,25 +231,40 @@ class addInstitutes extends Command
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],
                                 'longitude'     => $sight->location->coordinates[0],
-                                'description'   => $sight->text,
+                                'description'   => strip_tags($sight->text),
                                 'user_id'       => 1,
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
                             ]);
                         }
                     } else {
-                        Sight::create([
-                            'name'          => $sight->title,
-                            'sponsor'       => $sight->passport->organization,
-                            'location_id'   => 1,
-                            'address'       => $sight->address,
-                            'latitude'      => $sight->location->coordinates[1],
-                            'longitude'     => $sight->location->coordinates[0],
-                            'description'   => rtrim(substr(strip_tags($sight->text), 6), '[/HTML]'),
-                            'user_id'       => 1,
-                            'cult_id'       => $sight->_id,
-                            'work_time'     => $sight->workTime,
-                        ]);
+                        if( str_contains($sight->text,'[HTML]') ) {
+                            Sight::create([
+                                'name'          => $sight->title,
+                                'sponsor'       => $sight->passport->organization,
+                                'location_id'   => 1,
+                                'address'       => $sight->address,
+                                'latitude'      => $sight->location->coordinates[1],
+                                'longitude'     => $sight->location->coordinates[0],
+                                'description'   => rtrim(rtrim(strip_tags($sight->text), '[/HTML]'), '[HTML]'),
+                                'user_id'       => 1,
+                                'cult_id'       => $sight->_id,
+                                'work_time'     => $sight->workTime,
+                            ]);
+                        } else {
+                            Sight::create([
+                                'name'          => $sight->title,
+                                'sponsor'       => $sight->passport->organization,
+                                'location_id'   => 1,
+                                'address'       => $sight->address,
+                                'latitude'      => $sight->location->coordinates[1],
+                                'longitude'     => $sight->location->coordinates[0],
+                                'description'   => strip_tags($sight->text),
+                                'user_id'       => 1,
+                                'cult_id'       => $sight->_id,
+                                'work_time'     => $sight->workTime,
+                            ]);
+                        }
                         $institutes_download[] = ['id' => $sight->_id, 'error' => 'No locale'];
                     }
 
