@@ -51,7 +51,7 @@ class addInstitutes extends Command
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_institutes = 1;
         $limit_institutes = 100;
-        $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes, true))->pagination->total;
+        $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true))->pagination->total;
         $institutes_download = [];
         $total_institutes_progress = $total_institutes / 100;
 
@@ -203,7 +203,7 @@ class addInstitutes extends Command
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
             $output->writeln((int)$progress . '%');
 
-            $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes, true));
+            $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true));
             foreach ($sights->items as $sight) {
                 if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted') {
                     // Берём тип
@@ -282,7 +282,7 @@ class addInstitutes extends Command
                             "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
                         ])->file_types()->sync($type->id);
                     } else {
-                        $output->writeln($sight_one->_id);
+                        //$output->writeln($sight_one->_id);
                         $institutes_download[] = ['id' => $sight->_id, 'error' => 'No photo'];
                     }
                     // Ставим статус
