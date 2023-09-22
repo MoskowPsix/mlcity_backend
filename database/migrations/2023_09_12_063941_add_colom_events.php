@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('events', function (Blueprint $table) {
             $table->integer('cult_id')->nullable();
-            $table->integer('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
+            //$table->integer('location_id')->nullable();
+            //$table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade');
             $table->dropColumn(['city']);
         });
     }
@@ -29,7 +29,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('location_id');
+            //$table->dropColumn('location_id');
         });
     }
 };

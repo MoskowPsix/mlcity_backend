@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Place;
+use App\Models\Price;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -19,10 +21,8 @@ class Event extends Model
     protected $fillable = [
         'name',
         'sponsor',
-        'latitude',
-        'longitude',
-        'location_id',
-        'address',
+        // 'location_id',
+        // 'address',
         'description',
         'price',
         'materials',
@@ -30,6 +30,7 @@ class Event extends Model
         'date_end',
         'user_id',
         'vk_post_id',
+        'cult_id'
     ];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -92,9 +93,18 @@ class Event extends Model
         return $this->belongsToMany(User::class, 'view', 'event_id','user_id');
     }
 
-    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    // public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    // {
+    //     return $this->belongsTo(Location::class, 'location_id');
+    // }
+    // Подтягиваем маркеры
+    public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(Location::class, 'location_id');
+        return $this->hasMany(Place::class);
     }
-
+    // Подтягиваем цену
+    public function price(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Price::class);
+    }
 }

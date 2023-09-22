@@ -6,6 +6,10 @@ use App\Models\Event;
 use App\Models\EventType;
 use App\Models\FileType;
 use App\Models\Location;
+use App\Models\Place;
+use App\Models\Price;
+use App\Models\Seance;
+use App\Models\Sight;
 use App\Models\Status;
 use Illuminate\Console\Command;
 
@@ -32,22 +36,6 @@ class addEvents extends Command
      */
     public function handle()
     {
-        // function searchLevelLocales($max_level) {
-        //     $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        //     $request = json_decode(file_get_contents('https://www.culture.ru/api/locales?level='.$max_level.'&limit=1', TRUE));
-        //     if ($request->total === 0) {
-        //         //$output->writeln('<info>' . $max_level . '</info>');
-        //         //echo $max_level - 1;
-        //         $max_level = $max_level - 1;
-        //         //return (int)$max_level;
-        //     } else if ($request->total !== 0) {
-        //         //print_r($max_level);
-        //         $max_level = $max_level + 1;
-        //         searchLevelLocales($max_level);
-        //     }
-        //     return (int)$max_level;
-        // }
-
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_events = 1;
         $limit_events = 100;
@@ -62,30 +50,30 @@ class addEvents extends Command
         $total_genres_progress = $total_genres / 100;
 
         $total = 10;
-        // date_default_timezone_set('UTC');
-        // $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
+        date_default_timezone_set('UTC');
+        $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
         $output->writeln('<info>Download start element-2</info>');
         $output->writeln('<info>Download step 1: Download genres</info>');
 
-        // while ($total_genres >= 0) {
-        //     // Отображение прогресса
-        //     $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
-        //     $output->writeln((int)$progress . '%');
+        while ($total_genres >= 0) {
+            // Отображение прогресса
+            $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
+            $output->writeln((int)$progress . '%');
 
-        //     $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
-        //     foreach ($genres->items as $genre) {
-        //         if (!EventType::where('cult_id', $genre->_id)->first()) {
-        //             EventType::create([
-        //                 'name' => $genre->title,
-        //                 'ico' => 'none',
-        //                 'cult_id' => $genre->_id,
-        //             ]);
-        //         }     
-        //     }
-        //     $total_genres = $total_genres - 1;
-        //     $page_genres = $page_genres + 1;
-        // }
+            $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
+            foreach ($genres->items as $genre) {
+                if (!EventType::where('cult_id', $genre->_id)->first()) {
+                    EventType::create([
+                        'name' => $genre->title,
+                        'ico' => 'none',
+                        'cult_id' => $genre->_id,
+                    ]);
+                }     
+            }
+            $total_genres = $total_genres - 1;
+            $page_genres = $page_genres + 1;
+        }
         
         $type = FileType::where('name', 'image')->firstOrFail();
         $status= Status::where('name', 'Опубликовано')->firstOrFail();
@@ -103,154 +91,116 @@ class addEvents extends Command
 
             // Разбираем полученный массив
             foreach ($events->items as $event) {
-                //date_default_timezone_set('UTC');
-                //$output->writeln($event->_id);
-                //echo $event->endDate;
                 if (!Event::where('cult_id', $event->_id)->first()) {
-                    $event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
+                    //$event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
+                    if (str_contains($event->text,'[HTML]')) {
+                        $descriptions = rtrim(rtrim(strip_tags($event->text), '[/HTML]'), '[HTML]');
+                    } else {
+                        $descriptions = strip_tags($event->text);
+                    }
+                    $event_cr = new Event;
+                    $event_cr->name = $event->title;
+                    $event_cr->sponsor = $event->organizations[0]->name;
+                    $event_cr->description = $descriptions;
+                    $event_cr->materials = $event->saleLink;
+                    $event_cr->date_start = $event->startDate;
+                    $event_cr->date_end = $event->endDate;
+                    $event_cr->user_id = 1;
+                    $event_cr->cult_id = $event->_id;
+                    $event_cr->save();
+
+                    if (isset($event->price)){
+                    if (($event->price->min === 0) && ($event->price->max === 0)) {
+                        $price = new Price;
+                        $price->event_id = $event_cr->id;
+                        $price->cost_rub = 0;
+                        $price->descriptions = 'Бесплатный вход.';
+                        $price->save();
+                    }else if ($event->price->min === 0) {
+                        $price = new Price;
+                        $price->event_id = $event_cr->id;
+                        $price->cost_rub = 0;
+                        $price->descriptions = 'Возможен бесплатный вход.';
+                        $price->save();
+
+                        $price = new Price;
+                        $price->event_id = $event_cr->id;
+                        $price->cost_rub = $event->price->max;
+                        $price->descriptions = 'Самая дорогая цена.';
+                        $price->save();
+
+                    }else if ($event->price->min === $event->price->max) {
+                            $price = new Price;
+                            $price->event_id = $event_cr->id;
+                            $price->cost_rub = $event->price->min;
+                            $price->descriptions = 'Одна цена на все билеты.';
+                            $price->save();
+                        } else {
+                            $price = new Price;
+                            $price->event_id = $event_cr->id;
+                            $price->cost_rub = $event->price->min;
+                            $price->descriptions = 'Самый низкая цена.';
+                            $price->save();
+
+                            $price = new Price;
+                            $price->event_id = $event_cr->id;
+                            $price->cost_rub = $event->price->max;
+                            $price->descriptions = 'Самая дорогая цена.';
+                            $price->save();
+                        }
+                    }   
+
+                    //$output->writeln('<info>'.$event_cr.'</info>');
                     foreach ($event->places as $place) {
-                        if (isset($place->locale)) {
-                            if( str_contains($event->text,'[HTML]') ) {
-                                $event_create = Event::create([
-                                    'name'          => $event->title,
-                                    'sponsor'       => $event->organizations[0]->name,
-                                    'location_id'   => Location::where('cult_id', $place->locale->_id)->firstOrFail()->id,
-                                    'address'       => $place->address,
-                                    'latitude'      => $place->location->coordinates[1],
-                                    'longitude'     => $place->location->coordinates[0],
-                                    'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
-                                    'date_start'    => $event->startDate,
-                                    'date_end'      => $event->endDate,
-                                    'user_id'       => 1,
-                                    'cult_id'       => $event->_id,
-                                ]);
-                                // Подвязываем первое фото
-                                if ($event_one) {
-                                    Event::where('id', $event_create->id)->first()->files()->create([
-                                        "name" => $event->thumbnailFile->originalName,
-                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                                    ])->file_types()->sync($type->id);
-                                } else {
-                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                                }
-                                // Берём тип и ставим тип
-                                foreach ($event->genres as $genre) {
-                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                                    // Ставим тип
-                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
-                                }
-                                // Ставим статус
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                        if (isset($place->institute)) {
+                            if (Event::where('cult_id', $place->institute->_id)->first()) {
+                                $place_cr =  new Place;
+                                $place_cr->event_id = $event_cr->id;
+                                $place_cr->address = $place->address;
+                                $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
+                                $place_cr->latitude = $place->location->coordinates[1];
+                                $place_cr->longitude = $place->location->coordinates[0];
+                                $place_cr->sight_id = Event::where('cult_id', $place->institute->_id)->first()->id;
+                                $place_cr->save();
                             } else {
-                                $event_create = Event::create([
-                                    'name'          => $event->title,
-                                    'sponsor'       => $event->organizations[0]->name,
-                                    'location_id'  => Location::where('cult_id', $place->locale->_id)->firstOrFail()->id,
-                                    'address'       => $place->address,
-                                    'latitude'      => $place->location->coordinates[1],
-                                    'longitude'     => $place->location->coordinates[0],
-                                    'description'   => strip_tags($event->text),
-                                    'date_start'    => $event->startDate,
-                                    'date_end'      => $event->endDate,
-                                    'user_id'       => 1,
-                                    'cult_id'       => $event->_id,
-                                ]);
-                                if ($event_one) {
-                                    Event::where('id', $event_create->id)->first()->files()->create([
-                                        "name" => $event->thumbnailFile->originalName,
-                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                                    ])->file_types()->sync($type->id);
-                                } else {
-                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                                }
-                                // Берём тип и ставим тип
-                                foreach ($event->genres as $genre) {
-                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                                    // Ставим тип
-                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
-                                }
-                                // Ставим статус
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                                $place_cr =  new Place;
+                                $place_cr->event_id = $event_cr->id;
+                                $place_cr->address = $place->address;
+                                $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
+                                $place_cr->latitude = $place->location->coordinates[1];
+                                $place_cr->longitude = $place->location->coordinates[0];
+                                $place_cr->save();
                             }
                         } else {
-                            if( str_contains($event->text,'[HTML]') ) {
-                                $event_create = Event::create([
-                                    'name'          => $event->title,
-                                    'sponsor'       => $event->organizations[0]->name,
-                                    'location_id'   => 1,
-                                    'address'       => $place->address,
-                                    'latitude'      => $place->location->coordinates[1],
-                                    'longitude'     => $place->location->coordinates[0],
-                                    'description'   => rtrim(substr(strip_tags($event->text), 6), '[/HTML]'),
-                                    'date_start'    => $event->startDate,
-                                    'date_end'      => $event->endDate,
-                                    'user_id'       => 1,
-                                    'cult_id'       => $event->_id,
-                                ]);
-                                if ($event_one) {
-                                    Event::where('id', $event_create->id)->first()->files()->create([
-                                        "name" => $event->thumbnailFile->originalName,
-                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                                    ])->file_types()->sync($type->id);
-                                } else {
-                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                                }
-                                // Берём тип и ставим тип
-                                foreach ($event->genres as $genre) {
-                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                                    // Ставим тип
-                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
-                                }
-                                // Ставим статус
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
-                            } else {
-                                $event_create = Event::create([
-                                    'name'          => $event->title,
-                                    'sponsor'       => $event->organizations[0]->name,
-                                    'location_id'   => 1,
-                                    'address'       => $place->address,
-                                    'latitude'      => $place->location->coordinates[1],
-                                    'longitude'     => $place->location->coordinates[0],
-                                    'description'   => strip_tags($event->text),
-                                    'date_start'    => $event->startDate,
-                                    'date_end'      => $event->endDate,
-                                    'user_id'       => 1,
-                                    'cult_id'       => $event->_id,
-                                ]);
-                                if ($event_one) {
-                                    Event::where('id', $event_create->id)->first()->files()->create([
-                                        "name" => $event->thumbnailFile->originalName,
-                                        "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                                    ])->file_types()->sync($type->id);
-                                } else {
-                                    $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                                }
-                                // Берём тип и ставим тип
-                                foreach ($event->genres as $genre) {
-                                    $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
-                                    // Ставим тип
-                                    Event::where('id', $event_create->id)->first()->types()->attach($types_id);
-                                }
-                                // Ставим статус
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                                Event::where('id', $event_create->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
-                            }
-                            $events_download[] = ['id' => $event->_id, 'error' => 'No locale'];
+                            $place_cr =  new Place;
+                            $place_cr->event_id = $event_cr->id;
+                            $place_cr->address = $place->address;
+                            $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
+                            $place_cr->latitude = $place->location->coordinates[1];
+                            $place_cr->longitude = $place->location->coordinates[0];
+                            $place_cr->save();
                         }
+                         foreach ($place->seances as $seance) {
+                            Seance::create([
+                                'place_id'  => $place_cr->id,
+                                'dateStart' => gmdate("Y-m-d\TH:i:s\Z", strtotime($seance->startDate) + $seance->startTime),
+                                'dateEnd' => gmdate("Y-m-d\TH:i:s\Z", strtotime($seance->endDate) + $seance->endTime)
+                            ]);
+                         }
+                    } 
+                    foreach ($event->genres as $genre) {
+                        $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                        // Ставим тип
+                        Event::where('id', $event_cr->id)->first()->types()->attach($types_id);
                     }
-                    // Подвязываем первое фото
-                    // if ($event_one) {
-                    //     Event::where('cult_id', $event->_id)->first()->files()->create([
-                    //         "name" => $event->thumbnailFile->originalName,
-                    //         "link" => 'https://cdn.culture.ru/images/'.$event_one->thumbnailFile->publicId.'/w_'.$event_one->thumbnailFile->width.',h_'.$event_one->thumbnailFile->height.'/'.$event_one->thumbnailFile->originalName,
-                    //     ])->file_types()->sync($type->id);
-                    // } else {
-                    //     $events_download[] = ['id' => $event->_id, 'error' => 'No photo'];
-                    // }
-                
+                    if (isset($event->thumbnailFile)) {
+                        Event::where('id', $event_cr->id)->first()->files()->create([
+                            "name" => $event->thumbnailFile->originalName,
+                            "link" => 'https://cdn.culture.ru/images/'.$event->thumbnailFile->publicId.'/w_'.$event->thumbnailFile->width.',h_'.$event->thumbnailFile->height.'/'.$event->thumbnailFile->originalName,
+                        ])->file_types()->sync($type->id);
+                    } 
+                    Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
+                    Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]); 
                 }
             }
             $total_events = $total_events - 1;
@@ -259,7 +209,6 @@ class addEvents extends Command
             // Подсчёт времени до конца  
             $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-            $output->writeln(date_default_timezone_get());
         }
 
         $output->writeln("<info>Errors: </info>" . $events_download); 

@@ -207,7 +207,7 @@ class EventController extends Controller
         $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'places', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -221,7 +221,7 @@ class EventController extends Controller
                 EventLocation::class,
                 EventDate::class,
                 EventTypes::class,
-                EventGeoPositionInArea::class,
+                //EventGeoPositionInArea::class,
                 EventSearchText::class,
                 EventAddress::class,
                 EventSponsor::class,
