@@ -111,9 +111,9 @@ class SightTypeController extends Controller
      */
     public function addTypeSight($sight_id, $type_id) 
     {
-        $event = Sight::where('id', $sight_id)->firstOrFail();
+        $sight = Sight::where('id', $sight_id)->firstOrFail();
 
-        $event->types()->attach($type_id);
+        $sight->types()->attach($type_id);
         return response()->json(['status' => 'success', 'sight' => $sight_id, 'add_type' => $type_id], 200);
     }
     /**
@@ -152,9 +152,9 @@ class SightTypeController extends Controller
      */
     public function updateTypeSight($sight_id, $type_id) 
     {
-        $event = Sight::where('id', $sight_id)->firstOrFail();
+        $sight = Sight::where('id', $sight_id)->firstOrFail();
 
-        $event->types()->sync($type_id);
+        $sight->types()->sync($type_id);
         return response()->json(['status' => 'success', 'sight' => $sight_id, 'update_type' => $type_id], 200);
     }
     /**
@@ -193,9 +193,9 @@ class SightTypeController extends Controller
      */
     public function deleteTypeSight($sight_id, $type_id) 
     {
-        $event = Sight::where('id', $sight_id)->firstOrFail();
-        $event->types()->detach($type_id);
-        $event->types()->detach();
+        $sight = Sight::where('id', $sight_id)->firstOrFail();
+        $sight->types()->detach($type_id);
+        $sight->types()->detach();
 
         return response()->json(['status' => 'success', 'sight' => $sight_id, 'delete_type' => $type_id], 200);
     }

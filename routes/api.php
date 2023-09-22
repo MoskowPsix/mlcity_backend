@@ -122,7 +122,7 @@ Route::controller(StatusController::class)->group(function() {
     // Для событий
     Route::post('events/addStatusEvent', 'addStatusEvent')->middleware('moderator');
     //Для достопримечательностей
-    Route::post('sights/addStatusSight', 'addStatusSight')->middleware('moderator');
+    Route::post('sights/addStatusSight', 'addStatusSight');
 
 });
 
