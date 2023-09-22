@@ -9,21 +9,21 @@ use App\Models\Sight;
 use App\Models\Status;
 use App\Models\Location;
 
-class addElements extends Command
+class addInstitutes extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'download-element';
+    protected $signature = 'institutes_save';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'get elements';
+    protected $description = 'get institutes';
 
     /**
      * Execute the console command.
@@ -51,7 +51,7 @@ class addElements extends Command
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_institutes = 1;
         $limit_institutes = 100;
-        $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes, true))->pagination->total;
+        $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true))->pagination->total;
         $institutes_download = [];
         $total_institutes_progress = $total_institutes / 100;
 
@@ -70,7 +70,7 @@ class addElements extends Command
         $total = 10;
         
 
-        $output->writeln('<info>Download start</info>');
+        $output->writeln('<info>Download start element-1</info>');
         $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
         $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
         if (!Location::where('cult_id', $null_location->_id)->first()) {
@@ -203,13 +203,13 @@ class addElements extends Command
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
             $output->writeln((int)$progress . '%');
 
-            $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes, true));
+            $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true));
             foreach ($sights->items as $sight) {
                 if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted') {
                     // Берём тип
-                    SightType::where('cult_id', );
+                    // SightType::where('cult_id', );
                     // Сохраняем место
-                    if ($sight->locale) {
+                    if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
                             Sight::create([
                                 'name'          => $sight->title,
@@ -218,7 +218,7 @@ class addElements extends Command
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],
                                 'longitude'     => $sight->location->coordinates[0],
-                                'description'   => rtrim(substr(strip_tags($sight->text), 6), '[/HTML]'),
+                                'description'   => rtrim(rtrim(strip_tags($sight->text), '[/HTML]'), '[HTML]'),
                                 'user_id'       => 1,
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
@@ -238,19 +238,34 @@ class addElements extends Command
                             ]);
                         }
                     } else {
-                        Sight::create([
-                            'name'          => $sight->title,
-                            'sponsor'       => $sight->passport->organization,
-                            'location_id'  => 0,
-                            'address'       => $sight->address,
-                            'latitude'      => $sight->location->coordinates[1],
-                            'longitude'     => $sight->location->coordinates[0],
-                            'description'   => rtrim(substr(strip_tags($sight->text), 6), '[/HTML]'),
-                            'user_id'       => 1,
-                            'cult_id'       => $sight->_id,
-                            'work_time'     => $sight->workTime,
-                        ]);
-                        $output->writeln('Sights is not have city: ' . $sight->_id);
+                        if( str_contains($sight->text,'[HTML]') ) {
+                            Sight::create([
+                                'name'          => $sight->title,
+                                'sponsor'       => $sight->passport->organization,
+                                'location_id'   => 1,
+                                'address'       => $sight->address,
+                                'latitude'      => $sight->location->coordinates[1],
+                                'longitude'     => $sight->location->coordinates[0],
+                                'description'   => rtrim(rtrim(strip_tags($sight->text), '[/HTML]'), '[HTML]'),
+                                'user_id'       => 1,
+                                'cult_id'       => $sight->_id,
+                                'work_time'     => $sight->workTime,
+                            ]);
+                        } else {
+                            Sight::create([
+                                'name'          => $sight->title,
+                                'sponsor'       => $sight->passport->organization,
+                                'location_id'   => 1,
+                                'address'       => $sight->address,
+                                'latitude'      => $sight->location->coordinates[1],
+                                'longitude'     => $sight->location->coordinates[0],
+                                'description'   => strip_tags($sight->text),
+                                'user_id'       => 1,
+                                'cult_id'       => $sight->_id,
+                                'work_time'     => $sight->workTime,
+                            ]);
+                        }
+                        $institutes_download[] = ['id' => $sight->_id, 'error' => 'No locale'];
                     }
 
                     // Берём тип и ставим тип
@@ -261,10 +276,15 @@ class addElements extends Command
                     }
                     $sight_one = json_decode(file_get_contents('https://www.culture.ru/api/institutes/' .  $sight->_id . '?fields=thumbnailFile', TRUE));
                     // Подвязываем фото
-                    Sight::where('cult_id', $sight->_id)->first()->files()->create([
-                        "name" => $sight->thumbnailFile->originalName,
-                        "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
-                    ])->file_types()->sync($type->id);
+                    if (isset($sight_one->thumbnailFile)) {
+                        Sight::where('cult_id', $sight->_id)->first()->files()->create([
+                            "name" => $sight->thumbnailFile->originalName,
+                            "link" => 'https://cdn.culture.ru/images/'.$sight_one->thumbnailFile->publicId.'/w_'.$sight_one->thumbnailFile->width.',h_'.$sight_one->thumbnailFile->height.'/'.$sight_one->thumbnailFile->originalName,
+                        ])->file_types()->sync($type->id);
+                    } else {
+                        //$output->writeln($sight_one->_id);
+                        $institutes_download[] = ['id' => $sight->_id, 'error' => 'No photo'];
+                    }
                     // Ставим статус
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
@@ -275,11 +295,12 @@ class addElements extends Command
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-        }      
+        }     
+        $output->writeln("<info>Errors: </info>" . $institutes_download); 
 
         $output->writeln("<info>my message</info>");
         $output->write("<info>my message</info>");
         
-        return print_r('Download end!');
+        return print_r('Download element-1 end!');
     }
 }

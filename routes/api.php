@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
 use App\Http\Controllers\Api\LogApiController;
+use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\EventTypeController;
@@ -36,14 +37,15 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('login', 'login');
     Route::post('logout/{id}', 'logout')->middleware('auth:sanctum');
     Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
-    Route::put('reset_password_user', 'resetPasswordForAdmin')->middleware('auth:sanctum');
+    Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
 });
 
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('listUsers/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
-    Route::put('updateUsers/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
-    Route::delete('deleteUsers/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
+    Route::get('admin/users/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
+    Route::put('admin/users/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
+    Route::delete('admin/users/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
+
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     
@@ -80,6 +82,10 @@ Route::controller(EventController::class)->group(function() {
     //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
 });
 
+Route::controller(PlaceController::class)->group(function() {
+    Route::get('places', 'getPlaces'); // Запрос маркеров с фильтрами
+});
+
 Route::controller(SightController::class)->group(function() {
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
     Route::post('sights/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
@@ -95,51 +101,51 @@ Route::controller(SightController::class)->group(function() {
 
 Route::controller(CommentController::class)->group(function() {
     Route::get('comment/{id}', 'showCommentId');
-    Route::put('comment/{id}/update', 'update')->middleware('auth:sanctum');
-    Route::post('comment/create', 'create')->middleware('auth:sanctum');
-    Route::delete('comment/{id}/delete', 'delete')->middleware('auth:sanctum');
+    Route::put('comment/{id}', 'update')->middleware('auth:sanctum');
+    Route::post('comment', 'create')->middleware('auth:sanctum');
+    Route::delete('comment/{id}', 'delete')->middleware('auth:sanctum');
 });
 
 Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
-    Route::get('events/getTypesId/{id}', 'getTypesId');
-    Route::post('events/addTypeEvent/{event_id}/{type_id}', 'addTypeEvent')->middleware('moderator');
-    Route::put('events/updateTypeEvent/{event_id}/{type_id}', 'updateTypeEvent')->middleware('moderator');
+    Route::get('event-types/{id}', 'getTypesId');
+    Route::post('event-types/{event_id}/{type_id}', 'addTypeEvent')->middleware('moderator');
+    Route::put('event-types/{event_id}/{type_id}', 'updateTypeEvent')->middleware('moderator');
     //Route::delete('events/deleteTypeEvent/{event_id}/{type_id}', 'deleteTypeUser')->middleware('');
 });
 
 Route::controller(SightTypeController::class)->group(function() {
     Route::get('sight-types', 'getTypes');
-    Route::get('sights/getTypesId/{id}', 'getTypesId');
-    Route::post('sights/addTypeSight/{sight_id}/{type_id}', 'addTypeSight')->middleware('moderator');
-    Route::put('sights/updateTypeSight/{sight_id}/{type_id}', 'updateTypeSight')->middleware('moderator');
+    Route::get('sight-types/{id}', 'getTypesId');
+    Route::post('sight-types/{sight_id}/{type_id}', 'addTypeSight')->middleware('moderator');
+    Route::put('sight-types/{sight_id}/{type_id}', 'updateTypeSight')->middleware('moderator');
     //Route::delete('sights/deleteTypeSight/{sight_id}/{type_id}', 'deleteTypeSight');
 });
 
 Route::controller(StatusController::class)->group(function() {
     Route::get('statuses', 'getStatuses');
-    Route::get('getStatusId/{id}', 'getStatusId');
+    Route::get('statuses/{id}', 'getStatusId');
     // Для событий
-    Route::post('events/addStatusEvent', 'addStatusEvent')->middleware('moderator');
+    Route::post('events/statuses', 'addStatusEvent')->middleware('moderator');
     //Для достопримечательностей
-    Route::post('sights/addStatusSight', 'addStatusSight');
+    Route::post('sights/statuses', 'addStatusSight')->middleware('moderator');
 
 });
 
 Route::controller(RoleController::class)->group(function() {
-    Route::get('allRole', 'allRole')->middleware('moderator');
-    Route::get('getRole/{id}', 'getRole')->middleware('moderator');
-    Route::post('addRole/', 'addRole')->middleware('root');
-    Route::put('updateRole/{id}', 'updateRole')->middleware('root');
-    Route::delete('deleteRole/{id}', 'deleteRole')->middleware('root');
+    Route::get('role', 'allRole')->middleware('moderator');
+    Route::get('role/{id}', 'getRole')->middleware('moderator');
+    Route::post('role', 'addRole')->middleware('root');
+    Route::put('role/{id}', 'updateRole')->middleware('root');
+    Route::delete('role/{id}', 'deleteRole')->middleware('root');
 
-    Route::post('addRoleUser/{user_id}/{role_id}', 'addRoleUser')->middleware('root');
-    Route::put('updateRoleUser/{user_id}/{role_id}', 'updateRoleUser')->middleware('root');
-    Route::delete('deleteRoleUser/{user_id}/{role_id}', 'deleteRoleUser')->middleware('root');
+    Route::post('users/role/{user_id}/{role_id}', 'addRoleUser')->middleware('root');
+    Route::put('users/role/{user_id}/{role_id}', 'updateRoleUser')->middleware('root');
+    Route::delete('users/role/{user_id}/{role_id}', 'deleteRoleUser')->middleware('root');
 });
 
 Route::controller(ViewController::class)->group(function() {
-    Route::post('events/view','addView')->middleware('auth:sanctum');
+    Route::post('view','addView')->middleware('auth:sanctum');
 });
 
 Route::controller(LocationController::class)->group(function() {
