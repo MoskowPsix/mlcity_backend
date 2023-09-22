@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\test;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -8,7 +8,7 @@ use Illuminate\Database\Seeder;
 use App\Models\Event;
 use App\models\User;
 
-class EventSeeder extends Seeder
+class TestEventSeeder extends Seeder
 {
     /**
      * Run the database seeds.

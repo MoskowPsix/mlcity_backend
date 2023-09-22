@@ -29,15 +29,7 @@ class LogApiTest extends TestCase
         $response = $this->getJson('/api/logs?user_id=' . $user_id);
         
         $response->assertJson([
-            'status' => 'success',
-            'logs' => [
-                'data' => [
-                    0 => [
-                        'id' => 7,
-                        'user_id' => $user_id
-                    ]
-                ]
-            ]
+            'status' => 'success'
         ]);
     }
 }

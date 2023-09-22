@@ -10,6 +10,9 @@ use App\Models\Status;
 use App\Models\User;
 use App\Models\Event;
 use App\Models\Sight;
+use Database\Seeders\test\TestEventSeeder;
+use Database\Seeders\test\TestLocationSeeder;
+use Database\Seeders\test\TestSightsSeeder;
 
 class StatusTest extends TestCase
 {
@@ -54,9 +57,11 @@ class StatusTest extends TestCase
         $this->seed(StatusesSeeder::class);
 
 
-        $response = $this->getJson('/api/getStatusId/'.'41');
+        $status_id = Status::all()[0]->id;
+        $status = Status::where('id',$status_id)->firstOrFail();
+        $response = $this->getJson('/api/getStatusId/'.$status_id);
 
-        $response->assertJson(["status"=>'success', "statuses"=>$this->statuse_1]);
+        $response->assertJson(["status"=>'success', "statuses"=>['name'=>$status->name]]);
     }
 
     public function test_add_status_event()
@@ -64,6 +69,7 @@ class StatusTest extends TestCase
         
         
         $this->seed();
+        $this->seed(TestEventSeeder::class);
         
 
         $auth = $this->postJson('/api/login',$this->user_root);
@@ -77,20 +83,23 @@ class StatusTest extends TestCase
     public function test_add_status_sight()
     {
         $this->seed();
+        $this->seed(TestLocationSeeder::class);
+        $this->seed(TestSightsSeeder::class);
+        
+    
 
-        echo Sight::all();
 
         $sight = Sight::where('name','Клуб Лайм')->firstOrFail();
-        $event = Event::where('name','Встреча')->firstOrFail();
+        $status = Status::where('name','Опубликовано')->firstOrFail();
 
         $auth = $this->postJson('/api/login',$this->user_root);
         $auth->withHeaders(['Bearer Token'=>$auth->baseResponse->original['access_token']]);
         
 
-        $response = $this->postJson('/api/events/addStatusSight',['status_id'=>$event->id,
+        $response = $this->postJson('/api/sights/addStatusSight',['status_id'=>$status->id,
             'sight_id'=>$sight->id,'descriptions'=>'test descriptions']);
 
-        $response->assertJson(['status'=>'success','sight'=>$sight->id, 'add_status'=>$event->id]);
+        $response->assertJson(['status'=>'success','sight'=>$sight->id, 'add_status'=>$status->id]);
 
 
     }
