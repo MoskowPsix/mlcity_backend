@@ -103,8 +103,8 @@ class Event extends Model
         return $this->hasMany(Place::class);
     }
     // Подтягиваем цену
-    public function price(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function price(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->hasMany(Price::class);
+        return $this->belongsTo(Price::class);
     }
 }
