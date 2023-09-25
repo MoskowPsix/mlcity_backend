@@ -38,8 +38,8 @@ class addEvents extends Command
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_events = 1;
-        $limit_events = 100;
-        $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events, true))->pagination->total;
+        $limit_events = 1;
+        $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
         $total_events_progress = $total_events / 100;
 
@@ -91,6 +91,8 @@ class addEvents extends Command
 
             // Разбираем полученный массив
             foreach ($events->items as $event) {
+                //$event = json_decode(file_get_contents('https://www.culture.ru/api/events/' . $event->_id, true));
+                $output->writeln($event->_id);
                 if (!Event::where('cult_id', $event->_id)->first()) {
                     //$event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
                     if (str_contains($event->text,'[HTML]')) {

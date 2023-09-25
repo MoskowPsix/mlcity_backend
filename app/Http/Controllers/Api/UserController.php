@@ -478,7 +478,7 @@ class UserController extends Controller
      */
     public function toggleFavoriteSight(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->favoriteSights()->toggle($request->event_id);
+        Auth::user()->favoriteSights()->toggle($request->sight_id);
 
         return response()->json([
             'status'  => 'success',
