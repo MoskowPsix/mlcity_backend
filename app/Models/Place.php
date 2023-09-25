@@ -32,6 +32,6 @@ class Place extends Model
         //     $q->select('name');
         // }]);
 
-        return $this->belongsTo(Event::class, 'event_id', 'id')->with('types')->select('id', 'name');
+        return $this->belongsTo(Event::class, 'event_id', 'id')->with('types')->select('id', 'name', 'date_start', 'date_end');
     }
 }
