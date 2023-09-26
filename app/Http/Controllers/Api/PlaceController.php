@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\Event\EventAddress;
-use App\Filters\Event\EventGeoPositionInArea;
+use App\Filters\Place\PlaceAddress;
+use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Http\Controllers\Controller;
 use App\Models\Place;
 use Illuminate\Pipeline\Pipeline;
@@ -23,8 +23,8 @@ class PlaceController extends Controller
             app(Pipeline::class)
             ->send($places)
             ->through([
-                EventGeoPositionInArea::class,
-                EventAddress::class,
+                PlaceGeoPositionInArea::class,
+                PlaceAddress::class,
             ])
             ->via('apply')
             ->then(function ($places) use ($pagination , $page, $limit) {

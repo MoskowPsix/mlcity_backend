@@ -8,11 +8,11 @@ use App\Filters\Event\EventAuthorName;
 use App\Filters\Sight\SightAuthor;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Event\EventSponsor;
-use App\Filters\Event\EventAddress;
-use App\Filters\Event\EventLocation;
+use App\Filters\Event\EventPlaceAddress;
+use App\Filters\Event\EventPlaceLocation;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
-use App\Filters\Event\EventGeoPositionInArea;
+use App\Filters\Event\EventPlaceGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
@@ -208,6 +208,7 @@ class EventController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
         $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'places', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        // $events = Event::query()->with('places');
 
         $response =
             app(Pipeline::class)
@@ -218,18 +219,16 @@ class EventController extends Controller
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
                 EventStatusesLast::class,
-                EventLocation::class,
+                EventPlaceLocation::class,
                 EventDate::class,
                 EventTypes::class,
-                //EventGeoPositionInArea::class,
+                EventPlaceGeoPositionInArea::class,
                 EventSearchText::class,
-                EventAddress::class,
+                EventPlaceAddress::class,
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class,
-                
-                
+                SightAuthor::class,           
             ])
             ->via('apply')
             ->then(function ($events) use ($pagination , $page, $limit){

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filters\Event;
+namespace App\Filters\Place;
 
 use Closure;
 use App\Filters\Pipe;
 
-class EventGeoPositionInArea implements Pipe {
+class PlaceGeoPositionInArea implements Pipe {
     //фильтр попадания ивента или места в заданный круг
     public function apply($content, Closure $next)
     {

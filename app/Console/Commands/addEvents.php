@@ -37,8 +37,8 @@ class addEvents extends Command
     public function handle()
     {
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $page_events = 1;
-        $limit_events = 1;
+        $page_events = 4;
+        $limit_events = 10;
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
         $total_events_progress = $total_events / 100;

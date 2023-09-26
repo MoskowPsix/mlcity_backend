@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\Event\EventLocation;
-use App\Filters\Event\EventAddress;
+use App\Filters\Sight\SightLocation;
+use App\Filters\Place\PlaceAddress;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventFavoritesUserExists;
-use App\Filters\Event\EventGeoPositionInArea;
+use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
@@ -175,12 +175,12 @@ class SightController extends Controller
                     EventFavoritesUserExists::class,
                     EventStatuses::class,
                     EventStatusesLast::class,
-                    EventLocation::class,
-                    EventAddress::class,
+                    SightLocation::class,
+                    PlaceAddress::class,
                     //EventRegion::class,
                     SightTypes::class,
                     SightAuthor::class,
-                    EventGeoPositionInArea::class,
+                    PlaceGeoPositionInArea::class,
                     EventSearchText::class
                 ])
                 ->via('apply')

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Filters\Event;
+namespace App\Filters\Place;
 
 use Closure;
 use App\Filters\Pipe;
 
-class EventAddress implements Pipe {
+class PlaceAddress implements Pipe {
 
     public function apply($content, Closure $next)
     {
