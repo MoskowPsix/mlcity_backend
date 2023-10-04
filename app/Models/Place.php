@@ -39,4 +39,7 @@ class Place extends Model
     {
         return $this->hasMany(Seance::class);
     }
+    public function location() {
+        return $this->belongsTo(Location::class, 'location_id')->with('locationParent');
+    }
 }

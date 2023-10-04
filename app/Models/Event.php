@@ -100,7 +100,11 @@ class Event extends Model
     // Подтягиваем маркеры
     public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Place::class)->with('seances');
+        return $this->hasMany(Place::class);
+    }
+    public function placesFull(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Place::class)->with('seances', 'location');
     }
     // Подтягиваем цену
     public function price(): \Illuminate\Database\Eloquent\Relations\BelongsTo
