@@ -24,8 +24,9 @@ use App\Filters\Users\UsersLocation;
 use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
-
-
+use App\Http\Requests\UserRequest;
+use Illuminate\Support\Facades\Log;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
@@ -718,5 +719,50 @@ class UserController extends Controller
     {
         User::find($id)->delete();
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
+    }
+
+    public function updateUser(Request $request): \Illuminate\Http\JsonResponse
+    {
+        
+        Log::info($request);
+        
+
+        // return response()->json(['hi'], 200)
+        if ($request->new_name)
+        {
+            if($request->hasFile('avatar')){
+                if($request->file('avatar')->isValid()){
+                    Log::info('IF WORKED');
+                    $file = $request->file('avatar');
+                
+                    $path = $file->store('users/'.auth('api')->user()->id.'/avatars','public');
+                    $user = User::where('id',auth('api')->user()->id)->first();
+                    $user->update(['avatar'=>'/storage/'.$path]);
+                }
+                else{
+                    Log::info('IF NOT WORKED');
+                }
+                
+            }
+            $user = User::where('id',auth('api')->user()->id)->first();
+            $user->update(['name'=>$request->new_name]);
+
+            return response()->json([
+                'status'=>'success',
+                'message'=>'the user name has been changed',
+                'user' => $user
+            ], 200);
+        }
+
+        else
+        {
+            return response()->json([
+                'status'=>'error',
+                'message'=>'maybe your input field is empty'
+            ], 401);
+        }
+
+        
+        
     }
 }

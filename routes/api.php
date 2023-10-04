@@ -38,6 +38,7 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('logout/{id}', 'logout')->middleware('auth:sanctum');
     Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
+    
 });
 
 
@@ -48,6 +49,7 @@ Route::controller(UserController::class)->group(function() {
 
     Route::get('users/{id}', 'getUser');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
+    Route::post('profile/users','updateUser');
     
     Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/liked-events', 'getUserLikedEventsIds')->middleware('auth:sanctum');
