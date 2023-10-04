@@ -9,8 +9,8 @@ use App\Models\Location;
 class LocationController extends Controller
 {
     public function getLocationsIds($id) {
-        $locations = Location::where('id', $id)->with('locationsChildren', 'locationParent')->get();
-        return response()->json(['status' => 'success', 'locations' => $locations], 200);
+        $locations = Location::where('id', $id)->with('locationsChildren', 'locationParent')->first();
+        return response()->json(['status' => 'success', 'location' => $locations], 200);
     }
     public function getLocationsName($name) {
         $locations = Location::where('name', 'LIKE', '%'.$name.'%')->with('locationsChildren', 'locationParent')->get();

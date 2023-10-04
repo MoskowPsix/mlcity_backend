@@ -568,19 +568,25 @@ class EventController extends Controller
         $event = Event::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
-            'address'       => $request->address,
-            'latitude'      => $latitude,
-            'longitude'     => $longitude,
+            // 'address'       => $request->address,
+            // 'latitude'      => $latitude,
+            // 'longitude'     => $longitude,
             'description'   => $request->description,
             'price'         => $request->price,
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,
             'date_end'      => $request->dateEnd,
-            'location_id'   => $request->locationId,
+            // 'location_id'   => $request->locationId,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
         ]);
+        // Устанавливаем цену
+        foreach ($request->prices as $price){
+            $event->price()->attach(['price' => $price->price, 'descriptions' => $price->descriptions ]);
+        }
+        // Устанавливаем марки
+            // Устанавливаем сеансы марок
 
         $event->types()->sync($request->type);
         $event->statuses()->attach($request->status, ['last' => true]);

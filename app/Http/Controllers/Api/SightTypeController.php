@@ -32,7 +32,7 @@ class SightTypeController extends Controller
      */
     public function getTypes(): \Illuminate\Http\JsonResponse
     {
-        $types = SightType::all();
+        $types = SightType::where('stype_id')->with('stypes')->get();
 
         return response()->json([
             'status'        => 'success',

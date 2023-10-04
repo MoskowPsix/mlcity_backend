@@ -481,6 +481,7 @@ class SightController extends Controller
         $latitude   = $coords[0]; // широта
         $longitude  = $coords[1]; // долгота
 
+        \Illuminate\Support\Facades\Log::info($request->collect());
         $sight = Sight::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
@@ -494,6 +495,7 @@ class SightController extends Controller
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
+            'work_time'     => $request->workTime,
         ]);
 
         $sight->types()->sync($request->type);
@@ -519,7 +521,7 @@ class SightController extends Controller
             $this->saveLocalFilesImg($sight, $request->localFilesImg);
         }
 
-        return response()->json(['status' => 'success',], 200);
+        return response()->json(['status' => 'success', 'sight' => $sight], 201);
     }
     /**
      * @OA\Get(
