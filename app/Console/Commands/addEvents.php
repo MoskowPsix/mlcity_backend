@@ -185,8 +185,8 @@ class addEvents extends Command
                          foreach ($place->seances as $seance) {
                             Seance::create([
                                 'place_id'  => $place_cr->id,
-                                'dateStart' => gmdate("Y-m-d\TH:i:s\Z", strtotime($seance->startDate) + $seance->startTime),
-                                'dateEnd' => gmdate("Y-m-d\TH:i:s\Z", strtotime($seance->endDate) + $seance->endTime)
+                                'dateStart' => $seance->startDate,
+                                'dateEnd' => $seance->endDate
                             ]);
                          }
                     } 
