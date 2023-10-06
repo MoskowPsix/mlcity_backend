@@ -107,8 +107,8 @@ class Event extends Model
         return $this->hasMany(Place::class)->with('seances', 'location');
     }
     // Подтягиваем цену
-    public function price(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    public function price(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsTo(Price::class);
+        return $this->hasMany(Price::class);
     }
 }

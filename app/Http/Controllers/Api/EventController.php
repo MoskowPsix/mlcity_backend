@@ -562,9 +562,9 @@ class EventController extends Controller
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
     {
-        $coords = explode(',',$request->coords);
-        $latitude   = $coords[0]; // широта
-        $longitude  = $coords[1]; // долгота
+        // $coords = explode(',',$request->coords);
+        // $latitude   = $coords[0]; // широта
+        // $longitude  = $coords[1]; // долгота
 
         $event = Event::create([
             'name'          => $request->name,
@@ -584,10 +584,31 @@ class EventController extends Controller
         ]);
         // Устанавливаем цену
         foreach ($request->prices as $price){
-            $event->price()->attach(['price' => $price->price, 'descriptions' => $price->descriptions ]);
+            $event->price()->create([
+                'cost_rub' => $price['cost_rub'],
+                'descriptions' => $price['descriptions']
+            ]);
         }
         // Устанавливаем марки
+        foreach ($request->places as $place){
+            $coords = explode(',',$place['coords']);
+            $latitude   = $coords[0]; // широта
+            $longitude  = $coords[1]; // долгота
+            $place_cr = $event->places()->create([
+                'sight_id' => $place['sightId'],
+                'location_id' => $place['locationId'],
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'address' => $place['address']
+            ]);
             // Устанавливаем сеансы марок
+            foreach($place['seances'] as $seance) {
+                $place_cr->seances()->create([
+                    'dateStart' => $seance['dateStart'], 
+                    'dateEnd' => $seance['dateEnd']
+                ]);
+            }
+        }
 
         $event->types()->sync($request->type);
         $event->statuses()->attach($request->status, ['last' => true]);

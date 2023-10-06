@@ -26,7 +26,6 @@ class EventCreateRequest extends FormRequest
         return [
             'name'         => 'required|min:3',
             'sponsor'      => 'required|min:3',
-            'coords'       => 'required|min:2',
             'description'  => 'required|min:10',
             'dateStart'    => 'required|date',
             'dateEnd'      => 'required|date|after:date_start',
