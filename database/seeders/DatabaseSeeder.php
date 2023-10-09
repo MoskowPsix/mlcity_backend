@@ -22,8 +22,8 @@ class DatabaseSeeder extends Seeder
         // ]);
         $this->call(RoleSeeder::class);
         $this->call(UserSeeder::class);
-        $this->call(EventTypeSeeder::class);
-        $this->call(SightTypeSeeder::class);
+        //$this->call(EventTypeSeeder::class);
+        //$this->call(SightTypeSeeder::class);
         $this->call(StatusesSeeder::class);
         $this->call(FileTypeSeeder::class);
         
