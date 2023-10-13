@@ -96,9 +96,9 @@ class addEvents extends Command
                 if (!Event::where('cult_id', $event->_id)->first()) {
                     //$event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
                     if (str_contains($event->text,'[HTML]')) {
-                        $descriptions = rtrim(rtrim(strip_tags($event->text), '[/HTML]'), '[HTML]');
+                        $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
                     } else {
-                        $descriptions = strip_tags($event->text);
+                        $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
                     }
                     $event_cr = new Event;
                     $event_cr->name = $event->title;
