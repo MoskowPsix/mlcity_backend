@@ -90,7 +90,7 @@ class addEvents extends Command
             
             // Отображение прогресса мест
             $progress = ($total_events_progress * 100 - $total_events) / $total_events_progress;
-            $output->writeln((int)$progress . '%');
+            //$output->writeln((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
             $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
