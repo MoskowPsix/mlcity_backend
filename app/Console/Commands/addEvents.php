@@ -40,7 +40,7 @@ class addEvents extends Command
             file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
         }
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $page_events = 4;
+        $page_events = 1;
         $limit_events = 100;
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
@@ -52,7 +52,6 @@ class addEvents extends Command
         $genres_download = [];
         $total_genres_progress = $total_genres / 100;
 
-        // $total = 10;
         date_default_timezone_set('UTC');
         $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
@@ -64,7 +63,7 @@ class addEvents extends Command
         while ($total_genres >= 0) {
             // Отображение прогресса
             $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
-            $output->writeln((int)$progress . '%');
+            // $output->writeln((int)$progress . '%');
 
             $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
             foreach ($genres->items as $genre) {
