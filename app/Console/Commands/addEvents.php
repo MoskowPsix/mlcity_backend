@@ -41,7 +41,7 @@ class addEvents extends Command
         }
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_events = 4;
-        $limit_events = 10;
+        $limit_events = 100;
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
         $total_events_progress = $total_events / 100;
@@ -52,7 +52,7 @@ class addEvents extends Command
         $genres_download = [];
         $total_genres_progress = $total_genres / 100;
 
-        $total = 10;
+        // $total = 10;
         date_default_timezone_set('UTC');
         $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
