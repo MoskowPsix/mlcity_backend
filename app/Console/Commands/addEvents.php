@@ -91,7 +91,6 @@ class addEvents extends Command
             // Отображение прогресса мест
             $progress = ($total_events_progress * 100 - $total_events) / $total_events_progress;
             $output->writeln((int)$progress . '%');
-            getMessage((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
             $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
@@ -218,7 +217,7 @@ class addEvents extends Command
             // Подсчёт времени до конца  
             $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-            getMessage('approximate end time: ' . (int)$end_time . 'min');
+            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
         }
 
         $output->writeln("<info>Errors: </info>" . $events_download); 
