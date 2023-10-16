@@ -47,6 +47,14 @@ class addInstitutes extends Command
             }
             return (int)$max_level;
         }
+        function getMessage($text) {
+            // $chats = [
+            //     '-1001835107491'
+            // ];
+            // foreach($chats as $chat) {
+                file_get_contents('https://api.telegram.org/bot1581335512:AAGUsPp8Dxep9jvmNfUtKYjNQaTXHIiDhzM/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+            // }
+        }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_institutes = 1;
@@ -68,10 +76,15 @@ class addInstitutes extends Command
         $level_locations = 1;
 
         $total = 10;
+
+        $output->writeln(env('LOG_CHATS_DOWNLOAD_TELEGRAM'));
+        $output->writeln(env('TELEGRAM_BOT_API'));
         
 
-        $output->writeln('<info>Download start element-1</info>');
+        $output->writeln('Download start element-1');
         $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
+        getMessage('<info>Download start element-1</info>');
+        getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
         $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
         if (!Location::where('cult_id', $null_location->_id)->first()) {
             Location::create([
@@ -85,10 +98,12 @@ class addInstitutes extends Command
             $total_locations = json_decode(file_get_contents('https://www.culture.ru/api/locales?limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true))->pagination->total;
             $total_locations_progress = $total_locations / 100;
             $output->writeln('Level '.$level_locations.' locations start:');
+            getMessage('Level '.$level_locations.' locations start:');
             while ($total_locations >= 0) {
                 // Отображение прогресса
                 $progress = ($total_locations_progress * 100 - $total_locations) / $total_locations_progress;
-                $output->writeln((int)$progress . '%');
+                // $output->writeln((int)$progress . '%');
+                // getMessage($progress . '%');
 
                 $locales = json_decode(file_get_contents('https://www.culture.ru/api/locales?&limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true));
                 foreach ($locales->items as $local) {
@@ -110,10 +125,12 @@ class addInstitutes extends Command
 
 
         $output->writeln('Download step 2: download rubrics');
+        getMessage('Download step 2: download rubrics');
          while ($total_rubrics >= 0) {
             // Отображение прогресса
             $progress = ($total_rubric_progress * 100 - $total_rubrics) / $total_rubric_progress;
-            $output->writeln((int)$progress . '%');
+            //$output->writeln((int)$progress . '%');
+            //getMessage((int)$progress . '%');
 
             $rubrics = json_decode(file_get_contents('https://www.culture.ru/api/rubrics?sort=level&limit='.$limit_rubrics.'&page=' . $page_rubrics, true));
             foreach ($rubrics->items as $rubric) {
@@ -146,6 +163,7 @@ class addInstitutes extends Command
             $page_rubrics = $page_rubrics + 1;
         }
         $output->writeln('Download step 2: check rubrics');
+        getMessage('Download step 2: check rubrics');
         function retrySearch($rubrics) { 
             $output = new \Symfony\Component\Console\Output\ConsoleOutput();
             $output->write('.'); 
@@ -189,12 +207,14 @@ class addInstitutes extends Command
             }
         }
         retrySearch($rubrics_download);
-        $output->writeln('Download step 3: check success');
+        $output->writeln('Download step 2: check success');
+        getMessage('Download step 2: check success');
 
         $type = FileType::where('name', 'image')->firstOrFail();
         $status= Status::where('name', 'Опубликовано')->firstOrFail();
         //$status_all = Status::all('id');
         $output->writeln('Download step 3: download sights');
+        getMessage('Download step 3: download sights');
         while ($total_institutes >= 0) {
 
             $start_timer = microtime(true);
@@ -202,6 +222,7 @@ class addInstitutes extends Command
             // Отображение прогресса мест
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
             $output->writeln((int)$progress . '%');
+            getMessage((int)$progress . '%');
 
             $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true));
             foreach ($sights->items as $sight) {
@@ -295,12 +316,10 @@ class addInstitutes extends Command
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
+            getMessage('approximate end time: ' . (int)$end_time . 'min');
         }     
         // $output->writeln("<info>Errors: </info>" . $institutes_download); 
-
-        $output->writeln("<info>my message</info>");
-        $output->write("<info>my message</info>");
-        
+        getMessage('Complate!!!');
         return print_r('Download element-1 end!');
     }
 }

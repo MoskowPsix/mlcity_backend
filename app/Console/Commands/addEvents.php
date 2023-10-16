@@ -36,6 +36,9 @@ class addEvents extends Command
      */
     public function handle()
     {
+        function getMessage($text) {
+            file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+        }
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         $page_events = 4;
         $limit_events = 10;
@@ -54,7 +57,9 @@ class addEvents extends Command
         $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
         $output->writeln('<info>Download start element-2</info>');
+        getMessage('Download start element-2');
         $output->writeln('<info>Download step 1: Download genres</info>');
+        getMessage('Download step 1: Download genres');
 
         while ($total_genres >= 0) {
             // Отображение прогресса
@@ -74,10 +79,12 @@ class addEvents extends Command
             $total_genres = $total_genres - 1;
             $page_genres = $page_genres + 1;
         }
+        getMessage('Download step 1: Download genres complete!!!');
         
         $type = FileType::where('name', 'image')->firstOrFail();
         $status= Status::where('name', 'Опубликовано')->firstOrFail();
         $output->writeln('<info>Download step 2: Download events</info>');
+        getMessage('Download step 2: Download events start');
         while ($total_events >= 0) {
             // Начало отсчёта времени выполнения
             $start_timer = microtime(true);
@@ -85,6 +92,7 @@ class addEvents extends Command
             // Отображение прогресса мест
             $progress = ($total_events_progress * 100 - $total_events) / $total_events_progress;
             $output->writeln((int)$progress . '%');
+            getMessage((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
             $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
@@ -211,9 +219,11 @@ class addEvents extends Command
             // Подсчёт времени до конца  
             $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
+            getMessage('approximate end time: ' . (int)$end_time . 'min');
         }
 
         $output->writeln("<info>Errors: </info>" . $events_download); 
+        getMessage('End and complete!!!');
         return print_r('Download element-2 end!');
     }
 }
