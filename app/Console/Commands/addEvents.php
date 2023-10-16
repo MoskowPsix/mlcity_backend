@@ -92,7 +92,7 @@ class addEvents extends Command
             // Разбираем полученный массив
             foreach ($events->items as $event) {
                 //$event = json_decode(file_get_contents('https://www.culture.ru/api/events/' . $event->_id, true));
-                $output->writeln($event->_id);
+                // $output->writeln($event->_id);
                 if (!Event::where('cult_id', $event->_id)->first()) {
                     //$event_one = json_decode(file_get_contents('https://www.culture.ru/api/events/' .  $event->_id . '?fields=thumbnailFile', TRUE));
                     if (str_contains($event->text,'[HTML]')) {

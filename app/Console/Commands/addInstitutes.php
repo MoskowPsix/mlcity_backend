@@ -296,7 +296,7 @@ class addInstitutes extends Command
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
         }     
-        $output->writeln("<info>Errors: </info>" . $institutes_download); 
+        // $output->writeln("<info>Errors: </info>" . $institutes_download); 
 
         $output->writeln("<info>my message</info>");
         $output->write("<info>my message</info>");
