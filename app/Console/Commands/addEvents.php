@@ -161,14 +161,14 @@ class addEvents extends Command
                     //$output->writeln('<info>'.$event_cr.'</info>');
                     foreach ($event->places as $place) {
                         if (isset($place->institute)) {
-                            if (Event::where('cult_id', $place->institute->_id)->first()) {
+                            if (Sight::where('cult_id', $place->institute->_id)->first()) {
                                 $place_cr =  new Place;
                                 $place_cr->event_id = $event_cr->id;
                                 $place_cr->address = $place->address;
                                 $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
                                 $place_cr->latitude = $place->location->coordinates[1];
                                 $place_cr->longitude = $place->location->coordinates[0];
-                                $place_cr->sight_id = Event::where('cult_id', $place->institute->_id)->first()->id;
+                                $place_cr->sight_id = Sight::where('cult_id', $place->institute->_id)->first()->id;
                                 $place_cr->save();
                             } else {
                                 $place_cr =  new Place;
