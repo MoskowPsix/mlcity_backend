@@ -33,7 +33,6 @@ class addInstitutes extends Command
     public function handle()
     {
         function searchLevelLocales($max_level) {
-            $output = new \Symfony\Component\Console\Output\ConsoleOutput();
             $request = json_decode(file_get_contents('https://www.culture.ru/api/locales?level='.$max_level.'&limit=1', TRUE));
             if ($request->total === 0) {
                 //$output->writeln('<info>' . $max_level . '</info>');
@@ -48,12 +47,7 @@ class addInstitutes extends Command
             return (int)$max_level;
         }
         function getMessage($text) {
-            // $chats = [
-            //     '-1001835107491'
-            // ];
-            // foreach($chats as $chat) {
-                file_get_contents('https://api.telegram.org/bot1581335512:AAGUsPp8Dxep9jvmNfUtKYjNQaTXHIiDhzM/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
-            // }
+            file_get_contents('https://api.telegram.org/bot1581335512:AAGUsPp8Dxep9jvmNfUtKYjNQaTXHIiDhzM/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
         }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
@@ -76,9 +70,6 @@ class addInstitutes extends Command
         $level_locations = 1;
 
         $total = 10;
-
-        $output->writeln(env('LOG_CHATS_DOWNLOAD_TELEGRAM'));
-        $output->writeln(env('TELEGRAM_BOT_API'));
         
 
         $output->writeln('Download start element-1');
@@ -222,7 +213,6 @@ class addInstitutes extends Command
             // Отображение прогресса мест
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
             $output->writeln((int)$progress . '%');
-            getMessage((int)$progress . '%');
 
             $sights = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true));
             foreach ($sights->items as $sight) {
@@ -316,7 +306,7 @@ class addInstitutes extends Command
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-            getMessage('approximate end time: ' . (int)$end_time . 'min');
+            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
         }     
         // $output->writeln("<info>Errors: </info>" . $institutes_download); 
         getMessage('Complate!!!');
