@@ -11,7 +11,9 @@ use App\Models\Price;
 use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
+use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Log;
 
 class addEvents extends Command
 {
@@ -20,7 +22,7 @@ class addEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events_save';
+    protected $signature = 'events_save {page_events?*}';
 
     /**
      * The console command description.
@@ -37,47 +39,69 @@ class addEvents extends Command
     public function handle()
     {
         function getMessage($text) {
-            file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+            try
+            {
+                file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+            }  catch (Exception $e) {
+                Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
+                sleep(5);
+                getMessage($text);
+            }            
         }
+
+        function  getPageEvent($page_events, $limit_events) {
+            try
+            {
+                $response = json_decode(file_get_contents('https://www.culture.ru/ap/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
+                return $response;
+            }  catch (Exception $e) {
+                Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.json_decode($e));
+                sleep(5);
+                getPageEvent($page_events, $limit_events);
+            }    
+        }
+
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $page_events = 1;
+        if($this->argument('page_events')){
+            $page_events = (int)$this->argument('page_events');
+        } else {
+            $page_events = 1; 
+        }
         $limit_events = 100;
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
         $total_events_progress = $total_events / 100;
-
         $limit_genres = 10;
         $page_genres= 1;
         $total_genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true))->pagination->total;
         $genres_download = [];
         $total_genres_progress = $total_genres / 100;
 
-        date_default_timezone_set('UTC');
-        $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
+        // date_default_timezone_set('UTC');
+        // $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
         $output->writeln('<info>Download start element-2</info>');
         getMessage('Download start element-2');
         $output->writeln('<info>Download step 1: Download genres</info>');
         getMessage('Download step 1: Download genres');
+        // while ($total_genres >= 0) {
+        //     // Отображение прогресса
+        //     $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
+        //     // $output->writeln((int)$progress . '%');
 
-        while ($total_genres >= 0) {
-            // Отображение прогресса
-            $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
-            // $output->writeln((int)$progress . '%');
-
-            $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
-            foreach ($genres->items as $genre) {
-                if (!EventType::where('cult_id', $genre->_id)->first()) {
-                    EventType::create([
-                        'name' => $genre->title,
-                        'ico' => 'none',
-                        'cult_id' => $genre->_id,
-                    ]);
-                }     
-            }
-            $total_genres = $total_genres - 1;
-            $page_genres = $page_genres + 1;
-        }
+        //     $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
+        //     foreach ($genres->items as $genre) {
+        //         if (!EventType::where('cult_id', $genre->_id)->first()) {
+        //             EventType::create([
+        //                 'name' => $genre->title,
+        //                 'ico' => 'none',
+        //                 'cult_id' => $genre->_id,
+        //             ]);
+        //         }     
+        //     }
+        //     $total_genres = $total_genres - 1;
+        //     $page_genres = $page_genres + 1;
+        // }
         getMessage('Download step 1: Download genres complete!!!');
         
         $type = FileType::where('name', 'image')->firstOrFail();
@@ -93,7 +117,8 @@ class addEvents extends Command
             //$output->writeln((int)$progress . '%');
 
             // Запрашиваем страницу ивентов 
-            $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
+            // $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
+            $events = getPageEvent($page_events,$limit_events);
 
             // Разбираем полученный массив
             foreach ($events->items as $event) {
@@ -216,8 +241,8 @@ class addEvents extends Command
 
             // Подсчёт времени до конца  
             $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
-            $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
+            $output->writeln((int)$progress.'approximate end time: ' . (int)$end_time . 'min');
+            getMessage('page: '.$page_events-1 .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
         }
 
         $output->writeln("<info>Errors: </info>" . $events_download); 
