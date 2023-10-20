@@ -78,31 +78,31 @@ class addEvents extends Command
         $genres_download = [];
         $total_genres_progress = $total_genres / 100;
 
-        // date_default_timezone_set('UTC');
-        // $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
+        date_default_timezone_set('UTC');
+        $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
 
-        // $output->writeln('<info>Download start element-2</info>');
-        // getMessage('Download start element-2');
-        // $output->writeln('<info>Download step 1: Download genres</info>');
-        // getMessage('Download step 1: Download genres');
-        // while ($total_genres >= 0) {
-        //     // Отображение прогресса
-        //     $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
-        //     // $output->writeln((int)$progress . '%');
+        $output->writeln('<info>Download start element-2</info>');
+        getMessage('Download start element-2');
+        $output->writeln('<info>Download step 1: Download genres</info>');
+        getMessage('Download step 1: Download genres');
+        while ($total_genres >= 0) {
+            // Отображение прогресса
+            $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
+            // $output->writeln((int)$progress . '%');
 
-        //     $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
-        //     foreach ($genres->items as $genre) {
-        //         if (!EventType::where('cult_id', $genre->_id)->first()) {
-        //             EventType::create([
-        //                 'name' => $genre->title,
-        //                 'ico' => 'none',
-        //                 'cult_id' => $genre->_id,
-        //             ]);
-        //         }     
-        //     }
-        //     $total_genres = $total_genres - 1;
-        //     $page_genres = $page_genres + 1;
-        // }
+            $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
+            foreach ($genres->items as $genre) {
+                if (!EventType::where('cult_id', $genre->_id)->first()) {
+                    EventType::create([
+                        'name' => $genre->title,
+                        'ico' => 'none',
+                        'cult_id' => $genre->_id,
+                    ]);
+                }     
+            }
+            $total_genres = $total_genres - 1;
+            $page_genres = $page_genres + 1;
+        }
         getMessage('Download step 1: Download genres complete!!!');
         
         $type = FileType::where('name', 'image')->firstOrFail();
