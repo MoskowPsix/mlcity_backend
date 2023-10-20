@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Filters\Place\PlaceAddress;
+use App\Filters\Place\PlaceDate;
 use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Http\Controllers\Controller;
 use App\Models\Place;
@@ -25,6 +26,7 @@ class PlaceController extends Controller
             ->through([
                 PlaceGeoPositionInArea::class,
                 PlaceAddress::class,
+                PlaceDate::class,
             ])
             ->via('apply')
             ->then(function ($places) use ($pagination , $page, $limit) {
