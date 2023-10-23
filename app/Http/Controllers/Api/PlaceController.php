@@ -19,7 +19,7 @@ class PlaceController extends Controller
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
 
-        $places = Place::query()->with('event');
+        $places = Place::query();
 
         $response =
             app(Pipeline::class)
