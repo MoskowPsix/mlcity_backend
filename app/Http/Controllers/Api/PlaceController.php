@@ -37,4 +37,10 @@ class PlaceController extends Controller
             return response()->json(['status' => 'error arguments'], 400);
         }
     }
+
+    public function getPlacesIds($id) {
+        $place = Place::where('id', $id)->with('event')->get();
+
+        return response()->json($place, 200);
+    }
 }
