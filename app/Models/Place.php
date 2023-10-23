@@ -3,8 +3,11 @@
 namespace App\Models;
 
 use App\Models\Event;
+use App\Models\EventTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use \Illuminate\Database\Eloquent\Relations\BelongsTo;
+use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Place extends Model
 {
@@ -23,16 +26,12 @@ class Place extends Model
     // public function sight () {
     //     $this->belongsTo(Sight::class, 'sight_id');
     // }
-    // public function event () {
-    //     $this->belongsTo(Sight::class, 'event_id');
-    // }
+    public function eventTypes(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'event_id', 'id')->with('types');
+    }
     public function event() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        // return $this->belongsTo(Event::class, 'event_id', 'id')->with(['types' => function ($q) {
-        //     $q->select('name');
-        // }]);
-
-        // return $this->belongsTo(Event::class, 'event_id', 'id')->with('types')->select('id', 'name', 'date_start', 'date_end');
         return $this->belongsTo(Event::class, 'event_id', 'id')->with('types', 'files','statuses', 'author', 'comments', 'places', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
     public function seances(): \Illuminate\Database\Eloquent\Relations\HasMany
