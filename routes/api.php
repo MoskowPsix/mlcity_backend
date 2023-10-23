@@ -106,6 +106,7 @@ Route::controller(SightController::class)->group(function() {
 });
 
 Route::controller(CommentController::class)->group(function() {
+    Route::get('events/{id}/comments','getCommentsForEventIds');
     Route::get('comment/{id}', 'showCommentId');
     Route::put('comment/{id}', 'update')->middleware('auth:sanctum');
     Route::post('comment', 'create')->middleware('auth:sanctum');

@@ -51,6 +51,11 @@ class CommentController extends Controller
         }
     }
 
+    public function getCommentsForEventIds($id) {
+        $event = Event::where('id', $id)->with('comments')->firstOrFail();
+        return response()->json(['status'=> 'success','comments'=> $event], 200);
+    }
+
     public function showCommentId($id): \Illuminate\Http\JsonResponse
     {
         $comment = Comment::where('id', $id)->firstOrFail();
