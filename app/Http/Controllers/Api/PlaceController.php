@@ -15,28 +15,26 @@ class PlaceController extends Controller
 {
     public function getPlaces (Request $request): \Illuminate\Http\JsonResponse
     {
-        $pagination = $request->pagination;
-        $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
+        if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
 
-        $places = Place::query();
+            $places = Place::query();
+            $response =
+                app(Pipeline::class)
+                ->send($places)
+                ->through([
+                    PlaceGeoPositionInArea::class,
+                    PlaceAddress::class,
+                    PlaceDate::class,
+                    PlaceTypes::class,
+                ])
+                ->via('apply')
+                ->then(function ($places) {
+                    return $places->orderBy('created_at')->get();
+                });
 
-        $response =
-            app(Pipeline::class)
-            ->send($places)
-            ->through([
-                PlaceGeoPositionInArea::class,
-                PlaceAddress::class,
-                PlaceDate::class,
-                PlaceTypes::class,
-            ])
-            ->via('apply')
-            ->then(function ($places) use ($pagination , $page, $limit) {
-                return $pagination === 'true'
-                    ? $places->orderBy('created_at')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
-                    : $places->orderBy('created_at')->get();
-            });
-
-        return response()->json(['status' => 'success', 'places' => $response], 200);
+            return response()->json(['status' => 'success', 'places' => $response], 200);
+        } else {
+            return response()->json(['status' => 'error arguments'], 400);
+        }
     }
 }

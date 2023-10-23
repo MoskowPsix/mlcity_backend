@@ -160,9 +160,9 @@ class SightController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
 
-        $sights = Sight::query()->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -177,7 +177,6 @@ class SightController extends Controller
                     EventStatusesLast::class,
                     SightLocation::class,
                     PlaceAddress::class,
-                    //EventRegion::class,
                     SightTypes::class,
                     SightAuthor::class,
                     PlaceGeoPositionInArea::class,
@@ -186,11 +185,44 @@ class SightController extends Controller
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
                     return $pagination === 'true'
-                        ? $sights->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
+                        ? $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)
                         : $sights->orderBy('created_at','desc')->get();
                 });
 
         return response()->json(['status' => 'success', 'sights' => $response], 200);
+    }
+
+    public function getSightsForMap(Request $request): \Illuminate\Http\JsonResponse
+    {
+        if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
+            $sights = Sight::query();
+            $response =
+                app(Pipeline::class)
+                    ->send($sights)
+                    ->through([
+                        //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
+                        EventStatuses::class,
+                        EventStatusesLast::class,
+                        SightLocation::class,
+                        PlaceAddress::class,
+                        SightTypes::class,
+                        PlaceGeoPositionInArea::class,
+                    ])
+                    ->via('apply')
+                    ->then(function ($sights) {
+                        return $sights->orderBy('created_at','desc')->get();
+                    });
+
+            return response()->json(['status' => 'success', 'sights' => $response], 200);
+        } else {
+            return response()->json(['status' => 'error arguments'], 400);
+        }
+    }
+    public function showForCard($id): \Illuminate\Http\JsonResponse
+    {
+        $sight = Sight::where('id', $id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+
+        return response()->json($sight, 200);
     }
     /**
      * @OA\Post(

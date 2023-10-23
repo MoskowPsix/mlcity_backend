@@ -206,11 +206,9 @@ class EventController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
-        // $events = Event::query()->with('places');
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
+        $events = Event::query()->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
-        
         $response =
             app(Pipeline::class)
             ->send($events)
@@ -234,7 +232,7 @@ class EventController extends Controller
             ->via('apply')
             ->then(function ($events) use ($pagination , $page, $limit){
                 return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
+                    ? $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page)
                     : $events->orderBy('date_start','desc')->get();
             });
 
@@ -440,6 +438,12 @@ class EventController extends Controller
     public function show($id): \Illuminate\Http\JsonResponse
     {
         $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'placesFull', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+
+        return response()->json($event, 200);
+    }
+    public function showForMap($id): \Illuminate\Http\JsonResponse
+    {
+        $event = Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
 
         return response()->json($event, 200);
     }
