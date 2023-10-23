@@ -14,7 +14,7 @@ class PlaceTypes implements Pipe {
 
             $content->whereHas('eventTypes', function($q) use ($types) {
                     $q->whereHas('types', function($q) use ($types) {
-                        $q->whereIn('etypes.etype_id', $types);
+                        $q->whereIn('events_etypes.etype_id', $types);
                     });
             });
         }
