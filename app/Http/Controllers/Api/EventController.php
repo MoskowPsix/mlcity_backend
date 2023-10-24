@@ -18,6 +18,7 @@ use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
+use App\Filters\Event\EventTotal;
 use App\Filters\Event\EventTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCreateRequest;
@@ -204,7 +205,7 @@ class EventController extends Controller
      */
     public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
-        $pagination = $request->pagination;
+        $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
         $events = Event::query()->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
@@ -213,6 +214,7 @@ class EventController extends Controller
             app(Pipeline::class)
             ->send($events)
             ->through([
+                // EventTotal::class,
                 EventName::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
@@ -230,22 +232,14 @@ class EventController extends Controller
                 SightAuthor::class,           
             ])
             ->via('apply')
-            ->then(function ($events) use ($pagination , $page, $limit){
-                return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page)
-                    : $events->orderBy('date_start','desc')->get();
+            ->then(function ($events) use ($page, $limit, $total){
+                $total = $events->count();
+                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+                return [$events, $total];
             });
 
-            // foreach ($response['data'] as $event) {
-            //     /////////TEST_TEST_TEST///////////////
-            //     View::create([
-            //         'user_id'  => auth('api')->user()->id,
-            //         'event_id' => $event['id'],
-            //     ]);
-            //     //Log::info($event);
-            // }
-            // Log::info($response['data']);
-        return response()->json(['status' => 'success', 'events' => $response], 200);
+            // $event['events'] = ['total' => $total ];
+        return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
     }
 
 
