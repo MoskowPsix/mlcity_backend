@@ -16,14 +16,12 @@ class EventPlaceLocation implements Pipe {
                 $content->whereHas('places', function($query) {
                     $query->where('location_id', request()->get('locationId'));
                 });
-                Log::info(gettype(request()->get('locationId')));
             } else if (!is_numeric(request()->get('locationId'))) {
                 $content->whereHas('places', function($query) {
                     $query->whereHas('location', function($query) {
                         $query->where('name', 'LIKE' ,request()->get('locationId'));
                     });
                 });
-                Log::info(gettype(request()->get('locationId')));
             }
 
         }
