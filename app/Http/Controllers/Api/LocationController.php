@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Contracts\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 use App\Models\Location;
 
@@ -13,7 +14,13 @@ class LocationController extends Controller
         return response()->json(['status' => 'success', 'location' => $locations], 200);
     }
     public function getLocationsName($name) {
-        $locations = Location::where('name', 'LIKE', '%'.$name.'%')->with('locationsChildren', 'locationParent')->get();
+        $locations = Location::orWhere('name', 'LIKE', '%'.$name.'%')
+        ->orWhere('name', 'LIKE', '%'.$name.'%')
+        ->whereHas('locationParent', function($q)use($name){
+            $q->orWhere('name', 'LIKE', '%'.$name.'%');
+        })
+        ->with('locationsChildren', 'locationParent')
+        ->get();
         return response()->json(['status' => 'success', 'locations' => $locations], 200);
     }
     public function getLocationsAll() {
