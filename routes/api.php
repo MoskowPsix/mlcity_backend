@@ -69,7 +69,8 @@ Route::controller(AuthSocialController::class)->group(function() {
 
 Route::controller(EventController::class)->group(function() {
     Route::get('events', 'getEvents'); // Запрос ивентов с фильтрами
-    Route::get('event-for-card', 'showForCard'); // Запрос ивентa для карты
+    Route::get('events-for-card', 'showForCard'); // Запрос ивентa для карты
+    Route::get('events-for-author', 'getEventsForAuthor'); // Запрос ивентa для автора
     Route::post('events/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('events/{id}', 'show');
@@ -89,11 +90,11 @@ Route::controller(PlaceController::class)->group(function() {
     Route::get('places', 'getPlaces'); // Запрос маркеров с фильтрами
     Route::get('places/{id}', 'getPlacesIds'); // Запрос маркера по id
 });
-
 Route::controller(SightController::class)->group(function() {
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
     Route::get('sights-for-map','getSightsForMap'); // Запрос достопримечательностей с фильтрами для карты
     Route::get('sights-for-card/{id}','showForCard'); // Запрос достопримечательностей по id для карты
+    Route::get('sights-for-author', 'getSightsForAuthor'); // Запрос места для автора
     Route::post('sights/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
     Route::put('sights/updateSight/{id}', 'updateSight')->middleware('moderator');
     Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия

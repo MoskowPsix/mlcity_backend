@@ -218,6 +218,14 @@ class SightController extends Controller
             return response()->json(['status' => 'error arguments'], 400);
         }
     }
+    public function getSightsForAuthor(Request $request) {
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
+        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $total = $sights->count();
+        $response = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return response()->json(['status' => 'success', 'sights' => $response, 'total' => $total], 200);
+    }
     public function showForCard($id): \Illuminate\Http\JsonResponse
     {
         $sight = Sight::where('id', $id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();

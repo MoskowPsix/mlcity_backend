@@ -242,6 +242,15 @@ class EventController extends Controller
         return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
     }
 
+    public function getEventsForAuthor(Request $request) {
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $total = $events->count();
+        $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return response()->json(['status' => 'success', 'events' => $response, 'total' => $total], 200);
+    }
+
 
     //Проверить этот метод
    // public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse
