@@ -160,7 +160,7 @@ class SightController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
         $sights = Sight::query()->with('files', 'author', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
 
@@ -220,7 +220,7 @@ class SightController extends Controller
     }
     public function getSightsForAuthor(Request $request) {
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 10;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
         $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $sights->count();
         $response = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);

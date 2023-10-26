@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
 use App\Http\Controllers\Api\LogApiController;
 use App\Http\Controllers\Api\PlaceController;
+use App\Http\Controllers\Api\SeanceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EventController;
 use App\Http\Controllers\Api\EventTypeController;
@@ -89,6 +90,11 @@ Route::controller(EventController::class)->group(function() {
 Route::controller(PlaceController::class)->group(function() {
     Route::get('places', 'getPlaces'); // Запрос маркеров с фильтрами
     Route::get('places/{id}', 'getPlacesIds'); // Запрос маркера по id
+    Route::get('events/{id}/places', 'getPlacesAtEventIds'); // Запрос маркера по id ивента
+});
+
+Route::controller(SeanceController::class)->group(function() {
+    Route::get('places/{id}/seances', 'getSeancesAtPlaceIds');
 });
 Route::controller(SightController::class)->group(function() {
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
