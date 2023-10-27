@@ -48,7 +48,7 @@ class PlaceController extends Controller
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
-        $place = Event::where('id', $id)->firstOrFail()->places()->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        $place = Event::where('id', $id)->first()->places()->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status'=> 'success','places'=> $place], 200);
     }
 }
