@@ -16,6 +16,12 @@ use App\Models\User;
 class AuthController extends Controller
 {
     /**
+     * Остановить валидацию после первой неуспешной проверки.
+     *
+     * @var bool
+     */
+    protected $stopOnFirstFailure = true;
+    /**
      * @OA\Post(
      ** path="/register",
      *   tags={"Auth"},
@@ -97,6 +103,12 @@ class AuthController extends Controller
      **/
     public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
+        $validated = $request->validate([
+            'name' => 'required|unique:posts|max:255',
+            'email' => 'required',
+            'password'=> 'required',
+            'avatar'=> 'required',
+        ]);
         $input = $request->all();
         $input['password']  =  bcrypt($input['password']);
 
@@ -171,20 +183,9 @@ class AuthController extends Controller
                 'message' => __('messages.login.error')
             ], 401);
         }
-        $user = User::where('email', $request->email)->firstOrFail();
-//        $user = Auth::user();
-////        $user = User::where('email', $request->email)->first();
-////
-////        if (!$user || $request->password != $user->password) {
-////            return response()->json([
-////                'status' => 'error',
-////                'message' => __('messages.login.error.')
-////            ], 401);
-////        }
 
+        $user = User::where('email', $request->email)->orWhere('email', $request->name)->with('socialAccount')->firstOrFail();
         $token = $this->getAccessToken($user);
-
-        //$userName = $user->name;
 
         return response()->json([
             'status'        => 'success',
@@ -243,15 +244,44 @@ class AuthController extends Controller
      *      )
      *)
      **/
-    public function resetPassword(Request $request)
+    public function resetPasswordTokens(Request $request) {
+        // if (!Auth::attempt($request->only('password', 'password_retry'))) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => __('messages.login.error')
+        //     ], 401);
+        // }
+        $validated = $request->validate([
+            'password'        => 'required|min:8|max:255',
+            'password_retry'  => 'required|min:8|max:255',
+        ]);
+        if ($request->password === $request->password_retry) {
+            $user = User::where('id', auth('api')->user()->id)->with('socialAccount')->firstOrFail();
+            $user->update(['password' => bcrypt($request->password)]);
+
+            return response()->json([
+                'status'        => 'success',
+                'message'       => 'Password set',
+                'user'          => $user
+            ], 200);
+        } else {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'The new password does not match!'
+            ], 403);
+        }
+    }
+     public function resetPassword(Request $request)
     {
         if (password_verify($request->old_password, auth('api')->user()->password)) {
             if ($request->new_password === $request->retry_password) {
+                $user = User::where('id', auth('')->user()->id)->firstOrFail();
                 User::where('id', auth('api')->user()->id)->update(['password' => bcrypt($request->new_password)]);
                 return response()->json([
-                    'status' => 'success',
-                    'message' => 'Password changed!'
-                ]);
+                    'status'        => 'success',
+                    'message'       => __('messages.login.success'),
+                    'user'          => $user
+                ], 200);
             } else {
                 return response()->json([
                     'status' => 'error',
@@ -336,14 +366,11 @@ class AuthController extends Controller
         }
     }
 
-    public function logout($id): \Illuminate\Http\JsonResponse
+    public function logout(): \Illuminate\Http\JsonResponse
     {
         try {
-            $user = User::where($id);
-            //Auth::user()->tokens()->delete();
-            $user->tokens()->delete();
+            auth('api')->user()->currentAccessToken()->delete();
             Session::flush();
-//            Auth::user()->logout();
 
             return response()->json([
                 'status'        => 'success',
