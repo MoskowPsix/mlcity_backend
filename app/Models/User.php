@@ -3,7 +3,9 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Models\Email;
 use App\Models\Location;
+use App\Models\Phone;
 use App\Traits\HasRolesTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -30,10 +32,10 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
+        // 'email',
         'password',
         'avatar',
-        'location_id',
+        // 'location_id',
     ];
 
     /**
@@ -51,14 +53,23 @@ class User extends Authenticatable
      *
      * @var array<string, string>
      */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
+    // protected $casts = [
+    //     'email_verified_at' => 'datetime',
+    // ];
 
     protected $dates = ['deleted_at'];
 
 //    protected $with = ['socialAccount'];
 
+    public function email(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Email::class);
+    }
+
+    public function phone(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Phone::class);
+    }
     public function socialAccount(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(SocialAccount::class);

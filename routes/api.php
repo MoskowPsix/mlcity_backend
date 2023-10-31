@@ -40,6 +40,17 @@ Route::controller(AuthController::class)->group(function() {
     Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
     Route::post('set_password', 'resetPasswordTokens')->middleware('auth:sanctum');
+
+    // Методы манипуляций с почтой
+    Route::post('verificationEmail/{code}', 'verificationCodeEmail')->middleware('auth:sanctum');
+    Route::post('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
+    Route::put('resetEmail','resetEmail')->middleware('auth:sanctum');
+
+    // Методы манипуляций с телефоном
+    Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
+    Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
+    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum');
+
     
 });
 

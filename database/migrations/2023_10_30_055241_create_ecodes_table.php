@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('phones', function (Blueprint $table) {
+        Schema::create('ecodes', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('number',10);
-            $table->boolean('verification')->default(false);
+            $table->integer('email_id');
+            $table->foreign('email_id')->references('id')->on('emails')->onDelete('cascade');
+            $table->string('code');
+            $table->boolean('last')->default(true);
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('phones');
+        Schema::dropIfExists('ecodes');
     }
 };
