@@ -20,7 +20,7 @@ class SocialService {
         }
 
         $user = User::create([
-            'email'     => $socialUser->getEmail(),
+            'emails' => ['email' => $socialUser->getEmail()],
             'name'      => $socialUser->getName(),
             'avatar'    => $socialUser->getAvatar(),
             'password'  => bcrypt(Str::random(8)),
@@ -53,6 +53,6 @@ class SocialService {
             'provider'      => $provider,
             'provider_id'   => $socialUser->getId(),
             'token'         => $socialUser->token,
-        ]);
+        ]); 
     }
 }

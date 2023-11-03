@@ -12,10 +12,15 @@ class AuthSocialController extends Controller
 {
     public function index($provider): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver($provider)
-            ->stateless()
-            ->scopes(['offline', 'groups', 'stats', 'wall'])
-            ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        if ($provider === 'vkontakte') {
+            return Socialite::driver($provider)
+                ->stateless()
+                ->scopes(['offline', 'groups', 'stats', 'wall'])
+                ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        } elseif ($provider === 'telegram') {
+            return Socialite::driver($provider)
+                ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        }
     }
 
     public function callback($provider): \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

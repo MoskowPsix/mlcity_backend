@@ -12,6 +12,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",
         "laravel/tinker": "^2.7",
+        "socialiteproviders/telegram": "^4.1",
         "socialiteproviders/vkontakte": "^5.0"
     },
     "require-dev": {
