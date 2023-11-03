@@ -62,6 +62,9 @@ Route::controller(UserController::class)->group(function() {
     Route::post('users/like-event-toggle', 'toggleLikedEvent')->middleware('auth:sanctum');// добавляем убираем лайк
     Route::post('users/favorite-sight-toggle', 'toggleFavoriteSight')->middleware('auth:sanctum');// добавляем убираем в избранное
     Route::post('users/like-sight-toggle', 'toggleLikedSight')->middleware('auth:sanctum');// добавляем убираем лайк
+
+    Route::get('users/name/check/{name}', 'chekUserName');
+    Route::get('users/email/check/{email}', 'chekUserEmail');
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
