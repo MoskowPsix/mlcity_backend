@@ -117,18 +117,11 @@ class AuthController extends Controller
             'name'=> $input['name'],
             'password'=> bcrypt($input['password']),
             'avatar'=> $input['avatar'],
-        ]);
-
-        $user->email()->create([
             'email' => $input['email'],
+            'number' => $input['number'],
         ]);
-        $this->createCodeEmail($user);
 
-        if($input['number']) {
-            $user->phone()->create([
-                'number' => $input['number'],
-            ]);
-        }
+        $this->createCodeEmail($user);
         // $this->createCodePhone($user);
 
         $token = $this->getAccessToken($user);
@@ -146,14 +139,14 @@ class AuthController extends Controller
     public function verificationCodePhone($code)
     {
         if (999 <= $code && $code <= 10000) {
-            $phone = Phone::where('user_id', auth('api')->user()->id)->first();
-            $pcode = $phone->pcode()->orderBy('created_at', 'desc')->first();
+            $user = User::where('id', auth('api')->user()->id)->first();
+            $pcode = $user->pcode()->orderBy('created_at', 'desc')->first();
             if (!empty($email) && !empty($pcode)) {
                 if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
                     if ($pcode->code === $code) {
                         $pcode->update(['last' => false]);
-                        $phone->update(['verification' => true]);
-                        return response()->json(['status'=> 'success', 'email_verification' => $phone], 200);
+                        $user->update(['number_verified_at' => date("Y-m-d H:i:s", strtotime('now'))]);
+                        return response()->json(['status'=> 'success', 'phone_verification' => $user->phone], 200);
                     } else {
                         return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
                     }
@@ -172,14 +165,14 @@ class AuthController extends Controller
     public function verificationCodeEmail($code)
     {
         if (999 <= $code && $code <= 10000) {
-            $email = Email::where('user_id', auth('api')->user()->id)->first();
-            $ecode = $email->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
-            if (!empty($email) && !empty($ecode)) {
+            $user = User::where('id', auth('api')->user()->id)->first();
+            $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
+            if (!empty($user) && !empty($ecode)) {
                 if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
                     $ecode->update(['last' => false]);
                     if ($ecode->code === $code) {
-                        $email->update(['verification' => true]);
-                        return response()->json(['status'=> 'success', 'email_verification' => $email], 200);
+                        $user->update(['email_verified_at' => true]);
+                        return response()->json(['status'=> 'success', 'email_verification' => $user->email], 200);
                     } else {
                         return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
                     }
@@ -270,21 +263,20 @@ class AuthController extends Controller
     }
     private function createCodePhone($user)
     {
-        $phone =  Phone::where('user_id', $user->id)->first();
-        $phone->pcode()->update(['last' => false]);
-        if(!empty($phone->pcode()->first())) {
-            if ((strtotime($phone->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120)  < time()) {
+        $user =  User::where('id', $user->id)->first();
+        if(!empty($user->pcode()->first())) {
+            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120)  < time()) {
                 $code = rand(1000, 9999);
-                $phone->pcode()->create([
+                $user->pcode()->create([
                     'code'=> $code,
                 ]);
                 return 'success';
             } else {
-                return strtotime($phone->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
+                return strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
             }
         } else {
             $code = rand(1000, 9999);
-            $phone->pcode()->create([
+            $user->pcode()->create([
                 'code'=> $code,
             ]);
             return 'success';
@@ -292,25 +284,24 @@ class AuthController extends Controller
     }
     private function createCodeEmail($user)
     {
-        $email = Email::where('user_id', $user->id)->first();
-        $email->ecode()->update(['last' => false]);
-        if (!empty($email->ecode()->first())) {
-            if ((strtotime($email->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120) <= time()) {
+        $user = User::where('id', $user->id)->first();
+        if (!empty($user->ecode()->first())) {
+            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120) <= time()) {
                 $code = rand(1000, 9999);
-                $email->ecode()->create([
+                $user->ecode()->create([
                     'code'=> $code,
                 ]);
-                Mail::to($email->email)->send(new OrderCode($code));
+                Mail::to($user->email)->send(new OrderCode($code));
                 return 'success';
             } else {
-                return 'approximate time: '.strtotime($email->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
+                return 'approximate time: '.strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
             }
         } else {
             $code = rand(1000, 9999);
-                $email->ecode()->create([
+                $user->ecode()->create([
                     'code'=> $code,
                 ]);
-                Mail::to($email->email)->send(new OrderCode($code));
+                Mail::to($user->email)->send(new OrderCode($code));
                 return 'success';
         }
     }
@@ -364,14 +355,18 @@ class AuthController extends Controller
      **/
      public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-        if (!Auth::attempt($request->only('email', 'password'))) {
+        $request->only('email', 'password');
+        if (!Auth::attempt(['email.email' => $request->email,'password'=> $request->password])) {
             return response()->json([
                 'status' => 'error',
                 'message' => __('messages.login.error')
             ], 401);
         }
 
-        $user = User::where('email', $request->email)->orWhere('email', $request->name)->with('socialAccount')->firstOrFail();
+        $user = User::query()->whereHas('email', function($q) use($request) {
+            $q->whereIn('email', $request->email);
+        })->with('socialAccount')->firstOrFail();
+
         $token = $this->getAccessToken($user);
 
         return response()->json([

@@ -32,10 +32,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        // 'email',
+        'email',
+        'number',
         'password',
         'avatar',
-        // 'location_id',
+        'location_id',
+    ];
+    protected $timestamps = [
+        '',
     ];
 
     /**
@@ -61,14 +65,13 @@ class User extends Authenticatable
 
 //    protected $with = ['socialAccount'];
 
-    public function email(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function pcode(): \Illuminate\Database\Eloquent\Relations\HasMany 
     {
-        return $this->hasMany(Email::class);
+        return $this->hasMany(PhoneCode::class);
     }
-
-    public function phone(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function ecode(): \Illuminate\Database\Eloquent\Relations\HasMany 
     {
-        return $this->hasMany(Phone::class);
+        return $this->hasMany(EmailCode::class);
     }
     public function socialAccount(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('ecodes', function (Blueprint $table) {
             $table->id();
-            $table->integer('email_id');
-            $table->foreign('email_id')->references('id')->on('emails')->onDelete('cascade');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('code');
             $table->boolean('last')->default(true);
             $table->timestamps();

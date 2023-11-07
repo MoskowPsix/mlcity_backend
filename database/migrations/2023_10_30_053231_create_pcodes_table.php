@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('pcodes', function (Blueprint $table) {
             $table->id();
-            $table->integer('phone_id');
-            $table->foreign('phone_id')->references('id')->on('phones')->onDelete('cascade');
+            $table->integer('user_id');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('code');
             $table->boolean('last')->default(true);
             $table->timestamps();
