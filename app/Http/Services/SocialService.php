@@ -18,13 +18,17 @@ class SocialService {
             $this->addSocialAccount($provider, $user, $socialUser);
             return $user;
         }
-
         $user = User::create([
-            'emails' => ['email' => $socialUser->getEmail()],
             'name'      => $socialUser->getName(),
             'avatar'    => $socialUser->getAvatar(),
             'password'  => bcrypt(Str::random(8)),
         ]);
+        if ($socialUser->getEmail()) {
+            $user->email()->create([
+                'email' => $socialUser->getEmail(),
+                'verification' => true,
+            ]);
+        }
 
         $this->addSocialAccount($provider, $user, $socialUser);
 
@@ -43,16 +47,30 @@ class SocialService {
     public function findUserByEmail($email)
     {
 //        return User::where('email', $email)->first();
-        return !$email ? null : User::where('email', $email)->first();
+        return !$email ? null : User::whereHas('email', function($q) use($email){
+            $q->where('email', $email);
+        })->first();
     }
 
     public function addSocialAccount($provider, $user, $socialUser): void
     {
-        SocialAccount::create([
-            'user_id'       => $user->id,
-            'provider'      => $provider,
-            'provider_id'   => $socialUser->getId(),
-            'token'         => $socialUser->token,
-        ]); 
+        switch($provider) {
+            case "vkontakte":
+                SocialAccount::create([
+                    'user_id'       => $user->id,
+                    'provider'      => $provider,
+                    'provider_id'   => $socialUser->getId(),
+                    'token'         => $socialUser->token,
+                ]); 
+                break;
+            case "telegram":
+                SocialAccount::create([
+                    'user_id'       => $user->id,
+                    'provider'      => $provider,
+                    'provider_id'   => $socialUser->getId(),
+                    'token'         => 'none',
+                ]); 
+                break;
+        }
     }
 }

@@ -119,21 +119,19 @@ class AuthController extends Controller
             'avatar'=> $input['avatar'],
         ]);
 
-        if($input['email']) {
-            $user->email()->create([
-                'email' => $input['email'],
-            ]);
-            $this->createCodeEmail($user);
-        }
-
-        $user->phone()->create([
-            'number' => $input['number'],
+        $user->email()->create([
+            'email' => $input['email'],
         ]);
-        $this->createCodePhone($user);
+        $this->createCodeEmail($user);
+
+        if($input['number']) {
+            $user->phone()->create([
+                'number' => $input['number'],
+            ]);
+        }
+        // $this->createCodePhone($user);
 
         $token = $this->getAccessToken($user);
-
-//        Auth::login($user);
 
         return response()->json([
             'status'        => 'success',
