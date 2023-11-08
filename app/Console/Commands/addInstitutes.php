@@ -47,7 +47,7 @@ class addInstitutes extends Command
             return (int)$max_level;
         }
         function getMessage($text) {
-            file_get_contents('https://api.telegram.org/bot1581335512:AAGUsPp8Dxep9jvmNfUtKYjNQaTXHIiDhzM/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+            file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
         }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();

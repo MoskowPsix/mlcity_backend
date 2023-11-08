@@ -11,6 +11,7 @@ use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
 use App\Models\Sight;
+use App\Models\Email;
 use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -294,6 +295,44 @@ class UserController extends Controller
      *     ),
      * )
      */
+
+    public function chekUserName($name) {
+        if (strlen($name) >= 3) {
+            $user = User::where('name', $name)->first();
+            if ($user) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_name' =>  false], 200);
+            } elseif (!$user) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_name' =>  true], 200);
+            }
+        } else {
+            return response()->json([
+                'status' =>  'error',
+                'message' =>  'minimal 3'], 403);
+        }
+    }
+
+    public function chekUserEmail($email) {
+        if (strlen($email) >= 3) {
+            $user = User::where('email', $email)->first();
+            if (!empty($user)) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_email' =>  false], 200);
+            } elseif (empty($user)) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_email' =>  true], 200);
+            }
+        } else {
+            return response()->json([
+                'status' =>  'error',
+                'message' =>  'min 3 lenght'], 403);
+        }
+    }
    public function getUserLikedSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
         $likedSights = User::findOrFail($id)->likedSights;
