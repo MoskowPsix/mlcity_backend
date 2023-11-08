@@ -65,7 +65,6 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
     Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
     Route::put('resetPhone','resetPhone')->middleware('auth:sanctum'); 
-    Route::get('test/ver','verificationTestEmail')->middleware('auth:sanctum'); 
 });
 
 
