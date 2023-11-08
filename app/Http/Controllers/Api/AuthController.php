@@ -112,14 +112,23 @@ class AuthController extends Controller
     {
         $input = $request->all();
         $input['password']  =  bcrypt($input['password']);
-
-        $user  =  User::create([
-            'name'=> $input['name'],
-            'password'=> bcrypt($input['password']),
-            'avatar'=> $input['avatar'],
-            'email' => $input['email'],
-            'number' => $input['number'],
-        ]);
+        if ($input['avatar']) {
+            $user  =  User::create([
+                'name'=> $input['name'],
+                'password'=> bcrypt($input['password']),
+                'avatar'=> $input['avatar'],
+                'email' => $input['email'],
+                'number' => $input['number'],
+            ]);
+        } else {
+            $user  =  User::create([
+                'name'=> $input['name'],
+                'password'=> bcrypt($input['password']),
+                'avatar'=> 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($input['email'] . $input['name']),
+                'email' => $input['email'],
+                'number' => $input['number'],
+            ]);
+        }
 
         $this->createCodeEmail($user);
         // $this->createCodePhone($user);
@@ -145,7 +154,8 @@ class AuthController extends Controller
                 if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
                     if ($pcode->code === $code) {
                         $pcode->update(['last' => false]);
-                        $user->update(['number_verified_at' => date("Y-m-d H:i:s", strtotime('now'))]);
+                        $user->number_verified_at = date("Y-m-d H:i:s", strtotime('now'));
+                        $user->save();
                         return response()->json(['status'=> 'success', 'phone_verification' => $user->phone], 200);
                     } else {
                         return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
@@ -165,13 +175,14 @@ class AuthController extends Controller
     public function verificationCodeEmail($code)
     {
         if (999 <= $code && $code <= 10000) {
-            $user = User::where('id', auth('api')->user()->id)->first();
+            $user = User::find(auth('api')->user()->id);
             $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
             if (!empty($user) && !empty($ecode)) {
                 if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
-                    $ecode->update(['last' => false]);
                     if ($ecode->code === $code) {
-                        $user->update(['email_verified_at' => true]);
+                        $ecode->update(['last' => false]);
+                        $user->email_verified_at = date("Y-m-d H:i:s", strtotime('now'));
+                        $user->save();
                         return response()->json(['status'=> 'success', 'email_verification' => $user->email], 200);
                     } else {
                         return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
@@ -199,20 +210,19 @@ class AuthController extends Controller
     }
     public function resetEmail(RequestResetEmailVerificationCode $request) 
     {
-        $user = auth('api')->user();
-        $email = Email::where('user_id', $user->id)->first();
-        $ecode = $email->ecode()->where('last', true)->first();
-        if (!empty($email) && !empty($ecode)) {
+        //$user = auth('api')->user();
+        $user = User::find(auth('api')->user()->id);
+        $ecode = $user->ecode()->where('last', true)->first();
+        if (!empty($user) && !empty($ecode)) {
             if ($ecode->code === $request->code) {
                 if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
-                    User::find($user->id)->email()->orderBy('created_at', 'desc')->firstOrFail()->ecode()->where(['last' => true])->update(['last' => false]);
-                    User::find($user->id)->email()->orderBy('created_at', 'desc')->first()->delete();
-                    User::find($user->id)->email()->create([
-                        'email' => $request->email,
-                    ]);
+                    $user->ecode()->where(['last' => true])->update(['last' => false]);
+                    $user->email = $request->email;
+                    $user->email_verification = null;
+                    $user->save();
                     $this->createCodeEmail($user);
-                    $email->ecode()->update(['last' => false]);
-                    return response()->json(['status'=> 'success','new_email'=> $email],200);
+                    $user->ecode()->update(['last' => false]);
+                    return response()->json(['status'=> 'success','new_email'=> $user->email],200);
                 } else {
                     $ecode->update(['last' => false]);
                     return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
@@ -237,19 +247,17 @@ class AuthController extends Controller
 
     public function resetPhone(RequestResetPhoneVerificationCode $request)
     {
-        $user = auth('api')->user();
-        $phone = phone::where('user_id', $user->id)->orderBy('created_at', 'desc')->first();
-        $pcode = $phone->pcode()->where('last', true)->orderBy('created_at', 'desc')->first();
-        if (!empty($email) && !empty($ecode)) {
+        $user = User::find(auth('api')->user())->orderBy('created_at', 'desc')->first();
+        $pcode = $user->pcode()->where('last', true)->orderBy('created_at', 'desc')->first();
+        if (!empty($user) && !empty($ecode)) {
             if ($pcode->code === $request->code) {
                 if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
-                    User::find($user->id)->phone()->orderBy('created_at', 'desc')->firstOrFail()->pcode()->where(['last' => true])->update(['last' => false]);
-                    User::find($user->id)->phone()->orderBy('created_at', 'desc')->first()->delete();
-                    User::find($user->id)->phone()->create([
-                        'number' => $request->number,
-                    ]);
+                    $user->pcode()->where(['last' => true])->update(['last' => false]);
+                    $user->naumber = $request->number;
+                    $user->naumber_verified_at = null;
+                    $user->save();
                     $this->createCodePhone($user);
-                    return response()->json(['status'=> 'success','new_email'=> $phone],200);
+                    return response()->json(['status'=> 'success','new_email'=> $user->number],200);
                 } else {
                     $pcode->update(['last' => false]);
                     return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
@@ -354,18 +362,27 @@ class AuthController extends Controller
      *)
      **/
      public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
-    {
-        $request->only('email', 'password');
-        if (!Auth::attempt(['email.email' => $request->email,'password'=> $request->password])) {
+    {   
+        // if (!Auth::attempt($request->only('email', 'password'))) {
+        //     return response()->json([
+        //         'status' => 'error',
+        //         'message' => __('messages.login.error')
+        //     ], 401);
+        // }
+        $credentials = $request->getCredentials();
+        if (!Auth::attempt($credentials)) {
             return response()->json([
                 'status' => 'error',
-                'message' => __('messages.login.error')
+                'message' => __('messages.login.error'),
+                'cr' => $credentials,
             ], 401);
         }
-
-        $user = User::query()->whereHas('email', function($q) use($request) {
-            $q->whereIn('email', $request->email);
-        })->with('socialAccount')->firstOrFail();
+        
+        if ($credentials['name']) {
+            $user = User::where('name', $credentials['name'])->with('socialAccount')->firstOrFail();
+        } elseif ($credentials['email']) {
+            $user = User::where('email', $credentials['email'])->with('socialAccount')->firstOrFail(); 
+        }
 
         $token = $this->getAccessToken($user);
 
