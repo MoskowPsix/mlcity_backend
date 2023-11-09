@@ -43,7 +43,7 @@ class downloadBackupPGSQL extends Command
 
 
         $command = "PGPASSFILE='~/.pgpass'; 
-        pg_restore --username=" . env('DB_USERNAME') ." --host=" . env('DB_HOST') . " --dbname=test -v < ./database/backup/".$dir."/backup-".$dir.".tar";
+        pg_restore --username=" . env('DB_USERNAME') ." --host=" . env('DB_HOST') . " --dbname=".env('DB_DATABASE')." -v < ./database/backup/".$dir."/backup-".$dir.".tar";
 
         exec($command, $output, $returnVar);
     }
