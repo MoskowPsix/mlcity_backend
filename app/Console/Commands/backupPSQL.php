@@ -21,11 +21,6 @@ class backupPSQL extends Command
      */
     protected $description = 'Weekly PostgresSQL Backup';
 
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
     /**
      * Execute the console command.
      *
@@ -33,14 +28,16 @@ class backupPSQL extends Command
      */
     public function handle()
     {
-        $filename = "backup-" . Carbon::now()->format('Y-m-d') . ".gz";
-  
-        // $command = "pg_dump --user=" . env('DB_USERNAME') ." --password=" . env('DB_PASSWORD') . " --host=" . env('DB_HOST') . " " . env('DB_DATABASE') . "  | gzip > " . storage_path() . "/app/backup/" . $filename;
-  
-        $command = "pg_dump -U " . env('DB_USERNAME') ." -W" . env('DB_PASSWORD') . " -h " . env('DB_HOST') . " -d " . env('DB_DATABASE') . " -F directory -j 4 | gzip > /app/backup/" . $filename;
-        $returnVar = NULL;
-        $output  = NULL;
+        $dir_name = Carbon::now()->format('Y_m_d_h_m_s');
+        $filename_tar = "backup-" . Carbon::now()->format('Y_m_d_h_m_s') . ".tar";
+       
+        $command = "
+        mkdir ./database/backup/".$dir_name.";
+        PGPASSFILE='~/.pgpass'; 
+        sudo pg_dump --username=" . env('DB_USERNAME') ." --host=" . env('DB_HOST') . " --dbname=" . env('DB_DATABASE') . " -Ft --file=./database/backup/".$dir_name."/".$filename_tar." -v";
   
         exec($command, $output, $returnVar);
+
+        $returnVar === 0 ? exec("find ./database/backup/* -type d -ctime +30 -exec rm -rf {} \;", $output, $returnVar) : $this->handle();
     }
 }

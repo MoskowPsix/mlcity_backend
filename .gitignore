@@ -1,4 +1,5 @@
 /node_modules
+/database/backup/
 /public/build
 /public/hot
 /public/storage
