@@ -378,9 +378,9 @@ class AuthController extends Controller
             ], 401);
         }
         
-        if ($credentials['name']) {
+        if (isset($credentials['name'])) {
             $user = User::where('name', $credentials['name'])->with('socialAccount')->firstOrFail();
-        } elseif ($credentials['email']) {
+        } elseif (isset($credentials['email'])) {
             $user = User::where('email', $credentials['email'])->with('socialAccount')->firstOrFail(); 
         }
 
