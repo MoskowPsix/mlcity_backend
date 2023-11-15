@@ -57,7 +57,7 @@ Route::controller(AuthController::class)->group(function() {
     Route::post('set_password', 'resetPasswordTokens')->middleware('auth:sanctum');
 
     // Методы манипуляций с почтой
-    Route::post('verificationEmail/{code}', 'verificationCodeEmail')->middleware('auth:sanctum');
+    Route::post('verificationEmail', 'verificationCodeEmail')->middleware('auth:sanctum');
     Route::post('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
     Route::put('resetEmail','resetEmail')->middleware('auth:sanctum');
 
@@ -89,6 +89,7 @@ Route::controller(UserController::class)->group(function() {
 
     Route::get('users/name/check/{name}', 'chekUserName');
     Route::get('users/email/check/{email}', 'chekUserEmail');
+    Route::get('users/number/check/{number}', 'checkUserNumber');
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
