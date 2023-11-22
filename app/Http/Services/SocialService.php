@@ -22,13 +22,10 @@ class SocialService {
             'name'      => $socialUser->getName(),
             'avatar'    => $socialUser->getAvatar(),
             'password'  => bcrypt(Str::random(8)),
+            'email' => $socialUser->getEmail(),
+            'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
         ]);
-        if ($socialUser->getEmail()) {
-            $user->email()->create([
-                'email' => $socialUser->getEmail(),
-                'verification' => true,
-            ]);
-        }
+        
 
         $this->addSocialAccount($provider, $user, $socialUser);
 
