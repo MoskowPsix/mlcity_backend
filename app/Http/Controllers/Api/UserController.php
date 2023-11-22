@@ -315,17 +315,38 @@ class UserController extends Controller
         }
     }
 
-    public function chekUserEmail($email) {
+    public function chekUserEmail($email) 
+    {
         if (strlen($email) >= 3) {
             $user = User::where('email', $email)->first();
-            if (!empty($user)) {
+            if ($user==null) {
                 return response()->json([
                     'status' =>  'success',
-                    'user_email' =>  false], 200);
-            } elseif (empty($user)) {
+                    'user_email' =>  true,"user"=>$user], 200);
+            } else {
                 return response()->json([
                     'status' =>  'success',
-                    'user_email' =>  true], 200);
+                    'user_email' =>  false,"user"=>$user], 200);
+            }
+        } else {
+            return response()->json([
+                'status' =>  'error',
+                'message' =>  'min 3 lenght'], 403);
+        }
+    }
+
+    public function checkUserNumber($number)
+    {
+        if (strlen($number) >= 3) {
+            $user = User::where('number', $number)->first();
+            if ($user!==null) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_number' =>  false], 200);
+            } else {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_number' =>  true], 200);
             }
         } else {
             return response()->json([

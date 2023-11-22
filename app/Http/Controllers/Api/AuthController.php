@@ -9,6 +9,7 @@ use App\Http\Requests\LoginRequest;
 
 use App\Http\Requests\RequestResetEmailVerificationCode;
 use App\Http\Requests\RequestResetPhoneVerificationCode;
+use App\Http\Requests\Auth\VerficationCodeRequest;
 use App\Mail\OrderCode;
 use App\Models\Email;
 use App\Models\Phone;
@@ -130,8 +131,16 @@ class AuthController extends Controller
             ]);
         }
 
+        try{
         $this->createCodeEmail($user);
         // $this->createCodePhone($user);
+        } catch (Exception $e) {
+            User::findI($user->id)->delete();
+            return response()->json([
+                'status'        => 'error',
+                'message'       => 'email error',
+            ], 422);
+        }
 
         $token = $this->getAccessToken($user);
 
@@ -172,30 +181,30 @@ class AuthController extends Controller
         }
     }
 
-    public function verificationCodeEmail($code)
+    public function verificationCodeEmail(VerficationCodeRequest $request)
     {
-        if (999 <= $code && $code <= 10000) {
-            $user = User::find(auth('api')->user()->id);
-            $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
-            if (!empty($user) && !empty($ecode)) {
-                if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
-                    if ($ecode->code === $code) {
-                        $ecode->update(['last' => false]);
-                        $user->email_verified_at = date("Y-m-d H:i:s", strtotime('now'));
-                        $user->save();
-                        return response()->json(['status'=> 'success', 'email_verification' => $user->email], 200);
-                    } else {
-                        return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-                    }
-                } else {
+        $code=$request->validated();
+        $code = $request->code;
+        // info($code);
+        $user = User::find(auth('api')->user()->id);
+        $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
+        // info($user);
+        if (!empty($user) && !empty($ecode)) {
+            if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
+                if ($ecode->code == $code) {
                     $ecode->update(['last' => false]);
-                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
+                    $user->email_verified_at = date("Y-m-d H:i:s", strtotime('now'));
+                    $user->save();
+                    return response()->json(['status'=> 'success', 'email_verification' => $user->email], 200);
+                } else {
+                    return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
                 }
             } else {
-                return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
+                $ecode->update(['last' => false]);
+                return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
             }
         } else {
-            return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
+            return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
     public function verificationEmail() 
@@ -245,7 +254,7 @@ class AuthController extends Controller
         }
     }
 
-    public function resetPhone(RequestResetPhoneVerificationCode $request)
+    public function resetPhone(VerficationCodeRequest $request)
     {
         $user = User::find(auth('api')->user())->orderBy('created_at', 'desc')->first();
         $pcode = $user->pcode()->where('last', true)->orderBy('created_at', 'desc')->first();

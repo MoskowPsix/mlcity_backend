@@ -72,11 +72,17 @@ class addEvents extends Command
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
         $events_download = [];
         $total_events_progress = $total_events / 100;
-        $limit_genres = 10;
-        $page_genres= 1;
-        $total_genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true))->pagination->total;
+        $limit_genres = 100;
+        $total_genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres, true))->pagination->total;
         $genres_download = [];
         $total_genres_progress = $total_genres / 100;
+
+        $etypesParent = ["Представление", "Показ", "Мероприятие", "Культурные", "Детский показ", "Лекции"];
+
+        $etypesParentRaw = ["performance"=>"Представление", "movie"=>"Показ",
+                            "event"=>"Мероприятие", "culture_calendar"=>"Культурные",
+                             "children_movie"=>"Детский показ", "lecture"=>"Лекции"];
+        $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres), true);
 
         date_default_timezone_set('UTC');
         $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
@@ -85,24 +91,70 @@ class addEvents extends Command
         getMessage('Download start element-2');
         $output->writeln('<info>Download step 1: Download genres</info>');
         getMessage('Download step 1: Download genres');
-        while ($total_genres >= 0) {
-            // Отображение прогресса
-            $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
-            // $output->writeln((int)$progress . '%');
+        // while ($total_genres >= 0) {
+        //     // Отображение прогресса
+        //     $progress = ($total_genres_progress * 100 - $total_genres) / $total_genres_progress;
+        //     // $output->writeln((int)$progress . '%');
 
-            $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
-            foreach ($genres->items as $genre) {
-                if (!EventType::where('cult_id', $genre->_id)->first()) {
-                    EventType::create([
-                        'name' => $genre->title,
-                        'ico' => 'none',
-                        'cult_id' => $genre->_id,
-                    ]);
-                }     
-            }
-            $total_genres = $total_genres - 1;
-            $page_genres = $page_genres + 1;
+        //     $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres.'&page=' . $page_genres, true));
+        //     foreach ($genres->items as $genre) {
+        //         if (!EventType::where('cult_id', $genre->_id)->first()) {
+        //             EventType::create([
+        //                 'name' => $genre->title,
+        //                 'ico' => 'none',
+        //                 'cult_id' => $genre->_id,
+        //             ]);
+        //         }     
+        //     }
+        //     $total_genres = $total_genres - 1;
+        //     $page_genres = $page_genres + 1;
+        // }
+
+        
+        //Создание родительских категорий
+        foreach($etypesParent as $type){
+            EventType::create([
+                "name" => $type,
+                'ico' => "none"
+            ]);
         }
+
+        
+        
+        //Создание дочерних категорий
+        foreach($genres['items'] as $genre){
+            
+            if (count($genre['types'])>=2){
+                if (in_array("performance",$genre['types']) && in_array("movie",$genre['types'])){
+                    $etype_id = EventType::where("name","Показ")->first()->id;
+                    EventType::create([
+                        "name"=>$genre["title"],
+                        'ico' => "none",
+                        "etype_id" => $etype_id,
+                        "cult_id" => $genre['_id']
+                    ]);
+                }
+                elseif(in_array("children_movie",$genre['types']) && in_array("culture_calendar",$genre['types'])){
+                    $etype_id = EventType::where("name","Культурные")->first()->id;
+                    EventType::create([
+                        "name"=>$genre["title"],
+                        'ico' => "none",
+                        "etype_id" => $etype_id,
+                        "cult_id" => $genre['_id']
+                    ]);
+                }
+            }
+            else{
+                $etype_id = EventType::where("name",$etypesParentRaw[$genre["types"][0]])->first()->id;
+                    EventType::create([
+                        "name"=>$genre["title"],
+                        'ico' => "none",
+                        "etype_id" => $etype_id,
+                        "cult_id" => $genre['_id']
+                    ]);
+            } 
+        }
+
         getMessage('Download step 1: Download genres complete!!!');
         
         $type = FileType::where('name', 'image')->firstOrFail();
