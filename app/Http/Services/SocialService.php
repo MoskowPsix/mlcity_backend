@@ -47,9 +47,7 @@ class SocialService {
     public function findUserByEmail($email)
     {
 //        return User::where('email', $email)->first();
-        return !$email ? null : User::whereHas('email', function($q) use($email){
-            $q->where('email', $email);
-        })->first();
+        return !$email ? null : User::where('email', $email)->first();
     }
 
     public function addSocialAccount($provider, $user, $socialUser): void
