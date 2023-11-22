@@ -33,4 +33,23 @@ class EventCreateRequest extends FormRequest
             'status'       => 'required',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            "name.required" => "A name is required",
+            "name.min" => "A name length is must be more than 3",
+
+            "sponsor.required" => "A sponsor is required",
+            "sponsor.min" => "A sponsor length is must be more than 3",
+
+            "description.required" => "A description is required",
+            "description.min" => "A description length is must be more than 10",
+
+            "dateStart.required" => "A date is required",
+            "dateEnd.required" => "A dateEnd is required",
+            "type.required" => "A type is required",
+            "status.required" => "A status is required"
+        ];
+    }
 }

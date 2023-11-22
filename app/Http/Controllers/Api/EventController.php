@@ -22,6 +22,11 @@ use App\Filters\Event\EventTotal;
 use App\Filters\Event\EventTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCreateRequest;
+use App\Http\Requests\Events\EventForAuthorReqeust;
+use App\Http\Requests\Events\GetEventRequest;
+use App\Http\Requests\Events\SetEventUserLikedRequest;
+use App\Http\Requests\Events\UpdateVkLikesRequest;
+use App\Http\Requests\PageANDLimitRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
@@ -203,7 +208,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
+    public function getEvents(GetEventRequest $request): \Illuminate\Http\JsonResponse
     {
         $total = 0;
         $page = $request->page;
@@ -242,9 +247,11 @@ class EventController extends Controller
         return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
     }
 
-    public function getEventsForAuthor(Request $request) {
-        $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+    public function getEventsForAuthor(EventForAuthorReqeust $request) {
+        $request = $request->validated();
+        info($request);
+        $page = $request["page"];
+        $limit = $request['limit'] && ($request['limit'] < 50)? $request['limit'] : 5;
         $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $events->count();
         $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
@@ -297,6 +304,7 @@ class EventController extends Controller
      * )
      */
     public function updateVkLikes(Request $request){
+        // $request = $request->validated();
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
@@ -328,7 +336,7 @@ class EventController extends Controller
      * )
      */
     //Создаем отношение - юзер лайкнул ивент
-    public function setEvenUserLiked(Request $request): \Illuminate\Http\JsonResponse{
+    public function setEvenUserLiked(SetEventUserLikedRequest $request): \Illuminate\Http\JsonResponse{
         $event = Event::find($request->event_id);
         $likedUser = false;
 
@@ -566,7 +574,6 @@ class EventController extends Controller
      *     ),
      * )
      */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
     {
         // $coords = explode(',',$request->coords);
@@ -676,7 +683,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEventUserLikedIds($id, Request $request): \Illuminate\Http\JsonResponse
+    public function getEventUserLikedIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->likedUsers;
         $likedUsersIds = [];
@@ -732,7 +739,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEventUserFavoritesIds($id, Request $request): \Illuminate\Http\JsonResponse
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->favoritesUsers;
         $likedUsersIds = [];
