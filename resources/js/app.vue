@@ -1,23 +1,54 @@
 <template>
-  <LeftBar v-if="bar_store.leftBar === true"/>
-  <RouterView v-if="bar_store.leftBar === false"/>
-  <div class="justify-items-center sm:ml-64 h-screen overflow-y-scroll" id="journal-scroll" v-if="bar_store.leftBar === true">
-    <RouterView />
+  <!-- <div class="ml-64" @click="console.log(auth)">{{ auth }}</div> -->
+  <LoaderFullPage v-if="loaderFullPageState"/>
+  <div v-if="stateLeftBar">
+    <LeftBar/>
+    <div class="justify-items-center sm:ml-64 h-screen overflow-y-scroll" id="journal-scroll" >
+      <RouterView/>
+    </div>
   </div>
+  <RouterView v-if="!stateLeftBar"/>
 </template>
 
 <script>
-import LeftBar from './components/LeftBar.vue'
-import { useBarStore } from './stores/barStore'
+import LeftBar from './components/left_bar/LeftBar.vue'
+import LoaderFullPage from './components/loaders/LoaderFullPage.vue';
+import { mapState } from 'pinia'
+import { useLocalStorageStore } from './stores/LocalStorageStore';
+import { useLoaderStore} from './stores/LoaderStore'
 
 
 export default {
   name: 'App',
-  components: {LeftBar},
-  setup() {
-    const bar_store = useBarStore();
-    return {bar_store }
-  }
+  components: {
+    LeftBar,
+    LoaderFullPage,
+  },
+  computed: {
+    ...mapState(useLocalStorageStore, {auth: 'auth'}),
+    ...mapState(useLoaderStore, {
+      loaderFullPageState: 'loaderFullPageState',
+      loaderFullViewRouterState: 'loaderFullViewRouterState'
+    }),
+  },
+  data () {
+    return {
+      stateLeftBar: false,
+    }
+  },
+  mounted() {
+    this.getStateLeftBar()
+  },
+  watch: {
+    $route(to,from) {
+      this.getStateLeftBar()
+    }
+  },
+  methods: {
+    getStateLeftBar() {
+      this.stateLeftBar = this.auth
+    }
+  },
 }
 
 </script>
