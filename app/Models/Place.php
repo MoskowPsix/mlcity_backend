@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use League\MimeTypeDetection\FinfoMimeTypeDetector;
 
 class Place extends Model
 {
@@ -40,5 +41,9 @@ class Place extends Model
     }
     public function location() {
         return $this->belongsTo(Location::class, 'location_id')->with('locationParent');
+    }
+
+    public function historyPlaces(){
+        return $this->hasMany(HistoryPlace::class);
     }
 }

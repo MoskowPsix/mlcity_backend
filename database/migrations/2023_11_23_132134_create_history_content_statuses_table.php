@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('history_content_statuses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("status_id")->constrained("history_statuses");
+            $table->foreignId("status_id")->constrained("statuses");
             $table->foreignId("history_content_id")->constrained("history_contents");
             $table->text("descriptions")->nullable();
             $table->boolean("last")->nullable();

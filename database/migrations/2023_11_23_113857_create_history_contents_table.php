@@ -21,7 +21,7 @@ return new class extends Migration
             $table->text("materials")->nullable();
             $table->dateTime("date_start")->nullable();
             $table->dateTime("date_end")->nullable();
-            $table->foreignId('user_id')->constrained('users')->index()->onDelete('cascade')->nullable();
+            $table->foreignId('user_id')->constrained('users')->nullable()->onDelete('cascade');
             $table->string("vk_group_id")->nullable();
             $table->string("vk_post_id")->nullable();
             $table->integer("cult_id")->nullable();

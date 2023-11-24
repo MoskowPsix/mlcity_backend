@@ -13,6 +13,7 @@ use App\Models\EventFile;
 use App\Models\EventLike;
 use App\Models\Comment;
 use App\Models\View;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Event extends Model
 {
@@ -110,5 +111,9 @@ class Event extends Model
     public function price(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function historyContents(): MorphMany{
+        return $this->morphMany(HistoryContent::class, "history_contentable");
     }
 }
