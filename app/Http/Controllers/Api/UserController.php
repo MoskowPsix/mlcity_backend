@@ -651,7 +651,7 @@ class UserController extends Controller
                 return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
             });
 
-            return response()->json(['status' => 'success', 'users' => $response], 200);
+            return response()->json(['status' => 'error', 'users' => $response], 200);
     }  
 
     /**

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import { useAuthStore } from './AuthStore'
+import { useUsersFilterStore } from './UsersFilterStore'
 
 
 // const authStore = useAuthStore()
@@ -19,8 +20,7 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
         },
         getUserId() {
             useAuthStore().getUserForToken()
-            .then(response => {
-                console.log(response)
+            .then(user => {
                 this.userID = user.data.id
             })
             .catch(err => {
@@ -29,11 +29,11 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
         },
         updateParams() {
             this.getUserId()
-            this.name = null,
-            this.email = null,
-            this.createdDateStart = new Date().toISOString().slice(0, 10),
-            this.updatedDateStart = null,
-            this.locationId = null
+            this.name = useUsersFilterStore().getName(),
+            this.email = useUsersFilterStore().getEmail(),
+            this.createdDateStart = useUsersFilterStore().getCreatedDateStart(),
+            this.updatedDateStart = useUsersFilterStore().getUpdatedDateStart(),
+            this.locationId = useUsersFilterStore().getLocation()
         },
         usersForPageUsers() {
             this.name = null,
@@ -48,8 +48,8 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
         userID: null,
         name: null,
         email: null,
-        createdDateStart: new Date().toISOString().slice(0, 10),
-        updatedDateStart:null,
+        createdDateStart: null,
+        updatedDateStart: null,
         locationId: null
     }),
 })

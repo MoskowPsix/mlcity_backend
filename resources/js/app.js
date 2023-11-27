@@ -5,11 +5,16 @@ import axios from 'axios'
 import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { ajax } from 'rxjs/ajax'
 
 
 
 axios.defaults.baseURL = '/api/';
-axios.defaults.headers = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
+axios.defaults.headers = {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${localStorage.getItem('token')}`
+}
+
 
 const options = {
     transition: "Vue-Toastification__bounce",
