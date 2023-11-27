@@ -33,7 +33,7 @@ class TestMoprhs extends Command
      */
     public function handle()
     {
-        // $this->testHistoryContents();
+        $this->testHistoryContents();
         // $historyContents = HistoryContent::find(1);
         
         // $historyContents->historyPlaces()->create([
@@ -46,8 +46,7 @@ class TestMoprhs extends Command
 
         $historySeance = HistorySeance::find(1);
         $historySeance->update([
-            "date_start" => "2022-12-31",
-            "date_end"
+            "date_start" => "2022-12-31"
         ]);
         print_r($historySeance->historyPlace->historyContent->historyContentable->ToArray());
         // $historyContents->historyPrices()->create([
