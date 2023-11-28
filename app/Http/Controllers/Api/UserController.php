@@ -648,10 +648,10 @@ class UserController extends Controller
                 UsersLocation::class,
             ])
             ->then(function ($users) use ($page, $limit, $request){
-                return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+                return $users->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
             });
 
-            return response()->json(['status' => 'error', 'users' => $response], 200);
+            return response()->json(['status' => 'success', 'users' => $response], 200);
     }  
 
     /**

@@ -3,13 +3,12 @@ import { useAuthStore } from './AuthStore'
 import { BehaviorSubject } from 'rxjs';
 
 
-// const authStore = useAuthStore()
 export const useUsersFilterStore = defineStore('useUsersFilter', {
     state: () => ({
         name: new BehaviorSubject(localStorage.getItem('userNameFilter') || ''),
         email: new BehaviorSubject(localStorage.getItem('userEmailFilter') || ''),
-        createdDateStart: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || new Date().toISOString().slice(0, 10)),
-        updatedDateStart: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') ||new Date().toISOString().slice(0, 10)),
+        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || [new Date().toISOString().slice(0, 10), '']),
+        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') || [new Date().toISOString().slice(0, 10), '']),
         locationId: new BehaviorSubject(localStorage.getItem('userLocationIdFilter') ||'')
     }),
     actions: {
@@ -27,19 +26,21 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
         getEmail() {
             return localStorage.getItem('userEmailFilter')
         }, 
-        setCreatedDateStart(date) {
-            localStorage.setItem('userCreatedDateStartFilter', email)
-            this.createdDateStart = new Date(date).toISOString().slice(0, 10)
+        setCreatedDate(date) {
+            localStorage.setItem('userCreatedDateFilter', date)
+            this.createdDate = date
         }, 
-        getCreatedDateStart() {
-            return localStorage.getItem('userCreatedDateStartFilter')
+        getCreatedDate() {
+            let date = localStorage.getItem('userCreatedDateFilter')
+            return date
         }, 
-        setUpdatedDateStart(date) {
-            localStorage.setItem('userUpdatedDateStartFilter', new Date(date).toISOString().slice(0, 10))
-            this.updatedDateStart = new Date(date).toISOString().slice(0, 10)
+        setUpdatedDate(date) {
+            localStorage.setItem('userUpdatedDateFilter', date)
+            this.updatedDate = date
         }, 
-        getUpdatedDateStart() {
-            return localStorage.getItem('userUpdatedDateStartFilter') 
+        getUpdatedDate() {
+            let date = localStorage.getItem('userUpdatedDateFilter')
+            return date
         },
         setLocation(locationId) {
             localStorage.setItem('userLocationIdFilter', locationId)

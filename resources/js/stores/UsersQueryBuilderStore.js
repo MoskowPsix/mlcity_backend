@@ -1,6 +1,7 @@
-import { defineStore } from 'pinia'
+import { defineStore, storeToRefs } from 'pinia'
 import { useAuthStore } from './AuthStore'
 import { useUsersFilterStore } from './UsersFilterStore'
+import { BehaviorSubject } from 'rxjs';
 
 
 // const authStore = useAuthStore()
@@ -31,25 +32,43 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
             this.getUserId()
             this.name = useUsersFilterStore().getName(),
             this.email = useUsersFilterStore().getEmail(),
-            this.createdDateStart = useUsersFilterStore().getCreatedDateStart(),
-            this.updatedDateStart = useUsersFilterStore().getUpdatedDateStart(),
+            this.createdDate = useUsersFilterStore().getCreatedDate(),
+            this.updatedDate = useUsersFilterStore().getUpdatedDate(),
             this.locationId = useUsersFilterStore().getLocation()
         },
         usersForPageUsers() {
-            this.name = null,
-            this.email = null,
-            this.createdDateStart = new Date().toISOString().slice(0, 10),
-            this.updatedDateStart = null,
-            this.locationId = null
-        }
+            let createdDate = ['', '']
+            let updatedDate = ['', '']
+            if (createdDate !== undefined) {
+                createdDate = this.createdDate.split('~')
+            }
+            if (updatedDate !== undefined) {
+                updatedDate = this.updatedDate.split('~')
+            }
+            
+            this.queryParams = {
+                name: this.name,
+                email: this.email,
+                createdDateStart: createdDate[0],
+                createdDateEnd: createdDate[1],
+                updatedDateStart: updatedDate[0],
+                updatedDateEnd: updatedDate[1],
+                page: this.pageUsersForPageUsers
+            }
+            // console.log(this.queryParams)
+        },
+        setPageUsersForPageUsers(page) {
+            this.pageUsersForPageUsers = page
+        },
     },
     state: () => ({
         queryParams: [],
         userID: null,
         name: null,
         email: null,
-        createdDateStart: null,
-        updatedDateStart: null,
-        locationId: null
+        createdDateStart: [],
+        updatedDateStart: [],
+        locationId: null,
+        pageUsersForPageUsers: null,
     }),
 })
