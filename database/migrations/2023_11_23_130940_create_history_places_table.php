@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('history_places', function (Blueprint $table) {
             $table->id();
             $table->foreignId("history_content_id")->constrained("history_contents")->cascadeOnDelete();
+            $table->foreignId("place_id")->constrained("places")->nullOnDelete();
             $table->integer('sight_id')->nullable();
             $table->foreign('sight_id')->references('id')->on('sights')->nullOnDelete();
             $table->integer("location_id")->nullable();

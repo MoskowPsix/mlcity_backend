@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('history_prices', function (Blueprint $table) {
             $table->id();
             $table->foreignId("history_content_id")->constrained("history_contents");
+            $table->foreignId("price_id")->constrained("price")->nullOnDelete();
             $table->string("cost_rub")->nullable();
             $table->text("descriptions")->nullable();
             $table->timestamps();

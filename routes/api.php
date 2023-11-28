@@ -207,6 +207,7 @@ Route::controller(LogApiController::class)->group(function() {
 
 Route::controller(HistoryContentController::class)->group(function() {
     Route::get("history-content", 'getHistoryContent');
+    Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
 });
 
 
