@@ -1,10 +1,12 @@
 <template lang="">
     <div class="p-2">
+        <!-- Модальное окно -->
+        <UserModal v-if="user" :user="user" @onClose="onCloseModal"/>
+        <!-- Фильтры -->
         <UsersFilter/>
-        <!-- Users
-        {{total}} -->
-        <!-- {{users}} -->
-        <UsersTable v-if="users" :users="users" class="mt-1"/>
+        <!-- Список пользователей -->
+        <UsersTable v-if="users" :users="users" @user="onUserModal" class="mt-1"/>
+        <!-- Кнопки пагинации -->
         <div class="grid grid-cols-2 w-full">
             <div class="flex justify-evenly">
                 <button v-if="backPage" @click.prevent="viewBackPage()" class="mr-2 border bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-700 border-gray-400 dark:hover:text-color-300/70 dark:text-gray-400/70 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700  pl-2 pr-2 shadow rounded">Назад</button>
@@ -21,18 +23,21 @@ import { useUsersStore } from './../../stores/UsersStore'
 import { useUsersQueryBuilderStore } from './../../stores/UsersQueryBuilderStore'
 import { useLoaderStore } from '../../stores/LoaderStore';
 import { catchError, tap, map, retry, delay} from 'rxjs/operators';
-import { Subject, of, EMPTY } from 'rxjs';
+import { of, EMPTY } from 'rxjs';
 import { useToastStore } from '../../stores/ToastStore'
 import { MessagesUsers } from '../../enums/users_messages'
 import { useUsersFilterStore } from '../../stores/UsersFilterStore';
+
 import UsersFilter from '../../components/filters/users_filters/UsersFilter.vue'
 import UsersTable from '../../components/tables/users_table/UsersTable.vue';
+import UserModal from '../../components/modals/user/user_modal/UserModal.vue';
 
 export default {
     name: 'Users',
     data() {
         return {
             users: null,
+            user: null,
             total: 0,
             nextPage: null,
             backPage: null
@@ -50,9 +55,16 @@ export default {
     },
     components: {
         UsersFilter,
-        UsersTable
+        UsersTable,
+        UserModal
     },
     methods: {
+        onCloseModal() {
+            this.user = null
+        },
+        onUserModal(data) {
+            this.user = data
+        },
         ...mapActions(useUsersStore, ['getUsers']),
         ...mapActions(useUsersQueryBuilderStore, ['queryBuilder', 'setPageUsersForPageUsers']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
@@ -72,7 +84,6 @@ export default {
                 delay(100),
                 tap(()=> {this.closeLoaderFullPage()}),
                 map(response => {
-                    console.log(response)
                     this.users = null
                     this.nextPage = null
                     this.backPage = null

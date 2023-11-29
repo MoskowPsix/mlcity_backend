@@ -727,22 +727,14 @@ class UserController extends Controller
     {
     
         $data = $request->all();
-        $user = User::where('id', $id)->firstOrFail();
+        $user = User::findOrFail($id);
         $user->fill($data);
         $user->save();
     
-        $jsonData = [
-            'status' => 'SUCCESS',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'city' => $user->city,
-                'region' => $user->region,
-            ]
-        ];
-    
-        return response()->json($jsonData);
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+        ], 200);
     }
 
     /**

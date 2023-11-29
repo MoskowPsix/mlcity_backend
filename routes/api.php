@@ -177,11 +177,11 @@ Route::controller(StatusController::class)->group(function() {
 });
 
 Route::controller(RoleController::class)->group(function() {
-    Route::get('role', 'allRole')->middleware('moderator');
-    Route::get('role/{id}', 'getRole')->middleware('moderator');
-    Route::post('role', 'addRole')->middleware('root');
-    Route::put('role/{id}', 'updateRole')->middleware('root');
-    Route::delete('role/{id}', 'deleteRole')->middleware('root');
+    Route::get('roles', 'allRole')->middleware('moderator');
+    Route::get('roles/{id}', 'getRole')->middleware('moderator');
+    Route::post('roles', 'addRole')->middleware('root');
+    Route::put('roles/{id}', 'updateRole')->middleware('root');
+    Route::delete('roles/{id}', 'deleteRole')->middleware('root');
 
     Route::post('users/role/{user_id}/{role_id}', 'addRoleUser')->middleware('root');
     Route::put('users/role/{user_id}/{role_id}', 'updateRoleUser')->middleware('root');
