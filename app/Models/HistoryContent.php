@@ -31,4 +31,8 @@ class HistoryContent extends Model
         return $this->hasMany(HistoryContentStatuses::class);
     }
 
+    public function historyFiles(){
+        return $this->hasMany(HistoryFile::class);
+    }
+
 }

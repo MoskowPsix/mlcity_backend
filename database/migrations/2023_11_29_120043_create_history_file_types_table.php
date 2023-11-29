@@ -13,12 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('history_content_statuses', function (Blueprint $table) {
+        Schema::create('history_file_types', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("status_id")->constrained("statuses")->nullOnDelete();
-            $table->foreignId("history_content_id")->constrained("history_contents")->nullOnDelete();
-            $table->text("descriptions")->nullable();
-            $table->boolean("last")->nullable();
+            $table->foreignId("type_id")->constrained("file_types")->nullOnDelete();
+            $table->foreignId("history_file_id")->constrained("history_files")->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_status_contents');
+        Schema::dropIfExists('history_file_types');
     }
 };

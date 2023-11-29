@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Event\EventCreated;
 use App\Models\Place;
 use App\Models\Price;
 use App\Models\User;
@@ -33,6 +34,13 @@ class Event extends Model
         'vk_post_id',
         'cult_id'
     ];
+
+    protected static function booted()
+    {
+        static::created(function($model){
+            event(new EventCreated($model));
+        });
+    }
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

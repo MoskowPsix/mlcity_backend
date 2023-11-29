@@ -9,6 +9,7 @@ use App\Filters\Event\EventSponsor;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
 use App\Models\Event;
+use App\Models\FileType;
 use App\Models\HistoryContent;
 use App\Models\HistoryPlace;
 use App\Models\Sight;
@@ -63,6 +64,10 @@ class HistoryContentController extends Controller
                 }
             }
 
+            if(array_key_exists("history_files", $request)){
+                $this->saveLocalFilesImg($historyContent, $request["history_files"]);
+            }
+
             if (array_key_exists("history_price",$request)){
                 $historyContent->historyPrices()->create($request["history_price"]);
             }
@@ -74,5 +79,25 @@ class HistoryContentController extends Controller
         }
         
         return response()->json(["status"=>"success"],201);
+    }
+
+    
+    private function saveLocalFilesImg($historyContent, $files){
+
+        foreach ($files as $file) {
+            $filename = uniqid('img_');
+
+            $path = $file->store('events/'.$historyContent->id, 'public');
+
+            $type = FileType::where('name', 'image')->get();
+
+            $historyContent->historyFiles()->create([
+                'name'  => $filename,
+                'link'  => '/storage/'.$path,
+                'local' => 1
+            ])->historyFileType()->sync($type[0]->id);
+
+        }
+
     }
 }

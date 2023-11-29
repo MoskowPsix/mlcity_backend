@@ -13,13 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('history_prices', function (Blueprint $table) {
+        Schema::create('history_files', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("history_content_id")->constrained("history_contents")->nullOnDelete();
-            $table->foreignId("price_id")->nullable()->constrained("price")->nullOnDelete();
+            $table->integer("file_id");
+            $table->string("name");
+            $table->text("link");
+            $table->integer("local");
             $table->boolean("on_delete")->nullable();
-            $table->string("cost_rub")->nullable();
-            $table->text("descriptions")->nullable();
+            $table->foreignId("history_content_id")->constrained("history_contents")->nullOnDelete();
             $table->timestamps();
         });
     }
@@ -31,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_prices');
+        Schema::dropIfExists('history_files');
     }
 };

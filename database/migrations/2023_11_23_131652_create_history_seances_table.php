@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('history_seances', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("history_place_id")->constrained("history_places");
-            $table->foreignId("seance_id")->constrained("seances")->nullOnDelete();     
+            $table->foreignId("history_place_id")->constrained("history_places")->nullOnDelete();
+            $table->foreignId("seance_id")->nullable()->constrained("seances")->nullOnDelete(); 
+            $table->boolean("on_delete")->nullable();    
             $table->dateTime("date_start")->nullable();
             $table->dateTime("date_end")->nullable();
             $table->timestamps();
