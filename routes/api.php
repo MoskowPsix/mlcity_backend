@@ -58,12 +58,12 @@ Route::controller(AuthController::class)->group(function() {
 
     // Методы манипуляций с почтой
     Route::post('verificationEmail', 'verificationCodeEmail')->middleware('auth:sanctum');
-    Route::post('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
+    Route::get('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
     Route::put('resetEmail','resetEmail')->middleware('auth:sanctum');
 
     // Методы манипуляций с телефоном
     Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
-    Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
+    Route::get('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
     Route::put('resetPhone','resetPhone')->middleware('auth:sanctum'); 
 });
 
