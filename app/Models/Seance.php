@@ -15,4 +15,8 @@ class Seance extends Model
         'dateStart',
         'dateEnd',
     ];
+
+    public function historySeances(){
+        return $this->belongsTo(HistorySeance::class);
+    }
 }

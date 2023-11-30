@@ -5,7 +5,7 @@ namespace App\Filters\Event;
 use Closure;
 use App\Filters\Pipe;
 
-class EventName implements Pipe {
+ class EventName implements Pipe {
 
     public function apply($content, Closure $next)
     {

@@ -25,4 +25,8 @@ class Status extends Model
     {
         return $this->belongsToMany(Sight::class)->withPivot('last')->withTimestamps();
     }
+
+    public function historyStatuses(){
+        return $this->hasMany(HistoryStatusContent::class);
+    }
 }
