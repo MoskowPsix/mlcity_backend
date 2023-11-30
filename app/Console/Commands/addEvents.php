@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\Event\EventCreated;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\FileType;
@@ -287,6 +288,8 @@ class addEvents extends Command
                     } 
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]); 
+
+                    event(new EventCreated($event_cr));
                 }
             }
             $total_events = $total_events - 1;

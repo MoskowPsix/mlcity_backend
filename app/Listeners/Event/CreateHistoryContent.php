@@ -3,6 +3,9 @@
 namespace App\Listeners\Event;
 
 use App\Events\Event\EventCreated;
+use App\Http\Resources\Place\PlaceToHistoryPlaceResource;
+use App\Models\HistoryPlace;
+use App\Models\Status;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -27,12 +30,104 @@ class CreateHistoryContent
     public function handle(EventCreated $event)
     {
         $event = $event->model;
+        
 
         $historyContent = $event->historyContents()->create($event->toArray());
+        $status_id = Status::where("name", "Опубликовано")->first()->id;
+        $historyContent->historyContentStatuses()->create([
+            "status_id" => $status_id,
+            "descriptions" => "Оригинальный экземпляр"
+        ]);
+        $places = $event->places;
+        // info(count($places->toArray()));
         
-        foreach($event->places as $place){
-           info($place);
+        
+        foreach($places as $place)
+        {   
+            $data = $this->preparePlaceData($place);
+           $historyPlace = $historyContent->historyPlaces()->create($data);
+           
+           foreach($place->seances as $seance)
+           {
+            $data = $this->prepareSeanseData($seance);
+            $historySeanse = $historyPlace->historySeances()->create($data);
+           }  
         }
 
+        foreach($event->price as $price){
+            $data = $this->preparePriceData($price);
+            $historyContent->historyPrices()->create($data);
+        }
+
+        foreach($event->files as $file){
+            $data = $this->prepareFileData($file);
+            $historyFile = $historyContent->historyFiles()->create($data);
+
+            foreach($file->file_types as $fileType){
+                $data = $fileType->toArray();
+                $fileTypeId = $data["pivot"]['type_id'];
+                
+                unset($data["pivot"]);
+
+                $historyFile->historyFileType()->create([
+                    "type_id" => $fileTypeId
+                ]);
+            }
+        }
+    }
+
+    public function preparePlaceData($place){
+        $data = $place->toArray();
+        $data["place_id"] = $data["id"];
+
+        unset($data['event_id']);
+        unset($data["created_at"]);
+        unset($data["updated_at"]);
+        unset($data["id"]);
+
+        return $data;
+    }
+
+    public function prepareSeanseData($seance){
+        $data = $seance->toArray();
+        $data["seance_id"] = $data["id"];
+        $data["date_start"] = $data["dateStart"];
+        $data["date_end"] = $data["dateEnd"];
+
+        unset($data["dateStart"]);
+        unset($data["dateEnd"]);
+        unset($data["place_id"]);
+        unset($data["created_at"]);
+        unset($data["updated_at"]);
+        unset($data["id"]);
+
+        return $data;
+    }
+
+    public function preparePriceData($price){
+        $data = $price->toArray();
+        $data["price_id"] = $data["id"];
+
+        unset($data["event_id"]);
+        unset($data["sight_id"]);
+        unset($data["created_at"]);
+        unset($data["updated_at"]);
+        unset($data["id"]);
+
+        return $data;
+        
+    }
+
+    public function prepareFileData($file){
+        $data = $file->toArray();
+        $data["file_id"] = $data["id"];
+
+        unset($data["id"]);
+        unset($data["event_id"]);
+        unset($data["file_types"]);
+        unset($data["created_at"]);
+        unset($data["updated_at"]);
+
+        return $data;
     }
 }
