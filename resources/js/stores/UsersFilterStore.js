@@ -7,8 +7,8 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
     state: () => ({
         name: new BehaviorSubject(localStorage.getItem('userNameFilter') || ''),
         email: new BehaviorSubject(localStorage.getItem('userEmailFilter') || ''),
-        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || [new Date().toISOString().slice(0, 10), '']),
-        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') || [new Date().toISOString().slice(0, 10), '']),
+        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || ''),
+        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') ||''),
         locationId: new BehaviorSubject(localStorage.getItem('userLocationIdFilter') ||'')
     }),
     actions: {

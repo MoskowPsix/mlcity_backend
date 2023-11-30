@@ -2,7 +2,7 @@
     <!-- delete modal -->
 <!-- Main modal -->
 <div id="crud-modal" tabindex="-1" aria-hidden="true" class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-gray-950/70">
-    <DeleteUserModal v-if="deleteModal" @onClose="closeModalDelete()"/>
+    <DeleteUserModal v-if="deleteModal" :user="user" @onClose="closeModalDelete()"/>
     <div class="relative p-4 w-full max-w-md max-h-full">
         <LoaderSpinLocal v-if="loaderUpdate"/>
         <!-- Modal content -->
@@ -33,7 +33,7 @@
                     <div  v-if="user.roles.length !== 0" class="col-span-2 ">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Роль</label>
                         <select v-model="user.roles[0].id" id="category" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option :value="newRole">Без роли</option>
+                            <option :value="noRole">{{noRole}}</option>
                             <option :value="role.id" v-for="role in roles">{{role.name}}</option>
                             
                         </select>
@@ -41,7 +41,7 @@
                     <div  v-if="user.roles.length === 0" class="col-span-2 ">
                         <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Роль</label>
                         <select v-model="newRole" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500">
-                            <option :value="newRole">Без роли</option>
+                            <option :value="noRole">{{noRole}}</option>
                             <option :value="role.id" v-for="role in roles">{{role.name}}</option>
                             
                         </select>
@@ -64,9 +64,11 @@
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators';
 import { of, EMPTY, Subject } from 'rxjs';
 import { mapActions, mapState } from 'pinia'
+import { reactive, toRaw, unref } from 'vue';
 import { useToastStore } from '../../../../stores/ToastStore'
 import { useLoaderStore } from '../../../../stores/LoaderStore';
 import { useUsersStore } from '../../../../stores/UsersStore'
+import { MessagesUsers } from '../../..//../enums/users_messages'
 import DeleteUserModal from '../delete_user_modal/DeleteUserModal.vue'
 import LoaderSpinLocal from '../../../loaders/LoaderSpinLocal.vue'
 
@@ -74,15 +76,24 @@ import LoaderSpinLocal from '../../../loaders/LoaderSpinLocal.vue'
 export default {
     name: 'UserModal',
     props: ['user'],
+    setup() {
+        let oldUser = []
+        const noRole = 'Без роли'
+        const destroy =  new Subject()
+        let oldRole = ''
+        return {
+            oldUser,
+            noRole,
+            destroy,
+            oldRole
+        }
+    },
     data() {
         return {
-            oldUser: null,
             roles: null,
-            destroy: new Subject(),
             newRole: 'Без роли',
-            oldRole: null,
             deleteModal: false,
-            loaderUpdate: true
+            loaderUpdate: true,
         }
     },
     components: {
@@ -95,7 +106,7 @@ export default {
     methods: {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useToastStore, ['showToast']),
-        ...mapActions(useUsersStore, ['getRoles', 'updateUser']),
+        ...mapActions(useUsersStore, ['getRoles', 'updateUser', 'updateRoleUser', 'deleteRoleUser']),
         onCloseModal() {
             this.$emit('onClose', true)
         },
@@ -104,6 +115,7 @@ export default {
         },
         closeModalDelete() {
             this.deleteModal = false
+            this.onCloseModal()
         },
         getAllRole() {
             this.getRoles().pipe(
@@ -114,7 +126,6 @@ export default {
                     this.loaderUpdate = false
                 }),
                 catchError(err => {
-                    console.log(err)
                     this.loaderUpdate = false
                     return of(EMPTY)
                 }),
@@ -126,39 +137,92 @@ export default {
                 this.loaderUpdate = true
                 this.updateUser(this.user).pipe(
                     map(response => {
-                        console.log(response)
+                        this.showToast(MessagesUsers.success_user_update, 'success')
+                        this.updRole()
                         this.loaderUpdate = false
-                        this.showToast('Пользователь изменён', 'success')
                         this.onCloseModal()
                     }),
                     catchError(err => {
-                        console.log(err)
+                        399 < err.response.status && err.response.status < 500 ? this.showToast(MessagesUsers.warning_user_update + ': ' + err.message, 'warning') : null
+                        499 < err.response.status && err.response.status < 600 ? this.showToast(MessagesUsers.error_user_update + ': ' + err.message, 'error') : null
                         this.loaderUpdate = false
                         return of(EMPTY)
-                    })
+                    }),
+                    takeUntil(this.destroy)
                 ).subscribe()
             } else {
-                this.showToast('Пользователь не изменён, так как поля остались не тронутыми', 'info')
+                this.showToast(MessagesUsers.info_user_update + ', так как поля остались не тронутыми', 'info')
+                this.updRole()
+                this.onCloseModal()
             }
         },
-        roleUpd() {
-            if (this.user.roles.length) {
-                this.oldRole = this.user.roles[0].id
+        updRole() {
+            this.loaderUpdate = true
+            if (this.oldRole === this.noRole) {
+                if (this.newRole !== this.oldRole) {
+                    this.updateRoleUser(this.user.id, this.newRole).pipe(
+                        map(response => {
+                            this.loaderUpdate = false
+                            this.showToast(MessagesUsers.success_role_user, 'success')
+                        }),
+                        catchError(err => {
+                            this.loaderUpdate = false
+                                399 < err.response.status && err.response.status < 500 ? this.showToast(MessagesUsers.warning_role_user + ': ' + err.message, 'warning') : null
+                                499 < err.response.status && err.response.status < 600 ? this.showToast(MessagesUsers.error_role_user + ': ' + err.message, 'error') : null
+                           return of(EMPTY) 
+                        }),
+                        takeUntil(this.destroy)
+                    ).subscribe()
+                } else {
+                    this.showToast(MessagesUsers.info_role_user, 'info')
+                }
             } else {
-                this.oldRole = 'Без роли'
+                if (this.oldRole !== this.user.roles[0].id) {
+                    if (this.user.roles[0].id === this.noRole) {
+                        this.deleteRoleUser(this.user.id, this.oldRole).pipe(
+                            map(response => {
+                                this.loaderUpdate = false
+                                this.showToast(MessagesUsers.success_role_user_delete, 'success')
+                            }),
+                            catchError(err => {
+                                this.loaderUpdate = false
+                                399 < err.response.status && err.response.status < 500 ? this.showToast(MessagesUsers.warning_role_user_delete + ': ' + err.message, 'warning') : null
+                                499 < err.response.status && err.response.status < 600 ? this.showToast(MessagesUsers.error_role_user_delete + ': ' + err.message, 'error') : null
+                                return of(EMPTY) 
+                            }),
+                            takeUntil(this.destroy)
+                        ).subscribe()
+                    } else {
+                        this.updateRoleUser(this.user.id, this.user.roles[0].id).pipe(
+                            map(response => {
+                                this.loaderUpdate = false
+                                this.showToast(MessagesUsers.success_role_user, 'success')
+                            }),
+                            catchError(err => {
+                                this.loaderUpdate = false
+                                399 < err.response.status && err.response.status < 500 ? this.showToast(MessagesUsers.warning_role_user + ': ' + err.message, 'warning') : null
+                                499 < err.response.status && err.response.status < 600 ? this.showToast(MessagesUsers.error_role_user + ': ' + err.message, 'error') : null
+                                return of(EMPTY) 
+                            }),
+                            takeUntil(this.destroy)
+                        ).subscribe()
+                    }
+                } else {
+                    this.showToast(MessagesUsers.info_role_user, 'info')
+                }
             }
         },
         checkUserRole() {
             if (this.user.roles.length) {
-                this.oldRole = this.user.roles[0].id
+                this.oldRole = toRaw(this.user.roles[0].id)
             } else {
-                this.oldRole = 'Без роли'
+                this.oldRole = this.noRole
             }
-        }
+        },
     },
     mounted() {
         this.getAllRole(),
-        this.oldUser = this.user,
+        this.oldUser = toRaw(this.user),
         this.checkUserRole()
     },
 }

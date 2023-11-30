@@ -22,8 +22,8 @@ import { mapActions, mapState } from 'pinia'
 import { useUsersStore } from './../../stores/UsersStore'
 import { useUsersQueryBuilderStore } from './../../stores/UsersQueryBuilderStore'
 import { useLoaderStore } from '../../stores/LoaderStore';
-import { catchError, tap, map, retry, delay} from 'rxjs/operators';
-import { of, EMPTY } from 'rxjs';
+import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators';
+import { of, EMPTY, Subject } from 'rxjs';
 import { useToastStore } from '../../stores/ToastStore'
 import { MessagesUsers } from '../../enums/users_messages'
 import { useUsersFilterStore } from '../../stores/UsersFilterStore';
@@ -34,6 +34,12 @@ import UserModal from '../../components/modals/user/user_modal/UserModal.vue';
 
 export default {
     name: 'Users',
+    setup() {
+        const destroy$ =  new Subject()
+        return {
+            destroy$,
+        }
+    },
     data() {
         return {
             users: null,
@@ -41,7 +47,6 @@ export default {
             total: 0,
             nextPage: null,
             backPage: null
-            // destroy$: new Subject()
         }
     },
     computed: {
@@ -61,6 +66,7 @@ export default {
     methods: {
         onCloseModal() {
             this.user = null
+            this.getAllUsers()
         },
         onUserModal(data) {
             this.user = data
@@ -100,7 +106,7 @@ export default {
                     499 < err.response.status && err.response.status < 600 ? this.showToast(MessagesUsers.error_users + ': ' + err.message, 'error') : null
                     return of(EMPTY)
                 }),
-                // takeUntil(this.destroy$)
+                takeUntil(this.destroy$)
             ).subscribe()
         }
 

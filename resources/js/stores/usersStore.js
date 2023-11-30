@@ -9,9 +9,6 @@ export const useUsersStore = defineStore('useUsers', {
         getUsers(params)  {
             return from(axios.get('admin/users/', {params}))
         },
-        getRoles() {
-            return from(axios.get('roles'))
-        },
         updateUser(user) {
             const id = user.id
             const params = {
@@ -19,6 +16,18 @@ export const useUsersStore = defineStore('useUsers', {
                 email: user.email,
             }
             return from(axios.put('admin/users/'+ id + '/', params))
+        },
+        deleteUser(id) {
+            return from(axios.delete(`admin/users/${id}`))
+        },
+        getRoles() {
+            return from(axios.get('roles'))
+        },
+        updateRoleUser(user_id, role_id) {
+            return from(axios.put(`users/role/${user_id}/${role_id}`))
+        },
+        deleteRoleUser(user_id, role_id) {
+            return from(axios.delete(`users/role/${user_id}/${role_id}`))
         }
     },
 })

@@ -2,7 +2,7 @@
     <!-- <div v-for="user in users">
         {{user.name}}
     </div> -->
-    <div class="relative overflow-x-auto border border-gray-300 dark:border-gray-700 dark:border-gra rounded-lg">
+    <div class="relative z-10 overflow-x-auto border border-gray-300 dark:border-gray-700 dark:border-gra rounded-lg">
     <table class="border border-gray-300 dark:border-gray-700 rounded-lg w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead class="border border-gray-300 dark:border-gray-700 rounded-lg text-xs text-gray-700 uppercase bg-gray-200 dark:bg-gray-800 dark:text-gray-400">
             <tr>
