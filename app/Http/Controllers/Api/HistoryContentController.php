@@ -40,7 +40,7 @@ class HistoryContentController extends Controller
                         $historyContents = $historyContents->orderBy('created_at')->cursorPaginate($limit, ['*'], 'page', $page);
                         return [$historyContents, $total];
                     });
-        return response()->json(["status"=>"success", "historyContens" => $response[0], "total" => $response[1]],200);
+        return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
 
     public function createHistoryContent(Request $request){

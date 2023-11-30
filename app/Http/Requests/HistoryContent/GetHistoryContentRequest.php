@@ -25,8 +25,8 @@ class GetHistoryContentRequest extends FormRequest
     {
         return [
             "name" => "string|min:3",
-            "date_start" => "date",
-            "date_end" => "date",
+            "dateStart" => "date",
+            "dateEnd" => "date",
             "sponsor" => "string",
             "searchText" => "string"
 
