@@ -10,6 +10,8 @@ use App\Filters\Event\EventDate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventSponsor;
+use App\Filters\HistoryContent\HistoryContentEventTypes;
+use App\Filters\HistoryContent\HistoryContentSightTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
 use App\Models\Event;
@@ -40,8 +42,10 @@ class HistoryContentController extends Controller
                         HistoryContentAuthor::class,
                         HistoryContentStatuses::class,
                         HistoryContentStatusesLast::class,
-                        HistoryContentGeoPositionAreaHistoryPlace::class
-
+                        HistoryContentGeoPositionAreaHistoryPlace::class,
+                        HistoryContentEventTypes::class,
+                        HistoryContentSightTypes::class
+                        
                     ])
                     ->via('apply')
                     ->then(function ($historyContents) use ($page, $limit, $total){

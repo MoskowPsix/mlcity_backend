@@ -13,12 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('history_content_statuses', function (Blueprint $table) {
+        Schema::create("history_contentables", function(Blueprint $table){
             $table->id();
-            $table->foreignId("status_id")->constrained("statuses")->nullOnDelete();
-            $table->foreignId("history_content_id")->constrained("history_contents")->nullOnDelete();
-            $table->text("descriptions")->nullable();
-            $table->boolean("last")->nullable();
+            $table->unsignedBigInteger("history_content_id");
+            $table->unsignedBigInteger("history_contentable_id");
+            $table->string("history_contentable_type");
             $table->timestamps();
         });
     }
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_status_contents');
+        //
     }
 };

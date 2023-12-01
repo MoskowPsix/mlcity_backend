@@ -20,6 +20,10 @@ class SightType extends Model
         'stype_id'
     ];
 
+    public function historyContents(){
+        return $this->morphToMany(HistoryContent::class, "history_contentable");
+    }
+
     public function sights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Sight::class,'sights_stypes','stype_id','sight_id');

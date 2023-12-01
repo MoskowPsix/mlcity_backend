@@ -30,9 +30,9 @@ class CreateHistoryContent
     public function handle(EventCreated $event)
     {
         $event = $event->model;
-        
-
-        $historyContent = $event->historyContents()->create($event->toArray());
+        $data = $this->prepareEventData($event);
+        info($event->toArray());
+        $historyContent = $event->historyContents()->create($data);
         $status_id = Status::where("name", "Опубликовано")->first()->id;
         $historyContent->historyContentStatuses()->create([
             "status_id" => $status_id,
@@ -74,6 +74,12 @@ class CreateHistoryContent
                 ]);
             }
         }
+
+        foreach($event->types as $type){
+            $historyContent->eventTypes()->attach($type->id);
+            info($type->toArray());
+        }
+        
     }
 
     public function preparePlaceData($place){
@@ -129,5 +135,15 @@ class CreateHistoryContent
         unset($data["updated_at"]);
 
         return $data;
+    }
+
+    public function prepareEventData($event){
+        $data = $event->toArray();
+        unset($data["id"]);
+        unset($data["created_at"]);
+        unset($data["updated_at"]);
+
+        return $data;
+
     }
 }
