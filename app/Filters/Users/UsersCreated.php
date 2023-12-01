@@ -18,6 +18,17 @@ class UsersCreated implements Pipe {
                 ->whereDate('created_at', '>=', $dateStart);
             });
         }
+        if (request()->filled('createdDateStart')) {
+            $dateStart = request()->get('createdDateStart');
+            $content->where(function($q) use ($dateStart){
+                $q->whereDate('created_at', '>=', $dateStart);
+            });
+        } elseif (request()->filled('cteatedDateEnd')) {
+            $dateEnd = request()->get('cteatedDateEnd');
+            $content->where(function($q) use ($dateEnd){
+                $q->whereDate('created_at', '<=', $dateEnd);
+            });
+        }
         return $next($content);
     }
 }

@@ -388,9 +388,9 @@ class AuthController extends Controller
         }
         
         if (isset($credentials['name'])) {
-            $user = User::where('name', $credentials['name'])->with('socialAccount')->firstOrFail();
+            $user = User::where('name', $credentials['name'])->with('socialAccount', 'roles')->firstOrFail();
         } elseif (isset($credentials['email'])) {
-            $user = User::where('email', $credentials['email'])->with('socialAccount')->firstOrFail(); 
+            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail(); 
         }
 
         $token = $this->getAccessToken($user);

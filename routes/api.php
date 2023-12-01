@@ -71,7 +71,7 @@ Route::controller(AuthController::class)->group(function() {
 
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('admin/users/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
+    Route::get('admin/users/', 'listUsers')->middleware('admin'); // Для админ панели(поиск юзера по фильтрам)
     Route::put('admin/users/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
     Route::delete('admin/users/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
 
