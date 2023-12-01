@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { useContentsFilterStore } from './ContentFilterStore';
+import { useContentsFilterStore } from './HistoryContentFilterStore';
 
 
 // const authStore = useAuthStore()
-export const useContentsQueryBuilderStore = defineStore('useContentsQueryBuilder', {
+export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryContentsQueryBuilder', {
     
     actions: {
         queryBuilder(func) {

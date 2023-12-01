@@ -45,7 +45,7 @@ const router = createRouter({
     {
       path: '/edit',
       name: 'edit',
-      component: () => import('../views/edit/Edit.vue')
+      component: () => import('../views/history_content/HistoryContent.vue')
     }
   ]
 

@@ -1,26 +1,29 @@
 <template lang="">
-    <ContentTable :contents="contents"/>
-    <div class="flex justify-center ">
+    <HistoryContentFilter class="m-1"/>
+    <HistoryContentTable :contents="contents" class="m-1"/>
+    <div class="flex justify-center m-1">
             <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
     </div>
 </template>
 <script>
-import { mapActions, mapState } from 'pinia';
-import { useLoaderStore } from '../../stores/LoaderStore';
-import { useContentStore } from '../../stores/ContentStore';
-import { useContentsQueryBuilderStore } from '../../stores/ContentQueryBuilderStore';
-import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators';
-import { of, EMPTY, Subject } from 'rxjs';
+import { mapActions, mapState } from 'pinia'
+import { useLoaderStore } from '../../stores/LoaderStore'
+import { useHistoryContentStore } from '../../stores/HistoryContentStore'
+import { useHistoryContentsQueryBuilderStore } from '../../stores/HistoryContentQueryBuilderStore'
+import { useHistoryContentsFilterStore } from '../../stores/HistoryContentFilterStore'
+import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
+import { of, EMPTY, Subject } from 'rxjs'
 import { useToastStore } from '../../stores/ToastStore'
 import { MessageContents } from '../../enums/content_messages'
 
-import PaginateBar from '../../components/paginate_bar/PaginateBar.vue';
-import ContentTable from '../../components/tables/content_table/ContentTable.vue';
+import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
+import HistoryContentTable from '../../components/tables/history_content_table/HistoryContentTable.vue'
+import HistoryContentFilter from '../../components/filters/history_content_filter/HistoryContentFilter.vue'
 
 
 
 export default {
-    name: 'Edit',
+    name: 'HistoryContent',
     setup() {
         const destroy$ =  new Subject()
         return {
@@ -37,16 +40,25 @@ export default {
     },
     components: {
         PaginateBar,
-        ContentTable
+        HistoryContentTable,
+        HistoryContentFilter
     },
     computed: {
-
+        ...mapState(useHistoryContentsFilterStore, [
+        'contentName',
+        'contentDate',
+        'contentSponsor',
+        'contentSearchText',
+        'contentStatuses',
+        'contentStatusLast',
+        'contentUser',
+        ])
     },
     methods: {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useContentStore, ['getContents']),
+        ...mapActions(useHistoryContentStore, ['getContents']),
         ...mapActions(useToastStore, ['showToast']),
-        ...mapActions(useContentsQueryBuilderStore, ['queryBuilder', 'setPageContentsForPageContents']),
+        ...mapActions(useHistoryContentsQueryBuilderStore, ['queryBuilder', 'setPageContentsForPageContents']),
         viewBackPage() {
             this.setPageContentsForPageContents(this.backPage)
             this.getAllContents()
@@ -81,16 +93,33 @@ export default {
                 takeUntil(this.destroy$)
             ).subscribe()
         },
-        toNextPage() {
-
-        },
-        toBackPage() {
-
-        }
     },
     mounted() {
         this.getAllContents()
     },
+    watch: {
+        contentName() {
+            this.getAllContents()
+        },
+        contentDate() {
+            this.getAllContents()
+        },
+        contentSponsor() {
+            this.getAllContents()
+        },
+        contentSearchText() {
+            this.getAllContents()
+        },
+        contentStatuses() {
+            this.getAllContents()
+        },
+        contentStatusLast() {
+            this.getAllContents()
+        },
+        contentUser() {
+            this.getAllContents()
+        }
+    }
 }
 </script>
 <style lang="">

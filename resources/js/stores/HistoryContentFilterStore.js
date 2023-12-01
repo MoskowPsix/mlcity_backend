@@ -3,13 +3,12 @@ import { useAuthStore } from './AuthStore'
 import { BehaviorSubject } from 'rxjs';
 
 
-export const useContentsFilterStore = defineStore('useContentsFilter', {
+export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilter', {
     state: () => ({
         contentName: new BehaviorSubject(localStorage.getItem('contentNameFilter') || ''),
         contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || ''),
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
         contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
-
         contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || ''),
         contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || ''),
         contentUser: new BehaviorSubject(localStorage.getItem('contentUserFilter') || ''),
