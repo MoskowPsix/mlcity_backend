@@ -28,6 +28,8 @@ return new class extends Migration
             $table->text("work_time")->nullable();
             $table->decimal('latitude', 17, 14);
             $table->decimal('longitude', 17, 14);
+            $table->integer('location_id')->nullable();
+            $table->foreign('location_id')->references('id')->on('locations')->nullOnDelete();
             $table->boolean("on_delete")->nullable();
             $table->unsignedBigInteger("history_contentable_id");
             $table->string("history_contentable_type");
