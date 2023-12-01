@@ -32,7 +32,8 @@ class RoleController extends Controller
      */
     public function allRole()
     {
-    return Role::all();
+    $roles = Role::all();
+    return response()->json(['status' => 'success', 'roles' => $roles], 200);
     }
     /**
      * @OA\Get(

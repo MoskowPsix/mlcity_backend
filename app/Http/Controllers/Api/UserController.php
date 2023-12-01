@@ -631,7 +631,7 @@ class UserController extends Controller
     public function listUsers(Request $request) 
     {
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
+        $limit = $request->limit ? $request->limit : 1;
         $name = $request->name ? $request->name : '';
         $users = User::with('roles', 'locations');
 
@@ -648,7 +648,7 @@ class UserController extends Controller
                 UsersLocation::class,
             ])
             ->then(function ($users) use ($page, $limit, $request){
-                return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+                return $users->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
             });
 
             return response()->json(['status' => 'success', 'users' => $response], 200);
@@ -727,22 +727,14 @@ class UserController extends Controller
     {
     
         $data = $request->all();
-        $user = User::where('id', $id)->firstOrFail();
+        $user = User::findOrFail($id);
         $user->fill($data);
         $user->save();
     
-        $jsonData = [
-            'status' => 'SUCCESS',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'city' => $user->city,
-                'region' => $user->region,
-            ]
-        ];
-    
-        return response()->json($jsonData);
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+        ], 200);
     }
 
     /**

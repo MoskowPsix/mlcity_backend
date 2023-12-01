@@ -1,6 +1,6 @@
 <template>
   <!-- <div class="ml-64" @click="console.log(auth)">{{ auth }}</div> -->
-  <LoaderFullPage v-if="loaderFullPageState"/>
+  <LoaderFullPage class="z-50" v-if="loaderFullPageState"/>
   <div v-if="stateLeftBar">
     <LeftBar/>
     <div class="justify-items-center sm:ml-64 h-screen overflow-y-scroll" id="journal-scroll" >
