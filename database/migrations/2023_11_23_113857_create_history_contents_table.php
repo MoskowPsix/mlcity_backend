@@ -26,8 +26,9 @@ return new class extends Migration
             $table->string("vk_post_id")->nullable();
             $table->integer("cult_id")->nullable();
             $table->text("work_time")->nullable();
-            $table->decimal('latitude', 17, 14);
-            $table->decimal('longitude', 17, 14);
+            $table->decimal('latitude', 17, 14)->nullable();
+            $table->decimal('longitude', 17, 14)->nullable();
+            $table->text("address")->nullable();
             $table->integer('location_id')->nullable();
             $table->foreign('location_id')->references('id')->on('locations')->nullOnDelete();
             $table->boolean("on_delete")->nullable();
