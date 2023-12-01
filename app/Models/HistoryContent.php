@@ -4,7 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Models\User;
 
 class HistoryContent extends Model
 {
@@ -13,6 +15,15 @@ class HistoryContent extends Model
     protected $table = "history_contents";
 
     protected $guarded = false;
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+    public function statuses() {
+        return $this->belongsToMany(Status::class, 'history_content_statuses')->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
+
+    }
 
     public function historyContentable(): MorphTo
     {

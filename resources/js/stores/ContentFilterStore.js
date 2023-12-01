@@ -8,7 +8,11 @@ export const useContentsFilterStore = defineStore('useContentsFilter', {
         contentName: new BehaviorSubject(localStorage.getItem('contentNameFilter') || ''),
         contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || ''),
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
-        contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || '')
+        contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
+
+        contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || ''),
+        contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || ''),
+        contentUser: new BehaviorSubject(localStorage.getItem('contentUserFilter') || ''),
     }),
     actions: {
         setContentName(name) {
@@ -39,6 +43,27 @@ export const useContentsFilterStore = defineStore('useContentsFilter', {
         },
         getContentText() {
             return localStorage.getItem('contentTextFilter')
+        },
+        setContentStatuses(status) {
+            localStorage.setItem('contentStatusesFilter', status)
+            this.contentStatuses = status
+        },
+        getContentStatuses() {
+            return localStorage.getItem('contentStatusesFilter')
+        },
+        setContentStatusLast(status) {
+            localStorage.setItem('contentStatusesLastFilter', status)
+            this.contentStatusesLast = status
+        },
+        getContentStatusLast() {
+            return localStorage.getItem('contentStatusesLastFilter')
+        },
+        setContentUser(user) {
+            localStorage.setItem('contentUserFilter', user)
+            this.contentStatusesLast = user
+        },
+        getContentUser() {
+            return localStorage.getItem('contentUserFilter')
         }
     },
 })

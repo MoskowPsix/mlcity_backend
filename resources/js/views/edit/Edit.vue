@@ -1,7 +1,5 @@
 <template lang="">
-    <div class="text-gray-300 p-2 border" v-for="content in contents">
-        {{content.name}}
-    </div>
+    <ContentTable :contents="contents"/>
     <div class="flex justify-center ">
             <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
     </div>
@@ -17,6 +15,7 @@ import { useToastStore } from '../../stores/ToastStore'
 import { MessageContents } from '../../enums/content_messages'
 
 import PaginateBar from '../../components/paginate_bar/PaginateBar.vue';
+import ContentTable from '../../components/tables/content_table/ContentTable.vue';
 
 
 
@@ -38,6 +37,7 @@ export default {
     },
     components: {
         PaginateBar,
+        ContentTable
     },
     computed: {
 
@@ -46,18 +46,21 @@ export default {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useContentStore, ['getContents']),
         ...mapActions(useToastStore, ['showToast']),
-        ...mapActions(useContentsQueryBuilderStore, ['queryBuilder']),
+        ...mapActions(useContentsQueryBuilderStore, ['queryBuilder', 'setPageContentsForPageContents']),
         viewBackPage() {
-
+            this.setPageContentsForPageContents(this.backPage)
+            this.getAllContents()
         },
         viewNextPage() {
-
+            this.setPageContentsForPageContents(this.nextPage)
+            this.getAllContents()
         },
         getAllContents() {
-            this.getContents(this.queryBuilder).pipe(
+            this.openLoaderFullPage()
+            this.getContents(this.queryBuilder('contentsForPageContents')).pipe(
                 retry(3),
                 delay(100),
-                // tap(()=> {this.closeLoaderFullPage()}),
+                tap(()=> {this.closeLoaderFullPage()}),
                 map(response => {
                     console.log(response.data)
                     if(response.data.historyContents.data.length) {

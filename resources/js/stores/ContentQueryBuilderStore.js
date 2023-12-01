@@ -21,7 +21,10 @@ export const useContentsQueryBuilderStore = defineStore('useContentsQueryBuilder
             this.name = useContentsFilterStore().getContentName(),
             this.date = useContentsFilterStore().getContentDate(),
             this.sponsor = useContentsFilterStore().getContentSponsor(),
-            this.searchText = useContentsFilterStore().getContentText()
+            this.searchText = useContentsFilterStore().getContentText(),
+            this.statuses = useContentsFilterStore().getContentStatuses(),
+            this.statusesLast = useContentsFilterStore().getContentStatusLast(),
+            this.user = useContentsFilterStore().getContentUser()
         },
         contentsForPageContents() {
             let date = ['', '']
@@ -35,7 +38,10 @@ export const useContentsQueryBuilderStore = defineStore('useContentsQueryBuilder
                 dateEnd: date[1],
                 sponsor: this.sponsor,
                 searchText: this.searchText,
-                page: this.pageUsersForPageUsers
+                statuses: this.statuses,
+                statusesLast: this.statusesLast,
+                user: this.user,
+                page: this.pageContentsForPageContent
             }
         },
         setPageContentsForPageContents(page) {
@@ -47,7 +53,10 @@ export const useContentsQueryBuilderStore = defineStore('useContentsQueryBuilder
         name: null,
         date: null,
         sponsor: null,
-        searchText: string,
+        searchText: null,
+        statuses: null,
+        statusesLast: null,
+        user: null,
         pageContentsForPageContent: null
         
     }),

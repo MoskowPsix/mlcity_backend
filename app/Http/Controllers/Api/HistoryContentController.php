@@ -2,6 +2,10 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\HistoryContent\HistoryContentAuthor;
+use App\Filters\HistoryContent\HistoryContentStatuses;
+use App\Filters\HistoryContent\HistoryContentStatusesLast;
+use App\Filters\HistoryContent\HistoryContentGeoPositionAreaHistoryPlace;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSearchText;
@@ -24,7 +28,7 @@ class HistoryContentController extends Controller
         $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $historyContents = HistoryContent::query();
+        $historyContents = HistoryContent::query()->with('user');
 
         $response = app(Pipeline::class)
                     ->send($historyContents)
@@ -32,7 +36,12 @@ class HistoryContentController extends Controller
                         EventName::class,
                         EventDate::class,
                         EventSponsor::class,
-                        EventSearchText::class
+                        EventSearchText::class,
+                        HistoryContentAuthor::class,
+                        HistoryContentStatuses::class,
+                        HistoryContentStatusesLast::class,
+                        HistoryContentGeoPositionAreaHistoryPlace::class
+
                     ])
                     ->via('apply')
                     ->then(function ($historyContents) use ($page, $limit, $total){

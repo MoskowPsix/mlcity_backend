@@ -24,12 +24,20 @@ class GetHistoryContentRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "string|min:3",
-            "dateStart" => "date",
-            "dateEnd" => "date",
-            "sponsor" => "string",
-            "searchText" => "string"
-
+            "name" => "nullable|string|min:3",
+            "dateStart" => "nullable|date",
+            "dateEnd" => "nullable|date",
+            "sponsor" => "nullable|string",
+            "searchText" => "nullable|string",
+            
+            "user" => "nullable|string|min:3",
+            "eventTypes" => "nullable|integer",
+            "latitude" => "nullable|integer",
+            "longitude" => "nullable|integer",
+            "statuses" => "nullable|string",
+            "statusLast" => "nullable|string",
+            "page" => "nullable|string",
+            "limit" => "nullable|integer|min:1|max:50",
         ];
     }
 }
