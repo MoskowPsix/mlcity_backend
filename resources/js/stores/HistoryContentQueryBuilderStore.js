@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia'
-import { useContentsFilterStore } from './HistoryContentFilterStore';
+import { useHistoryContentsFilterStore } from './HistoryContentFilterStore';
 
 
 // const authStore = useAuthStore()
@@ -18,13 +18,13 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
         return this.queryParams
         },
         updateParams() {
-            this.name = useContentsFilterStore().getContentName(),
-            this.date = useContentsFilterStore().getContentDate(),
-            this.sponsor = useContentsFilterStore().getContentSponsor(),
-            this.searchText = useContentsFilterStore().getContentText(),
-            this.statuses = useContentsFilterStore().getContentStatuses(),
-            this.statusesLast = useContentsFilterStore().getContentStatusLast(),
-            this.user = useContentsFilterStore().getContentUser()
+            this.name = useHistoryContentsFilterStore().getContentName(),
+            this.date = useHistoryContentsFilterStore().getContentDate(),
+            this.sponsor = useHistoryContentsFilterStore().getContentSponsor(),
+            this.searchText = useHistoryContentsFilterStore().getContentText(),
+            this.statuses = useHistoryContentsFilterStore().getContentStatuses(),
+            this.statusesLast = useHistoryContentsFilterStore().getContentStatusLast(),
+            this.user = useHistoryContentsFilterStore().getContentUser()
         },
         contentsForPageContents() {
             let date = ['', '']
