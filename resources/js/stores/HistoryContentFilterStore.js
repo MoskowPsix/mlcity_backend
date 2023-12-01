@@ -59,7 +59,7 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
         },
         setContentUser(user) {
             localStorage.setItem('contentUserFilter', user)
-            this.contentStatusesLast = user
+            this.contentUser = user
         },
         getContentUser() {
             return localStorage.getItem('contentUserFilter')
