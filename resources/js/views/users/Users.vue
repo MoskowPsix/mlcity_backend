@@ -7,13 +7,16 @@
         <!-- Список пользователей -->
         <UsersTable v-if="users" :users="users" @user="onUserModal" class="mt-1"/>
         <!-- Кнопки пагинации -->
-        <div class="grid grid-cols-2 w-full">
+        <!-- <div class="grid grid-cols-2 w-full">
             <div class="flex justify-evenly">
                 <button v-if="backPage" @click.prevent="viewBackPage()" class="mr-2 border bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-700 border-gray-400 dark:hover:text-color-300/70 dark:text-gray-400/70 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700  pl-2 pr-2 shadow rounded">Назад</button>
             </div>
             <div class="flex justify-evenly">
                 <button v-if="nextPage" @click.prevent="viewNextPage()" class=" border bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-700 border-gray-400 dark:hover:text-color-300/70 dark:text-gray-400/70 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700  pl-2 pr-2 shadow rounded">Далее</button>
             </div>
+        </div> -->
+        <div class="flex justify-center ">
+        <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
         </div>
     </div>
 </template>
@@ -31,6 +34,7 @@ import { useUsersFilterStore } from '../../stores/UsersFilterStore';
 import UsersFilter from '../../components/filters/users_filters/UsersFilter.vue'
 import UsersTable from '../../components/tables/users_table/UsersTable.vue';
 import UserModal from '../../components/modals/user/user_modal/UserModal.vue';
+import PaginateBar from '../../components/paginate_bar/PaginateBar.vue';
 
 export default {
     name: 'Users',
@@ -61,7 +65,8 @@ export default {
     components: {
         UsersFilter,
         UsersTable,
-        UserModal
+        UserModal,
+        PaginateBar
     },
     methods: {
         onCloseModal() {
