@@ -18,6 +18,7 @@ use App\Models\Event;
 use App\Models\FileType;
 use App\Models\HistoryContent;
 use App\Models\HistoryPlace;
+use App\Models\HistorySeance;
 use App\Models\Sight;
 use App\Models\Status;
 use Illuminate\Console\View\Components\Info;
@@ -92,6 +93,132 @@ class HistoryContentController extends Controller
         }
         
         return response()->json(["status"=>"success"],201);
+    }
+
+    public function acceptHistoryContent(Request $request){
+        $data = $request->toArray();
+        $status = $request["status"];
+        $historyContentId = $request["historyContent"]['id'];
+
+        if ($status == "Опубликованно")
+        {
+            $historyContent = HistoryContent::find($historyContentId);
+            $historyParent = $historyContent->historyContentable;
+            $historyRawData = $historyContent->toArray();
+
+            unset($historyRawData['created_at']);
+            unset($historyRawData['updated_at']);
+            
+            unset($historyRawData['id']);
+            unset($historyRawData[ 'history_contentable_id']);
+            unset($historyRawData[ 'history_contentable_type']);
+            unset($historyRawData['history_contentable']);
+
+            $historyData = [];
+
+            foreach($historyRawData as $key=>$data){
+                if(!empty($data)){
+                    $historyData[$key] = $data;
+                }
+            }
+
+            if(!empty($historyData)){
+                if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                    $historyParent->delete();
+                }
+                else{
+                    $historyParent->update($historyData);
+                }
+                
+                
+            }
+
+
+            
+
+            if(isset($request['historyPlace']))
+            {
+                $historyPlaceId = $request["historyPlace"]["id"];
+                $historyPlace = HistoryPlace::find($historyPlaceId);
+                $historyPlaceParent = $historyPlace->place;
+                $historyRawData = $historyPlace->ToArray();
+
+                unset($historyRawData['created_at']);
+                unset($historyRawData['updated_at']);
+                unset($historyRawData["history_content_id"]);
+                unset($historyRawData["place"]);
+                unset($historyRawData["place_id"]);
+                unset($historyRawData['id']);
+         
+
+                $historyData = [];
+
+                foreach($historyRawData as $key=>$data){
+                    if(!empty($data)){
+                        $historyData[$key] = $data;
+
+                    }
+                }
+
+                if(!empty($historyData)){
+                    if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                        $historyPlaceParent->delete();
+                    }
+                    else{
+                        $historyPlaceParent->update($historyData);
+                    }
+                    
+                }
+
+                if(isset($request["historySeance"]))
+                {
+                    $historySeanceId = $request["historySeance"]['id'];
+                    $historySeance = HistorySeance::find($historySeanceId);
+                    $historySeanceParent = $historySeance->seance;
+
+                    $historyRawData = $historySeance->toArray();
+                    unset($historyRawData['created_at']);
+                    unset($historyRawData['updated_at']);
+                    unset($historyRawData['history_place_id']);
+                    unset($historyRawData['id']);
+                    unset($historyRawData['seance']);
+                    unset($historyRawData["seance_id"]);
+
+
+
+                    $historyData = [];
+
+
+
+                    foreach($historyRawData as $key=>$data){
+                        if(!empty($data)){
+                            $historyData[$key] = $data;
+                        }
+                    }
+
+                    info($historyData);
+
+                    if(!empty($historyData)){
+                        
+                        if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                            $historySeanceParent->delete();
+                        }
+                        else{
+                            $historySeanceParent->update([
+                                "dateStart" => $historySeance["date_start"]
+                            ]);
+                        }
+                    }
+                    
+
+
+                }
+            }
+
+
+            return response()->json(["status"=>"success"],201);
+
+        }
     }
 
     

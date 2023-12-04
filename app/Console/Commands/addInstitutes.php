@@ -300,7 +300,7 @@ class addInstitutes extends Command
                     // Ставим статус
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
-                    event(new SightCreated($sight_cr));
+                    event(new SightCreated($sight_cr    ));
                 }
             }
             $total_institutes = $total_institutes - 1;

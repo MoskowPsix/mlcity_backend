@@ -31,7 +31,6 @@ class CreateHistoryContent
     {
         $event = $event->model;
         $data = $this->prepareEventData($event);
-        info($event->toArray());
         $historyContent = $event->historyContents()->create($data);
         $status_id = Status::where("name", "Опубликовано")->first()->id;
         $historyContent->historyContentStatuses()->create([
@@ -77,7 +76,7 @@ class CreateHistoryContent
 
         foreach($event->types as $type){
             $historyContent->eventTypes()->attach($type->id);
-            info($type->toArray());
+            
         }
         
     }
