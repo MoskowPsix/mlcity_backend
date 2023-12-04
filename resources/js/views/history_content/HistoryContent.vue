@@ -1,7 +1,7 @@
 <template lang="">
     <HistoryContentFilter class="m-1"/>
     <HistoryContentTable :contents="contents" class="m-1"/>
-    <div class="flex justify-center m-1">
+    <div class="flex justify-center m-1" v-if="nextPage || backPage">
             <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
     </div>
 </template>
@@ -15,6 +15,8 @@ import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useToastStore } from '../../stores/ToastStore'
 import { MessageContents } from '../../enums/content_messages'
+import { Select, initTE } from "tw-elements";
+
 
 import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
 import HistoryContentTable from '../../components/tables/history_content_table/HistoryContentTable.vue'
@@ -86,6 +88,7 @@ export default {
                 }),
                 catchError(err => {
                     console.log(err)
+                    this.closeLoaderFullPage()
                     399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_content + ': ' + err.message, 'warning') : null
                     499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_content + ': ' + err.message, 'error') : null
                     return of(EMPTY)
@@ -95,6 +98,7 @@ export default {
         },
     },
     mounted() {
+        initTE({ Select })
         this.getAllContents()
     },
     watch: {

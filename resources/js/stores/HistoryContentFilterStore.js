@@ -10,7 +10,7 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
         contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
         contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || ''),
-        contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || ''),
+        contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || 'true'),
         contentUser: new BehaviorSubject(localStorage.getItem('contentUserFilter') || ''),
     }),
     actions: {
@@ -48,14 +48,16 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
             this.contentStatuses = status
         },
         getContentStatuses() {
-            return localStorage.getItem('contentStatusesFilter')
+            let status = localStorage.getItem('contentStatusesFilter')
+            return status
         },
         setContentStatusLast(status) {
-            localStorage.setItem('contentStatusesLastFilter', status)
-            this.contentStatusesLast = status
+            localStorage.setItem('contentStatusLastFilter', status)
+            this.contentStatusLast = status
+            console.log(this.contentStatusLast)
         },
         getContentStatusLast() {
-            return localStorage.getItem('contentStatusesLastFilter')
+            return localStorage.getItem('contentStatusLastFilter')
         },
         setContentUser(user) {
             localStorage.setItem('contentUserFilter', user)

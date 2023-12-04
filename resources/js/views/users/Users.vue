@@ -15,7 +15,7 @@
                 <button v-if="nextPage" @click.prevent="viewNextPage()" class=" border bg-gray-200 text-gray-600 hover:bg-gray-300 hover:text-gray-700 border-gray-400 dark:hover:text-color-300/70 dark:text-gray-400/70 dark:border-gray-600 dark:bg-gray-800 dark:hover:bg-gray-700  pl-2 pr-2 shadow rounded">Далее</button>
             </div>
         </div> -->
-        <div class="flex justify-center ">
+        <div class="flex justify-center " v-if="nextPage || backPage">
         <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
         </div>
     </div>
