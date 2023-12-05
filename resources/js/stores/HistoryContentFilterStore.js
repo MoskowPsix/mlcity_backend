@@ -9,7 +9,7 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
         contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || ''),
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
         contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
-        contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || ''),
+        contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || '1'),
         contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || 'true'),
         contentUser: new BehaviorSubject(localStorage.getItem('contentUserFilter') || ''),
     }),

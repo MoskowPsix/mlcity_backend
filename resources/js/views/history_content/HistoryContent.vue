@@ -15,8 +15,6 @@ import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useToastStore } from '../../stores/ToastStore'
 import { MessageContents } from '../../enums/content_messages'
-import { Select, initTE } from "tw-elements";
-
 
 import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
 import HistoryContentTable from '../../components/tables/history_content_table/HistoryContentTable.vue'
@@ -98,7 +96,6 @@ export default {
         },
     },
     mounted() {
-        initTE({ Select })
         this.getAllContents()
     },
     watch: {

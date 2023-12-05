@@ -1,16 +1,14 @@
 <template lang="">
-    <button @click="backButton">Назад</button>
-    <h1>Наполнение, редактирование, карта</h1>
     <div>
-        <h1>id: {{event.id}}</h1>
-        <h1>name: {{event.name}}</h1>
+        <h1>SightShow</h1>
+        <h1>{{sight.id}}</h1>
+        <h1>{{sight.name}}</h1>
     </div>
 </template>
 <script>
 import { mapActions} from 'pinia'
 import { useToastStore } from '../../../stores/ToastStore'
-import { MessageEvents } from '../../../enums/events_messages'
-import { useEventStore } from '../../../stores/EventStore'
+import { useSightStore } from '../../../stores/SightStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import router from '../../../routes'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
@@ -18,7 +16,7 @@ import { of, EMPTY, Subject } from 'rxjs'
 
 
 export default {
-    name: 'EventShow',
+    name: 'SightShow',
     setup() {
         const destroy$ =  new Subject()
         return {
@@ -27,20 +25,20 @@ export default {
     },
     data() {
         return {
-            event: [],
+            sight: [],
         }
     },
     methods: {
-        ...mapActions(useEventStore, ['getEventForIds']),
+        ...mapActions(useSightStore, ['getSightForIds']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        getEvent() {
-            retry(3),
-            delay(100),
+        getSight() {
             this.openLoaderFullPage()
-            this.getEventForIds(this.$route.params.id).pipe(
+            this.getSightForIds(this.$route.params.id).pipe(
+                retry(3),
+                delay(100),
                 map(response => {
-                    this.event = response.data
+                    this.sight = response.data
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
@@ -58,8 +56,8 @@ export default {
         }
     },
     mounted() {
-        this.openLoaderFullPage
-        this.getEvent()
+        this.openLoaderFullPage()
+        this.getSight()
     },
 }
 </script>

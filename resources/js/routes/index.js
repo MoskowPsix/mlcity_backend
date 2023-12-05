@@ -8,7 +8,7 @@ import axios from 'axios'
 //const authStore = useAuthStore()
 //const localStorageStore = useLocalStorageStore()
 const router = createRouter({
-  history: createWebHashHistory ("/"),
+  history: createWebHistory(),
   routes: [
     {
       path: '/',
@@ -26,14 +26,24 @@ const router = createRouter({
       component: () => import('../views/sights/Sights.vue')
     },
     {
+      path: '/sight/:id',
+      name: 'sight',
+      component: () => import('../views/sights/sight_show/SightShow.vue'),
+    },
+    {
       path: '/events',
       name: 'events',
-      component: () => import('../views/events/Event.vue')
+      component: () => import('../views/events/Event.vue'),
     },
     {
       path: '/event/:id',
       name: 'event',
-      component: () => import('../views/events/event_show/EventShow.vue')
+      component: () => import('../views/events/event_show/EventShow.vue'),
+    },
+    {
+      path: '/types',
+      name: 'types',
+      component: () => import('../views/types/Types.vue')
     },
     {
       path: '/role',

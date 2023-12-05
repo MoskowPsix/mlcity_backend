@@ -5,7 +5,6 @@ import axios from 'axios'
 import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
-import { ajax } from 'rxjs/ajax'
 
 
 

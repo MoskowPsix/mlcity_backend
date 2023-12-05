@@ -26,7 +26,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
             this.user = useEventFilterStore().getEventUser()
         },
         eventsForPageEvents() {
-            let date = ['', '']
+            let date = [new Date().toISOString, '']
             if (this.date) {
                 date = this.date.split('~')
             }
