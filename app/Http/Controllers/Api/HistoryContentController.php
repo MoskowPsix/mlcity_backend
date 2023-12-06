@@ -10,12 +10,15 @@ use App\Filters\Event\EventDate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventSponsor;
+use App\Filters\HistoryContent\HistoryContentEventTypes;
+use App\Filters\HistoryContent\HistoryContentSightTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
 use App\Models\Event;
 use App\Models\FileType;
 use App\Models\HistoryContent;
 use App\Models\HistoryPlace;
+use App\Models\HistorySeance;
 use App\Models\Sight;
 use App\Models\Status;
 use Illuminate\Console\View\Components\Info;
@@ -40,8 +43,10 @@ class HistoryContentController extends Controller
                         HistoryContentAuthor::class,
                         HistoryContentStatuses::class,
                         HistoryContentStatusesLast::class,
-                        HistoryContentGeoPositionAreaHistoryPlace::class
-
+                        HistoryContentGeoPositionAreaHistoryPlace::class,
+                        HistoryContentEventTypes::class,
+                        HistoryContentSightTypes::class
+                        
                     ])
                     ->via('apply')
                     ->then(function ($historyContents) use ($page, $limit, $total){
@@ -90,6 +95,110 @@ class HistoryContentController extends Controller
         return response()->json(["status"=>"success"],201);
     }
 
+    public function acceptHistoryContent(Request $request){
+        $data = $request->toArray();
+        $status = $request["status"];
+        $historyContentId = $request["historyContent"]['id'];
+
+        if ($status == "Опубликованно")
+        {
+            $historyContent = HistoryContent::find($historyContentId);
+            $historyParent = $historyContent->historyContentable;
+            $historyRawData = $this->unsetRawHistoryContentData($historyContent->toArray());
+
+            $historyData = $this->notNullData($historyRawData);
+
+            if(!empty($historyData))
+            {
+                if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                    $historyParent->delete();
+                }
+                else{
+                    $historyParent->update($historyData);
+                }
+                
+                
+            }
+
+            if(isset($request['historyPlace']))
+            {
+                $historyPlaceId = $request["historyPlace"]["id"];
+                $historyPlace = HistoryPlace::find($historyPlaceId);
+                $historyPlaceParent = $historyPlace->place;
+                $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray()); 
+
+
+                $historyData = $this->notNullData($historyRawData);
+
+                if(!empty($historyData)){
+                    if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                        $historyPlaceParent->delete();
+                    }
+                    else{
+                        $historyPlaceParent->update($historyData);
+                    }
+                    
+                }
+            }
+
+            if(isset($request["historySeance"]))
+                {
+                    $historySeanceId = $request["historySeance"]['id'];
+                    $historySeance = HistorySeance::find($historySeanceId);
+                    $historySeanceParent = $historySeance->seance;
+
+                    $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray()); 
+                    
+                    $historyData = $this->notNullData($historyRawData);
+
+                    info($historyData);
+
+                    if(!empty($historyData)){
+                        
+                        if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+                            $historySeanceParent->delete();
+                        }
+                        else{
+                            $historySeanceParent->update([
+                                "dateStart" => $historySeance["date_start"]
+                            ]);
+                        }
+                    }
+                }
+            
+            $historyFiles = $historyContent->historyFiles;
+
+            if(!empty($historyFiles)){
+                $data = $historyFiles->toArray();
+
+                foreach($data as $file){
+                    $img = $historyParent->files()->create([
+                        "name" => $file['name'],
+                        "link" => $file['link'],
+                        "local" => $file['local']
+                    ])->file_types ()->attach(1);
+                    
+                }
+            }
+            $historyContent->historyContentStatuses()->create([
+                "status_id" => 1
+            ]);
+            return response()->json(["status"=>"success"],201);
+        }
+
+        else if ($status == "Отказ")
+        {
+            $historyContent = HistoryContent::Find($historyContentId);
+            $description = $request["description"];
+            $historyContent->historyContentStatuses()->create([
+                "status_id" => 2,
+                "descriptions" => $description,
+            ]);
+
+            return response()->json(["status"=>"success"],200);
+        }
+    }
+
     
     private function saveLocalFilesImg($historyContent, $files){
 
@@ -104,9 +213,59 @@ class HistoryContentController extends Controller
                 'name'  => $filename,
                 'link'  => '/storage/'.$path,
                 'local' => 1
-            ])->historyFileType()->sync($type[0]->id);
+            ])->historyFileType()->attach($type[0]->id);
 
         }
 
     }
+    private function unsetRawHistoryContentData($historyRawData){
+        $data = $historyRawData;
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['id']);
+        unset($data[ 'history_contentable_id']);
+        unset($data[ 'history_contentable_type']);
+        unset($data['history_contentable']);
+
+        return $data;
+
+    }
+
+    private function unsetRawHistoryPlaceData($historyRawData){
+        $data = $historyRawData;
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data["history_content_id"]);
+        unset($data["place"]);
+        unset($data["place_id"]);
+        unset($data['id']);
+
+        return $data;
+    }
+
+    public function unsetRawHistorySeanceData($historyRawData){
+        $data = $historyRawData;
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['history_place_id']);
+        unset($data['id']);
+        unset($data['seance']);
+        unset($data["seance_id"]);
+        
+        return $data;
+    }
+
+    public function notNullData($data){
+        $historyData = [];
+
+        foreach($data as $key=>$data){
+            if(!empty($data)){
+                    $historyData[$key] = $data;
+            }
+        }
+
+        return $historyData;
+    }
+
+
 }

@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Events\Sight\SightCreated;
 use App\Models\FileType;
 use Illuminate\Console\Command;
 use App\Models\SightType;
@@ -222,7 +223,7 @@ class addInstitutes extends Command
                     // Сохраняем место
                     if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
-                            Sight::create([
+                            $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
                                 'location_id'  => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
@@ -235,7 +236,7 @@ class addInstitutes extends Command
                                 'work_time'     => $sight->workTime,
                             ]);
                         } else {
-                            Sight::create([
+                            $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
                                 'location_id'  => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
@@ -250,7 +251,7 @@ class addInstitutes extends Command
                         }
                     } else {
                         if( str_contains($sight->text,'[HTML]') ) {
-                            Sight::create([
+                            $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
                                 'location_id'   => 1,
@@ -263,7 +264,7 @@ class addInstitutes extends Command
                                 'work_time'     => $sight->workTime,
                             ]);
                         } else {
-                            Sight::create([
+                            $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
                                 'location_id'   => 1,
@@ -299,6 +300,7 @@ class addInstitutes extends Command
                     // Ставим статус
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                    event(new SightCreated($sight_cr    ));
                 }
             }
             $total_institutes = $total_institutes - 1;

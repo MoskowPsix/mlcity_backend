@@ -16,12 +16,20 @@ class HistoryContent extends Model
 
     protected $guarded = false;
 
+    public function eventTypes(){
+        return $this->morphedByMany(EventType::class, "history_contentable");
+        
+    }
+    public function sightTypes(){
+        return $this->morphedByMany(SightType::class, "history_contentable");
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
     public function statuses() {
-        return $this->belongsToMany(Status::class, 'history_content_statuses')->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
+        return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
 
     }
 

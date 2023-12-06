@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Place\PlaceCreated;
 use App\Models\Event;
 use App\Models\EventTypes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -23,6 +24,12 @@ class Place extends Model
         'longitude',
         'address'
     ];
+
+    protected static function booted(){
+        static::created(function ($model){
+            event(new PlaceCreated($model));
+        });
+    }
 
     // public function sight () {
     //     $this->belongsTo(Sight::class, 'sight_id');

@@ -35,12 +35,12 @@ class Event extends Model
         'cult_id'
     ];
 
-    protected static function booted()
-    {
-        static::created(function($model){
-            event(new EventCreated($model));
-        });
-    }
+    // protected static function booted()
+    // {
+    //     static::created(function($model){
+    //         event(new EventCreated($model));
+    //     });
+    // }
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
