@@ -4,7 +4,7 @@
         <input v-model="contentSponsor" type="text" name="sponsor" id="sponsor" placeholder="Спонсор мероприятия" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
         <input v-model="contentSearchText" type="text" name="text" id="text" placeholder="Поиск по тексту" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
         <input v-model="contentUser" type="text" name="user" id="user" placeholder="Имя автора" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
-        <VueTailwindDatepicker v-model="contentDate" placeholder="Дата начала и конца" />
+        <VueTailwindDatepicker :formatter="formatter" v-model="contentDate" placeholder="Дата начала и конца" />
         <div class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
             <div>
                 <select class="h-6" v-model="contentStatuses" data-te-select-init multiple>
@@ -48,18 +48,26 @@ export default {
         VueTailwindDatepicker
     },
     setup() {
+        const formatter = {
+                date: 'YYYY-MM-DD hh:mm:ss',
+                month: 'MM',
+            }
         const destroy$ =  new Subject()
         return {
             destroy$,
+            formatter
         }
     },
     data() {
         return {
             contentName: this.getContentName(),
-            contentDate: this.getContentDate(),
+            contentDate:{
+                startDate: this.getContentDate().split('~')[0].slice(0,19).replace("T", ' '),
+                endDate: this.getContentDate().split('~')[1].slice(0,19).replace("T", ' ')
+            },
             contentSponsor: this.getContentSponsor(),
             contentSearchText: this.getContentText(),
-            contentStatuses: this.getContentStatuses().split(','),
+            contentStatuses: this.getContentStatuses(),
             contentStatusLast: this.getContentStatusLast(),
             contentUser: this.getContentUser(),
             statuses: [],
@@ -109,8 +117,8 @@ export default {
                 this.setContentName(name)
             }
         },
-        contentDate(date) {       
-             this.setContentDate(date)
+        contentDate(date) { 
+                this.setContentDate(date.startDate + '~' + date.endDate)  
         },
         contentSponsor(sponsor) {   
             if (sponsor.length > 3) {     

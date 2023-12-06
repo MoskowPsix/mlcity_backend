@@ -3,8 +3,11 @@ import { useAuthStore } from '../../stores/AuthStore'
 import { mapActions } from 'pinia'
 import { useLocalStorageStore } from '../../stores/LocalStorageStore'
 import { useLoaderStore } from '../../stores/LoaderStore'
-import {MessageAuth} from '../../enums/auth_messages'
+import { MessageAuth } from '../../enums/auth_messages'
 import { useToastStore } from '../../stores/ToastStore'
+import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
+import { of, EMPTY, Subject } from 'rxjs'
+import router from '../../routes'
 
 
 export default {
@@ -16,7 +19,12 @@ export default {
       toastStore: useToastStore(),
     }
   },
- 
+  setup() {
+        const destroy$ =  new Subject()
+        return {
+            destroy$,
+        } 
+    },
   methods: {
     ...mapActions(useAuthStore, ['login']),
     ...mapActions(useLocalStorageStore, ['setToken', 'setRole', 'setUser', 'localStorageInit']),
@@ -28,26 +36,27 @@ export default {
         name: this.name,
         password: this.password
       }
-      this.login(params)
-      .then(async response => {
-          // console.log(response)
+      this.login(params).pipe(
+        map(response => {
           this.setToken(response.data.access_token)
           response.data.user.roles[0] ? this.setRole(response.data.user.roles[0].name) : null
-          // console.log(response)
           this.setUser(response.data.user)
-          await this.localStorageInit()
-          await this.showToast(MessageAuth.success_auth, 'success')
+          this.localStorageInit()
+          this.showToast(MessageAuth.success_auth, 'success')
           this.closeLoaderFullPage()
-          this.$router.push({name: 'users'})
-      })
-      .catch(err => {
-        if (399 < err.response.status && err.response.status < 500) {
-          this.showToast(MessageAuth.warning_auth, 'warning')
-        } else if(499 < err.response.status && err.response.status < 600) {
-          this.showToast(MessageAuth.error_auth, 'error')
-        }
-        this.closeLoaderFullPage()
-      })
+          router.push({name: 'users'})
+        }),
+        catchError(err => {
+          if (399 < err.response.status && err.response.status < 500) {
+            this.showToast(MessageAuth.warning_auth, 'warning')
+          } else if(499 < err.response.status && err.response.status < 600) {
+            this.showToast(MessageAuth.error_auth, 'error')
+          }
+          this.closeLoaderFullPage()
+          return of(EMPTY)
+        }),
+        takeUntil(this.destroy$)
+      ).subscribe()
     },
   },
 };

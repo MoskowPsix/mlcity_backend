@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 export const useEventFilterStore = defineStore('useEventFilter', {
     state: () => ({
         eventName: new BehaviorSubject(localStorage.getItem('eventNameFilter') || ''),
-        eventDate: new BehaviorSubject(localStorage.getItem('eventDateFilter') || new Date().toISOString()+'~ '),
+        eventDate: new BehaviorSubject(localStorage.getItem('eventDateFilter') || '~'),
         eventSponsor: new BehaviorSubject(localStorage.getItem('eventSponsorFilter') || ''),
         eventSearchText: new BehaviorSubject(localStorage.getItem('eventTextFilter') || ''),
         eventStatuses: new BehaviorSubject(localStorage.getItem('eventStatusesFilter') || ''),
@@ -25,7 +25,7 @@ export const useEventFilterStore = defineStore('useEventFilter', {
             this.eventDate = date
         },
         getEventDate() {
-            return localStorage.getItem('eventDateFilter')
+            return localStorage.getItem('eventDateFilter') || this.eventDate.getValue()
         },
         setEventSponsor(sponsor) {
             localStorage.setItem('eventSponsorFilter', sponsor)

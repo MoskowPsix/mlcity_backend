@@ -1,5 +1,4 @@
 import { defineStore } from 'pinia'
-import { useAuthStore } from './AuthStore'
 import { BehaviorSubject } from 'rxjs';
 
 
@@ -7,9 +6,9 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
     state: () => ({
         name: new BehaviorSubject(localStorage.getItem('userNameFilter') || ''),
         email: new BehaviorSubject(localStorage.getItem('userEmailFilter') || ''),
-        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || ''),
-        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') ||''),
-        locationId: new BehaviorSubject(localStorage.getItem('userLocationIdFilter') ||'')
+        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || '~'),
+        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') || '~'),
+        locationId: new BehaviorSubject(localStorage.getItem('userLocationIdFilter') || '')
     }),
     actions: {
         setName(name) {
@@ -31,7 +30,7 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
             this.createdDate = date
         }, 
         getCreatedDate() {
-            let date = localStorage.getItem('userCreatedDateFilter')
+            let date = localStorage.getItem('userCreatedDateFilter') || this.createdDate.getValue()
             return date
         }, 
         setUpdatedDate(date) {
@@ -39,7 +38,7 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
             this.updatedDate = date
         }, 
         getUpdatedDate() {
-            let date = localStorage.getItem('userUpdatedDateFilter')
+            let date = localStorage.getItem('userUpdatedDateFilter') || this.updatedDate.getValue()
             return date
         },
         setLocation(locationId) {

@@ -4,7 +4,7 @@
         <input v-model="eventName" type="text" name="name" id="name" placeholder="Название" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
         <input v-model="eventSponsor" type="text" name="sponsor" id="sponsor" placeholder="Спонсор мероприятия" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
         <input v-model="eventText" type="text" name="text" id="text" placeholder="Поиск по тексту" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
-        <VueTailwindDatepicker v-model="eventDate" placeholder="Дата начала и конца" />
+        <VueTailwindDatepicker v-model="eventDate" :start-from="new Date()" placeholder="Дата начала и конца" />
         <div class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
             <div>
                 <select class="h-6" v-model="eventStatuses" data-te-select-init>
@@ -45,8 +45,13 @@ export default {
     name: 'EventFilter',
     setup() {
         const destroy$ =  new Subject()
+        const formatter = {
+            date: 'YYYY-MM-DD hh:mm:ss',
+            month: 'MM',
+        }
         return {
             destroy$,
+            formatter
         }
     },
     data() {
@@ -54,7 +59,10 @@ export default {
         eventName: this.getEventName(),
         eventSponsor: this.getEventSponsor(),
         eventText: this.getEventText(),
-        eventDate: this.getEventDate(),
+        eventDate:{
+                startDate: this.getEventDate().split('~')[0].slice(0,19).replace("T", ' '),
+                endDate: this.getEventDate().split('~')[1].slice(0,19).replace("T", ' ')
+            },
         eventStatuses: this.getEventStatuses(),
         eventStatusLast: this.getEventStatusLast(),
         eventUser: this.getEventUser(),
@@ -120,7 +128,7 @@ export default {
             }
         },
         eventDate(date) {
-            this.setEventDate(date)
+            this.setEventDate(date.startDate + '~' + date.endDate)
         },
         eventText(text) {
             if (text.length > 3) {

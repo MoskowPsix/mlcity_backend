@@ -6,7 +6,7 @@ import { BehaviorSubject } from 'rxjs';
 export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilter', {
     state: () => ({
         contentName: new BehaviorSubject(localStorage.getItem('contentNameFilter') || ''),
-        contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || ''),
+        contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || '~'),
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
         contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
         contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || '1'),
@@ -26,7 +26,7 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
             this.contentDate = date
         },
         getContentDate() {
-            return localStorage.getItem('contentDateFilter')
+            return localStorage.getItem('contentDateFilter') || this.contentDate.getValue()
         },
         setContentSponsor(sponsor) {
             localStorage.setItem('contentSponsorFilter', sponsor)
