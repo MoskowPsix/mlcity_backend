@@ -208,7 +208,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEvents(GetEventRequest $request): \Illuminate\Http\JsonResponse
+    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
         $total = 0;
         $page = $request->page;
