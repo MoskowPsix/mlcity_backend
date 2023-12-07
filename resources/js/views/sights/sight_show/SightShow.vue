@@ -17,7 +17,7 @@
     </div>
 
     <div
-        class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-neutral-700">
+        class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
         <a href="#!">
             <img
             class="rounded-t-lg"
@@ -25,14 +25,264 @@
             alt="" />
         </a>
         <div class="p-6">
-            <h5
-            class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50">
-            Card title
-            </h5>
-            <p class="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-            </p>
+            <div v-on:dblclick="changeSightNameState" class="">
+                <div v-if="!sightChange.sightNameState">
+                    <p class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 hover:cursor-pointer inline-block">
+                        {{ sightChange.sightName }}
+                    </p>
+                </div>
+                <div v-if="sightChange.sightNameState" class="flex mb-4 space-x-4">
+                    <input class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-2/4
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0" 
+                     v-model="sightChange.sightName">
+                    
+                    <svg
+                    v-on:click="changeSightNameState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightName"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+
+
+                </div>
+            </div>
+            
+            <div>
+                <div class="hover:cursor-pointer inline-block">
+                    <p class="font-bold">Место проведение:   </p>
+                    <div v-if="!sightChange.sightAddressState" v-on:dblclick="changeSightAddressState" class="">
+                        <h6 class="mb-6"> {{ sightChange.sightAddress }}</h6>
+                    </div>
+                </div>
+                
+
+                <div v-if="sightChange.sightAddressState" class="flex mb-4 space-x-4">
+                    <input class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-3/4
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0" 
+                     v-model="sightChange.sightAddress"
+                     type="text">
+                    
+                    <svg
+                    v-on:click="changeSightAddressState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightAddress"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                
+            </div>
+            <div>
+                <p class="font-bold">Время проведения:</p>
+                <div v-if="!sightChange.sightTimeState" class="hover:cursor-pointer" v-on:dblclick="changeSightTimeState">
+                    <h6 class="mb-4" >{{ sightChange.sightTime }}</h6>
+                </div>
+
+                <div v-if="sightChange.sightTimeState" class="flex mb-4 space-x-4">
+                    <input class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-3/4
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0" 
+                     v-model="sightChange.sightTime"
+                     type="text">
+                    
+                    <svg
+                    v-on:click="changeSightTimeState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightTime"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                
+            </div>
+            
+            <div class="hover:cursor-pointer">
+
+                <div v-if="!sightChange.sightDescState" v-on:dblclick="changeSightDescState">
+                    <p class="font-bold">Описание:</p>
+
+                    <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
+                        {{ sightChange.sightDesc}}
+                    </p>
+                </div>
+
+                <div v-if="sightChange.sightDescState" class="flex mb-4 space-x-4">
+                    <textarea class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-5/6
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0" 
+                    v-model="sightChange.sightDesc"
+                    type="text"
+                    rows=7>
+                    </textarea>
+                    
+                    <svg
+                    v-on:click="changeSightDescState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightDesc"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div> 
+            </div>
+
+            <div class="mb-4">
+                <div class="font-bold">Цена: </div>
+                <p v-if="sightChange.SightPrice">{{ sightChange.sightPrice }}</p>
+                <p v-if="!sightChange.SightPrice"> Цена не указанна! </p>
+            </div>
+
+            <div>
+                <p class="font-bold">Спонсор:</p>
+                <div v-if="!sightChange.sightSponsorState" class="hover:cursor-pointer" v-on:dblclick="changeSightSponsorState">
+                    <h6 class="mb-4" >{{ sightChange.sightSponsor }}</h6>
+                </div>
+
+                <div v-if="sightChange.sightSponsorState" class="flex mb-4 space-x-4">
+                    <input class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-3/4
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0" 
+                     v-model="sightChange.sightSponsor"
+                     type="text">
+                    
+                    <svg
+                    v-on:click="changeSightSponsorState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightSponsor"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+                
+            </div>
+            
             <button
             type="button"
             class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
@@ -66,6 +316,26 @@ export default {
     data() {
         return {
             sight: [],
+            sightChange:{
+                sightAddress: "",
+                sightAddressState: false,
+            
+                sightName: "",
+                sightNameState: false,
+
+                sightDesc: "",
+                sightDescState: false,
+
+                sightTime: "",
+                sightTimeState: false,
+                
+                sightPrice: "",
+                sightPriceState: false,
+
+                sightSponsor: "",
+                sightSponsorState: false
+            }
+            
         }
     },
     methods: {
@@ -79,6 +349,12 @@ export default {
                 delay(100),
                 map(response => {
                     this.sight = response.data
+                    this.sightChange.sightAddress = this.sight.address
+                    this.sightChange.sightName = this.sight.name
+                    this.sightChange.sightDesc = this.sight.description
+                    this.sightChange.sightTime = this.sight.work_time
+                    this.sightChange.sightPrice = this.sight.price
+                    this.sightChange.sightSponsor = this.sight.sponsor
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
@@ -93,6 +369,49 @@ export default {
         },
         backButton(){
             router.go(-1)
+        },
+        changeSightAddressState(){
+            console.log("change state")
+            this.sightChange.sightAddressState = !this.sightChange.sightAddressState
+        },
+        changeSightNameState(){
+           
+            this.sightChange.sightNameState = !this.sightChange.sightNameState
+        },changeSightDescState(){
+       
+            this.sightChange.sightDescState = !this.sightChange.sightDescState
+        },
+        changeSightTimeState(){
+           
+            this.sightChange.sightTimeState = !this.sightChange.sightTimeState
+        },
+        changeSightSponsorState(){
+            
+            this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
+        },
+        declineSightName(){
+            this.sightChange.sightNameState = !this.sightChange.sightNameState
+            this.sightChange.sightName = this.sight.name
+        },
+        declineSightAddress(){
+            this.sightChange.sightAddressState = !this.sightChange.sightAddressState
+            console.log(this.sightChange.sightAddressState)
+            this.sightChange.sightAddress = this.sight.address
+        },
+        declineSightDesc(){
+            this.sightChange.sightDescState = !this.sightChange.sightDescState
+            this.sightChange.sightDesc = this.sight.description 
+        },
+        declineSightTime(){
+            this.sightChange.sightTimeState = !this.sightChange.sightTimeState
+            this.sightChange.sightTime = this.sight.work_time 
+        },
+        declineSightPrice(){
+            this.sightChange.sightPriceState = !this.sightChange.sightPriceState
+        },
+        declineSightSponsor(){
+            this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
+            this.sightChange.sightSponsor = this.sight.sponsor
         }
     },
     mounted() {
