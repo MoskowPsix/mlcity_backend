@@ -49,7 +49,7 @@ import { mapActions} from 'pinia'
 import { useToastStore } from '../../../stores/ToastStore'
 import { useSightStore } from '../../../stores/SightStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
-import {Ripple,initTE,} from "tw-elements"
+import {Ripple,initTE,Carousel} from "tw-elements"
 import router from '../../../routes'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
@@ -96,7 +96,7 @@ export default {
         }
     },
     mounted() {
-        initTE({ Ripple  }, { allowReinits: true })
+        initTE({ Ripple  }, { Carousel }, { allowReinits: true })
         this.openLoaderFullPage()
         this.getSight()
     },

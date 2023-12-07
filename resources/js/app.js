@@ -5,6 +5,7 @@ import axios from 'axios'
 import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import 'vue3-carousel/dist/carousel.css'
 
 
 
