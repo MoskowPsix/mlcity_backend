@@ -16,34 +16,8 @@
         <label class="flex items-center w-3/12"><h1>ID: {{event.id}}</h1></label>
     </div>
 
-    <CarouselGalleryAndUpdate :files="event.files" :wrightState="state"></CarouselGalleryAndUpdate>
-
-    <button @click="state ? state = false: state = true">+++++++++</button>
-    <!-- <div class="border rounded-lg dark:bg-gray-800 dark:border-gray-700">
-        <div class="w-[70%] mx-auto rounded-lg ">
-            <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide" class="p-1">
-                <Slide v-for="slide in event.files" :key="slide" class="rounded-lg">
-                    <div class="absolute w-[100%] h-[100%] blur-lg bg-gray-50/10 z-20" :style="{backgroundImage:`url(${slide.link})`}"></div>
-                <img :src="slide.link" :alt="slide.name" class="rounded-lg max-h-[20rem]  max-w-[30rem] z-30">
-                </Slide>
-            </Carousel>
-
-            <Carousel
-                id="thumbnails"
-                :items-to-show="4"
-                :wrap-around="true"
-                v-model="currentSlide"
-                ref="carousel"
-                class="border dark:border-gray-600/50 dark:bg-gray-700/50 m-2 rounded-lg"
-            >
-                <Slide v-for="slide in event.files" :key="slide">
-                <div class="max-h-[5rem max-w-[7rem]" @click="slideTo(slide - 1)">
-                    <img :src="slide.link" :alt="slide.name" class="rounded-lg">
-                </div>
-                </Slide>
-            </Carousel>
-        </div>
-    </div> -->
+    <CarouselGallery :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+    <button @click="state ? state = false: state = true" class="p-2 bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
 </div>
 </template>
 <script>
@@ -56,7 +30,7 @@ import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import router from '../../../routes'
 
-import CarouselGalleryAndUpdate from '../../../components/carousel_gallery_and_update/CarouselGalleryAndUpdate.vue'
+import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 
 export default {
     name: 'EventShow',
@@ -73,7 +47,7 @@ export default {
         }
     },
     components: {
-        CarouselGalleryAndUpdate
+        CarouselGallery
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds']),
@@ -97,6 +71,12 @@ export default {
                 }),
                 takeUntil(this.destroy$),
             ).subscribe()
+        },
+        deleteFiles(files) {
+            console.log(['delete', files])
+        },
+        updateFiles(files) {
+            console.log(['update', files])
         },
         backButton(){
             router.go(-1)
