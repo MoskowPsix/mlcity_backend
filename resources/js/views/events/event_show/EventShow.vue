@@ -77,15 +77,15 @@ export default {
             ).subscribe()
         },
         deleteFiles(file) {
-            this.event.files.findIndex((item, index) => { 
+            this.event.files.find((item, index) => { 
                 if (item.name == file.name ) {
-                    this.filesUpd.findIndex((itm, i) => { 
+                    let coin = this.filesUpd.find((itm, i) => { 
                         if (itm.name == file.name ) {
                             this.filesUpd.splice(i, 1)
-                            this.filesDel.push(file)
                             return true
                         }
                     })
+                    coin ? null : this.filesDel.push(file)
                     this.event.files.splice(index, 1)
                     return true
                 }
