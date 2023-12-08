@@ -76,7 +76,7 @@
             
             <div>
                 <div class="hover:cursor-pointer inline-block">
-                    <p class="font-bold">Место проведение:   </p>
+                    <p class="font-medium">Место проведение:   </p>
                     <div v-if="!sightChange.sightAddressState" v-on:dblclick="changeSightAddressState" class="">
                         <h6 class="mb-6"> {{ sightChange.sightAddress }}</h6>
                     </div>
@@ -126,7 +126,7 @@
                 
             </div>
             <div>
-                <p class="font-bold">Время проведения:</p>
+                <p class="font-medium">Время проведения:</p>
                 <div v-if="!sightChange.sightTimeState" class="hover:cursor-pointer" v-on:dblclick="changeSightTimeState">
                     <h6 class="mb-4" >{{ sightChange.sightTime }}</h6>
                 </div>
@@ -177,7 +177,7 @@
             <div class="hover:cursor-pointer">
 
                 <div v-if="!sightChange.sightDescState" v-on:dblclick="changeSightDescState">
-                    <p class="font-bold">Описание:</p>
+                    <p class="font-medium">Описание:</p>
 
                     <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
                         {{ sightChange.sightDesc}}
@@ -229,15 +229,15 @@
             </div>
 
             <div class="mb-4">
-                <div class="font-bold">Цена: </div>
+                <div class=" font-medium">Цена: </div>
                 <p v-if="sightChange.SightPrice">{{ sightChange.sightPrice }}</p>
                 <p v-if="!sightChange.SightPrice"> Цена не указанна! </p>
             </div>
 
             <div>
-                <p class="font-bold">Спонсор:</p>
+                <p class=" font-medium">Спонсор:</p>
                 <div v-if="!sightChange.sightSponsorState" class="hover:cursor-pointer" v-on:dblclick="changeSightSponsorState">
-                    <h6 class="mb-4" >{{ sightChange.sightSponsor }}</h6>
+                    <h6 class="mb-4 " >{{ sightChange.sightSponsor }}</h6>
                 </div>
 
                 <div v-if="sightChange.sightSponsorState" class="flex mb-4 space-x-4">
@@ -280,7 +280,28 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
                     </svg>
                 </div>
-                
+            </div>
+
+            <div class="mb-4">
+                <label for="status" class="block mb-2  font-medium text-gray-900 dark:text-white">Статус</label>
+                <select 
+                id="status" 
+                class="
+                bg-gray-50 border 
+                border-gray-300 
+                text-gray-900 
+                text-sm rounded-lg 
+                focus:ring-blue-500 focus:border-blue-500 
+                block w-full p-2.5 
+                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
+                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                v-model="sightChange.sightStatus">
+                    <option value="Отказ">Отказ</option>
+                    <option value="Опубликовано">Опубликовано</option>
+                    <option value="Черновик">Черновик</option>
+                    <option value="На модерации">На модерации</option>
+                    <option value="В архиве">В архиве</option>
+                </select>
             </div>
             
             <button
@@ -333,7 +354,9 @@ export default {
                 sightPriceState: false,
 
                 sightSponsor: "",
-                sightSponsorState: false
+                sightSponsorState: false,
+
+                sightStatus: ""
             }
             
         }
@@ -355,6 +378,7 @@ export default {
                     this.sightChange.sightTime = this.sight.work_time
                     this.sightChange.sightPrice = this.sight.price
                     this.sightChange.sightSponsor = this.sight.sponsor
+                    this.sightChange.sightStatus = this.sight.statuses[0].name
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
