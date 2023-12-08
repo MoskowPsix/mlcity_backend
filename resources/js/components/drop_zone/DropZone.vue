@@ -28,7 +28,6 @@ function setInactive() {
 function onDrop(e) {
     setInactive() 
     emit('files-dropped', [...e.dataTransfer.files])
-    console.log(e.dataTransfer.files)
 }
 
 </script>

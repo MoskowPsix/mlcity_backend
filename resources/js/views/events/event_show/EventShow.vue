@@ -43,7 +43,9 @@ export default {
     data() {
         return {
             event: [],
-            state: false,
+            state: true,
+            filesDel: [],
+            filesUpd: [],
         }
     },
     components: {
@@ -72,11 +74,37 @@ export default {
                 takeUntil(this.destroy$),
             ).subscribe()
         },
-        deleteFiles(files) {
-            console.log(['delete', files])
+        deleteFiles(file) {
+            console.log(['delete', file])
+            // console.log(this.event.files)
+
+
+
+            let coin = this.event.files.findIndex((item) => { 
+                if (item.name == file.name ) {
+                    return true
+                }
+            })
+            this.event.files[coin] = null
+            // if (coin) {
+            //     this.filesUpd[coin] = null
+            // } else {
+            //     this.filesDel.push(...file)
+            // }
         },
         updateFiles(files) {
-            console.log(['update', files])
+            // console.log(['update', files])
+            files = Array.from(files)
+            files.forEach(file => {
+                let reader = new FileReader()
+                reader.readAsDataURL(file)
+                console.log(reader)
+                reader.onload = () => {
+                    this.event.files.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
+                }
+                this.filesUpd.push(file)
+            })
+            console.log(this.filesUpd)
         },
         backButton(){
             router.go(-1)
