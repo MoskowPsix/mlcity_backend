@@ -81,13 +81,12 @@ export default {
                 if (item.name == file.name ) {
                     let coin = this.filesUpd.findIndex((itm, i) => { 
                         if (itm.name == file.name ) {
-                            this.filesUpd.splice(i)
+                            this.filesUpd.splice(i, 1)
+                            his.filesDel.push(file)
                             return true
                         }
                     })
-                    console.log(coin)
-                    !coin ? null : this.filesDel.push(file)
-                    this.event.files[index] = null
+                    this.event.files.splice(index, 1)
                     return true
                 }
             })

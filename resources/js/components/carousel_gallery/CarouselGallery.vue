@@ -8,9 +8,9 @@
             </div>
             {{currentSlide}}
             <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide" class="rounded-lg">
-                <Slide v-for="slide in files" :key="slide" class="rounded-lg" v-show="slide">
-                    <div v-if="slide" class="absolute w-[100%] h-[100%] blur-lg bg-gray-50/10 z-20 rounded-lg" :style="{backgroundImage:`url(${slide.link})`}"></div>
-                    <img v-if="slide" :src="slide.link" :alt="slide.name" class="rounded-lg max-h-[20rem]  max-w-[30rem] z-30">
+                <Slide v-for="slide in files" :key="slide" class="rounded-lg" >
+                    <div  class="absolute w-[100%] h-[100%] blur-lg bg-gray-50/10 z-20 rounded-lg" :style="{backgroundImage:`url(${slide.link})`}"></div>
+                    <img  :src="slide.link" :alt="slide.name" class="rounded-lg max-h-[20rem]  max-w-[30rem] z-30">
                 </Slide>
             </Carousel>
 
@@ -34,9 +34,8 @@
                     ref="carousel"
                     class="border dark:border-gray-600/50 bg-slate-400/30 border-slate-400/40 dark:bg-gray-700/50 m-2 rounded-lg w-10/12 mx-auto"
                     >
-                    <Slide v-for="(slide, index) in files" :key="slide" v-show="slide">
-                        {{index}}
-                        <div v-if="slide" class="flex flex-col max-h-[7rem] max-w-[7rem]" @click="slideTo(index)" >
+                    <Slide v-for="(slide, index) in files" :key="slide" >
+                        <div class="flex flex-col max-h-[7rem] max-w-[7rem]" @click="slideTo(index)" >
                             <img :src="slide.link" :alt="slide.name" class="rounded-lg">
                             <button v-if="wrightState" class="absolute dark:text-red-200 text-red-600 bg-red-200/70 dark:bg-red-600/70 p-1 rounded-lg" @click="emitDelImg(slide)">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4 mx-auto">
