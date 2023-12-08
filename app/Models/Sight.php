@@ -96,4 +96,8 @@ class Sight extends Model
     {
         return $this->morphMany(HistoryContent::class, "history_contentable");
     }
+    public function prices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Price::class);
+    }
 }

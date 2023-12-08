@@ -229,9 +229,24 @@
             </div>
 
             <div class="mb-4">
-                <div class=" font-medium">Цена: </div>
-                <p v-if="sightChange.SightPrice">{{ sightChange.sightPrice }}</p>
-                <p v-if="!sightChange.SightPrice"> Цена не указанна! </p>
+                <div class=" font-medium">Цены: </div>
+                <div v-if="sightPriceCheck() && sightChange.sightPricesState==false" v-on:dblclick="sightChange.sightPricesState = !sightChange.sightPricesState">
+                    <div class="flex space-x-8">
+                        <div>
+                            <p v-for="price in sightChange.sightPrices">{{ price.cost_rub }}₽</p>
+                        </div>
+                        <div>
+                            <p v-for="price in sightChange.sightPrices">{{ price.descriptions }}</p>
+                        </div>
+                    </div>
+                    
+                </div>
+                <div v-if="sightChange.sightPricesState">
+
+                </div>
+                <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>
+
+                <!-- <p v-for="price in sight.prices">{{ price.cost_rub }}</p> -->
             </div>
 
             <div>
@@ -353,8 +368,8 @@ export default {
                 sightTime: "",
                 sightTimeState: false,
                 
-                sightPrice: "",
-                sightPriceState: false,
+                sightPrices: [],
+                sightPricesState: false,
 
                 sightSponsor: "",
                 sightSponsorState: false,
@@ -380,16 +395,16 @@ export default {
                 delay(100),
                 map(response => {
                     this.sight = response.data
+                    this.sightChange.sightPrices = this.sight.prices
                     this.sightChange.sightAddress = this.sight.address
                     this.sightChange.sightName = this.sight.name
                     this.sightChange.sightDesc = this.sight.description
                     this.sightChange.sightTime = this.sight.work_time
-                    this.sightChange.sightPrice = this.sight.price
+                    console.log(this.sightChange.sightPrices)
                     this.sightChange.sightSponsor = this.sight.sponsor
-                    this.sightChange.sightStatus = this.sight.statuses[0].name
+                    this.sight.statuses[0] ? this.sightChange.sightStatus = this.sight.statuses[0].name : null
                     this.sightChange.sightFiles = this.sight.files
                     console.log(response)
-                    console.log(this.sightChange.sightFiles)
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
@@ -478,6 +493,15 @@ export default {
         declineSightSponsor(){
             this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
             this.sightChange.sightSponsor = this.sight.sponsor
+        },
+
+        sightPriceCheck(){
+            if(this.sightChange.sightPrices.length>0){
+                return true
+            }
+            else{
+                return false
+            }
         }
     },
     mounted() {
