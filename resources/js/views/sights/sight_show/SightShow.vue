@@ -18,13 +18,13 @@
 
     <div
         class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
-        <a href="#!">
-            <img
-            class="rounded-t-lg"
-            src="https://tecdn.b-cdn.net/img/new/standard/nature/184.jpg"
-            alt="" />
-        </a>
+        
         <div class="p-6">
+            <div class="text-center">
+                <CarouselGallery :files="sightChange.sightFiles" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+                <button @click="state ? state = false: state = true" class="p-2 mx-auto bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
+            </div>
+            
             <div v-on:dblclick="changeSightNameState" class="">
                 <div v-if="!sightChange.sightNameState">
                     <p class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 hover:cursor-pointer inline-block">
@@ -324,10 +324,13 @@ import {Ripple,initTE,Carousel} from "tw-elements"
 import router from '../../../routes'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
-
+import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 
 export default {
     name: 'SightShow',
+    components:{
+        CarouselGallery
+    },
     setup() {
         const destroy$ =  new Subject()
         return {
@@ -356,8 +359,13 @@ export default {
                 sightSponsor: "",
                 sightSponsorState: false,
 
+                sightFiles: null,
+
                 sightStatus: ""
-            }
+            },
+            state: true,
+            filesDel: [],
+            filesUpd: [],
             
         }
     },
@@ -379,7 +387,9 @@ export default {
                     this.sightChange.sightPrice = this.sight.price
                     this.sightChange.sightSponsor = this.sight.sponsor
                     this.sightChange.sightStatus = this.sight.statuses[0].name
+                    this.sightChange.sightFiles = this.sight.files
                     console.log(response)
+                    console.log(this.sightChange.sightFiles)
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
@@ -393,6 +403,38 @@ export default {
         },
         backButton(){
             router.go(-1)
+        },
+        deleteFiles(file) {
+            console.log(['delete', file])
+            // console.log(this.event.files)
+
+
+
+            let coin = this.sightChange.sightFiles.findIndex((item) => { 
+                if (item.name == file.name ) {
+                    return true
+                }
+            })
+            this.sightChange.sightFiles[coin] = null
+            // if (coin) {
+            //     this.filesUpd[coin] = null
+            // } else {
+            //     this.filesDel.push(...file)
+            // }
+        },
+        updateFiles(files) {
+            // console.log(['update', files])
+            files = Array.from(files)
+            files.forEach(file => {
+                let reader = new FileReader()
+                reader.readAsDataURL(file)
+                console.log(reader)
+                reader.onload = () => {
+                    this.sightChange.sightFiles.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
+                }
+                this.filesUpd.push(file)
+            })
+            console.log(this.filesUpd)
         },
         changeSightAddressState(){
             console.log("change state")
