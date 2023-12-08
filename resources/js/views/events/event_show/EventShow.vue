@@ -18,6 +18,8 @@
 
     <CarouselGallery :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
     <button @click="state ? state = false: state = true" class="p-2 bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
+    <div>Удалённые {{filesDel}}</div>
+    <div>Обновлённые {{filesUpd}}</div>
 </div>
 </template>
 <script>
@@ -75,22 +77,20 @@ export default {
             ).subscribe()
         },
         deleteFiles(file) {
-            console.log(['delete', file])
-            // console.log(this.event.files)
-
-
-
-            let coin = this.event.files.findIndex((item) => { 
+            this.event.files.findIndex((item, index) => { 
                 if (item.name == file.name ) {
+                    let coin = this.filesUpd.findIndex((itm, i) => { 
+                        if (itm.name == file.name ) {
+                            this.filesUpd.splice(i)
+                            return true
+                        }
+                    })
+                    console.log(coin)
+                    !coin ? null : this.filesDel.push(file)
+                    this.event.files[index] = null
                     return true
                 }
             })
-            this.event.files[coin] = null
-            // if (coin) {
-            //     this.filesUpd[coin] = null
-            // } else {
-            //     this.filesDel.push(...file)
-            // }
         },
         updateFiles(files) {
             // console.log(['update', files])
@@ -117,25 +117,5 @@ export default {
 }
 </script>
 <style>
-/* .carousel__item {
-  min-height: 200px;
-  width: 100%;
-  background-color: var(--vc-clr-primary);
-  color: var(--vc-clr-white);
-  font-size: 20px;
-  border-radius: 8px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-} */
 
-/* .carousel__slide {
-  padding: 5px;
-} */
-
-/* .carousel__prev,
-.carousel__next {
-  box-sizing: content-box;
-  border: 5px solid white;
-} */
 </style>
