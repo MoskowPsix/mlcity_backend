@@ -6,7 +6,6 @@
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 8.25H7.5a2.25 2.25 0 00-2.25 2.25v9a2.25 2.25 0 002.25 2.25h9a2.25 2.25 0 002.25-2.25v-9a2.25 2.25 0 00-2.25-2.25H15m0-3l-3-3m0 0l-3 3m3-3V15" />
                 </svg>
             </div>
-            {{currentSlide}}
             <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide" class="rounded-lg">
                 <Slide v-for="slide in files" :key="slide" class="rounded-lg" >
                     <div  class="absolute w-[100%] h-[100%] blur-lg bg-gray-50/10 z-20 rounded-lg" :style="{backgroundImage:`url(${slide.link})`}"></div>
