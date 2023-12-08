@@ -79,10 +79,10 @@ export default {
         deleteFiles(file) {
             this.event.files.findIndex((item, index) => { 
                 if (item.name == file.name ) {
-                    let coin = this.filesUpd.findIndex((itm, i) => { 
+                    this.filesUpd.findIndex((itm, i) => { 
                         if (itm.name == file.name ) {
                             this.filesUpd.splice(i, 1)
-                            his.filesDel.push(file)
+                            this.filesDel.push(file)
                             return true
                         }
                     })
