@@ -85,7 +85,7 @@ export default {
                     return true
                 }
             })
-            this.event.files[coin] = {link: }
+            this.event.files[coin] = null
             // if (coin) {
             //     this.filesUpd[coin] = null
             // } else {
