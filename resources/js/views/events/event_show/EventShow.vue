@@ -19,7 +19,11 @@
     <CarouselGallery v-if="event.files" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
     <button @click="state ? state = false: state = true" class="p-2 bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
     <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
-        <div class="2xl:col-span-3 xl:col-span-2 lg:ol-span-2 "></div>
+        <div class="2xl:col-span-3 xl:col-span-2 lg:ol-span-2 mt-1 mb-1">
+            <div v-for="place in event.places_full">
+                <PlacesListCard :place="place" />
+            </div>
+        </div>
         <!-- <CarouselGallery v-if="event.files" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles" class="flex w-9/12"></CarouselGallery> -->
         <AuthorMiniCard v-if="event.author" :author="event.author" class="col-span-1" />
     </div>
@@ -39,6 +43,7 @@ import router from '../../../routes'
 
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.vue'
+import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 
 export default {
     name: 'EventShow',
@@ -58,7 +63,8 @@ export default {
     },
     components: {
         CarouselGallery,
-        AuthorMiniCard
+        AuthorMiniCard,
+        PlacesListCard
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds']),
