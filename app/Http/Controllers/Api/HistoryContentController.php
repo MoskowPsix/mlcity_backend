@@ -90,6 +90,7 @@ class HistoryContentController extends Controller
         else if($request["type"] == "Sight"){
             $sight = Sight::where('id',$request['id'])->first();
             $historyContent = $sight->historyContents()->create($request['history_content']);
+            info($request['history_content']);
         }
         
         return response()->json(["status"=>"success"],201);

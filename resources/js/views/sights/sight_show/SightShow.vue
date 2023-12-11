@@ -228,6 +228,62 @@
                 </div> 
             </div>
 
+
+            <div class="mb-4">
+                <div class="font-medium">
+                    <p>Типы события:</p>
+                </div>
+                
+                <div v-if="!sightChange.sightTypesState" v-on:dblclick="sightChange.sightTypesState = !sightChange.sightTypesState">
+                    <p v-for="type_s in sightChange.sightTypes">{{ type_s.name }}</p>
+                </div>
+
+                <div v-if="sightChange.sightTypesState" class="flex" v-for="(type_s, index) in sightChange.sightTypes" v-bind:key="index">
+                    <input 
+                    
+                    class=" 
+                    text-xl 
+                    font-medium 
+                    leading-tight
+                    text-neutral-800
+                    dark:text-neutral-50 
+                    w-1/4
+                    border-sky-400/30
+                    bg-indigo-50
+                    dark:bg-gray-700
+                    rounded-lg
+                    p-2
+                    pl-1
+                    border-2
+                    m-0"
+                    v-model="sightChange.sightTypes[index].name"
+                    
+                    type="text">
+                    
+                    <svg
+                    v-on:click="sightChange.sightTypesState = !sightChange.sightTypesState"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" 
+                    viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+
+                    <svg 
+                    v-on:click="declineSightTypes(index)"
+                    xmlns="http://www.w3.org/2000/svg" 
+                    fill="none" viewBox="0 0 24 24" 
+                    stroke-width="1.5" 
+                    stroke="currentColor" 
+                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </div>
+
+            </div>
+
             <div class="mb-4">
                 <div class=" font-medium">Цены: </div>
                 <div v-if="sightPriceCheck() && sightChange.sightPricesState==false" v-on:dblclick="sightChange.sightPricesState = !sightChange.sightPricesState">
@@ -307,9 +363,10 @@
                 text-gray-900 
                 text-sm rounded-lg 
                 focus:ring-blue-500 focus:border-blue-500 
-                block w-full p-2.5 
+                block w-1/10 p-2.5 
                 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                "
                 v-model="sightChange.sightStatus">
                     <option value="Отказ">Отказ</option>
                     <option value="Опубликовано">Опубликовано</option>
@@ -323,8 +380,9 @@
             type="button"
             class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
             data-te-ripple-init
-            data-te-ripple-color="light">
-            Button
+            data-te-ripple-color="light"
+            v-on:click="saveChanges">
+            Сохранить
             </button>
         </div>
     </div>
@@ -374,6 +432,9 @@ export default {
                 sightSponsor: "",
                 sightSponsorState: false,
 
+                sightTypes: [],
+                sightTypesState: false,
+
                 sightFiles: null,
 
                 sightStatus: ""
@@ -385,7 +446,7 @@ export default {
         }
     },
     methods: {
-        ...mapActions(useSightStore, ['getSightForIds']),
+        ...mapActions(useSightStore, ['getSightForIds','saveSightHistory']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         getSight() {
@@ -400,10 +461,10 @@ export default {
                     this.sightChange.sightName = this.sight.name
                     this.sightChange.sightDesc = this.sight.description
                     this.sightChange.sightTime = this.sight.work_time
-                    console.log(this.sightChange.sightPrices)
                     this.sightChange.sightSponsor = this.sight.sponsor
                     this.sight.statuses[0] ? this.sightChange.sightStatus = this.sight.statuses[0].name : null
                     this.sightChange.sightFiles = this.sight.files
+                    this.sightChange.sightTypes = this.sight.types
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
@@ -494,6 +555,14 @@ export default {
             this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
             this.sightChange.sightSponsor = this.sight.sponsor
         },
+        declineSightTypes(index){
+            console.log(this.sight.types)  
+            console.log(index)
+            this.sightChange.sightTypesState = !this.sightChange.sightTypesState
+            this.sightChange.sightTypes[index] = this.sight.types[index]
+              
+            console.log(this.sightChange.sightTypes)
+        },
 
         sightPriceCheck(){
             if(this.sightChange.sightPrices.length>0){
@@ -502,6 +571,40 @@ export default {
             else{
                 return false
             }
+        },
+        saveChanges(){
+            let data = {
+                id: this.sight.id,
+                type: "Sight",
+                history_content:{
+
+                }
+            }
+            if(this.sightChange.sightName != this.sight.name){
+                data.history_content.name = this.sightChange.sightName
+            }
+            if(this.sightChange.sightAddress != this.sight.address){
+                data.history_content.address = this.sightChange.sightAddress
+            }
+            if(this.sightChange.sightDesc != this.sight.descriptions){
+                data.history_content.description = this.sightChange.sightDesc
+            }
+            if(this.sightChange.sightTime != this.sight.work_time){
+                data.history_content.work_time = this.sightChange.sightTime
+            }
+            if(this.sightChange.sightStatus != "" && this.sightChange.sightStatus != this.sight.statuses[0].name){
+                data.history_content.statuses = this.sightChange.sightStatus
+            }
+
+            
+            this.saveSightHistory(data).pipe(
+                catchError(error => {
+                    console.log(error)
+                })
+            ).subscribe(response => {
+                console.log(response)
+            })
+            console.log(data)   
         }
     },
     mounted() {
