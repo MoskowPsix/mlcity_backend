@@ -1,19 +1,21 @@
 <template lang="">
-    {{center}}
-    <div>
-        <YandexMap 
-        class="absolute insert-0"
+    <!-- {{center}}
+    {{[marker.latitude, marker.longitude]}}
+    {{zoom}} -->
+    <div class="w-full h-full">
+        <YandexMap
+        class="w-full h-full"
         :settings="settings"
         :zoom="zoom"
         :behaviors="[]"
         :controls="[]"
-        :coordinates="center"
-        >
-        <YandexMarker v-if="marker"  :coordinates="[marker.latitbe, marker.longitube]" :marker-id="marker.id" />
-        <div v-if="markers" v-for="marker in markers">
-            <YandexMarker :coordinates="[marker.latitbe, marker.longitube]" :marker-id="marker.id"/>
-        </div>
-        </YandexMap>
+        :coordinates="center">
+            <YandexMarker 
+            :coordinates="[marker.latitude, marker.longitude]" 
+            :marker-id="marker.id"               
+            :events="[]">
+            </YandexMarker>
+    </YandexMap>
     </div>
 </template>
 <script>
@@ -21,13 +23,19 @@ import { YandexMap, YandexMarker } from 'vue-yandex-maps';
 
 
 export default {
-    name: 'YandexMap',
-    props: {
-        markers: Array,
-        marker: Object,
-        center: Array,
-        zoom: Number = 16,
-    },
+    name: 'MapCard',
+    // props: {
+    //     markers: Array,
+    //     marker: Object,
+    //     center: Array,
+    //     zoom: Number = 16,
+    // },
+    props: [ 
+        'markers',
+        'marker',
+        'center',
+        'zoom',
+    ],
     components: {
         YandexMap,
         YandexMarker
