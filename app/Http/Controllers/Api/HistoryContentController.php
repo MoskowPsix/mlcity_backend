@@ -90,7 +90,23 @@ class HistoryContentController extends Controller
         else if($request["type"] == "Sight"){
             $sight = Sight::where('id',$request['id'])->first();
             $historyContent = $sight->historyContents()->create($request['history_content']);
-            info($request['history_content']);
+            $historyTypes = $request["history_types"];
+            if(isset($request["history_types"])){
+                // info($historyTypes);
+                // info($historyTypes[0]);
+                for($i = 0; $i<count($request["history_types"]); $i++){
+                    
+                    
+                    if(isset($request["history_types"][$i]["on_delete"]) &&  $request["history_types"][$i]["on_delete"] == true){
+                        $historyContent->sightTypes()->attach($request["history_types"][$i]["id"], ['on_delete'=>true]);
+                    }
+                    else{
+                        $historyContent->sightTypes()->attach($request["history_types"][$i]["id"]);
+                    }
+                    
+                }
+            }
+            // info($request['history_content']);
         }
         
         return response()->json(["status"=>"success"],201);
