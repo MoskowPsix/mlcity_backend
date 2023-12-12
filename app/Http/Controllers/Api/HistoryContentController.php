@@ -137,51 +137,94 @@ class HistoryContentController extends Controller
                 
             }
 
-            if(isset($request['historyPlace']))
-            {
-                $historyPlaceId = $request["historyPlace"]["id"];
-                $historyPlace = HistoryPlace::find($historyPlaceId);
-                $historyPlaceParent = $historyPlace->place;
-                $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray()); 
-
-
-                $historyData = $this->notNullData($historyRawData);
-
-                if(!empty($historyData)){
-                    if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+            $historyPlaces = $historyContent->historyPlaces;
+            info($historyPlaces);
+            if(isset($historyPlaces) && count($historyPlaces->toArray())>0){
+                foreach($historyPlaces as $historyPlace){
+                    $historyPlaceParent = $historyPlace->place;
+                    if ($historyPlace["on_delete"] == true){
                         $historyPlaceParent->delete();
                     }
                     else{
-                        $historyPlaceParent->update($historyData);
+                        $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray());     
+                        $historyData = $this->notNullData($historyRawData);
+
+                        if(!empty($historyData)){
+                            $historyPlaceParent->update($historyData);
+                        }
+                        
+
+                        $historySeances = $historyPlace->seances;
+
+                        if(isset($historySeances) && count($historySeances)>0){
+                            foreach($historySeances as $historySeance){
+                                $historySeanceParent = $historySeance->seance;
+                                if($historySeance["on_delete"] == true){
+                                    $historySeanceParent->delete();
+                                }
+                                else{
+                                    $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
+                                    $historyData = $this->notNullData($historyRawData);
+
+                                    if(!empty($historData)){
+                                        $historySeanceParent->update($historyData);
+                                    }
+                                    
+                                }
+                            }
+                        }
                     }
-                    
                 }
             }
 
-            if(isset($request["historySeance"]))
-                {
-                    $historySeanceId = $request["historySeance"]['id'];
-                    $historySeance = HistorySeance::find($historySeanceId);
-                    $historySeanceParent = $historySeance->seance;
+            $historyPrices = $historyContent->price;
 
-                    $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray()); 
+
+            // if(isset($request['historyPlace']))
+            // {
+            //     $historyPlaceId = $request["historyPlace"]["id"];
+            //     $historyPlace = HistoryPlace::find($historyPlaceId);
+            //     $historyPlaceParent = $historyPlace->place;
+            //     $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray()); 
+
+
+            //     $historyData = $this->notNullData($historyRawData);
+
+            //     if(!empty($historyData)){
+            //         if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+            //             $historyPlaceParent->delete();
+            //         }
+            //         else{
+            //             $historyPlaceParent->update($historyData);
+            //         }
                     
-                    $historyData = $this->notNullData($historyRawData);
+            //     }
+            // }
 
-                    info($historyData);
+            // if(isset($request["historySeance"]))
+            //     {
+            //         $historySeanceId = $request["historySeance"]['id'];
+            //         $historySeance = HistorySeance::find($historySeanceId);
+            //         $historySeanceParent = $historySeance->seance;
 
-                    if(!empty($historyData)){
+            //         $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray()); 
+                    
+            //         $historyData = $this->notNullData($historyRawData);
+
+            //         info($historyData);
+
+            //         if(!empty($historyData)){
                         
-                        if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
-                            $historySeanceParent->delete();
-                        }
-                        else{
-                            $historySeanceParent->update([
-                                "dateStart" => $historySeance["date_start"]
-                            ]);
-                        }
-                    }
-                }
+            //             if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
+            //                 $historySeanceParent->delete();
+            //             }
+            //             else{
+            //                 $historySeanceParent->update([
+            //                     "dateStart" => $historySeance["date_start"]
+            //                 ]);
+            //             }
+            //         }
+            //     }
             
             $historyFiles = $historyContent->historyFiles;
 
