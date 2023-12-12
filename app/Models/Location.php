@@ -18,7 +18,11 @@ class Location extends Model
         'name',
         'time_zone',
         'location_id',
-        'cult_id'
+        'cult_id',
+        'latitude',
+        'longitude',
+        'info_dadata',
+        'time_zone_utc'
     ];
 
     public function locationsChildren(): hasMany

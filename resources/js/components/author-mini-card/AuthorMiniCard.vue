@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col items-center border rounded-lg w-full h-full dark:bg-gray-800/80 dark:border-gray-700/80 p-2">
+    <div class="flex flex-col items-center border rounded-lg w-full h-full bg-gray-100 border-gray-300/80 dark:bg-gray-800/80 dark:border-gray-700/80 p-2">
         <img class="border w-48 h-48 rounded-3xl dark:border-gray-700/80 " :src="author.avatar" :alt="author.name"/>
         <label class="flex flex-col items-center p-2">
             <h1 class="mb-2 text-2xl">Имя: {{author.name}}</h1>
