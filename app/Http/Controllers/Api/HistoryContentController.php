@@ -19,6 +19,8 @@ use App\Models\FileType;
 use App\Models\HistoryContent;
 use App\Models\HistoryPlace;
 use App\Models\HistorySeance;
+use App\Models\Price;
+use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
 use Illuminate\Console\View\Components\Info;
@@ -57,12 +59,14 @@ class HistoryContentController extends Controller
         return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
 
-    public function createHistoryContent(Request $request){
+    public function createHistoryContent(Request $request)
+    {
         $request = $request->toArray();
+        info($request);
         $request['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
-        if($request["type"] == "Event"){
+        if($request["type"] == "Event") {
             $event = Event::where('id',$request['id'])->first();
             // info($request);
             $historyContent = $event->historyContents()->create($request['history_content']);
@@ -74,7 +78,11 @@ class HistoryContentController extends Controller
                 $historyPlace = $historyContent->historyPlaces()->create($request['history_place']);
 
                 if (array_key_exists("history_seance", $request)){
-                    $historySeance = $historyPlace->historySeances()->create($request["history_seance"]);
+                    $historySeances = $request["history_seance"]; 
+                    foreach($historySeances as $historySeance){
+                        $historySeance = $historyPlace->historySeances()->create($historySeance);
+                    }
+                    
                 }
             }
 
@@ -132,44 +140,62 @@ class HistoryContentController extends Controller
                 }
                 else{
                     $historyParent->update($historyData);
-                }
-                
-                
+                }             
             }
 
             $historyPlaces = $historyContent->historyPlaces;
             info($historyPlaces);
             if(isset($historyPlaces) && count($historyPlaces->toArray())>0){
+
                 foreach($historyPlaces as $historyPlace){
+
                     $historyPlaceParent = $historyPlace->place;
-                    if ($historyPlace["on_delete"] == true){
-                        $historyPlaceParent->delete();
-                    }
-                    else{
-                        $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray());     
-                        $historyData = $this->notNullData($historyRawData);
+                    $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray());     
+                    $historyData = $this->notNullData($historyRawData);
 
-                        if(!empty($historyData)){
-                            $historyPlaceParent->update($historyData);
-                        }
-                        
+                    if(isset($historyPlaceParent)){
 
-                        $historySeances = $historyPlace->seances;
+                        if ($historyPlace["on_delete"] == true) {
+                            $historyPlaceParent->delete();
+                        } else {
+                            if(!empty($historyData)) {
+                                $historyPlaceParent->update($historyData);
+                            }
 
-                        if(isset($historySeances) && count($historySeances)>0){
-                            foreach($historySeances as $historySeance){
-                                $historySeanceParent = $historySeance->seance;
-                                if($historySeance["on_delete"] == true){
-                                    $historySeanceParent->delete();
-                                }
-                                else{
+                            $historySeances = $historyPlace->seances;
+                            if(isset($historySeances) && count($historySeances)>0){
+
+                                foreach($historySeances as $historySeance){
+
                                     $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
                                     $historyData = $this->notNullData($historyRawData);
+                                    $historySeanceParent = $historySeance->seance;
+                                    if($historySeance["on_delete"] == true){
+                                        $historySeanceParent->delete();
+                                    } else {
 
-                                    if(!empty($historData)){
-                                        $historySeanceParent->update($historyData);
+                                        if(!empty($historData)){
+                                            $historySeanceParent->update($historyData);
+                                        }
+                                        
                                     }
+                                }
+                            }
+                        }    
+                    } else if (!isset($historyPlaceParent)){
+                        $place = $historyParent->places()->create($historyData);
+
+                        $historySeances = $historyPlace->historySeances;
+                        info($historySeances->toArray());
+                        if(isset($historySeances) && count($historySeances)>0){
+                            foreach($historySeances as $historySeance){
+                                $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
+                                $historyData = $this->notNullData($historyRawData);
+
+                                
+                                if(empty($historData)){
                                     
+                                    $place->seances()->create($historyData);
                                 }
                             }
                         }
@@ -177,7 +203,44 @@ class HistoryContentController extends Controller
                 }
             }
 
-            $historyPrices = $historyContent->price;
+            $historyPrices = $historyContent->historyPrices;
+            if(isset($historyPrices) && count($historyPrices)>0){
+
+                foreach($historyPrices as $historyPrice){
+
+                    $historyPriceParent = $historyPrice->price;
+                    $historyRawData = $this->unsetRawHistoryPriceData($historyPrice->toArray());
+                    $historyData = $this->notNullData($historyRawData);
+
+                    if (isset($historyPriceParent)){
+
+                        if($historyPrice['on_delete'] == true){
+
+                            $historyPriceParent->delete();
+                        }
+                        else{
+                            if (!empty($historyData)){
+                                $historyPriceParent->update($historyData);
+                            }
+                            
+                        }
+                    }
+                    else if (!isset($historyPriceParent)){
+                        
+                        if ($historyContent->history_contentable_type == "App\Models\Event") {
+                            $historyData['event_id'] = $historyParent["id"];
+                            $price = Price::create($historyData);
+                        } else if($historyContent->history_contentable_type == "App\Models\Sight") {
+                            $historyData['sight_id'] = $historyParent["id"];
+                            $price = Price::create($historyData);
+                        }
+                        
+                    }
+                    
+                    
+                    
+                }
+            }
 
 
             // if(isset($request['historyPlace']))
@@ -311,6 +374,18 @@ class HistoryContentController extends Controller
         unset($data['id']);
         unset($data['seance']);
         unset($data["seance_id"]);
+        
+        return $data;
+    }
+
+    public function unsetRawHistoryPriceData($historyRawData){
+        $data = $historyRawData;
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['history_content_id']);
+        unset($data["price_id"]);
+        unset($data['id']);
+        
         
         return $data;
     }

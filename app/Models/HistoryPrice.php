@@ -13,8 +13,8 @@ class HistoryPrice extends Model
 
     protected $guarded = false;
 
-    public function HistoryPrice(){
-        return $this->belongsTo(HistoryPrice::class);
+    public function price(){
+        return $this->belongsTo(Price::class);
     }
 
     public function historyContent(){
