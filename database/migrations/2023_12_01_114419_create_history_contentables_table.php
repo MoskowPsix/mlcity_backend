@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger("history_content_id");
             $table->unsignedBigInteger("history_contentable_id");
             $table->string("history_contentable_type");
+            $table->boolean("on_delete")->nullable();
             $table->timestamps();
         });
     }

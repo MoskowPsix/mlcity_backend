@@ -464,7 +464,8 @@ export default {
                     this.sightChange.sightSponsor = this.sight.sponsor
                     this.sight.statuses[0] ? this.sightChange.sightStatus = this.sight.statuses[0].name : null
                     this.sightChange.sightFiles = this.sight.files
-                    this.sightChange.sightTypes = this.sight.types
+                    ////////////////////////
+                    this.sightChange.sightTypes = JSON.parse(JSON.stringify(this.sight.types))
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
@@ -594,6 +595,9 @@ export default {
             }
             if(this.sightChange.sightStatus != "" && this.sightChange.sightStatus != this.sight.statuses[0].name){
                 data.history_content.statuses = this.sightChange.sightStatus
+            }
+
+            for(let i = 0; i<this.sight.types.length; i++){
             }
 
             
