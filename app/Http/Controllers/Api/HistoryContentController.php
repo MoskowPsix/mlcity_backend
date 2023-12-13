@@ -69,21 +69,26 @@ class HistoryContentController extends Controller
         if($request["type"] == "Event") {
             $event = Event::where('id',$request['id'])->first();
             // info($request);
-            $historyContent = $event->historyContents()->create($request['history_content']);
+            $historyContent = $request["history_content"];
+            unset($historyContent["history_places"]);
+            $historyContent = $event->historyContents()->create($historyContent);
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
             ]);
 
-            if(array_key_exists("history_places",$request)){
+            if(isset($request["history_content"]["history_places"])){
                 
-                for($i = 0; $i<count($request['history_places']); $i++){
-                    info($request['history_places'][$i]);
-                    $historyPlace = $request['history_places'][$i];
+                for($i = 0; $i<count($request["history_content"]["history_places"]); $i++){
+                    // info($request["history_content"]["history_places"][$i]);
+
+                    $historyPlace = $request["history_content"]["history_places"][$i];
                     unset($historyPlace['history_seances']);
+                    info($historyPlace);
+
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
-                    if (isset($request["history_place"]["history_seances"])){
-                        $historySeances = $request["history_places"][$i]["history_seances"]; 
+                    if (isset($request["history_content"]["history_places"][$i]["history_seances"])){
+                        $historySeances = $request["history_content"]["history_places"][$i]["history_seances"]; 
                         foreach($historySeances as $historySeance){
                             $historySeance = $historyPlace->historySeances()->create($historySeance);
                         }
