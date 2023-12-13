@@ -62,7 +62,7 @@ class HistoryContentController extends Controller
     public function createHistoryContent(Request $request)
     {
         $request = $request->toArray();
-        info($request);
+        // info($request);
         $request['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
@@ -74,16 +74,23 @@ class HistoryContentController extends Controller
                 "status_id" => $status_id
             ]);
 
-            if(array_key_exists("history_place",$request)){
-                $historyPlace = $historyContent->historyPlaces()->create($request['history_place']);
+            if(array_key_exists("history_places",$request)){
+                
+                for($i = 0; $i<count($request['history_places']); $i++){
+                    info($request['history_places'][$i]);
+                    $historyPlace = $request['history_places'][$i];
+                    unset($historyPlace['history_seances']);
+                    $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
-                if (array_key_exists("history_seance", $request)){
-                    $historySeances = $request["history_seance"]; 
-                    foreach($historySeances as $historySeance){
-                        $historySeance = $historyPlace->historySeances()->create($historySeance);
+                    if (isset($request["history_place"]["history_seances"])){
+                        $historySeances = $request["history_places"][$i]["history_seances"]; 
+                        foreach($historySeances as $historySeance){
+                            $historySeance = $historyPlace->historySeances()->create($historySeance);
+                        }
+                        
                     }
-                    
                 }
+                
             }
 
             if(array_key_exists("history_files", $request)){
@@ -184,9 +191,9 @@ class HistoryContentController extends Controller
                         }    
                     } else if (!isset($historyPlaceParent)){
                         $place = $historyParent->places()->create($historyData);
+                        info($place->id);
 
                         $historySeances = $historyPlace->historySeances;
-                        info($historySeances->toArray());
                         if(isset($historySeances) && count($historySeances)>0){
                             foreach($historySeances as $historySeance){
                                 $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
@@ -194,7 +201,7 @@ class HistoryContentController extends Controller
 
                                 
                                 if(empty($historData)){
-                                    
+                                    info("create");
                                     $place->seances()->create($historyData);
                                 }
                             }
