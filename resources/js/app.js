@@ -15,7 +15,6 @@ axios.defaults.headers = {
     'Authorization': `Bearer ${localStorage.getItem('token')}`
 }
 
-
 const options = {
     transition: "Vue-Toastification__bounce",
     maxToasts: 20,
