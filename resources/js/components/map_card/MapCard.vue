@@ -7,7 +7,7 @@
         class="w-full h-full"
         :settings="settings"
         :zoom="zoom"
-        :behaviors="[]"
+        :behaviors="['scrollZoom', 'drag']"
         :controls="[]"
         :coordinates="center">
             <YandexMarker 
@@ -40,6 +40,11 @@ export default {
         YandexMap,
         YandexMarker
     },
+    // data() {
+    //     return {
+    //         cluster_options: {}
+    //     }
+    // },
     setup() {
         const settings = {
             apiKey: import.meta.env.VITE_YANDEX_APP_KEY, // Индивидуальный ключ API

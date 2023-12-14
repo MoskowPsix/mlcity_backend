@@ -19,18 +19,9 @@
         <div v-if="state" class="flex flex-row mt-2 h-100">
             <div class="w-2/3 min-h-full">
                 <div class="grid grid-cols-2" v-if="stateUpd">
-                    <div>
-                        <input placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" require>
-                        <div class="z-50 h-24">
-                            <p>Что-то</p>
-                            <p>Что-то</p>
-                            <p>Что-то</p>
-                            <p>Что-то</p>
-                        </div>
-                    </div>
                     <input v-if="stateUpd" placeholder="Найти адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" require>
                 </div>
-                <MapCard class="min-h-full" :marker="place" :center="[place.latitude, place.longitude]" :zoom="16" />
+                <!-- <MapCard class="min-h-full" :marker="place" :center="[place.latitude, place.longitude]" :zoom="16" /> -->
             </div>
             <div class=" flex flex-col  w-1/3 p-1 h-96 overflow-y-auto justify-items-center" id="journal-scroll" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
