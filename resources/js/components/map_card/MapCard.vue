@@ -42,7 +42,7 @@ export default {
     },
     setup() {
         const settings = {
-            apiKey: '226cca4a-d7de-46b5-9bc8-889f70ebfe64', // Индивидуальный ключ API
+            apiKey: import.meta.env.VITE_YANDEX_APP_KEY, // Индивидуальный ключ API
             lang: 'ru_RU', // Используемый язык
             coordorder: 'latlong', // Порядок задания географических координат
             debug: true, // Режим отладки

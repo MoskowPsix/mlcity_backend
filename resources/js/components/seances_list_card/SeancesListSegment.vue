@@ -108,7 +108,7 @@
 export default {
     name: 'SeancesListSegment',
     props: {
-        seance: Array
+        seance: Object
     }
 }
 </script>
