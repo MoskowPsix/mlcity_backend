@@ -5,101 +5,101 @@
                 {{new Date(seance.dateStart).getFullYear()}}
             </div>
             <div class="flex flex-col">
-                <div :class="new Date(seance.dateStart).getDay() === 5 || new Date(seance.dateStart).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
+                <div :class="new Date(seance.date_start).getDay() === 5 || new Date(seance.date_start).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
                     {{new Date(seance.dateStart).getDate()}}
                 </div>
                 <div class="text-sm mx-auto">
-                    <label v-if="new Date(seance.dateStart).getMonth() == 0">
+                    <label v-if="new Date(seance.date_start).getMonth() == 0">
                         Янв
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 1">
+                    <label v-if="new Date(seance.date_start).getMonth() == 1">
                         Фев
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 2">
+                    <label v-if="new Date(seance.date_start).getMonth() == 2">
                         Март
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 3">
+                    <label v-if="new Date(seance.date_start).getMonth() == 3">
                         Апр
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 4">
+                    <label v-if="new Date(seance.date_start).getMonth() == 4">
                         Май
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 5">
+                    <label v-if="new Date(seance.date_start).getMonth() == 5">
                         Июнь
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 6">
+                    <label v-if="new Date(seance.date_start).getMonth() == 6">
                         Июль
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 7">
+                    <label v-if="new Date(seance.date_start).getMonth() == 7">
                         Авг
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 8">
+                    <label v-if="new Date(seance.date_start).getMonth() == 8">
                         Сент
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 9">
+                    <label v-if="new Date(seance.date_start).getMonth() == 9">
                         Окт
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 10">
+                    <label v-if="new Date(seance.date_start).getMonth() == 10">
                         Нояб
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 11">
+                    <label v-if="new Date(seance.date_start).getMonth() == 11">
                         Дек
                     </label>
                 </div>
             </div>
             <div class="text-xl p-2 my-auto">
-                {{new Date(seance.dateStart).getUTCHours()}}:{{new Date(seance.dateStart).getUTCMinutes() ? new Date(seance.dateStart).getUTCMinutes() : '00'}}
+                {{new Date(seance.date_start).getUTCHours()}}:{{new Date(seance.date_start).getUTCMinutes() ? new Date(seance.date_start).getUTCMinutes() : '00'}}
             </div>
         </div>
         <div class=" mt-1 flex flex-row border rounded-lg dark:border-gray-700">
             <div class=" -rotate-90 h-8 mt-4 text-lg font-medium">
-                {{new Date(seance.dateEnd).getFullYear()}}
+                {{new Date(seance.date_end).getFullYear()}}
             </div>
             <div class="flex flex-col">
-                <div :class="new Date(seance.dateEnd).getDay() === 5 || new Date(seance.dateEnd).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
-                    {{new Date(seance.dateEnd).getDate()}}
+                <div :class="new Date(seance.date_end).getDay() === 5 || new Date(seance.date_end).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
+                    {{new Date(seance.date_end).getDate()}}
                 </div>
                 <div class="text-sm mx-auto">
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 0">
+                    <label v-if="new Date(seance.date_end).getMonth() == 0">
                         Янв
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 1">
+                    <label v-if="new Date(seance.date_end).getMonth() == 1">
                         Фев
                     </label>
-                    <label v-if="new Date(seance.dateStart).getMonth() == 2">
+                    <label v-if="new Date(seance.date_end).getMonth() == 2">
                         Март
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 3">
+                    <label v-if="new Date(seance.date_end).getMonth() == 3">
                         Апр
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 4">
+                    <label v-if="new Date(seance.date_end).getMonth() == 4">
                         Май
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 5">
+                    <label v-if="new Date(seance.date_end).getMonth() == 5">
                         Июнь
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 6">
+                    <label v-if="new Date(seance.date_end).getMonth() == 6">
                         Июль
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 7">
+                    <label v-if="new Date(seance.date_end).getMonth() == 7">
                         Авг
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 8">
+                    <label v-if="new Date(seance.date_end).getMonth() == 8">
                         Сент
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 9">
+                    <label v-if="new Date(seance.date_end).getMonth() == 9">
                         Окт
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 10">
+                    <label v-if="new Date(seance.date_end).getMonth() == 10">
                         Нояб
                     </label>
-                    <label v-if="new Date(seance.dateEnd).getMonth() == 11">
+                    <label v-if="new Date(seance.date_end).getMonth() == 11">
                         Дек
                     </label>
                 </div>
             </div>
             <div class="text-xl p-2 my-auto">
-                {{new Date(seance.dateEnd).getUTCHours()}}:{{new Date(seance.dateEnd).getUTCMinutes() ? new Date(seance.dateEnd).getUTCMinutes() : '00'}}
+                {{new Date(seance.date_end).getUTCHours()}}:{{new Date(seance.date_end).getUTCMinutes() ? new Date(seance.date_end).getUTCMinutes() : '00'}}
             </div>
         </div>
     </div>
