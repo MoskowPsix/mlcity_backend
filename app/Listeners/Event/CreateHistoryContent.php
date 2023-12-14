@@ -75,7 +75,7 @@ class CreateHistoryContent
         }
 
         foreach($event->types as $type){
-            $historyContent->eventTypes()->attach($type->id);
+            $historyContent->historyEventTypes()->attach($type->id);
             
         }
         
