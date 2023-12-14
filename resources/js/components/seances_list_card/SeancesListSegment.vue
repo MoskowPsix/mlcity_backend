@@ -2,7 +2,7 @@
     <div v-if="seance" class="grid grid-cols-2">
         <div class=" mt-1 flex flex-row border rounded-lg dark:border-gray-700 mr-1">
             <div class=" -rotate-90 h-8 mt-4 text-lg font-medium">
-                {{new Date(seance.dateStart).getFullYear()}}
+                {{new Date(seance.date_start).getFullYear()}}
             </div>
             <div class="flex flex-col">
                 <div :class="new Date(seance.date_start).getDay() === 5 || new Date(seance.date_start).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
