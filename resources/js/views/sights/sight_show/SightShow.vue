@@ -12,7 +12,8 @@
             </svg>
             <h1 class="flex items-center mr-1 ml-1">Назад</h1>
         </button>
-        <label class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
+        <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
+        <input v-if="state" class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
         <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
@@ -21,210 +22,67 @@
         
         <div class="p-6">
             <div class="text-center">
-                <CarouselGallery :files="sightChange.sightFiles" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+                <CarouselGallery :files="sight.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
                 <button @click="state ? state = false: state = true" class="p-2 mx-auto bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
             </div>
             
-            <div v-on:dblclick="changeSightNameState" class="">
-                <div v-if="!sightChange.sightNameState">
-                    <p class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 hover:cursor-pointer inline-block">
-                        {{ sightChange.sightName }}
+            <div class="">
+                <div v-if="!state">
+                    <p class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50  inline-block">
+                        {{ sight.name }}
                     </p>
                 </div>
-                <div v-if="sightChange.sightNameState" class="flex mb-4 space-x-4">
-                    <input class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-2/4
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0" 
-                     v-model="sightChange.sightName">
-                    
-                    <svg
-                    v-on:click="changeSightNameState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightName"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-
-
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                     v-bind:value="sight.name">
                 </div>
             </div>
             
             <div>
-                <div class="hover:cursor-pointer inline-block">
+                <div class=" inline-block">
                     <p class="font-medium">Место проведение:   </p>
-                    <div v-if="!sightChange.sightAddressState" v-on:dblclick="changeSightAddressState" class="">
-                        <h6 class="mb-6"> {{ sightChange.sightAddress }}</h6>
+                    <div v-if="!state"  class="">
+                        <h6 class="mb-6"> {{ sight.address }}</h6>
                     </div>
                 </div>
                 
-
-                <div v-if="sightChange.sightAddressState" class="flex mb-4 space-x-4">
-                    <input class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-3/4
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0" 
-                     v-model="sightChange.sightAddress"
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                     v-bind:value="sight.address"
                      type="text">
                     
-                    <svg
-                    v-on:click="changeSightAddressState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightAddress"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
                 </div>
-                
             </div>
+
             <div>
                 <p class="font-medium">Время проведения:</p>
-                <div v-if="!sightChange.sightTimeState" class="hover:cursor-pointer" v-on:dblclick="changeSightTimeState">
-                    <h6 class="mb-4" >{{ sightChange.sightTime }}</h6>
+                <div v-if="!state" >
+                    <h6 class="mb-4" >{{ sight.work_time }}</h6>
                 </div>
 
-                <div v-if="sightChange.sightTimeState" class="flex mb-4 space-x-4">
-                    <input class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-3/4
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0" 
-                     v-model="sightChange.sightTime"
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                     v-bind:value="sight.work_time"
                      type="text">
-                    
-                    <svg
-                    v-on:click="changeSightTimeState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightTime"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                      
                 </div>
-                
             </div>
             
-            <div class="hover:cursor-pointer">
-
-                <div v-if="!sightChange.sightDescState" v-on:dblclick="changeSightDescState">
+            <div class="">
+                <div v-if="!state">
                     <p class="font-medium">Описание:</p>
 
                     <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
-                        {{ sightChange.sightDesc}}
+                        {{ sight.description }}
                     </p>
                 </div>
 
-                <div v-if="sightChange.sightDescState" class="flex mb-4 space-x-4">
-                    <textarea class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-5/6
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0" 
-                    v-model="sightChange.sightDesc"
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-5/6 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                    v-bind:value="sight.description"
                     type="text"
                     rows=7>
-                    </textarea>
-                    
-                    <svg
-                    v-on:click="changeSightDescState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightDesc"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    </textarea>  
                 </div> 
             </div>
 
@@ -234,140 +92,61 @@
                     <p>Типы события:</p>
                 </div>
                 
-                <div v-if="!sightChange.sightTypesState" v-on:dblclick="sightChange.sightTypesState = !sightChange.sightTypesState">
-                    <p v-for="type_s in sightChange.sightTypes">{{ type_s.name }}</p>
+                <div v-if="!state">
+                    <p v-for="type_s in sight.types">{{ type_s.name }}</p>
                 </div>
 
-                <div v-if="sightChange.sightTypesState" class="flex" v-for="(type_s, index) in sightChange.sightTypes" v-bind:key="index">
+                <div v-if="state" class="flex" v-for="(type_s, index) in sight.types" v-bind:key="index">
                     <input 
-                    
-                    class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-1/4
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0"
-                    v-model="sightChange.sightTypes[index].name"
-                    
-                    type="text">
-                    
-                    <svg
-                    v-on:click="sightChange.sightTypesState = !sightChange.sightTypesState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightTypes(index)"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                    class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-1/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0"
+                    v-bind:value="sight.types[index].name"
+                    type="text">  
                 </div>
 
             </div>
 
             <div class="mb-4">
                 <div class=" font-medium">Цены: </div>
-                <div v-if="sightPriceCheck() && sightChange.sightPricesState==false" v-on:dblclick="sightChange.sightPricesState = !sightChange.sightPricesState">
+                <div v-if="sightPriceCheck() && state==false">
                     <div class="flex space-x-8">
                         <div>
-                            <p v-for="price in sightChange.sightPrices">{{ price.cost_rub }}₽</p>
+                            <p v-for="price in sight.prices">{{ price.cost_rub }}₽</p>
                         </div>
                         <div>
-                            <p v-for="price in sightChange.sightPrices">{{ price.descriptions }}</p>
+                            <p v-for="price in sight.prices">{{ price.descriptions }}</p>
                         </div>
                     </div>
                     
                 </div>
-                <div v-if="sightChange.sightPricesState">
+                <div v-if="state">
 
                 </div>
                 <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>
 
-                <!-- <p v-for="price in sight.prices">{{ price.cost_rub }}</p> -->
+               
             </div>
 
             <div>
                 <p class=" font-medium">Спонсор:</p>
-                <div v-if="!sightChange.sightSponsorState" class="hover:cursor-pointer" v-on:dblclick="changeSightSponsorState">
-                    <h6 class="mb-4 " >{{ sightChange.sightSponsor }}</h6>
+                <div v-if="!state" class="">
+                    <h6 class="mb-4 " >{{ sight.sponsor }}</h6>
                 </div>
 
-                <div v-if="sightChange.sightSponsorState" class="flex mb-4 space-x-4">
-                    <input class=" 
-                    text-xl 
-                    font-medium 
-                    leading-tight
-                    text-neutral-800
-                    dark:text-neutral-50 
-                    w-3/4
-                    border-sky-400/30
-                    bg-indigo-50
-                    dark:bg-gray-700
-                    rounded-lg
-                    p-2
-                    pl-1
-                    border-2
-                    m-0" 
-                     v-model="sightChange.sightSponsor"
-                     type="text">
-                    
-                    <svg
-                    v-on:click="changeSightSponsorState"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" 
-                    viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-green-700 hover:cursor-pointer">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                    </svg>
-
-                    <svg 
-                    v-on:click="declineSightSponsor"
-                    xmlns="http://www.w3.org/2000/svg" 
-                    fill="none" viewBox="0 0 24 24" 
-                    stroke-width="1.5" 
-                    stroke="currentColor" 
-                    class="w-6 h-6 my-auto text-rose-800 hover:cursor-pointer">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                     v-bind:value="sight.sponsor"
+                     type="text">   
                 </div>
             </div>
 
             <div class="mb-4">
                 <label for="status" class="block mb-2  font-medium text-gray-900 dark:text-white">Статус</label>
                 <select 
-                id="status" 
-                class="
-                bg-gray-50 border 
-                border-gray-300 
-                text-gray-900 
-                text-sm rounded-lg 
-                focus:ring-blue-500 focus:border-blue-500 
-                block w-1/10 p-2.5 
-                dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 
-                dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
+                id="statuses" 
+                class=" bg-gray-50 border  border-gray-300  text-gray-900 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-1/10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
                 "
-                v-model="sightChange.sightStatus">
+                
+                v-bind:value="status">
                     <option value="Отказ">Отказ</option>
                     <option value="Опубликовано">Опубликовано</option>
                     <option value="Черновик">Черновик</option>
@@ -413,33 +192,9 @@ export default {
     data() {
         return {
             sight: [],
-            sightChange:{
-                sightAddress: "",
-                sightAddressState: false,
-            
-                sightName: "",
-                sightNameState: false,
-
-                sightDesc: "",
-                sightDescState: false,
-
-                sightTime: "",
-                sightTimeState: false,
-                
-                sightPrices: [],
-                sightPricesState: false,
-
-                sightSponsor: "",
-                sightSponsorState: false,
-
-                sightTypes: [],
-                sightTypesState: false,
-
-                sightFiles: null,
-
-                sightStatus: ""
-            },
-            state: true,
+            status: "",
+            sightUpd: new FormData(),
+            state: false,
             filesDel: [],
             filesUpd: [],
             
@@ -456,16 +211,7 @@ export default {
                 delay(100),
                 map(response => {
                     this.sight = response.data
-                    this.sightChange.sightPrices = this.sight.prices
-                    this.sightChange.sightAddress = this.sight.address
-                    this.sightChange.sightName = this.sight.name
-                    this.sightChange.sightDesc = this.sight.description
-                    this.sightChange.sightTime = this.sight.work_time
-                    this.sightChange.sightSponsor = this.sight.sponsor
-                    this.sight.statuses[0] ? this.sightChange.sightStatus = this.sight.statuses[0].name : null
-                    this.sightChange.sightFiles = this.sight.files
-                    ////////////////////////
-                    this.sightChange.sightTypes = JSON.parse(JSON.stringify(this.sight.types))
+                    this.status = this.sight.statuses[0].name
                     console.log(response)
                     this.closeLoaderFullPage()
                 }),
@@ -483,7 +229,7 @@ export default {
         },
         deleteFiles(file) {
             console.log(['delete', file])
-            // console.log(this.event.files)
+            
 
 
 
@@ -493,14 +239,10 @@ export default {
                 }
             })
             this.sightChange.sightFiles[coin] = null
-            // if (coin) {
-            //     this.filesUpd[coin] = null
-            // } else {
-            //     this.filesDel.push(...file)
-            // }
+            
         },
         updateFiles(files) {
-            // console.log(['update', files])
+            
             files = Array.from(files)
             files.forEach(file => {
                 let reader = new FileReader()
@@ -513,65 +255,10 @@ export default {
             })
             console.log(this.filesUpd)
         },
-        changeSightAddressState(){
-            console.log("change state")
-            this.sightChange.sightAddressState = !this.sightChange.sightAddressState
-        },
-        changeSightNameState(){
-           
-            this.sightChange.sightNameState = !this.sightChange.sightNameState
-        },changeSightDescState(){
-       
-            this.sightChange.sightDescState = !this.sightChange.sightDescState
-        },
-        changeSightTimeState(){
-           
-            this.sightChange.sightTimeState = !this.sightChange.sightTimeState
-        },
-        changeSightSponsorState(){
-            
-            this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
-        },
-        declineSightName(){
-            this.sightChange.sightNameState = !this.sightChange.sightNameState
-            this.sightChange.sightName = this.sight.name
-        },
-        declineSightAddress(){
-            this.sightChange.sightAddressState = !this.sightChange.sightAddressState
-            console.log(this.sightChange.sightAddressState)
-            this.sightChange.sightAddress = this.sight.address
-        },
-        declineSightDesc(){
-            this.sightChange.sightDescState = !this.sightChange.sightDescState
-            this.sightChange.sightDesc = this.sight.description 
-        },
-        declineSightTime(){
-            this.sightChange.sightTimeState = !this.sightChange.sightTimeState
-            this.sightChange.sightTime = this.sight.work_time 
-        },
-        declineSightPrice(){
-            this.sightChange.sightPriceState = !this.sightChange.sightPriceState
-        },
-        declineSightSponsor(){
-            this.sightChange.sightSponsorState = !this.sightChange.sightSponsorState
-            this.sightChange.sightSponsor = this.sight.sponsor
-        },
-        declineSightTypes(index){
-            console.log(this.sight.types)  
-            console.log(index)
-            this.sightChange.sightTypesState = !this.sightChange.sightTypesState
-            this.sightChange.sightTypes[index] = this.sight.types[index]
-              
-            console.log(this.sightChange.sightTypes)
-        },
+        
 
         sightPriceCheck(){
-            if(this.sightChange.sightPrices.length>0){
-                return true
-            }
-            else{
-                return false
-            }
+            return true
         },
         saveChanges(){
             let data = {
