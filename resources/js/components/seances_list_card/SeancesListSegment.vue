@@ -6,7 +6,7 @@
             </div>
             <div class="flex flex-col">
                 <div :class="new Date(seance.date_start).getDay() === 5 || new Date(seance.date_start).getDay() === 6 ? 'text-red-600 text-4xl font-bold' : 'text-gray-500 text-4xl font-bold'">
-                    {{new Date(seance.dateStart).getDate()}}
+                    {{new Date(seance.date_start).getDate()}}
                 </div>
                 <div class="text-sm mx-auto">
                     <label v-if="new Date(seance.date_start).getMonth() == 0">
