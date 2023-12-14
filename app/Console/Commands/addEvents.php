@@ -270,8 +270,8 @@ class addEvents extends Command
                          foreach ($place->seances as $seance) {
                             Seance::create([
                                 'place_id'  => $place_cr->id,
-                                'dateStart' => $seance->startDate,
-                                'dateEnd' => $seance->endDate
+                                'date_start' => $seance->startDate,
+                                'date_end' => $seance->endDate
                             ]);
                          }
                     } 

@@ -38,8 +38,8 @@ return new class extends Migration
             $table->integer('place_id');
             $table->foreign('place_id')->references('id')->on('places')->onDelete('cascade');
 
-            $table->dateTime('dateStart')->nullable();
-            $table->dateTime('dateEnd')->nullable();
+            $table->dateTime('date_start')->nullable();
+            $table->dateTime('date_end')->nullable();
             $table->timestamps();
         });
         Schema::create('price', function (Blueprint $table) {

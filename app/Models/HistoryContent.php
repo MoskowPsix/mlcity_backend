@@ -16,12 +16,12 @@ class HistoryContent extends Model
 
     protected $guarded = false;
 
-    public function eventTypes(){
-        return $this->morphedByMany(EventType::class, "history_contentable");
+    public function historyEventTypes(){
+        return $this->morphedByMany(EventType::class, "history_contentable")->withPivot("on_delete");
         
     }
-    public function sightTypes(){
-        return $this->morphedByMany(SightType::class, "history_contentable");
+    public function historySightTypes(){
+        return $this->morphedByMany(SightType::class, "history_contentable")->withPivot("on_delete");
     }
 
     public function user(): BelongsTo

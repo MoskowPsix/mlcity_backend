@@ -578,7 +578,7 @@ export default {
                 id: this.sight.id,
                 type: "Sight",
                 history_content:{
-
+                    
                 }
             }
             if(this.sightChange.sightName != this.sight.name){
