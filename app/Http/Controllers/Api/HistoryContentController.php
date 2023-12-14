@@ -61,29 +61,42 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
+        #получаем данные для статуса и дальнейших манипуляций
+
         $request = $request->toArray();
         // info($request);
         $request['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
+        #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($request["type"] == "Event") {
             $event = Event::where('id',$request['id'])->first();
             // info($request);
-            $historyContent = $event->historyContents()->create($request['history_content']);
+            $historyContent = $request["history_content"];
+            unset($historyContent["history_places"]);
+            unset($historyContent['history_content']['history_prices']);
+            unset($historyContent['history_content']['history_types']);
+            unset($historyContent['history_content']['history_files']);
+            $historyContent = $event->historyContents()->create($historyContent);
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
             ]);
-
-            if(array_key_exists("history_places",$request)){
+            
+            #проверяем содержит ли массив places
+            if(isset($request["history_content"]["history_places"])){
                 
-                for($i = 0; $i<count($request['history_places']); $i++){
-                    info($request['history_places'][$i]);
-                    $historyPlace = $request['history_places'][$i];
+                for($i = 0; $i<count($request["history_content"]["history_places"]); $i++){
+                    // info($request["history_content"]["history_places"][$i]);
+
+                    $historyPlace = $request["history_content"]["history_places"][$i];
                     unset($historyPlace['history_seances']);
+                    info($historyPlace);
+
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
-                    if (isset($request["history_place"]["history_seances"])){
-                        $historySeances = $request["history_places"][$i]["history_seances"]; 
+                    #проверяем содержит ли массив seances
+                    if (isset($request["history_content"]["history_places"][$i]["history_seances"])){
+                        $historySeances = $request["history_content"]["history_places"][$i]["history_seances"]; 
                         foreach($historySeances as $historySeance){
                             $historySeance = $historyPlace->historySeances()->create($historySeance);
                         }
@@ -92,39 +105,90 @@ class HistoryContentController extends Controller
                 }
                 
             }
-
-            if(array_key_exists("history_files", $request)){
-                $this->saveLocalFilesImg($historyContent, $request["history_files"]);
+            #Проверка есть ли цена на изменение или удаление
+            $historyPrices = $request["history_content"]["history_prices"];
+            if(!empty($historyPrices)){
+                for($i = 0; $i<count($historyPrices); $i++){
+                    $historyContent->historyPrices()->create($historyPrices[$i]);
+                }
             }
 
-            if (array_key_exists("history_price",$request)){
-                $historyContent->historyPrices()->create($request["history_price"]);
+            #Проверка если ли типы на удаление или на добавление
+            $historyTypes = $request["history_content"]["history_types"];
+            info($historyTypes);
+            if(!empty($historyTypes)){
+                
+                for($i = 0; $i<count($historyTypes); $i++){
+                    
+                    
+                    if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
+                        $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
+                    }
+                    else{
+                        $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"]);
+                    }
+                    
+                }
+            }
+
+            if(isset($request['history_content']["history_files"])){
+                $this->saveLocalFilesImg($historyContent, $request["history_files"]);
             }
 
         }
         else if($request["type"] == "Sight"){
             $sight = Sight::where('id',$request['id'])->first();
-            $historyContent = $sight->historyContents()->create($request['history_content']);
-            $historyTypes = $request["history_types"];
-            if(isset($request["history_types"])){
-                // info($historyTypes);
-                // info($historyTypes[0]);
-                for($i = 0; $i<count($request["history_types"]); $i++){
-                    
-                    
-                    if(isset($request["history_types"][$i]["on_delete"]) &&  $request["history_types"][$i]["on_delete"] == true){
-                        $historyContent->sightTypes()->attach($request["history_types"][$i]["id"], ['on_delete'=>true]);
+            $historyContent = $request['history_content'];
+
+            unset($historyContent['history_prices']);
+            unset($historyContent['history_types']);
+            unset($historyContent['history_files']);
+            
+            $historyContent = $sight->historyContents()->create($historyContent);
+            
+            
+
+            $historyContent->historyContentStatuses()->create([
+                "status_id" => $status_id
+            ]);
+
+            #Проверка есть ли цена на изменение или удаление
+            if(isset($request["history_content"]["history_prices"])){
+                $historyPrices = $request["history_content"]["history_prices"];
+                if(!empty($historyPrices)){
+                    for($i = 0; $i<count($historyPrices); $i++){
+                        $historyContent->historyPrices()->create($historyPrices[$i]);
                     }
-                    else{
-                        $historyContent->sightTypes()->attach($request["history_types"][$i]["id"]);
-                    }
-                    
                 }
             }
-            // info($request['history_content']);
+            
+
+            #Проверка если ли типы на удаление или на добавление
+            if(isset($request["history_content"]["history_types"])){
+                $historyTypes = $request["history_content"]["history_types"];
+                if(!empty($historyTypes)){
+
+                    for($i = 0; $i<count($historyTypes); $i++){
+                        
+                        // info($historyTypes[$i]);
+                        if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
+                            $historyContent->historySightTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
+                        }
+                        else{
+                            $historyContent->historySightTypes()->attach($historyTypes[$i]["id"]);
+                        }
+                        
+                    }
+                }  
+            }
+            
+            if(isset($request['history_content']["history_files"])){
+                $this->saveLocalFilesImg($historyContent, $request["history_files"]);
+            }
+            
         }
         
-        return response()->json(["status"=>"success"],201);
+        return response()->json(["status"=>"success", "history_content"=>$historyContent->id],201);
     }
 
     public function acceptHistoryContent(Request $request){
@@ -134,12 +198,15 @@ class HistoryContentController extends Controller
 
         if ($status == "Опубликованно")
         {
+            #достаем историю по id
             $historyContent = HistoryContent::find($historyContentId);
             $historyParent = $historyContent->historyContentable;
-            $historyRawData = $this->unsetRawHistoryContentData($historyContent->toArray());
 
+            #происходит преобразование данных в нужный формат
+            $historyRawData = $this->unsetRawHistoryContentData($historyContent->toArray());
             $historyData = $this->notNullData($historyRawData);
 
+            #проверка пустой ли массив
             if(!empty($historyData))
             {
                 if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
@@ -150,8 +217,11 @@ class HistoryContentController extends Controller
                 }             
             }
 
+            #достаем places которые либо будут созданы либо изменены
             $historyPlaces = $historyContent->historyPlaces;
             info($historyPlaces);
+
+            # Если Place уже существует мы обновляем или удаляем его и(или) его seance
             if(isset($historyPlaces) && count($historyPlaces->toArray())>0){
 
                 foreach($historyPlaces as $historyPlace){
@@ -169,26 +239,30 @@ class HistoryContentController extends Controller
                                 $historyPlaceParent->update($historyData);
                             }
 
-                            $historySeances = $historyPlace->seances;
+                            $historySeances = $historyPlace->historySeances;
+                            
                             if(isset($historySeances) && count($historySeances)>0){
 
                                 foreach($historySeances as $historySeance){
 
+                                    
                                     $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
                                     $historyData = $this->notNullData($historyRawData);
                                     $historySeanceParent = $historySeance->seance;
                                     if($historySeance["on_delete"] == true){
                                         $historySeanceParent->delete();
                                     } else {
-
-                                        if(!empty($historData)){
+                                        
+                                        if(!empty($historyData)){
+                                            
                                             $historySeanceParent->update($historyData);
                                         }
                                         
                                     }
                                 }
                             }
-                        }    
+                        } 
+                        # Если Place не существует мы его добавляем и(или) его seance   
                     } else if (!isset($historyPlaceParent)){
                         $place = $historyParent->places()->create($historyData);
                         info($place->id);
@@ -200,8 +274,8 @@ class HistoryContentController extends Controller
                                 $historyData = $this->notNullData($historyRawData);
 
                                 
-                                if(empty($historData)){
-                                    info("create");
+                                if(empty($historyData)){
+                                    
                                     $place->seances()->create($historyData);
                                 }
                             }
@@ -210,6 +284,9 @@ class HistoryContentController extends Controller
                 }
             }
 
+
+
+            # Находим цены истории и создаем или обновляем их
             $historyPrices = $historyContent->historyPrices;
             if(isset($historyPrices) && count($historyPrices)>0){
 
@@ -219,6 +296,7 @@ class HistoryContentController extends Controller
                     $historyRawData = $this->unsetRawHistoryPriceData($historyPrice->toArray());
                     $historyData = $this->notNullData($historyRawData);
 
+                    # Если цена существует мы либо удаляем ее либо обновляем
                     if (isset($historyPriceParent)){
 
                         if($historyPrice['on_delete'] == true){
@@ -232,69 +310,42 @@ class HistoryContentController extends Controller
                             
                         }
                     }
+                    # Если цена не существует создаем ее
                     else if (!isset($historyPriceParent)){
-                        
-                        if ($historyContent->history_contentable_type == "App\Models\Event") {
-                            $historyData['event_id'] = $historyParent["id"];
-                            $price = Price::create($historyData);
-                        } else if($historyContent->history_contentable_type == "App\Models\Sight") {
-                            $historyData['sight_id'] = $historyParent["id"];
-                            $price = Price::create($historyData);
-                        }
-                        
-                    }
-                    
-                    
-                    
+                        $historyParent->prices()->create($historyData);    
+                    }   
                 }
             }
 
 
-            // if(isset($request['historyPlace']))
-            // {
-            //     $historyPlaceId = $request["historyPlace"]["id"];
-            //     $historyPlace = HistoryPlace::find($historyPlaceId);
-            //     $historyPlaceParent = $historyPlace->place;
-            //     $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray()); 
-
-
-            //     $historyData = $this->notNullData($historyRawData);
-
-            //     if(!empty($historyData)){
-            //         if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
-            //             $historyPlaceParent->delete();
-            //         }
-            //         else{
-            //             $historyPlaceParent->update($historyData);
-            //         }
+            if($historyContent->history_contentable_type=="App\Models\Sight"){
+                $historyTypes = $historyContent->historySightTypes;
+                foreach($historyTypes as $historyType){
+                    $typeId = $historyType["pivot"]["history_contentable_id"];
                     
-            //     }
-            // }
+                    if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
+                        $historyParent->types()->detach($typeId);
+                    }
+                    else{
+                        $historyParent->types()->attach($typeId);
+                    }
+                }
+            }
+            else if ($historyContent->history_contentable_type=="App\Models\Event"){
+                $historyTypes = $historyContent->historyEventTypes;
+                
+                foreach($historyTypes as $historyType){
+                    $typeId = $historyType["pivot"]["history_contentable_id"];
 
-            // if(isset($request["historySeance"]))
-            //     {
-            //         $historySeanceId = $request["historySeance"]['id'];
-            //         $historySeance = HistorySeance::find($historySeanceId);
-            //         $historySeanceParent = $historySeance->seance;
+                    if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
+                        $historyParent->types()->detach($typeId);
+                    }
+                    else{
 
-            //         $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray()); 
-                    
-            //         $historyData = $this->notNullData($historyRawData);
-
-            //         info($historyData);
-
-            //         if(!empty($historyData)){
-                        
-            //             if(isset($historyData["on_delete"]) && $historyData["on_delete"] == true){
-            //                 $historySeanceParent->delete();
-            //             }
-            //             else{
-            //                 $historySeanceParent->update([
-            //                     "dateStart" => $historySeance["date_start"]
-            //                 ]);
-            //             }
-            //         }
-            //     }
+                        $historyParent->types()->attach($typeId);
+                    }
+                }
+            }
             
             $historyFiles = $historyContent->historyFiles;
 
