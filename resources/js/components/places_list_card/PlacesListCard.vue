@@ -19,9 +19,25 @@
         <div v-if="state" class="flex flex-row mt-2 h-100">
             <div class="w-2/3 min-h-full">
                 <div class="grid grid-cols-2" v-if="stateUpd">
-                    <input v-if="stateUpd" placeholder="Найти адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" require>
+                    <div>
+                            <input v-if="stateUpd" @input="onSearchLocation($event)" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
+                        <div class="relative top-0 h-40">
+                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex h-full w-full">
+                                <h1 v-if="!locationsList" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
+                                <div class="flex flex-row" v-for="location in locationsList">
+                                    <label>
+                                        <p>{{location.name}}</p>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <input v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
+                    </div>
                 </div>
-                <!-- <MapCard class="min-h-full" :marker="place" :center="[place.latitude, place.longitude]" :zoom="16" /> -->
+                <MapCardOnlyRead v-if="!stateUpd" class="min-h-full" :marker="place" :zoom="16" />
+                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="min-h-full" :marker="place" :zoom="16" />
             </div>
             <div class=" flex flex-col  w-1/3 p-1 h-96 overflow-y-auto justify-items-center" id="journal-scroll" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -43,20 +59,29 @@
     </div>
 </template>
 <script>
-import MapCard from '../map_card/MapCard.vue';
+import { mapActions} from 'pinia'
+import MapCardOnlyRead from '../map_card/map_card_only_read/MapCardOnlyRead.vue';
 import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import SeancesListSegment from '../seances_list_card/SeancesListSegment.vue';
+import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteractive.vue';
+import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
+import { of, EMPTY, Subject } from 'rxjs'
+import { useLocationStore } from '../../stores/LocationStore'
 
 
 export default {
     name: 'PlaceListCard',
+    setup() {
+        const destroy$ =  new Subject()
+        return {
+            destroy$,
+        } 
+    },
     data() {
         return {
             state: false,
             locationSearch: '',
             locationsList: [],
-            addressSearch: '',
-            addressList: []
         }
     },
     props: {
@@ -64,16 +89,39 @@ export default {
         stateUpd: Boolean
     },
     components: {
-        MapCard,
+        MapCardOnlyRead,
+        MapCardInteractive,
         VueTailwindDatepicker,
-        SeancesListSegment
+        SeancesListSegment,
     },
     methods: {   
-        onSearchAddress() {
-
+        ...mapActions(useLocationStore, ['getLocationsByName']),
+        setAddress(address) {
+            console.log(address)
+            this.place.address = address
         },
-        onSearchLocation() {
+        setCoords(coords) {
+            this.place.latitude = coords[0]
+            this.place.longitude = coords[1]
+        },
+        onSearchLocation(event) {
+            let text = event.target.value
+            if (text.length > 3) {
+                this.getLocationsByName(text).pipe(
+                map(response => {
+                    this.locationsList = response.data.locations
+                    console.log(this.locationsList)
+                }),
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    return of(EMPTY)
+                })
+                ).subscribe(
 
+                )
+            } else {
+                console.log('менее 3 символов')
+            }
         },    
         placeUpd() {
 

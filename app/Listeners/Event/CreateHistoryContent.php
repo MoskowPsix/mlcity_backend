@@ -99,8 +99,8 @@ class CreateHistoryContent
         $data["date_start"] = $data["date_start"];
         $data["date_end"] = $data["date_end"];
 
-        unset($data["dateStart"]);
-        unset($data["dateEnd"]);
+        unset($data["date_start"]);
+        unset($data["date_end"]);
         unset($data["place_id"]);
         unset($data["created_at"]);
         unset($data["updated_at"]);
