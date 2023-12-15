@@ -1,5 +1,6 @@
 <template lang="">
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1">
+    <form>
     <div class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
         <button
             @click.prevent="backButton()"
@@ -12,8 +13,9 @@
             </svg>
             <h1 class="flex items-center mr-1 ml-1">Назад</h1>
         </button>
+    
         <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state" class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
+        <input v-if="state" v-bind:value=sight.name @input="sight => text = sight.target.value" class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
         <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
@@ -23,20 +25,9 @@
         <div class="p-6">
             <div class="text-center">
                 <CarouselGallery :files="sight.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-                <button @click="state ? state = false: state = true" class="p-2 mx-auto bg-green-500 rounded-lg border border-green-300 text-green-100 mt-1 md-1">Редактировать файлы</button>
             </div>
             
-            <div class="">
-                <div v-if="!state">
-                    <p class="mb-2 text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50  inline-block">
-                        {{ sight.name }}
-                    </p>
-                </div>
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
-                     v-bind:value="sight.name">
-                </div>
-            </div>
+            
             
             <div>
                 <div class=" inline-block">
@@ -47,9 +38,10 @@
                 </div>
                 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.address"
-                     type="text">
+                     type="text"
+                     @input="sight => text = sight.target.value">
                     
                 </div>
             </div>
@@ -61,10 +53,11 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.work_time"
-                     type="text">
-                      
+                     type="text"
+                     @input="sight => text = sight.target.value">
+                    </textarea>
                 </div>
             </div>
             
@@ -78,10 +71,11 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-5/6 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.description"
                     type="text"
-                    rows=7>
+                    rows=7
+                    @input="sight => text = sight.target.value">
                     </textarea>  
                 </div> 
             </div>
@@ -98,9 +92,10 @@
 
                 <div v-if="state" class="flex" v-for="(type_s, index) in sight.types" v-bind:key="index">
                     <input 
-                    class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-1/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0"
+                    class=" text-xl font-medium leading-tight mb-2 text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.types[index].name"
-                    type="text">  
+                    type="text"
+                    @input="sight => text = sight.target.value">  
                 </div>
 
             </div>
@@ -133,8 +128,21 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0" 
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.sponsor"
+                     type="text">   
+                </div>
+            </div>
+
+            <div>
+                <p class=" font-medium">Материалы:</p>
+                <div v-if="!state" class="">
+                    <h6 class="mb-4 " >{{ sight.materials }}</h6>
+                </div>
+
+                <div v-if="state" class="flex mb-4 space-x-4">
+                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                     v-bind:value="sight.materials"
                      type="text">   
                 </div>
             </div>
@@ -165,6 +173,11 @@
             </button>
         </div>
     </div>
+
+        <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
+        <button @click="state= !state" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
+        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
+    </form>
 </div>
 </template>
 <script>
@@ -229,10 +242,6 @@ export default {
         },
         deleteFiles(file) {
             console.log(['delete', file])
-            
-
-
-
             let coin = this.sightChange.sightFiles.findIndex((item) => { 
                 if (item.name == file.name ) {
                     return true
@@ -260,42 +269,53 @@ export default {
         sightPriceCheck(){
             return true
         },
-        saveChanges(){
-            let data = {
-                id: this.sight.id,
-                type: "Sight",
-                history_content:{
+        clickUpd(event) {
+            // Передаём форму обработанную в масси в локальную переменную функции
+            let mass = Object.entries(event.target.form)
+            
+            // Перебираем массив и формируем форм дату
+            mass.forEach(item => {
+                switch(item[1].id) {
+                    case('name'):
+                    if (item[1].value != this.event.name) {
+                        console.log('new name value: ' + item[1].value)
+                        this.sightUpd.append('name', item[1].value)
+                    }
+                    break;
+                    case('sponsor'):
+                    if (item[1].value != this.event.sponsor) {
+                        console.log('new sponsor value: ' + item[1].value)
+                        this.sightUpd.append('sponsor', item[1].value)
+                    }
+                    break;
+                    case('description'):
+                    if (item[1].value != this.event.description) {
+                        console.log('new description value: ' + item[1].value)
+                        this.sightUpd.append('description', item[1].value)
+                    }
+                    break;
+                    case('materials'):
+                    if (item[1].value != this.event.materials) {
+                        console.log('new materials value: ' + item[1].value)
+                        this.sightUpd.append('materials', item[1].value)
+                    }
+                    break;
                     
                 }
-            }
-            if(this.sightChange.sightName != this.sight.name){
-                data.history_content.name = this.sightChange.sightName
-            }
-            if(this.sightChange.sightAddress != this.sight.address){
-                data.history_content.address = this.sightChange.sightAddress
-            }
-            if(this.sightChange.sightDesc != this.sight.descriptions){
-                data.history_content.description = this.sightChange.sightDesc
-            }
-            if(this.sightChange.sightTime != this.sight.work_time){
-                data.history_content.work_time = this.sightChange.sightTime
-            }
-            if(this.sightChange.sightStatus != "" && this.sightChange.sightStatus != this.sight.statuses[0].name){
-                data.history_content.statuses = this.sightChange.sightStatus
-            }
-
-            for(let i = 0; i<this.sight.types.length; i++){
-            }
-
-            
-            this.saveSightHistory(data).pipe(
-                catchError(error => {
-                    console.log(error)
-                })
-            ).subscribe(response => {
-                console.log(response)
             })
-            console.log(data)   
+            // Перебираем и передаём фото на добавлений в форм дату
+            this.filesUpd.forEach((item) => {
+                // console.log('upd' + item)
+                this.sightUpd.append('files[]', item)
+            })
+            // Перебираем, добавляем поле и передаём фото на удаление в форм дату
+            this.filesDel.forEach((item) => {
+                // console.log('del' + item)
+                item.onDelete = true
+                this.sightUpd.append('files[]', item)
+            })
+            this.state = false
+            console.log(this.sightUpd)
         }
     },
     mounted() {
