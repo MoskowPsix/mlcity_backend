@@ -376,7 +376,7 @@ class HistoryContentController extends Controller
                 "descriptions" => $description,
             ]);
 
-            return response()->json(["status"=>"success"],200);
+            return response()->json(["status"=>"success"],201);
         }
     }
 

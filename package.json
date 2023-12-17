@@ -29,6 +29,7 @@
     "dependencies": {
         "@types/webpack-bundle-analyzer": "^4.6.0",
         "@vitejs/plugin-vue": "^4.2.1",
+        "@vuesimple/vs-accordion": "^3.0.5",
         "@vueuse/core": "^10.2.0",
         "@vueuse/rxjs": "^10.6.1",
         "flowbite": "^1.7.0",
@@ -37,6 +38,7 @@
         "rxjs": "^6.6.7",
         "tw-elements": "^1.0.0-beta2",
         "vue-axios": "^3.5.2",
+        "vue-collapsed": "^1.2.9",
         "vue-date-pick": "^1.5.1",
         "vue-router": "^4.2.1",
         "vue-snip": "^2.0.1",

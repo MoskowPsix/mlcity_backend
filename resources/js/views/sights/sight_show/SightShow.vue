@@ -7,7 +7,7 @@
             type="button"
             data-te-ripple-init
             data-te-ripple-color="light"
-            class="flex items-center rounded bg-primary min-w-1/12 max-w-2/12 mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
+            class="flex items-center rounded bg-primary min-w-1/12 max-w-2/12 mr-3 px-4 pb-2 pt-2.5 text-xs  uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
             </svg>
@@ -15,7 +15,7 @@
         </button>
     
         <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state" v-bind:value=sight.name @input="sight => text = sight.target.value" class="text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
+        <input v-if="state" v-bind:value=sight.name @input="sight => text = sight.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
         <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
@@ -31,14 +31,14 @@
             
             <div>
                 <div class=" inline-block">
-                    <p class="font-medium">Место проведение:   </p>
+                    <p class="">Место проведение:   </p>
                     <div v-if="!state"  class="">
                         <h6 class="mb-6"> {{ sight.address }}</h6>
                     </div>
                 </div>
                 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.address"
                      type="text"
                      @input="sight => text = sight.target.value">
@@ -47,13 +47,13 @@
             </div>
 
             <div>
-                <p class="font-medium">Время проведения:</p>
+                <p class="">Время проведения:</p>
                 <div v-if="!state" >
                     <h6 class="mb-4" >{{ sight.work_time }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.work_time"
                      type="text"
                      @input="sight => text = sight.target.value">
@@ -63,7 +63,7 @@
             
             <div class="">
                 <div v-if="!state">
-                    <p class="font-medium">Описание:</p>
+                    <p class="">Описание:</p>
 
                     <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
                         {{ sight.description }}
@@ -71,7 +71,7 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.description"
                     type="text"
                     rows=7
@@ -80,28 +80,33 @@
                 </div> 
             </div>
 
+            
+           
 
             <div class="mb-4">
-                <div class="font-medium">
+                <div class="">
                     <p>Типы события:</p>
+                    <div v-for="stype in allTypes" class="space-y-2 border py-4">
+                        <TypeList v-if="allTypes" :currentTypes="stype" />
+                    </div>
+                    
                 </div>
                 
-                <div v-if="!state">
+                <!-- <div v-if="!state">
                     <p v-for="type_s in sight.types">{{ type_s.name }}</p>
                 </div>
 
                 <div v-if="state" class="flex" v-for="(type_s, index) in sight.types" v-bind:key="index">
                     <input 
-                    class=" text-xl font-medium leading-tight mb-2 text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    class=" text-xl  leading-tight mb-2 text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.types[index].name"
                     type="text"
                     @input="sight => text = sight.target.value">  
-                </div>
-
+                </div> -->
             </div>
 
             <div class="mb-4">
-                <div class=" font-medium">Цены: </div>
+                <div class=" ">Цены: </div>
                 <div v-if="sightPriceCheck() && state==false">
                     <div class="flex space-x-8">
                         <div>
@@ -122,33 +127,33 @@
             </div>
 
             <div>
-                <p class=" font-medium">Спонсор:</p>
+                <p class=" ">Спонсор:</p>
                 <div v-if="!state" class="">
                     <h6 class="mb-4 " >{{ sight.sponsor }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.sponsor"
                      type="text">   
                 </div>
             </div>
 
             <div>
-                <p class=" font-medium">Материалы:</p>
+                <p class=" ">Материалы:</p>
                 <div v-if="!state" class="">
                     <h6 class="mb-4 " >{{ sight.materials }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl font-medium leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.materials"
                      type="text">   
                 </div>
             </div>
 
             <div class="mb-4">
-                <label for="status" class="block mb-2  font-medium text-gray-900 dark:text-white">Статус</label>
+                <label for="status" class="block mb-2   text-gray-900 dark:text-white">Статус</label>
                 <select 
                 id="statuses" 
                 class=" bg-gray-50 border  border-gray-300  text-gray-900 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-1/10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
@@ -165,7 +170,7 @@
             
             <button
             type="button"
-            class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
+            class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs  uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
             data-te-ripple-init
             data-te-ripple-color="light"
             v-on:click="saveChanges">
@@ -181,6 +186,7 @@
 </div>
 </template>
 <script>
+import TypeList from '../../../components/types_list/TypeList.vue'
 import { mapActions} from 'pinia'
 import { useToastStore } from '../../../stores/ToastStore'
 import { useSightStore } from '../../../stores/SightStore'
@@ -190,11 +196,13 @@ import router from '../../../routes'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
+import { useTypeStore } from '../../../stores/TypeStore'
 
 export default {
     name: 'SightShow',
     components:{
-        CarouselGallery
+        CarouselGallery,
+        TypeList
     },
     setup() {
         const destroy$ =  new Subject()
@@ -205,11 +213,13 @@ export default {
     data() {
         return {
             sight: [],
+            allTypes: null,
             status: "",
             sightUpd: new FormData(),
             state: false,
             filesDel: [],
             filesUpd: [],
+
             
         }
     },
@@ -217,6 +227,7 @@ export default {
         ...mapActions(useSightStore, ['getSightForIds','saveSightHistory']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
+        ...mapActions(useTypeStore,['getTypes']),
         getSight() {
             this.openLoaderFullPage()
             this.getSightForIds(this.$route.params.id).pipe(
@@ -237,6 +248,22 @@ export default {
                 takeUntil(this.destroy$),
             ).subscribe()
         },
+        getAllTypes(){
+      
+        this.getTypes().pipe(
+          retry(3),
+          delay(200),
+          catchError(error => {
+            console.log(err)
+          })
+        ).subscribe(response => {
+          this.allTypes = response.data.types
+          console.log(this.allTypes)
+        })
+      
+      
+
+    },
         backButton(){
             router.go(-1)
         },
@@ -322,6 +349,7 @@ export default {
         initTE({ Ripple  }, { Carousel }, { allowReinits: true })
         this.openLoaderFullPage()
         this.getSight()
+        this.getAllTypes()
     },
 }
 </script>
