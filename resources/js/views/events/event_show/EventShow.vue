@@ -92,7 +92,7 @@ export default {
         return {
             event: [],
             eventUpd: new FormData(),
-            state: false,
+            state: true,
             filesDel: [],
             filesUpd: [],
         }

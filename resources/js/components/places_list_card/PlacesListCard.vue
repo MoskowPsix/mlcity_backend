@@ -5,6 +5,7 @@
                 <h1 class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
                 <p class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
                 <p class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
+                <p class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
             </label>
             <div class="w-1/12 my-auto">
                 <svg v-if="!state" class="my-auto mx-auto w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -35,23 +36,35 @@
                         <input v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
                     </div>
                 </div>
-                <MapCardOnlyRead v-if="!stateUpd" class="min-h-full" :marker="place" :zoom="16" />
-                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="min-h-full mt-2" :marker="place" :zoom="16" />
+                <MapCardOnlyRead v-if="!stateUpd" class="h-[30rem]" :marker="place" :zoom="16" />
+                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[30rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
-            <div class=" flex flex-col  w-1/3 p-1 h-96 overflow-y-auto justify-items-center" id="journal-scroll" >
+            <div class=" flex flex-col  w-1/3 pl-1 h-full justify-items-center" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
                     Проходит в достопримечательноти c id: {{place.sight_id}}
                 </RouterLink>
-                <div class="flex flex-col justify-items-center">
-                    <p class="my-auto">ID Досторимечательности</p>
-                    <input v-if="stateUpd" placeholder="ID достопримечательности" type="number" name="sight_id" id="sight_id" class="border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="place.sight_id" @input="event => text = event.target.value">
+                <div v-if="stateUpd" class="flex flex-col justify-items-center">
+                    <div class="w-full">
+                        <input placeholder="Имя достопримечательности" type="text" name="sight_id" id="sight_id" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="place.sight_id" @input="event => text = event.target.value">
+                        <div class="relative top-0 h-40">
+                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
+                                <h1 v-if="!sightList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
+                                <div v-if="sightList.length" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" >
+                                    <h1 class="text-gray-100 text-base">Xnjjd</h1>
+                                    <p class="text-xs dark:text-gray-300" >asdasd</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="grid grid-cols-2">
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Начало</label>
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
                 </div>
-                <div v-if="place.seances.length" v-for="seance in place.seances">
-                    <SeancesListSegment :seance="seance"></SeancesListSegment>
+                <div class="overflow-y-auto max-h-[30rem]" id="journal-scroll">
+                    <div v-if="place.seances.length" v-for="seance in place.seances">
+                        <SeancesListSegment :seance="seance" :state="stateUpd"></SeancesListSegment>
+                    </div>
                 </div>
             </div>
         </div>
@@ -66,6 +79,7 @@ import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteract
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useLocationStore } from '../../stores/LocationStore'
+import { useSightStore } from '../../stores/SightStore';
 
 
 export default {
@@ -81,6 +95,8 @@ export default {
             state: false,
             locationSearch: '',
             locationsList: [],
+            sightSearch: '',
+            sightList: []
         }
     },
     props: {
@@ -95,17 +111,26 @@ export default {
     },
     methods: {   
         ...mapActions(useLocationStore, ['getLocationsByName']),
+        ...mapActions(useSightStore, ['getSight']),
         setAddress(address) {
-            console.log(address)
-            this.place.address = address
+            this.$emit('onUpdPlace', {
+                id: this.place.id,
+                address: address,
+            })
         },
         setLocation(location) {
-            this.setCoords([location.latitude, location.longitude])
-            this.place.location = location
+
+            this.$emit('onUpdPlace', {
+                id: this.place.id,
+                location: location,
+            })
         },
         setCoords(coords) {
-            this.place.latitude = coords[0]
-            this.place.longitude = coords[1]
+            this.$emit('onUpdPlace', {
+                id: this.place.id,
+                latitude: coords[0],
+                longitude: coords[1]
+            })
         },
         onSearchLocation(event) {
             let text = event.target.value
@@ -126,18 +151,9 @@ export default {
                 console.log('менее 3 символов')
             }
         },    
-        placeUpd() {
-
-        }, 
-        placeDel() {
-
-        },
-        seancesUpd() {
-
-        },
-        seancesDel() {
-
-        } 
+        getSightByName(text) {
+            this
+        }
     },
     watch: {
      

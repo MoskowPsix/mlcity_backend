@@ -1,5 +1,5 @@
 <template lang="">
-    <div v-if="seance" class="grid grid-cols-2">
+    <div v-if="seance && !state" class="grid grid-cols-2">
         <div class=" mt-1 flex flex-row border rounded-lg dark:border-gray-700 mr-1">
             <div class=" -rotate-90 h-8 mt-4 text-lg font-medium">
                 {{new Date(seance.date_start).getFullYear()}}
@@ -103,12 +103,16 @@
             </div>
         </div>
     </div>
+    <div v-if="seance && state">
+        
+    </div>
 </template>
 <script>
 export default {
     name: 'SeancesListSegment',
     props: {
-        seance: Object
+        seance: Object,
+        state: Boolean
     }
 }
 </script>
