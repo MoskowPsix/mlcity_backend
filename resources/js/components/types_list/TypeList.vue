@@ -2,12 +2,12 @@
 
 <template>
   <div>
-    <button @click="isExpanded = !isExpanded"  type="button" class="bg-green-300" v-if="!checkChild()">{{ currentTypes.name }}</button>
-    <button @click="isExpanded = !isExpanded"  type="button" class="bg-red-300" v-if="checkChild()">{{ currentTypes.name }}</button>
-    <input type="checkbox" class="ml-2">
-    <div v-if="currentTypes.stypes" :class="{'ml-6': checkChild()}">
-      <Collapse :when="isExpanded" v-for="stypes in currentTypes.stypes" v-bind:key="stypes.id" >
-       <TypeList :currentTypes="stypes" class="mb-2"></TypeList>
+    <button @click="isExpanded = !isExpanded"  type="button" class="bg-green-300" v-if="!checkChild()">{{ allSTypes.name }}</button>
+    <button @click="isExpanded = !isExpanded"  type="button" class="bg-red-300" v-if="checkChild()">{{ allSTypes.name }}</button>
+    <input type="checkbox" class="ml-2"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)">
+    <div v-if="allSTypes.stypes" :class="{'ml-6': checkChild()}">
+      <Collapse :when="isExpanded" v-for="stypes in allSTypes.stypes" v-bind:key="stypes.id">
+       <TypeList :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
     </Collapse>
     </div>
   </div>
@@ -25,7 +25,8 @@ import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 export default{
   name: "TypeList",
   props: {
-    currentTypes: Object
+    allSTypes: Object,
+    currentStypes: Array
   },
   components:{
     Collapse
@@ -44,13 +45,28 @@ export default{
 
   methods:{
   checkChild(){
-    if (this.currentTypes.stypes.length>0){
+    if (this.allSTypes.stypes.length>0){
       return true
     }
-    else if (this.currentTypes.stypes.length == 0){
+    else if (this.allSTypes.stypes.length == 0){
       return false
     }
-  }    
+  },
+  checkType(type){
+  
+    // console.log("Наши типы: ",this.currentStypes)
+    // console.log("Тип",this.allSTypes)
+    let status = this.currentStypes.some(obj => obj.id == this.allSTypes.id)
+    if(status){
+      console.log(status)
+    }
+    return status
+  },
+  selectedType(type){
+    console.log("Вызов")
+    this.$emit("checked",type)
+    
+  } 
 
     
 

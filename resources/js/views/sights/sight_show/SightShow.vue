@@ -15,7 +15,7 @@
         </button>
     
         <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state" v-bind:value=sight.name @input="sight => text = sight.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
+        <input v-if="state" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
         <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
@@ -41,7 +41,7 @@
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.address"
                      type="text"
-                     @input="sight => text = sight.target.value">
+                     @input="sight => text = event.target.value">
                     
                 </div>
             </div>
@@ -56,7 +56,7 @@
                     <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.work_time"
                      type="text"
-                     @input="sight => text = sight.target.value">
+                     @input="sight => text = event.target.value">
                     </textarea>
                 </div>
             </div>
@@ -75,7 +75,7 @@
                     v-bind:value="sight.description"
                     type="text"
                     rows=7
-                    @input="sight => text = sight.target.value">
+                    @input="sight => text = event.target.value">
                     </textarea>  
                 </div> 
             </div>
@@ -86,8 +86,8 @@
             <div class="mb-4">
                 <div class="">
                     <p>Типы события:</p>
-                    <div v-for="stype in allTypes" class="space-y-2 border py-4">
-                        <TypeList v-if="allTypes" :currentTypes="stype" />
+                    <div v-for="stype in allTypes" class="space-y-2 border py-4" v-if="allTypes ">
+                        <TypeList v-if="allTypes && sight.types != null" :allSTypes="stype" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                     
                 </div>
@@ -101,7 +101,7 @@
                     class=" text-xl  leading-tight mb-2 text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.types[index].name"
                     type="text"
-                    @input="sight => text = sight.target.value">  
+                    @input="sight => text = event.target.value">  
                 </div> -->
             </div>
 
@@ -119,7 +119,39 @@
                     
                 </div>
                 <div v-if="state">
+                    <div class="blox space-y-4">
+                        <div v-for="price in sight.prices" class="flex items-center">
+                            <div class=" w-[120px]">
+                            <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                            v-bind:value="price.cost_rub"
+                            type="number"
+                            @input="sight => text = event.target.value">
+                            
+                            </div>
+                            <div class="w-[120px]">
+                            <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                            v-bind:value="price.descriptions"
+                            type="text"
+                            @input="sight => text = event.target.value">
+                            </div>
 
+                            <div class="flex space-x-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-rose-500"
+                                v-on:click="deleteFromCurrentPrices(price)">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                </svg>
+
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-emerald-600"
+                                v-on:click="addToCurrentPrices(price)">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+
+                            </div>
+                            
+
+                        </div>
+                        
+                    </div>
                 </div>
                 <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>
 
@@ -135,6 +167,7 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.sponsor"
+                     @input="sight => text = event.target.value"
                      type="text">   
                 </div>
             </div>
@@ -148,6 +181,7 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.materials"
+                     @input="sight => text = event.target.value"
                      type="text">   
                 </div>
             </div>
@@ -180,7 +214,7 @@
     </div>
 
         <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
-        <button @click="state= !state" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
+        <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
         <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
     </form>
 </div>
@@ -236,12 +270,13 @@ export default {
                 map(response => {
                     this.sight = response.data
                     this.status = this.sight.statuses[0].name
+                    console.log(this.sight.types)
                     console.log(response)
-                    this.closeLoaderFullPage()
+                    
                 }),
                 catchError(err => {
                     console.log(err)
-                    router.go(-1)
+                    // router.go(-1)
                     this.closeLoaderFullPage()
                     return of(EMPTY)
                 }),
@@ -259,11 +294,43 @@ export default {
         ).subscribe(response => {
           this.allTypes = response.data.types
           console.log(this.allTypes)
+          this.closeLoaderFullPage()
         })
-      
-      
-
     },
+        addToCurrentTypes(type){
+            if (this.checkTypeInCurrent(type, this.sight.types)){
+                this.sight.types = this.sight.types.filter(item => item.id !== type.id)
+            }
+            else{
+                this.sight.types.push(type)
+            }
+            console.log(this.sight.types)
+        },
+
+        deleteFromCurrentPrices(price){
+            if (this.checkTypeInCurrent(price, this.sight.prices)){
+                this.sight.prices = this.sight.prices.filter(item => item.id !== price.id)
+            }
+            else{
+                this.sight.prices.push(type)
+            }
+        },
+        addToCurrentPrices(){
+            this.sight.prices.push({"cost_rub":0, "descriptions":"Описание"})
+        },
+        checkTypeInCurrent(obj, array){
+            for (let i = 0; i<array.length; i++){
+                if (array[i] == obj){
+                    return true
+                }
+            }
+            return false
+        },
+        discardChanges(){
+            this.state = this.state
+            this.getSight()
+        },
+
         backButton(){
             router.go(-1)
         },
@@ -297,6 +364,7 @@ export default {
             return true
         },
         clickUpd(event) {
+            console.log(event)
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
             
@@ -304,25 +372,25 @@ export default {
             mass.forEach(item => {
                 switch(item[1].id) {
                     case('name'):
-                    if (item[1].value != this.event.name) {
+                    if (item[1].value != this.sight.name) {
                         console.log('new name value: ' + item[1].value)
                         this.sightUpd.append('name', item[1].value)
                     }
                     break;
                     case('sponsor'):
-                    if (item[1].value != this.event.sponsor) {
+                    if (item[1].value != this.sight.sponsor) {
                         console.log('new sponsor value: ' + item[1].value)
                         this.sightUpd.append('sponsor', item[1].value)
                     }
                     break;
                     case('description'):
-                    if (item[1].value != this.event.description) {
+                    if (item[1].value != this.sight.description) {
                         console.log('new description value: ' + item[1].value)
                         this.sightUpd.append('description', item[1].value)
                     }
                     break;
                     case('materials'):
-                    if (item[1].value != this.event.materials) {
+                    if (item[1].value != this.sight.materials) {
                         console.log('new materials value: ' + item[1].value)
                         this.sightUpd.append('materials', item[1].value)
                     }
