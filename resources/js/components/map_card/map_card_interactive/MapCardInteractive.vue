@@ -3,7 +3,7 @@
     {{[marker.latitude, marker.longitude]}}
     {{zoom}} -->
 
-    <div class="w-full h-full">
+    <div class="w-full h-full" id="map">
         <YandexMap
         class="w-full h-full"
         :settings="settings"
@@ -34,6 +34,11 @@ export default {
         YandexMap,
         YandexMarker
     },
+    data() {
+        return {
+            center: []
+        }
+    },
     setup() {
         const settings = {
             apiKey: import.meta.env.VITE_YANDEX_APP_KEY, // Индивидуальный ключ API
@@ -42,10 +47,12 @@ export default {
             debug: true, // Режим отладки
             version: '2.1' // Версия Я.Карт
         }
+        // let center = [] 
         const controls =['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']
         return {
             settings,
-            controls
+            controls,
+            // center
         }
     },
     methods: {
@@ -60,6 +67,17 @@ export default {
     },
     async mounted() {
         await loadYmap({ ...this.settings, debug: true })
+        // this.center = [this.marker.latitude, this.marker.longitude]
+        console.log(this.center)
+        // setInterval(async () => {
+        //     await ymaps.Map("map", {state: [{center: [marker.latitude, marker.longitude], zoom: 16}]})
+        //  }, 3000)
+    },
+    wath: {
+        marker(marker) {
+            let map = ymaps.Map("map", {state: [{center: [marker.latitude, marker.longitude], zoom: 16}]})
+            console.log(map)
+        }
     },
 }
 </script>
