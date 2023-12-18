@@ -20,14 +20,13 @@
             <div class="w-2/3 min-h-full">
                 <div class="grid grid-cols-2" v-if="stateUpd">
                     <div>
-                            <input v-if="stateUpd" @input="onSearchLocation($event)" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
+                            <input v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
                         <div class="relative top-0 h-40">
-                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex h-full w-full">
-                                <h1 v-if="!locationsList" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
-                                <div class="flex flex-row" v-for="location in locationsList">
-                                    <label>
-                                        <p>{{location.name}}</p>
-                                    </label>
+                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
+                                <h1 v-if="!locationsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
+                                <div @click.prevent="setLocation(location)" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" v-for="location in locationsList">
+                                        <h1 class="text-gray-100 text-base">{{location.name}}</h1>
+                                        <p class="text-xs dark:text-gray-300" v-if="location.location_parent">{{location.location_parent.name}}</p>
                                 </div>
                             </div>
                         </div>
@@ -37,7 +36,7 @@
                     </div>
                 </div>
                 <MapCardOnlyRead v-if="!stateUpd" class="min-h-full" :marker="place" :zoom="16" />
-                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="min-h-full" :marker="place" :zoom="16" />
+                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="min-h-full mt-2" :marker="place" :zoom="16" />
             </div>
             <div class=" flex flex-col  w-1/3 p-1 h-96 overflow-y-auto justify-items-center" id="journal-scroll" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -100,6 +99,10 @@ export default {
             console.log(address)
             this.place.address = address
         },
+        setLocation(location) {
+            this.setCoords([location.latitude, location.longitude])
+            this.place.location = location
+        },
         setCoords(coords) {
             this.place.latitude = coords[0]
             this.place.longitude = coords[1]
@@ -137,20 +140,7 @@ export default {
         } 
     },
     watch: {
-        searchAddress(address) {
-            if(address > 3){
-                searchAddress()
-            } else if(address = 3) {
-                this.addressList = []
-            }
-        },
-        searchLocation(location) {
-            if(location > 3){
-                searchAddress()
-            } else if(location = 3) {
-                this.locationList = []
-            }
-        },
+     
     },
     mounted() {
         // this.state == null || this.state == undefined ? this.state = false : this.state = true
