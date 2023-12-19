@@ -47,8 +47,8 @@
         <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
             <div class="2xl:col-span-3 xl:col-span-2 lg:ol-span-2 mb-1 mr-1">
                 <div class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg ">
-                    <div v-for="place in event.places_full" >
-                        <PlacesListCard :stateUpd="state" :place="place" onUpdatePla class="mt-2"/>
+                    <div v-for="(place, index) in event.places_full" >
+                        <PlacesListCard :stateUpd="state" :index="index" :place="place" onUpdatePla @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
                 </div>
             </div>
@@ -74,6 +74,7 @@ import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
+import {unref} from 'vue'
 import router from '../../../routes'
 
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
@@ -95,6 +96,7 @@ export default {
             state: true,
             filesDel: [],
             filesUpd: [],
+            placeUpd: [],
         }
     },
     components: {
@@ -214,9 +216,16 @@ export default {
         },
         backButton(){
             router.go(-1)
-        }
+        },
+        setPlace(place) {
+            // console.log(this.$helpers.deepMerge(place,place_n)) // Функция глубокого слияния объектов
+            // Если нет поля на on_delete (на удаление)
+            // Если роле id пустое (на добавление)
+            // Если поле id не пустое (на )
+        },
     },
     mounted() {
+        console.log(this.$helpers)
         this.openLoaderFullPage
         this.getEvent()
     },

@@ -21,7 +21,7 @@
             <div class="w-2/3 min-h-full">
                 <div class="grid grid-cols-2" v-if="stateUpd">
                     <div>
-                            <input v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
+                        <input v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
                         <div class="relative top-0 h-40">
                             <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
                                 <h1 v-if="!locationsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <MapCardOnlyRead v-if="!stateUpd" class="h-[30rem]" :marker="place" :zoom="16" />
-                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[30rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
+                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="relative h-[30rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
             <div class=" flex flex-col  w-1/3 pl-1 h-full justify-items-center" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -45,13 +45,12 @@
                 </RouterLink>
                 <div v-if="stateUpd" class="flex flex-col justify-items-center">
                     <div class="w-full">
-                        <input placeholder="Имя достопримечательности" type="text" name="sight_id" id="sight_id" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="place.sight_id" @input="event => text = event.target.value">
+                        <input  @input="$event.target.value ? onSearchSight($event) : sightsList = []" placeholder="Имя достопримечательности" type="text" name="sight_id" id="sight_id" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" require>
                         <div class="relative top-0 h-40">
                             <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
-                                <h1 v-if="!sightList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
-                                <div v-if="sightList.length" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" >
-                                    <h1 class="text-gray-100 text-base">Xnjjd</h1>
-                                    <p class="text-xs dark:text-gray-300" >asdasd</p>
+                                <h1 v-if="!sightsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
+                                <div v-if="sightsList.length" v-for="sight in sightsList"  @click="setSight(sight)" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" >
+                                    <h1 class="text-gray-100 text-base">{{sight.name}}</h1>
                                 </div>
                             </div>
                         </div>
@@ -61,11 +60,13 @@
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Начало</label>
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
                 </div>
-                <div class="overflow-y-auto max-h-[30rem]" id="journal-scroll">
-                    <div v-if="place.seances.length" v-for="seance in place.seances">
-                        <SeancesListSegment :seance="seance" :state="stateUpd"></SeancesListSegment>
+                <div class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
+                    <div class="border dark:border-gray-700 dark:bg-gray-900/40 p-1 bg-gray-300/70 border-gray-500/30 rounded-lg mb-2 ml-2 mr-2" v-if="place.seances.length" v-for="(seance, index) in place.seances" :key="seance.id">
+                        <SeancesListSegment v-if="seance" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
                     </div>
                 </div>
+                <div @click.prevent="setCreatePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
+                <div @click.prevent="setDeletePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-red-500/70 text-red-900 bg-red-400 hover:bg-red-400/70 hover:text-red-900/70 dark:hover:border-red-500/30 dark:border-red-500/70 dark:text-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer">Удалить place</div>
             </div>
         </div>
     </div>
@@ -92,17 +93,17 @@ export default {
     },
     data() {
         return {
-            state: false,
-            locationSearch: '',
+            state: true,
             locationsList: [],
-            sightSearch: '',
-            sightList: []
+            sightsList: []
         }
     },
     props: {
         place: Object,
-        stateUpd: Boolean
+        stateUpd: Boolean,
+        index: Number
     },
+    emits: ['onUpdPlace'],
     components: {
         MapCardOnlyRead,
         MapCardInteractive,
@@ -111,9 +112,10 @@ export default {
     },
     methods: {   
         ...mapActions(useLocationStore, ['getLocationsByName']),
-        ...mapActions(useSightStore, ['getSight']),
+        ...mapActions(useSightStore, ['getSights']),
         setAddress(address) {
             this.$emit('onUpdPlace', {
+                index: this.index,
                 id: this.place.id,
                 address: address,
             })
@@ -121,16 +123,39 @@ export default {
         setLocation(location) {
 
             this.$emit('onUpdPlace', {
+                index: this.index,
                 id: this.place.id,
                 location: location,
             })
         },
         setCoords(coords) {
             this.$emit('onUpdPlace', {
+                index: this.index,
                 id: this.place.id,
                 latitude: coords[0],
                 longitude: coords[1]
             })
+        },
+        setSight(sight) {
+            this.$emit('onUpdPlace', {
+                index: this.index,
+                id: this.place.id,
+                sight_id: sight.id,
+            })
+        },
+        setSeance(seance) {
+            console.log(seance)
+            this.$emit('onUpdPlace', {
+                index: this.index,
+                id: this.place.id,
+                seances: seance
+            })
+        },
+        setDeletePlace() {
+            let place = this.place
+            place.on_delete = true
+            place.index = this.index
+            this.$emit('onUpdPlace', place)
         },
         onSearchLocation(event) {
             let text = event.target.value
@@ -151,15 +176,33 @@ export default {
                 console.log('менее 3 символов')
             }
         },    
-        getSightByName(text) {
-            this
+        onSearchSight(event) {
+            let text = event.target.value
+            console.log(this.place.id)
+            if (text.length > 3) {
+                const param = {
+                    name: text,
+                    location: this.place.location.id
+                }
+                this.getSights(param).pipe(
+                    map(response => {
+                        this.sightsList = response.data.sights.data
+                    }),
+                    catchError(err => {
+                        this.sightsList = []
+                        return of(EMPTY)
+                    }),
+                    takeUntil(this.destroy$),
+                ).subscribe()
+            }
         }
+        setSeancePlace
     },
     watch: {
      
     },
     mounted() {
-        // this.state == null || this.state == undefined ? this.state = false : this.state = true
+
     },
 }
 </script>
