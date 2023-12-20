@@ -2,7 +2,7 @@
     <div class="transition border dark:border-gray-700/80 p-2 rounded-lg w-full bg-gray-100 dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
         <div @click="state = !state" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
             <label class="w-11/12 ml-2">
-                <h1 class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
+                <h1 v-if="place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
                 <p class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
                 <p class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
                 <p class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
@@ -21,7 +21,7 @@
             <div class="w-2/3 min-h-full">
                 <div class="grid grid-cols-2" v-if="stateUpd">
                     <div>
-                        <input v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"  require>
+                        <input v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
                         <div class="relative top-0 h-40">
                             <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
                                 <h1 v-if="!locationsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
@@ -36,8 +36,8 @@
                         <input v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
                     </div>
                 </div>
-                <MapCardOnlyRead v-if="!stateUpd" class="h-[30rem]" :marker="place" :zoom="16" />
-                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="relative h-[30rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
+                <MapCardOnlyRead v-if="!stateUpd" class="h-[42rem]" :marker="place" :zoom="16" />
+                <MapCardInteractive v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[47rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
             <div class=" flex flex-col  w-1/3 pl-1 h-full justify-items-center" >
                 <RouterLink v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -65,8 +65,8 @@
                         <SeancesListSegment v-if="seance" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
                     </div>
                 </div>
-                <div @click.prevent="setCreatePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
-                <div @click.prevent="setDeletePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-red-500/70 text-red-900 bg-red-400 hover:bg-red-400/70 hover:text-red-900/70 dark:hover:border-red-500/30 dark:border-red-500/70 dark:text-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer">Удалить place</div>
+                <div v-if="stateUpd" @click.prevent="addSeancePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить сеанс</div>
+                <div v-if="stateUpd" @click.prevent="setDeletePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-red-500/70 text-red-900 bg-red-400 hover:bg-red-400/70 hover:text-red-900/70 dark:hover:border-red-500/30 dark:border-red-500/70 dark:text-red-300 dark:bg-red-600 dark:hover:bg-red-700 dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer">Удалить место проведение</div>
             </div>
         </div>
     </div>
@@ -81,6 +81,7 @@ import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useLocationStore } from '../../stores/LocationStore'
 import { useSightStore } from '../../stores/SightStore';
+import { unref } from 'vue'
 
 
 export default {
@@ -93,7 +94,7 @@ export default {
     },
     data() {
         return {
-            state: true,
+            state: false,
             locationsList: [],
             sightsList: []
         }
@@ -121,10 +122,11 @@ export default {
             })
         },
         setLocation(location) {
-
             this.$emit('onUpdPlace', {
                 index: this.index,
                 id: this.place.id,
+                latitude: location.latitude,
+                longitude: location.longitude,
                 location: location,
             })
         },
@@ -140,15 +142,16 @@ export default {
             this.$emit('onUpdPlace', {
                 index: this.index,
                 id: this.place.id,
+                latitude: sight.latitude,
+                longitude: sight.longitude,
                 sight_id: sight.id,
             })
         },
         setSeance(seance) {
-            console.log(seance)
             this.$emit('onUpdPlace', {
                 index: this.index,
                 id: this.place.id,
-                seances: seance
+                seances: [seance]
             })
         },
         setDeletePlace() {
@@ -163,7 +166,6 @@ export default {
                 this.getLocationsByName(text).pipe(
                 map(response => {
                     this.locationsList = response.data.locations
-                    console.log(this.locationsList)
                 }),
                 takeUntil(this.destroy$),
                 catchError(err => {
@@ -178,7 +180,6 @@ export default {
         },    
         onSearchSight(event) {
             let text = event.target.value
-            console.log(this.place.id)
             if (text.length > 3) {
                 const param = {
                     name: text,
@@ -195,8 +196,22 @@ export default {
                     takeUntil(this.destroy$),
                 ).subscribe()
             }
+        },
+        addSeancePlace() {
+            let index = this.place.seances.push({
+                id: 0,
+                date_start: new Date().toISOString().split('~')[0].slice(0,19).replace("T", ' '),
+                date_end: new Date().toISOString().split('~')[0].slice(0,19).replace("T", ' ')
+            })
+            index = index - 1
+            let seance = this.place.seances[index]
+            seance.index = index
+            this.$emit('onUpdPlace', {
+                index: this.index,
+                id: this.place.id,
+                seances: [seance]
+            })
         }
-        setSeancePlace
     },
     watch: {
      

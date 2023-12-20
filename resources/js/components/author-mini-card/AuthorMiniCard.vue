@@ -31,7 +31,6 @@ export default {
     props: [
         'author'
     ],
-    mounted() {console.log(this.author)}
 }
 </script>
 <style lang="">

@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="w-full h-full">
+    <div>
         <YandexMap
         :id="'map'"
         class="w-full h-full"
