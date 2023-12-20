@@ -204,8 +204,9 @@ export default {
                 date_end: new Date().toISOString().split('~')[0].slice(0,19).replace("T", ' ')
             })
             index = index - 1
-            let seance = this.place.seances[index]
+            let seance = unref(this.place.seances[index])
             seance.index = index
+            console.log(seance)
             this.$emit('onUpdPlace', {
                 index: this.index,
                 id: this.place.id,
