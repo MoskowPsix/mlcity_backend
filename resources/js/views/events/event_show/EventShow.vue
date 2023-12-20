@@ -259,7 +259,7 @@ export default {
                                     // Если есть поле id не нулевое, то сеанс есть в бд и его нужно зафиксировать
                                     this.event.full_places[index].seances[item.index].on_delete = true
                                     let updPlace = this.placeUpd.findIndex((i,k) => { if(i.index = index) {return true} })
-                                    let updSeance = updPlace.seances.findIndex((i,k) => {if (i.index = ) {return true}})
+                                    let updSeance = updPlace.seances.findIndex((i,k) => {if (i.index = item.index) {return true}})
                                 } else {
                                     // Если поле id нулевое, то просто удалить
                                     this.placeUpd[getIndex].seances[item.index].splice(place.index)
