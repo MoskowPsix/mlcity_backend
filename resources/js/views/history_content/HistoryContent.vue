@@ -1,7 +1,7 @@
 <template lang="">
     <HistoryContentFilter class="m-1"/>
     <HistoryContentTable :contents="contents" class="m-1"/>
-    <div class="flex justify-center m-1">
+    <div class="flex justify-center m-1" v-if="nextPage || backPage">
             <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
     </div>
 </template>
@@ -86,6 +86,7 @@ export default {
                 }),
                 catchError(err => {
                     console.log(err)
+                    this.closeLoaderFullPage()
                     399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_content + ': ' + err.message, 'warning') : null
                     499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_content + ': ' + err.message, 'error') : null
                     return of(EMPTY)

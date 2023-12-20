@@ -23,7 +23,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
             this.sponsor = useHistoryContentsFilterStore().getContentSponsor(),
             this.searchText = useHistoryContentsFilterStore().getContentText(),
             this.statuses = useHistoryContentsFilterStore().getContentStatuses(),
-            this.statusesLast = useHistoryContentsFilterStore().getContentStatusLast(),
+            this.statusLast = useHistoryContentsFilterStore().getContentStatusLast(),
             this.user = useHistoryContentsFilterStore().getContentUser()
         },
         contentsForPageContents() {
@@ -39,7 +39,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
                 sponsor: this.sponsor,
                 searchText: this.searchText,
                 statuses: this.statuses,
-                statusesLast: this.statusesLast,
+                statusesLast: this.statusLast,
                 user: this.user,
                 page: this.pageContentsForPageContent
             }
@@ -55,7 +55,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
         sponsor: null,
         searchText: null,
         statuses: null,
-        statusesLast: null,
+        statusLast: null,
         user: null,
         pageContentsForPageContent: null
         

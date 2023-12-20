@@ -6,11 +6,11 @@ import { BehaviorSubject } from 'rxjs';
 export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilter', {
     state: () => ({
         contentName: new BehaviorSubject(localStorage.getItem('contentNameFilter') || ''),
-        contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || ''),
+        contentDate: new BehaviorSubject(localStorage.getItem('contentDateFilter') || '~'),
         contentSponsor: new BehaviorSubject(localStorage.getItem('contentSponsorFilter') || ''),
         contentSearchText: new BehaviorSubject(localStorage.getItem('contentTextFilter') || ''),
-        contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || ''),
-        contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || ''),
+        contentStatuses: new BehaviorSubject(localStorage.getItem('contentStatusesFilter') || '1'),
+        contentStatusLast: new BehaviorSubject(localStorage.getItem('contentStatusLastFilter') || 'true'),
         contentUser: new BehaviorSubject(localStorage.getItem('contentUserFilter') || ''),
     }),
     actions: {
@@ -26,7 +26,7 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
             this.contentDate = date
         },
         getContentDate() {
-            return localStorage.getItem('contentDateFilter')
+            return localStorage.getItem('contentDateFilter') || this.contentDate.getValue()
         },
         setContentSponsor(sponsor) {
             localStorage.setItem('contentSponsorFilter', sponsor)
@@ -48,18 +48,20 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
             this.contentStatuses = status
         },
         getContentStatuses() {
-            return localStorage.getItem('contentStatusesFilter')
+            let status = localStorage.getItem('contentStatusesFilter')
+            return status
         },
         setContentStatusLast(status) {
-            localStorage.setItem('contentStatusesLastFilter', status)
-            this.contentStatusesLast = status
+            localStorage.setItem('contentStatusLastFilter', status)
+            this.contentStatusLast = status
+            console.log(this.contentStatusLast)
         },
         getContentStatusLast() {
-            return localStorage.getItem('contentStatusesLastFilter')
+            return localStorage.getItem('contentStatusLastFilter')
         },
         setContentUser(user) {
             localStorage.setItem('contentUserFilter', user)
-            this.contentStatusesLast = user
+            this.contentUser = user
         },
         getContentUser() {
             return localStorage.getItem('contentUserFilter')

@@ -12,7 +12,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'test';
+    protected $signature = 'history_content_create';
 
     /**
      * The console command description.

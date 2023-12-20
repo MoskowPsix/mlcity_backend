@@ -8,6 +8,7 @@
         "php": "^8.2",
         "darkaonline/l5-swagger": "^8.5",
         "guzzlehttp/guzzle": "^7.2",
+        "hflabs/dadata": "^22.3",
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.2",
         "laravel/telescope": "^4.14",

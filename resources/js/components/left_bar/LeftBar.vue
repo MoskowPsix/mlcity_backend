@@ -48,11 +48,33 @@
                <span class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">1</span>
             </RouterLink>
          </li>
-         <li>
+         <!-- <li>
             <RouterLink :to="{name: 'role'}" exact-active-class="bg-gray-400 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-900" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
                   <path d="M15.83 9.81C14.7 9.7 13.69 10.38 13.46 11.5C13.46 11.84 14.81 12.29 16.05 12.29C17.29 12.29 18.41 11.5 18.41 11.28C18.41 11.05 17.63 9.93 15.83 9.81M8.18 9.81C6.38 9.93 5.59 10.94 5.59 11.27C5.59 11.5 6.82 12.29 7.95 12.29S10.54 11.84 10.54 11.5C10.31 10.38 9.19 9.7 8.18 9.81M16.95 16C15.04 16 13.8 13.75 12 13.75S8.85 16 7.05 16C4.69 16 3 13.86 3 10.04C3 7.68 3.68 7 6.71 7S10.54 8.24 12 8.24 14.36 7 17.29 7 21 7.79 21 10.04C21 13.86 19.31 16 16.95 16Z"></path></svg>
                <span class="flex-1 ml-3 whitespace-nowrap">Роли</span>
+         </RouterLink>
+         </li> -->
+         <li>
+            <RouterLink :to="{name: 'types'}" exact-active-class="bg-gray-400 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-900" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
+               <svg fill="currentColor" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                  viewBox="0 0 400 400" xml:space="preserve">
+                  <g>
+                     <path d="M69.897,265.767h260.206c1.822,0,3.509-0.958,4.442-2.522c0.934-1.564,0.976-3.505,0.111-5.107l-63.683-118.042
+                        c-0.903-1.673-2.651-2.718-4.553-2.718H133.58c-1.902,0-3.65,1.045-4.553,2.718L65.344,258.138
+                        c-0.865,1.603-0.823,3.543,0.111,5.107C66.388,264.809,68.075,265.767,69.897,265.767z M255.924,160.141l6.833,12.667
+                        l-70.198,70.196h-21.822l82.863-82.863H255.924z M221.407,160.141l-82.863,82.863h-18.036l82.863-82.863H221.407z M171.178,160.141
+                        l-58.853,58.854l31.75-58.854H171.178z M224.752,243.004l49.286-49.287l6.494,12.039l-37.25,37.248H224.752z M275.474,243.004
+                        l16.339-16.339l8.815,16.339H275.474z"/>
+                     <path d="M148.43,120.198h103.14c1.822,0,3.509-0.958,4.442-2.521c0.933-1.564,0.975-3.505,0.11-5.109l-51.57-95.588
+                        c-0.902-1.674-2.651-2.719-4.553-2.719c-1.901,0-3.65,1.045-4.553,2.719l-51.57,95.588c-0.865,1.604-0.823,3.545,0.11,5.109
+                        C144.921,119.24,146.608,120.198,148.43,120.198z"/>
+                     <path d="M399.379,378.108l-49.872-92.444c-0.903-1.673-2.651-2.716-4.553-2.716H55.046c-1.901,0-3.65,1.043-4.553,2.716
+                        L0.621,378.108c-0.865,1.604-0.823,3.544,0.11,5.108c0.933,1.564,2.621,2.522,4.442,2.522h389.653c1.822,0,3.509-0.958,4.442-2.522
+                        C400.203,381.652,400.245,379.713,399.379,378.108z M333.223,307.78l28.662,53.126H38.116l28.662-53.126H333.223z"/>
+                  </g>
+               </svg>
+               <span class="flex-1 ml-3 whitespace-nowrap">Типы</span>
          </RouterLink>
          </li>
          <li>

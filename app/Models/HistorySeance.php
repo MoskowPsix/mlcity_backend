@@ -14,4 +14,8 @@ class HistorySeance extends Model
     public function historyPlace(){
         return $this->belongsTo(HistoryPlace::class);
     }
+
+    public function seance(){
+        return $this->belongsTo(Seance::class);
+    }
 }
