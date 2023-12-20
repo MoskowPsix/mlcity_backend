@@ -4,10 +4,10 @@
   <div>
     <button @click="isExpanded = !isExpanded"  type="button" class="bg-green-300" v-if="!checkChild()">{{ allSTypes.name }}</button>
     <button @click="isExpanded = !isExpanded"  type="button" class="bg-red-300" v-if="checkChild()">{{ allSTypes.name }}</button>
-    <input type="checkbox" class="ml-2"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)">
+    <input type="checkbox" class="ml-2"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
     <div v-if="allSTypes.stypes" :class="{'ml-6': checkChild()}">
       <Collapse :when="isExpanded" v-for="stypes in allSTypes.stypes" v-bind:key="stypes.id">
-       <TypeList :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
+       <TypeList :enableState="enableState" :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
     </Collapse>
     </div>
   </div>
@@ -26,7 +26,8 @@ export default{
   name: "TypeList",
   props: {
     allSTypes: Object,
-    currentStypes: Array
+    currentStypes: Array,
+    enableState: Boolean
   },
   components:{
     Collapse

@@ -40,8 +40,9 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.address"
+                     id="address"
                      type="text"
-                     @input="sight => text = event.target.value">
+                     @input="event => text = event.target.value">
                     
                 </div>
             </div>
@@ -55,16 +56,16 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.work_time"
+                     id="work_time"
                      type="text"
-                     @input="sight => text = event.target.value">
+                     @input="event => text = event.target.value">
                     </textarea>
                 </div>
             </div>
             
             <div class="">
+                <p class="">Описание:</p>
                 <div v-if="!state">
-                    <p class="">Описание:</p>
-
                     <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
                         {{ sight.description }}
                     </p>
@@ -74,8 +75,9 @@
                     <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                     v-bind:value="sight.description"
                     type="text"
+                    id="description"
                     rows=7
-                    @input="sight => text = event.target.value">
+                    @input="event => text = event.target.value">
                     </textarea>  
                 </div> 
             </div>
@@ -87,7 +89,7 @@
                 <div class="">
                     <p>Типы события:</p>
                     <div v-for="stype in allTypes" class="space-y-2 border py-4" v-if="allTypes ">
-                        <TypeList v-if="allTypes && sight.types != null" :allSTypes="stype" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
+                        <TypeList v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                     
                 </div>
@@ -120,35 +122,9 @@
                 </div>
                 <div v-if="state">
                     <div class="blox space-y-4">
-                        <div v-for="price in sight.prices" class="flex items-center">
-                            <div class=" w-[120px]">
-                            <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
-                            v-bind:value="price.cost_rub"
-                            type="number"
-                            @input="sight => text = event.target.value">
-                            
-                            </div>
-                            <div class="w-[120px]">
-                            <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
-                            v-bind:value="price.descriptions"
-                            type="text"
-                            @input="sight => text = event.target.value">
-                            </div>
-
-                            <div class="flex space-x-2">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-rose-500"
-                                v-on:click="deleteFromCurrentPrices(price)">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                                </svg>
-
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-emerald-600"
-                                v-on:click="addToCurrentPrices(price)">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-
-                            </div>
-                            
-
+                        <div v-for="(price, index) in sight.prices" class="flex items-center">
+                            <!--  -->
+                            <PriceSegment :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                         </div>
                         
                     </div>
@@ -167,7 +143,8 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.sponsor"
-                     @input="sight => text = event.target.value"
+                     id="sponsor"
+                     @input="event => text = event.target.value"
                      type="text">   
                 </div>
             </div>
@@ -181,7 +158,8 @@
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
                      v-bind:value="sight.materials"
-                     @input="sight => text = event.target.value"
+                     id="materials"
+                     @input="event => text = event.target.value"
                      type="text">   
                 </div>
             </div>
@@ -202,14 +180,7 @@
                 </select>
             </div>
             
-            <button
-            type="button"
-            class="inline-block rounded bg-primary px-6 pb-2 pt-2.5 text-xs  uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
-            data-te-ripple-init
-            data-te-ripple-color="light"
-            v-on:click="saveChanges">
-            Сохранить
-            </button>
+            
         </div>
     </div>
 
@@ -231,12 +202,14 @@ import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 import { useTypeStore } from '../../../stores/TypeStore'
+import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 
 export default {
     name: 'SightShow',
     components:{
         CarouselGallery,
-        TypeList
+        TypeList,
+        PriceSegment
     },
     setup() {
         const destroy$ =  new Subject()
@@ -251,8 +224,14 @@ export default {
             status: "",
             sightUpd: new FormData(),
             state: false,
+            currentSightPrice:[],
             filesDel: [],
             filesUpd: [],
+            typesDel: [],
+            typesUpd: [],
+            pricesDel:[],
+            pricesUpd:[],
+            
 
             
         }
@@ -270,7 +249,7 @@ export default {
                 map(response => {
                     this.sight = response.data
                     this.status = this.sight.statuses[0].name
-                    console.log(this.sight.types)
+                    this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
                     console.log(response)
                     
                 }),
@@ -298,29 +277,46 @@ export default {
         })
     },
         addToCurrentTypes(type){
-            if (this.checkTypeInCurrent(type, this.sight.types)){
-                this.sight.types = this.sight.types.filter(item => item.id !== type.id)
+            if (this.checkObjInArray(type, this.sight.types)){
+                if (this.checkObjInArray(type, this.typesDel)){
+                    this.typesDel = this.typesDel.filter(item => item.id !== type.id)
+                }
+                else{
+                    this.typesDel.push({"id": type.id, "on_delete":true})
+                }
+                // this.sight.types = this.sight.types.filter(item => item.id !== type.id)
+                
             }
             else{
-                this.sight.types.push(type)
+                if(this.checkObjInArray(type, this.typesUpd)){
+                    this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
+                }
+                else{
+                    this.typesUpd.push({"id": type.id})
+                }
             }
-            console.log(this.sight.types)
+            // console.log(this.sight.types)
+            
+            console.log("на удаление", this.typesDel)
+            console.log("на добавление", this.typesUpd)
         },
 
         deleteFromCurrentPrices(price){
-            if (this.checkTypeInCurrent(price, this.sight.prices)){
+            if (this.checkObjInArray(price, this.sight.prices)){
                 this.sight.prices = this.sight.prices.filter(item => item.id !== price.id)
+                if (price.id){
+                    this.pricesDel.push({"id":price.id, "on_delete":true})
+                }
             }
-            else{
-                this.sight.prices.push(type)
-            }
+            
+            console.log(this.pricesDel)
         },
         addToCurrentPrices(){
-            this.sight.prices.push({"cost_rub":0, "descriptions":"Описание"})
+            this.sight.prices.push({"cost_rub":null, "descriptions":""})
         },
-        checkTypeInCurrent(obj, array){
+        checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
-                if (array[i] == obj){
+                if (array[i].id === obj.id){
                     return true
                 }
             }
@@ -363,10 +359,39 @@ export default {
         sightPriceCheck(){
             return true
         },
+        sightUpdPrice(price){
+            if(this.checkObjInArray(price, this.pricesUpd)){
+                let data
+                let index
+
+                for (let i=0; i<this.pricesUpd.length; i++){
+                    if (this.pricesUpd[i].id === price.id){
+                        data = this.pricesUpd[i]
+                        index = i
+                    }
+                }
+
+                console.log(data)
+
+                if (price.descriptions){
+                    this.pricesUpd[index].descriptions = price.descriptions
+                }
+                else if(price.cost_rub){
+                    this.pricesUpd[index].cost_rub = price.cost_rub
+                }
+            }
+            else{
+                this.pricesUpd.push(price)
+            }
+            console.log(this.pricesUpd)
+        },
         clickUpd(event) {
-            console.log(event)
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
+
+            let historyData = {
+                
+            }
             
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
@@ -374,25 +399,37 @@ export default {
                     case('name'):
                     if (item[1].value != this.sight.name) {
                         console.log('new name value: ' + item[1].value)
-                        this.sightUpd.append('name', item[1].value)
+                        historyData.name = item[1].value
                     }
                     break;
                     case('sponsor'):
                     if (item[1].value != this.sight.sponsor) {
                         console.log('new sponsor value: ' + item[1].value)
-                        this.sightUpd.append('sponsor', item[1].value)
+                        historyData.sponsor = item[1].value
                     }
                     break;
                     case('description'):
                     if (item[1].value != this.sight.description) {
                         console.log('new description value: ' + item[1].value)
-                        this.sightUpd.append('description', item[1].value)
+                        historyData.description = item[1].value
                     }
                     break;
                     case('materials'):
                     if (item[1].value != this.sight.materials) {
                         console.log('new materials value: ' + item[1].value)
-                        this.sightUpd.append('materials', item[1].value)
+                        historyData.materials =  item[1].value
+                    }
+                    break;
+                    case('work_time'):
+                    if (item[1].value != this.sight.work_time) {
+                        console.log('new work_time value: ' + item[1].value)
+                        historyData.work_time = item[1].value
+                    }
+                    break;
+                    case('address'):
+                    if (item[1].value != this.sight.address) {
+                        console.log('new address value: ' + item[1].value)
+                        historyData.address = item[1].value
                     }
                     break;
                     
@@ -409,8 +446,48 @@ export default {
                 item.onDelete = true
                 this.sightUpd.append('files[]', item)
             })
+
+            if (this.typesDel.length != 0 || this.typesUpd.length != 0){
+                historyData.history_types = []
+
+                this.typesDel.forEach(item => {
+                    historyData.history_types.push(item)
+                })
+                this.typesUpd.forEach(item => {
+                    historyData.history_types.push(item)
+                })
+            }
+
+            historyData.history_prices = []
+            // здесь мы исполузуем вложенные циклы смотрим есть ли в совпадение по id из 2 массивов
+            // если говорить короче ищем одинаковые элементы в id
+            this.sight.prices.forEach((item) => {
+                this.currentSightPrice.forEach((item1) => {
+                    if(item.id == item1.id){
+                        if(item.cost_rub != item1.cost_rub && item.descriptions != item1.descriptions){
+                            historyData.history_prices.push({"id":item.id, "cost_rub":item.cost_rub, "descriptions":item.descriptions})
+                        }
+                        else if(item.cost_rub != item1.cost_rub){
+                            historyData.history_prices.push({"id":item.id, "cost_rub":item.cost_rub})
+                        }
+                        else if(item.descriptions != item1.descriptions){
+                            historyData.history_prices.push({"id":item.id, "descriptions":item.descriptions})   
+                        }
+                    }
+                })
+            })
+            // ищем цены у которых нет id, а если нет id значит цена новая
+            for(let i = 0; i<this.sight.prices.length; i++){
+                if(this.sight.prices[i].id == undefined){
+                    historyData.history_prices.push(this.sight.prices[i])
+                }
+            }
+            
+
+
+
             this.state = false
-            console.log(this.sightUpd)
+            console.log(historyData)
         }
     },
     mounted() {
