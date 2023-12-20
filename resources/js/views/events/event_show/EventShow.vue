@@ -44,12 +44,13 @@
             </label>
         </div>
 
-        <div class="grid 2xl:grid-cols-4 xl:grid-cols-3 lg:grid-cols-2 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
-            <div class="2xl:col-span-3 xl:col-span-2 lg:ol-span-2 mb-1 mr-1">
-                <div class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg ">
-                    <div v-for="place in event.places_full" >
-                        <PlacesListCard :stateUpd="state" :place="place" onUpdatePla class="mt-2"/>
+        <div class="grid 2xl:grid-cols-4 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
+            <div class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
+                <div class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
+                    <div v-for="(place, index) in event.places_full" >
+                        <PlacesListCard v-if="!place.on_delete" :stateUpd="state" :index="index" :place="place" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
+                    <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
                 </div>
             </div>
             <div>
@@ -74,6 +75,7 @@ import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
+import {unref} from 'vue'
 import router from '../../../routes'
 
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
@@ -92,9 +94,11 @@ export default {
         return {
             event: [],
             eventUpd: new FormData(),
+            newPlaces: [],
             state: true,
             filesDel: [],
             filesUpd: [],
+            placeUpd: [],
         }
     },
     components: {
@@ -152,12 +156,10 @@ export default {
             })
             // Перебираем и передаём фото на добавлений в форм дату
             this.filesUpd.forEach((item) => {
-                // console.log('upd' + item)
                 this.eventUpd.append('files[]', item)
             })
             // Перебираем, добавляем поле и передаём фото на удаление в форм дату
             this.filesDel.forEach((item) => {
-                // console.log('del' + item)
                 item.onDelete = true
                 this.eventUpd.append('files[]', item)
             })
@@ -171,7 +173,6 @@ export default {
             this.getEventForIds(this.$route.params.id).pipe(
                 map(response => {
                     this.event = response.data
-                    console.log(response)
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
@@ -199,12 +200,10 @@ export default {
             })
         },
         updateFiles(files) {
-            // console.log(['update', files])
             files = Array.from(files)
             files.forEach(file => {
                 let reader = new FileReader()
                 reader.readAsDataURL(file)
-                console.log(reader)
                 reader.onload = () => {
                     this.event.files.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
                 }
@@ -214,6 +213,114 @@ export default {
         },
         backButton(){
             router.go(-1)
+        },
+        setPlace(place) {
+            let index = place.index
+            let placeOnDel = Object.keys(place).find(key => {
+                if ((key == 'on_delete') && (place[key] == true)) {
+                    return true
+                } else {
+                    return false
+                }
+            });
+            if (placeOnDel) {
+                // Если есть поле on_delete
+                if(place.id) {
+                    // Если есть поле id и place существует в БД
+                    this.event.places_full[index].on_delete = true
+                    this.placeUpd.push(place)
+                } else {
+                    // Если нет поля id и place не существует в БД
+                    this.event.places_full.splice(place.index)
+                }
+            } else { // Если поля on_delete нету
+                    this.$helpers.deepMerge(this.event.places_full[index],place)
+                    // Проверяем новое ли это обновление для place или place уже обновлялся и есть в массииве
+                    let getIndex = this.placeUpd.findIndex((item, key) => {
+                        if(item.index == index) {
+                            return true
+                        }
+                    })
+                    if (getIndex != -1) {
+                        // Если уже есть в массиве то производим слияне
+                        // Перебираем массив пришедших сеансов
+                        place.seances.forEach((item, key) => {
+                            // Проверяем есть ли поля on_delete в объекте seance и стоит ли у него значение true
+                            let seanceOnDel = Object.keys(item).find(key => {
+                                if ((key == 'on_delete') && (item[key] == true)) {
+                                    return true
+                                } else {
+                                    return false
+                                }
+                            });
+                            if (seanceOnDel) {
+                                // Если есть поле on_delete со значением true
+                                if (item.id){
+                                    // Если есть поле id не нулевое, то сеанс есть в бд и его нужно зафиксировать
+                                    this.event.full_places[index].seances[item.index].on_delete = true
+                                    let updPlace = this.placeUpd.findIndex((i,k) => { if(i.index = index) {return true} })
+                                    let updSeance = updPlace.seances.findIndex((i,k) => {if (i.index = ) {return true}})
+                                } else {
+                                    // Если поле id нулевое, то просто удалить
+                                    this.placeUpd[getIndex].seances[item.index].splice(place.index)
+                                }
+                            } else {
+                                // Если нет поля on_delete или его значение false
+                                // Перебираем массив сеансов которые уже на обновлении
+                                this.placeUpd[getIndex].seances.forEach((i, k) => {
+                                    // Если совпадает индекс то заменяем этот элемент в массиве на обновление
+                                    if (i.index != item.index) {
+                                        place.seances.push(i)
+                                    }
+                                })
+                            }
+
+                        })
+                        place.seance = this.placeUpd[getIndex].seance
+                        this.$helpers.deepMerge(this.placeUpd[getIndex], place)
+                    } else {
+                        // Если нету в массиве, то добавляем
+                        this.placeUpd.push(place)
+                    }
+            }
+            console.log(this.placeUpd)
+        },
+        setSeance(seance) {
+            let seanceOnDel = Object.keys(seance).find(key => {
+                if ((key == 'on_delete') && (place[key] == true)) {
+                    return true
+                } else {
+                    return false
+                }
+            });
+            if (seanceOnDel) {
+                // Если есть поле on_delete
+                if(seance.id) {
+                    // Если есть поле id и seance существует в БД
+                } else {
+                    // Если нет поля id и seance не существует в БД
+                }
+            } else {
+                // Если нет поля on_delete
+                if(seance.id) {
+                    // Если есть поле id и seance существует в БД
+                } else {
+                    // Если нет поля id и seance не существует в БД
+                }
+            }
+        },
+        addNewPlace() {
+            this.event.places_full.push({
+                id: 0,
+                address: this.event.places_full[0].address,
+                event_id: this.event.id,
+                sight_id: this.event.places_full[0].sight_id,
+                latitude: this.event.places_full[0].latitude,
+                longitude: this.event.places_full[0].longitude,
+                location_id: 1,
+                seances: [],
+                location: {}
+            })
         }
     },
     mounted() {

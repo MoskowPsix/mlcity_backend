@@ -6,6 +6,7 @@ import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import 'vue3-carousel/dist/carousel.css'
+import helpers from './helpers/deepMerge'
 
 
 
@@ -21,10 +22,11 @@ const options = {
     newestOnTop: true
 };
 
+const app = createApp(App)
 
-createApp(App)
-.use(Toast, options)
-.use(router)
-.use(createPinia())
-.mount("#app")
+app.config.globalProperties.$helpers = helpers
+app.use(Toast, options)
+app.use(router)
+app.use(createPinia())
+app.mount("#app")
 
