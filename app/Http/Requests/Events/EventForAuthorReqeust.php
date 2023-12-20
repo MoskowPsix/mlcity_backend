@@ -24,15 +24,15 @@ class EventForAuthorReqeust extends FormRequest
     public function rules()
     {
         return [
-            'page' => "required",
-            "limit" => "integer|max:50"
+            'page' => "nullable|string",
+            "limit" => "nullable|integer|max:50"
         ];
     }
 
     public function messages()
     {
         return [
-            "page.required" => "A page is reqired",
+            // "page.required" => "A page is reqired",
             "limit.max" => "A limit value must be less or equal than 50"
         ];
     }

@@ -208,7 +208,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEvents(GetEventRequest $request): \Illuminate\Http\JsonResponse
+    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
         $total = 0;
         $page = $request->page;
@@ -247,11 +247,11 @@ class EventController extends Controller
         return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
     }
 
-    public function getEventsForAuthor(EventForAuthorReqeust $request) {
+    public function getEventsForAuthor(Request $request) {
         $request = $request->validated();
         info($request);
-        $page = $request["page"];
-        $limit = $request['limit'] && ($request['limit'] < 50)? $request['limit'] : 5;
+        isset($request["page"]) ?  $page = $request["page"] :  $page = 6;
+        isset($request['limit']) ?  $limit = $request['limit'] : $limit =  5;
         $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $events->count();
         $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
