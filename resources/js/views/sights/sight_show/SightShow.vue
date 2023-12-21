@@ -15,7 +15,7 @@
         </button>
     
         <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700rounded-lgp-2pl-1border-2m-0">
+        <input v-if="state" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
         <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
@@ -38,7 +38,7 @@
                 </div>
                 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.address"
                      id="address"
                      type="text"
@@ -54,7 +54,7 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.work_time"
                      id="work_time"
                      type="text"
@@ -72,7 +72,7 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                     v-bind:value="sight.description"
                     type="text"
                     id="description"
@@ -94,17 +94,7 @@
                     
                 </div>
                 
-                <!-- <div v-if="!state">
-                    <p v-for="type_s in sight.types">{{ type_s.name }}</p>
-                </div>
-
-                <div v-if="state" class="flex" v-for="(type_s, index) in sight.types" v-bind:key="index">
-                    <input 
-                    class=" text-xl  leading-tight mb-2 text-neutral-800 dark:text-neutral-50 w-2/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
-                    v-bind:value="sight.types[index].name"
-                    type="text"
-                    @input="sight => text = event.target.value">  
-                </div> -->
+                
             </div>
 
             <div class="mb-4">
@@ -120,9 +110,13 @@
                     </div>
                     
                 </div>
-                <div v-if="state">
-                    <div class="blox space-y-4">
-                        <div v-for="(price, index) in sight.prices" class="flex items-center">
+                <div v-if="state" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
+                    <div class="2xl:col-span-3 xl:col-span-5 lg:col-span-8 md:col-span-9 sm:col-span-1 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+                        v-on:click="addToCurrentPrices()">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                        </svg>
+                        <div v-for="(price, index) in sight.prices" class="flex items-center border rounded-lg p-2 mb-4" >
                             <!--  -->
                             <PriceSegment :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                         </div>
@@ -141,7 +135,7 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.sponsor"
                      id="sponsor"
                      @input="event => text = event.target.value"
@@ -156,7 +150,7 @@
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-2 m-0"
+                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.materials"
                      id="materials"
                      @input="event => text = event.target.value"
@@ -164,21 +158,8 @@
                 </div>
             </div>
 
-            <div class="mb-4">
-                <label for="status" class="block mb-2   text-gray-900 dark:text-white">Статус</label>
-                <select 
-                id="statuses" 
-                class=" bg-gray-50 border  border-gray-300  text-gray-900 text-sm rounded-lg  focus:ring-blue-500 focus:border-blue-500 block w-1/10 p-2.5  dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400  dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500
-                "
-                
-                v-bind:value="status">
-                    <option value="Отказ">Отказ</option>
-                    <option value="Опубликовано">Опубликовано</option>
-                    <option value="Черновик">Черновик</option>
-                    <option value="На модерации">На модерации</option>
-                    <option value="В архиве">В архиве</option>
-                </select>
-            </div>
+            
+            <ChangeStatus :status="status" @statusChanged="statusChange" v-if="!state"/>
             
             
         </div>
@@ -202,6 +183,7 @@ import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 import { useTypeStore } from '../../../stores/TypeStore'
+import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 
 export default {
@@ -209,7 +191,8 @@ export default {
     components:{
         CarouselGallery,
         TypeList,
-        PriceSegment
+        PriceSegment,
+        ChangeStatus
     },
     setup() {
         const destroy$ =  new Subject()
@@ -223,6 +206,8 @@ export default {
             allTypes: null,
             status: "",
             sightUpd: new FormData(),
+            sightFiles: [],
+            
             state: false,
             currentSightPrice:[],
             filesDel: [],
@@ -322,6 +307,7 @@ export default {
             }
             return false
         },
+
         discardChanges(){
             this.state = this.state
             this.getSight()
@@ -331,13 +317,20 @@ export default {
             router.go(-1)
         },
         deleteFiles(file) {
-            console.log(['delete', file])
-            let coin = this.sightChange.sightFiles.findIndex((item) => { 
+            this.sight.files.find((item, index) => { 
                 if (item.name == file.name ) {
+                    let coin = this.filesUpd.find((itm, i) => { 
+                        if (itm.name == file.name ) {
+                            this.filesUpd.splice(i, 1)
+                            return true
+                        }
+                    })
+                    
+                    coin ? null : this.filesDel.push(file)
+                    this.sight.files.splice(index, 1)
                     return true
                 }
             })
-            this.sightChange.sightFiles[coin] = null
             
         },
         updateFiles(files) {
@@ -346,9 +339,8 @@ export default {
             files.forEach(file => {
                 let reader = new FileReader()
                 reader.readAsDataURL(file)
-                console.log(reader)
                 reader.onload = () => {
-                    this.sightChange.sightFiles.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
+                    this.sight.files.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
                 }
                 this.filesUpd.push(file)
             })
@@ -383,14 +375,22 @@ export default {
             else{
                 this.pricesUpd.push(price)
             }
-            console.log(this.pricesUpd)
+            
+        },
+        statusChange(status){
+            this.status = status
+            console.log(status)
         },
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
 
             let historyData = {
-                
+                id: this.sight.id,
+                type:"Sight",
+                history_content: {
+
+                }
             }
             
             // Перебираем массив и формируем форм дату
@@ -399,93 +399,90 @@ export default {
                     case('name'):
                     if (item[1].value != this.sight.name) {
                         console.log('new name value: ' + item[1].value)
-                        historyData.name = item[1].value
+                        historyData.history_content.name = item[1].value
                     }
                     break;
                     case('sponsor'):
                     if (item[1].value != this.sight.sponsor) {
                         console.log('new sponsor value: ' + item[1].value)
-                        historyData.sponsor = item[1].value
+                        historyData.history_content.sponsor = item[1].value
                     }
                     break;
                     case('description'):
                     if (item[1].value != this.sight.description) {
                         console.log('new description value: ' + item[1].value)
-                        historyData.description = item[1].value
+                        historyData.history_content.description = item[1].value
                     }
                     break;
                     case('materials'):
                     if (item[1].value != this.sight.materials) {
                         console.log('new materials value: ' + item[1].value)
-                        historyData.materials =  item[1].value
+                        historyData.history_content.materials =  item[1].value
                     }
                     break;
                     case('work_time'):
                     if (item[1].value != this.sight.work_time) {
                         console.log('new work_time value: ' + item[1].value)
-                        historyData.work_time = item[1].value
+                        historyData.history_content.work_time = item[1].value
                     }
                     break;
                     case('address'):
                     if (item[1].value != this.sight.address) {
                         console.log('new address value: ' + item[1].value)
-                        historyData.address = item[1].value
+                        historyData.history_content.address = item[1].value
                     }
                     break;
                     
                 }
             })
-            // Перебираем и передаём фото на добавлений в форм дату
-            this.filesUpd.forEach((item) => {
-                // console.log('upd' + item)
-                this.sightUpd.append('files[]', item)
-            })
-            // Перебираем, добавляем поле и передаём фото на удаление в форм дату
-            this.filesDel.forEach((item) => {
-                // console.log('del' + item)
-                item.onDelete = true
-                this.sightUpd.append('files[]', item)
-            })
-
-            if (this.typesDel.length != 0 || this.typesUpd.length != 0){
-                historyData.history_types = []
-
-                this.typesDel.forEach(item => {
-                    historyData.history_types.push(item)
+            if (this.filesDel.length > 0 || this.filesUpd.length > 0){
+                historyData.history_content.history_files = []
+                    // Перебираем и передаём фото на добавлений в форм дату
+                this.filesUpd.forEach((item) => {
+                    // console.log('upd' + item)
+                    historyData.history_content.history_files.push(item)
                 })
-                this.typesUpd.forEach(item => {
-                    historyData.history_types.push(item)
+                // Перебираем, добавляем поле и передаём фото на удаление в форм дату
+                this.filesDel.forEach((item) => {
+                    // console.log('del' + item)
+                    item.on_delete = true
+                    historyData.history_content.history_files.push(item)
                 })
-            }
-
-            historyData.history_prices = []
-            // здесь мы исполузуем вложенные циклы смотрим есть ли в совпадение по id из 2 массивов
-            // если говорить короче ищем одинаковые элементы в id
-            this.sight.prices.forEach((item) => {
-                this.currentSightPrice.forEach((item1) => {
-                    if(item.id == item1.id){
-                        if(item.cost_rub != item1.cost_rub && item.descriptions != item1.descriptions){
-                            historyData.history_prices.push({"id":item.id, "cost_rub":item.cost_rub, "descriptions":item.descriptions})
-                        }
-                        else if(item.cost_rub != item1.cost_rub){
-                            historyData.history_prices.push({"id":item.id, "cost_rub":item.cost_rub})
-                        }
-                        else if(item.descriptions != item1.descriptions){
-                            historyData.history_prices.push({"id":item.id, "descriptions":item.descriptions})   
-                        }
-                    }
-                })
-            })
-            // ищем цены у которых нет id, а если нет id значит цена новая
-            for(let i = 0; i<this.sight.prices.length; i++){
-                if(this.sight.prices[i].id == undefined){
-                    historyData.history_prices.push(this.sight.prices[i])
-                }
             }
             
 
+            if (this.typesDel.length != 0 || this.typesUpd.length != 0){
+                historyData.history_content.history_types = []
 
+                this.typesDel.forEach(item => {
+                    historyData.history_content.history_types.push(item)
+                })
+                this.typesUpd.forEach(item => {
+                    historyData.history_content.history_types.push(item)
+                })
+            }
 
+            if (this.pricesDel.length > 0 || this.pricesUpd > 0){
+                historyData.history_content.history_prices = []
+
+                this.pricesUpd.forEach(item => {
+                    historyData.history_content.history_prices.push(item)
+                })
+
+                this.pricesDel.forEach(item => {
+                    historyData.history_content.history_prices.push(item)
+                })    
+            }
+
+            if (this.status != this.sight.statuses[0].name){
+                historyData.history_content.status = this.status
+            }
+            
+
+            this.sightUpd.append("history_data",historyData)
+            
+
+            this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
             this.state = false
             console.log(historyData)
         }
