@@ -54,4 +54,6 @@ class HistoryContent extends Model
         return $this->hasMany(HistoryFile::class);
     }
 
+    
+
 }

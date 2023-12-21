@@ -442,8 +442,8 @@ export default {
                     // Перебираем и передаём фото на добавлений в форм дату
                 this.filesUpd.forEach((item) => {
                     // console.log('upd' + item)
-                    this.sightUpd.append("file[]",item)
-                    // historyData.history_content.history_files.push(item)
+                    // this.sightUpd.append("file[]",item)
+                    historyData.history_content.history_files.push(item)
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
                 this.filesDel.forEach((item) => {
@@ -485,7 +485,8 @@ export default {
             // this.sightUpd.append("history_data",JSON.stringify(historyData))
             
 
-            this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
+            // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
+            this.saveSightHistory(historyData).pipe().subscribe(response => {console.log(response)})
             this.state = false
             console.log(historyData)
         }
