@@ -62,19 +62,22 @@ class HistoryContentController extends Controller
     public function createHistoryContent(Request $request)
     {
         #получаем данные для статуса и дальнейших манипуляций
-        info($request->toArray());
-        info($request['history_data']);
-        $request = $request["history_data"]->toArray();
+        
+        info($request->history_content);
+        $data = $request->toArray();
+        // info($request);
+        // info($request['history_data']);
+        // $request = $request["history_data"]->toArray();
         
         // info($request);
-        $request['history_content']["user_id"] = auth("api")->user()->id;
+        $data['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
-        if($request["type"] == "Event") {
-            $event = Event::where('id',$request['id'])->first();
-            // info($request);
-            $historyContent = $request["history_content"];
+        if($data["type"] == "Event") {
+            $event = Event::where('id',$data['id'])->first();
+            // info($data);
+            $historyContent = $data["history_content"];
             unset($historyContent["history_places"]);
             unset($historyContent['history_content']['history_prices']);
             unset($historyContent['history_content']['history_types']);
@@ -85,20 +88,20 @@ class HistoryContentController extends Controller
             ]);
             
             #проверяем содержит ли массив places
-            if(isset($request["history_content"]["history_places"])){
+            if(isset($data["history_content"]["history_places"])){
                 
-                for($i = 0; $i<count($request["history_content"]["history_places"]); $i++){
-                    // info($request["history_content"]["history_places"][$i]);
+                for($i = 0; $i<count($data["history_content"]["history_places"]); $i++){
+                    // info($data["history_content"]["history_places"][$i]);
 
-                    $historyPlace = $request["history_content"]["history_places"][$i];
+                    $historyPlace = $data["history_content"]["history_places"][$i];
                     unset($historyPlace['history_seances']);
                     info($historyPlace);
 
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
                     #проверяем содержит ли массив seances
-                    if (isset($request["history_content"]["history_places"][$i]["history_seances"])){
-                        $historySeances = $request["history_content"]["history_places"][$i]["history_seances"]; 
+                    if (isset($data["history_content"]["history_places"][$i]["history_seances"])){
+                        $historySeances = $data["history_content"]["history_places"][$i]["history_seances"]; 
                         foreach($historySeances as $historySeance){
                             $historySeance = $historyPlace->historySeances()->create($historySeance);
                         }
@@ -108,7 +111,7 @@ class HistoryContentController extends Controller
                 
             }
             #Проверка есть ли цена на изменение или удаление
-            $historyPrices = $request["history_content"]["history_prices"];
+            $historyPrices = $data["history_content"]["history_prices"];
             if(!empty($historyPrices)){
                 for($i = 0; $i<count($historyPrices); $i++){
                     $historyContent->historyPrices()->create($historyPrices[$i]);
@@ -116,7 +119,7 @@ class HistoryContentController extends Controller
             }
 
             #Проверка если ли типы на удаление или на добавление
-            $historyTypes = $request["history_content"]["history_types"];
+            $historyTypes = $data["history_content"]["history_types"];
             info($historyTypes);
             if(!empty($historyTypes)){
                 
@@ -133,14 +136,14 @@ class HistoryContentController extends Controller
                 }
             }
 
-            if(isset($request['history_content']["history_files"])){
-                $this->saveLocalFilesImg($historyContent, $request["history_files"]);
+            if(isset($data['history_content']["history_files"])){
+                $this->saveLocalFilesImg($historyContent, $data["history_files"]);
             }
 
         }
-        else if($request["type"] == "Sight"){
-            $sight = Sight::where('id',$request['id'])->first();
-            $historyContent = $request['history_content'];
+        else if($data["type"] == "Sight"){
+            $sight = Sight::where('id',$data['id'])->first();
+            $historyContent = $data['history_content'];
 
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);
@@ -155,8 +158,8 @@ class HistoryContentController extends Controller
             ]);
 
             #Проверка есть ли цена на изменение или удаление
-            if(isset($request["history_content"]["history_prices"])){
-                $historyPrices = $request["history_content"]["history_prices"];
+            if(isset($data["history_content"]["history_prices"])){
+                $historyPrices = $data["history_content"]["history_prices"];
                 if(!empty($historyPrices)){
                     for($i = 0; $i<count($historyPrices); $i++){
                         $historyContent->historyPrices()->create($historyPrices[$i]);
@@ -166,8 +169,8 @@ class HistoryContentController extends Controller
             
 
             #Проверка если ли типы на удаление или на добавление
-            if(isset($request["history_content"]["history_types"])){
-                $historyTypes = $request["history_content"]["history_types"];
+            if(isset($data["history_content"]["history_types"])){
+                $historyTypes = $data["history_content"]["history_types"];
                 if(!empty($historyTypes)){
 
                     for($i = 0; $i<count($historyTypes); $i++){
@@ -184,9 +187,14 @@ class HistoryContentController extends Controller
                 }  
             }
             
-            if(isset($request['history_content']["history_files"])){
-                $this->saveLocalFilesImg($historyContent, $request['history_content']["history_files"]);
-            }
+            if(isset($data['history_content']["history_files"])){
+                $files = $request->input("history_content.history_files");
+                
+                $this->saveLocalFilesImg($historyContent, $request->history_content->file("history_files"));
+                    
+                }
+                
+            
             
         }
         
@@ -383,22 +391,19 @@ class HistoryContentController extends Controller
     }
 
     
-    private function saveLocalFilesImg($historyContent, $files){
+    private function saveLocalFilesImg($historyContent, $file){
+        info("FILE SAVES");
+        $filename = uniqid('img_');
 
-        foreach ($files as $file) {
-            $filename = uniqid('img_');
+        $path = $file->store('history_content/'.$historyContent->id, 'public');
 
-            $path = $file->store('history_content/'.$historyContent->id, 'public');
+        $type = FileType::where('name', 'image')->get();
 
-            $type = FileType::where('name', 'image')->get();
-
-            $historyContent->historyFiles()->create([
-                'name'  => $filename,
-                'link'  => '/storage/'.$path,
-                'local' => 1
-            ])->historyFileType()->attach($type[0]->id);
-
-        }
+        $historyContent->historyFiles()->create([
+            'name'  => $filename,
+            'link'  => '/storage/'.$path,
+            'local' => 1
+        ])->historyFileType()->attach($type[0]->id);
 
     }
     private function saveLocalSightFilesImg($sight, $files){

@@ -15,10 +15,10 @@ return new class extends Migration
     {
         Schema::create('history_files', function (Blueprint $table) {
             $table->id();
-            $table->integer("file_id");
-            $table->string("name");
-            $table->text("link");
-            $table->integer("local");
+            $table->integer("file_id")->nullable();
+            $table->string("name")->nullable();
+            $table->text("link")->nullable();
+            $table->integer("local")->nullable();
             $table->boolean("on_delete")->nullable();
             $table->foreignId("history_content_id")->constrained("history_contents")->nullOnDelete();
             $table->timestamps();

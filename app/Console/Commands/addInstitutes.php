@@ -113,14 +113,14 @@ class addInstitutes extends Command
         $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
         getMessage('Download start element-1');
         getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
-        $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
-        if (!Location::where('cult_id', $null_location->_id)->first()) {
-            Location::create([
-                'name' => $null_location->title,
-                'time_zone' => $null_location->timezone,
-                'cult_id' => $null_location->_id
-            ]);
-        }
+        // $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
+        // if (!Location::where('cult_id', $null_location->_id)->first()) {
+        //     Location::create([
+        //         'name' => $null_location->title,
+        //         'time_zone' => $null_location->timezone,
+        //         'cult_id' => $null_location->_id
+        //     ]);
+        // }
         // while ($level_max_locations >= $level_locations) {
         //     $page_locations = 1;
         //     $total_locations = json_decode(file_get_contents('https://www.culture.ru/api/locales?limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true))->pagination->total;
@@ -252,10 +252,11 @@ class addInstitutes extends Command
                     // Сохраняем место
                     if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
+                            info(Location::where('cult_id', $sight->locale->_id)->first()->id);
                             $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
-                                'location_id'  => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
+                                'location_id'   => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],
                                 'longitude'     => $sight->location->coordinates[0],

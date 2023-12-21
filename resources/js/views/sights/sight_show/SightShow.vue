@@ -1,6 +1,6 @@
 <template lang="">
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1">
-    <form>
+    <form enctype="multipart/form-data">
     <div class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
         <button
             @click.prevent="backButton()"
@@ -326,7 +326,7 @@ export default {
                         }
                     })
                     
-                    coin ? null : this.filesDel.push(file)
+                    coin ? null : this.filesDel.push({id:file.id})
                     this.sight.files.splice(index, 1)
                     return true
                 }
@@ -392,6 +392,8 @@ export default {
 
                 }
             }
+
+           
             
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
@@ -440,6 +442,7 @@ export default {
                     // Перебираем и передаём фото на добавлений в форм дату
                 this.filesUpd.forEach((item) => {
                     // console.log('upd' + item)
+                    // this.sightUpd.append("history_files[]",item)
                     historyData.history_content.history_files.push(item)
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
@@ -479,10 +482,10 @@ export default {
             }
             
 
-            this.sightUpd.append("history_data",historyData)
+            this.sightUpd.append("history_data",JSON.stringify(historyData))
             
 
-            this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
+            this.saveSightHistory(historyData).pipe().subscribe(response => {console.log(response)})
             this.state = false
             console.log(historyData)
         }
