@@ -61,6 +61,17 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
+        $file = $request->file("file");
+        info($file);
+        
+        $this->saveLocalFilesImg(2, $file);
+        if($request->hasFile("files")){
+            info("HI");
+            $files = $request->input("history_content.history_files");
+            
+            
+                
+        }
         #получаем данные для статуса и дальнейших манипуляций
         
         info($request->history_content);
@@ -187,12 +198,7 @@ class HistoryContentController extends Controller
                 }  
             }
             
-            if(isset($data['history_content']["history_files"])){
-                $files = $request->input("history_content.history_files");
-                
-                $this->saveLocalFilesImg($historyContent, $request->history_content->file("history_files"));
-                    
-                }
+            
                 
             
             
@@ -391,19 +397,24 @@ class HistoryContentController extends Controller
     }
 
     
-    private function saveLocalFilesImg($historyContent, $file){
-        info("FILE SAVES");
+    private function saveLocalFilesImg($historyContent, $files){
+        info("FILE SAVE START");
         $filename = uniqid('img_');
+        foreach($files as $file) {
+            info($file);
+            $path = $file->store('history_content/1', 'public');
 
-        $path = $file->store('history_content/'.$historyContent->id, 'public');
+            // $type = FileType::where('name', 'image')->get();
 
-        $type = FileType::where('name', 'image')->get();
-
-        $historyContent->historyFiles()->create([
-            'name'  => $filename,
-            'link'  => '/storage/'.$path,
-            'local' => 1
-        ])->historyFileType()->attach($type[0]->id);
+            // $historyContent->historyFiles()->create([
+            //     'name'  => $filename,
+            //     'link'  => '/storage/'.$path,
+            //     'local' => 1
+            // ])->historyFileType()->attach($type[0]->id);
+            
+            info("FILE SAVE END");
+        }
+        
 
     }
     private function saveLocalSightFilesImg($sight, $files){

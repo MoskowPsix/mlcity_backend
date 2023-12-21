@@ -14,7 +14,9 @@ export const useSightStore = defineStore('useSight', {
         },
 
         saveSightHistory(data){
-            return from(axios.post("history-content",data))
+            return from(axios.post("history-content",data, {headers:{
+                "Content-Type": "multipart/form-data"
+            }}))
         }
     },
 })
