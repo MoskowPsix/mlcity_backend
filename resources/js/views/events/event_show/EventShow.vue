@@ -75,7 +75,6 @@ import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
-import {unref} from 'vue'
 import router from '../../../routes'
 
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
@@ -163,8 +162,28 @@ export default {
                 item.onDelete = true
                 this.eventUpd.append('files[]', item)
             })
+            if (this.placeUpd) {
+                this.placeUpd.forEach(item, key => {
+                    Object.keys(item).find(k => {
+                        if ((k == 'index')) {
+                            delete this.placeUpd[key].index
+                            return true
+                        }
+                    })
+                    item.seances.forEach((i,k) => {
+                        Object.keys(item).find(ind => {
+                            if ((ind == 'index')) {
+                                delete this.placeUpd[key].seances[k].index
+                                return true
+                            }
+                        })
+                    })
+                })
+
+                this.eventUpd.append('places[]', this.placeUpd)
+            }
             this.state = false
-            console.log(this.eventUpd)
+            // console.log(this.eventUpd)
         },
         getEvent() {
             retry(3),
@@ -215,7 +234,6 @@ export default {
             router.go(-1)
         },
         setPlace(place) {
-            console.log(place)
             let index = place.index
             let placeOnDel = Object.keys(place).find(key => {
                 if ((key == 'on_delete') && (place[key] == true)) {
@@ -243,7 +261,6 @@ export default {
                         }
                     })
                     if (getIndex != -1) {
-                        // Если уже есть в массиве то производим слияне
                         // Проверяем есть ли сеансы
                         let seancesOnUpd = Object.keys(place).find(key => {
                                 if ((key == 'seances')) {
@@ -265,70 +282,72 @@ export default {
                                 });
                                 if (seanceOnDel) {
                                     // Если есть поле on_delete со значением true
-                                    if (item.id){
+                                    if ((item.id !== 0) && item.id){
                                         // Если есть поле id не нулевое, то сеанс есть в бд и его нужно зафиксировать
-                                        this.event.full_places[index].seances[item.index].on_delete = true
-                                        let updPlace = this.placeUpd.findIndex((i,k) => { if(i.index = index) {return true} })
-                                        let updSeance = updPlace.seances.findIndex((i,k) => {if (i.index = item.index) {return true}})
-                                        if (updSeance != -1) {
-                                            this.placeUpd[updPlace].seances.splice(updSeance)
-                                        } 
-                                    } else {
-                                        console.log(item.index)
-                                        // Если поле id нулевое, то просто удалить
-                                        // console.log(this.event.places_full[place.index].seances[item.index])
-                                        this.event.places_full[place.index].seances.splice(item.index)
-                                        this.placeUpd[getIndex].seances.find((i,k) => {
-                                            if (i.index == item.index) {
-                                                this.placeUpd[getIndex].seances.splice(k, 1)
+                                        let newSeances = []
+                                        this.placeUpd[getIndex].seances.map((i,k) => {
+                                            if (i.index !== item.index) {
+                                                newSeances.push(JSON.parse(JSON.stringify(i)))
                                                 return true
                                             }
                                         })
+                                        place.seances.push(JSON.parse(JSON.stringify(...newSeances)))
+                                        this.placeUpd[getIndex].seances = JSON.parse(JSON.stringify(newSeances))
+                                        this.event.places_full[place.index].seances[item.index].on_delete = true
+                                    } else {
+                                        let newSeances = []
+                                        // Если поле id нулевое, то просто удалить
+                                        this.placeUpd[getIndex].seances.map((i,k) => {
+                                            if (i.index !== item.index) {
+                                                newSeances.push(JSON.parse(JSON.stringify(i)))
+                                                return true
+                                            }
+                                        })
+                                        place.seances = JSON.parse(JSON.stringify(newSeances))
+                                        this.placeUpd[getIndex].seances = JSON.parse(JSON.stringify(newSeances))
+                                        this.event.places_full[place.index].seances.splice(item.index, 1)
                                     }
                                 } else {
                                     // Если нет поля on_delete или его значение false
                                     // Перебираем массив сеансов которые уже на обновлении
-                                    this.placeUpd[getIndex].seances.forEach((i, k) => {
+                                    this.placeUpd[getIndex].seances.map((i, k) => {
                                         // Если не совпадает индекс то добавляем к сеансам
                                         if (i.index !== item.index) {
-                                            place.seances.push(i)
+                                            place.seances.push(JSON.parse(JSON.stringify(i)))
                                         }
                                     })
                                 }
 
                             })
                         }
-                        // this.placeUpd[getIndex].seance = place.seance
-                        this.$helpers.deepMerge(this.placeUpd[getIndex], place)
+                        this.$helpers.deepMerge(this.placeUpd[getIndex], JSON.parse(JSON.stringify(place)))
                     } else {
                         // Если нету в массиве, то добавляем
-                        this.placeUpd.push(place)
+                        let seanceOnUpd = Object.keys(place).find(key => {
+                            if ((key == 'seances')) {
+                                return true
+                            } else {
+                                return false
+                            }
+                        })
+                        if(seanceOnUpd) {
+                            place.seances.forEach((item, key) => {
+                                // Проверяем есть ли поля on_delete в объекте seance и стоит ли у него значение true
+                                let seanceOnDel = Object.keys(item).find(key => {
+                                    if ((key == 'on_delete') && (item[key] == true)) {
+                                        return true
+                                    } else {
+                                        return false
+                                    }
+                                })
+                                if (seanceOnDel) { 
+                                    this.event.places_full[place.index].seances[item.index].on_delete = true
+                                }
+                            })
+                        }
+                        this.$helpers.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(place)))
+                        this.placeUpd.push(JSON.parse(JSON.stringify(place)))
                     }
-            }
-            console.log(this.placeUpd)
-        },
-        setSeance(seance) {
-            let seanceOnDel = Object.keys(seance).find(key => {
-                if ((key == 'on_delete') && (place[key] == true)) {
-                    return true
-                } else {
-                    return false
-                }
-            });
-            if (seanceOnDel) {
-                // Если есть поле on_delete
-                if(seance.id) {
-                    // Если есть поле id и seance существует в БД
-                } else {
-                    // Если нет поля id и seance не существует в БД
-                }
-            } else {
-                // Если нет поля on_delete
-                if(seance.id) {
-                    // Если есть поле id и seance существует в БД
-                } else {
-                    // Если нет поля id и seance не существует в БД
-                }
             }
         },
         addNewPlace() {
