@@ -11,7 +11,7 @@ class HistoryFile extends Model
     protected $guarded = false;
 
     public function historyFileType(){
-        return $this->hasOne(HistoryFileType::class);
+        return $this->belongsToMany(FileType::class,"history_file_type","history_file_id","type_id");
     }
     
 }

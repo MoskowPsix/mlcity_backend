@@ -252,7 +252,7 @@ class addInstitutes extends Command
                     // Сохраняем место
                     if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
-                            info(Location::where('cult_id', $sight->locale->_id)->first()->id);
+                            
                             $sight_cr = Sight::create([
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
