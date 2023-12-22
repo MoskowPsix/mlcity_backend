@@ -43,7 +43,30 @@
                 <p v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
             </label>
         </div>
-
+        <div class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
+            <div class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                <label>
+                    <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Цены</h1>
+                    <hr class="dark:border-gray-700/70">
+                </label>
+                <div v-for="(price, index) in event.price" class="flex flex-row mt-2">
+                    <PriceSegment :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                </div>
+            </div>
+            <div class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                <label>
+                    <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
+                    <hr class="dark:border-gray-700/70">
+                    <div class="">
+                        <h2 v-for="type in event.types">
+                            {{type.name}}
+                            <hr class="dark:border-gray-700/70">
+                        </h2>
+                    </div>
+                    
+                </label>
+            </div>
+        </div>
         <div class="grid 2xl:grid-cols-4 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
             <div class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                 <div class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
@@ -55,10 +78,12 @@
             </div>
             <div class="m-2 grid 2xl:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2">
                 <div>
-                    <AuthorMiniCard v-if="event.author" :author="event.author" class="h-96"/>
-                </div>
-                <div v-if="!state" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
-                    <ChangeStatus class="" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                    <div>
+                        <AuthorMiniCard v-if="event.author" :author="event.author" class="h-96"/>
+                    </div>
+                    <div v-if="!state" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
+                        <ChangeStatus class="" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                    </div>
                 </div>
             </div>
         </div>
@@ -88,6 +113,7 @@ import CarouselGallery from '../../../components/carousel_gallery/CarouselGaller
 import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.vue'
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
+import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 
 export default {
     name: 'EventShow',
@@ -105,6 +131,7 @@ export default {
             state: true,
             filesDel: [],
             filesUpd: [],
+            pricesDel: [],
             placeUpd: [],
         }
     },
@@ -112,7 +139,8 @@ export default {
         CarouselGallery,
         AuthorMiniCard,
         PlacesListCard,
-        ChangeStatus
+        ChangeStatus,
+        PriceSegment
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds']),
@@ -232,8 +260,56 @@ export default {
             ).subscribe()
             // console.log(historyEvent)
         },
+        // checkObjInArray(obj, array){
+        //     for (let i = 0; i<array.length; i++){
+        //         if (array[i].id === obj.id){
+        //             return true
+        //         }
+        //     }
+        //     return false
+        // },
         statusChange(status) {
+            // Меняем статус
             console.log(status)
+        },
+        deleteFromCurrentPrices(price) {
+            // console.log(this.event.prices.find(item => item.id === price.id))
+            if (this.event.price.find(item => item.id === price.id)) {
+                this.event.price = this.event.price.filter(item => item.id !== price.id)
+                if (price.id){
+                    this.pricesDel.push({"id":price.id, "on_delete":true})
+                }
+            }
+        },
+        sightUpdPrice(price){
+            if(this.pricesUpd.find(item => item.id === price.id)){
+                let data
+                let index
+
+                for (let i=0; i<this.pricesUpd.length; i++){
+                    if (this.pricesUpd[i].id === price.id){
+                        data = this.pricesUpd[i]
+                        index = i
+                    }
+                }
+
+                console.log(data)
+
+                if (price.descriptions){
+                    this.pricesUpd[index].descriptions = price.descriptions
+                }
+                else if(price.cost_rub){
+                    this.pricesUpd[index].cost_rub = price.cost_rub
+                }
+            }
+            else{
+                this.pricesUpd.push(price)
+            }
+            
+        },
+        addToCurrentPrices(){
+            this.sight.prices.push({"cost_rub":null, "descriptions":""})
+
         },
         getEvent() {
             retry(3),
@@ -243,6 +319,7 @@ export default {
                 map(response => {
                     this.event = response.data
                     this.closeLoaderFullPage()
+                    console.log(this.event)
                 }),
                 catchError(err => {
                     console.log(err)

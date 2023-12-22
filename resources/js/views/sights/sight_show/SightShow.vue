@@ -117,8 +117,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div v-for="(price, index) in sight.prices" class="flex items-center border rounded-lg p-2 mb-4" >
-                            <!--  -->
-                            <PriceSegment :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                            <PriceSegment :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                         </div>
                         
                     </div>
@@ -148,23 +147,17 @@
                 <div v-if="!state" class="">
                     <h6 class="mb-4 " >{{ sight.materials }}</h6>
                 </div>
-
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <input class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.materials"
                      id="materials"
                      @input="event => text = event.target.value"
                      type="text">   
                 </div>
             </div>
-
-            
             <ChangeStatus :status="status" @statusChanged="statusChange" v-if="!state"/>
-            
-            
         </div>
     </div>
-
         <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
         <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
         <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
