@@ -66,11 +66,7 @@ class HistoryContentController extends Controller
         
         info($request->history_content);
         $data = $request->toArray();
-        // info($request);
-        // info($request['history_data']);
-        // $request = $request["history_data"]->toArray();
         
-        // info($request);
         $data['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
