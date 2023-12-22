@@ -326,7 +326,7 @@ export default {
                         }
                     })
                     
-                    coin ? null : this.filesDel.push({id:file.id})
+                    coin ? null : this.filesDel.push({file_id:file.id})
                     this.sight.files.splice(index, 1)
                     return true
                 }

@@ -26,6 +26,7 @@ use App\Models\Status;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 
 class HistoryContentController extends Controller
@@ -100,6 +101,7 @@ class HistoryContentController extends Controller
                     if (isset($data["history_content"]["history_places"][$i]["history_seances"])){
                         $historySeances = $data["history_content"]["history_places"][$i]["history_seances"]; 
                         foreach($historySeances as $historySeance){
+                            $historySeance = $this->unsetRawSeanseData($historySeance);
                             $historySeance = $historyPlace->historySeances()->create($historySeance);
                         }
                         
@@ -136,7 +138,17 @@ class HistoryContentController extends Controller
             }
 
             if(isset($data['history_content']["history_files"])){
-                $this->saveLocalFilesImg($historyContent, $data["history_files"]);
+                $files = $data['history_files'];
+                foreach($files as $file){
+                    if(isset($file["on_delete"]) && $file["on_delete"] == true){
+                        $historyContent->historyFiles()->create($file);
+                    }
+                    else{
+                        // info($file);
+                        $this->saveLocalFilesImg($historyContent, $file);
+                    }
+                }
+                
             }
 
         }
@@ -187,11 +199,20 @@ class HistoryContentController extends Controller
             }
             
             if(isset($data['history_content']["history_files"])){
-                
-                $files = $request->history_content["history_files"];
-                $this->saveLocalFilesImg($historyContent, $files);
-                    
+                $files = $data['history_content']["history_files"];
+                info($files);
+                for($i = 0; $i<count($files); $i++){
+                    $file = $files[$i];
+                    if($file instanceof UploadedFile){
+                        $this->saveLocalFilesImg($historyContent, $file);
+                    }
+                    else{
+                        info($file);
+                        $historyContent->historyFiles()->create($file);
+                    }
                 }
+                
+            }
                 
             
             
@@ -372,6 +393,7 @@ class HistoryContentController extends Controller
                 foreach ($data as $content){
                     if(isset($content['on_delete']) && $content['on_delete']==true){
                         info($content);
+                        info($historyParent);
                         $historyParent->files()->detach($content["id"]);
                     }
                     else{
@@ -408,20 +430,20 @@ class HistoryContentController extends Controller
     }
 
     
-    private function saveLocalFilesImg($historyContent, $files){
+    private function saveLocalFilesImg($historyContent, $file){
         $filename = uniqid('img_');
-        foreach($files as $file){
-            $path = $file->store('history_content/'.$historyContent->id, 'public');
+        
+        $path = $file->store('history_content/'.$historyContent->id, 'public');
 
-            $type = FileType::where('name', 'image')->get();
+        $type = FileType::where('name', 'image')->get();
 
-            $historyFile = $historyContent->historyFiles()->create([
-                'name'  => $filename,
-                'link'  => '/storage/'.$path,
-                'local' => 1
-            ]);
-            $historyType = $historyFile->historyFileType()->attach($type[0]->id);
-        }
+        $historyFile = $historyContent->historyFiles()->create([
+            'name'  => $filename,
+            'link'  => '/storage/'.$path,
+            'local' => 1
+        ]);
+        $historyType = $historyFile->historyFileType()->attach($type[0]->id);
+        
         
 
     }
@@ -478,6 +500,17 @@ class HistoryContentController extends Controller
         unset($data["seance_id"]);
         
         return $data;
+    }
+
+    public function unsetRawSeanseData($seanceData){
+        $data = $seanceData;
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['history_place_id']);
+        unset($data['id']);
+        unset($data['place_id']);
+        
+        return $data; 
     }
 
     public function unsetRawHistoryPriceData($historyRawData){
