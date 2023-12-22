@@ -336,21 +336,24 @@ export default {
                             if (seanceOnDel) {
                                 // Если есть поле on_delete со значением true
                                 if ((item.id !== 0) && item.id){
+                                    console.log('Если есть поле id')
                                     // Если есть поле id не нулевое, то сеанс есть в бд и его нужно зафиксировать
-                                    let newSeances = []
-                                    this.placeUpd[getIndex].seances.map((i,k) => {
-                                        if (i.index !== item.index) {
-                                            newSeances.push(JSON.parse(JSON.stringify(i)))
+                                    let oldSeance = this.placeUpd[getIndex].seances.findIndex((i,k) => {
+                                        if (i.index == item.index) {
+                                            console.log('='+JSON.parse(JSON.stringify(i)))
+                                            this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
                                             return true
                                         }
-                                    })
-                                    place.seances.push(JSON.parse(JSON.stringify(...newSeances)))
-                                    this.placeUpd[getIndex].seances = JSON.parse(JSON.stringify(newSeances))
+                                    })     
+                                    if (oldSeance != 0 && oldSeance) {
+                                        this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(item)))
+                                    }                         
                                     this.event.places_full[place.index].seances[item.index].on_delete = true
                                 } else {
+                                    console.log('Если нет поле id')
                                     let newSeances = []
                                     // Если поле id нулевое, то просто удалить
-                                    this.placeUpd[getIndex].seances.forEach((i,k) => {
+                                    this.placeUpd[getIndex].seances.map((i,k) => {
                                         if (i.index !== item.index) {
                                             newSeances.push(JSON.parse(JSON.stringify(i)))
                                             return true
@@ -389,7 +392,9 @@ export default {
 
                         })
                     }
-                    this.$helpers.deepMerge(this.placeUpd[getIndex], JSON.parse(JSON.stringify(place)))
+                    const mergePlaceUpd = JSON.parse(JSON.stringify(place))
+                    delete mergePlaceUpd.seances
+                    this.$helpers.deepMerge(this.placeUpd[getIndex], mergePlaceUpd)
                 } else {
                     // Если нету в массиве, то добавляем
                     let seanceOnUpd = Object.keys(place).find(key => {
