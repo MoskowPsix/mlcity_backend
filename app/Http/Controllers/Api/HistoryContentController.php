@@ -108,17 +108,19 @@ class HistoryContentController extends Controller
                 
             }
             #Проверка есть ли цена на изменение или удаление
-            $historyPrices = $data["history_content"]["history_prices"];
-            if(isset($historyPrices)){
+            
+            if(isset($data["history_content"]["history_prices"])){
+                $historyPrices = $data["history_content"]["history_prices"];
                 for($i = 0; $i<count($historyPrices); $i++){
                     $historyContent->historyPrices()->create($historyPrices[$i]);
                 }
             }
 
             #Проверка если ли типы на удаление или на добавление
-            $historyTypes = $data["history_content"]["history_types"];
-            info($historyTypes);
-            if(isset($historyTypes)){
+            
+            
+            if(isset($data["history_content"]["history_types"])){
+                $historyTypes = $data["history_content"]["history_types"];
                 
                 for($i = 0; $i<count($historyTypes); $i++){
                     
@@ -255,16 +257,23 @@ class HistoryContentController extends Controller
                                     
                                     $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
                                     $historyData = $this->notNullData($historyRawData);
-                                    $historySeanceParent = $historySeance->seance;
+                                    
                                     if($historySeance["on_delete"] == true){
+                                        $historySeanceParent = $historySeance->seance;
                                         $historySeanceParent->delete();
-                                    } else {
+                                    } 
+                                    else if(isset($historySeance["seanse_id"])){
                                         
                                         if(!empty($historyData)){
-                                            
+                                            $historySeanceParent = $historySeance->seance;
+                                            info($historyData);
                                             $historySeanceParent->update($historyData);
                                         }
                                         
+                                    }
+                                    else{
+                                        info("create seanse to alredy place");
+                                        $historyPlaceParent->seances()->create($historyData);
                                     }
                                 }
                             }
@@ -281,7 +290,7 @@ class HistoryContentController extends Controller
                                 $historyData = $this->notNullData($historyRawData);
 
                                 
-                                if(empty($historyData)){
+                                if(!empty($historyData)){
                                     
                                     $place->seances()->create($historyData);
                                 }
