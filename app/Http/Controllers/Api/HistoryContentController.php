@@ -109,7 +109,7 @@ class HistoryContentController extends Controller
             }
             #Проверка есть ли цена на изменение или удаление
             $historyPrices = $data["history_content"]["history_prices"];
-            if(!empty($historyPrices)){
+            if(isset($historyPrices)){
                 for($i = 0; $i<count($historyPrices); $i++){
                     $historyContent->historyPrices()->create($historyPrices[$i]);
                 }
@@ -118,7 +118,7 @@ class HistoryContentController extends Controller
             #Проверка если ли типы на удаление или на добавление
             $historyTypes = $data["history_content"]["history_types"];
             info($historyTypes);
-            if(!empty($historyTypes)){
+            if(isset($historyTypes)){
                 
                 for($i = 0; $i<count($historyTypes); $i++){
                     
