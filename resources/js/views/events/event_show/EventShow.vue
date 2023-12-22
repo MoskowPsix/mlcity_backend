@@ -112,7 +112,10 @@ export default {
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
-            let historyEvent = []
+            let historyEvent = {
+                history_files: [],
+                history_places: [],
+            }
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
                 switch(item[1].id) {
@@ -154,6 +157,7 @@ export default {
                     break;
                 }
             })
+            historyEvent.history_files = []
             // Перебираем и передаём фото на добавлений в форм дату
             this.filesUpd.forEach((item) => {
                 historyEvent.history_files.push(item)
@@ -164,31 +168,32 @@ export default {
                 historyEvent.history_files.push(item)
             })
             if (this.placeUpd) {
-                this.placeUpd.forEach(item, key => {
-                    Object.keys(item).find(k => {
-                        if ((k == 'index')) {
-                            delete this.placeUpd[key].index
-                            return true
-                        }
-                    })
-                    Object.keys(item).find(k => {
-                        if ((k == 'seance')) {
-                            item.seances.forEach((i,k) => {
-                                this.placeUpd[key].history_seances = this.placeUpd[key].seances
-                                delete this.placeUpd[key].seances
-                                Object.keys(item).find(ind => {
-                                    if ((ind == 'index')) {
-                                        delete this.placeUpd[key].history_seances[k].index
-                                        return true
-                                    }
+                this.placeUpd.forEach((item, key) => {
+                        Object.keys(item).find(k => {
+                            if ((k == 'index')) {
+                                delete this.placeUpd[key].index
+                                return true
+                            }
+                        })
+                        Object.keys(item).find(k => {
+                            if ((k == 'seances')) {
+                                this.placeUpd[key].history_seances = []
+                                item.seances.forEach((i,k) => {
+                                    Object.keys(item).find(ind => {
+                                        if ((ind == 'index')) {
+                                            delete this.placeUpd[key].history_seances[k].index
+                                            return true
+                                        }
+                                    })
+                                    delete i.index
+                                    this.placeUpd[key].history_seances.push(JSON.parse(JSON.stringify(i)))
                                 })
-                            })
-                            return true
-                        }
+                                delete this.placeUpd[key].seances
+                                return true
+                            }
+                        })
                     })
-                })
-
-                historyEvent.history_places.push(this.placeUpd)
+                historyEvent.history_places = {...this.placeUpd}
             }
             this.state = false
             console.log(historyEvent)
@@ -261,7 +266,10 @@ export default {
                     this.event.places_full.splice(place.index)
                 }
             } else { // Если поля on_delete нету
-                this.$helpers.deepMerge(this.event.places_full[index],place)
+                // this.$helpers.deepMerge(this.event.places_full[index],place)
+                let mergePlace = {...place}
+                delete mergePlace.seances
+                this.$helpers.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(mergePlace)))
                 // Проверяем новое ли это обновление для place или place уже обновлялся и есть в массииве
                 let getIndex = this.placeUpd.findIndex((item, key) => {
                     if(item.index == index) {
@@ -317,14 +325,29 @@ export default {
                                 }
                             } else {
                                 // Если нет поля on_delete или его значение false
-                                // Перебираем массив сеансов которые уже на обновлении
-                                this.placeUpd[getIndex].seances.forEach((i, k) => {
-                                    // Если не совпадает индекс то добавляем к сеансам
-                                    if (i.index !== item.index) {
-                                        place.seances.push(JSON.parse(JSON.stringify(i)))
+                                // Проверяем есть ли сеансы у плэйса на обновлении
+                                let seanceOnUpd = Object.keys(this.placeUpd[getIndex]).find(key => {
+                                    if (key == 'seances') {
+                                        return true
+                                    } else {
+                                        return false
                                     }
                                 })
-                                console.log(place.seances)
+                                console.log(seanceOnUpd)
+                                if (seanceOnUpd) {
+                                    // Если сеансы уже есть перебираем массив сеансов которые уже на обновлении
+                                    this.placeUpd[getIndex].seances.forEach((i, k) => {
+                                        // Если не совпадает индекс то добавляем к сеансам
+                                        if (i.index !== item.index) {
+                                            place.seances.push(JSON.parse(JSON.stringify(i)))
+                                        }
+                                    })
+                                } else {
+                                    // Если сеансов ещё нет
+                                    this.placeUpd[getIndex].seances = []
+                                    this.placeUpd[getIndex].seances.push(...place.seances)
+                                }
+                                this.event.places_full[index].seances[item.index] = item
                             }
 
                         })
@@ -350,11 +373,11 @@ export default {
                                 }
                             })
                             if (seanceOnDel) { 
+                                console.log(seanceOnDel)
                                 this.event.places_full[place.index].seances[item.index].on_delete = true
                             } 
                         })
                     }
-                    this.$helpers.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(place)))
                     this.placeUpd.push(JSON.parse(JSON.stringify(place)))
                 }
             console.log(this.placeUpd)
@@ -371,7 +394,8 @@ export default {
                 longitude: this.event.places_full[0].longitude,
                 location_id: 1,
                 seances: [],
-                location: {}
+                location: {},
+                index: this.event.places_full.length
             })
         }
     },
