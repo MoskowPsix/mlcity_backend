@@ -68,9 +68,7 @@ class CreateHistoryContent
                 
                 unset($data["pivot"]);
 
-                $historyFile->historyFileType()->create([
-                    "type_id" => $fileTypeId
-                ]);
+                $historyFile->historyFileType()->attach($fileTypeId);
             }
         }
 

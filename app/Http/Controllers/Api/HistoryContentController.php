@@ -26,6 +26,7 @@ use App\Models\Status;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class HistoryContentController extends Controller
 {
@@ -65,11 +66,7 @@ class HistoryContentController extends Controller
         
         info($request->history_content);
         $data = $request->toArray();
-        // info($request);
-        // info($request['history_data']);
-        // $request = $request["history_data"]->toArray();
         
-        // info($request);
         $data['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
         
@@ -190,7 +187,6 @@ class HistoryContentController extends Controller
             if(isset($data['history_content']["history_files"])){
                 
                 $files = $request->history_content["history_files"];
-                info($files);
                 $this->saveLocalFilesImg($historyContent, $files);
                     
                 }
@@ -362,14 +358,25 @@ class HistoryContentController extends Controller
 
             if(isset($historyFiles)){
                 $data = $historyFiles->toArray();
+                
 
-                if(isset($data['on_delete']) && $data['on_delete']==true){
-                    info($data);
-                    $historyParent->files()->detach($data["id"]);
+                foreach ($data as $content){
+                    if(isset($content['on_delete']) && $content['on_delete']==true){
+                        info($content);
+                        $historyParent->files()->detach($content["id"]);
+                    }
+                    else{
+                        $path = $content['link'];
+                        $filename = basename($path);
+                        $historyParent->files()->create([
+                            "link" => $path,
+                            "local" => 1,
+                            "name" => $filename
+                        ])->file_types()->attach(1);
+                    }
                 }
-                else{
-                    $this->saveLocalSightFilesImg($historyParent, $data);
-                }
+
+                
                 
             }
             $historyContent->historyContentStatuses()->create([
@@ -393,7 +400,6 @@ class HistoryContentController extends Controller
 
     
     private function saveLocalFilesImg($historyContent, $files){
-        info("FILE SAVES");
         $filename = uniqid('img_');
         foreach($files as $file){
             $path = $file->store('history_content/'.$historyContent->id, 'public');
@@ -410,22 +416,22 @@ class HistoryContentController extends Controller
         
 
     }
-    private function saveLocalSightFilesImg($sight, $files){
+    private function saveLocalSightFilesImg($sight, $file){
 
-        foreach ($files as $file) {
-            $filename = uniqid('img_');
+        
+        $filename = uniqid('img_');
 
-            $path = $file->store('sight/'.$sight->id, 'public');
+        $path = $file->store('sight/'.$sight->id, 'public');
 
-            $type = FileType::where('name', 'image')->get();
+        $type = FileType::where('name', 'image')->get();
 
-            $sight->files()->create([
-                'name'  => $filename,
-                'link'  => '/storage/'.$path,
-                'local' => 1
-            ])->file_types()->attach($type[0]->id);
+        $sight->files()->create([
+            'name'  => $filename,
+            'link'  => '/storage/'.$path,
+            'local' => 1
+        ])->file_types()->attach($type[0]->id);
 
-        }
+        
 
     }
     private function unsetRawHistoryContentData($historyRawData){
