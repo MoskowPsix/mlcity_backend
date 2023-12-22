@@ -53,15 +53,20 @@
                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
                 </div>
             </div>
-            <div>
+            <div class="m-2 grid 2xl:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2">
                 <div>
                     <AuthorMiniCard v-if="event.author" :author="event.author" class="h-96"/>
                 </div>
+                <div v-if="!state" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
+                    <ChangeStatus class="" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                </div>
             </div>
         </div>
-        <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
-        <button @click="state= !state" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
-        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
+        <div class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
+            <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
+            <button @click="state= !state" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
+            <button @click="state= !state" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
+        </div>
         <!-- <div>Удалённые {{filesDel}}</div>
         <div>Обновлённые {{filesUpd}}</div> -->
     </form>
@@ -73,6 +78,8 @@ import { useToastStore } from '../../../stores/ToastStore'
 import { MessageEvents } from '../../../enums/events_messages'
 import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
+import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
+
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import router from '../../../routes'
@@ -80,6 +87,7 @@ import router from '../../../routes'
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
 import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.vue'
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
+import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 
 export default {
     name: 'EventShow',
@@ -103,12 +111,14 @@ export default {
     components: {
         CarouselGallery,
         AuthorMiniCard,
-        PlacesListCard
+        PlacesListCard,
+        ChangeStatus
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
+        ...mapActions(useHistoryContentStore, ['saveHistory']),
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
@@ -175,6 +185,13 @@ export default {
                                 return true
                             }
                         })
+                        if (item.id == 0) {
+                            delete item.id
+                            delete this.placeUpd[key].id
+                        }else{
+                            this.placeUpd[key].place_id = JSON.parse(JSON.stringify(item.id))
+                            delete this.placeUpd[key].id
+                        }
                         Object.keys(item).find(k => {
                             if ((k == 'seances')) {
                                 this.placeUpd[key].history_seances = []
@@ -185,6 +202,12 @@ export default {
                                             return true
                                         }
                                     })
+                                    if (i.id == 0) {
+                                        delete i.id
+                                    } else {
+                                        i.seance_id = i.id
+                                        delete i.id
+                                    }
                                     delete i.index
                                     this.placeUpd[key].history_seances.push(JSON.parse(JSON.stringify(i)))
                                 })
@@ -196,7 +219,21 @@ export default {
                 historyEvent.history_places = {...this.placeUpd}
             }
             this.state = false
-            console.log(historyEvent)
+            const params = {
+                id: this.event.id,
+                type: "Event",
+                history_content: {...historyEvent}
+            }
+            console.log(params)
+            this.saveHistory(params).pipe(
+                map(response => {
+                    console.log(response)
+                }),
+            ).subscribe()
+            // console.log(historyEvent)
+        },
+        statusChange(status) {
+            console.log(status)
         },
         getEvent() {
             retry(3),
