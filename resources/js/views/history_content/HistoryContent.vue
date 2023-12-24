@@ -1,6 +1,6 @@
 <template lang="">
     <HistoryContentFilter class="m-1"/>
-    <HistoryContentTable :contents="contents" class="m-1"/>
+    <HistoryContentTable @onClick="toHistoryContent" :contents="contents" class="m-1"/>
     <div class="flex justify-center m-1" v-if="nextPage || backPage">
             <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
     </div>
@@ -16,6 +16,8 @@ import { of, EMPTY, Subject } from 'rxjs'
 import { useToastStore } from '../../stores/ToastStore'
 import { MessageContents } from '../../enums/content_messages'
 
+
+import router from '../../routes'
 import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
 import HistoryContentTable from '../../components/tables/history_content_table/HistoryContentTable.vue'
 import HistoryContentFilter from '../../components/filters/history_content_filter/HistoryContentFilter.vue'
@@ -94,6 +96,10 @@ export default {
                 takeUntil(this.destroy$)
             ).subscribe()
         },
+        toHistoryContent(content) {
+            console.log(content)
+            router.push({ path: `/edit/${content.id}`})
+        }
     },
     mounted() {
         this.getAllContents()

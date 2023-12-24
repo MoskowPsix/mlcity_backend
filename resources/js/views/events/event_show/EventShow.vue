@@ -52,6 +52,10 @@
                 <div v-for="(price, index) in event.price" class="flex flex-row mt-2">
                     <PriceSegment :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                 </div>
+                <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+                v-on:click="addToCurrentPrices()">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
             </div>
             <div class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                 <label>
@@ -82,14 +86,14 @@
                         <AuthorMiniCard v-if="event.author" :author="event.author" class="h-96"/>
                     </div>
                     <div v-if="!state" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
-                        <ChangeStatus class="" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                        <ChangeStatus v-if="event.statuses" :status="event.statuses[0].name" @statusChanged="statusChange"/>
                     </div>
                 </div>
             </div>
         </div>
         <div class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
             <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
-            <button @click="state= !state" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
+            <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
             <button @click="state= !state" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
         </div>
         <!-- <div>Удалённые {{filesDel}}</div>
@@ -128,10 +132,11 @@ export default {
             event: [],
             eventUpd: new FormData(),
             newPlaces: [],
-            state: true,
+            state: false,
             filesDel: [],
             filesUpd: [],
             pricesDel: [],
+            pricesUpd: [],
             placeUpd: [],
         }
     },
@@ -147,6 +152,10 @@ export default {
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useHistoryContentStore, ['saveHistory']),
+        canceleUpd() {
+            this.getEvent()
+            this.state = false
+        },
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
             let mass = Object.entries(event.target.form)
@@ -195,6 +204,14 @@ export default {
                     break;
                 }
             })
+            historyEvent.history_prices = []
+                this.pricesDel.forEach((item) => {
+                    item.on_delete = true
+                    historyEvent.history_prices.push(item)
+                })
+                this.pricesUpd.forEach((item) => {
+                    historyEvent.history_prices.push(item)
+                })
             historyEvent.history_files = []
             // Перебираем и передаём фото на добавлений в форм дату
             this.filesUpd.forEach((item) => {
@@ -260,14 +277,6 @@ export default {
             ).subscribe()
             // console.log(historyEvent)
         },
-        // checkObjInArray(obj, array){
-        //     for (let i = 0; i<array.length; i++){
-        //         if (array[i].id === obj.id){
-        //             return true
-        //         }
-        //     }
-        //     return false
-        // },
         statusChange(status) {
             // Меняем статус
             console.log(status)
@@ -280,6 +289,30 @@ export default {
                     this.pricesDel.push({"id":price.id, "on_delete":true})
                 }
             }
+        },
+         addToCurrentTypes(type){
+            if (this.checkObjInArray(type, this.sight.types)){
+                if (this.checkObjInArray(type, this.typesDel)){
+                    this.typesDel = this.typesDel.filter(item => item.id !== type.id)
+                }
+                else{
+                    this.typesDel.push({"id": type.id, "on_delete":true})
+                }
+                // this.sight.types = this.sight.types.filter(item => item.id !== type.id)
+                
+            }
+            else{
+                if(this.checkObjInArray(type, this.typesUpd)){
+                    this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
+                }
+                else{
+                    this.typesUpd.push({"id": type.id})
+                }
+            }
+            // console.log(this.sight.types)
+            
+            console.log("на удаление", this.typesDel)
+            console.log("на добавление", this.typesUpd)
         },
         sightUpdPrice(price){
             if(this.pricesUpd.find(item => item.id === price.id)){
@@ -308,7 +341,7 @@ export default {
             
         },
         addToCurrentPrices(){
-            this.sight.prices.push({"cost_rub":null, "descriptions":""})
+            this.event.price.push({"cost_rub":null, "descriptions":""})
 
         },
         getEvent() {

@@ -57,9 +57,14 @@ const router = createRouter({
       component: () => import('../views/logs/Logs.vue')
     },
     {
-      path: '/edit',
-      name: 'edit',
+      path: '/edits',
+      name: 'edits',
       component: () => import('../views/history_content/HistoryContent.vue')
+    },
+    {
+      path: '/edit/:id',
+      name: 'edit',
+      component: () => import('../views/history_content/show_history_content/HistoryContentShow.vue')
     }
   ]
 
