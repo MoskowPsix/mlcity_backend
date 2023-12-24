@@ -385,20 +385,21 @@ class HistoryContentController extends Controller
             }
             
             $historyFiles = $historyContent->historyFiles;
-
+            
             if(isset($historyFiles)){
                 $data = $historyFiles->toArray();
                 
 
                 foreach ($data as $content){
+                    
                     if(isset($content['on_delete']) && $content['on_delete']==true){
-                        info($content);
-                        info($historyParent);
-                        $historyParent->files()->detach($content["id"]);
+                        
+                        $historyParent->files()->where('id',$content['file_id'])->delete();
                     }
                     else{
                         $path = $content['link'];
                         $filename = basename($path);
+                        
                         $historyParent->files()->create([
                             "link" => $path,
                             "local" => 1,
