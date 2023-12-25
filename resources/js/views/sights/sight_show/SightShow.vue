@@ -88,8 +88,8 @@
             <div class="mb-4">
                 <div class="">
                     <p>Типы события:</p>
-                    <div v-for="stype in allTypes" class="space-y-2 border py-4" v-if="allTypes ">
-                        <TypeList v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
+                    <div  class="space-y-2 border py-4 tree" v-if="allTypes ">
+                        <TypeList v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                     
                 </div>
@@ -458,8 +458,10 @@ export default {
                 })
             }
 
-            if (this.pricesDel.length > 0 || this.pricesUpd > 0){
+            if (this.pricesDel.length > 0 || this.pricesUpd.length > 0){
                 historyData.history_content.history_prices = []
+                console.log(this.pricesUpd)
+
 
                 this.pricesUpd.forEach(item => {
                     historyData.history_content.history_prices.push(item)
@@ -492,6 +494,5 @@ export default {
     },
 }
 </script>
-<style lang="">
-    
+<style>
 </style>

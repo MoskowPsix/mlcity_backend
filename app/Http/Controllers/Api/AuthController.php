@@ -112,11 +112,11 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         $input = $request->all();
-        $input['password']  =  bcrypt($input['password']);
+        $pass  =  bcrypt($input['password']);
         if ($input['avatar']) {
             $user  =  User::create([
                 'name'=> $input['name'],
-                'password'=> bcrypt($input['password']),
+                'password'=> $pass,
                 'avatar'=> $input['avatar'],
                 'email' => $input['email'],
                 'number' => $input['number'],
@@ -124,7 +124,7 @@ class AuthController extends Controller
         } else {
             $user  =  User::create([
                 'name'=> $input['name'],
-                'password'=> bcrypt($input['password']),
+                'password'=> $pass,
                 'avatar'=> 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($input['email'] . $input['name']),
                 'email' => $input['email'],
                 'number' => $input['number'],
@@ -154,32 +154,7 @@ class AuthController extends Controller
 
     }
 
-    public function verificationCodePhone($code)
-    {
-        if (999 <= $code && $code <= 10000) {
-            $user = User::where('id', auth('api')->user()->id)->first();
-            $pcode = $user->pcode()->orderBy('created_at', 'desc')->first();
-            if (!empty($email) && !empty($pcode)) {
-                if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
-                    if ($pcode->code === $code) {
-                        $pcode->update(['last' => false]);
-                        $user->number_verified_at = date("Y-m-d H:i:s", strtotime('now'));
-                        $user->save();
-                        return response()->json(['status'=> 'success', 'phone_verification' => $user->phone], 200);
-                    } else {
-                        return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-                    }
-                } else {
-                    $pcode->update(['last' => false]);
-                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
-                }
-            } else {
-                return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
-            }
-        } else {
-            return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-        }
-    }
+    
 
     public function verificationCodeEmail(VerficationCodeRequest $request)
     {
@@ -207,16 +182,7 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
-    public function verificationEmail() 
-    {
-        $user = auth('api')->user();
-        $result = $this->createCodeEmail($user);
-        if ($result === 'success') {
-            return response()->json(['status'=> 'success'],200);
-        } else {
-            return response()->json(['status'=> 'error','message' => $result],200);
-        }
-    }
+    
     public function resetEmail(RequestResetEmailVerificationCode $request) 
     {
         //$user = auth('api')->user();
@@ -278,50 +244,7 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
         }
     }
-    private function createCodePhone($user)
-    {
-        $user =  User::where('id', $user->id)->first();
-        if(!empty($user->pcode()->first())) {
-            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120)  < time()) {
-                $code = rand(1000, 9999);
-                $user->pcode()->create([
-                    'code'=> $code,
-                ]);
-                return 'success';
-            } else {
-                return strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
-            }
-        } else {
-            $code = rand(1000, 9999);
-            $user->pcode()->create([
-                'code'=> $code,
-            ]);
-            return 'success';
-        }
-    }
-    private function createCodeEmail($user)
-    {
-        $user = User::where('id', $user->id)->first();
-        if (!empty($user->ecode()->first())) {
-            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120) <= time()) {
-                $code = rand(1000, 9999);
-                $user->ecode()->create([
-                    'code'=> $code,
-                ]);
-                Mail::to($user->email)->send(new OrderCode($code));
-                return 'success';
-            } else {
-                return 'approximate time: '.strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
-            }
-        } else {
-            $code = rand(1000, 9999);
-                $user->ecode()->create([
-                    'code'=> $code,
-                ]);
-                Mail::to($user->email)->send(new OrderCode($code));
-                return 'success';
-        }
-    }
+    
       /**
      * @OA\Post(
      ** path="/login",
@@ -595,4 +518,86 @@ class AuthController extends Controller
     public function getAccessToken($user){
         return $user->createToken('auth_token')->plainTextToken;
     }
+
+    private function createCodePhone($user)
+    {
+        $user =  User::where('id', $user->id)->first();
+        if(!empty($user->pcode()->first())) {
+            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120)  < time()) {
+                $code = rand(1000, 9999);
+                $user->pcode()->create([
+                    'code'=> $code,
+                ]);
+                return 'success';
+            } else {
+                return strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
+            }
+        } else {
+            $code = rand(1000, 9999);
+            $user->pcode()->create([
+                'code'=> $code,
+            ]);
+            return 'success';
+        }
+    }
+    private function createCodeEmail($user)
+    {
+        $user = User::where('id', $user->id)->first();
+        if (!empty($user->ecode()->first())) {
+            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120) <= time()) {
+                $code = rand(1000, 9999);
+                $user->ecode()->create([
+                    'code'=> $code,
+                ]);
+                Mail::to($user->email)->send(new OrderCode($code));
+                return 'success';
+            } else {
+                return 'approximate time: '.strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
+            }
+        } else {
+            $code = rand(1000, 9999);
+                $user->ecode()->create([
+                    'code'=> $code,
+                ]);
+                Mail::to($user->email)->send(new OrderCode($code));
+                return 'success';
+        }
+    }
+    public function verificationCodePhone($code)
+    {
+        if (999 <= $code && $code <= 10000) {
+            $user = User::where('id', auth('api')->user()->id)->first();
+            $pcode = $user->pcode()->orderBy('created_at', 'desc')->first();
+            if (!empty($email) && !empty($pcode)) {
+                if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
+                    if ($pcode->code === $code) {
+                        $pcode->update(['last' => false]);
+                        $user->number_verified_at = date("Y-m-d H:i:s", strtotime('now'));
+                        $user->save();
+                        return response()->json(['status'=> 'success', 'phone_verification' => $user->phone], 200);
+                    } else {
+                        return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
+                    }
+                } else {
+                    $pcode->update(['last' => false]);
+                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
+                }
+            } else {
+                return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
+            }
+        } else {
+            return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
+        }
+    }
+    public function verificationEmail() 
+    {
+        $user = auth('api')->user();
+        $result = $this->createCodeEmail($user);
+        if ($result === 'success') {
+            return response()->json(['status'=> 'success'],200);
+        } else {
+            return response()->json(['status'=> 'error','message' => $result],200);
+        }
+    }
 }
+
