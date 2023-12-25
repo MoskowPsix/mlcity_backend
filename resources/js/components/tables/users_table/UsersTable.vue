@@ -25,7 +25,7 @@
             </tr>
         </thead>
         <tbody>
-            <tr @click.prevent="emitUser(user)" class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600" v-for="user in users">
+            <tr @click.prevent="emitUser(user)" class="transition active:scale-95 bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 cursor-pointer" v-for="user in users">
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
                     {{user.id}}
                 </th>

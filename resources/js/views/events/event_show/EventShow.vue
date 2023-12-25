@@ -345,8 +345,6 @@ export default {
 
         },
         getEvent() {
-            retry(3),
-            delay(100),
             this.openLoaderFullPage()
             this.getEventForIds(this.$route.params.id).pipe(
                 map(response => {
@@ -435,6 +433,7 @@ export default {
                     if (seancesOnUpd) { 
                         // Перебираем массив пришедших сеансов
                         place.seances.forEach((item, key) => {
+                            console.log(item)
                             // Проверяем есть ли поля on_delete в объекте seance и стоит ли у него значение true
                             let seanceOnDel = Object.keys(item).find(key => {
                                 if ((key == 'on_delete') && (item[key] == true)) {
@@ -483,21 +482,31 @@ export default {
                                         return false
                                     }
                                 })
-                                console.log(seanceOnUpd)
                                 if (seanceOnUpd) {
                                     // Если сеансы уже есть перебираем массив сеансов которые уже на обновлении
-                                    this.placeUpd[getIndex].seances.forEach((i, k) => {
-                                        // Если не совпадает индекс то добавляем к сеансам
-                                        if (i.index !== item.index) {
+                                    let sean = this.placeUpd[getIndex].seances.findIndex((i, k) => {
+                                        // Если совпадает индекс то добавляем к сеансам
+                                        if (i.index === item.index) {
                                             place.seances.push(JSON.parse(JSON.stringify(i)))
                                         }
+                                        // } else {
+                                        //     this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
+                                        // }
                                     })
+                                    if (sean && sean != -1) {
+                                        this.placeUpd[getIndex].seances[sean] = JSON.parse(JSON.stringify(item))
+                                    } else {
+                                        this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(item)))
+                                    }
+
+                                    // this.placeUpd[getIndex].seances = JSON.parse(JSON.stringify(place.seances))
                                 } else {
                                     // Если сеансов ещё нет
                                     this.placeUpd[getIndex].seances = []
-                                    this.placeUpd[getIndex].seances.push(...place.seances)
+                                    this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(...place.seances)))
                                 }
-                                this.event.places_full[index].seances[item.index] = item
+                                this.event.places_full[index].seances[item.index] = JSON.parse(JSON.stringify(item))
+                                console.log(this.event)
                             }
 
                         })
