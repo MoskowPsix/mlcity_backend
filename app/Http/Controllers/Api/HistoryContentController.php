@@ -98,8 +98,8 @@ class HistoryContentController extends Controller
                 for($i = 0; $i<count($data["history_content"]["history_places"]); $i++){
                     // info($data["history_content"]["history_places"][$i]);
 
-                    $historyPlace = $data["history_content"]["history_places"][$i];
-                    unset($historyPlace['history_seances']);
+                    $historyPlace = $this->prepareHistoryPlaceData($data["history_content"]["history_places"][$i]);
+                    
                     info($historyPlace);
 
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
@@ -468,11 +468,24 @@ class HistoryContentController extends Controller
             'name'  => $filename,
             'link'  => '/storage/'.$path,
             'local' => 1
-        ])->file_types()->attach($type[0]->id);
-
-        
+        ])->file_types()->attach($type[0]->id);   
 
     }
+
+    private function prepareHistoryPlaceData($data){
+        if(isset($data["location"])){
+            $data["location_id"] = $data['location']["location_id"];
+            
+        }
+        
+        unset($data['history_seances']);
+        unset($data["event_id"]);
+        unset($data['created_at']);
+        unset($data['updated_at']);
+        unset($data['location']);
+        return $data;
+    }
+
     private function unsetRawHistoryContentData($historyRawData){
         $data = $historyRawData;
         unset($data['created_at']);
