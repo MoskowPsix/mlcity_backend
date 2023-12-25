@@ -39,7 +39,7 @@ class HistoryContent extends Model
     }
 
     public function historyPlaces(){
-        return $this->hasMany(HistoryPlace::class);
+        return $this->hasMany(HistoryPlace::class)->with('historySeances');
     }
 
     public function historyPrices(){

@@ -110,7 +110,7 @@
             </div>
         </div>
         <div v-if="seance && state">
-            <VueTailwindDatepicker :auto-apply="false" as-single use-range @input="getDate($event)" v-model="seanceTime" :formatter="formatter" class="w-full h-full mt-1"  placeholder="Дата и время сеанса" />
+            <VueTailwindDatepicker :auto-apply="false" as-single use-range  v-model="seanceTime" :formatter="formatter" class="w-full h-full mt-1"  placeholder="Дата и время сеанса" />
         </div>
     </div>
 </template>
@@ -149,6 +149,9 @@ export default {
         VueTailwindDatepicker
     },
     methods: {
+        getDate(event) {
+
+        },
         setDelete() {
             let seance = JSON.parse(JSON.stringify({...this.seance}))
             seance.on_delete = true
@@ -159,6 +162,7 @@ export default {
     mounted() {
         this.seanceTime.startDate = this.$props.seance.date_start
         this.seanceTime.endDate = this.$props.seance.date_end
+        console.log(this.seanceTime)
     },
     emits: ['onUpdSeance'],
     watch: {

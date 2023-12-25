@@ -203,7 +203,7 @@ export default {
                 id: 0,
                 date_start: new Date().toISOString().split('~')[0].slice(0, 19).replace("T", ' '),
                 date_end: new Date().toISOString().split('~')[0].slice(0, 19).replace("T", ' '),
-                index: this.place.seances.length
+                index: JSON.parse(JSON.stringify(this.place.seances.length))
             }
             this.place.seances.push({ ...newSeance })
             const seancesCopy = [JSON.parse(JSON.stringify(newSeance))];

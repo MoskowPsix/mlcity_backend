@@ -61,6 +61,13 @@ class HistoryContentController extends Controller
         return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
 
+    public function getHistoryContentForIds($id) 
+    {
+        info($id);
+        $historyContents = HistoryContent::where('id', $id)->with('user', 'historyEventTypes', 'historySightTypes', 'historyPlaces', 'historyPrices', 'historyContentStatuses', 'historyFiles');
+        return response()->json(["status"=>"success", "historyContents" => $historyContents->firstOrFail()],200);
+    }
+
     public function createHistoryContent(Request $request)
     {
         #получаем данные для статуса и дальнейших манипуляций
