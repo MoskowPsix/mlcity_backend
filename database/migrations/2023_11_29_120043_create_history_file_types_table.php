@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('history_file_types', function (Blueprint $table) {
+        Schema::create('history_file_type', function (Blueprint $table) {
             $table->id();
             $table->foreignId("type_id")->constrained("file_types")->nullOnDelete();
             $table->foreignId("history_file_id")->constrained("history_files")->nullOnDelete();
