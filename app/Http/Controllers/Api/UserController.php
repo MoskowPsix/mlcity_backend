@@ -64,12 +64,13 @@ class UserController extends Controller
     // Получить юзера по ИД
     public function getUser(): \Illuminate\Http\JsonResponse
     {
-        $user = User::findOrFail(auth('api')->user()->id)->with('roles', 'socialAccount')->firstOrFail();
+        $user = User::where('id',auth('api')->user()->id)->with('roles', 'socialAccount')->first();
 
         return response()->json([
             'status'        => 'success',
             // 'message'       => __('messages.login.success'),
-            'user'          => $user
+            'user'          => $user,
+            'user_id'       => auth('api')->user()->id
         ], 200);
     }
     /**

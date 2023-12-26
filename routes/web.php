@@ -18,9 +18,13 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // })->name('');
 
-Route::get('/{any}', function () {
+// Route::get('/{any}', function () {
+//      return view('app'); 
+// })->where('any', '.*');
+
+Route::get('/', function () {
      return view('app'); 
-})->where('any', '.*');
+});
 
 // Route::get('/test', function () {
 //      return view('test'); 
