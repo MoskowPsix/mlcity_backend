@@ -181,7 +181,7 @@ export default {
         PriceSegment
     },
     methods: {
-        ...mapActions(useEventStore, ['getEventForIds']),
+        ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useHistoryContentStore, ['saveHistory']),
@@ -312,7 +312,16 @@ export default {
         },
         statusChange(status) {
             // Меняем статус
-            console.log(status)
+            this.changeStatus(status, this.event.id).pipe(
+                map(response => {
+                    console.log(response)
+                }),
+                catchError(err => {
+                    console.log(err)
+                    return of(EMPTY)
+                }),
+                takeUntil(this.destroy$)
+            ).subscribe()
         },
         deleteFromCurrentPrices(price) {
             // console.log(this.event.prices.find(item => item.id === price.id))

@@ -11,6 +11,14 @@ export const useEventStore = defineStore('useEvent', {
         },
         getEventForIds(id) {
             return from(axios.get(`events/${id}`))
+        },
+        changeStatus(statusName, eventId, descriptions = ' ') {
+            const params = {
+                status: statusName,
+                event_id: eventId,
+                descriptions: descriptions
+            } 
+            return from(axios.post(`events/statuses`, params))
         }
     },
 })
