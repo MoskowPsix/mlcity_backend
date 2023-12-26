@@ -433,7 +433,6 @@ export default {
                     if (seancesOnUpd) { 
                         // Перебираем массив пришедших сеансов
                         place.seances.forEach((item, key) => {
-                            console.log(item)
                             // Проверяем есть ли поля on_delete в объекте seance и стоит ли у него значение true
                             let seanceOnDel = Object.keys(item).find(key => {
                                 if ((key == 'on_delete') && (item[key] == true)) {
@@ -445,11 +444,9 @@ export default {
                             if (seanceOnDel) {
                                 // Если есть поле on_delete со значением true
                                 if ((item.id !== 0) && item.id){
-                                    console.log('Если есть поле id')
                                     // Если есть поле id не нулевое, то сеанс есть в бд и его нужно зафиксировать
                                     let oldSeance = this.placeUpd[getIndex].seances.findIndex((i,k) => {
                                         if (i.index == item.index) {
-                                            console.log('='+JSON.parse(JSON.stringify(i)))
                                             this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
                                             return true
                                         }
@@ -459,7 +456,6 @@ export default {
                                     }                         
                                     this.event.places_full[place.index].seances[item.index].on_delete = true
                                 } else {
-                                    console.log('Если нет поле id')
                                     let newSeances = []
                                     // Если поле id нулевое, то просто удалить
                                     this.placeUpd[getIndex].seances.map((i,k) => {
@@ -484,16 +480,20 @@ export default {
                                 })
                                 if (seanceOnUpd) {
                                     // Если сеансы уже есть перебираем массив сеансов которые уже на обновлении
-                                    let sean = this.placeUpd[getIndex].seances.findIndex((i, k) => {
+                                    let sean = 0;
+                                    this.placeUpd[getIndex].seances.forEach((i, k) => {
                                         // Если совпадает индекс то добавляем к сеансам
-                                        if (i.index === item.index) {
+                                        if (i.index !== item.index) {
                                             place.seances.push(JSON.parse(JSON.stringify(i)))
+                                        } else {
+                                            sean = k
                                         }
-                                        // } else {
+                                        // else {
                                         //     this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
                                         // }
                                     })
-                                    if (sean && sean != -1) {
+                                    console.log(sean)
+                                    if (sean && sean != 0) {
                                         this.placeUpd[getIndex].seances[sean] = JSON.parse(JSON.stringify(item))
                                     } else {
                                         this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(item)))
@@ -506,7 +506,6 @@ export default {
                                     this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(...place.seances)))
                                 }
                                 this.event.places_full[index].seances[item.index] = JSON.parse(JSON.stringify(item))
-                                console.log(this.event)
                             }
 
                         })
@@ -542,7 +541,6 @@ export default {
                     this.placeUpd.push(JSON.parse(JSON.stringify(place)))
                 }
             console.log(this.placeUpd)
-            console.log(this.event)
             }
         },
         addNewPlace() {

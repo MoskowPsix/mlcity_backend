@@ -121,6 +121,9 @@ import { unref, ref } from 'vue'
 
 export default {
     name: 'SeancesListSegment',
+    getDate(date) {
+        return date[0] + '~' + date[1]
+    },
     setup() {
         const formatter = {
             date: 'YYYY-MM-DD hh:mm:ss',
@@ -135,11 +138,6 @@ export default {
             formatter,
         }
     },
-    date() {
-        return {
-            
-        }
-    },
     props: {
         seance: Object,
         index: Number,
@@ -149,9 +147,6 @@ export default {
         VueTailwindDatepicker
     },
     methods: {
-        getDate(event) {
-
-        },
         setDelete() {
             let seance = JSON.parse(JSON.stringify({...this.seance}))
             seance.on_delete = true
@@ -162,10 +157,13 @@ export default {
     mounted() {
         this.seanceTime.startDate = this.$props.seance.date_start
         this.seanceTime.endDate = this.$props.seance.date_end
-        console.log(this.seanceTime)
     },
     emits: ['onUpdSeance'],
     watch: {
+        seance() {
+            this.seanceTime.startDate = this.seance.date_start
+            this.seanceTime.endDate = this.seance.date_end
+        },
         seanceTime(date) {
             this.$emit('onUpdSeance', {
                 index: this.index,
