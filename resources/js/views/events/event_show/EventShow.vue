@@ -1,8 +1,9 @@
 <template lang="">
-<div class="flex flex-col min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" v-if="event">
+<div class="flex flex-col min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" v-if="event && connectState" :id="'event-'+event.id">
     <form>
-        <div class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+        <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
+                v-if="connectState.BackButton"
                 @click.prevent="state = !state"
                 type="button"
                 data-te-ripple-init
@@ -13,57 +14,57 @@
                 </svg>
                 <h1 class="flex items-center mr-1 ml-1">Назад</h1>
             </button>
-            <label v-if="!state" class="flex items-center w-8/12" ><h1>Имя: {{event.name}}</h1></label>
-            <input v-if="state" class="border rounded-lg flex w-8/12 items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="event.name" @input="event => text = event.target.value" type="text" name="name" id="name">
-            <label class="flex items-center w-3/12"><h1>ID: {{event.id}} | {{state}}</h1></label>
+            <label v-if="!state && connectState.NameLine" class="flex items-center w-8/12" :id="'event-'+event.id+'-name'"><h1>Имя: {{event.name}}</h1></label>
+            <input v-if="state && connectState.NameLine" class="border rounded-lg flex w-8/12 items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+            <label v-if="connectState.IdLine" class="flex items-center w-3/12" :id="'event-'+event.id+'-id'"><h1>ID: {{event.id}}</h1></label>
         </div>
 
-        <CarouselGallery class="mb-1" v-if="event.files" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="mb-1" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
 
 
-        <div class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+        <div v-if="connectState.DescriptionsCard" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Спонсор</h1>
-                <p v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.sponsor}}</p>
-                <input v-if="state" class="w-full dark:bg-gray-700/50" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
+                <p :id="'event-'+event.id+'-sponsor'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.sponsor}}</p>
+                <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="w-full dark:bg-gray-700/50" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
             </label>
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Описание</h1>
-                <p v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2" >{{event.description}}</p>
-                <textarea v-if="state" class="w-full dark:bg-gray-700/50" :value="event.description" name="description" id="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
+                <p :id="'event-'+event.id+'-description'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2" >{{event.description}}</p>
+                <textarea :id="'event-'+event.id+'-description-input'" v-if="state" class="w-full dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
             </label>
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Материалы</h1>
-                <p v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
-                <input v-if="state" class="w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
+                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
             </label>
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
-                <p v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
-                <p v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
+                <p :id="'event-'+event.id+'-date_start'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
+                <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
             </label>
         </div>
-        <div class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
-            <div class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+        <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
+            <div :id="'event-'+event.id+'-price'" v-if="connectState.PricesCard" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Цены</h1>
                     <hr class="dark:border-gray-700/70">
                 </label>
                 <div v-for="(price, index) in event.price" class="flex flex-row mt-2">
-                    <PriceSegment :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                    <PriceSegment :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                 </div>
                 <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
                 v-on:click="addToCurrentPrices()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <div class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+            <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                     <hr class="dark:border-gray-700/70">
-                    <div class="">
-                        <h2 v-for="type in event.types">
-                            {{type.name}}
+                    <div >
+                        <h2 v-for="etype in event.types">
+                            <h1 :id="'event-'+event.id+'-type-'+etype.id">{{etype.name}}</h1>
                             <hr class="dark:border-gray-700/70">
                         </h2>
                     </div>
@@ -71,27 +72,25 @@
                 </label>
             </div>
         </div>
-        <div class="grid 2xl:grid-cols-4 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
-            <div class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
-                <div class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
+        <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="grid 2xl:grid-cols-1 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
+            <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
+                <div :id="'event-'+event.id+'-place'" class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
                     <div v-for="(place, index) in event.places_full" >
-                        <PlacesListCard v-if="!place.on_delete" :stateUpd="state" :index="index" :place="place" @onUpdPlace="setPlace" class="mt-2"/>
+                        <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="place" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
                 </div>
             </div>
-            <div class="m-2 grid 2xl:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2">
-                <div>
-                    <div>
-                        <AuthorMiniCard v-if="event.author" :author="event.author" class="h-96"/>
+            <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2 grid 2xl:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2">
+                    <div  v-if="connectState.AuthorCard">
+                        <AuthorMiniCard v-if="event.author" :author="event.author"/>
                     </div>
-                    <div v-if="!state" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
-                        <ChangeStatus v-if="event.statuses" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                    <div v-if="!state && connectState.StatusCard" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
+                        <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
                     </div>
-                </div>
             </div>
         </div>
-        <div class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
+        <div v-if="connectState.EditButton" class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
             <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
             <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
             <button @click="state= !state" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
@@ -119,6 +118,18 @@ import PlacesListCard from '../../../components/places_list_card/PlacesListCard.
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 
+    // В props connectState нужно передать объект {} со следующими полями(true отобразить, false не отображать):
+    // BackButton: true,
+    // NameLine: true,
+    // IdLine: true,
+    // GalleryCard: true,
+    // DescriptionsCard: true,
+    // PricesCard: true,
+    // TypeCard: true,
+    // PlaceCard: true,
+    // AuthorCard: true,
+    // StatusCard: true,
+    // EditButton: true,
 export default {
     name: 'EventShow',
     setup() {
@@ -126,6 +137,28 @@ export default {
         return {
             destroy$,
         } 
+    },
+    props: {
+        connectState: {
+            type: Object,
+            default: {
+                BackButton: true,
+                NameLine: true,
+                IdLine: true,
+                Gallery: true,
+                DescriptionsCard: true,
+                PricesCard: true,
+                TypeCard: true,
+                PlaceCard: true,
+                AuthorCard: true,
+                StatusCard: true,
+                EditButton: true,
+            }
+        },
+        id:{ 
+            type: Number,
+            default: null
+        }
     },
     data() {
         return {
@@ -345,8 +378,10 @@ export default {
 
         },
         getEvent() {
+            let id
+            this.$props.id ? id = this.id : id = this.$route.params.id
             this.openLoaderFullPage()
-            this.getEventForIds(this.$route.params.id).pipe(
+            this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
                     this.closeLoaderFullPage()
@@ -482,15 +517,12 @@ export default {
                                     // Если сеансы уже есть перебираем массив сеансов которые уже на обновлении
                                     let sean = 0;
                                     this.placeUpd[getIndex].seances.forEach((i, k) => {
-                                        // Если совпадает индекс то добавляем к сеансам
+                                        // Если не совпадает индекс то добавляем запоминаем ключь, а остальное в плэйс
                                         if (i.index !== item.index) {
                                             place.seances.push(JSON.parse(JSON.stringify(i)))
                                         } else {
                                             sean = k
                                         }
-                                        // else {
-                                        //     this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
-                                        // }
                                     })
                                     console.log(sean)
                                     if (sean && sean != 0) {
@@ -559,6 +591,22 @@ export default {
         }
     },
     mounted() {
+        // if (!this.$props.connectState) {
+        //     this.$props.connectState = {
+        //         BackButton: true,
+        //         NameLine: true,
+        //         IdLine: true,
+        //         Galary: true,
+        //         DescriptionsCard: true,
+        //         PricesCard: true,
+        //         TypeCard: true,
+        //         PlaceCard: true,
+        //         AuthorCard: true,
+        //         StatusCard: true,
+        //         EditButton: true,
+        //     }
+        //     console.log(this.$props.connectState)
+        // }
         this.openLoaderFullPage
         this.getEvent()
     },

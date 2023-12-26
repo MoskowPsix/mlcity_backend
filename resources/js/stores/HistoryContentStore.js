@@ -16,6 +16,15 @@ export const useHistoryContentStore = defineStore('useContent', {
             return from(axios.post("history-content",data, {headers:{
                 "Content-Type": "multipart/form-data"
             }}))
+        },
+        changeStatus(statusName, contentId) {
+            const params = {
+                status: statusName,
+                historyContent: {
+                    id: contentId
+                }
+            }
+            return from(axios.patch(`history-content`, params))
         }
     },
 })

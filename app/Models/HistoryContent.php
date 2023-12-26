@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
+use App\Models\Status;
 use App\Models\User;
 
 class HistoryContent extends Model
@@ -29,8 +30,7 @@ class HistoryContent extends Model
         return $this->belongsTo(User::class);
     }
     public function statuses() {
-        return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
-
+        return $this->belongsToMany(Status::class, 'history_content_statuses')->withTimestamps();
     }
 
     public function historyContentable(): MorphTo
@@ -39,7 +39,7 @@ class HistoryContent extends Model
     }
 
     public function historyPlaces(){
-        return $this->hasMany(HistoryPlace::class)->with('historySeances');
+        return $this->hasMany(HistoryPlace::class)->with('historySeances', 'location', 'historySeances');
     }
 
     public function historyPrices(){
