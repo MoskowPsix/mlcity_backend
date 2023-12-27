@@ -343,7 +343,7 @@ class addInstitutes extends Command
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
             $output->writeln('approximate end time: ' . (int)$end_time . 'min, page: ' . $page_institutes);
-            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
+            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min, page: ' . $page_institutes);
         }     
         // $output->writeln("<info>Errors: </info>" . $institutes_download); 
         getMessage('Complate!!!');
