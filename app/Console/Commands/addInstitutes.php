@@ -247,7 +247,7 @@ class addInstitutes extends Command
 
             // Отображение прогресса мест
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
-            $output->writeln((int)$progress . '% ,page: ' . $page_institutes);
+            $output->writeln((int)$progress . '%, page: ' . $page_institutes);
 
             $sights = getPageInstitutes($page_institutes, $limit_institutes);
             foreach ($sights->items as $sight) {
@@ -342,7 +342,7 @@ class addInstitutes extends Command
             $page_institutes = $page_institutes + 1;
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
-            $output->writeln('approximate end time: ' . (int)$end_time . 'min');
+            $output->writeln('approximate end time: ' . (int)$end_time . 'min, page: ' . $page_institutes);
             getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
         }     
         // $output->writeln("<info>Errors: </info>" . $institutes_download); 
