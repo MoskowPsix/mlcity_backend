@@ -31,9 +31,19 @@ const router = createRouter({
       component: () => import('../views/sights/sight_show/SightShow.vue'),
     },
     {
+      path: '/user/sights',
+      name: 'my-sights',
+      component: () => import('../views/my-sights/MySights.vue'),
+    },
+    {
       path: '/events',
       name: 'events',
       component: () => import('../views/events/Event.vue'),
+    },
+    {
+      path: '/user/events',
+      name: 'my-events',
+      component: () => import('../views/my_events/MyEvents.vue'),
     },
     {
       path: '/event/:id',
@@ -100,6 +110,9 @@ router.beforeEach(async (to, from, next) => {
     }
   }
 
+  if (to.name === 'login' && useLocalStorageStore().token) {
+    return next({name: 'users'})
+  }
   if (to.name === 'login' && useLocalStorageStore().token) {
     return next({name: 'users'})
   }

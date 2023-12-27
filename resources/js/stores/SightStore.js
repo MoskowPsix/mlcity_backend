@@ -9,6 +9,9 @@ export const useSightStore = defineStore('useSight', {
         getSights(params)  {
             return from(axios.get('sights', {params}))
         },
+        getSightsForAuthor(params)  {
+            return from(axios.get(`sights-for-author`, {params}))
+        },
         getSightForIds(id) {
             return from(axios.get(`sights/${id}`))
         },

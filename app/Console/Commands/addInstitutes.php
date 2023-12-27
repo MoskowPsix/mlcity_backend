@@ -20,7 +20,7 @@ class addInstitutes extends Command
      *
      * @var string
      */
-    protected $signature = 'institutes_save';
+    protected $signature = 'institutes_save {page_institutes?}';
 
     /**
      * The console command description.
@@ -91,7 +91,12 @@ class addInstitutes extends Command
             }                  }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $page_institutes = 1;
+        if($this->argument('page_institutes') > 1){
+            $page_institutes = (int)$this->argument('page_institutes');
+            print($page_institutes);
+        } else {
+            $page_institutes = 1; 
+        }
         $limit_institutes = 100;
         $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true))->pagination->total;
         $institutes_download = [];
@@ -109,10 +114,10 @@ class addInstitutes extends Command
         $level_locations = 1;
         
 
-        $output->writeln('Download start element-1');
-        $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
-        getMessage('Download start element-1');
-        getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
+        // $output->writeln('Download start element-1');
+        // $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
+        // getMessage('Download start element-1');
+        // getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
         // $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
         // if (!Location::where('cult_id', $null_location->_id)->first()) {
         //     Location::create([
@@ -130,12 +135,14 @@ class addInstitutes extends Command
         //         $locales = json_decode(file_get_contents('https://www.culture.ru/api/locales?&limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true));
         //         foreach ($locales->items as $local) {
         //             if (!Location::where('cult_id', $local->_id)->first()) {
+        //                 print_r($local);
         //                 Location::create([
         //                     'name' => $local->title,
         //                     'time_zone' => $local->timezone,
         //                     'cult_id' => $local->_id,
-        //                     'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id
+        //                     'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id,
         //                 ]);
+        //                 getMessage('Новая локация'. $local);
         //             } 
         //         }
         //         $total_locations = $total_locations - 1;
@@ -242,11 +249,11 @@ class addInstitutes extends Command
 
             // Отображение прогресса мест
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
-            $output->writeln((int)$progress . '%');
+            $output->writeln((int)$progress . '%, page: ' . $page_institutes);
 
             $sights = getPageInstitutes($page_institutes, $limit_institutes);
             foreach ($sights->items as $sight) {
-                if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted') {
+                if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted' && Location::where('cult_id', $sight->locale->_id)->first()) {
                     // Берём тип
                     // SightType::where('cult_id', );
                     // Сохраняем место
@@ -337,8 +344,8 @@ class addInstitutes extends Command
             $page_institutes = $page_institutes + 1;
             // Конец исполнения программы 
             $end_time = (microtime(true) - $start_timer)  * $total_institutes / 60;
-            $output->writeln('approximate end time: ' . (int)$end_time . 'min');
-            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
+            $output->writeln('approximate end time: ' . (int)$end_time . 'min, page: ' . $page_institutes);
+            getMessage((int)$progress . '% approximate end time: ' . (int)$end_time . 'min, page: ' . $page_institutes);
         }     
         // $output->writeln("<info>Errors: </info>" . $institutes_download); 
         getMessage('Complate!!!');

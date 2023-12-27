@@ -22,9 +22,9 @@ use Illuminate\Support\Facades\Route;
 //      return view('app'); 
 // })->where('any', '.*');
 
-Route::get('/', function () {
+Route::get('/{any}', function () {
      return view('app'); 
-});
+})->where('any', '.*');
 
 // Route::get('/test', function () {
 //      return view('test'); 

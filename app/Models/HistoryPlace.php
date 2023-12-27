@@ -14,6 +14,9 @@ class HistoryPlace extends Model
     public function place(){
         return $this->belongsTo(Place::class);
     }
+    public function location() {
+        return $this->belongsTo(Location::class, 'location_id')->with('locationParent');
+    }
 
     public function historyContent(){
         return $this->belongsTo(HistoryContent::class);
