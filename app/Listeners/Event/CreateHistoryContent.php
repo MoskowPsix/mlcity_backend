@@ -92,13 +92,13 @@ class CreateHistoryContent
     }
 
     public function prepareSeanseData($seance){
+        
         $data = $seance->toArray();
+        info($data);
         $data["seance_id"] = $data["id"];
         $data["date_start"] = $data["date_start"];
         $data["date_end"] = $data["date_end"];
 
-        unset($data["date_start"]);
-        unset($data["date_end"]);
         unset($data["place_id"]);
         unset($data["created_at"]);
         unset($data["updated_at"]);

@@ -1,7 +1,7 @@
 <template lang="">
-<div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1">
+<div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
     <form enctype="multipart/form-data">
-    <div class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+    <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
         <button
             @click.prevent="backButton()"
             type="button"
@@ -14,9 +14,9 @@
             <h1 class="flex items-center mr-1 ml-1">Назад</h1>
         </button>
     
-        <label v-if="!state" class="flex items-center w-8/12"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
-        <label class="flex items-center w-3/12"><h1>ID: {{sight.id}}</h1></label>
+        <label v-if="!state && connectState.NameLine" class="flex items-center w-8/12" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
+        <input v-if="state && connectState.NameLine" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0" :id="'sight-'+sight.id+'-name-input'">
+        <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
     <div
@@ -24,7 +24,7 @@
         
         <div class="p-6">
             <div class="text-center">
-                <CarouselGallery :files="sight.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+                <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
             </div>
             
             
@@ -33,12 +33,12 @@
                 <div class=" inline-block">
                     <p class="">Место проведение:   </p>
                     <div v-if="!state"  class="">
-                        <h6 class="mb-6"> {{ sight.address }}</h6>
+                        <h6 :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
                     </div>
                 </div>
                 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <input :id="'sight-'+sight.id+'-address-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.address"
                      id="address"
                      type="text"
@@ -50,11 +50,11 @@
             <div>
                 <p class="">Время проведения:</p>
                 <div v-if="!state" >
-                    <h6 class="mb-4" >{{ sight.work_time }}</h6>
+                    <h6 :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <textarea :id="'sight-'+sight.id+'-work_time-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.work_time"
                      id="work_time"
                      type="text"
@@ -63,16 +63,16 @@
                 </div>
             </div>
             
-            <div class="">
+            <div class="" v-if="connectState.DescriptionsCard">
                 <p class="">Описание:</p>
                 <div v-if="!state">
-                    <p class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
+                    <p :id="'sight-'+sight.id+'-description'" class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
                         {{ sight.description }}
                     </p>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <textarea :id="'sight-'+sight.id+'-description-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                     v-bind:value="sight.description"
                     type="text"
                     id="description"
@@ -85,56 +85,40 @@
             
            
 
-            <div class="mb-4">
+            <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
                     <p>Типы события:</p>
-                    <div  class="space-y-2 border py-4 tree" v-if="allTypes ">
-                        <TypeList v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
+                    <div  class="space-y-2 border py-4 tree" v-if="allTypes">
+                        <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
-                    
-                </div>
-                
-                
+                </div>  
             </div>
 
-            <div class="mb-4">
-                <div class=" ">Цены: </div>
-                <div v-if="sightPriceCheck() && state==false">
-                    <div class="flex space-x-8">
-                        <div>
-                            <p v-for="price in sight.prices">{{ price.cost_rub }}₽</p>
-                        </div>
-                        <div>
-                            <p v-for="price in sight.prices">{{ price.descriptions }}</p>
-                        </div>
-                    </div>
-                    
-                </div>
-                <div v-if="state" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div class="2xl:col-span-3 xl:col-span-5 lg:col-span-8 md:col-span-9 sm:col-span-1 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
+            <div class="mb-4" >
+                
+
+                <div v-if="connectState.PricesCard" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
+                    <div  :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-5 lg:col-span-8 md:col-span-9 sm:col-span-1 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
-                        v-on:click="addToCurrentPrices()">
+                        v-on:click="addToCurrentPrices()" v-if="state">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
-                        <div v-for="(price, index) in sight.prices" class="flex items-center border rounded-lg p-2 mb-4" >
-                            <PriceSegment :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
-                        </div>
-                        
+                        <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
+                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                        </div> 
                     </div>
                 </div>
-                <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>
-
-               
+                <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>  
             </div>
 
             <div>
                 <p class=" ">Спонсор:</p>
                 <div v-if="!state" class="">
-                    <h6 class="mb-4 " >{{ sight.sponsor }}</h6>
+                    <h6 :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <input :id="'sight-'+sight.id+'-sponsor-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.sponsor"
                      id="sponsor"
                      @input="event => text = event.target.value"
@@ -145,17 +129,20 @@
             <div>
                 <p class=" ">Материалы:</p>
                 <div v-if="!state" class="">
-                    <h6 class="mb-4 " >{{ sight.materials }}</h6>
+                    <h6 :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
                 </div>
                 <div v-if="state" class="flex mb-4 space-x-4">
-                    <input class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
+                    <input :id="'sight-'+sight.id+'-materials-input'" class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.materials"
                      id="materials"
                      @input="event => text = event.target.value"
                      type="text">   
                 </div>
             </div>
-            <ChangeStatus :status="status" @statusChanged="statusChange" v-if="!state"/>
+            <div v-if="connectState.StatusCard">
+                <ChangeStatus  :status="status" @statusChanged="statusChange" v-if="!state"/>
+            </div>
+            
         </div>
     </div>
         <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
@@ -186,6 +173,22 @@ export default {
         TypeList,
         PriceSegment,
         ChangeStatus
+    },
+    props:{
+        connectState:{
+            type: Object,
+            default:{
+                BackButton: true,
+                NameLine: true,
+                IdLine: true,
+                Gallery: true,
+                PricesCard: true,
+                TypeCard: true,
+                AuthorCard: true,
+                StatusCard: true,
+                EditButton: true,
+            }
+        }
     },
     setup() {
         const destroy$ =  new Subject()
