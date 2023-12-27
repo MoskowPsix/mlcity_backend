@@ -31,6 +31,8 @@ class EventCreateRequest extends FormRequest
             'dateEnd'      => 'required|date|after:date_start',
             'type'         => 'required',
             'status'       => 'required',
+            'places'       => 'nullable|array',
+            'prices'       => 'nullable|array',
         ];
     }
 
