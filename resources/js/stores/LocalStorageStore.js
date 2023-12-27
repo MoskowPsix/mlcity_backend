@@ -28,8 +28,6 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
                     this.auth = true
                 }
             } else {
-                localStorage.clear()
-                this.token = ''
                 this.role = ''
                 this.user = ''
                 this.auth = false
