@@ -574,7 +574,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         // $coords = explode(',',$request->coords);
         // $latitude   = $coords[0]; // широта
