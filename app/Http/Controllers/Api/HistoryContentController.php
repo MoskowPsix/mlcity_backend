@@ -63,7 +63,7 @@ class HistoryContentController extends Controller
 
     public function getHistoryContentForIds($id) 
     {
-        info($id);
+        
         $historyContents = HistoryContent::where('id', $id)->with('user', 'historyEventTypes', 'historySightTypes', 'historyPlaces', 'historyPrices', 'statuses', 'historyFiles');
         return response()->json(["status"=>"success", "historyContents" => $historyContents->firstOrFail()],200);
     }
@@ -72,7 +72,7 @@ class HistoryContentController extends Controller
     {
         #получаем данные для статуса и дальнейших манипуляций
         
-        info($request->history_content);
+        
         $data = $request->toArray();
         
         $data['history_content']["user_id"] = auth("api")->user()->id;
@@ -81,12 +81,13 @@ class HistoryContentController extends Controller
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
             $event = Event::where('id',$data['id'])->first();
-            // info($data);
+            
             $historyContent = $data["history_content"];
             unset($historyContent["history_places"]);
-            unset($historyContent['history_content']['history_prices']);
-            unset($historyContent['history_content']['history_types']);
-            unset($historyContent['history_content']['history_files']);
+            unset($historyContent['history_prices']);
+            unset($historyContent['history_types']);
+            unset($historyContent['history_files']);
+            info($historyContent);
             $historyContent = $event->historyContents()->create($historyContent);
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
@@ -120,8 +121,11 @@ class HistoryContentController extends Controller
             
             if(isset($data["history_content"]["history_prices"])){
                 $historyPrices = $data["history_content"]["history_prices"];
-                for($i = 0; $i<count($historyPrices); $i++){
-                    $historyContent->historyPrices()->create($historyPrices[$i]);
+                
+                if(!empty($historyPrices)){
+                    for($i = 0; $i<count($historyPrices); $i++){
+                        $historyContent->historyPrices()->create($historyPrices[$i]);
+                    }
                 }
             }
 
@@ -166,7 +170,7 @@ class HistoryContentController extends Controller
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);
             unset($historyContent['history_files']);
-            
+            info($historyContent);
             $historyContent = $sight->historyContents()->create($historyContent);
             
             
