@@ -9,6 +9,9 @@ export const useEventStore = defineStore('useEvent', {
         getEvents(params)  {
             return from(axios.get('events', {params}))
         },
+        getEventsForAuthor(params)  {
+            return from(axios.get(`events-for-author`, {params}))
+        },
         getEventForIds(id) {
             return from(axios.get(`events/${id}`))
         },
