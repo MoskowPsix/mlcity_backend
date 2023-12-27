@@ -114,10 +114,10 @@ class addInstitutes extends Command
         $level_locations = 1;
         
 
-        $output->writeln('Download start element-1');
-        $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
-        getMessage('Download start element-1');
-        getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
+        // $output->writeln('Download start element-1');
+        // $output->writeln('Download step 1(max '.$level_max_locations.' level locations): download locations');
+        // getMessage('Download start element-1');
+        // getMessage('Download step 1(max '.$level_max_locations.' level locations): download locations');
         // $null_location = json_decode(file_get_contents('https://www.culture.ru/api/locales/1', true));
         // if (!Location::where('cult_id', $null_location->_id)->first()) {
         //     Location::create([
@@ -135,12 +135,14 @@ class addInstitutes extends Command
         //         $locales = json_decode(file_get_contents('https://www.culture.ru/api/locales?&limit='.$limit_locations.'&page=' . $page_locations . '&level=' . $level_locations, true));
         //         foreach ($locales->items as $local) {
         //             if (!Location::where('cult_id', $local->_id)->first()) {
+        //                 print_r($local);
         //                 Location::create([
         //                     'name' => $local->title,
         //                     'time_zone' => $local->timezone,
         //                     'cult_id' => $local->_id,
-        //                     'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id
+        //                     'location_id' => Location::where('cult_id', (int)$local->parentId)->firstOrFail()->id,
         //                 ]);
+        //                 getMessage('Новая локация'. $local);
         //             } 
         //         }
         //         $total_locations = $total_locations - 1;
@@ -251,7 +253,7 @@ class addInstitutes extends Command
 
             $sights = getPageInstitutes($page_institutes, $limit_institutes);
             foreach ($sights->items as $sight) {
-                if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted') {
+                if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted' && Location::where('cult_id', $sight->locale->_id)->first()) {
                     // Берём тип
                     // SightType::where('cult_id', );
                     // Сохраняем место
