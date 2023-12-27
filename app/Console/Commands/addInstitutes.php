@@ -20,7 +20,7 @@ class addInstitutes extends Command
      *
      * @var string
      */
-    protected $signature = 'institutes_save';
+    protected $signature = 'institutes_save {page_institutes?}';
 
     /**
      * The console command description.
@@ -91,7 +91,12 @@ class addInstitutes extends Command
             }                  }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
-        $page_institutes = 1;
+        if($this->argument('page_institutes') > 1){
+            $page_institutes = (int)$this->argument('page_institutes');
+            print($page_institutes);
+        } else {
+            $page_institutes = 1; 
+        }
         $limit_institutes = 100;
         $total_institutes = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_institutes.'&limit='.$limit_institutes . '&statuses=published', true))->pagination->total;
         $institutes_download = [];
@@ -242,7 +247,7 @@ class addInstitutes extends Command
 
             // Отображение прогресса мест
             $progress = ($total_institutes_progress * 100 - $total_institutes) / $total_institutes_progress;
-            $output->writeln((int)$progress . '%');
+            $output->writeln((int)$progress . '% ,page: ' . $page_institutes);
 
             $sights = getPageInstitutes($page_institutes, $limit_institutes);
             foreach ($sights->items as $sight) {
