@@ -1,7 +1,7 @@
 
 
 <template>
-  <div>
+  <div :id="'sight-'+sightId+'-stype-'+allSTypes.id">
     <button @click="isExpanded = !isExpanded"  type="button" class="bg-green-300" v-if="!checkChild()">{{ allSTypes.name }}</button>
     <button @click="isExpanded = !isExpanded"  type="button" class="bg-red-300" v-if="checkChild()">{{ allSTypes.name }}</button>
     <input type="checkbox" class="ml-2"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
@@ -27,7 +27,8 @@ export default{
   props: {
     allSTypes: Object,
     currentStypes: Array,
-    enableState: Boolean
+    enableState: Boolean,
+    sightId: Number
   },
   components:{
     Collapse
