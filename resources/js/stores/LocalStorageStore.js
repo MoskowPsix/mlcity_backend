@@ -16,18 +16,11 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
         localStorageInit() {
             if(localStorage.getItem('token')) {
                 this.token = localStorage.getItem('token')
-                if ((localStorage.getItem('role') === 'root') || (localStorage.getItem('role') === 'Moderator') || (localStorage.getItem('role') === 'root')) {
-                    this.role = localStorage.getItem('role')
-                    this.user = localStorage.getItem('user')
-                    this.auth = true
-                } else {
-                    toast.warning(MessageAuth.warning_role)
-                    localStorage.clear()
-                    this.role = null
-                    this.user = localStorage.getItem('user')
-                    this.auth = true
-                }
+                this.role = localStorage.getItem('role')
+                this.user = localStorage.getItem('user')
+                this.auth = true
             } else {
+                this.token = ''
                 this.role = ''
                 this.user = ''
                 this.auth = false
