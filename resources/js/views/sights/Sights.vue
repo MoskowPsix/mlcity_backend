@@ -3,7 +3,7 @@
     <SightTable :sights="sights" @sight="clickSight" class="m-1"/>
     <div class="flex justify-center " v-if="nextPage || backPage">
         <PaginateBar :nextPage="nextPage" :backPage="backPage" @onBackPage="viewBackPage()" @onNextPage="viewNextPage()" class="w-[70%]"/>
-        </div>
+    </div>
 </template>
 <script>
 import { mapActions, mapState } from 'pinia'
@@ -62,7 +62,6 @@ export default {
             this.getSights(this.queryBuilder('sightsForPageSights')).pipe(
                 map(response => {
                     this.closeLoaderFullPage()
-                    console.log(response)
                     if(response.data.sights.data.length){
                         this.sights = response.data.sights.data
                     } else {

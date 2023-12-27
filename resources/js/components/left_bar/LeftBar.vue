@@ -27,7 +27,6 @@
                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white enable-background:new 0 0 24 24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                   <path d="M16.53 11.06L15.47 10l-4.88 4.88-2.12-2.12-1.06 1.06L10.59 17l5.94-5.94zM19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"></path></svg>
                <span class="flex-1 ml-3 whitespace-nowrap">Мои события</span>
-               <span class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">1</span>
             </RouterLink>
          </li>
          <li v-if="role == 'Moderator' || role == 'Admin' || role == 'root'">
@@ -35,7 +34,6 @@
                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
                   <path d="M 501.62 92.11 L 267.24 2.04 a 31.958 31.958 0 0 0 -22.47 0 L 10.38 92.11 A 16.001 16.001 0 0 0 0 107.09 V 144 c 0 8.84 7.16 16 16 16 h 480 c 8.84 0 16 -7.16 16 -16 v -36.91 c 0 -6.67 -4.14 -12.64 -10.38 -14.98 Z M 64 192 v 160 H 48 c -8.84 0 -16 7.16 -16 16 v 48 h 448 v -48 c 0 -8.84 -7.16 -16 -16 -16 h -16 V 192 h -64 v 160 h -96 V 192 h -64 v 160 h -96 V 192 H 64 Z m 432 256 H 16 c -8.84 0 -16 7.16 -16 16 v 32 c 0 8.84 7.16 16 16 16 h 480 c 8.84 0 16 -7.16 16 -16 v -32 c 0 -8.84 -7.16 -16 -16 -16 Z"></path></svg>
                <span class="flex-1 ml-3 whitespace-nowrap">Мои Места</span>
-               <span class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300">1</span>
             </RouterLink>
          </li>
          <li v-if="role == 'Moderator' || role == 'Admin' || role == 'root'">
@@ -90,7 +88,7 @@
                         C400.203,381.652,400.245,379.713,399.379,378.108z M333.223,307.78l28.662,53.126H38.116l28.662-53.126H333.223z"/>
                   </g>
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Типы</span>
+               <span class="flex-1 ml-3 whitespace-nowrap">Типы (Ещё нету)</span>
          </RouterLink>
          </li>
          <li v-if="role == 'Admin' || role == 'root'">
@@ -108,7 +106,7 @@
                      <path d="M0,1 C0,0.44772 0.44772,0 1,0 L11,0 C11.5523,0 12,0.44772 12,1 L12,13 C12,13.5523 11.5523,14 11,14 L1,14 C0.44772,14 0,13.5523 0,13 L0,1 Z M2,12 L2,2 L10,2 L10,12 L2,12 Z"/>
                   </g>
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Журнал событий</span>
+               <span class="flex-1 ml-3 whitespace-nowrap">Logs (Ещё нету)</span>
             </RouterLink>
          </li>
          <li>
