@@ -1,7 +1,8 @@
 import { defineStore, storeToRefs } from 'pinia'
 import { useAuthStore } from './AuthStore'
 import { useUsersFilterStore } from './UsersFilterStore'
-import { BehaviorSubject } from 'rxjs';
+import { catchError, map} from 'rxjs/operators'
+import { of, EMPTY } from 'rxjs'
 
 
 // const authStore = useAuthStore()
@@ -20,13 +21,14 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
         return this.queryParams
         },
         getUserId() {
-            useAuthStore().getUserForToken()
-            .then(user => {
-                this.userID = user.data.id
-            })
-            .catch(err => {
-                console.log(err)
-            })
+            useAuthStore().getUserForToken().pipe(
+                map(response => {
+                    this.userID = response.data.user.data.id
+                }),
+                catchError(err => {
+                    return of(EMPTY)
+                })
+            ).subscribe()
         },
         updateParams() {
             this.getUserId()
