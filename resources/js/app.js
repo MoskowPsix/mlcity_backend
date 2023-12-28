@@ -6,7 +6,7 @@ import { createPinia } from 'pinia'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import 'vue3-carousel/dist/carousel.css'
-import helpers from './helpers/deepMerge'
+import helpers from './helpers'
 
 
 
