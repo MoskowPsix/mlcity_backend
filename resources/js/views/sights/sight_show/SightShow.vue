@@ -85,7 +85,7 @@
 
             
            
-            
+        
             <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
                     <p>Типы события:</p>
@@ -93,7 +93,7 @@
                         <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a> 
                     </div>
                     
-                    <div  class="space-y-14 border py-4 tree" v-if="allTypes">
+                    <div  class="space-y-4 border py-4 tree" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                 </div>  
@@ -349,10 +349,14 @@ export default {
         },
         goToElement(event){
             let target = "s"+event.target.id
-            console.log(target)
             
+            console.log(event.target.offsetTop)
             let type = document.getElementById(target)
-            type.scrollIntoView()
+            console.log(type.target)
+            type.scrollIntoView({behavior: "smooth",
+                                block:'center'})
+            type.classList.add('bg-sky-100')
+            setInterval(() => {type.classList.remove('bg-sky-100')}, 1500)
             console.log(type)
 
         },
