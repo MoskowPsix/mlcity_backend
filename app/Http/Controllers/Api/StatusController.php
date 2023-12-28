@@ -34,11 +34,26 @@ class StatusController extends Controller
      */
     public function getStatuses(): \Illuminate\Http\JsonResponse
     {
-        $statuses = Status::all();
+        if(!empty(auth('api')->user()->role)) {
+            switch (auth('api')->user()->role->name) {
+                case "root": 
+                    $statuses = Status::all();
+                break;
+                case "Admin": 
+                    $statuses = Status::all();
+                break;
+                case "Moderator": 
+                    $statuses = Status::all();
+                break;
+            }
+        } else {
+            $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
+        }
 
         return response()->json([
             'status'     => 'success',
-            'statuses'   => $statuses
+            'statuses'   => $statuses,
+            // 'user_role'  => auth('api')->user()->role->name, 
         ], 200);
     }
     /**
