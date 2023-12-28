@@ -85,15 +85,15 @@
 
             
            
-
+            
             <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
                     <p>Типы события:</p>
                     <div class="space-x-2">
-                        <a :href="'#type-'+stype.stype_id" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a> 
+                        <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a> 
                     </div>
                     
-                    <div  class="space-y-2 border py-4 tree" v-if="allTypes">
+                    <div  class="space-y-14 border py-4 tree" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                 </div>  
@@ -181,7 +181,7 @@ export default {
         TypeList,
         PriceSegment,
         ChangeStatus
-    },
+    },   
     props:{
         connectState:{
             type: Object,
@@ -256,6 +256,10 @@ export default {
                 }),
                 takeUntil(this.destroy$),
             ).subscribe()
+        },
+        testF(){
+            this.$store.commit('increment')
+            console.log(this.$store.state.count)
         },
         getAllTypes(){
       
@@ -342,6 +346,15 @@ export default {
                 }
             })
             
+        },
+        goToElement(event){
+            let target = "s"+event.target.id
+            console.log(target)
+            
+            let type = document.getElementById(target)
+            type.scrollIntoView()
+            console.log(type)
+
         },
         updateFiles(files) {
             

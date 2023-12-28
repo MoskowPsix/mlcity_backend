@@ -1,16 +1,16 @@
 
 
 <template>
-  <div :id="'sight-'+sightId+'-stype-'+allSTypes.id" class="border p-4 ml-2 mt-2 max-w-[600px]">
-    <a :name="'type-'+allSTypes.id"></a>
+  <div :id="'sight-'+sightId+'-stype-'+allSTypes.id" class="border p-4 ml-2 mt-2 max-w-[600px]" :name="'stype-'+allSTypes.stype_id">
+    <a ></a>
     <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
       <input type="checkbox" class="relative float-left ml-[1.5rem] mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
 
-      <div v-if="!checkChild()">
+      <div v-if="!checkChild()" :id="'stype-'+allSTypes.stype_id">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>
       </div>
     
-      <div v-else class="flex space-x-2 items-center">
+      <div v-else class="flex space-x-2 items-center" :id="'stype-'+allSTypes.stype_id">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg">{{ allSTypes.name }}</button>
         <div class="flex">
           <p>{{ childsLength(allSTypes) }}</p>
