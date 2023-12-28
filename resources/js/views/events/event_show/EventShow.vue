@@ -103,7 +103,7 @@
 <script>
 import { mapActions} from 'pinia'
 import { useToastStore } from '../../../stores/ToastStore'
-import { MessageEvents } from '../../../enums/events_messages'
+import { MessageContents } from '../../../enums/content_messages'
 import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
@@ -164,7 +164,6 @@ export default {
         return {
             event: [],
             eventUpd: new FormData(),
-            newPlaces: [],
             state: false,
             filesDel: [],
             filesUpd: [],
@@ -302,21 +301,39 @@ export default {
                 type: "Event",
                 history_content: {...historyEvent}
             }
-            console.log(params)
+            this.openLoaderFullPage()
             this.saveHistory(params).pipe(
                 map(response => {
+                    this.showToast(MessageContents.success_upd_content, 'success')
                     console.log(response)
+                    this.eventUpd = new FormData
+                    this.filesDel = []
+                    this.filesUpd = []
+                    this.pricesDel = []
+                    this.pricesUpd = []
+                    this.placeUpd = []
+                    this.getEvent()
                 }),
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageEvents.warning_upd_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageEvents.error_upd_content + ': ' + err.message, 'error') : null
+                    console.log(err)
+                    return of(EMPTY)
+                })
             ).subscribe()
-            // console.log(historyEvent)
         },
         statusChange(status) {
             // Меняем статус
+            this.openLoaderFullPage()
             this.changeStatus(status, this.event.id).pipe(
                 map(response => {
-                    console.log(response)
+                    this.showToast(MessageContents.success_upd_status_content, 'success')
+                    this.getEvent()
                 }),
                 catchError(err => {
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageEvents.warning_upd_status_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageEvents.error_upd_status_content + ': ' + err.message, 'error') : null
                     console.log(err)
                     return of(EMPTY)
                 }),
@@ -398,7 +415,7 @@ export default {
                 }),
                 catchError(err => {
                     console.log(err)
-                    router.go(-1)
+                    this.showToast('При загрузке события возникла ошибка: ' + err.message, 'error')
                     this.closeLoaderFullPage()
                     return of(EMPTY)
                 }),
