@@ -26,7 +26,7 @@ export default {
         } 
     },
   methods: {
-    ...mapActions(useAuthStore, ['login']),
+    ...mapActions(useAuthStore, ['login', 'getUserForToken']),
     ...mapActions(useLocalStorageStore, ['setToken', 'setRole', 'setUser', 'localStorageInit']),
     ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
     ...mapActions(useToastStore, ['showToast']),
@@ -58,6 +58,39 @@ export default {
         takeUntil(this.destroy$)
       ).subscribe()
     },
+    loginByToken() {
+      console.log(this.$route.params.token)
+      if (this.$route.params.token.length >= 47) {
+        this.openLoaderFullPage()
+        this.setToken(this.$route.params.token)
+        router.push({name: 'my-events'})
+        // this.getUserForToken().pipe(
+        //   map(response => {
+        //     console.log(response)
+        //     response.data.user.roles[0] ? this.setRole(response.data.user.roles[0].name) : null
+        //     this.setUser(response.data.user)
+        //     this.localStorageInit()
+        //     this.showToast(MessageAuth.success_auth, 'success')
+        //     this.closeLoaderFullPage()
+        //     router.push({name: 'my-events'})
+        //   }),
+        //   catchError(err => {
+        //     if (399 < err.response.status && err.response.status < 500) {
+        //       this.showToast(MessageAuth.warning_auth, 'warning')
+        //     } else if(499 < err.response.status && err.response.status < 600) {
+        //       this.showToast(MessageAuth.error_auth, 'error')
+        //     }
+        //     this.closeLoaderFullPage()
+        //     return of(EMPTY)
+        //   }),
+        //   takeUntil(this.destroy$)
+        // ).subscribe()
+
+      }
+    }
+  },
+  mounted() {
+    this.loginByToken()
   },
 };
 </script>

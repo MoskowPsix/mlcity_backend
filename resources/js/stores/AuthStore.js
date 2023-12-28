@@ -13,7 +13,7 @@ export const useAuthStore = defineStore('useAuth', {
             return axios.post('logout')
         },
         getUserForToken() {
-            return axios.get('users')
+            return from(axios.get('users'))
         },
     },
     state: () => ({

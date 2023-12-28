@@ -2,6 +2,8 @@ import { createRouter, createWebHistory, createWebHashHistory  } from 'vue-route
 import { useAuthStore } from '../stores/AuthStore'
 import { useLocalStorageStore } from '../stores/LocalStorageStore'
 import { useLoaderStore } from '../stores/LoaderStore'
+import { catchError} from 'rxjs/operators'
+import { of, EMPTY } from 'rxjs'
 import axios from 'axios'
 
 
@@ -16,7 +18,7 @@ const router = createRouter({
       component: () => import('../views/users/Users.vue')
     },
     {
-      path: '/login',
+      path: '/login/:token',
       name: 'login',
       component: () => import('../views/login/Login.vue')
     },
@@ -80,30 +82,24 @@ const router = createRouter({
 
 })
 
-// router.beforeEach((to, from, next) => {
-//   if (to.name !== 'login' && localStorage.role !== 'Admin' && localStorage.role !== 'root' ) {
-//     useBarStore().closeBar()
-//     next({  name: 'login' })
-//   } else { 
-//     useBarStore().showBar()
-//     next() 
-//   }
-// })
 router.beforeEach(async (to, from, next) => {
   useLoaderStore().openLoaderFullPage()
   axios.defaults.headers = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
   await useLocalStorageStore().localStorageInit()
-  await useAuthStore().getUserForToken()
-  .catch(async err => {
-    localStorage.clear()
-    useLocalStorageStore().localStorageInit()
-  })
+  await useAuthStore().getUserForToken().pipe(
+    catchError(err => {
+      localStorage.clear()
+      useLocalStorageStore().localStorageInit()
+      return of(EMPTY)
+    })
+  ).subscribe()
+  
   useLoaderStore().closeLoaderFullPage()
   if(!useLocalStorageStore().token) {
     if (to.name === 'login') {
       return next()
     } else {
-      return next({name: 'login'})
+      return next({name: `login`})
     }
   }
 
