@@ -7,8 +7,8 @@
         <VueTailwindDatepicker :formatter="formatter" v-model="contentDate" placeholder="Дата начала и конца" />
         <div class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
             <div>
-                <select class="h-6" v-model="contentStatuses" data-te-select-init multiple>
-                    <option v-for="status in statuses" :value="status.id+' '">{{status.name}}</option>
+                <select class="h-6" v-model="contentStatuses" data-te-select-init>
+                    <option v-for="status in statuses" :value="status.name">{{status.name}}</option>
                 </select>
                 <label data-te-select-label-ref>статусы</label>
             </div>

@@ -11,11 +11,11 @@ class HistoryContentStatuses implements Pipe {
     {
         if(request()->has('statuses') && !request()->has('statusLast')){
             // $statuses = '%'.request()->get('statuses').'%';
-            $statuses = explode(',', request()->get('statuses'));
+            $statuses = '%'.request()->get('statuses').'%';;
             info($statuses);
             if ($statuses[0]) {
                 $content->whereHas('statuses', function($q) use ($statuses){
-                    $q->whereIn('status_id', $statuses);
+                    $q->where('name', 'LIKE', $statuses);
                 });
             }
         }

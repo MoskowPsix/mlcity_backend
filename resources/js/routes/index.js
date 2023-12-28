@@ -94,9 +94,6 @@ router.beforeEach(async (to, from, next) => {
   axios.defaults.headers = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
   await useLocalStorageStore().localStorageInit()
   await useAuthStore().getUserForToken()
-  .then(response => {
-
-  })
   .catch(async err => {
     localStorage.clear()
     useLocalStorageStore().localStorageInit()
@@ -111,10 +108,10 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (to.name === 'login' && useLocalStorageStore().token) {
-    return next({name: 'users'})
+    return next({name: 'my-event'})
   }
   if (to.name === 'login' && useLocalStorageStore().token) {
-    return next({name: 'users'})
+    return next({name: 'my-event'})
   }
   next()
 })

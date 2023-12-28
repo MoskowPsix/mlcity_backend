@@ -53,7 +53,6 @@ class StatusController extends Controller
         return response()->json([
             'status'     => 'success',
             'statuses'   => $statuses,
-            // 'user_role'  => auth('api')->user()->role->name, 
         ], 200);
     }
     /**
