@@ -9,7 +9,7 @@
         <div class="rounded-lg border m-1">
             <!-- Оригинал -->
             <EventShow v-if="event.id" class="rounded-lg" :id="event.id" :connectState="eventSettings"/>
-            <!-- <SightShow v-if="sight.length" class="rounded-lg" :id="sight.id" :connectState="['sss']"/> -->
+            <SightShow v-if="sight.id" class="rounded-lg" :id="sight.id" :connectState="sightSettings"/>
         </div>
         <div class="rounded-lg border m-1">
             <!-- История -->
@@ -152,6 +152,17 @@ export default {
                 AuthorCard: true,
                 StatusCard: true,
                 EditButton: false,
+            },
+            sightSettings:{
+                BackButton: false,
+                NameLine: true,
+                IdLine: true,
+                Gallery: true,
+                PricesCard: true,
+                TypeCard: true,
+                AuthorCard: true,
+                StatusCard: true,
+                EditButton: false,
             }
         }
     },
@@ -204,6 +215,7 @@ export default {
                     console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.sight.id = response.data.historyContents.history_contentable_id
+                        console.log(this.sight.id)
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
@@ -224,6 +236,8 @@ export default {
     },
     mounted() {
         this.getHistoryContent()
+        console.log(this.sight)
+        console.log(this.event)
     },
 }
 </script>

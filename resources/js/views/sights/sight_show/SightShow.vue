@@ -3,6 +3,7 @@
     <form enctype="multipart/form-data">
     <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
         <button
+            v-if="connectState.BackButton"
             @click.prevent="backButton()"
             type="button"
             data-te-ripple-init
@@ -98,7 +99,7 @@
                 
 
                 <div v-if="connectState.PricesCard" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div  :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-5 lg:col-span-8 md:col-span-9 sm:col-span-1 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
+                    <div  :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
                         v-on:click="addToCurrentPrices()" v-if="state">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -145,9 +146,12 @@
             
         </div>
     </div>
+    <div v-if="connectState.EditButton">
         <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
         <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
         <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
+    </div>
+        
     </form>
 </div>
 </template>
@@ -188,6 +192,10 @@ export default {
                 StatusCard: true,
                 EditButton: true,
             }
+        },
+        id:{ 
+            type: Number,
+            default: null
         }
     },
     setup() {
@@ -223,8 +231,10 @@ export default {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useTypeStore,['getTypes']),
         getSight() {
+            let id
+            this.$props.id ? id = this.id : id = this.$route.params.id
             this.openLoaderFullPage()
-            this.getSightForIds(this.$route.params.id).pipe(
+            this.getSightForIds(id).pipe(
                 retry(3),
                 delay(100),
                 map(response => {
