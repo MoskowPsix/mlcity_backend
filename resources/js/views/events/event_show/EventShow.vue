@@ -42,7 +42,7 @@
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
                 <p :id="'event-'+event.id+'-date_start'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
                 <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
-                <VueTailwindDatepicker  v-if="state" as-single use-range  v-model="eventTime" :formatter="formatter" class="w-full h-full mt-1"  placeholder="Дата и время события" />
+                <VueTailwindDatepicker  v-if="state" as-single use-range :shortcuts="false"  v-model="eventTime"  class="w-full h-full mt-1"  placeholder="Дата и время события" />
 
             </label>
         </div>
@@ -142,12 +142,12 @@ export default {
             date: 'YYYY-MM-DD hh:mm:ss',
             month: 'MM',
         }
-        let eventTime = ref({
-            startDate: "",
-            endDate: ""
-         })
+        // let eventTime = ref({
+        //     startDate: "",
+        //     endDate: ""
+        //  })
         return {
-            eventTime,
+            // eventTime,
             formatter,
             destroy$
         } 
@@ -184,6 +184,10 @@ export default {
             pricesDel: [],
             pricesUpd: [],
             placeUpd: [],
+            eventTime: {
+                startDate: "",
+                endDate: ""
+            }
         }
     },
     components: {
@@ -201,8 +205,11 @@ export default {
         ...mapActions(useHistoryContentStore, ['saveHistory']),
         editUpd() {
             this.state = true
-            this.eventTime.startDate = JSON.parse(JSON.stringify(this.event.date_start))
-            this.eventTime.endDate = JSON.parse(JSON.stringify(this.event.date_end))
+            this.eventTime = {
+                startDate: `${JSON.parse(JSON.stringify(this.event.date_start))}`,
+                endDate: `${JSON.parse(JSON.stringify(this.event.date_end))}`
+            }
+            console.log(this.eventTime)
         },
         canceleUpd() {
             this.getEvent()

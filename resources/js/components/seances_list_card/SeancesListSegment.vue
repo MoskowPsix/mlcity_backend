@@ -110,7 +110,7 @@
             </div>
         </div>
         <div v-if="seance && state">
-            <VueTailwindDatepicker :auto-apply="false" as-single use-range  v-model="seanceTime" :formatter="formatter" class="w-full h-full mt-1"  placeholder="Дата и время сеанса" />
+            <VueTailwindDatepicker :auto-apply="false" as-single use-range  v-model="seanceTime" class="w-full h-full mt-1"  placeholder="Дата и время сеанса" />
         </div>
     </div>
 </template>
