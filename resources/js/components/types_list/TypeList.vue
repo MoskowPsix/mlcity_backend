@@ -1,16 +1,36 @@
 
 
 <template>
-  <div :id="'sight-'+sightId+'-stype-'+allSTypes.id">
-    <button @click="isExpanded = !isExpanded"  type="button" class="bg-green-300" v-if="!checkChild()">{{ allSTypes.name }}</button>
-    <button @click="isExpanded = !isExpanded"  type="button" class="bg-red-300" v-if="checkChild()">{{ allSTypes.name }}</button>
-    <input type="checkbox" class="ml-2"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
+  <div :id="'sight-'+sightId+'-stype-'+allSTypes.id" class="border p-4 ml-2 mt-2 max-w-[600px]">
+    <a :name="'type-'+allSTypes.id"></a>
+    <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
+      <input type="checkbox" class="relative float-left ml-[1.5rem] mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
+
+      <div v-if="!checkChild()">
+        <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>
+      </div>
+    
+      <div v-else class="flex space-x-2 items-center">
+        <button @click="isExpanded = !isExpanded"  type="button" class="text-lg">{{ allSTypes.name }}</button>
+        <div class="flex">
+          <p>{{ childsLength(allSTypes) }}</p>
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
+          </svg>
+        </div>
+        
+        
+      </div>
+
+    </div>
+    
     <div v-if="allSTypes.stypes" :class="{'ml-6': checkChild()}">
       <Collapse :when="isExpanded" v-for="stypes in allSTypes.stypes" v-bind:key="stypes.id">
        <TypeList :enableState="enableState" :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
     </Collapse>
     </div>
   </div>
+
   
   
 </template>
@@ -36,13 +56,16 @@ export default{
   data(){
     return{
       isExpanded: false,
-      allTypes: null
+      allTypes: null,
+      test: this.allSTypes
     }
   },
-
   methods:{
   checkChild(){
+    // console.log(this.allSTypes.stypes.length)
     if (this.allSTypes.stypes.length>0){
+      
+      // console.log(this.allSTypes.stypes.length)
       return true
     }
     else if (this.allSTypes.stypes.length == 0){
@@ -60,10 +83,21 @@ export default{
     console.log("Вызов")
     this.$emit("checked",type)
     
-  } 
+  },
+  childsLength(type){
+    let count = 0
+    
+    type.stypes.forEach(element => {
+      if(element.stypes.length>0){
+        count += this.childsLength(element)
+      }
+      count ++
+    });
 
     
-
+    return count
+  }
+  
   }
   
 

@@ -89,6 +89,10 @@
             <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
                     <p>Типы события:</p>
+                    <div class="space-x-2">
+                        <a :href="'#type-'+stype.stype_id" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a> 
+                    </div>
+                    
                     <div  class="space-y-2 border py-4 tree" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
@@ -494,9 +498,13 @@ export default {
             
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
-            this.saveSightHistory(historyData).pipe().subscribe(response => {console.log(response)})
+            this.saveSightHistory(historyData).pipe().subscribe(
+                response => {console.log(response)
+                this.$router.go(0);
+                })
             this.state = false
             console.log(historyData)
+            
         }
     },
     mounted() {
