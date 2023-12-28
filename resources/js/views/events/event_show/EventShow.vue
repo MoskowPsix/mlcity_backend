@@ -41,7 +41,7 @@
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
                 <p :id="'event-'+event.id+'-date_start'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
-                <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
+                <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{new Date(event.date_end).toLocaleString("ru-RU", {timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone})}} // {{event.date_end}} {{Intl.DateTimeFormat().resolvedOptions().timeZone}} </p>
                 <VueTailwindDatepicker  v-if="state" as-single use-range :shortcuts="false"  v-model="eventTime"  class="w-full h-full mt-1"  placeholder="Дата и время события" />
 
             </label>

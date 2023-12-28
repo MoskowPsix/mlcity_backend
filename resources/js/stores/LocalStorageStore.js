@@ -10,7 +10,8 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
         token: null,
         role: null,
         user: [],
-        auth: false
+        auth: false,
+        timeZone: ''
     }),
     actions: {
         localStorageInit() {
@@ -23,6 +24,7 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
                 this.token = ''
                 this.role = ''
                 this.user = ''
+                this.timeZone= ''
                 this.auth = false
             }
         },
@@ -35,6 +37,9 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
         setUser(user) {
             localStorage.setItem('user', JSON.stringify(user))
         },
+        setTimeZone(timeZone) {
+            localStorage.setItem('timezone', JSON.stringify(timeZone))
+        }
 
     },
     getters: {
@@ -46,6 +51,9 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
         },
         getAuth() {
             return this.auth
+        },
+        getTimeZone() {
+            return this.timeZone
         }
     }
 })

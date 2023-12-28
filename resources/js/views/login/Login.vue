@@ -27,7 +27,7 @@ export default {
     },
   methods: {
     ...mapActions(useAuthStore, ['login', 'getUserForToken']),
-    ...mapActions(useLocalStorageStore, ['setToken', 'setRole', 'setUser', 'localStorageInit']),
+    ...mapActions(useLocalStorageStore, ['setToken', 'setRole', 'setUser', 'localStorageInit', 'setTimeZone']),
     ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
     ...mapActions(useToastStore, ['showToast']),
     loginSubmit() {
@@ -39,6 +39,7 @@ export default {
       this.login(params).pipe(
         map(response => {
           this.setToken(response.data.access_token)
+          this.setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
           response.data.user.roles[0] ? this.setRole(response.data.user.roles[0].name) : null
           this.setUser(response.data.user)
           this.localStorageInit()
@@ -62,12 +63,13 @@ export default {
       if (this.$route.params.token.length >= 47) {
         this.openLoaderFullPage()
         this.setToken(this.$route.params.token)
+        this.setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
         router.push({name: 'my-events'})
       }
     }
   },
   mounted() {
-    this.loginByToken()
+    this.$route.params.token ? this.loginByToken() : null
   },
 };
 </script>
