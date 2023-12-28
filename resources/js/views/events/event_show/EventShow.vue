@@ -218,34 +218,24 @@ export default {
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
                 switch(item[1].id) {
-                    case('name'):
+                    case(`event-${this.event.id}-name-input`):
                     if (item[1].value != this.event.name) {
                         historyEvent.name = item[1].value
                     }
                     break;
-                    case('sponsor'):
+                    case(`event-${this.event.id}-sponsor-input`):
                     if (item[1].value != this.event.sponsor) {
-                        historyEvent.name = item[1]
+                        historyEvent.sponsor = item[1]
                     }
                     break;
-                    case('description'):
+                    case(`event-${this.event.id}-description-input`):
                     if (item[1].value != this.event.description) {
-                        historyEvent.name = item[1].value
+                        historyEvent.description = item[1].value
                     }
                     break;
-                    case('materials'):
+                    case(`event-${this.event.id}-materials-input`):
                     if (item[1].value != this.event.materials) {
-                        historyEvent.name = item[1].value
-                    }
-                    break;
-                    case('date_start'):
-                    if (item[1].value != this.event.date_start) {
-                        historyEvent.name = item[1].value
-                    }
-                    break;
-                    case('date_end'):
-                    if (item[1].value != this.event.date_end) {
-                        historyEvent.name = item[1].value
+                        historyEvent.materials = item[1].value
                     }
                     break;
                 }

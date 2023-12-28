@@ -199,6 +199,7 @@ Route::controller(LocationController::class)->group(function() {
     Route::get('location/name/{name}','getLocationsName');
     Route::get('locations','getLocationsAll');
     Route::get('locationWithRegion','getLocationsAndRegion');
+    Route::get('locations/search/coords' , 'searchLocationByCoords');
 });
 
 Route::controller(LogApiController::class)->group(function() {

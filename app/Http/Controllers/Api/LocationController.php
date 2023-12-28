@@ -23,6 +23,26 @@ class LocationController extends Controller
         ->get();
         return response()->json(['status' => 'success', 'locations' => $locations], 200);
     }
+    public function searchLocationByCoords(Request $request) {
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
+        $radius = 5;
+        $location = null;
+        while(empty($location) == true) {
+            $location = Location::whereRaw('(
+                6371 *
+                acos(cos(radians(?)) *
+                cos(radians(latitude)) *
+                cos(radians(longitude) -
+                radians(?)) +
+                sin(radians(?)) *
+                sin(radians(latitude )))
+            ) <= ? ',
+            [$latitude, $longitude,  $latitude,  $radius])->first();
+            $radius = $radius + 5;
+        }
+        return response()->json(['status' => 'success', 'location' => $location], 200);
+    }
     public function getLocationsAll() {
         $locations = Location::where('location_id')->with('locationsChildren')->get();
         return response()->json(['status' => 'success', 'locations' => $locations], 200);
