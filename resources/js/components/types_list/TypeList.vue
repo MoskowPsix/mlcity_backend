@@ -33,11 +33,6 @@ export default{
   components:{
     Collapse
   },
-
-  mounted(){
-    // console.log(this.currentTypes)
-  },
-
   data(){
     return{
       isExpanded: false,
@@ -55,9 +50,6 @@ export default{
     }
   },
   checkType(type){
-  
-    // console.log("Наши типы: ",this.currentStypes)
-    // console.log("Тип",this.allSTypes)
     let status = this.currentStypes.some(obj => obj.id == this.allSTypes.id)
     if(status){
       console.log(status)

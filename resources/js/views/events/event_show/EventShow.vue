@@ -42,6 +42,8 @@
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
                 <p :id="'event-'+event.id+'-date_start'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
                 <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
+                <VueTailwindDatepicker  v-if="state" as-single use-range  v-model="eventTime" :formatter="formatter" class="w-full h-full mt-1"  placeholder="Дата и время события" />
+
             </label>
         </div>
         <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
@@ -93,7 +95,7 @@
         <div v-if="connectState.EditButton" class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
             <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
             <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
-            <button @click="state= !state" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
+            <button @click="editUpd()" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
         </div>
         <!-- <div>Удалённые {{filesDel}}</div>
         <div>Обновлённые {{filesUpd}}</div> -->
@@ -107,7 +109,7 @@ import { MessageContents } from '../../../enums/content_messages'
 import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
-
+import { ref } from 'vue'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import router from '../../../routes'
@@ -117,6 +119,8 @@ import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
+import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+
 
     // В props connectState нужно передать объект {} со следующими полями(true отобразить, false не отображать):
     // BackButton: true,
@@ -134,8 +138,18 @@ export default {
     name: 'EventShow',
     setup() {
         const destroy$ =  new Subject()
+        const formatter = {
+            date: 'YYYY-MM-DD hh:mm:ss',
+            month: 'MM',
+        }
+        let eventTime = ref({
+            startDate: "",
+            endDate: ""
+         })
         return {
-            destroy$,
+            eventTime,
+            formatter,
+            destroy$
         } 
     },
     props: {
@@ -177,13 +191,19 @@ export default {
         AuthorMiniCard,
         PlacesListCard,
         ChangeStatus,
-        PriceSegment
+        PriceSegment,
+        VueTailwindDatepicker
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useHistoryContentStore, ['saveHistory']),
+        editUpd() {
+            this.state = true
+            this.eventTime.startDate = JSON.parse(JSON.stringify(this.event.date_start))
+            this.eventTime.endDate = JSON.parse(JSON.stringify(this.event.date_end))
+        },
         canceleUpd() {
             this.getEvent()
             this.state = false
@@ -200,42 +220,43 @@ export default {
                 switch(item[1].id) {
                     case('name'):
                     if (item[1].value != this.event.name) {
-                        console.log('new name value: ' + item[1].value)
                         historyEvent.name = item[1].value
                     }
                     break;
                     case('sponsor'):
                     if (item[1].value != this.event.sponsor) {
-                        console.log('new sponsor value: ' + item[1].value)
                         historyEvent.name = item[1]
                     }
                     break;
                     case('description'):
                     if (item[1].value != this.event.description) {
-                        console.log('new description value: ' + item[1].value)
                         historyEvent.name = item[1].value
                     }
                     break;
                     case('materials'):
                     if (item[1].value != this.event.materials) {
-                        console.log('new materials value: ' + item[1].value)
                         historyEvent.name = item[1].value
                     }
                     break;
                     case('date_start'):
                     if (item[1].value != this.event.date_start) {
-                        console.log('new date_start value: ' + item[1].value)
                         historyEvent.name = item[1].value
                     }
                     break;
                     case('date_end'):
                     if (item[1].value != this.event.date_end) {
-                        console.log('new date_end value: ' + item[1].value)
                         historyEvent.name = item[1].value
                     }
                     break;
                 }
             })
+            if(this.eventTime.startDate != this.event.date_start && this.eventTime.startDate.length) {
+                historyEvent.date_start = this.eventTime.startDate
+            }
+            if(this.eventTime.endDate != this.event.date_end && this.eventTime.endDate.length) {
+                historyEvent.date_end = this.eventTime.endDate
+
+            }
             historyEvent.history_prices = []
                 this.pricesDel.forEach((item) => {
                     item.on_delete = true
@@ -305,7 +326,6 @@ export default {
             this.saveHistory(params).pipe(
                 map(response => {
                     this.showToast(MessageContents.success_upd_content, 'success')
-                    console.log(response)
                     this.eventUpd = new FormData
                     this.filesDel = []
                     this.filesUpd = []
@@ -316,8 +336,8 @@ export default {
                 }),
                 takeUntil(this.destroy$),
                 catchError(err => {
-                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageEvents.warning_upd_content + ': ' + err.message, 'warning') : null
-                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageEvents.error_upd_content + ': ' + err.message, 'error') : null
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_content + ': ' + err.message, 'error') : null
                     console.log(err)
                     return of(EMPTY)
                 })
@@ -332,8 +352,8 @@ export default {
                     this.getEvent()
                 }),
                 catchError(err => {
-                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageEvents.warning_upd_status_content + ': ' + err.message, 'warning') : null
-                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageEvents.error_upd_status_content + ': ' + err.message, 'error') : null
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_status_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_status_content + ': ' + err.message, 'error') : null
                     console.log(err)
                     return of(EMPTY)
                 }),
@@ -341,7 +361,6 @@ export default {
             ).subscribe()
         },
         deleteFromCurrentPrices(price) {
-            // console.log(this.event.prices.find(item => item.id === price.id))
             if (this.event.price.find(item => item.id === price.id)) {
                 this.event.price = this.event.price.filter(item => item.id !== price.id)
                 if (price.id){
@@ -368,10 +387,6 @@ export default {
                     this.typesUpd.push({"id": type.id})
                 }
             }
-            // console.log(this.sight.types)
-            
-            console.log("на удаление", this.typesDel)
-            console.log("на добавление", this.typesUpd)
         },
         sightUpdPrice(price){
             if(this.pricesUpd.find(item => item.id === price.id)){
@@ -385,7 +400,6 @@ export default {
                     }
                 }
 
-                console.log(data)
 
                 if (price.descriptions){
                     this.pricesUpd[index].descriptions = price.descriptions
@@ -411,7 +425,6 @@ export default {
                 map(response => {
                     this.event = response.data
                     this.closeLoaderFullPage()
-                    console.log(this.event)
                 }),
                 catchError(err => {
                     console.log(err)
@@ -447,7 +460,6 @@ export default {
                 }
                 this.filesUpd.push(file)
             })
-            console.log(this.filesUpd)
         },
         backButton(){
             router.go(-1)
@@ -550,7 +562,6 @@ export default {
                                             sean = k
                                         }
                                     })
-                                    console.log(sean)
                                     if (sean && sean != 0) {
                                         this.placeUpd[getIndex].seances[sean] = JSON.parse(JSON.stringify(item))
                                     } else {
@@ -591,14 +602,12 @@ export default {
                                 }
                             })
                             if (seanceOnDel) { 
-                                console.log(seanceOnDel)
                                 this.event.places_full[place.index].seances[item.index].on_delete = true
                             } 
                         })
                     }
                     this.placeUpd.push(JSON.parse(JSON.stringify(place)))
                 }
-            console.log(this.placeUpd)
             }
         },
         addNewPlace() {
@@ -617,22 +626,6 @@ export default {
         }
     },
     mounted() {
-        // if (!this.$props.connectState) {
-        //     this.$props.connectState = {
-        //         BackButton: true,
-        //         NameLine: true,
-        //         IdLine: true,
-        //         Galary: true,
-        //         DescriptionsCard: true,
-        //         PricesCard: true,
-        //         TypeCard: true,
-        //         PlaceCard: true,
-        //         AuthorCard: true,
-        //         StatusCard: true,
-        //         EditButton: true,
-        //     }
-        //     console.log(this.$props.connectState)
-        // }
         this.openLoaderFullPage
         this.getEvent()
     },

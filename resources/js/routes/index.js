@@ -7,8 +7,6 @@ import { of, EMPTY } from 'rxjs'
 import axios from 'axios'
 
 
-//const authStore = useAuthStore()
-//const localStorageStore = useLocalStorageStore()
 const router = createRouter({
   history: createWebHistory(),
   routes: [

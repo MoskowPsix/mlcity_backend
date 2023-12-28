@@ -33,7 +33,6 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
             localStorage.setItem('role', role)
         },
         setUser(user) {
-            console.log(user)
             localStorage.setItem('user', JSON.stringify(user))
         },
 

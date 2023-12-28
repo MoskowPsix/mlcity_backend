@@ -196,9 +196,7 @@ export default {
                 ).subscribe(
 
                 )
-            } else {
-                console.log('менее 3 символов')
-            }
+            } 
         },    
         onSearchSight(event) {
             let text = event.target.value

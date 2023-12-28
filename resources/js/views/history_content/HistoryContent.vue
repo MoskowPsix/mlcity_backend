@@ -76,7 +76,6 @@ export default {
                 delay(100),
                 tap(()=> {this.closeLoaderFullPage()}),
                 map(response => {
-                    console.log(response.data)
                     if(response.data.historyContents.data.length) {
                         this.contents = response.data.historyContents.data
                         this.nextPage = response.data.historyContents.next_cursor
@@ -97,7 +96,6 @@ export default {
             ).subscribe()
         },
         toHistoryContent(content) {
-            console.log(content)
             router.push({ path: `/edit/${content.id}`})
         }
     },

@@ -39,13 +39,10 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
             this.locationId = useUsersFilterStore().getLocation()
         },
         usersForPageUsers() {
-            // console.log(this.createdDate)
-            // console.log(this.updatedDate)
             let createdDate = ['','']
             let updatedDate = ['','']
             if (this.createdDate) {
                 createdDate = this.createdDate.split('~')
-                console.log(createdDate)
             }
             if (this.updatedDate) {
                 updatedDate = this.updatedDate.split('~')
@@ -60,7 +57,6 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
                 updatedDateEnd: updatedDate[1],
                 page: this.pageUsersForPageUsers
             }
-            // console.log(this.queryParams)
         },
         setPageUsersForPageUsers(page) {
             this.pageUsersForPageUsers = page

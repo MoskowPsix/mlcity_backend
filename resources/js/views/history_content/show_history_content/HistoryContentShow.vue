@@ -195,13 +195,17 @@ export default {
             this.getElement(this.type_element+'-'+this.event.id+'-place-' + seance.place_id+ '-seance-'+seance.seance_id)
         },
         statusChange(status) {
-            console.log(status, this.historyContent.id)
+            this.openLoaderFullPage()
             this.changeStatus(status, this.historyContent.id).pipe(
                 map(response => {
-                    console.log(response)
+                    this.showToast(MessageContents.success_upd_status_content, 'success')
+                    this.getHistoryContent()
                 }),
                 catchError( err => {
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_status_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_status_content + ': ' + err.message, 'error') : null
                     console.log(err)
+                    this.closeLoaderFullPage()
                     return of(EMPTY)
                 }),
                 takeUntil(this.destroy$),
@@ -212,10 +216,8 @@ export default {
                 delay(100),
                 retry(2),
                 map(response => {
-                    console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.sight.id = response.data.historyContents.history_contentable_id
-                        console.log(this.sight.id)
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
@@ -236,8 +238,6 @@ export default {
     },
     mounted() {
         this.getHistoryContent()
-        console.log(this.sight)
-        console.log(this.event)
     },
 }
 </script>

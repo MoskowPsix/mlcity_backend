@@ -54,7 +54,6 @@ export const useHistoryContentsFilterStore = defineStore('useHistoryContentsFilt
         setContentStatusLast(status) {
             localStorage.setItem('contentStatusLastFilter', status)
             this.contentStatusLast = status
-            console.log(this.contentStatusLast)
         },
         getContentStatusLast() {
             return localStorage.getItem('contentStatusLastFilter')

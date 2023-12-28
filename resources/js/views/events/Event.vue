@@ -63,7 +63,6 @@ export default {
             this.getEvents(this.queryBuilder('eventsForPageEvents')).pipe(
                 map(response => {
                         this.closeLoaderFullPage()
-                        console.log(response)
                         if (response.data.events.data.length) {
                         this.events = response.data.events.data
                         }else {
