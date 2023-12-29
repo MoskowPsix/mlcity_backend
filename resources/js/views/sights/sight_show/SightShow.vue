@@ -1,4 +1,11 @@
 <template lang="">
+    <div>
+        <button class="p-4 bg-red-500" @click="searchTypeOpen()">Popen</button>
+        <button class="p-4 bg-red-500" @click="searchTypeClose()">Copen</button>
+
+    </div>
+    
+    <ModalContainer/>
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
     <form enctype="multipart/form-data">
     <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
@@ -19,7 +26,7 @@
         <input v-if="state && connectState.NameLine" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0" :id="'sight-'+sight.id+'-name-input'">
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
-
+    
     <div
         class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
         
@@ -173,6 +180,8 @@ import CarouselGallery from '../../../components/carousel_gallery/CarouselGaller
 import { useTypeStore } from '../../../stores/TypeStore'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
+import {container as ModalContainer, openModal, closeModal} from "jenesius-vue-modal";
+import searchType from '../../../components/search_type/searchType.vue'
 
 export default {
     name: 'SightShow',
@@ -180,7 +189,9 @@ export default {
         CarouselGallery,
         TypeList,
         PriceSegment,
-        ChangeStatus
+        ChangeStatus,
+        searchType,
+        ModalContainer
     },   
     props:{
         connectState:{
@@ -207,6 +218,9 @@ export default {
         return {
             destroy$,
         } 
+    },
+    mounted(){
+        
     },
     data() {
         return {
@@ -257,9 +271,11 @@ export default {
                 takeUntil(this.destroy$),
             ).subscribe()
         },
-        testF(){
-            this.$store.commit('increment')
-            console.log(this.$store.state.count)
+        searchTypeOpen(){
+            openModal(searchType)
+        },
+        searchTypeClose(){
+            closeModal(searchType)
         },
         getAllTypes(){
       
@@ -533,4 +549,7 @@ export default {
 }
 </script>
 <style>
+.modal-container {
+	z-index: 100;
+}
 </style>
