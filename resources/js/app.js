@@ -1,9 +1,10 @@
 // import store from './store'
-import {createApp} from 'vue'
+import {createApp, ref} from 'vue'
 import App from './app.vue'
 import router from './routes'
 import axios from 'axios'
 import { createPinia } from 'pinia'
+import { useDark } from '@vueuse/core'
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 import 'vue3-carousel/dist/carousel.css'
@@ -26,6 +27,7 @@ const options = {
 const app = createApp(App)
 
 app.config.globalProperties.$helpers = helpers
+app.config.globalProperties.$theme = ref(useDark())
 app.use(Toast, options)
 app.use(router)
 // app.use(store)

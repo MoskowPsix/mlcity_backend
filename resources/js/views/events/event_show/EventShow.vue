@@ -41,9 +41,8 @@
             <label>
                 <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
                 <p :id="'event-'+event.id+'-date_start'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-1">Начало: {{event.date_start}}</p>
-                <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{getCurentTime(event.date_start)}} // {{getCurentTime(event.date_end)}} </p>
-                <VueTailwindDatepicker  v-if="state" as-single use-range :shortcuts="false"  v-model="eventTime"  class="w-full h-full mt-1"  placeholder="Дата и время события" />
-
+                <p :id="'event-'+event.id+'-date_end'" v-if="!state" class="text-sm font-normal dark:text-gray-200">Конец: {{event.date_end}}</p>
+                <VueDatePicker v-if="state" v-model="eventTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
             </label>
         </div>
         <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
@@ -112,6 +111,7 @@ import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
 import { ref } from 'vue'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
+import { useDark } from '@vueuse/core'
 import router from '../../../routes'
 
 import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
@@ -119,7 +119,8 @@ import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+import VueDatePicker from '@vuepic/vue-datepicker';
+import '@vuepic/vue-datepicker/dist/main.css'
 
 
     // В props connectState нужно передать объект {} со следующими полями(true отобразить, false не отображать):
@@ -137,17 +138,19 @@ import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 export default {
     name: 'EventShow',
     setup() {
+        let themeState =  useDark() // Переменная состояния темы(false: light, true: dark)
         const destroy$ =  new Subject()
-        const formatter = {
-            date: 'YYYY-MM-DD hh:mm:ss',
-            month: 'MM',
-        }
-        // let eventTime = ref({
-        //     startDate: "",
-        //     endDate: ""
-        //  })
+        const formatter = ref({
+            date: 'DD.MM.YYYY, hh:mm:ss',
+            month: 'MMM',
+        })
+        const eventTime = ref({
+            startDate: "",
+            endDate: ""
+         })
         return {
-            // eventTime,
+            themeState,
+            eventTime,
             formatter,
             destroy$
         } 
@@ -184,10 +187,6 @@ export default {
             pricesDel: [],
             pricesUpd: [],
             placeUpd: [],
-            eventTime: {
-                startDate: "",
-                endDate: ""
-            }
         }
     },
     components: {
@@ -196,22 +195,22 @@ export default {
         PlacesListCard,
         ChangeStatus,
         PriceSegment,
-        VueTailwindDatepicker
+        VueDatePicker
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useHistoryContentStore, ['saveHistory']),
-        getCurentTime(time) {
-            return this.$helpers.OutputCurentTime.outputCurentTime(time)
-        },
+        // getStateTheme() {
+        //     return useDark()
+        // },
         editUpd() {
+            this.eventTime = [
+                this.event.date_start,
+                this.event.date_end
+            ]
             this.state = true
-            this.eventTime = {
-                startDate: `${JSON.parse(JSON.stringify(this.event.date_start))}`,
-                endDate: `${JSON.parse(JSON.stringify(this.event.date_end))}`
-            }
             console.log(this.eventTime)
         },
         canceleUpd() {
@@ -250,11 +249,11 @@ export default {
                     break;
                 }
             })
-            if(this.eventTime.startDate != this.event.date_start && this.eventTime.startDate.length) {
-                historyEvent.date_start = this.eventTime.startDate
+            if(this.eventTime[0] != this.event.date_start && this.eventTime.length) {
+                historyEvent.date_start = this.eventTime[0]
             }
-            if(this.eventTime.endDate != this.event.date_end && this.eventTime.endDate.length) {
-                historyEvent.date_end = this.eventTime.endDate
+            if(this.eventTime[1] != this.event.date_end && this.eventTime.length) {
+                historyEvent.date_end = this.eventTime[1]
 
             }
             historyEvent.history_prices = []
@@ -424,6 +423,8 @@ export default {
             this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
+                    this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
+                    this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
@@ -487,7 +488,7 @@ export default {
                 // this.$helpers.deepMerge(this.event.places_full[index],place)
                 let mergePlace = {...place}
                 delete mergePlace.seances
-                this.$helpers.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(mergePlace)))
+                this.$helpers.DeepMerge.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(mergePlace)))
                 // Проверяем новое ли это обновление для place или place уже обновлялся и есть в массииве
                 let getIndex = this.placeUpd.findIndex((item, key) => {
                     if(item.index == index) {
@@ -581,7 +582,7 @@ export default {
                     }
                     const mergePlaceUpd = JSON.parse(JSON.stringify(place))
                     delete mergePlaceUpd.seances
-                    this.$helpers.deepMerge(this.placeUpd[getIndex], mergePlaceUpd)
+                    this.$helpers.DeepMerge.deepMerge(this.placeUpd[getIndex], mergePlaceUpd)
                 } else {
                     // Если нету в массиве, то добавляем
                     let seanceOnUpd = Object.keys(place).find(key => {
@@ -632,5 +633,62 @@ export default {
 }
 </script>
 <style>
-
+    /* Светлый стиль datepicker */
+    .dp_theme_light {
+        --dp-background-color: #fff;
+        --dp-text-color: #212121;
+        --dp-hover-color: #f3f3f3;
+        --dp-hover-text-color: #212121;
+        --dp-hover-icon-color: #959595;
+        --dp-primary-color: #1976d2;
+        --dp-primary-disabled-color: #6bacea;
+        --dp-primary-text-color: #f8f5f5;
+        --dp-secondary-color: #c0c4cc;
+        --dp-border-color: #ddd;
+        --dp-menu-border-color: #ddd;
+        --dp-border-color-hover: #aaaeb7;
+        --dp-disabled-color: #f6f6f6;
+        --dp-scroll-bar-background: #f3f3f3;
+        --dp-scroll-bar-color: #959595;
+        --dp-success-color: #76d275;
+        --dp-success-color-disabled: #a3d9b1;
+        --dp-icon-color: #959595;
+        --dp-danger-color: #ff6f60;
+        --dp-marker-color: #ff6f60;
+        --dp-tooltip-color: #fafafa;
+        --dp-disabled-color-text: #8e8e8e;
+        --dp-highlight-color: rgb(25 118 210 / 10%);
+        --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
+        --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+        --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
+    }
+    /* Тёмный стиль datepicker */
+    .dp_theme_dark {
+        --dp-background-color: #2b3444;
+        --dp-text-color: #fff;
+        --dp-hover-color: #484848;
+        --dp-hover-text-color: #fff;
+        --dp-hover-icon-color: #959595;
+        --dp-primary-color: #005cb2;
+        --dp-primary-disabled-color: #61a8ea;
+        --dp-primary-text-color: #fff;
+        --dp-secondary-color: #a9a9a9;
+        --dp-border-color: #323c4c;
+        --dp-menu-border-color: #2d2d2d;
+        --dp-border-color-hover: #aaaeb7;
+        --dp-disabled-color: #737373;
+        --dp-disabled-color-text: #d0d0d0;
+        --dp-scroll-bar-background: #212121;
+        --dp-scroll-bar-color: #484848;
+        --dp-success-color: #00701a;
+        --dp-success-color-disabled: #428f59;
+        --dp-icon-color: #959595;
+        --dp-danger-color: #e53935;
+        --dp-marker-color: #e53935;
+        --dp-tooltip-color: #3e3e3e;
+        --dp-highlight-color: rgb(0 92 178 / 20%);
+        --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
+        --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
+        --dp-range-between-border-color: var(--dp-hover-color, #fff);
+    }
 </style>

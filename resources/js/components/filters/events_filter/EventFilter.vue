@@ -39,7 +39,7 @@ import { mapState, mapActions } from 'pinia'
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { Select, initTE } from "tw-elements";
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+// import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 
 export default {
     name: 'EventFilter',
@@ -71,7 +71,7 @@ export default {
         }
     },
     components: {
-        VueTailwindDatepicker
+        // VueTailwindDatepicker
     },
     methods: {
         ...mapActions(useEventFilterStore, [

@@ -9,7 +9,7 @@
 <script>
 import { useUsersFilterStore } from '../../../stores/UsersFilterStore';
 import { mapState, mapActions } from 'pinia';
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+// import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 
 export default {
     name: 'UsersFilter',
@@ -38,7 +38,7 @@ export default {
         }
     },
     components: {
-        VueTailwindDatepicker
+        // VueTailwindDatepicker
     },
     methods: {
         ...mapActions(useUsersFilterStore, [

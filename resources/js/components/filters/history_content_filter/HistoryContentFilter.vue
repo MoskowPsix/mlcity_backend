@@ -39,13 +39,13 @@ import { useStatusStore} from '../../../stores/StatusStore'
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { Select, initTE } from "tw-elements";
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+// import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 
 
 export default {
     name: 'HistoryContentFilter',
     components: {
-        VueTailwindDatepicker
+        // VueTailwindDatepicker
     },
     setup() {
         const formatter = {

@@ -173,12 +173,15 @@ export default {
             this.closeLoaderFullPage()
          })
       }
-   }
-   }
+
+   },
+   mounted() {
+      console.log(this.isDark)
+   },
+}
   </script>
 
 <style>
-
 input:checked ~ .dot {
 transform: translateX(100%);
 }

@@ -79,15 +79,12 @@
 <script>
 import { mapActions} from 'pinia'
 import MapCardOnlyRead from '../map_card/map_card_only_read/MapCardOnlyRead.vue';
-import VueTailwindDatepicker from 'vue-tailwind-datepicker'
 import SeancesListSegment from '../seances_list_card/SeancesListSegment.vue';
 import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteractive.vue';
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useLocationStore } from '../../stores/LocationStore'
 import { useSightStore } from '../../stores/SightStore';
-import { unref } from 'vue'
-import { cloneDeep }  from 'lodash';
 
 
 export default {
@@ -124,7 +121,6 @@ export default {
     components: {
         MapCardOnlyRead,
         MapCardInteractive,
-        VueTailwindDatepicker,
         SeancesListSegment,
     },
     methods: {   
@@ -237,7 +233,6 @@ export default {
      
     },
     mounted() {
-
     },
 }
 </script>
