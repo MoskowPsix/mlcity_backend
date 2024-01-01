@@ -15,7 +15,7 @@ return new class extends Migration
     {
         Schema::create('history_contents', function (Blueprint $table) {
             $table->id();
-            $table->string("name")->nullable();
+            $table->text("name")->nullable();
             $table->string("sponsor")->nullable();
             $table->text("description")->nullable();
             $table->text("materials")->nullable();

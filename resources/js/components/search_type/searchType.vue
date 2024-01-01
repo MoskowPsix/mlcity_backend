@@ -33,7 +33,7 @@ export default{
         }
     },
     methods:{
-        ...mapActions(useTypeStore,['getTypeByText']),
+        ...mapActions(useTypeStore,['getTypeByText', 'getTypes']),
         searchType(){
             // console.log(this.timeout)
             if (this.timeout){
@@ -41,21 +41,22 @@ export default{
             }
             this.timeout = setTimeout(() => {
             this.getType()
-            }, 2000)  
+            }, 1000)  
         },
 
         getType(){
-            let params = {
+            let param = {
                 name: this.searchText
             }
-            console.log(params)
-            this.getTypeByText(params, "Sight").pipe(
+            // console.log(params)
+            this.getTypeByText(param, "Sight").pipe(
                 retry(3),
                 delay(200),
                 catchError(error => {
                     console.log(error)
                 })
-            ).subscribe(response => console.log(response))
+            ).subscribe(response => console.log(response.data))
+            // this.getTypes().subscribe(response => console.log(response))
         }
     }
 }
