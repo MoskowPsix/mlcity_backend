@@ -8,6 +8,7 @@ import { useToastStore } from '../../stores/ToastStore'
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import router from '../../routes'
+import axios from 'axios'
 
 
 export default {
@@ -45,7 +46,7 @@ export default {
           this.localStorageInit()
           this.showToast(MessageAuth.success_auth, 'success')
           this.closeLoaderFullPage()
-          router.push({name: 'users'})
+          router.push({name: 'my-events'})
         }),
         catchError(err => {
           if (399 < err.response.status && err.response.status < 500) {
@@ -60,17 +61,43 @@ export default {
       ).subscribe()
     },
     loginByToken() {
-      console.log(this.$route.params.token)
       if (this.$route.params.token.length >= 47) {
         this.openLoaderFullPage()
-        this.setToken(this.$route.params.token)
+        this.setToken(JSON.parse(JSON.stringify(this.$route.params.token)))
         this.setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
-        router.push({name: 'my-events'})
+        this.localStorageInit()
+        // this.closeLoaderFullPage()
+        router.go({path: 'user/events' })
+        // axios.defaults.headers = {'Authorization': `Bearer ${this.$route.params.token.length}`}
+
+        // await this.getUserForToken().pipe(
+        //   map(async response => {
+        //     await this.setToken(JSON.stringify(this.$route.params.token))
+        //     await this.setUser(response.data.user)
+        //     await response.data.user.roles[0] ? this.setRole(response.data.user.roles[0].name) : null
+        //     await this.setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+        //     await this.closeLoaderFullPage()
+        //     router.go({path: 'user/events'})
+        //   }),
+        //   catchError(err => {
+        //     console.log(err)
+        //     if (399 < err.response.status && err.response.status < 500) {
+        //       this.showToast(MessageAuth.warning_auth, 'warning')
+        //     } else if(499 < err.response.status && err.response.status < 600) {
+        //       this.showToast(MessageAuth.error_auth, 'error')
+        //     }
+        //     this.closeLoaderFullPage()
+        //     localStorage.clear()
+        //     this.localStorageInit()
+        //     return of(EMPTY)
+        //   }),
+        // ).subscribe()
+        
+
       }
     }
   },
   mounted() {
-    console.log(this.$route.params)
     this.$route.params.token ? this.loginByToken() : null
   },
 };

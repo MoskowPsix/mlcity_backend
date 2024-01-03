@@ -1,7 +1,7 @@
 // import axios from 'axios';
-import { defineStore } from 'pinia';
-import { MessageAuth } from '../enums/auth_messages';
-import { useToast } from "vue-toastification";
+import { defineStore } from 'pinia'
+import { useToast } from "vue-toastification"
+import axios from 'axios'
 
 
 const toast = useToast()
@@ -26,10 +26,12 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
                 this.user = ''
                 this.timeZone= ''
                 this.auth = false
+                localStorage.clear()
             }
         },
         setToken(token) {
             localStorage.setItem('token', token)
+            // axios.defaults.headers = {'Authorization': `Bearer ${token}`}
         },
         setRole(role) {
             localStorage.setItem('role', role)
@@ -43,7 +45,7 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
 
     },
     getters: {
-        getToken() {
+        getToken() {  
             return this.token
         },
         getRole() {

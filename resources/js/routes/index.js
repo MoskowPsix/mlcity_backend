@@ -2,8 +2,8 @@ import { createRouter, createWebHistory, createWebHashHistory  } from 'vue-route
 import { useAuthStore } from '../stores/AuthStore'
 import { useLocalStorageStore } from '../stores/LocalStorageStore'
 import { useLoaderStore } from '../stores/LoaderStore'
-import { catchError} from 'rxjs/operators'
-import { of, EMPTY } from 'rxjs'
+import {  catchError, map, takeUntil, take, delay} from 'rxjs/operators'
+import { of, EMPTY, Subject } from 'rxjs'
 import axios from 'axios'
 
 
@@ -84,18 +84,27 @@ const router = createRouter({
   ]
 
 })
+const destroy$ =  new Subject()
 
 router.beforeEach(async (to, from, next) => {
-  console.log(to)
   useLoaderStore().openLoaderFullPage()
-  axios.defaults.headers = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
   await useLocalStorageStore().localStorageInit()
+  axios.defaults.headers = {'Authorization': `Bearer ${ useLocalStorageStore().getToken}`}
   await useAuthStore().getUserForToken().pipe(
+    map(response => {
+      useLocalStorageStore().setUser(response.data.user)
+      response.data.user.roles[0] ? useLocalStorageStore().setRole(response.data.user.roles[0].name) : null
+      useLocalStorageStore().setTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone)
+      useLocalStorageStore().localStorageInit()
+      useLoaderStore().closeLoaderFullPage()
+    }),
     catchError(err => {
+      console.log(err)
+      useLoaderStore().closeLoaderFullPage()
       localStorage.clear()
       useLocalStorageStore().localStorageInit()
       return of(EMPTY)
-    })
+    }),
   ).subscribe()
   
   useLoaderStore().closeLoaderFullPage()
@@ -108,10 +117,10 @@ router.beforeEach(async (to, from, next) => {
   }
 
   if (to.name === 'login' && useLocalStorageStore().token) {
-    return next({name: 'my-event'})
+    return next({name: 'my-events'})
   }
   if (to.name === 'login' && useLocalStorageStore().token) {
-    return next({name: 'my-event'})
+    return next({name: 'my-events'})
   }
   next()
 })
