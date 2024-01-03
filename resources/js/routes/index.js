@@ -16,15 +16,15 @@ const router = createRouter({
       component: () => import('../views/users/Users.vue')
     },
     {
-      path: '/login/:token',
+      path: '/login/:token?',
       name: 'login',
       component: () => import('../views/login/Login.vue')
     },
-    {
-      path: '/login',
-      name: 'login',
-      component: () => import('../views/login/Login.vue')
-    },
+    // {
+    //   path: '/login/',
+    //   name: 'login',
+    //   component: () => import('../views/login/Login.vue')
+    // },
     {
       path: '/sights',
       name: 'sights',
@@ -86,6 +86,7 @@ const router = createRouter({
 })
 
 router.beforeEach(async (to, from, next) => {
+  console.log(to)
   useLoaderStore().openLoaderFullPage()
   axios.defaults.headers = {'Authorization': `Bearer ${localStorage.getItem('token')}`}
   await useLocalStorageStore().localStorageInit()

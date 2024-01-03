@@ -95,7 +95,7 @@
                         </div>
                         <!-- Статусы -->
                         <div v-if="historyContent.statuses" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
-                            <ChangeStatus :editButton="true" :status="historyContent.statuses[0].name" @statusChanged="statusChange"/>
+                            <ChangeStatus v-if="historyContent.statuses.length" :editButton="true" :status="historyContent.statuses[0].name" @statusChanged="statusChange"/>
                         </div>
                     </div>
                 </div>
@@ -200,6 +200,7 @@ export default {
                 map(response => {
                     this.showToast(MessageContents.success_upd_status_content, 'success')
                     this.getHistoryContent()
+                    this.closeLoaderFullPage()
                 }),
                 catchError( err => {
                     399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_status_content + ': ' + err.message, 'warning') : null
@@ -216,6 +217,7 @@ export default {
                 delay(100),
                 retry(2),
                 map(response => {
+                    console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.sight.id = response.data.historyContents.history_contentable_id
                         this.historyContent = response.data.historyContents
@@ -227,9 +229,11 @@ export default {
                     } else {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')
                     }
+                    this.closeLoaderFullPage()
                 }),
                 catchError(err => {
                     console.log(err)
+                    this.closeLoaderFullPage()
                     return of(EMPTY)
                 }),
                 takeUntil(this.destroy$)

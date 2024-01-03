@@ -172,6 +172,8 @@ class addEvents extends Command
 
             // Запрашиваем страницу ивентов 
             // $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
+            try
+            {
             $events = getPageEvent($page_events,$limit_events);
 
             // Разбираем полученный массив
@@ -239,7 +241,7 @@ class addEvents extends Command
 
                     //$output->writeln('<info>'.$event_cr.'</info>');
                     foreach ($event->places as $place) {
-                        if (isset($place->institute)) {
+                        if (isset($place->institute) && Location::where('cult_id', $place->locale->_id)->first()) {
                             if (Sight::where('cult_id', $place->institute->_id)->first()) {
                                 $place_cr =  new Place;
                                 $place_cr->event_id = $event_cr->id;
@@ -292,6 +294,11 @@ class addEvents extends Command
                     event(new EventCreated($event_cr));
                 }
             }
+            }  catch (Exception $e) {
+                Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
+                sleep(5);
+                getMessage($text);
+            } 
             $total_events = $total_events - 1;
             $page_events = $page_events + 1;
 

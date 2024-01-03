@@ -96,8 +96,6 @@
             <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
             <button @click="editUpd()" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
         </div>
-        <!-- <div>Удалённые {{filesDel}}</div>
-        <div>Обновлённые {{filesUpd}}</div> -->
     </form>
 </div>
 </template>
@@ -189,6 +187,7 @@ export default {
             placeUpd: [],
         }
     },
+    
     components: {
         CarouselGallery,
         AuthorMiniCard,

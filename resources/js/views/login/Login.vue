@@ -60,6 +60,7 @@ export default {
       ).subscribe()
     },
     loginByToken() {
+      console.log(this.$route.params.token)
       if (this.$route.params.token.length >= 47) {
         this.openLoaderFullPage()
         this.setToken(this.$route.params.token)
@@ -69,6 +70,7 @@ export default {
     }
   },
   mounted() {
+    console.log(this.$route.params)
     this.$route.params.token ? this.loginByToken() : null
   },
 };
