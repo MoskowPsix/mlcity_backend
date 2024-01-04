@@ -1,9 +1,9 @@
 <template lang="">
-    <div>
+    <!-- <div>
         <button class="p-4 bg-red-500" @click="searchTypeOpen()">Popen</button>
         <button class="p-4 bg-red-500" @click="searchTypeClose()">Copen</button>
 
-    </div>
+    </div> -->
     
     <ModalContainer/>
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
@@ -23,7 +23,7 @@
         </button>
     
         <label v-if="!state && connectState.NameLine" class="flex items-center w-8/12" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
-        <input v-if="state && connectState.NameLine" id="name" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0" :id="'sight-'+sight.id+'-name-input'">
+        <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
     
@@ -441,37 +441,37 @@ export default {
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
                 switch(item[1].id) {
-                    case('name'):
+                    case(`sight-${this.sight.id}-name-input`):
                     if (item[1].value != this.sight.name) {
                         console.log('new name value: ' + item[1].value)
                         historyData.history_content.name = item[1].value
                     }
                     break;
-                    case('sponsor'):
+                    case(`sight-${this.sight.id}-sponsor-input`):
                     if (item[1].value != this.sight.sponsor) {
                         console.log('new sponsor value: ' + item[1].value)
                         historyData.history_content.sponsor = item[1].value
                     }
                     break;
-                    case('description'):
+                    case(`sight-${this.sight.id}-description-input`):
                     if (item[1].value != this.sight.description) {
                         console.log('new description value: ' + item[1].value)
                         historyData.history_content.description = item[1].value
                     }
                     break;
-                    case('materials'):
+                    case(`sight-${this.sight.id}-materials-input`):
                     if (item[1].value != this.sight.materials) {
                         console.log('new materials value: ' + item[1].value)
                         historyData.history_content.materials =  item[1].value
                     }
                     break;
-                    case('work_time'):
+                    case(`sight-${this.sight.id}-work_time-input`):
                     if (item[1].value != this.sight.work_time) {
                         console.log('new work_time value: ' + item[1].value)
                         historyData.history_content.work_time = item[1].value
                     }
                     break;
-                    case('address'):
+                    case(`sight-${this.sight.id}-address-input`):
                     if (item[1].value != this.sight.address) {
                         console.log('new address value: ' + item[1].value)
                         historyData.history_content.address = item[1].value
@@ -522,21 +522,21 @@ export default {
                 })    
             }
 
-            if (this.status != this.sight.statuses[0].name){
-                historyData.history_content.status = this.status
-            }
+            
+            
             
 
             // this.sightUpd.append("history_data",JSON.stringify(historyData))
             
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
+            console.log(historyData)
             this.saveSightHistory(historyData).pipe().subscribe(
                 response => {console.log(response)
-                this.$router.go(0);
+                
                 })
             this.state = false
-            console.log(historyData)
+            
             
         }
     },

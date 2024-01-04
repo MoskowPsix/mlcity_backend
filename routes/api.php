@@ -207,10 +207,10 @@ Route::controller(LogApiController::class)->group(function() {
 });
 
 Route::controller(HistoryContentController::class)->group(function() {
-    Route::get("history-content", 'getHistoryContent');
-    Route::get("history-content/{id}","getHistoryContentForIds");
+    Route::get("history-content", 'getHistoryContent')->middleware('moderator'); 
+    Route::get("history-content/{id}","getHistoryContentForIds")->middleware('moderator');
     Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
-    Route::patch("history-content", "acceptHistoryContent")->middleware("auth:sanctum");
+    Route::patch("history-content", "acceptHistoryContent")->middleware('moderator');
 });
 
 
