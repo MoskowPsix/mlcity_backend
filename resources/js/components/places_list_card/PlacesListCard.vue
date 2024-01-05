@@ -216,10 +216,13 @@ export default {
         addSeancePlace() {
             const newSeance = {
                 id: 0,
-                date_start: new Date().toISOString().split('~')[0].slice(0, 19).replace("T", ' '),
-                date_end: new Date().toISOString().split('~')[0].slice(0, 19).replace("T", ' '),
+                // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString() 
+                // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript 
+                date_start: new Date().toLocaleDateString(),
+                date_end: new Date().toLocaleDateString(),
                 index: JSON.parse(JSON.stringify(this.place.seances.length))
             }
+            console.log(newSeance)
             this.place.seances.push({ ...newSeance })
             const seancesCopy = [JSON.parse(JSON.stringify(newSeance))];
             this.$emit('onUpdPlace', {

@@ -56,6 +56,7 @@
                 </div>
                 <div class="text-xl p-2 my-auto">
                     <h1>{{new Date(seance.date_start).getUTCHours()}}:{{new Date(seance.date_start).getUTCMinutes() ? new Date(seance.date_start).getUTCMinutes() : '00'}}</h1>
+                    <!-- <h1>{{new Date(seance.date_start).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}}</h1> -->
                 </div>
             </div>
             <div class=" mt-1 flex flex-row border rounded-lg dark:border-gray-700 dark:bg-gray-900/30 bg-gray-100">
@@ -107,11 +108,12 @@
                 </div>
                 <div class="text-xl p-2 my-auto">
                     {{new Date(seance.date_end).getUTCHours()}}:{{new Date(seance.date_end).getUTCMinutes() ? new Date(seance.date_end).getUTCMinutes() : '00'}}
+                    <!-- {{new Date(seance.date_end).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}} -->
                 </div>
             </div>
         </div>
         <div v-if="seance && state">
-            <VueDatePicker v-if="state" v-model="seanceTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
+            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="MM.dd.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
 
         </div>
     </div>
