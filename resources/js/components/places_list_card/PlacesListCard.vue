@@ -78,6 +78,7 @@
 </template>
 <script>
 import { mapActions} from 'pinia'
+import moment from "moment"
 import MapCardOnlyRead from '../map_card/map_card_only_read/MapCardOnlyRead.vue';
 import SeancesListSegment from '../seances_list_card/SeancesListSegment.vue';
 import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteractive.vue';
@@ -218,8 +219,9 @@ export default {
                 id: 0,
                 // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString() 
                 // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript 
-                date_start: new Date().toLocaleDateString(),
-                date_end: new Date().toLocaleDateString(),
+                
+                date_start: moment().format('YYYY-MM-DD HH:mm:ss'),
+                date_end: moment().format('YYYY-MM-DD HH:mm:ss'),
                 index: JSON.parse(JSON.stringify(this.place.seances.length))
             }
             console.log(newSeance)

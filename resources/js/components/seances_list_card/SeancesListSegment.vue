@@ -55,8 +55,8 @@
                     </div>
                 </div>
                 <div class="text-xl p-2 my-auto">
-                    <h1>{{new Date(seance.date_start).getUTCHours()}}:{{new Date(seance.date_start).getUTCMinutes() ? new Date(seance.date_start).getUTCMinutes() : '00'}}</h1>
-                    <!-- <h1>{{new Date(seance.date_start).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}}</h1> -->
+                    <!-- <h1>{{new Date(seance.date_start).getUTCHours()}}:{{new Date(seance.date_start).getUTCMinutes() ? new Date(seance.date_start).getUTCMinutes() : '00'}}</h1> -->
+                    <h1>{{new Date(seance.date_start).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}}</h1>
                 </div>
             </div>
             <div class=" mt-1 flex flex-row border rounded-lg dark:border-gray-700 dark:bg-gray-900/30 bg-gray-100">
@@ -107,8 +107,8 @@
                     </div>
                 </div>
                 <div class="text-xl p-2 my-auto">
-                    {{new Date(seance.date_end).getUTCHours()}}:{{new Date(seance.date_end).getUTCMinutes() ? new Date(seance.date_end).getUTCMinutes() : '00'}}
-                    <!-- {{new Date(seance.date_end).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}} -->
+                    <!-- {{new Date(seance.date_end).getUTCHours()}}:{{new Date(seance.date_end).getUTCMinutes() ? new Date(seance.date_end).getUTCMinutes() : '00'}} -->
+                    {{new Date(seance.date_end).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}}
                 </div>
             </div>
         </div>
