@@ -22,10 +22,14 @@
                 <!-- Галерея -->
                 <CarouselGallery v-if="historyContent.history_files" :files="historyContent.history_files" :wrightState="false" class="mb-1"></CarouselGallery>
                 <!-- Описание -->
-                <div v-if="historyContent.sponsor || historyContent.description || historyContent.materials || historyContent.date_start || historyContent.date_end" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+                <div v-if="historyContent.sponsor || historyContent.description || historyContent.materials || historyContent.date_start || historyContent.date_end || history_content.address || historyContent.work_time" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
                     <label @click="getElement(type_element+'-'+event.id+'-sponsor')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Спонсор</h1>
                         <p v-if="historyContent.sponsor" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.sponsor}}</p>
+                    </label>
+                    <label @click="getElement(type_element+'-'+event.id+'-address')">
+                        <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Место проведения</h1>
+                        <p v-if="historyContent.address" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.address}}</p>
                     </label>
                     <label @click="getElement(type_element+'-'+event.id+'-description')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Описание</h1>
@@ -34,6 +38,10 @@
                     <label @click="getElement(type_element+'-'+event.id+'-materials')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Материалы</h1>
                         <p v-if="historyContent.materials" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.materials}}</p>
+                    </label>
+                    <label @click="getElement(type_element+'-'+event.id+'work_time')">
+                        <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Время работы</h1>
+                        <p v-if="historyContent.work_time" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.work_time}}</p>
                     </label>
                     <label @click="getElement(type_element+'-'+event.id+'-date_start')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>

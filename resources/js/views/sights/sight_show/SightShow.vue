@@ -169,6 +169,7 @@
 <script>
 import TypeList from '../../../components/types_list/TypeList.vue'
 import { mapActions} from 'pinia'
+import { MessageContents } from '../../../enums/content_messages'
 import { useToastStore } from '../../../stores/ToastStore'
 import { useSightStore } from '../../../stores/SightStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
@@ -531,10 +532,21 @@ export default {
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
             console.log(historyData)
-            this.saveSightHistory(historyData).pipe().subscribe(
-                response => {console.log(response)
-                
+            this.openLoaderFullPage()
+            this.saveSightHistory(historyData).pipe(
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_content + ': ' + err.message, 'warning') : null
+                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_content + ': ' + err.message, 'error') : null
+                    console.log(err)
+                    return of(EMPTY)
                 })
+            )
+            
+            .subscribe(response => {
+                this.showToast(MessageContents.success_upd_content, 'success')
+                this.$router.go(0)
+            })
             this.state = false
             
             
