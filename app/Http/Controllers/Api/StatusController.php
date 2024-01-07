@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Sight;
+use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 use App\Models\Status;
@@ -34,17 +35,23 @@ class StatusController extends Controller
      */
     public function getStatuses(): \Illuminate\Http\JsonResponse
     {
-        if(!empty(auth('api')->user()->role)) {
-            switch (auth('api')->user()->role->name) {
-                case "root": 
-                    $statuses = Status::all();
-                break;
-                case "Admin": 
-                    $statuses = Status::all();
-                break;
-                case "Moderator": 
-                    $statuses = Status::all();
-                break;
+        $statuses = [];
+        info(auth('api')->user()->roles);
+        if(auth('api')->user()) {
+            if (auth('api')->user()->roles) {
+                switch (auth('api')->user()->roles[0]->name) {
+                    case "root": 
+                        $statuses = Status::all();
+                    break;
+                    case "Admin": 
+                        $statuses = Status::all();
+                    break;
+                    case "Moderator": 
+                        $statuses = Status::all();
+                    break;
+                }
+            } else {
+                $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
             }
         } else {
             $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
