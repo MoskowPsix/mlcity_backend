@@ -300,13 +300,13 @@ class addEvents extends Command
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]); 
 
-                    event(new EventCreated($event_cr));
+                    // event(new EventCreated($event_cr));
                 }
             }
             }  catch (Exception $e) {
                 Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
                 sleep(5);
-                // getMessage($text);
+                getMessage($e);
             } 
             $total_events = $total_events - 1;
             $page_events = $page_events + 1;
