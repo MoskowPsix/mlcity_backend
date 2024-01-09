@@ -12,6 +12,7 @@ use App\Models\Price;
 use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
+use App\Models\Timezone;
 use Exception;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Log;
@@ -241,7 +242,11 @@ class addEvents extends Command
 
                     //$output->writeln('<info>'.$event_cr.'</info>');
                     foreach ($event->places as $place) {
+                        
+                        $timezone = Timezone::where("name",$place->locale->timezone)->first()->id;
+                        
                         if (isset($place->institute) && Location::where('cult_id', $place->locale->_id)->first()) {
+                            
                             if (Sight::where('cult_id', $place->institute->_id)->first()) {
                                 $place_cr =  new Place;
                                 $place_cr->event_id = $event_cr->id;
@@ -250,6 +255,7 @@ class addEvents extends Command
                                 $place_cr->latitude = $place->location->coordinates[1];
                                 $place_cr->longitude = $place->location->coordinates[0];
                                 $place_cr->sight_id = Sight::where('cult_id', $place->institute->_id)->first()->id;
+                                $place_cr->timezone_id = $timezone;
                                 $place_cr->save();
                             } else {
                                 $place_cr =  new Place;
@@ -258,6 +264,7 @@ class addEvents extends Command
                                 $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
                                 $place_cr->latitude = $place->location->coordinates[1];
                                 $place_cr->longitude = $place->location->coordinates[0];
+                                $place_cr->timezone_id = $timezone;
                                 $place_cr->save();
                             }
                         } else {
@@ -267,9 +274,11 @@ class addEvents extends Command
                             $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
                             $place_cr->latitude = $place->location->coordinates[1];
                             $place_cr->longitude = $place->location->coordinates[0];
+                            $place_cr->timezone_id = $timezone;
                             $place_cr->save();
                         }
                          foreach ($place->seances as $seance) {
+                            
                             Seance::create([
                                 'place_id'  => $place_cr->id,
                                 'date_start' => $seance->startDate,
@@ -291,13 +300,13 @@ class addEvents extends Command
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                     Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]); 
 
-                    event(new EventCreated($event_cr));
+                    // event(new EventCreated($event_cr));
                 }
             }
             }  catch (Exception $e) {
                 Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
                 sleep(5);
-                getMessage($text);
+                getMessage($e);
             } 
             $total_events = $total_events - 1;
             $page_events = $page_events + 1;

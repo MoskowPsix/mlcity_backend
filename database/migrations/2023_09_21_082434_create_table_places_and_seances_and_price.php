@@ -28,6 +28,8 @@ return new class extends Migration
             $table->decimal('latitude', 17, 14);
             $table->decimal('longitude', 17, 14);
 
+            
+
             $table->string('address')->nullable();
 
             $table->timestamps();
