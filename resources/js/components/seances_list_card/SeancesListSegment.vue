@@ -106,6 +106,7 @@
                     </div>
                 </div>
                 <div class="text-xl p-2 my-auto">
+                    <!-- {{new Date(seance.date_end)}} -->
                     <!-- {{new Date(seance.date_end).getUTCHours()}}:{{new Date(seance.date_end).getUTCMinutes() ? new Date(seance.date_end).getUTCMinutes() : '00'}} -->
                     {{new Date(seance.date_end).toLocaleTimeString('ru', { hour: '2-digit', minute: '2-digit' })}}
                 </div>
@@ -176,6 +177,7 @@ export default {
     mounted() {
         this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_start, this.$props.location.time_zone)
         this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end, this.$props.location.time_zone)
+        console.log(this.seance.date_start, this.seance.date_end)
         this.seanceTime = [JSON.parse(JSON.stringify(this.$props.seance.date_start)), JSON.parse(JSON.stringify(this.$props.seance.date_end))]
     },
     emits: ['onUpdSeance', 'onClickSeance'],

@@ -6,8 +6,9 @@ import 'moment-timezone'
 export default {
     // Функция вывода времени с учётом временной зоны пользователя
     outputCurentTime(time, timeZone) {
-        let data = moment(time, "YYYY-MM-DD HH:mm:ss").tz(timeZone)
-        console.log(time)
-        return data.format("YYYY-MM-DD HH:mm:ss")
+        let data = moment.tz(time, timeZone)
+        
+        console.log(timeZone,moment.tz.guess())
+        return data.clone().tz(moment.tz.guess())
     }
 }
