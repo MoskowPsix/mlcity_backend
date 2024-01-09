@@ -149,6 +149,10 @@ export default {
             type: Boolean,
             default: false
         },
+        location: {
+            type: Object,
+            default: null
+        }
     },
     components: {
         VueDatePicker
@@ -170,8 +174,8 @@ export default {
         console.log(this.seance)
     },
     mounted() {
-        this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_start, 'Europe/Moscow')
-        this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end, 'Europe/Moscow')
+        this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_start, this.$props.location.time_zone)
+        this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end, this.$props.location.time_zone)
         this.seanceTime = [JSON.parse(JSON.stringify(this.$props.seance.date_start)), JSON.parse(JSON.stringify(this.$props.seance.date_end))]
     },
     emits: ['onUpdSeance', 'onClickSeance'],

@@ -62,12 +62,12 @@
                 </div>
                 <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
                     <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances">
-                        <SeancesListSegment :id="'event-'+eventId+'-place-' + place.id+ '-seance-'+ seance.id" v-if="seance && !seance.on_delete" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
+                        <SeancesListSegment :location="place.location" :id="'event-'+eventId+'-place-' + place.id+ '-seance-'+ seance.id" v-if="seance && !seance.on_delete" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
                     </div>
                 </div>
                 <div v-if="place.history_seances" class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
                     <div v-if="place.history_seances.length && place.history_seances" v-for="(seance, index) in place.history_seances">
-                        <SeancesListSegment :seance="$helpers.OutputCurentTime.outputCurentTime(seance)"  @onClickSeance="clickSeance"></SeancesListSegment>
+                        <SeancesListSegment :location="place.location" :seance="seance"  @onClickSeance="clickSeance"></SeancesListSegment>
                     </div>
                 </div>
                 <div v-if="stateUpd" @click.prevent="addSeancePlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить сеанс</div>
@@ -238,6 +238,7 @@ export default {
      
     },
     mounted() {
+        console.log(this.place)
     },
 }
 </script>
