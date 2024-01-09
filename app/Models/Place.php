@@ -52,7 +52,7 @@ class Place extends Model
 
     public function timezones(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Timezone::class);
+        return $this->belongsTo(Timezone::class, "timezone_id");
     }
 
     public function historyPlaces(){
