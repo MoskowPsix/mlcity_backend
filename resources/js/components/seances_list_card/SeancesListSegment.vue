@@ -1,5 +1,4 @@
 <template lang="">
-    {{seance.date_start}} // {{seance.date_end}}
     <div @click="clickElement" class="border dark:border-gray-700 dark:bg-gray-900/40 p-1 bg-gray-300/70 border-gray-500/30 rounded-lg mb-2">
         <div @click.prevent="setDelete" class="h-5 w-5 dark:bg-red-900 ml-[95%] dark:text-red-500  bg-red-400 text-red-800 cursor-pointer rounded-lg" v-if="state">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-4 h-4  mx-auto my-auto">
@@ -113,7 +112,7 @@
             </div>
         </div>
         <div v-if="seance && state">
-            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="MM.dd.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
+            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="yyyy-mm-DD HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
 
         </div>
     </div>
@@ -171,8 +170,8 @@ export default {
         console.log(this.seance)
     },
     mounted() {
-        // this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.start_date)
-        // this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end)
+        this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_start, 'Europe/Moscow')
+        this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end, 'Europe/Moscow')
         this.seanceTime = [JSON.parse(JSON.stringify(this.$props.seance.date_start)), JSON.parse(JSON.stringify(this.$props.seance.date_end))]
     },
     emits: ['onUpdSeance', 'onClickSeance'],

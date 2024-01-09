@@ -422,8 +422,8 @@ export default {
             this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
-                    this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
-                    this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
+                    this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start, 'Europe/Moscow')
+                    this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end, 'Europe/Moscow')
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
