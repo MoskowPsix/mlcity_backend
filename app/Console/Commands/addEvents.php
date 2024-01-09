@@ -306,7 +306,7 @@ class addEvents extends Command
             }  catch (Exception $e) {
                 Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
                 sleep(5);
-                getMessage($e);
+                // getMessage($e);
             } 
             $total_events = $total_events - 1;
             $page_events = $page_events + 1;

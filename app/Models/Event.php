@@ -84,6 +84,8 @@ class Event extends Model
         return $this->hasMany(EventFile::class)->with('file_types');
     }
 
+    
+
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(EventLike::class);
@@ -113,7 +115,7 @@ class Event extends Model
     }
     public function placesFull(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Place::class)->with('seances', 'location');
+        return $this->hasMany(Place::class)->with('seances', 'location', "timezones");
     }
     // Подтягиваем цену
     public function price(): \Illuminate\Database\Eloquent\Relations\HasMany

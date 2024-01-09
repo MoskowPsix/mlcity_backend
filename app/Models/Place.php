@@ -50,6 +50,11 @@ class Place extends Model
         return $this->belongsTo(Location::class, 'location_id')->with('locationParent');
     }
 
+    public function timezones(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Timezone::class);
+    }
+
     public function historyPlaces(){
         return $this->hasMany(HistoryPlace::class);
     }
