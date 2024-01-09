@@ -112,7 +112,7 @@
             </div>
         </div>
         <div v-if="seance && state">
-            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="yyyy-mm-DD HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
+            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="yyyy-MM-dd HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
 
         </div>
     </div>

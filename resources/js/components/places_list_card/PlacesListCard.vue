@@ -1,6 +1,6 @@
 <template lang="">
     <div class="transition border dark:border-gray-700/80 p-2 rounded-lg w-full bg-gray-100 dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
-        <div @click="state = !state" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
+        <div @click.prevent="changeState" :id="'event-'+eventId+'-place-' + place.id+ '-button'" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
             <label class="w-11/12 ml-2">
                 <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
                 <p :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
@@ -61,12 +61,12 @@
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
                 </div>
                 <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
-                    <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances">
+                    <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances" :key="seance.id">
                         <SeancesListSegment :location="place.location" :id="'event-'+eventId+'-place-' + place.id+ '-seance-'+ seance.id" v-if="seance && !seance.on_delete" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
                     </div>
                 </div>
                 <div v-if="place.history_seances" class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
-                    <div v-if="place.history_seances.length && place.history_seances" v-for="(seance, index) in place.history_seances">
+                    <div v-if="place.history_seances.length && place.history_seances" v-for="(seance, index) in place.history_seances" :key="seance.id">
                         <SeancesListSegment :location="place.location" :seance="seance"  @onClickSeance="clickSeance"></SeancesListSegment>
                     </div>
                 </div>
@@ -127,6 +127,9 @@ export default {
     methods: {   
         ...mapActions(useLocationStore, ['getLocationsByName']),
         ...mapActions(useSightStore, ['getSights']),
+        changeState() {
+            this.state ? this.state = false : this.state = true
+        },
         clickSeance(seance) {
             this.$emit('onClickPlaceSeance', {
                 seance_id: seance.id,
