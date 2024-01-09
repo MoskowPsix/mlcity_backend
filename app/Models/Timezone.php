@@ -8,5 +8,6 @@ use Illuminate\Database\Eloquent\Model;
 class Timezone extends Model
 {
     use HasFactory;
+    protected $table = "timezones";
     protected $guarded = false;
 }
