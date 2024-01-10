@@ -320,6 +320,7 @@ export default {
                 type: "Event",
                 history_content: {...historyEvent}
             }
+            console.log(params)
             this.openLoaderFullPage()
             this.saveHistory(params).pipe(
                 map(response => {

@@ -223,7 +223,7 @@ export default {
                 // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString() 
                 // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript 
                 
-                date_start: moment().format('YYYY-MM-DD HH:mm:ss'),
+                date_start: moment.tz(moment().format('YYYY-MM-DD HH:mm:ss'),this.event.location.time_zone),
                 date_end: moment().format('YYYY-MM-DD HH:mm:ss'),
                 index: JSON.parse(JSON.stringify(this.place.seances.length))
             }

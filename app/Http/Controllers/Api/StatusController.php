@@ -39,16 +39,21 @@ class StatusController extends Controller
         info(auth('api')->user()->roles);
         if(auth('api')->user()) {
             if (auth('api')->user()->roles) {
-                switch (auth('api')->user()->roles[0]->name) {
-                    case "root": 
-                        $statuses = Status::all();
-                    break;
-                    case "Admin": 
-                        $statuses = Status::all();
-                    break;
-                    case "Moderator": 
-                        $statuses = Status::all();
-                    break;
+                if(count(auth('api')->user()->roles)>0){
+                    switch (auth('api')->user()->roles[0]->name) {
+                        case "root": 
+                            $statuses = Status::all();
+                        break;
+                        case "Admin": 
+                            $statuses = Status::all();
+                        break;
+                        case "Moderator": 
+                            $statuses = Status::all();
+                        break;
+                    }
+                }
+                else{  
+                    $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
                 }
             } else {
                 $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();

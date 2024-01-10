@@ -9,6 +9,6 @@ export default {
         let data = moment.tz(time, timeZone)
         
         console.log(timeZone,moment.tz.guess())
-        return data.clone().tz(moment.tz.guess())
+        return data.clone().tz(moment.tz.guess()).format("YYYY-MM-DD HH:mm:ss")
     }
 }
