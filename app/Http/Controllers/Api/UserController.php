@@ -25,6 +25,7 @@ use App\Filters\Users\UsersLocation;
 use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\UserRequest;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -771,14 +772,15 @@ class UserController extends Controller
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 
-    public function updateUser(Request $request): \Illuminate\Http\JsonResponse
+    public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
     {
+        $data = $request->validated();
         
-        Log::info($request);
+        Log::info($data);
         
 
         // return response()->json(['hi'], 200)
-        if ($request->new_name)
+        if ($data["new_name"])
         {
             if($request->hasFile('avatar')){
                 if($request->file('avatar')->isValid()){
@@ -795,7 +797,7 @@ class UserController extends Controller
                 
             }
             $user = User::where('id',auth('api')->user()->id)->first();
-            $user->update(['name'=>$request->new_name]);
+            $user->update(['name'=>$data["new_name"]]);
 
             return response()->json([
                 'status'=>'success',

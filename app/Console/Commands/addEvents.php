@@ -287,9 +287,21 @@ class addEvents extends Command
                          }
                     } 
                     foreach ($event->genres as $genre) {
+                        // print_r($genre);
                         $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                        if(isset($types_id->etype_id)){
+                            Event::where('id', $event_cr->id)->first()->types()->attach($types_id->etype_id);
+                        }
+                        else{
+                            Event::where('id', $event_cr->id)->first()->types()->attach($types_id->id);
+                        }
+
+                        // print_r("Жанр культуры ".$genre->title);
+                        // print("\n");
+                        // print_r("Наш жанр ".$types_id->name);
+                        // print("\n");
                         // Ставим тип
-                        Event::where('id', $event_cr->id)->first()->types()->attach($types_id);
+                        // Event::where('id', $event_cr->id)->first()->types()->attach($types_id);
                     }
                     if (isset($event->thumbnailFile)) {
                         Event::where('id', $event_cr->id)->first()->files()->create([
@@ -304,7 +316,7 @@ class addEvents extends Command
                 }
             }
             }  catch (Exception $e) {
-                Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
+                Log::error('Ошибка при отправке сообщения в телеграм: '.$e);
                 sleep(5);
                 // getMessage($e);
             } 
