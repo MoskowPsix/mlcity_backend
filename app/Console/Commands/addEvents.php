@@ -163,11 +163,13 @@ class addEvents extends Command
                              }
                         } 
                         foreach ($event->genres as $genre) {
-                            $types_id = EventType::where('cult_id', $genre->_id)->firstOrFail()->id;
+                            $types_id = EventType::where('name', $genre->title)->firstOrFail();
                             if(isset($types_id->etype_id)){
+                                // print($event_cr->id);
                                 Event::where('id', $event_cr->id)->first()->types()->attach($types_id->etype_id);
                             }
                             else{
+                                // print($event_cr->id);
                                 Event::where('id', $event_cr->id)->first()->types()->attach($types_id->id);
                             }
                         }
