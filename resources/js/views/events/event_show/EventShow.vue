@@ -210,7 +210,6 @@ export default {
                 this.event.date_end
             ]
             this.state = true
-            console.log(this.eventTime)
         },
         canceleUpd() {
             this.getEvent()
@@ -320,7 +319,6 @@ export default {
                 type: "Event",
                 history_content: {...historyEvent}
             }
-            console.log(params)
             this.openLoaderFullPage()
             this.saveHistory(params).pipe(
                 map(response => {

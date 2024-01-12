@@ -227,7 +227,6 @@ export default {
                 date_end: moment().format('YYYY-MM-DD HH:mm:ss'),
                 index: JSON.parse(JSON.stringify(this.place.seances.length))
             }
-            console.log(newSeance)
             this.place.seances.push({ ...newSeance })
             const seancesCopy = [JSON.parse(JSON.stringify(newSeance))];
             this.$emit('onUpdPlace', {
@@ -239,9 +238,6 @@ export default {
     },
     watch: {
      
-    },
-    mounted() {
-        console.log(this.place)
     },
 }
 </script>

@@ -38,14 +38,14 @@ import { mapState, mapActions } from 'pinia'
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { Select, initTE } from "tw-elements";
-// import VueTailwindDatepicker from 'vue-tailwind-datepicker'
+
 
 export default {
     name: 'SightFilter',
     setup() {
         const destroy$ =  new Subject()
         return {
-            destroy$,
+            destroy$
         }
     },
     data() {
@@ -59,9 +59,6 @@ export default {
         statuses: [],
         allStatuses: []
         }
-    },
-    components: {
-        // VueTailwindDatepicker
     },
     methods: {
         ...mapActions(useSightFilterStore, [
