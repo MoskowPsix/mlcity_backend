@@ -171,13 +171,9 @@ export default {
             this.$emit('onUpdSeance', seance)
         } 
     },
-    activated() {
-        console.log(this.seance)
-    },
     mounted() {
         this.seance.date_start = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_start, this.$props.location.time_zone)
         this.seance.date_end = this.$helpers.OutputCurentTime.outputCurentTime(this.$props.seance.date_end, this.$props.location.time_zone)
-        console.log(this.seance.date_start, this.seance.date_end)
         this.seanceTime = [JSON.parse(JSON.stringify(this.$props.seance.date_start)), JSON.parse(JSON.stringify(this.$props.seance.date_end))]
     },
     emits: ['onUpdSeance', 'onClickSeance'],

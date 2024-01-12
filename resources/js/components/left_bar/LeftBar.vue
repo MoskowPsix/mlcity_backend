@@ -175,9 +175,6 @@ export default {
       }
 
    },
-   mounted() {
-      console.log(this.isDark)
-   },
 }
   </script>
 
