@@ -36,7 +36,6 @@ class StatusController extends Controller
     public function getStatuses(): \Illuminate\Http\JsonResponse
     {
         $statuses = [];
-        info(auth('api')->user()->roles);
         if(auth('api')->user()) {
             if (auth('api')->user()->roles) {
                 if(count(auth('api')->user()->roles)>0){
