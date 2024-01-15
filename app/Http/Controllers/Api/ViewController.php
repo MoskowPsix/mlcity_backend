@@ -54,6 +54,11 @@ class ViewController extends Controller
                 'message' => 'Error time',
             ], 403);
         }
+
+        return response()->json([
+            "status" => "error",
+            "message" => "unknow error"
+        ],400);
     }
 
 }
