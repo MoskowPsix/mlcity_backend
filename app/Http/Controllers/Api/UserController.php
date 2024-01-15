@@ -411,10 +411,10 @@ class UserController extends Controller
     //Добавляем убираем лайк
     public function toggleLikedEvent(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->likedEvents()->toggle($request->event_id); // верно
+        User::findOrFail(Auth::user()->id)->likedEvents()->toggle($request->event_id); // верно
         $event =  Event::find($request->event_id); // верно
 
-        if (Auth::user()->likedEvents()->where('event_id',$request->event_id)->exists()){
+        if (User::findOrFail(Auth::user()->id)->likedEvents()->where('event_id',$request->event_id)->exists()){
             $event->likes()->where('event_id',$request->event_id)->exists()
                 ? $event->likes->increment('local_count')
                 : $event->likes()->create(["local_count" => 1]);
