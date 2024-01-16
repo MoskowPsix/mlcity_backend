@@ -14,8 +14,9 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
      */
     public function register(): void
     {
-        // Telescope::night();
-
+        if(request('mode') === 'true'){
+            Telescope::night();
+        };
         // if ($this->app->environment('local')) {
         //     $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
         //     $this->app->register(TelescopeServiceProvider::class);
@@ -63,7 +64,7 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
     {
         Gate::define('viewTelescope', function ($user) {
             return in_array($user->email, [
-                "mega.kefi36@gmail.com"
+                // "mega.kefi36@gmail.com"
             ]);
         });
     }

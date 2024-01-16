@@ -130,6 +130,7 @@
    import { useLoaderStore } from '../../stores/LoaderStore'
    import {MessageAuth} from '../../enums/auth_messages'
    import { useToast } from "vue-toastification"
+   import router from "../../routes"
 
 
 export default {
@@ -155,6 +156,9 @@ export default {
       ...mapActions(useAuthStore, ['logout']),
       ...mapActions(useLocalStorageStore, ['localStorageInit']),
       ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
+      logTo() {
+         window.location.href = 'http://localhost:8000/telescope'
+      },
       logoutSubmit() {
          this.openLoaderFullPage()
          this.logout().

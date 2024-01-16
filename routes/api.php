@@ -20,6 +20,10 @@ use App\Models\HistoryContent;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Laravel\Telescope\Http\Middleware\Authorize;
+use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 /*
 |--------------------------------------------------------------------------
