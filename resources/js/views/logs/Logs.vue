@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <iframe
-            :src="`http://localhost:8000/telescope?token=${this.token}&mode=${this.themeState}`"
+            :src="`/telescope?token=${this.token}&mode=${this.themeState}`"
             style="width: 100%; height: 100vh; border: none;"
     ></iframe>
     </div>
@@ -23,10 +23,5 @@ export default {
             themeState
         }
     },
-    methods: {
-        getUrl() {
-            return `telescopes?token=${this.token}&mode=${this.themeState}`
-        },    
-    }
 }
 </script>
