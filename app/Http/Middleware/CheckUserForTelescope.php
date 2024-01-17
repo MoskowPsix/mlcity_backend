@@ -16,7 +16,6 @@ class CheckUserForTelescope
      */
     public function handle(Request $request, Closure $next)
     {
-        info($request->cookie('Bearer_token'));
         if (!$request->cookie('Bearer_token')) {
             return response()->json([
                 'status' => 'error',
@@ -24,7 +23,6 @@ class CheckUserForTelescope
             ], 403);
         }
         $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->cookie('Bearer_token'));
-        info($token);
         if (!isset($token)) {
             return response()->json([
                 'status' => 'error',
