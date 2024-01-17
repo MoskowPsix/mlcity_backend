@@ -28,12 +28,11 @@ class TelescopeServiceProvider extends TelescopeApplicationServiceProvider
                 return;
             }
 
-            // return $entry->isReportableException() ||
-            //        $entry->isFailedRequest() ||
-            //        $entry->isFailedJob() ||
-            //        $entry->isScheduledTask() ||
-            //        $entry->hasMonitoredTag();
-            return;   
+            return $entry->isReportableException() ||
+                //    $entry->isFailedRequest() ||
+                //    $entry->isFailedJob() ||
+                   $entry->isScheduledTask() ||
+                   $entry->hasMonitoredTag();
         });
     }
 
