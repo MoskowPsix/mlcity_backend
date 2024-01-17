@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 
-class ChekUserForTelescope
+class CheckUserForTelescope
 {
     /**
      * Handle an incoming request.
@@ -16,13 +16,15 @@ class ChekUserForTelescope
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!isset($request->token)) {
+        info($request->cookie('Bearer_token'));
+        if (!$request->cookie('Bearer_token')) {
             return response()->json([
                 'status' => 'error',
                 'message' => 'Not token'
             ], 403);
         }
-        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->token);
+        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->cookie('Bearer_token'));
+        info($token);
         if (!isset($token)) {
             return response()->json([
                 'status' => 'error',
@@ -37,6 +39,7 @@ class ChekUserForTelescope
             ], 403);
         }
         if ($user->hasRole('root')) {
+            // $request->withHeader(['Authorization' => 'Bearer ' . $request->token]);
             return $next($request);
         } else {
             return response()->json([

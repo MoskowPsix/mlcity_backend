@@ -1,10 +1,13 @@
 <template lang="">
     <div>
         <iframe
-            :src="`/telescope?token=${this.token}&mode=${this.themeState}`"
+            id="iframe"
+            :src="`/telescope?mode=${isDark}`"
             style="width: 100%; height: 100vh; border: none;"
     ></iframe>
     </div>
+    <!--  :src="`api/telescopes?token=${this.token}&mode=${this.themeState}`"
+            :headers="header" -->
 </template>
 <script>
 import { mapState } from 'pinia';
@@ -14,14 +17,11 @@ import { useDark } from '@vueuse/core'
 
 export default {
     name: 'Logs',
-    computed: {
-        ...mapState(useLocalStorageStore, ['token']),
-    },
     setup() {
-        const themeState = useDark()
-        return {
-            themeState
-        }
-    },
+      const isDark = useDark();
+      return {
+         isDark, 
+      }
+   },
 }
 </script>

@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Auth;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Cookie;
 
 use App\Models\User;
 
@@ -317,6 +318,7 @@ class AuthController extends Controller
         }
 
         $token = $this->getAccessToken($user);
+        $cookie = Cookie::forever('Bearer_token', $token);
 
         return response()->json([
             'status'        => 'success',
@@ -324,7 +326,7 @@ class AuthController extends Controller
             'access_token'  => $token,
             'token_type'    => 'Bearer',
             'user'          => $user
-        ], 200);
+        ], 200)->withCookie($cookie);
     }
 
      /**
@@ -500,13 +502,14 @@ class AuthController extends Controller
     public function logout(): \Illuminate\Http\JsonResponse
     {
         try {
+            $cookie = Cookie::forget('Bearer_token');
             auth('api')->user()->currentAccessToken()->delete();
             Session::flush();
 
             return response()->json([
                 'status'        => 'success',
-                'message'       => __('messages.logout.success')
-            ], 200);
+                'message'       => __('messages.logout.success'),
+            ], 200)->withCookie($cookie);
         } catch (\Illuminate\Database\QueryException $ex) {
             return response()->json([
                 'status' => 'error',

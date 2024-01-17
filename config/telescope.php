@@ -78,10 +78,7 @@ return [
     */
 
     'middleware' => [
-        'web',
-        // Authenticate::class
-        // Authorize::class,
-        ChekUserForTelescope::class
+        'checkRootCookie'
     ],
 
     /*
