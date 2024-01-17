@@ -195,7 +195,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -213,7 +213,7 @@ class EventController extends Controller
         $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $events = Event::query()->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('files', 'author', 'price')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -234,7 +234,7 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class,           
+                SightAuthor::class,
             ])
             ->via('apply')
             ->then(function ($events) use ($page, $limit, $total){
@@ -288,7 +288,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -320,7 +320,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -359,7 +359,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -395,7 +395,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -431,7 +431,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -559,7 +559,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -616,7 +616,7 @@ class EventController extends Controller
             // Устанавливаем сеансы марок
             foreach($place['seances'] as $seance) {
                 $place_cr->seances()->create([
-                    'dateStart' => $seance['dateStart'], 
+                    'dateStart' => $seance['dateStart'],
                     'dateEnd' => $seance['dateEnd']
                 ]);
             }
@@ -668,7 +668,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -724,7 +724,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -862,7 +862,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -881,7 +881,7 @@ class EventController extends Controller
         $event = Event::where('id', $id)->firstOrFail();
         $event->fill($data);
         $event->save();
-    
+
         $jsonData = [
             'status' => 'SUCCESS',
             'event' => [
@@ -897,10 +897,10 @@ class EventController extends Controller
                 'materials' => $event->materials,
                 'date_start' => $event->date_start,
                 'date_end' => $event->date_end,
-                
+
             ]
         ];
-    
+
         return response()->json($jsonData);
     }
 
