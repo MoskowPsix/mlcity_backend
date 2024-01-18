@@ -530,7 +530,7 @@ class SightController extends Controller
             'latitude'      => $latitude,
             'longitude'     => $longitude,
             'description'   => $request->description,
-            'price'         => $request->price,
+            // 'price'         => $request->price,
             'materials'     => $request->materials,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
@@ -538,6 +538,12 @@ class SightController extends Controller
             'work_time'     => $request->workTime,
         ]);
 
+        foreach ($request->prices as $price){
+            $sight->prices()->create([
+                'cost_rub' => $price['cost_rub'],
+                'descriptions' => $price['descriptions']
+            ]);
+        }
         $sight->types()->sync($request->type);
         $sight->statuses()->attach($request->status, ['last' => true]);
         $sight->likes()->create();
