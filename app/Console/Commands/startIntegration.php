@@ -85,7 +85,7 @@ class startIntegration extends Command
             while ($total >= 0) {
                 $i = 10;
                 while($i >= 0) { // Запускаем 10 команд по загрузке sight
-                    $process = new Process(['php', 'artisan', 'addView']);
+                    $process = new Process(['php', 'artisan', 'institutes_save', $page, $limit]);
                     $process->start();
                     $i = $i-1;
                     print($i);
