@@ -75,5 +75,67 @@ class SightTypeSeeder extends Seeder
         // $type12->name = 'Гостевой маршрут';
         // $type12->ico = '/storage/icons/geo.svg';
         // $type12->save();
+
+        //Типы с культуры
+
+        $type1 = new SightType();
+        $type1->name = 'Образы Росии';
+        $type1->ico = '';
+        $type1->cult_id = 28;
+    
+        $type2 = new SightType();
+        $type2->name = 'Кино';
+        $type2->ico = '';
+        $type2->cult_id = 2;
+    
+        $type3 = new SightType();
+        $type3->name = 'Архитектурные';
+        $type3->ico = '';
+        $type3->cult_id = 419;
+    
+        $type4 = new SightType();
+        $type4->name = 'Литература';
+        $type4->ico = ''; 
+        $type4->cult_id = 12;
+    
+        $type5 = new SightType();
+        $type5->name = 'Посетить';
+        $type5->ico = '';
+        $type5->cult_id = 546;
+    
+        $type6 = new SightType();
+        $type6->name = 'Музеи';
+        $type6->ico = '';
+        $type6->cult_id = 1;
+    
+        $type7 = new SightType();
+        $type7->name = 'Атлас';
+        $type7->ico = ''; 
+        $type7->cult_id = 22;
+    
+        $type8 = new SightType();
+        $type8->name = 'Культурный стриминг';
+        $type8->ico = ''; 
+        $type8->cult_id = 568;
+    
+        $type9 = new SightType();
+        $type9->name = 'Традиции';
+        $type9->ico = '';
+        $type9->cult_id = 561;
+
+        $type10 = new SightType();
+        $type10->name = 'Театры';
+        $type10->ico = '';
+        $type10->cult_id = 3;
+
+        $type11 = new SightType();
+        $type11->name = 'Образование';
+        $type11->ico = '';
+        $type11->cult_id = 4;
+
+        $type12 = new SightType();
+        $type12->name = 'Музыка';
+        $type12->ico = '';
+        $type12->cult_id = 6;
     }
 }

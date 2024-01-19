@@ -60,5 +60,51 @@ class EventTypeSeeder extends Seeder
     //     $type9->name = 'Киноафиша';
     //     $type9->ico = '/storage/icons/film.svg';
     //     $type9->save();
+
+    // Типы с  культуры
+
+    $type1 = new EventType();
+    $type1->name = 'Экскурсии';
+    $type1->ico = '/storage/icons/geo.svg';
+    $type1->cult_id = 116;
+
+    $type2 = new EventType();
+    $type2->name = 'Кино';
+    $type2->ico = '/storage/icons/film.svg';
+    $type2->cult_id = 66;
+
+    $type3 = new EventType();
+    $type3->name = 'Праздники';
+    $type3->ico = '/storage/icons/events.svg'; // Уже нарисовать
+    $type3->cult_id = 50;
+
+    $type4 = new EventType();
+    $type4->name = 'Спорт';
+    $type4->ico = '/storage/icons/ball.svg'; // Уже нарисовать(Но мероприятий нет, так как это наш тип)
+
+    $type5 = new EventType();
+    $type5->name = 'Театр';
+    $type5->ico = '/storage/icons/mask.svg';
+    $type5->cult_id = 37;
+
+    $type6 = new EventType();
+    $type6->name = 'Обучение';
+    $type6->ico = '/storage/icons/student.svg';
+    $type6->cult_id = 36;
+
+    $type7 = new EventType();
+    $type7->name = 'Выступления';
+    $type7->ico = '/storage/icons/theaters.svg'; // Уже нарисовать
+    $type7->cult_id = 35;
+
+    $type8 = new EventType();
+    $type8->name = 'Выставки';
+    $type8->ico = '/storage/icons/exhibitions.svg'; // Уже нарисовать
+    $type8->cult_id = 34;
+
+    $type9 = new EventType();
+    $type9->name = '/storage/icons/initiative.svg'; // Нарисовать
+    $type9->ico = 'Встречи';
+    $type9->cult_id = 33;
     }
 }
