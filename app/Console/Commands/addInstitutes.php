@@ -155,7 +155,6 @@ class addInstitutes extends Command
 
                     // Берём тип и ставим тип
                     foreach ($sight->rubrics as $rubric) {
-                        dd($sight);
                         $types_id = SightType::where('cult_id', $rubric->_id)->firstOrFail()->id;
                         // Ставим тип
                         Sight::where('cult_id', $sight->_id)->first()->types()->attach($types_id);
