@@ -12,7 +12,7 @@ class Test extends Command
      *
      * @var string
      */
-    protected $signature = 'history_content_create';
+    protected $signature = 'test_e';
 
     /**
      * The console command description.
@@ -28,60 +28,15 @@ class Test extends Command
      */
     public function handle()
     {
-        $etypesParent = ["Представление", "Показ", "Мероприятие", "Культурные", "Детский показ", "Лекции"];
+        $allStypes = json_decode(file_get_contents('https://culture.ru/api/rubrics?sort=level', true));
 
-        $etypesParentRaw = ["performance"=>"Представление", "movie"=>"Показ",
-                            "event"=>"Мероприятие", "culture_calendar"=>"Культурные",
-                             "children_movie"=>"Детский показ", "lecture"=>"Лекции"];
-        $limit_genres = 100;
-        $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres), true);
-
-
-        //Создание родительских категорий
-        foreach($etypesParent as $type){
-            EventType::create([
-                "name" => $type,
-                'ico' => "none"
-            ]);
+        foreach($allStypes->items as $type){
+            print("--------"."\n");
+            print($type->title . "\n");
+            print_r($type->name . "\n");
+            print("++++++++"."\n");
+            print("\n");
         }
 
-        
-        
-        //Создание дочерних категорий
-        foreach($genres['items'] as $genre){
-            
-            if (count($genre['types'])>=2){
-                if (in_array("performance",$genre['types']) && in_array("movie",$genre['types'])){
-                    $etype_id = EventType::where("name","Показ")->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-                }
-                elseif(in_array("children_movie",$genre['types']) && in_array("culture_calendar",$genre['types'])){
-                    $etype_id = EventType::where("name","Культурные")->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-                }
-            }
-            else{
-                $etype_id = EventType::where("name",$etypesParentRaw[$genre["types"][0]])->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-            } 
-        }
-        
-       
-        
     }
 }

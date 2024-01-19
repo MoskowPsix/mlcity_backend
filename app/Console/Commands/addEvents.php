@@ -48,7 +48,7 @@ class addEvents extends Command
                 Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
                 sleep(5);
                 getMessage($text);
-            }            
+            }
         }
 
         function  getPageEvent($page_events, $limit_events) {
@@ -74,7 +74,7 @@ class addEvents extends Command
                         $event_cr->user_id = 1;
                         $event_cr->cult_id = $event->_id;
                         $event_cr->save();
-    
+
                         if (isset($event->price)){
                         if (($event->price->min === 0) && ($event->price->max === 0)) {
                             $price = new Price;
@@ -88,13 +88,13 @@ class addEvents extends Command
                             $price->cost_rub = 0;
                             $price->descriptions = 'Возможен бесплатный вход.';
                             $price->save();
-    
+
                             $price = new Price;
                             $price->event_id = $event_cr->id;
                             $price->cost_rub = $event->price->max;
                             $price->descriptions = 'Самая дорогая цена.';
                             $price->save();
-    
+
                         }else if ($event->price->min === $event->price->max) {
                                 $price = new Price;
                                 $price->event_id = $event_cr->id;
@@ -107,22 +107,22 @@ class addEvents extends Command
                                 $price->cost_rub = $event->price->min;
                                 $price->descriptions = 'Самый низкая цена.';
                                 $price->save();
-    
+
                                 $price = new Price;
                                 $price->event_id = $event_cr->id;
                                 $price->cost_rub = $event->price->max;
                                 $price->descriptions = 'Самая дорогая цена.';
                                 $price->save();
                             }
-                        }   
-    
+                        }
+
                         //$output->writeln('<info>'.$event_cr.'</info>');
                         foreach ($event->places as $place) {
-                            
+
                             $timezone = Timezone::where("name",$place->locale->timezone)->first()->id;
-                            
+
                             if (isset($place->institute) && Location::where('cult_id', $place->locale->_id)->first()) {
-                                
+
                                 if (Sight::where('cult_id', $place->institute->_id)->first()) {
                                     $place_cr =  new Place;
                                     $place_cr->event_id = $event_cr->id;
@@ -154,14 +154,14 @@ class addEvents extends Command
                                 $place_cr->save();
                             }
                              foreach ($place->seances as $seance) {
-                                
+
                                 Seance::create([
                                     'place_id'  => $place_cr->id,
                                     'date_start' => $seance->startDate,
                                     'date_end' => $seance->endDate
                                 ]);
                              }
-                        } 
+                        }
                         foreach ($event->genres as $genre) {
                             $types_id = EventType::where('name', $genre->title)->firstOrFail();
                             if(isset($types_id->etype_id)){
@@ -178,10 +178,10 @@ class addEvents extends Command
                                 "name" => $event->thumbnailFile->originalName,
                                 "link" => 'https://cdn.culture.ru/images/'.$event->thumbnailFile->publicId.'/w_'.$event->thumbnailFile->width.',h_'.$event->thumbnailFile->height.'/'.$event->thumbnailFile->originalName,
                             ])->file_types()->sync($type->id);
-                        } 
+                        }
                         Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                        Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]); 
-    
+                        Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+
                         // event(new EventCreated($event_cr));
                     }
                 }
@@ -189,7 +189,7 @@ class addEvents extends Command
                 Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.$e);
                 sleep(5);
                 getPageEvent($page_events, $limit_events);
-            }    
+            }
         }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();
@@ -197,7 +197,7 @@ class addEvents extends Command
             $page_events = (int)$this->argument('page_events');
             print($page_events);
         } else {
-            $page_events = 1; 
+            $page_events = 1;
         }
         $limit_events = 100;
         $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
@@ -219,20 +219,22 @@ class addEvents extends Command
         getMessage('Download start element-2');
         $output->writeln('<info>Download step 1: Download genres</info>');
         getMessage('Download step 1: Download genres');
-      
+
         //Создание родительских категорий
         foreach($etypesParent as $type){
-            EventType::create([
-                "name" => $type,
-                'ico' => "none"
-            ]);
-        } 
-        
+            if(!EventType::where('name', $type)->first()) {
+                EventType::create([
+                    "name" => $type,
+                    'ico' => "none"
+                ]);
+            }
+        }
+
         //Создание дочерних категорий
         foreach($genres['items'] as $genre){
-            
+
             if (count($genre['types'])>=2){
-                if (in_array("performance",$genre['types']) && in_array("movie",$genre['types'])){
+                if (in_array("performance",$genre['types']) && in_array("movie",$genre['types']) && !EventType::where('name', $genre['name'])->first()){
                     $etype_id = EventType::where("name","Показ")->first()->id;
                     EventType::create([
                         "name"=>$genre["title"],
@@ -241,7 +243,7 @@ class addEvents extends Command
                         "cult_id" => $genre['_id']
                     ]);
                 }
-                elseif(in_array("children_movie",$genre['types']) && in_array("culture_calendar",$genre['types'])){
+                elseif(in_array("children_movie",$genre['types']) && in_array("culture_calendar",$genre['types']) && !EventType::where('name', $genre['name'])->first()){
                     $etype_id = EventType::where("name","Культурные")->first()->id;
                     EventType::create([
                         "name"=>$genre["title"],
@@ -251,7 +253,7 @@ class addEvents extends Command
                     ]);
                 }
             }
-            else{
+            elseif(!EventType::where('name', $genre['name'])->first()) {
                 $etype_id = EventType::where("name",$etypesParentRaw[$genre["types"][0]])->first()->id;
                     EventType::create([
                         "name"=>$genre["title"],
@@ -259,7 +261,7 @@ class addEvents extends Command
                         "etype_id" => $etype_id,
                         "cult_id" => $genre['_id']
                     ]);
-            } 
+            }
         }
 
         getMessage('Download step 1: Download genres complete!!!');
@@ -268,20 +270,20 @@ class addEvents extends Command
         while ($total_events >= 0) {
             // Начало отсчёта времени выполнения
             $start_timer = microtime(true);
-            
+
             // Отображение прогресса мест
             $progress = ($total_events_progress * 100 - $total_events) / $total_events_progress;
-            getPageEvent($page_events,$limit_events);           
+            getPageEvent($page_events,$limit_events);
             $total_events = $total_events - 1;
             $page_events = $page_events + 1;
 
-            // Подсчёт времени до конца  
+            // Подсчёт времени до конца
             $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
             $output->writeln((int)$progress.'approximate end time: ' . (int)$end_time . 'min');
             getMessage('page: '.$page_events-1 .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
         }
 
-        $output->writeln("<info>Errors: </info>" . $events_download); 
+        $output->writeln("<info>Errors: </info>" . $events_download);
         getMessage('End and complete!!!');
         return print_r('Download element-2 end!');
     }
