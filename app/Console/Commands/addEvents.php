@@ -24,7 +24,7 @@ class addEvents extends Command
      *
      * @var string
      */
-    protected $signature = 'events_save {page_events?}';
+    protected $signature = 'events_save {page_events} {limit_events}';
 
     /**
      * The console command description.
@@ -40,17 +40,15 @@ class addEvents extends Command
      */
     public function handle()
     {
-        function getMessage($text) {
-            try
-            {
-                file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
-            }  catch (Exception $e) {
-                Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
-                sleep(5);
-                getMessage($text);
+
+        function checkTypeInCurrentTypes($genres){
+            foreach($genres as $genre){
+                if(EventType::where("cult_id",$genre->_id)->exists()){
+                    return true;
+                }
+                break;
             }
         }
-
         function  getPageEvent($page_events, $limit_events) {
             try
             {
@@ -58,7 +56,7 @@ class addEvents extends Command
                 $status= Status::where('name', 'Опубликовано')->firstOrFail();
                 $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
                 foreach ($events->items as $event) {
-                    if (!Event::where('cult_id', $event->_id)->first()) {
+                    if (!Event::where('cult_id', $event->_id)->first() && checkTypeInCurrentTypes($event->genres)) {
                         if (str_contains($event->text,'[HTML]')) {
                             $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
                         } else {
@@ -163,15 +161,13 @@ class addEvents extends Command
                              }
                         }
                         foreach ($event->genres as $genre) {
-                            $types_id = EventType::where('name', $genre->title)->firstOrFail();
-                            if(isset($types_id->etype_id)){
+                            $types_id = EventType::where('cult_id', $genre->_id);
+
+                            if($types_id->exists()){
                                 // print($event_cr->id);
-                                Event::where('id', $event_cr->id)->first()->types()->attach($types_id->etype_id);
+                                Event::where('id', $event_cr->id)->first()->types()->attach($types_id->first()->id);
                             }
-                            else{
-                                // print($event_cr->id);
-                                Event::where('id', $event_cr->id)->first()->types()->attach($types_id->id);
-                            }
+
                         }
                         if (isset($event->thumbnailFile)) {
                             Event::where('id', $event_cr->id)->first()->files()->create([
@@ -192,99 +188,26 @@ class addEvents extends Command
             }
         }
 
-        $output = new \Symfony\Component\Console\Output\ConsoleOutput();
         if($this->argument('page_events') > 1){
             $page_events = (int)$this->argument('page_events');
-            print($page_events);
-        } else {
+
+        }
+        else {
             $page_events = 1;
         }
-        $limit_events = 100;
-        $total_events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true))->pagination->total;
-        $events_download = [];
-        $total_events_progress = $total_events / 100;
-        $limit_genres = 100;
 
-        $etypesParent = ["Представление", "Показ", "Мероприятие", "Культурные", "Детский показ", "Лекции"];
+        if($this->argument("limit_events") >= 1){
+            $limit_events = (int)$this->argument("limit_events");
 
-        $etypesParentRaw = ["performance"=>"Представление", "movie"=>"Показ",
-                            "event"=>"Мероприятие", "culture_calendar"=>"Культурные",
-                             "children_movie"=>"Детский показ", "lecture"=>"Лекции"];
-        $genres = json_decode(file_get_contents('https://www.culture.ru/api/genres?limit='.$limit_genres), true);
-
-        date_default_timezone_set('UTC');
-        $output->writeln(strtotime('2017-01-10T19:00:00.000Z'));
-
-        $output->writeln('<info>Download start element-2</info>');
-        getMessage('Download start element-2');
-        $output->writeln('<info>Download step 1: Download genres</info>');
-        getMessage('Download step 1: Download genres');
-
-        //Создание родительских категорий
-        foreach($etypesParent as $type){
-            if(!EventType::where('name', $type)->first()) {
-                EventType::create([
-                    "name" => $type,
-                    'ico' => "none"
-                ]);
-            }
+        }
+        else {
+            $limit_events = 10;
         }
 
-        //Создание дочерних категорий
-        foreach($genres['items'] as $genre){
 
-            if (count($genre['types'])>=2){
-                if (in_array("performance",$genre['types']) && in_array("movie",$genre['types']) && !EventType::where('name', $genre['name'])->first()){
-                    $etype_id = EventType::where("name","Показ")->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-                }
-                elseif(in_array("children_movie",$genre['types']) && in_array("culture_calendar",$genre['types']) && !EventType::where('name', $genre['name'])->first()){
-                    $etype_id = EventType::where("name","Культурные")->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-                }
-            }
-            elseif(!EventType::where('name', $genre['name'])->first()) {
-                $etype_id = EventType::where("name",$etypesParentRaw[$genre["types"][0]])->first()->id;
-                    EventType::create([
-                        "name"=>$genre["title"],
-                        'ico' => "none",
-                        "etype_id" => $etype_id,
-                        "cult_id" => $genre['_id']
-                    ]);
-            }
-        }
+        getPageEvent($page_events,$limit_events);
 
-        getMessage('Download step 1: Download genres complete!!!');
-        $output->writeln('<info>Download step 2: Download events</info>');
-        getMessage('Download step 2: Download events start');
-        while ($total_events >= 0) {
-            // Начало отсчёта времени выполнения
-            $start_timer = microtime(true);
 
-            // Отображение прогресса мест
-            $progress = ($total_events_progress * 100 - $total_events) / $total_events_progress;
-            getPageEvent($page_events,$limit_events);
-            $total_events = $total_events - 1;
-            $page_events = $page_events + 1;
-
-            // Подсчёт времени до конца
-            $end_time = (microtime(true) - $start_timer)  * $total_events / 60;
-            $output->writeln((int)$progress.'approximate end time: ' . (int)$end_time . 'min');
-            getMessage('page: '.$page_events-1 .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
-        }
-
-        $output->writeln("<info>Errors: </info>" . $events_download);
-        getMessage('End and complete!!!');
-        return print_r('Download element-2 end!');
+        return 0;
     }
 }
