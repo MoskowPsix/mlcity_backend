@@ -52,46 +52,49 @@ class startIntegration extends Command
 
         if ($this->argument('type') == 'event') {
             // event
-            $this->saveEventIntegration($page_event, $limit, $total_event);
+            $this->saveIntegration($page_event, $limit, $total_event, 'event');
         } else if($this->argument('type') == 'sight') {
             // sight
-            $this->saveSightIntegration($page_sight, $limit, $total_sight);
+            $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
         } else {
             // all
-            $this->saveSightIntegration($page_sight, $limit, $total_sight);
-            $this->saveEventIntegration($page_event, $limit, $total_event);
+            $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
+            $this->saveIntegration($page_event, $limit, $total_event, 'event');
         }
 
         return 0;
     }
 
-    public function saveEventIntegration($page, $limit, $total) {
+    public function saveIntegration($page, $limit, $total, $type) {
         try
         {
+            $total_progress = $total / 100;
+            // print('Start download');
             while ($total >= 0) {
-
-            }
-            return 0;
-        } catch (Exception $e) {
-            Log::error('Ошибка при выполнении функции saveEventIntegration: '.json_decode($e));
-            sleep(3);
-            $this->saveEventIntegration($page, $limit, $total);
-        }   
-    }
-    public function saveSightIntegration($page, $limit, $total) {
-        try
-        {
-            print('start');
-            while ($total >= 0) {
-                $i = 10;
-                while($i >= 0) { // Запускаем 10 команд по загрузке sight
-                    $process = new Process(['php', 'artisan', 'institutes_save', $page, $limit]);
+                $start_timer = microtime(true); // Время начала процесса
+                $numberOfProcess = 10;
+                for ($i = 0; $i < $numberOfProcess; $i++) { // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
+                    $process = new Process(['php', 'artisan', $type.'s_save', $page, $limit]);
+                    $process->setTimeout(0);
+                    $process->disableOutput();
                     $process->start();
-                    $i = $i-1;
-                    print($i);
+                    $processes[] = $process;
+                    $total = $total - 1;
+                    $page = $page + 1;
                 }
-                $total = $total - 1;
-                $page = $page + 1;
+                while (count($processes)) {  
+                    foreach ($processes as $i => $runningProcess) {    
+                        // этот процесс завершен, поэтому удаляем его
+                        if (!$runningProcess->isRunning()) {      
+                            unset($processes[$i]);    
+                        }   
+                        // sleep(1); // Тормозит процесс в среднем на 10 секунд каждую итерацию
+                    }
+                }
+                $end_time = (microtime(true) - $start_timer)  * $total / 60; // Время до завершения процесса
+                $progress = ($total_progress * 100 - $total) / $total_progress;
+                $this->getMessage('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
+                print('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min'."\n");
             }
             return 0;
         } catch (Exception $e) {
@@ -99,5 +102,16 @@ class startIntegration extends Command
             sleep(3);
             $this->saveSightIntegration($page, $limit, $total);
         }   
+    }
+
+    public function getMessage($text) {
+        try
+        {
+            file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+        }  catch (Exception $e) {
+            Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
+            sleep(5);
+            getMessage($text);
+        }            
     }
 }
