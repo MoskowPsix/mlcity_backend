@@ -114,7 +114,7 @@ class startIntegration extends Command
         }  catch (Exception $e) {
             Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
             sleep(5);
-            getMessage($text);
+            $this->getMessage($text);
         }            
     }
     public function formatTime($microseconds) {
