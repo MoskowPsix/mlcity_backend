@@ -93,7 +93,6 @@ class startIntegration extends Command
                         // sleep(1); // Тормозит процесс в среднем на 10 секунд каждую итерацию
                     }
                 }
-                print(microtime(true) - $start_timer . ", " . $total . "\n");
                 $end_time = (microtime(true) - $start_timer)  * ($total / 10); // Время до завершения процесса
                 $progress = ($total_progress * 100 - $total) / $total_progress;
                 $this->getMessage('page: '.$page .', progress: '. (int)$progress . '%, approximate end time: ' . $this->formatTime((int)$end_time) ."\n");
