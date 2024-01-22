@@ -515,13 +515,12 @@ class SightController extends Controller
      *     ),
      * )
      */
-    public function create(SightCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         $coords = explode(',',$request->coords);
         $latitude   = $coords[0]; // широта
         $longitude  = $coords[1]; // долгота
 
-        \Illuminate\Support\Facades\Log::info($request->collect());
         $sight = Sight::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
@@ -538,7 +537,7 @@ class SightController extends Controller
             'work_time'     => $request->workTime,
         ]);
 
-        foreach ($request->prices as $price){
+        foreach ($request->price as $price){
             $sight->prices()->create([
                 'cost_rub' => $price['cost_rub'],
                 'descriptions' => $price['descriptions']
