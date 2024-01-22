@@ -20,7 +20,7 @@ class addInstitutes extends Command
      *
      * @var string
      */
-    protected $signature = 'institutes_save {page_institutes?} {limit_institutes?}';
+    protected $signature = 'sights_save {page_institutes?} {limit_institutes?}';
 
     /**
      * The console command description.
