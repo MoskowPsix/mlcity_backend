@@ -2,11 +2,12 @@
 
 namespace App\Console\Commands;
 
+use DateTime;
 use Illuminate\Console\Command;
 use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\Exception\ProcessFailedException;
+use Illuminate\Support\Carbon;
 
 class startIntegration extends Command
 {
@@ -33,6 +34,7 @@ class startIntegration extends Command
     {
         $limit = 10; // Задаём лимит записей на странице
 
+        $this->getMessage('Setting the settings start');
         if (($this->argument('type') == 'event') && $this->argument('page')) {
             // event задаём page и total если пришли аргументы
             $page_event = $this->argument('page');
@@ -48,7 +50,7 @@ class startIntegration extends Command
             $total_event = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_event.'&limit='.$limit.'&statuses=published', true))->pagination->total;
             $total_sight = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_sight.'&limit='.$limit . '&statuses=published', true))->pagination->total;
         }
-        $limit = 10;
+        $this->getMessage('Setting the settings end');
 
         if ($this->argument('type') == 'event') {
             // event
@@ -66,10 +68,10 @@ class startIntegration extends Command
     }
 
     public function saveIntegration($page, $limit, $total, $type) {
+        $this->getMessage('Download '.$type.' start');
         try
         {
             $total_progress = $total / 100;
-            // print('Start download');
             while ($total >= 0) {
                 $start_timer = microtime(true); // Время начала процесса
                 $numberOfProcess = 10;
@@ -91,11 +93,12 @@ class startIntegration extends Command
                         // sleep(1); // Тормозит процесс в среднем на 10 секунд каждую итерацию
                     }
                 }
-                $end_time = (microtime(true) - $start_timer)  * $total / 60; // Время до завершения процесса
+                print(microtime(true) - $start_timer . ", " . $total . "\n");
+                $end_time = (microtime(true) - $start_timer)  * ($total / 10); // Время до завершения процесса
                 $progress = ($total_progress * 100 - $total) / $total_progress;
-                $this->getMessage('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
-                print('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min'."\n");
+                $this->getMessage('page: '.$page .', progress: '. (int)$progress . '%, approximate end time: ' . $this->formatTime((int)$end_time) ."\n");
             }
+            $this->getMessage('Download '.$type.' end');
             return 0;
         } catch (Exception $e) {
             Log::error('Ошибка при выполнении функции saveSightIntegration: страница='. $page .' лимит='. $limit .' тотал='. $total .json_decode($e));
@@ -108,10 +111,15 @@ class startIntegration extends Command
         try
         {
             file_get_contents('https://api.telegram.org/bot'.env('TELEGRAM_BOT_API').'/sendMessage?chat_id='.env('LOG_CHATS_DOWNLOAD_TELEGRAM').'&text='. $text);
+            print($text . "\n");
         }  catch (Exception $e) {
             Log::error('Ошибка при отправке сообщения в телеграм: '.json_decode($e));
             sleep(5);
             getMessage($text);
         }            
+    }
+    public function formatTime($microseconds) {
+        $seconds = floor($microseconds);
+        return gmdate("H:i:s", floor($seconds));
     }
 }
