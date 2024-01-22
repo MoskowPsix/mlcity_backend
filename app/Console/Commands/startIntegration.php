@@ -94,6 +94,7 @@ class startIntegration extends Command
                 $end_time = (microtime(true) - $start_timer)  * $total / 60; // Время до завершения процесса
                 $progress = ($total_progress * 100 - $total) / $total_progress;
                 $this->getMessage('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min');
+                print('page: '.$page .', '. (int)$progress . '% approximate end time: ' . (int)$end_time . 'min'."\n");
             }
             return 0;
         } catch (Exception $e) {
