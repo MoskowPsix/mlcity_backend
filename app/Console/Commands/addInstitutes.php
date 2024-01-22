@@ -70,6 +70,16 @@ class addInstitutes extends Command
             }
         }
 
+        function checkTypeInCurrentTypes($types){
+            foreach($types as $type){
+                $path = explode("/",$type->path)[0];
+                if(SightType::where("cult_path",$path)->exists()){
+                    return true;
+                }
+                break;
+            }
+        }
+
         function getMessage($text) {
             try
             {
@@ -91,8 +101,9 @@ class addInstitutes extends Command
             //$status_all = Status::all('id');
 
             $sights = getPageInstitutes($page_institutes, $limit_institutes);
+
             foreach ($sights->items as $sight) {
-                if (!Sight::where('cult_id', $sight->_id)->first() && $sight->status !== 'deleted' && Location::where('cult_id', $sight->locale->_id)->first()) {
+                if (checkTypeInCurrentTypes($sight->rubrics)) {
                     // Сохраняем место
                     if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
@@ -155,9 +166,15 @@ class addInstitutes extends Command
 
                     // Берём тип и ставим тип
                     foreach ($sight->rubrics as $rubric) {
-                        $types_id = SightType::where('cult_id', $rubric->_id)->firstOrFail()->id;
+                        $path = explode("/",$rubric->path)[0];
+                        $types_id = SightType::where('cult_path', $path);
                         // Ставим тип
-                        Sight::where('cult_id', $sight->_id)->first()->types()->attach($types_id);
+
+                        if($types_id->exists()){
+                            // dd($types_id->first()->id);
+                            Sight::where('cult_id', $sight->_id)->first()->types()->attach($types_id->first()->id);
+                        }
+
                     }
                     $sight_one = getInstitute($sight->_id);
                     // Подвязываем фото
@@ -175,7 +192,11 @@ class addInstitutes extends Command
                     Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
                         // event(new SightCreated($sight_cr));
                     }
+                    else{
+                        // print_r($sight);
+                    }
                 }
+
         }
 
         $output = new \Symfony\Component\Console\Output\ConsoleOutput();

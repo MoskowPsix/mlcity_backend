@@ -32,6 +32,7 @@ class Test extends Command
 
         foreach($allStypes->items as $type){
             print("--------"."\n");
+            print($type->_id . "\n");
             print($type->title . "\n");
             print_r($type->name . "\n");
             print("++++++++"."\n");
