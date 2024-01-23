@@ -113,61 +113,38 @@ class addEvents extends Command
                                 $price->save();
                             }
                         }
-
-                        //$output->writeln('<info>'.$event_cr.'</info>');
+                        
                         foreach ($event->places as $place) {
 
-                            $timezone = Timezone::where("name",$place->locale->timezone)->first()->id;
+                            $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
 
-                            if (isset($place->institute) && Location::where('cult_id', $place->locale->_id)->first()) {
+                            if (isset($place->institute)) {
+                                $sight = Sight::where('cult_id', $place->institute->_id)->first();
+                                $sight ? $sight_id = $sight->id : $sight_id = null;
 
-                                if (Sight::where('cult_id', $place->institute->_id)->first()) {
-                                    $place_cr =  new Place;
-                                    $place_cr->event_id = $event_cr->id;
-                                    $place_cr->address = $place->address;
-                                    $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
-                                    $place_cr->latitude = $place->location->coordinates[1];
-                                    $place_cr->longitude = $place->location->coordinates[0];
-                                    $place_cr->sight_id = Sight::where('cult_id', $place->institute->_id)->first()->id;
-                                    $place_cr->timezone_id = $timezone;
-                                    $place_cr->save();
-                                } else {
-                                    $place_cr =  new Place;
-                                    $place_cr->event_id = $event_cr->id;
-                                    $place_cr->address = $place->address;
-                                    $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
-                                    $place_cr->latitude = $place->location->coordinates[1];
-                                    $place_cr->longitude = $place->location->coordinates[0];
-                                    $place_cr->timezone_id = $timezone;
-                                    $place_cr->save();
-                                }
-                            } else {
                                 $place_cr =  new Place;
                                 $place_cr->event_id = $event_cr->id;
                                 $place_cr->address = $place->address;
                                 $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
                                 $place_cr->latitude = $place->location->coordinates[1];
                                 $place_cr->longitude = $place->location->coordinates[0];
+                                $place_cr->sight_id = $sight_id;
                                 $place_cr->timezone_id = $timezone;
                                 $place_cr->save();
+                                foreach ($place->seances as $seance) {
+                                    Seance::create([
+                                        'place_id'  => $place_cr->id,
+                                        'date_start' => $seance->startDate,
+                                        'date_end' => $seance->endDate
+                                    ]);
+                                }
                             }
-                             foreach ($place->seances as $seance) {
-
-                                Seance::create([
-                                    'place_id'  => $place_cr->id,
-                                    'date_start' => $seance->startDate,
-                                    'date_end' => $seance->endDate
-                                ]);
-                             }
                         }
                         foreach ($event->genres as $genre) {
                             $types_id = EventType::where('cult_id', $genre->_id);
-
                             if($types_id->exists()){
-                                // print($event_cr->id);
                                 Event::where('id', $event_cr->id)->first()->types()->attach($types_id->first()->id);
                             }
-
                         }
                         if (isset($event->thumbnailFile)) {
                             Event::where('id', $event_cr->id)->first()->files()->create([
@@ -178,7 +155,6 @@ class addEvents extends Command
                         Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
                         Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
 
-                        // event(new EventCreated($event_cr));
                     }
                 }
             }  catch (Exception $e) {

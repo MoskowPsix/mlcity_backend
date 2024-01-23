@@ -22,7 +22,7 @@ class addCoordsAtFiasId extends Command
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Command for only one download locations';
 
     /**
      * Execute the console command.

@@ -35,6 +35,10 @@ class startIntegration extends Command
         $limit = 10; // Задаём лимит записей на странице
 
         $this->getMessage('Setting the settings start');
+        $timezone_command = new Process(['php', 'artisan', 'add_timezone']);
+        $timezone_command->setTimeout(0);
+        $timezone_command->disableOutput();
+        $timezone_command->run();
         if (($this->argument('type') == 'event') && $this->argument('page')) {
             // event задаём page и total если пришли аргументы
             $page_event = $this->argument('page');
