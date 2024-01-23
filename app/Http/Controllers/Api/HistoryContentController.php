@@ -50,7 +50,7 @@ class HistoryContentController extends Controller
                         HistoryContentGeoPositionAreaHistoryPlace::class,
                         HistoryContentEventTypes::class,
                         HistoryContentSightTypes::class
-                        
+
                     ])
                     ->via('apply')
                     ->then(function ($historyContents) use ($page, $limit, $total){
@@ -61,9 +61,9 @@ class HistoryContentController extends Controller
         return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
 
-    public function getHistoryContentForIds($id) 
+    public function getHistoryContentForIds($id)
     {
-        
+
         $historyContents = HistoryContent::where('id', $id)->with('user', 'historyEventTypes', 'historySightTypes', 'historyPlaces', 'historyPrices', 'statuses', 'historyFiles');
         return response()->json(["status"=>"success", "historyContents" => $historyContents->firstOrFail()],200);
     }
@@ -71,17 +71,17 @@ class HistoryContentController extends Controller
     public function createHistoryContent(Request $request)
     {
         #получаем данные для статуса и дальнейших манипуляций
-        
-        
+
+
         $data = $request->toArray();
-        
+
         $data['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
-        
+
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
             $event = Event::where('id',$data['id'])->first();
-            
+
             $historyContent = $data["history_content"];
             unset($historyContent["history_places"]);
             unset($historyContent['history_prices']);
@@ -92,36 +92,36 @@ class HistoryContentController extends Controller
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
             ]);
-            
+
             #проверяем содержит ли массив places
             if(isset($data["history_content"]["history_places"])){
-                
+
                 for($i = 0; $i<count($data["history_content"]["history_places"]); $i++){
                     // info($data["history_content"]["history_places"][$i]);
 
                     $historyPlace = $this->prepareHistoryPlaceData($data["history_content"]["history_places"][$i]);
-                    
+
                     info($historyPlace);
 
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
                     #проверяем содержит ли массив seances
                     if (isset($data["history_content"]["history_places"][$i]["history_seances"])){
-                        $historySeances = $data["history_content"]["history_places"][$i]["history_seances"]; 
+                        $historySeances = $data["history_content"]["history_places"][$i]["history_seances"];
                         foreach($historySeances as $historySeance){
                             $historySeance = $this->unsetRawSeanseData($historySeance);
                             $historySeance = $historyPlace->historySeances()->create($historySeance);
                         }
-                        
+
                     }
                 }
-                
+
             }
             #Проверка есть ли цена на изменение или удаление
-            
+
             if(isset($data["history_content"]["history_prices"])){
                 $historyPrices = $data["history_content"]["history_prices"];
-                
+
                 if(!empty($historyPrices)){
                     for($i = 0; $i<count($historyPrices); $i++){
                         $historyContent->historyPrices()->create($historyPrices[$i]);
@@ -130,21 +130,21 @@ class HistoryContentController extends Controller
             }
 
             #Проверка если ли типы на удаление или на добавление
-            
-            
+
+
             if(isset($data["history_content"]["history_types"])){
                 $historyTypes = $data["history_content"]["history_types"];
-                
+
                 for($i = 0; $i<count($historyTypes); $i++){
-                    
-                    
+
+
                     if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
                         $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
                     }
                     else{
                         $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"]);
                     }
-                    
+
                 }
             }
 
@@ -159,7 +159,7 @@ class HistoryContentController extends Controller
                         $this->saveLocalFilesImg($historyContent, $file);
                     }
                 }
-                
+
             }
 
         }
@@ -172,8 +172,8 @@ class HistoryContentController extends Controller
             unset($historyContent['history_files']);
             info($historyContent);
             $historyContent = $sight->historyContents()->create($historyContent);
-            
-            
+
+
 
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
@@ -188,7 +188,7 @@ class HistoryContentController extends Controller
                     }
                 }
             }
-            
+
 
             #Проверка если ли типы на удаление или на добавление
             if(isset($data["history_content"]["history_types"])){
@@ -196,7 +196,7 @@ class HistoryContentController extends Controller
                 if(!empty($historyTypes)){
 
                     for($i = 0; $i<count($historyTypes); $i++){
-                        
+
                         // info($historyTypes[$i]);
                         if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
                             $historyContent->historySightTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
@@ -204,11 +204,11 @@ class HistoryContentController extends Controller
                         else{
                             $historyContent->historySightTypes()->attach($historyTypes[$i]["id"]);
                         }
-                        
+
                     }
-                }  
+                }
             }
-            
+
             if(isset($data['history_content']["history_files"])){
                 $files = $data['history_content']["history_files"];
                 info($files);
@@ -222,13 +222,13 @@ class HistoryContentController extends Controller
                         $historyContent->historyFiles()->create($file);
                     }
                 }
-                
+
             }
-                
-            
-            
+
+
+
         }
-        
+
         return response()->json(["status"=>"success", "history_content"=>$historyContent->id],201);
     }
 
@@ -255,7 +255,7 @@ class HistoryContentController extends Controller
                 }
                 else{
                     $historyParent->update($historyData);
-                }             
+                }
             }
 
             #достаем places которые либо будут созданы либо изменены
@@ -268,7 +268,7 @@ class HistoryContentController extends Controller
                 foreach($historyPlaces as $historyPlace){
 
                     $historyPlaceParent = $historyPlace->place;
-                    $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray());     
+                    $historyRawData = $this->unsetRawHistoryPlaceData($historyPlace->ToArray());
                     $historyData = $this->notNullData($historyRawData);
 
                     if(isset($historyPlaceParent)){
@@ -281,27 +281,27 @@ class HistoryContentController extends Controller
                             }
 
                             $historySeances = $historyPlace->historySeances;
-                            
+
                             if(isset($historySeances) && count($historySeances)>0){
 
                                 foreach($historySeances as $historySeance){
 
-                                    
+
                                     $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
                                     $historyData = $this->notNullData($historyRawData);
-                                    
+
                                     if($historySeance["on_delete"] == true){
                                         $historySeanceParent = $historySeance->seance;
                                         $historySeanceParent->delete();
-                                    } 
+                                    }
                                     else if(isset($historySeance["seanse_id"])){
-                                        
+
                                         if(!empty($historyData)){
                                             $historySeanceParent = $historySeance->seance;
                                             info($historyData);
                                             $historySeanceParent->update($historyData);
                                         }
-                                        
+
                                     }
                                     else{
                                         info("create seanse to alredy place");
@@ -309,8 +309,8 @@ class HistoryContentController extends Controller
                                     }
                                 }
                             }
-                        } 
-                        # Если Place не существует мы его добавляем и(или) его seance   
+                        }
+                        # Если Place не существует мы его добавляем и(или) его seance
                     } else if (!isset($historyPlaceParent)){
                         $place = $historyParent->places()->create($historyData);
                         info($place->id);
@@ -321,9 +321,9 @@ class HistoryContentController extends Controller
                                 $historyRawData = $this->unsetRawHistorySeanceData($historySeance->toArray());
                                 $historyData = $this->notNullData($historyRawData);
 
-                                
+
                                 if(!empty($historyData)){
-                                    
+
                                     $place->seances()->create($historyData);
                                 }
                             }
@@ -343,25 +343,26 @@ class HistoryContentController extends Controller
                     $historyPriceParent = $historyPrice->price;
                     $historyRawData = $this->unsetRawHistoryPriceData($historyPrice->toArray());
                     $historyData = $this->notNullData($historyRawData);
-
+                    
                     # Если цена существует мы либо удаляем ее либо обновляем
                     if (isset($historyPriceParent)){
-
+                        info($historyPrice);
                         if($historyPrice['on_delete'] == true){
 
                             $historyPriceParent->delete();
                         }
                         else{
                             if (!empty($historyData)){
+                                unset($data["price_id"]);
                                 $historyPriceParent->update($historyData);
                             }
-                            
+
                         }
                     }
                     # Если цена не существует создаем ее
-                    else if (!isset($historyPriceParent)){
-                        $historyParent->prices()->create($historyData);    
-                    }   
+                    else{
+                        $historyParent->prices()->create($historyData);
+                    }
                 }
             }
 
@@ -370,7 +371,7 @@ class HistoryContentController extends Controller
                 $historyTypes = $historyContent->historySightTypes;
                 foreach($historyTypes as $historyType){
                     $typeId = $historyType["pivot"]["history_contentable_id"];
-                    
+
                     if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
                         $historyParent->types()->detach($typeId);
                     }
@@ -381,7 +382,7 @@ class HistoryContentController extends Controller
             }
             else if ($historyContent->history_contentable_type=="App\Models\Event"){
                 $historyTypes = $historyContent->historyEventTypes;
-                
+
                 foreach($historyTypes as $historyType){
                     $typeId = $historyType["pivot"]["history_contentable_id"];
 
@@ -394,23 +395,23 @@ class HistoryContentController extends Controller
                     }
                 }
             }
-            
+
             $historyFiles = $historyContent->historyFiles;
-            
+
             if(isset($historyFiles)){
                 $data = $historyFiles->toArray();
-                
+
 
                 foreach ($data as $content){
-                    
+
                     if(isset($content['on_delete']) && $content['on_delete']==true){
-                        
+
                         $historyParent->files()->where('id',$content['file_id'])->delete();
                     }
                     else{
                         $path = $content['link'];
                         $filename = basename($path);
-                        
+
                         $historyParent->files()->create([
                             "link" => $path,
                             "local" => 1,
@@ -419,8 +420,8 @@ class HistoryContentController extends Controller
                     }
                 }
 
-                
-                
+
+
             }
             $historyContent->historyContentStatuses()->create([
                 "status_id" => 1
@@ -441,10 +442,10 @@ class HistoryContentController extends Controller
         }
     }
 
-    
+
     private function saveLocalFilesImg($historyContent, $file){
         $filename = uniqid('img_');
-        
+
         $path = $file->store('history_content/'.$historyContent->id, 'public');
 
         $type = FileType::where('name', 'image')->get();
@@ -455,13 +456,13 @@ class HistoryContentController extends Controller
             'local' => 1
         ]);
         $historyType = $historyFile->historyFileType()->attach($type[0]->id);
-        
-        
+
+
 
     }
     private function saveLocalSightFilesImg($sight, $file){
 
-        
+
         $filename = uniqid('img_');
 
         $path = $file->store('sight/'.$sight->id, 'public');
@@ -472,16 +473,16 @@ class HistoryContentController extends Controller
             'name'  => $filename,
             'link'  => '/storage/'.$path,
             'local' => 1
-        ])->file_types()->attach($type[0]->id);   
+        ])->file_types()->attach($type[0]->id);
 
     }
 
     private function prepareHistoryPlaceData($data){
         if(isset($data["location"])){
             $data["location_id"] = $data['location']["location_id"];
-            
+
         }
-        
+
         unset($data['history_seances']);
         unset($data["event_id"]);
         unset($data['created_at']);
@@ -523,7 +524,7 @@ class HistoryContentController extends Controller
         unset($data['id']);
         unset($data['seance']);
         unset($data["seance_id"]);
-        
+
         return $data;
     }
 
@@ -534,8 +535,8 @@ class HistoryContentController extends Controller
         unset($data['history_place_id']);
         unset($data['id']);
         unset($data['place_id']);
-        
-        return $data; 
+
+        return $data;
     }
 
     public function unsetRawHistoryPriceData($historyRawData){
@@ -543,10 +544,9 @@ class HistoryContentController extends Controller
         unset($data['created_at']);
         unset($data['updated_at']);
         unset($data['history_content_id']);
-        unset($data["price_id"]);
         unset($data['id']);
-        
-        
+
+
         return $data;
     }
 
