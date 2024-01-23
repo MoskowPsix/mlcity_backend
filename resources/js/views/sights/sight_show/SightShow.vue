@@ -110,7 +110,7 @@
 
 
                 <div v-if="connectState.PricesCard && state==false && (sight.prices && sight.prices.length > 0)" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
+                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
                         v-on:click="addToCurrentPrices()" v-if="state">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -121,7 +121,7 @@
                     </div>
                 </div>
                 <div v-if="connectState.PricesCard && state" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-neutral-700">
+                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
                         v-on:click="addToCurrentPrices()" v-if="state">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -239,9 +239,8 @@ export default {
             sight: [],
             allTypes: null,
             status: "",
-            sightUpd: new FormData(),
             sightFiles: [],
-
+            priceId: 0,
             state: false,
             currentSightPrice:[],
             filesDel: [],
@@ -339,11 +338,13 @@ export default {
             console.log(this.pricesDel)
         },
         addToCurrentPrices(){
-            this.sight.prices.push({"cost_rub":null, "descriptions":""})
+            this.sight.prices.push({"cost_rub":0, "descriptions":"Описание", "id":this.priceId})
+            this.priceId++
         },
         checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
                 if (array[i].id === obj.id){
+                    console.log(obj, array)
                     return true
                 }
             }
@@ -424,12 +425,29 @@ export default {
                 }
             }
             else{
+                console.log(price)
                 this.pricesUpd.push(price)
+                console.log(this.pricesUpd)
             }
 
         },
         statusChange(status){
             this.status = status
+        },
+        freshAll(){
+            this.sight = []
+            this.allTypes = null
+            this.status = ""
+            this.sightFiles = []
+            this.priceId = 0
+            this.state = false
+            this.currentSightPrice =[]
+            this.filesDel = []
+            this.filesUpd = []
+            this.typesDel = []
+            this.typesUpd = []
+            this.pricesDel =[]
+            this.pricesUpd =[]
         },
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
@@ -467,7 +485,7 @@ export default {
                     }
                     break;
                     case(`sight-${this.sight.id}-materials-input`):
-                    if (item[1].value != this.sight.materials) {
+                    if ((item[1].value != this.sight.materials) && (item[1].value != "")) {
                         console.log('new materials value: ' + item[1].value)
                         historyData.history_content.materials =  item[1].value
                     }
@@ -521,6 +539,7 @@ export default {
 
 
                 this.pricesUpd.forEach(item => {
+                    delete item.id
                     historyData.history_content.history_prices.push(item)
                 })
 
@@ -540,22 +559,31 @@ export default {
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
             console.log(historyData)
-            this.openLoaderFullPage()
-            this.saveSightHistory(historyData).pipe(
-                takeUntil(this.destroy$),
-                catchError(err => {
-                    399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_content + ': ' + err.message, 'warning') : null
-                    499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_content + ': ' + err.message, 'error') : null
-                    console.log(err)
-                    return of(EMPTY)
-                })
-            )
+            if(Object.keys(historyData.history_content).length != 0){
+                this.openLoaderFullPage()
+                this.saveSightHistory(historyData).pipe(
+                    takeUntil(this.destroy$),
+                    catchError(err => {
+                        399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_content + ': ' + err.message, 'warning') : null
+                        499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_content + ': ' + err.message, 'error') : null
+                        console.log(err)
+                        return of(EMPTY)
+                    })
+                )
 
-            .subscribe(response => {
-                this.showToast(MessageContents.success_upd_content, 'success')
-                // this.$router.go(0)
-            })
-            this.state = false
+                .subscribe(response => {
+                    this.showToast(MessageContents.sight_on_moderate, 'success')
+                    this.freshAll()
+                    this.getSight()
+                    this.closeLoaderFullPage()
+
+                })
+                this.state = false
+            }
+            else{
+                this.showToast("Изменения не обнаружены", "warning")
+            }
+
 
 
         }

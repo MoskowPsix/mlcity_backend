@@ -71,7 +71,15 @@ class HistoryContentController extends Controller
     public function createHistoryContent(Request $request)
     {
         #получаем данные для статуса и дальнейших манипуляций
-
+        if(request("type") == "Event"){
+            if(!(auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {
+                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            }
+        } else {
+            if(!auth('api')->user()->hasRole('root') || !auth('api')->user()->hasRole('Admin') || (Sight::find(request('id'))->author->id != auth('api')->user()->id)) {
+                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            }
+        }
 
         $data = $request->toArray();
 
@@ -343,7 +351,7 @@ class HistoryContentController extends Controller
                     $historyPriceParent = $historyPrice->price;
                     $historyRawData = $this->unsetRawHistoryPriceData($historyPrice->toArray());
                     $historyData = $this->notNullData($historyRawData);
-                    
+
                     # Если цена существует мы либо удаляем ее либо обновляем
                     if (isset($historyPriceParent)){
                         info($historyPrice);
