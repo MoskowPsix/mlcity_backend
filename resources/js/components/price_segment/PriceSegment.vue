@@ -6,7 +6,7 @@
                 type="number"
                 @input="setPrice({cost_rub: $event.target.value})"
                 :value="price.cost_rub">руб
-                
+
             </div>
             <div  class="w-[200px]">
                 <textarea class=" text-sm  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-1 m-0"
@@ -28,7 +28,7 @@
                 type="number"
                 @input="setPrice({cost_rub: $event.target.value})"
                 :value="price.cost_rub" readonly>руб
-                
+
             </div>
             <div class="w-[200px]">
                 <textarea class=" text-sm  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-1 m-0"
@@ -68,10 +68,10 @@ export default {
             }
             this.$emit("onDelPrice",price)
         }
-        
+
     }
 }
 </script>
 <style lang="">
-    
+
 </style>
