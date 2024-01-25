@@ -16,13 +16,8 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
-use App\Models\HistoryContent;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use Laravel\Telescope\Http\Middleware\Authorize;
-use Illuminate\Support\Facades\Auth;
-use App\Models\User;
 
 
 /*
@@ -70,7 +65,7 @@ Route::controller(AuthController::class)->group(function() {
     // Методы манипуляций с телефоном
     Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
     Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
-    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum'); 
+    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum');
 });
 
 
@@ -82,7 +77,7 @@ Route::controller(UserController::class)->group(function() {
     Route::get('users', 'getUser')->middleware('auth:sanctum');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
     Route::post('profile/users','updateUser');
-    
+
     Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/liked-events', 'getUserLikedEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/favorite-sights', 'getUserFavoriteSightsIds')->middleware('auth:sanctum');
@@ -211,7 +206,7 @@ Route::controller(LogApiController::class)->group(function() {
 });
 
 Route::controller(HistoryContentController::class)->group(function() {
-    Route::get("history-content", 'getHistoryContent')->middleware('moderator'); 
+    Route::get("history-content", 'getHistoryContent')->middleware('moderator');
     Route::get("history-content/{id}","getHistoryContentForIds")->middleware('moderator');
     Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
     Route::patch("history-content", "acceptHistoryContent")->middleware('moderator');

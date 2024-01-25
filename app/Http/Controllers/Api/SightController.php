@@ -143,7 +143,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -162,7 +162,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
-        $sights = Sight::query()->with('files', 'author', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -253,7 +253,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -284,7 +284,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -323,7 +323,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -359,7 +359,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -395,7 +395,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -502,7 +502,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -515,13 +515,12 @@ class SightController extends Controller
      *     ),
      * )
      */
-    public function create(SightCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         $coords = explode(',',$request->coords);
         $latitude   = $coords[0]; // широта
         $longitude  = $coords[1]; // долгота
 
-        \Illuminate\Support\Facades\Log::info($request->collect());
         $sight = Sight::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
@@ -530,7 +529,7 @@ class SightController extends Controller
             'latitude'      => $latitude,
             'longitude'     => $longitude,
             'description'   => $request->description,
-            'price'         => $request->price,
+            // 'price'         => $request->price,
             'materials'     => $request->materials,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
@@ -538,6 +537,12 @@ class SightController extends Controller
             'work_time'     => $request->workTime,
         ]);
 
+        foreach ($request->price as $price){
+            $sight->prices()->create([
+                'cost_rub' => $price['cost_rub'],
+                'descriptions' => $price['descriptions']
+            ]);
+        }
         $sight->types()->sync($request->type);
         $sight->statuses()->attach($request->status, ['last' => true]);
         $sight->likes()->create();
@@ -584,7 +589,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -640,7 +645,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -762,7 +767,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -781,7 +786,7 @@ class SightController extends Controller
         $sight = Sight::where('id', $id)->firstOrFail();
         $sight->fill($data);
         $sight->save();
-    
+
         $jsonData = [
             'status' => 'SUCCESS',
             'sight' => [
@@ -801,7 +806,7 @@ class SightController extends Controller
                 'vk_post_id'    => $request->vk_post_id,
             ]
         ];
-    
+
         return response()->json($jsonData);
     }
 

@@ -14,10 +14,10 @@ class LocationController extends Controller
         return response()->json(['status' => 'success', 'location' => $locations], 200);
     }
     public function getLocationsName($name) {
-        $locations = Location::orWhere('name', 'LIKE', '%'.$name.'%')
-        ->orWhere('name', 'LIKE', '%'.$name.'%')
+        $locations = Location::orWhere('name', 'ilike', '%'.$name.'%')
+        ->orWhere('name', 'ilike', '%'.$name.'%')
         ->whereHas('locationParent', function($q)use($name){
-            $q->orWhere('name', 'LIKE', '%'.$name.'%');
+            $q->orWhere('name', 'ilike', '%'.$name.'%');
         })
         ->with('locationsChildren', 'locationParent')
         ->get();

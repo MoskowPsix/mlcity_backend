@@ -10,6 +10,8 @@ export class MessageContents {
     static info_upd_content = ""
     static success_upd_content = "Обновление прошло"
 
+    static sight_on_moderate = "Событие отправлено на модерацию"
+
     static error_upd_status_content = "При изменении статуса возникла ошибка"
     static warning_upd_status_content = "Вы не можете обновить статус"
     static info_upd_status_content = ""

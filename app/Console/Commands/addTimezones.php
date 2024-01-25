@@ -43,7 +43,9 @@ class addTimezones extends Command
         ];
 
         foreach($timezones as $timezone){
-            Timezone::create($timezone);
+            if(!Timezone::where('name', $timezone['name'])->first()) {
+                Timezone::create($timezone);
+            }
         }
     }
 }

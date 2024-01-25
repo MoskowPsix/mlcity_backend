@@ -34,6 +34,7 @@ class Event extends Model
         'vk_post_id',
         'cult_id'
     ];
+    
 
     // protected static function booted()
     // {
@@ -99,9 +100,9 @@ class Event extends Model
     // {
     //     return $this->hasOne(View::has('id'));
     // }
-    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(User::class, 'view', 'event_id','user_id');
+        return $this->hasMany(View::class);
     }
 
     // public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo

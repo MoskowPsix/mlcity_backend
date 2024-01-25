@@ -45,9 +45,9 @@ class UserController extends Controller
      *             type="integer"
      *         ),
      *     ),
-     * 
+     *
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -61,7 +61,7 @@ class UserController extends Controller
      * )
      */
 
-    
+
     // Получить юзера по ИД
     public function getUser(): \Illuminate\Http\JsonResponse
     {
@@ -88,7 +88,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -124,7 +124,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -142,7 +142,7 @@ class UserController extends Controller
    {
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        $request->merge(['userId' => $id]); 
+        $request->merge(['userId' => $id]);
 
         $favoriteEvents = User::findOrFail($id)->favoriteEvents();
 
@@ -151,7 +151,7 @@ class UserController extends Controller
             ->send($favoriteEvents)
             ->through([
                 EventLikedUserExists::class,
-                EventFavoritesUserExists::class   
+                EventFavoritesUserExists::class
             ])
             ->via('apply')
             ->then(function ($favoriteEvents) use ($page, $limit){
@@ -162,7 +162,7 @@ class UserController extends Controller
            'result' => $response,
         ], 200);
    }
-    
+
     // Получаем ивенты, которые юзер айкнул
     private function getUserLikedEvents()
     {
@@ -182,7 +182,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -233,7 +233,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -250,7 +250,7 @@ class UserController extends Controller
    {
     $page = $request->page;
     $limit = $request->limit ? $request->limit : 6;
-    $request->merge(['userId' => $id]); 
+    $request->merge(['userId' => $id]);
 
     $favoriteSights = User::findOrFail($id)->favoriteSights();
 
@@ -259,7 +259,7 @@ class UserController extends Controller
         ->send($favoriteSights)
         ->through([
             EventLikedUserExists::class,
-            EventFavoritesUserExists::class   
+            EventFavoritesUserExists::class
         ])
         ->via('apply')
         ->then(function ($favoriteSights) use ($page, $limit){
@@ -284,7 +284,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -317,7 +317,7 @@ class UserController extends Controller
         }
     }
 
-    public function chekUserEmail($email) 
+    public function chekUserEmail($email)
     {
         if (strlen($email) >= 3) {
             $user = User::where('email', $email)->first();
@@ -367,9 +367,9 @@ class UserController extends Controller
 
             $likedSightsIds[] = $sight;
         }
-        
+
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6; 
+        $limit = $request->limit ? $request->limit : 6;
 
         $paginator = new LengthAwarePaginator($likedSightsIds, count($likedSightsIds), $limit);
         $items = $paginator->getCollection();
@@ -396,7 +396,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -442,7 +442,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -487,7 +487,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -523,7 +523,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -616,7 +616,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -630,7 +630,7 @@ class UserController extends Controller
      * )
      */
     //Получить всех юзеров через фильтры
-    public function listUsers(Request $request) 
+    public function listUsers(Request $request)
     {
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 1;
@@ -654,7 +654,7 @@ class UserController extends Controller
             });
 
             return response()->json(['status' => 'success', 'users' => $response], 200);
-    }  
+    }
 
     /**
      * @OA\Put(
@@ -712,7 +712,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -727,12 +727,12 @@ class UserController extends Controller
      */
     public function updateUsers(Request $request, $id)
     {
-    
+
         $data = $request->all();
         $user = User::findOrFail($id);
         $user->fill($data);
         $user->save();
-    
+
         return response()->json([
             'status' => 'success',
             'user' => $user,
@@ -753,7 +753,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -775,9 +775,10 @@ class UserController extends Controller
     public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
-        
+
         Log::info($data);
-        
+        info(auth('api')->user());
+
 
         // return response()->json(['hi'], 200)
         if ($data["new_name"])
@@ -786,7 +787,7 @@ class UserController extends Controller
                 if($request->file('avatar')->isValid()){
                     Log::info('IF WORKED');
                     $file = $request->file('avatar');
-                
+
                     $path = $file->store('users/'.auth('api')->user()->id.'/avatars','public');
                     $user = User::where('id',auth('api')->user()->id)->first();
                     $user->update(['avatar'=>'/storage/'.$path]);
@@ -794,7 +795,7 @@ class UserController extends Controller
                 else{
                     Log::info('IF NOT WORKED');
                 }
-                
+
             }
             $user = User::where('id',auth('api')->user()->id)->first();
             $user->update(['name'=>$data["new_name"]]);
@@ -814,7 +815,7 @@ class UserController extends Controller
             ], 401);
         }
 
-        
-        
+
+
     }
 }

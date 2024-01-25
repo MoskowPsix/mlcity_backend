@@ -45,29 +45,33 @@
                 <VueDatePicker v-if="state" v-model="eventTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
             </label>
         </div>
-        <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
-            <div :id="'event-'+event.id+'-price'" v-if="connectState.PricesCard" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+        <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid m-1 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
+            <div :id="'event-'+event.id+'-price'" v-if="connectState.PricesCard" class="border mr-1 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 bg-gray-100 p-2">
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Цены</h1>
                     <hr class="dark:border-gray-700/70">
                 </label>
                 <div v-for="(price, index) in event.price" class="flex flex-row mt-2">
-                    <PriceSegment :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                    <PriceSegment class="p-2 border w-full dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                 </div>
                 <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
                 v-on:click="addToCurrentPrices()">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
             </div>
-            <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+            <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard" class="border ml-1 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 bg-gray-100 p-2">
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                     <hr class="dark:border-gray-700/70">
-                    <div >
+                    <!-- <div >
                         <h2 v-for="etype in event.types">
                             <h1 :id="'event-'+event.id+'-type-'+etype.id">{{etype.name}}</h1>
                             <hr class="dark:border-gray-700/70">
+                            
                         </h2>
+                    </div> -->
+                    <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
+                        <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                     </div>
                     
                 </label>
@@ -106,6 +110,7 @@ import { MessageContents } from '../../../enums/content_messages'
 import { useEventStore } from '../../../stores/EventStore'
 import { useLoaderStore } from '../../../stores/LoaderStore'
 import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
+import { useTypeStore } from '../../../stores/TypeStore'
 import { ref } from 'vue'
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
@@ -117,7 +122,8 @@ import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
-import VueDatePicker from '@vuepic/vue-datepicker';
+import TypeList from '../../../components/types_list/TypeList.vue'
+import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 
@@ -180,11 +186,14 @@ export default {
             event: [],
             eventUpd: new FormData(),
             state: false,
+            allTypes: null,
             filesDel: [],
             filesUpd: [],
             pricesDel: [],
             pricesUpd: [],
             placeUpd: [],
+            typesDel: [],
+            typesUpd: [],
         }
     },
     
@@ -194,16 +203,15 @@ export default {
         PlacesListCard,
         ChangeStatus,
         PriceSegment,
-        VueDatePicker
+        VueDatePicker,
+        TypeList
     },
     methods: {
         ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useHistoryContentStore, ['saveHistory']),
-        // getStateTheme() {
-        //     return useDark()
-        // },
+        ...mapActions(useHistoryContentStore, ['saveHistory']),        
+        ...mapActions(useTypeStore,['getEventTypes']),
         editUpd() {
             this.eventTime = [
                 this.event.date_start,
@@ -212,6 +220,15 @@ export default {
             this.state = true
         },
         canceleUpd() {
+            this.event = null
+            this.filesDel = []
+            this.filesUpd = []
+            this.pricesDel = []
+            this.pricesUpd = []
+            this.placeUpd = []
+            this.typesDel = []
+            this.typesUpd = []
+            this.getEventTypes()
             this.getEvent()
             this.state = false
         },
@@ -252,7 +269,17 @@ export default {
             }
             if(this.eventTime[1] != this.event.date_end && this.eventTime.length) {
                 historyEvent.date_end = this.eventTime[1]
+            }
 
+            if (this.typesDel.length != 0 || this.typesUpd.length != 0){
+                historyEvent.history_types = []
+
+                this.typesDel.forEach(item => {
+                    historyEvent.history_types.push(item)
+                })
+                this.typesUpd.forEach(item => {
+                    historyEvent.history_types.push(item)
+                })
             }
             historyEvent.history_prices = []
                 this.pricesDel.forEach((item) => {
@@ -324,11 +351,15 @@ export default {
                 map(response => {
                     this.showToast(MessageContents.success_upd_content, 'success')
                     this.eventUpd = new FormData
+                    this.event = null
                     this.filesDel = []
                     this.filesUpd = []
                     this.pricesDel = []
                     this.pricesUpd = []
                     this.placeUpd = []
+                    this.typesDel = []
+                    this.typesUpd = []
+                    this.getEventTypes()
                     this.getEvent()
                 }),
                 takeUntil(this.destroy$),
@@ -365,19 +396,18 @@ export default {
                 }
             }
         },
-         addToCurrentTypes(type){
-            if (this.checkObjInArray(type, this.sight.types)){
+        addToCurrentTypes(type){
+            if (this.event.types.find(item => item.id === type.id)){
                 if (this.checkObjInArray(type, this.typesDel)){
                     this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                 }
                 else{
                     this.typesDel.push({"id": type.id, "on_delete":true})
                 }
-                // this.sight.types = this.sight.types.filter(item => item.id !== type.id)
                 
             }
             else{
-                if(this.checkObjInArray(type, this.typesUpd)){
+                if(this.typesUpd.find(item => item.id === type.id)) {
                     this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
                 }
                 else{
@@ -413,6 +443,21 @@ export default {
         addToCurrentPrices(){
             this.event.price.push({"cost_rub":null, "descriptions":""})
 
+        },
+        getAllTypes(){
+            this.openLoaderFullPage()
+            this.getEventTypes().pipe(
+                retry(3),
+                delay(200),
+                catchError(error => {
+                    console.log(err)
+                    this.closeLoaderFullPage()
+                    return of(EMPTY)
+                })
+            ).subscribe(response => {
+                this.allTypes = response.data.types
+                this.closeLoaderFullPage()
+            })
         },
         getEvent() {
             let id
@@ -627,6 +672,7 @@ export default {
     mounted() {
         this.openLoaderFullPage
         this.getEvent()
+        this.getAllTypes()
     },
 }
 </script>
