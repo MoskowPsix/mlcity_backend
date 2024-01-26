@@ -116,7 +116,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
-                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice=""/>
                         </div>
                     </div>
                 </div>
@@ -127,7 +127,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
-                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="test"/>
                         </div>
                     </div>
                 </div>
@@ -328,17 +328,37 @@ export default {
         },
 
         deleteFromCurrentPrices(price){
-            if (this.checkObjInArray(price, this.sight.prices)){
-                this.sight.prices = this.sight.prices.filter(item => item.id !== price.id)
-                if (price.id){
-                    this.pricesDel.push({"price_id":price.id, "on_delete":true})
+            for(let i = 0; i < this.sight.prices.length; i++){
+                console.log(Object.keys(this.sight.prices[i]).indexOf("new_id"))
+
+                if((Object.keys(this.sight.prices[i]).indexOf("new_id") != -1) && (this.sight.prices[i].new_id == price.new_id)){
+                    this.sight.prices.splice(i, 1)
+                }
+                else if(this.sight.prices[i].id == price.id){
+                    // this.sight.prices.splice(i, 1)
+                }
+
+            }
+            for(let i = 0; i < this.pricesUpd.length; i++){
+                console.log(Object.keys(this.pricesUpd[i]).indexOf("new_id"))
+
+                if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
+                    this.pricesUpd.splice(i, 1)
                 }
             }
+
+            if (price.id && !price.new_id){
+                this.pricesDel.push({"price_id":price.id, "on_delete":true})
+            }
+
 
             console.log(this.pricesDel)
         },
         addToCurrentPrices(){
-            this.sight.prices.push({"cost_rub":0, "descriptions":"Описание", "id":this.priceId})
+            let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
+            let price2 = price1
+            this.pricesUpd.push(price2)
+            this.sight.prices.push(price1)
             this.priceId++
         },
         checkObjInArray(obj, array){
@@ -351,9 +371,52 @@ export default {
             return false
         },
 
+        checkPriceInArray(obj, array, new_id = false){
+            if(!new_id){
+                for (let i = 0; i<array.length; i++){
+                if(array[i].price.price.new_id != undefined){
+                    console.log("WROK")
+                    if (array[i].price.price.new_id == obj.price.new_id){
+
+                        return true
+                    }
+                }
+                else{
+
+                }
+
+            }
+                return false
+            }
+            else{
+                for (let i = 0; i<array.length; i++){
+                    console.log(array[i].price)
+                if(array[i].price.price.id != undefined){
+                    if (array[i].price.price.id == obj.price.id){
+
+                        return true
+                    }
+                }
+                else{
+                    console.log(array[i].price)
+                }
+            }
+                return false
+            }
+
+        },
+
         discardChanges(){
             this.state = this.state
             this.getSight()
+        },
+        test(price){
+            if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
+                console.log("WORK")
+                this.pricesUpd.push(price)
+            }
+            console.log("На обновление",this.pricesUpd)
+            console.log("Все цены", this.sight.prices)
         },
 
         backButton(){
@@ -403,34 +466,7 @@ export default {
         sightPriceCheck(){
             return true
         },
-        sightUpdPrice(price){
-            console.log(price)
-            if(this.checkObjInArray(price, this.pricesUpd)){
-                let data
-                let index
 
-                for (let i=0; i<this.pricesUpd.length; i++){
-                    if (this.pricesUpd[i].id === price.id){
-                        data = this.pricesUpd[i]
-                        index = i
-                    }
-                }
-
-
-                if (price.descriptions){
-                    this.pricesUpd[index].descriptions = price.descriptions
-                }
-                else if(price.cost_rub){
-                    this.pricesUpd[index].cost_rub = price.cost_rub
-                }
-            }
-            else{
-                console.log(price)
-                this.pricesUpd.push(price)
-                console.log(this.pricesUpd)
-            }
-
-        },
         statusChange(status){
             this.status = status
         },
@@ -539,7 +575,17 @@ export default {
 
 
                 this.pricesUpd.forEach(item => {
-                    delete item.id
+                    delete item.new_id
+                    delete item.event_id
+                    delete item.created_at
+                    delete item.updated_at
+                    delete item.sight_id
+
+                    if(item.id != undefined){
+                        item.price_id = item.id
+                        delete item.id
+                    }
+
                     historyData.history_content.history_prices.push(item)
                 })
 

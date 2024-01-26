@@ -4,15 +4,15 @@
             <div class=" w-[120px] mb-4">
                 <input class=" text-md  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-1 m-0"
                 type="number"
-                @input="setPrice({cost_rub: $event.target.value})"
-                :value="price.cost_rub">руб
+                @input="setPrice(price)"
+                v-model="price.cost_rub">руб
 
             </div>
             <div  class="w-[200px]">
                 <textarea class=" text-sm  leading-tight text-neutral-800 dark:text-neutral-50 w-full border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-1 m-0"
                 type="text"
-                @input="setPrice({descriptions: $event.target.value})"
-                :value="price.descriptions"
+                @input="setPrice(price)"
+                v-model="price.descriptions"
                 ></textarea>
             </div>
             <div  class="flex space-x-2 m-2 cursor-pointer">
@@ -58,12 +58,14 @@ export default {
     emits: ['onUpdPrice', "onDelPrice"],
     methods: {
         setPrice(text) {
-            text.id = this.price.id
+
+
             this.$emit('onUpdPrice', text)
         },
         delPrice(price){
             let data = {
                 id: price.id,
+                new_id: price.new_id,
                 on_delete: true
             }
             this.$emit("onDelPrice",price)

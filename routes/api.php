@@ -76,7 +76,7 @@ Route::controller(UserController::class)->group(function() {
 
     Route::get('users', 'getUser')->middleware('auth:sanctum');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
-    Route::post('profile/users','updateUser');
+    Route::post('profile/users','updateUser')->middleware('auth:sanctum');
 
     Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/liked-events', 'getUserLikedEventsIds')->middleware('auth:sanctum');
