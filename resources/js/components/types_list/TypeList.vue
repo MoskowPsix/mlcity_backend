@@ -1,7 +1,7 @@
 
 
 <template>
-  <div :id="'stype-'+allSTypes.id" class="border p-4 ml-2 mt-2 max-w-[600px]" >
+  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
     
     <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
       <input type="checkbox" class="relative float-left ml-[1.5rem] mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
@@ -10,7 +10,7 @@
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>
       </div>
     
-      <div v-else class="flex space-x-2 items-center" :id="'stype-'+allSTypes.stype_id">
+      <div v-else class="flex space-x-2 items-center" :id="type + '-'+ sightId +'-type-'+ allSTypes.id">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg">{{ allSTypes.name }}</button>
         <div class="flex">
           <p>{{ childsLength(allSTypes) }}</p>
@@ -48,7 +48,8 @@ export default{
     allSTypes: Object,
     currentStypes: Array,
     enableState: Boolean,
-    sightId: Number
+    sightId: Number,
+    type: String,
   },
   components:{
     Collapse
@@ -62,40 +63,50 @@ export default{
   },
   methods:{
   checkChild(){
-    // console.log(this.allSTypes.stypes.length)
-    if (this.allSTypes.stypes.length>0){
-      
-      // console.log(this.allSTypes.stypes.length)
-      return true
-    }
-    else if (this.allSTypes.stypes.length == 0){
-      return false
+    if (this.type == 'sight') {
+      if (this.allSTypes.stypes.length>0){
+        return true
+      }
+      else if (this.allSTypes.stypes.length == 0){
+        return false
+      }
+    } else if(this.type == 'event') {
+      if (this.allSTypes.etypes.length>0){
+        return true
+      }
+      else if (this.allSTypes.etypes.length == 0){
+        return false
+      }
     }
   },
   checkType(type){
     let status = this.currentStypes.some(obj => obj.id == this.allSTypes.id)
-    if(status){
-      console.log(status)
-    }
     return status
   },
   selectedType(type){
-    console.log("Вызов")
-    this.$emit("checked",type)
+    this.$emit("checked", type)
     
   },
   childsLength(type){
-    let count = 0
-    
-    type.stypes.forEach(element => {
-      if(element.stypes.length>0){
-        count += this.childsLength(element)
-      }
-      count ++
-    });
-
-    
-    return count
+    if (this.type == 'sight') {
+      let count = 0
+      type.stypes.forEach(element => {
+        if(element.stypes.length>0){
+          count += this.childsLength(element)
+        }
+        count ++
+      });
+      return count
+    } else if(this.type == 'event') {
+      let count = 0
+      type.etypes.forEach(element => {
+        if(element.etypes.length>0){
+          count += this.childsLength(element)
+        }
+        count ++
+      });
+      return count
+    }
   }
   
   }

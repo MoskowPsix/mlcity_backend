@@ -143,16 +143,23 @@ class addInstitutes extends Command
                     }
                     // Подвязываем фото
                     if (isset($sight->thumbnailFile)) {
-                        Sight::where('cult_id', $sight->_id)->first()->files()->create([
+                        if (preg_match('/[a-z]+/i',$sight->thumbnailFile->publicId)) {
+                        Sight::find($sight_cr->id)->files()->create([
                             "name" => $sight->thumbnailFile->originalName,
                             "link" => 'https://cdn.culture.ru/images/'.$sight->thumbnailFile->publicId.'/w_'.$sight->thumbnailFile->width.',h_'.$sight->thumbnailFile->height.'/'.$sight->thumbnailFile->originalName,
                         ])->file_types()->sync($type->id);
                     } else {
+                        Sight::find($sight_cr->id)->files()->create([
+                            "name" => $sight->thumbnailFile->originalName,
+                            "link" => 'https://cdn.culture.ru/c/'. $sight->thumbnailFile->publicId .'.'. $sight->thumbnailFile->width .'x'. $sight->thumbnailFile->height .'.'.$sight->thumbnailFile->format,
+                        ])->file_types()->sync($type->id);
+                    }
+                    } else {
 
                     }
                     // Ставим статус
-                    Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                    Sight::where('cult_id', $sight->_id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                    Sight::find($sight_cr->id)->statuses()->updateExistingPivot( $status, ['last' => false]);
+                    Sight::find($sight_cr->id)->statuses()->attach($status, ['last' => true]);
                         // event(new SightCreated($sight_cr));
                     }
                     else{

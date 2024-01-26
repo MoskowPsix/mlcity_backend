@@ -99,8 +99,8 @@
                     <div class="space-x-2">
                         <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a>
                     </div>
-
-                    <div  class="space-y-4 border py-4 tree" v-if="allTypes">
+                    
+                    <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
                 </div>
@@ -258,7 +258,7 @@ export default {
         ...mapActions(useSightStore, ['getSightForIds','saveSightHistory']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useTypeStore,['getTypes']),
+        ...mapActions(useTypeStore,['getSightTypes']),
         getSight() {
             let id
             this.$props.id ? id = this.id : id = this.$route.params.id
@@ -289,8 +289,8 @@ export default {
             closeModal(searchType)
         },
         getAllTypes(){
-
-        this.getTypes().pipe(
+      
+        this.getSightTypes().pipe(
           retry(3),
           delay(200),
           catchError(error => {
