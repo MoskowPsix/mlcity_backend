@@ -143,17 +143,25 @@ class addEvents extends Command
                         foreach ($event->genres as $genre) {
                             $types_id = EventType::where('cult_id', $genre->_id);
                             if($types_id->exists()){
-                                Event::where('id', $event_cr->id)->first()->types()->attach($types_id->first()->id);
+                                Event::find($event_cr->id)->types()->attach($types_id->first()->id);
                             }
                         }
                         if (isset($event->thumbnailFile)) {
-                            Event::where('id', $event_cr->id)->first()->files()->create([
+                            if (preg_match('/[a-z]+/i',$event->thumbnailFile->publicId)) {
+                            Event::find($event_cr->id)->files()->create([
                                 "name" => $event->thumbnailFile->originalName,
                                 "link" => 'https://cdn.culture.ru/images/'.$event->thumbnailFile->publicId.'/w_'.$event->thumbnailFile->width.',h_'.$event->thumbnailFile->height.'/'.$event->thumbnailFile->originalName,
                             ])->file_types()->sync($type->id);
+                            } else {
+                                info($event_cr->id);
+                                Event::find($event_cr->id)->files()->create([
+                                    "name" => $event->thumbnailFile->originalName,
+                                    "link" => 'https://cdn.culture.ru/c/'. $event->thumbnailFile->publicId .'.'. $event->thumbnailFile->width .'x'. $event->thumbnailFile->height .'.'.$event->thumbnailFile->format,
+                                ])->file_types()->sync($type->id);
+                            }
                         }
-                        Event::where('id', $event_cr->id)->firstOrFail()->statuses()->updateExistingPivot( $status, ['last' => false]);
-                        Event::where('id', $event_cr->id)->firstOrFail()->statuses()->attach($status, ['last' => true]);
+                        Event::find($event_cr->id)->statuses()->updateExistingPivot( $status, ['last' => false]);
+                        Event::find($event_cr->id)->statuses()->attach($status, ['last' => true]);
 
                     }
                 }
