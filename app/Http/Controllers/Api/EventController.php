@@ -32,6 +32,8 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\Location;
+use App\Models\Timezone;
 use App\Models\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -606,12 +608,14 @@ class EventController extends Controller
             $coords = explode(',',$place['coords']);
             $latitude   = $coords[0]; // широта
             $longitude  = $coords[1]; // долгота
+            $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
             $place_cr = $event->places()->create([
                 'sight_id' => $place['sightId'],
                 'location_id' => $place['locationId'],
                 'latitude' => $latitude,
                 'longitude' => $longitude,
-                'address' => $place['address']
+                'address' => $place['address'],
+                'timezone_id' => $timezone_id
             ]);
             // Устанавливаем сеансы марок
             foreach($place['seances'] as $seance) {

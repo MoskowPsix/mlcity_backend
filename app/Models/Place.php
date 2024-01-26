@@ -22,7 +22,8 @@ class Place extends Model
         'location_id',
         'latitude',
         'longitude',
-        'address'
+        'address',
+        'timezone_id'
     ];
 
     protected static function booted(){
