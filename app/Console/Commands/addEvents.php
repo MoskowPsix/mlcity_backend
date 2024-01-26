@@ -153,7 +153,6 @@ class addEvents extends Command
                                 "link" => 'https://cdn.culture.ru/images/'.$event->thumbnailFile->publicId.'/w_'.$event->thumbnailFile->width.',h_'.$event->thumbnailFile->height.'/'.$event->thumbnailFile->originalName,
                             ])->file_types()->sync($type->id);
                             } else {
-                                info($event_cr->id);
                                 Event::find($event_cr->id)->files()->create([
                                     "name" => $event->thumbnailFile->originalName,
                                     "link" => 'https://cdn.culture.ru/c/'. $event->thumbnailFile->publicId .'.'. $event->thumbnailFile->width .'x'. $event->thumbnailFile->height .'.'.$event->thumbnailFile->format,
