@@ -134,10 +134,21 @@ class addInstitutes extends Command
                     foreach ($sight->rubrics as $rubric) {
                         $path = explode("/",$rubric->path)[0];
                         $types_id = SightType::where('cult_path', $path);
+                        $culture_type = SightType::where("name", "Культура");
+                        $museum_type = SightType::where("name", "Музеи");
                         // Ставим тип
 
                         if($types_id->exists()){
                             Sight::where('cult_id', $sight->_id)->first()->types()->attach($types_id->first()->id);
+                        }
+                        if($path=="theaters"){
+                            Sight::where('cult_id', $sight->_id)->first()->types()->attach($culture_type->id);
+                        }
+                        if($path=="music"){
+                            Sight::where('cult_id', $sight->_id)->first()->types()->attach($culture_type->id);
+                        }
+                        if($path=="literature"){
+                            Sight::where('cult_id', $sight->_id)->first()->types()->attach($museum_type->id);
                         }
 
                     }
