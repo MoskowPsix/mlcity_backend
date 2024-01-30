@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('stypes', function (Blueprint $table) {
-            $table->string("cult_path");
+            $table->string("cult_path")->nullable();
         });
     }
 
