@@ -59,4 +59,10 @@ class Place extends Model
     public function historyPlaces(){
         return $this->hasMany(HistoryPlace::class);
     }
+
+    // public function eventType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    // {
+    //     $event = $this->belongsTo(Event::class, 'event_id', 'id');
+    //     return $event->;
+    // }
 }
