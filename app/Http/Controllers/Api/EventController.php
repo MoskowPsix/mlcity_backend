@@ -618,11 +618,14 @@ class EventController extends Controller
                 'timezone_id' => $timezone_id
             ]);
             // Устанавливаем сеансы марок
+    
             foreach($place['seances'] as $seance) {
-                $place_cr->seances()->create([
-                    'dateStart' => $seance['dateStart'],
-                    'dateEnd' => $seance['dateEnd']
+                info($seance);
+                $sean_cr = $place_cr->seances()->create([
+                    'date_start' => $seance['dateStart'],
+                    'date_end' => $seance['dateEnd']
                 ]);
+            
             }
         }
 
