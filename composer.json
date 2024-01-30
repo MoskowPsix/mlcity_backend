@@ -17,6 +17,7 @@
     },
     "require-dev": {
         "fakerphp/faker": "^1.9.1",
+        "jeroenzwart/laravel-csv-seeder": "^1.6",
         "laravel-lang/attributes": "^2.0",
         "laravel-lang/lang": "^12.11",
         "laravel-lang/publisher": "^14.0",
