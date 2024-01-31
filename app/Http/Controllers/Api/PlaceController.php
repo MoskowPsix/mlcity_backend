@@ -8,9 +8,11 @@ use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Filters\Place\PlaceTypes;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
+use App\Models\EventType;
 use App\Models\Place;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
@@ -30,7 +32,15 @@ class PlaceController extends Controller
                 ])
                 ->via('apply')
                 ->then(function ($places) {
-                    return $places->orderBy('created_at')->get();
+                    $places = $places->orderBy('created_at')->get();
+
+                    foreach($places as $key=>$place){
+                        $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
+                        // info($type_id);
+                        $ico = EventType::find($type_id)->ico;
+                        $places[$key]->ico = $ico;
+                    }
+                    return $places;
                 });
 
             return response()->json(['status' => 'success', 'places' => $response], 200);
