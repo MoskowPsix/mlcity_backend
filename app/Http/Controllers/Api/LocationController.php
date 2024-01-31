@@ -29,7 +29,7 @@ class LocationController extends Controller
         $radius = 5;
         $location = null;
         while(empty($location) == true) {
-            $location = Location::whereRaw('(
+            $location = Location::with('locationParent')->whereRaw('(
                 6371 *
                 acos(cos(radians(?)) *
                 cos(radians(latitude)) *
