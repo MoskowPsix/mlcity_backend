@@ -215,7 +215,7 @@ class EventController extends Controller
         $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $events = Event::query()->with('files', 'author', 'price')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('files', 'author', "types", 'price')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -618,14 +618,14 @@ class EventController extends Controller
                 'timezone_id' => $timezone_id
             ]);
             // Устанавливаем сеансы марок
-    
+
             foreach($place['seances'] as $seance) {
                 info($seance);
                 $sean_cr = $place_cr->seances()->create([
                     'date_start' => $seance['dateStart'],
                     'date_end' => $seance['dateEnd']
                 ]);
-            
+
             }
         }
 
