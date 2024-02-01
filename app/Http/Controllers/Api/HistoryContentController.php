@@ -70,13 +70,14 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
+        // info();
         #получаем данные для статуса и дальнейших манипуляций
         if(request("type") == "Event"){
-            if(!(auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!(auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) && (Event::find($request->id)->author->id != auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         } else {
-            if(!auth('api')->user()->hasRole('root') || !auth('api')->user()->hasRole('Admin') || (Sight::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!auth('api')->user()->hasRole('root') || !auth('api')->user()->hasRole('Admin') && (Sight::find($request->id)->author->id != auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         }
