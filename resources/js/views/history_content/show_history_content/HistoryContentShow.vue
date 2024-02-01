@@ -2,6 +2,7 @@
     <div class="flex flex-row rounded-lg h-auto border m-1" @click="getElement">
         <h1></h1>
         <!-- Общая информация -->
+        <h1>Общая информация</h1>
         {{event}} | {{sight}}
 
     </div>
@@ -22,7 +23,7 @@
                 <!-- Галерея -->
                 <CarouselGallery v-if="historyContent.history_files" :files="historyContent.history_files" :wrightState="false" class="mb-1"></CarouselGallery>
                 <!-- Описание -->
-                <div v-if="historyContent.sponsor || historyContent.description || historyContent.materials || historyContent.date_start || historyContent.date_end || history_content.address || historyContent.work_time" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+                <div  class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
                     <label @click="getElement(type_element+'-'+event.id+'-sponsor')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Спонсор</h1>
                         <p v-if="historyContent.sponsor" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.sponsor}}</p>
