@@ -113,8 +113,7 @@
             </div>
         </div>
         <div v-if="seance && state">
-            <VueDatePicker v-if="state" v-model="seanceTime" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="yyyy-MM-dd HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
-
+            <VueDatePicker v-if="state" v-model="seanceTime" @update:model-value="handleDate" locale="ru" cancelText="Отменить" selectText="Добавить" range model-type="yyyy-MM-dd HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
         </div>
     </div>
 </template>
@@ -159,6 +158,14 @@ export default {
         VueDatePicker
     },
     methods: {
+        handleDate(modelData) {
+            this.$emit('onUpdSeance', {
+                index: this.index,
+                id: this.seance.id,
+                date_start: JSON.parse(JSON.stringify(modelData[0])),
+                date_end: JSON.parse(JSON.stringify(modelData[1])),
+            })
+        },
         clickElement() {
             this.$emit('onClickSeance', {
                 id: this.seance.id,
@@ -181,14 +188,14 @@ export default {
         seance() {
             this.seanceTime = [JSON.parse(JSON.stringify(this.$props.seance.date_start)), JSON.parse(JSON.stringify(this.$props.seance.date_end))]
         },
-        seanceTime(date) {
-            this.$emit('onUpdSeance', {
-                index: this.index,
-                id: this.seance.id,
-                date_start: JSON.parse(JSON.stringify(this.seanceTime[0])),
-                date_end: JSON.parse(JSON.stringify(this.seanceTime[1])),
-            })
-        }
+        // seanceTime(date) {
+        //     this.$emit('onUpdSeance', {
+        //         index: this.index,
+        //         id: this.seance.id,
+        //         date_start: JSON.parse(JSON.stringify(this.seanceTime[0])),
+        //         date_end: JSON.parse(JSON.stringify(this.seanceTime[1])),
+        //     })
+        // }
     }
 
     

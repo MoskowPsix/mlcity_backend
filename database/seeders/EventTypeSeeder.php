@@ -106,7 +106,7 @@ class EventTypeSeeder extends Seeder
 
     $type8 = new EventType();
     $type8->name = 'Выставки';
-    $type8->ico = '/storage/icons/exhibitions.svg'; // Уже нарисовать
+    $type8->ico = '/storage/icons/exposition.svg'; // Уже нарисовать
     $type8->cult_id = 34;
     $type8->save();
 

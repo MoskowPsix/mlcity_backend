@@ -3,7 +3,7 @@
     {{[marker.latitude, marker.longitude]}}
     {{zoom}} -->
 
-    <div class="w-full h-full">
+    <div>
         <YandexMap
         class="w-full h-full"
         :settings="settings"
