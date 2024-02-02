@@ -775,27 +775,17 @@ class UserController extends Controller
     public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
-
-        Log::info($data);
-        info(auth('api')->user());
-
-
         // return response()->json(['hi'], 200)
         if ($data["new_name"])
         {
             if($request->hasFile('avatar')){
                 if($request->file('avatar')->isValid()){
-                    Log::info('IF WORKED');
                     $file = $request->file('avatar');
 
                     $path = $file->store('users/'.auth('api')->user()->id.'/avatars','public');
                     $user = User::where('id',auth('api')->user()->id)->first();
                     $user->update(['avatar'=>'/storage/'.$path]);
                 }
-                else{
-                    Log::info('IF NOT WORKED');
-                }
-
             }
             $user = User::where('id',auth('api')->user()->id)->first();
             $user->update(['name'=>$data["new_name"]]);
@@ -813,9 +803,6 @@ class UserController extends Controller
                 'status'=>'error',
                 'message'=>'maybe your input field is empty'
             ], 401);
-        }
-
-
-
+        } 
     }
 }
