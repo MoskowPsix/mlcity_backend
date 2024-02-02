@@ -14,6 +14,7 @@ use App\Filters\HistoryContent\HistoryContentEventTypes;
 use App\Filters\HistoryContent\HistoryContentSightTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
+use App\Mail\HistoryContentCanceled;
 use App\Models\Event;
 use App\Models\FileType;
 use App\Models\HistoryContent;
@@ -23,10 +24,12 @@ use App\Models\Price;
 use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
+use App\Models\User;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 
 class HistoryContentController extends Controller
@@ -72,11 +75,11 @@ class HistoryContentController extends Controller
     {
         #получаем данные для статуса и дальнейших манипуляций
         if(request("type") == "Event"){
-            if(!(auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         } else {
-            if(!auth('api')->user()->hasRole('root') || !auth('api')->user()->hasRole('Admin') || (Sight::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id != auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         }
@@ -95,7 +98,7 @@ class HistoryContentController extends Controller
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);
             unset($historyContent['history_files']);
-            info($historyContent);
+
             $historyContent = $event->historyContents()->create($historyContent);
             $historyContent->historyContentStatuses()->create([
                 "status_id" => $status_id
@@ -105,12 +108,7 @@ class HistoryContentController extends Controller
             if(isset($data["history_content"]["history_places"])){
 
                 for($i = 0; $i<count($data["history_content"]["history_places"]); $i++){
-                    // info($data["history_content"]["history_places"][$i]);
-
                     $historyPlace = $this->prepareHistoryPlaceData($data["history_content"]["history_places"][$i]);
-
-                    info($historyPlace);
-
                     $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
 
                     #проверяем содержит ли массив seances
@@ -163,7 +161,6 @@ class HistoryContentController extends Controller
                         $historyContent->historyFiles()->create($file);
                     }
                     else{
-                        // info($file);
                         $this->saveLocalFilesImg($historyContent, $file);
                     }
                 }
@@ -178,7 +175,6 @@ class HistoryContentController extends Controller
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);
             unset($historyContent['history_files']);
-            info($historyContent);
             $historyContent = $sight->historyContents()->create($historyContent);
 
 
@@ -204,8 +200,6 @@ class HistoryContentController extends Controller
                 if(!empty($historyTypes)){
 
                     for($i = 0; $i<count($historyTypes); $i++){
-
-                        // info($historyTypes[$i]);
                         if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
                             $historyContent->historySightTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
                         }
@@ -219,14 +213,12 @@ class HistoryContentController extends Controller
 
             if(isset($data['history_content']["history_files"])){
                 $files = $data['history_content']["history_files"];
-                info($files);
                 for($i = 0; $i<count($files); $i++){
                     $file = $files[$i];
                     if($file instanceof UploadedFile){
                         $this->saveLocalFilesImg($historyContent, $file);
                     }
                     else{
-                        info($file);
                         $historyContent->historyFiles()->create($file);
                     }
                 }
@@ -268,7 +260,6 @@ class HistoryContentController extends Controller
 
             #достаем places которые либо будут созданы либо изменены
             $historyPlaces = $historyContent->historyPlaces;
-            info($historyPlaces);
 
             # Если Place уже существует мы обновляем или удаляем его и(или) его seance
             if(isset($historyPlaces) && count($historyPlaces->toArray())>0){
@@ -306,13 +297,11 @@ class HistoryContentController extends Controller
 
                                         if(!empty($historyData)){
                                             $historySeanceParent = $historySeance->seance;
-                                            info($historyData);
                                             $historySeanceParent->update($historyData);
                                         }
 
                                     }
                                     else{
-                                        info("create seanse to alredy place");
                                         $historyPlaceParent->seances()->create($historyData);
                                     }
                                 }
@@ -321,7 +310,6 @@ class HistoryContentController extends Controller
                         # Если Place не существует мы его добавляем и(или) его seance
                     } else if (!isset($historyPlaceParent)){
                         $place = $historyParent->places()->create($historyData);
-                        info($place->id);
 
                         $historySeances = $historyPlace->historySeances;
                         if(isset($historySeances) && count($historySeances)>0){
@@ -354,7 +342,6 @@ class HistoryContentController extends Controller
 
                     # Если цена существует мы либо удаляем ее либо обновляем
                     if (isset($historyPriceParent)){
-                        info($historyPrice);
                         if($historyPrice['on_delete'] == true){
 
                             $historyPriceParent->delete();
@@ -439,12 +426,16 @@ class HistoryContentController extends Controller
 
         else if ($status == "Отказ")
         {
-            $historyContent = HistoryContent::Find($historyContentId);
+            $historyContent = HistoryContent::find($historyContentId);
             $description = $request["description"];
             $historyContent->historyContentStatuses()->create([
                 "status_id" => 2,
                 "descriptions" => $description,
             ]);
+            $data = ["description"=> $description, "eventName" => $historyContent->name];
+
+            $user = User::find($historyContent->user_id);
+            Mail::to($user->email)->send(new HistoryContentCanceled($data));
 
             return response()->json(["status"=>"success"],201);
         }
