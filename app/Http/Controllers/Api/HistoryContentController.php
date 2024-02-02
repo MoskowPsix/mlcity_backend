@@ -73,6 +73,7 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
+        // info();
         #получаем данные для статуса и дальнейших манипуляций
         if(request("type") == "Event"){
             if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {

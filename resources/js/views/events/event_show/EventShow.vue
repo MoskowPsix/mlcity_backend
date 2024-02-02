@@ -81,7 +81,7 @@
             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                 <div :id="'event-'+event.id+'-place'" class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
                     <div v-for="(place, index) in event.places_full" :key="place.id">
-                        <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="place" @onUpdPlace="setPlace" class="mt-2"/>
+                        <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
                 </div>
@@ -400,17 +400,14 @@ export default {
             if (this.event.types.find(item => item.id === type.id)){
                 if (this.checkObjInArray(type, this.typesDel)){
                     this.typesDel = this.typesDel.filter(item => item.id !== type.id)
-                }
-                else{
+                } else {
                     this.typesDel.push({"id": type.id, "on_delete":true})
                 }
                 
-            }
-            else{
+            } else {
                 if(this.typesUpd.find(item => item.id === type.id)) {
                     this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
-                }
-                else{
+                } else {
                     this.typesUpd.push({"id": type.id})
                 }
             }
@@ -509,6 +506,7 @@ export default {
             router.go(-1)
         },
         setPlace(place) {
+            let event = JSON.parse(JSON.stringify(this.event))
             let index = place.index
             let placeOnDel = Object.keys(place).find(key => {
                 if ((key == 'on_delete') && (place[key] == true)) {
@@ -521,17 +519,17 @@ export default {
                 // Если есть поле on_delete
                 if(place.id) {
                     // Если есть поле id и place существует в БД
-                    this.event.places_full[index].on_delete = true
+                    event.places_full[index].on_delete = true
                     this.placeUpd.push(place)
                 } else {
                     // Если нет поля id и place не существует в БД
-                    this.event.places_full.splice(place.index)
+                    event.places_full.splice(place.index)
                 }
             } else { // Если поля on_delete нету
                 // this.$helpers.deepMerge(this.event.places_full[index],place)
                 let mergePlace = {...place}
                 delete mergePlace.seances
-                this.$helpers.DeepMerge.deepMerge(this.event.places_full[index], JSON.parse(JSON.stringify(mergePlace)))
+                this.$helpers.DeepMerge.deepMerge(event.places_full[index], JSON.parse(JSON.stringify(mergePlace)))
                 // Проверяем новое ли это обновление для place или place уже обновлялся и есть в массииве
                 let getIndex = this.placeUpd.findIndex((item, key) => {
                     if(item.index == index) {
@@ -571,7 +569,7 @@ export default {
                                     if (oldSeance != 0 && oldSeance) {
                                         this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(item)))
                                     }                         
-                                    this.event.places_full[place.index].seances[item.index].on_delete = true
+                                    event.places_full[place.index].seances[item.index].on_delete = true
                                 } else {
                                     let newSeances = []
                                     // Если поле id нулевое, то просто удалить
@@ -583,7 +581,7 @@ export default {
                                     })
                                     place.seances = JSON.parse(JSON.stringify(newSeances))
                                     this.placeUpd[getIndex].seances = JSON.parse(JSON.stringify(newSeances))
-                                    this.event.places_full[place.index].seances.splice(item.index, 1)
+                                    event.places_full[place.index].seances.splice(item.index, 1)
                                 }
                             } else {
                                 // Если нет поля on_delete или его значение false
@@ -618,7 +616,7 @@ export default {
                                     this.placeUpd[getIndex].seances = []
                                     this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(...place.seances)))
                                 }
-                                this.event.places_full[index].seances[item.index] = JSON.parse(JSON.stringify(item))
+                                event.places_full[index].seances[item.index] = JSON.parse(JSON.stringify(item))
                             }
 
                         })
@@ -646,13 +644,14 @@ export default {
                                 }
                             })
                             if (seanceOnDel) { 
-                                this.event.places_full[place.index].seances[item.index].on_delete = true
+                                event.places_full[place.index].seances[item.index].on_delete = true
                             } 
                         })
                     }
                     this.placeUpd.push(JSON.parse(JSON.stringify(place)))
                 }
             }
+            this.event = event
         },
         addNewPlace() {
             this.event.places_full.push({

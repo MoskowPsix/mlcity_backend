@@ -36,7 +36,7 @@
                         <input :id="'event-'+eventId+'-place-' + place.id+ '-address-input'" v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
                     </div>
                 </div>
-                <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude"  :marker="place" :zoom="16" />
+                <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="h-[47rem] mt-2" :marker="place" :zoom="16" />
                 <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[47rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
             <div class=" flex flex-col w-6/12 pl-1 h-full justify-items-center" >
@@ -222,23 +222,26 @@ export default {
                 id: 0,
                 // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString() 
                 // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript 
-                
-                date_start: moment.tz(moment().format('YYYY-MM-DD HH:mm:ss'),this.event.location.time_zone),
-                date_end: moment().format('YYYY-MM-DD HH:mm:ss'),
+                date_start: this.$helpers.OutputCurentTime.outputCurentTime(new Date(), this.place.location.time_zone),
+                date_end: this.$helpers.OutputCurentTime.outputCurentTime(new Date(),  this.place.location.time_zone),
                 index: JSON.parse(JSON.stringify(this.place.seances.length))
             }
-            this.place.seances.push({ ...newSeance })
-            const seancesCopy = [JSON.parse(JSON.stringify(newSeance))];
+            // console.log(this.place.location.time_zone)
+            // this.place.seances.push({ ...newSeance })
+            // const seancesCopy = newSeance;
             this.$emit('onUpdPlace', {
-                index: this.index,
-                id: this.place.id,
-                seances: [...seancesCopy]
+                index: JSON.parse(JSON.stringify(this.index)),
+                id: JSON.parse(JSON.stringify(this.place.id)),
+                seances: [JSON.parse(JSON.stringify(newSeance))]
             });
         }
     },
     watch: {
-     
-    },
+        // place(data) {
+        //     console.log('place')
+        // }
+    }
+    
 }
 </script>
 <style lang="">
