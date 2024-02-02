@@ -1,4 +1,5 @@
 <template>
+
 <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
@@ -8,6 +9,14 @@
 
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
    <div class="h-full px-5 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
+      <a :href="urlFront">
+         <button type="button" class="w-full flex items-center justify-center w-1/2 m-2 mx-auto px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-900 dark:bg-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700/50">
+            <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+               <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
+            </svg>
+            <span class="self-center text-lg font-semibold whitespace-nowrap dark:text-gary-300">Назад на mlcity.ru</span>
+         </button>
+      </a>
       <a href="/" class="flex items-center pl-2.5 mb-5">
          <img src="../../../assets/favicon.png" class="h-6 mr-3 sm:h-7" alt="Flowbite Logo" />
          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">MyLittleCity<p class="text-xs items-center">{{role}}Panel</p></span>
@@ -106,7 +115,7 @@
                      <path d="M0,1 C0,0.44772 0.44772,0 1,0 L11,0 C11.5523,0 12,0.44772 12,1 L12,13 C12,13.5523 11.5523,14 11,14 L1,14 C0.44772,14 0,13.5523 0,13 L0,1 Z M2,12 L2,2 L10,2 L10,12 L2,12 Z"/>
                   </g>
                </svg>
-               <span class="flex-1 ml-3 whitespace-nowrap">Logs (Ещё нету)</span>
+               <span class="flex-1 ml-3 whitespace-nowrap">Telescope</span>
             </RouterLink>
          </li>
          <li>
@@ -128,7 +137,7 @@
    import { mapActions, mapState } from 'pinia'
    import { useLocalStorageStore } from '../../stores/LocalStorageStore'
    import { useLoaderStore } from '../../stores/LoaderStore'
-   import {MessageAuth} from '../../enums/auth_messages'
+   import { MessageAuth } from '../../enums/auth_messages'
    import { useToast } from "vue-toastification"
    import router from "../../routes"
 
@@ -138,7 +147,8 @@ export default {
    components: {Drawer},
    data()  {
       return {
-         toast: useToast()
+         toast: useToast(),
+         urlFront: import.meta.env.VITE_FRONT_APP_URL,
       }
    },
    setup() {
