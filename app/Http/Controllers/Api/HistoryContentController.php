@@ -25,6 +25,7 @@ use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
@@ -95,6 +96,9 @@ class HistoryContentController extends Controller
             $event = Event::where('id',$data['id'])->first();
 
             $historyContent = $data["history_content"];
+            $historyContent["date_start"] = Carbon::parse($historyContent["date_start"])->format("Y-m-d H:i:s");
+            $historyContent["date_end"] = Carbon::parse($historyContent["date_end"])->format("Y-m-d H:i:s");
+            info($historyContent);
             unset($historyContent["history_places"]);
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);

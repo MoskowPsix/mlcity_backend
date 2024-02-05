@@ -775,7 +775,7 @@ class UserController extends Controller
     public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();
-        // return response()->json(['hi'], 200)
+          // return response()->json(['hi'], 200)
         if ($data["new_name"])
         {
             if($request->hasFile('avatar')){
@@ -803,6 +803,6 @@ class UserController extends Controller
                 'status'=>'error',
                 'message'=>'maybe your input field is empty'
             ], 401);
-        } 
+        }
     }
 }
