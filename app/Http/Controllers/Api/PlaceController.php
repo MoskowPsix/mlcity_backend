@@ -6,6 +6,8 @@ use App\Filters\Place\PlaceAddress;
 use App\Filters\Place\PlaceDate;
 use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Filters\Place\PlaceTypes;
+use App\Filters\Place\PlaceStatuses;
+use App\Filters\Place\PlaceStatusesLast;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventType;
@@ -29,6 +31,8 @@ class PlaceController extends Controller
                     PlaceAddress::class,
                     PlaceDate::class,
                     PlaceTypes::class,
+                    // PlaceStatusesLast::class,
+                    PlaceStatuses::class
                 ])
                 ->via('apply')
                 ->then(function ($places) {
@@ -36,7 +40,6 @@ class PlaceController extends Controller
 
                     foreach($places as $key=>$place){
                         $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
-                        // info($type_id);
                         $ico = EventType::find($type_id)->ico;
                         $places[$key]->ico = $ico;
                     }

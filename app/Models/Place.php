@@ -32,12 +32,13 @@ class Place extends Model
         });
     }
 
-    // public function sight () {
-    //     $this->belongsTo(Sight::class, 'sight_id');
-    // }
     public function eventTypes(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Event::class, 'event_id', 'id')->with('types');
+    }
+    public function eventStatuses(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(Event::class, 'event_id', 'id')->with('statuses');
     }
     public function event() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
@@ -59,10 +60,4 @@ class Place extends Model
     public function historyPlaces(){
         return $this->hasMany(HistoryPlace::class);
     }
-
-    // public function eventType(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-    // {
-    //     $event = $this->belongsTo(Event::class, 'event_id', 'id');
-    //     return $event->;
-    // }
 }
