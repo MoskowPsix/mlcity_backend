@@ -76,12 +76,13 @@ class HistoryContentController extends Controller
     {
         // info();
         #получаем данные для статуса и дальнейших манипуляций
+        info(auth('api')->user()->role[0]->name);
         if(request("type") == "Event"){
-            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id == auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         } else {
-            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id != auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id == auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         }
@@ -96,8 +97,12 @@ class HistoryContentController extends Controller
             $event = Event::where('id',$data['id'])->first();
 
             $historyContent = $data["history_content"];
-            $historyContent["date_start"] = Carbon::parse($historyContent["date_start"])->format("Y-m-d H:i:s");
-            $historyContent["date_end"] = Carbon::parse($historyContent["date_end"])->format("Y-m-d H:i:s");
+
+            if (isset($historyContent["date_start"])){
+                $historyContent["date_start"] = Carbon::parse($historyContent["date_start"])->format("Y-m-d H:i:s");
+                $historyContent["date_end"] = Carbon::parse($historyContent["date_end"])->format("Y-m-d H:i:s");
+            }
+
             info($historyContent);
             unset($historyContent["history_places"]);
             unset($historyContent['history_prices']);
