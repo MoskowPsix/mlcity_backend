@@ -34,7 +34,7 @@ class Place extends Model
 
     public function eventTypes(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Event::class, 'event_id', 'id')->with('types');
+        return $this->belongsTo(Event::class, 'event_id', 'id')->with('types'); 
     }
     public function eventStatuses(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Filters\Place\PlaceAddress;
 use App\Filters\Place\PlaceDate;
 use App\Filters\Place\PlaceGeoPositionInArea;
+use App\Filters\Place\PlaceIco;
 use App\Filters\Place\PlaceTypes;
 use App\Filters\Place\PlaceStatuses;
 use App\Filters\Place\PlaceStatusesLast;
@@ -31,18 +32,23 @@ class PlaceController extends Controller
                     PlaceAddress::class,
                     PlaceDate::class,
                     PlaceTypes::class,
-                    // PlaceStatusesLast::class,
-                    PlaceStatuses::class
+                    PlaceStatusesLast::class,
+                    PlaceStatuses::class,
+                    PlaceIco::class
                 ])
                 ->via('apply')
                 ->then(function ($places) {
                     $places = $places->orderBy('created_at')->get();
 
                     foreach($places as $key=>$place){
-                        $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
-                        $ico = EventType::find($type_id)->ico;
-                        $places[$key]->ico = $ico;
+                        $places[$key]->ico = $place->event->types[0]->ico;
+                        unset($places[$key]->event);
                     }
+                    // foreach($places as $key=>$place){
+                    //     $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
+                    //     $ico = EventType::find($type_id)->ico;
+                    //     $places[$key]->ico = $ico;
+                    // }
                     return $places;
                 });
 
