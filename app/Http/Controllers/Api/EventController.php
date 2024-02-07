@@ -598,10 +598,18 @@ class EventController extends Controller
         ]);
         // Устанавливаем цену
         foreach ($request->prices as $price){
-            $event->price()->create([
-                'cost_rub' => $price['cost_rub'],
-                'descriptions' => $price['descriptions']
-            ]);
+            if($price["cost_rub"] == ""){
+                $event->price()->create([
+                    'cost_rub' => 0,
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+            else{
+                $event->price()->create([
+                    'cost_rub' => $price['cost_rub'],
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
         }
         // Устанавливаем марки
         foreach ($request->places as $place){

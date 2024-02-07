@@ -538,10 +538,19 @@ class SightController extends Controller
         ]);
 
         foreach ($request->price as $price){
-            $sight->prices()->create([
-                'cost_rub' => $price['cost_rub'],
-                'descriptions' => $price['descriptions']
-            ]);
+            if($price["cost_rub"] == ""){
+                $sight->prices()->create([
+                    'cost_rub' => 0,
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+            else{
+                $sight->prices()->create([
+                    'cost_rub' => $price['cost_rub'],
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+
         }
         $sight->types()->sync($request->type);
         $sight->statuses()->attach($request->status, ['last' => true]);

@@ -42,7 +42,8 @@ class Place extends Model
     }
     public function event() : \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
-        return $this->belongsTo(Event::class, 'event_id', 'id')->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        return $this->belongsTo(Event::class, 'event_id', 'id');
+        // return $this->belongsTo(Event::class, 'event_id', 'id')->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
     }
     public function seances(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

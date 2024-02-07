@@ -67,13 +67,13 @@
                         <h2 v-for="etype in event.types">
                             <h1 :id="'event-'+event.id+'-type-'+etype.id">{{etype.name}}</h1>
                             <hr class="dark:border-gray-700/70">
-                            
+
                         </h2>
                     </div> -->
                     <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                     </div>
-                    
+
                 </label>
             </div>
         </div>
@@ -157,7 +157,7 @@ export default {
             eventTime,
             formatter,
             destroy$
-        } 
+        }
     },
     props: {
         connectState: {
@@ -176,7 +176,7 @@ export default {
                 EditButton: true,
             }
         },
-        id:{ 
+        id:{
             type: Number,
             default: null
         }
@@ -196,7 +196,7 @@ export default {
             typesUpd: [],
         }
     },
-    
+
     components: {
         CarouselGallery,
         AuthorMiniCard,
@@ -210,7 +210,7 @@ export default {
         ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useHistoryContentStore, ['saveHistory']),        
+        ...mapActions(useHistoryContentStore, ['saveHistory']),
         ...mapActions(useTypeStore,['getEventTypes']),
         editUpd() {
             this.eventTime = [
@@ -403,7 +403,7 @@ export default {
                 } else {
                     this.typesDel.push({"id": type.id, "on_delete":true})
                 }
-                
+
             } else {
                 if(this.typesUpd.find(item => item.id === type.id)) {
                     this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
@@ -435,7 +435,7 @@ export default {
             else{
                 this.pricesUpd.push(price)
             }
-            
+
         },
         addToCurrentPrices(){
             this.event.price.push({"cost_rub":null, "descriptions":""})
@@ -463,8 +463,8 @@ export default {
             this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
-                    this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start, 'Europe/Moscow')
-                    this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end, 'Europe/Moscow')
+                    // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
+                    // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
                     this.closeLoaderFullPage()
                 }),
                 catchError(err => {
@@ -477,9 +477,9 @@ export default {
             ).subscribe()
         },
         deleteFiles(file) {
-            this.event.files.find((item, index) => { 
+            this.event.files.find((item, index) => {
                 if (item.name == file.name ) {
-                    let coin = this.filesUpd.find((itm, i) => { 
+                    let coin = this.filesUpd.find((itm, i) => {
                         if (itm.name == file.name ) {
                             this.filesUpd.splice(i, 1)
                             return true
@@ -497,7 +497,7 @@ export default {
                 let reader = new FileReader()
                 reader.readAsDataURL(file)
                 reader.onload = () => {
-                    this.event.files.push({link: reader.result, name: file.name, size: file.size, type: file.type}) 
+                    this.event.files.push({link: reader.result, name: file.name, size: file.size, type: file.type})
                 }
                 this.filesUpd.push(file)
             })
@@ -545,7 +545,7 @@ export default {
                                 return false
                             }
                         });
-                    if (seancesOnUpd) { 
+                    if (seancesOnUpd) {
                         // Перебираем массив пришедших сеансов
                         place.seances.forEach((item, key) => {
                             // Проверяем есть ли поля on_delete в объекте seance и стоит ли у него значение true
@@ -565,10 +565,10 @@ export default {
                                             this.placeUpd[getIndex].seances[k] = JSON.parse(JSON.stringify(item))
                                             return true
                                         }
-                                    })     
+                                    })
                                     if (oldSeance != 0 && oldSeance) {
                                         this.placeUpd[getIndex].seances.push(JSON.parse(JSON.stringify(item)))
-                                    }                         
+                                    }
                                     event.places_full[place.index].seances[item.index].on_delete = true
                                 } else {
                                     let newSeances = []
@@ -643,9 +643,9 @@ export default {
                                     return false
                                 }
                             })
-                            if (seanceOnDel) { 
+                            if (seanceOnDel) {
                                 event.places_full[place.index].seances[item.index].on_delete = true
-                            } 
+                            }
                         })
                     }
                     this.placeUpd.push(JSON.parse(JSON.stringify(place)))
