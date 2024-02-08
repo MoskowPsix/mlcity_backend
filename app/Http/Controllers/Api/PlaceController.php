@@ -59,7 +59,7 @@ class PlaceController extends Controller
     }
 
     public function getPlacesIds($id) {
-        $place = Place::where('id', $id)->with('event')->firstOrFail();
+        $place = Place::where('id', $id)->with('event.files')->firstOrFail();
 
         return response()->json(['status' => 'success', 'places' => $place], 200);
     }
