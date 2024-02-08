@@ -10,13 +10,15 @@ class PlaceStatuses implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        $statuses = explode(',', request()->get('statuses'));
+        if(request()->has('statuses') && !request()->has('statusLast')) {
+            $statuses = explode(',', request()->get('statuses'));
 
-        $content->whereHas('eventStatuses', function($q) use ($statuses) {
-            $q->whereHas('statuses', function($q) use ($statuses){
-                $q->whereIn("statuses.name", $statuses);
+            $content->whereHas('eventStatuses', function($q) use ($statuses) {
+                $q->whereHas('statuses', function($q) use ($statuses){
+                    $q->whereIn("statuses.name", $statuses);
+                });
             });
-        });
+        }
 
         return $next($content);
     }
