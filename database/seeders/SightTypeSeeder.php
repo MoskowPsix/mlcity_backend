@@ -80,14 +80,14 @@ class SightTypeSeeder extends Seeder
 
         $type2 = new SightType();
         $type2->name = 'Кинотеатры';
-        $type2->ico = '';
+        $type2->ico = '/storage/icons/film.svg';
         $type2->cult_id = 2;
         $type2->cult_path = "cinema";
         $type2->save();
 
         $type3 = new SightType();
         $type3->name = 'Архитектурные';
-        $type3->ico = '';
+        $type3->ico = '/storage/icons/architecture.svg';
         $type3->cult_id = 419;
         $type3->cult_path = "architecture";
         $type3->save();
@@ -101,7 +101,7 @@ class SightTypeSeeder extends Seeder
 
         $type6 = new SightType();
         $type6->name = 'Музеи';
-        $type6->ico = '';
+        $type6->ico = '/storage/icons/exposition.svg';
         $type6->cult_id = 1;
         $type6->cult_path = "museums";
         $type6->save();
@@ -122,7 +122,7 @@ class SightTypeSeeder extends Seeder
 
         $type11 = new SightType();
         $type11->name = 'Образование';
-        $type11->ico = '';
+        $type11->ico = '/storage/icons/student.svg';
         $type11->cult_id = 4;
         $type11->cult_path = "lectures";
         $type11->save();
@@ -136,7 +136,7 @@ class SightTypeSeeder extends Seeder
 
         $type13 = new SightType();
         $type13->name = 'Культура';
-        $type13->ico = '';
+        $type13->ico = '/storage/icons/religion.svg';
         $type13->cult_id = 561;
         $type13->cult_path = "traditions";
         $type13->save();
@@ -145,22 +145,17 @@ class SightTypeSeeder extends Seeder
 
         $type14 = new SightType();
         $type14->name = 'Торговые центры';
-        $type14->ico = '';
+        $type14->ico = '/storage/icons/supermarket';
         $type14->save();
 
         $type15 = new SightType();
         $type15->name = 'Развлечения';
-        $type15->ico = '';
+        $type15->ico = '/storage/icons/entertainment.svg';
         $type15->save();
 
         $type16 = new SightType();
         $type16->name = 'Рестораны';
-        $type16->ico = '';
+        $type16->ico = '/storage/icons/restaurant.svg';
         $type16->save();
-
-        $type17 = new SightType();
-        $type17->name = 'Торговые центры';
-        $type17->ico = '';
-        $type17->save();
     }
 }
