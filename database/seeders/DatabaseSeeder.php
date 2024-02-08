@@ -29,5 +29,6 @@ class DatabaseSeeder extends Seeder
         $this->call(SightTypeSeeder::class);
         $this->call(EventTypeSeeder::class);
         $this->call(LocationSeeder::class);
+        $this->call(PermissionSeeder::class);
     }
 }
