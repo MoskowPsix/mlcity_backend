@@ -9,19 +9,19 @@ use App\Http\Requests\Permission\UpdatePermission;
 
 class PermissionController extends Controller
 {
-    public function getPermissions() {
+    public function index() {
 
     }
-    public function getPermission($id) {
-
-    }
-    public function createPermission(CreatePermission $request) {
-
-    }
-    public function updatePermission(UpdatePermission $request) {
-
-    }
-    public function deletePermission($id) {
+    public function show($id) {
         
+    }
+    public function store(CreatePermission $request) {
+
+    }
+    public function update(UpdatePermission $request) {
+
+    }
+    public function delete($id) {
+
     }
 }

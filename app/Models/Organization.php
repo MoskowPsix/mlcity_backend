@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Organization extends Model
 {
     use HasFactory;
 
-    protected $table = 'organisations';
+    protected $table = 'organizations';
 
     protected $fillable = [
         'name',
@@ -19,6 +20,10 @@ class Organization extends Model
         'user_id',
         'address',
         'number',
-        'descriptions'
+        'description'
     ];
+
+    public function user(){
+        return $this->belongsTo(User::class);
+    }
 }

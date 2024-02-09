@@ -167,4 +167,8 @@ class User extends Authenticatable
         return $this->belongsToMany(Role::class, $table="users_roles");
     }
 
+    public function organizations(){
+        return $this->hasMany(Organization::class);
+    }
+
 }
