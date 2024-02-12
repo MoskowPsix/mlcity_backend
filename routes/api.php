@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\OrganizationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -91,6 +92,9 @@ Route::controller(UserController::class)->group(function() {
     Route::get('users/name/check/{name}', 'chekUserName');
     Route::get('users/email/check/{email}', 'chekUserEmail');
     Route::get('users/number/check/{number}', 'checkUserNumber');
+
+    Route::post("users/{usr_id}/organizations", "addOrganization")->middleware('auth:sanctum');
+    Route::get("users/{usr_id}/organizations", "getOrganizations")->middleware("auth:sanctum");
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
@@ -210,6 +214,12 @@ Route::controller(HistoryContentController::class)->group(function() {
     Route::get("history-content/{id}","getHistoryContentForIds")->middleware('moderator');
     Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
     Route::patch("history-content", "acceptHistoryContent")->middleware('moderator');
+});
+
+Route::controller(OrganizationController::class)->group(function (){
+    Route::post("organizations", "store");
+    Route::get("organizations/{id}", "show");
+    Route::get("organizations/", "index");
 });
 
 

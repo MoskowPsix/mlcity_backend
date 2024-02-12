@@ -25,8 +25,12 @@ use App\Filters\Users\UsersLocation;
 use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
+use App\Filters\Organization\OrganizationId;
+use App\Filters\Organization\OrganizationName;
+use App\Http\Requests\Organisation\CreateOrganisation;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\Organization;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -804,5 +808,48 @@ class UserController extends Controller
                 'message'=>'maybe your input field is empty'
             ], 401);
         }
+    }
+
+    public function addOrganization($usr_id, CreateOrganisation $request){
+        $data = $request->validated();
+        $user_id = auth("api")->user()->id;
+
+        if($user_id == $usr_id){
+            $data["user_id"] = $user_id;
+            $organization = Organization::create($data);
+        }
+        else{
+            return response()->json(["message"=>"Access denied"], 403);
+        }
+
+
+        return response()->json(["message" => "created", "data"=>["organization"=>$organization]], 201);
+    }
+
+    public function getOrganizations($usr_id, Request $request){
+        $user_id = auth()->user()->id;
+
+        if ($user_id == $usr_id){
+            $organizations = Organization::query()->where("user_id",$user_id);
+            $response =
+                app(Pipeline::class)
+                ->send($organizations)
+                ->through([
+                    OrganizationId::class,
+                    OrganizationName::class,
+                ])
+                ->via("apply")
+                ->then(function ($organizations) use($usr_id){
+                    $organizations = $organizations->get();
+                    return $organizations;
+                });
+
+
+            return response()->json(["message"=>"success", "user_id"=>$usr_id, "data"=>["organizations"=>$response]], 200);
+
+
+        }
+
+        return response()->json(["message"=>"Access denied"],403);
     }
 }
