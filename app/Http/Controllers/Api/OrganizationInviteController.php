@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 
 class OrganizationInviteController extends Controller
 {
-    public function acceptInvite($token){
-        $invite = OrganizationInvite::where("token", $token)->get();
-        $organization = Organization::find($invite->organization_id)->get();
+    public function acceptInvite(Request $request){
+        $invite = OrganizationInvite::where("token", $request->token)->first();
+        $organization = Organization::find($invite->organization_id);
 
         $organization->users()->attach($invite->user_id);
 
-        return "Вы были добавлены";
+        return response()->json(["Вы были добавлены"], 200);
     }
 }

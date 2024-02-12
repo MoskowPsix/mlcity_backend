@@ -228,8 +228,8 @@ Route::controller(OrganizationController::class)->group(function (){
 });
 
 Route::controller(OrganizationInviteController::class)->group(function (){
-    Route::get("organizations/invite/accept/{token}","acceptInvite")->name("organizationInvite.accept");
-    Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
+    Route::get("organizations/invite/accept","acceptInvite")->name("organizationInvite.accept");
+    // Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
 });
 
 Route::controller(PermissionController::class)->group(function (){
