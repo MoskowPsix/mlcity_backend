@@ -221,6 +221,7 @@ Route::controller(OrganizationController::class)->group(function (){
     Route::post("organizations", "store");
     Route::get("organizations/{id}", "show");
     Route::get("organizations/", "index");
+    Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
 });
 
 Route::controller(PermissionController::class)->group(function (){

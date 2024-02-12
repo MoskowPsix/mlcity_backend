@@ -26,4 +26,9 @@ class Organization extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function usersPermissions() : \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Permission::class)->withPivot('user_id');
+    }
 }
