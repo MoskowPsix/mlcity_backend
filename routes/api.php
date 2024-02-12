@@ -17,6 +17,7 @@ use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\OrganizationInviteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -218,8 +219,15 @@ Route::controller(HistoryContentController::class)->group(function() {
 
 Route::controller(OrganizationController::class)->group(function (){
     Route::post("organizations", "store");
+    Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization");
+
     Route::get("organizations/{id}", "show");
     Route::get("organizations/", "index");
+    Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
+});
+
+Route::controller(OrganizationInviteController::class)->group(function (){
+    Route::get("organizations/invite/accept/{token}","acceptInvite")->name("organizationInvite.accept");
 });
 
 

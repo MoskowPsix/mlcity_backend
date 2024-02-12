@@ -2,6 +2,8 @@
 
 namespace App\Mail;
 
+use App\Models\Organization;
+use App\Models\OrganizationInvite as ModelsOrganizationInvite;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -9,20 +11,22 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class HistoryContentCanceled extends Mailable
+class OrganizationInvite extends Mailable
 {
     use Queueable, SerializesModels;
+
+    public ModelsOrganizationInvite $organizationInvite;
+    public $organizationName;
 
     /**
      * Create a new message instance.
      *
      * @return void
      */
-
-     public $data;
-    public function __construct($message)
+    public function __construct(ModelsOrganizationInvite $invite)
     {
-        $this->data = $message;
+        $this->organizationInvite = $invite;
+        $this->organizationName = Organization::find($invite->organization_id)->name;
     }
 
     /**
@@ -33,7 +37,7 @@ class HistoryContentCanceled extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'mlcity.ru Ваш запрос на изменение был отклонен',
+            subject: 'mlcity.ru Вам было отправленно приглашение в организацию',
         );
     }
 
@@ -45,11 +49,7 @@ class HistoryContentCanceled extends Mailable
     public function content()
     {
         return new Content(
-            view: 'mail.view.historyContentCanceled',
-            with: [
-                "description" => $this->data["description"],
-                "HistoryContentName" => $this->data["eventName"]
-            ]
+            view: 'mail.view.organizationInvite',
         );
     }
 
