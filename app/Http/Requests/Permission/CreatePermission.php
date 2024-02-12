@@ -24,8 +24,8 @@ class CreatePermission extends FormRequest
     public function rules()
     {
         return [
-            "name" => "require|string",
-            "descriptions" => "require|string"
+            "name" => "required|string",
+            "description" => "required|string"
         ];
     }
 }

@@ -24,9 +24,9 @@ class UpdatePermission extends FormRequest
     public function rules()
     {
         return [
-            "id" => "require|integer",
+            "id" => "required|integer",
             "name" => "nullable|string",
-            "descriptions" => "nullable|string"
+            "description" => "nullable|string"
         ];
     }
 }
