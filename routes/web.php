@@ -20,13 +20,13 @@ use Laravel\Telescope\Http\Middleware\Authorize;
 // })->name('');
 
 // Route::get('/{any}', function () {
-//      return view('app'); 
+//      return view('app');
 // })->where('any', '.*');
 
-Route::get('/{any}', function () {
-     return view('app'); 
+Route::get('/admin/{any}', function () {
+     return view('app');
 })->where('any', '.*');
 
 // Route::get('/test', function () {
-//      return view('test'); 
+//      return view('test');
 // });

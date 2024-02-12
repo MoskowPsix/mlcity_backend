@@ -14,11 +14,16 @@ use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\CreateOrganisation;
+use App\Mail\OrganizationInvite as MailOrganizationInvite;
 use App\Models\Organization;
+use App\Models\OrganizationInvite;
+use App\Models\User;
 use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Pipeline\Pipeline;
-
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
 class OrganizationController extends Controller
 {
     public function index(Request $request) {
@@ -48,12 +53,12 @@ class OrganizationController extends Controller
                 return $organizations;
             });
 
-            return response()->json(["data"=>["organization"=>$response]],200);
+            return response()->json(["organizations"=>["data"=>$response]],200);
     }
     public function show($id) {
         $organization = Organization::find($id);
 
-        return response()->json(["data"=>["organization"=>$organization]],200);
+        return response()->json(["organizations"=>["data"=>$organization]],200);
     }
 
     public function store(CreateOrganisation $request) {
@@ -87,5 +92,35 @@ class OrganizationController extends Controller
     }
     public function delete($id) {
 
+    }
+
+    public function getUsersOfOrganization($organizationId){
+        $organizationWithUsers = Organization::where("id",$organizationId)->with("users")->get();
+
+        return response()->json([["organizations"=>["data"=>$organizationWithUsers], "message"=>"success"], 200]);
+    }
+
+
+
+    public function addUserToOrganization($organizationId, $userId, Request $request){
+        $invitedUserEmail = User::find($userId)->email;
+        do {
+            $token = Str::random(40);
+            $token = bcrypt($token);
+            $url = URL::temporarySignedRoute("organizationInvite.accept", now()->addDays(3),["token"=>$token]);
+        }
+        while (OrganizationInvite::where("url", $token)->first());
+
+        $invite = OrganizationInvite::create([
+            "email" => $invitedUserEmail,
+            "url" => $url,
+            "user_id" => $userId,
+            "organization_id" => $organizationId,
+            "token" => $token,
+        ]);
+
+        Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
+
+        return response()->json(["message"=>"success"],200);
     }
 }
