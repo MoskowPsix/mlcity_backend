@@ -13,7 +13,14 @@ class OrganizationInviteController extends Controller
         $invite = OrganizationInvite::where("token", $request->token)->first();
         $organization = Organization::find($invite->organization_id);
 
-        $organization->users()->attach($invite->user_id);
+        $permissions = $invite->userPermissions;
+        info($permissions->toArray());
+        foreach($permissions as $permission){
+            $organization->users()->attach($invite->user_id, [
+                "permission_id" => $permission->id
+            ]);
+        }
+
 
         return response()->json(["Вы были добавлены"], 200);
     }

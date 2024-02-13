@@ -14,4 +14,8 @@ class Permission extends Model
         'name',
         'description'
     ];
+
+    public function organizations(){
+        return $this->belongsToMany(Organization::class, "organization_permission_user", "permission_id","organization_id");
+    }
 }

@@ -67,7 +67,7 @@ class OrganizationController extends Controller
 
         return response()->json(["organization"=>$organization, "message"=>"success"], $status=201);
     }
-    // public function organizationAddUserPermission ($organization_id, $permission_id, $user_id) 
+    // public function organizationAddUserPermission ($organization_id, $permission_id, $user_id)
     // {
     //     $organization = Organization::find($organization_id);
     //     $permission = Permission::find($permission_id);
@@ -103,6 +103,7 @@ class OrganizationController extends Controller
 
     public function addUserToOrganization($organizationId, $userId, Request $request){
         $invitedUserEmail = User::find($userId)->email;
+        $permissions = $request->get("permissions");
         do {
             $token = Str::random(40);
             $token = bcrypt($token);
@@ -118,8 +119,27 @@ class OrganizationController extends Controller
             "token" => $token,
         ]);
 
+        foreach($permissions as $permission){
+            $invite->userPermissions()->attach($permission, [
+                "user_id" => $userId,
+                "organization_invite_id" => $invite->id
+            ]);
+        }
+
+
         Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
 
         return response()->json(["message"=>"success"],200);
+    }
+
+    public function addPermissionToUser(Request $request){
+
+    }
+
+    public function getPermissionsOfUser($organizationId, $userId){
+        $user = User::find($userId);
+        $organization = $user->organizations()->first();
+        $permissions = $organization->permissions;
+        return response()->json(["data"=>["permissions"=>$permissions]]);
     }
 }

@@ -17,10 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
             $table->foreignId("organization_id")->constrained("organizations")->cascadeOnDelete();
-            $table->boolean("confirmation")->default(false);
-            $table->text("description")->nullable();
-            $table->text("link")->nullable();
-            $table->text("key")->nullable();
             $table->timestamps();
         });
     }
