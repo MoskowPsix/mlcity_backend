@@ -19,7 +19,9 @@ use App\Models\Organization;
 use App\Models\OrganizationInvite;
 use App\Models\User;
 use App\Models\Permission;
+use Exception;
 use Illuminate\Pipeline\Pipeline;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
@@ -126,8 +128,15 @@ class OrganizationController extends Controller
             ]);
         }
 
+        // Обернуть в try catch
+        try{
+            Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
+        }
+        catch (Exception $e){
+            Log::error("Произошла ошибка при отправке приглашения " . $e);
+            return response()->json(["message"=>"failed to send an invitation"]);
+        }
 
-        Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
 
         return response()->json(["message"=>"success"],200);
     }
@@ -138,8 +147,7 @@ class OrganizationController extends Controller
 
     public function getPermissionsOfUser($organizationId, $userId){
         $user = User::find($userId);
-        $organization = $user->organizations()->first();
-        $permissions = $organization->permissions;
+        $permissions = $user->permissionsInOrganization()->where("organization_id",$organizationId)->get();
         return response()->json(["data"=>["permissions"=>$permissions]]);
     }
 }
