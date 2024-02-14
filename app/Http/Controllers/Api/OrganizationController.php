@@ -104,7 +104,23 @@ class OrganizationController extends Controller
 
 
     public function addUserToOrganization($organizationId, $userId, Request $request){
-        $invitedUserEmail = User::find($userId)->email;
+        $user = User::find($userId);
+        $organization = Organization::find($organizationId);
+
+        if(!$user){
+            return response()->json(["message"=>"User is not found"], 404);
+        }
+        if(!$organization){
+            return response()->json(["message"=>"Organization is not found"], 404);
+        }
+
+        $res = $organization->users()->where("user_id", $user->id)->exists();
+
+        if($res){
+            return response()->json(["message"=>"User alredy in organization"], 409);
+        }
+
+        $invitedUserEmail = $user->email;
         $permissions = $request->get("permissions");
         do {
             $token = Str::random(40);
@@ -141,8 +157,8 @@ class OrganizationController extends Controller
         return response()->json(["message"=>"success"],200);
     }
 
-    public function addPermissionToUser(Request $request){
-
+    public function addOrDeletePermissionToUser(Request $request){
+        
     }
 
     public function getPermissionsOfUser($organizationId, $userId){
