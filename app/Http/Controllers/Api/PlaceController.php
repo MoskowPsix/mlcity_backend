@@ -59,7 +59,11 @@ class PlaceController extends Controller
     }
 
     public function getPlacesIds($id) {
-        $place = Place::where('id', $id)->with('event.files')->withCount("likedUsers")->firstOrFail();
+        $place = Place::where('id', $id)->with('eventWithLikes')->firstOrFail();
+
+        $place->event = $place["eventWithLikes"];
+
+        unset($place->eventWithLikes);
 
         return response()->json(['status' => 'success', 'places' => $place], 200);
     }

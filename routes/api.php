@@ -222,7 +222,7 @@ Route::controller(OrganizationController::class)->group(function (){
     Route::post("organizations", "store");
     Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization");
 
-    Route::post("organizations/{organizationId}/users/{userId}/permissions/", "addOrDeletePermissionToUser");
+    Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser");
     Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser");
 
     Route::get("organizations/{id}", "show");

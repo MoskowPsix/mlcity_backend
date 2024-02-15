@@ -104,23 +104,29 @@ class OrganizationController extends Controller
 
 
     public function addUserToOrganization($organizationId, $userId, Request $request){
-        $user = User::find($userId);
+        $invitedUser = User::find($userId);
+        $authUser = auth("api")->user();
+        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
         $organization = Organization::find($organizationId);
 
-        if(!$user){
+        if(!$invitedUser){
             return response()->json(["message"=>"User is not found"], 404);
         }
         if(!$organization){
             return response()->json(["message"=>"Organization is not found"], 404);
         }
 
-        $res = $organization->users()->where("user_id", $user->id)->exists();
+        $res = $organization->users()->where("user_id", $invitedUser->id)->exists();
 
         if($res){
             return response()->json(["message"=>"User alredy in organization"], 409);
         }
 
-        $invitedUserEmail = $user->email;
+        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
+            return response()->json(["message"=>"You dont have a permission for adding users"], 403);
+        }
+
+        $invitedUserEmail = $invitedUser->email;
         $permissions = $request->get("permissions");
         do {
             $token = Str::random(40);
@@ -157,13 +163,43 @@ class OrganizationController extends Controller
         return response()->json(["message"=>"success"],200);
     }
 
-    public function addOrDeletePermissionToUser(Request $request){
-        
+    public function addOrDeletePermissionToUser($organizationId, $userId, $permId){
+        $user = User::find($userId);
+        $authUser = auth("api")->user();
+        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
+
+        $organization = Organization::find($organizationId);
+
+        if(!$user){
+            return response()->json(["message"=>"User is not found"], 404);
+        }
+        if(!$organization){
+            return response()->json(["message"=>"Organization is not found"], 404);
+        }
+
+        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
+            return response()->json(["message"=>"You don't have permission to change it"], 403);
+        }
+
+        $user->permissionsInOrganization()->where("organization_id", $organizationId)->toggle([$permId => ["organization_id" => $organizationId]]);
+
+        return response()->json(["message" => "permission was changed"], 200);
     }
 
     public function getPermissionsOfUser($organizationId, $userId){
         $user = User::find($userId);
         $permissions = $user->permissionsInOrganization()->where("organization_id",$organizationId)->get();
         return response()->json(["data"=>["permissions"=>$permissions]]);
+    }
+
+    public function checkPermissionInOrganization($organizationId){
+        $authUser = auth("api")->user();
+        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
+
+        $organization = Organization::find($organizationId);
+
+        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
+            return response()->json(["message"=>"You don't have permission to change it"], 403);
+        }
     }
 }
