@@ -192,6 +192,7 @@ class OrganizationController extends Controller
         return response()->json(["data"=>["permissions"=>$permissions]]);
     }
 
+    // Compleate this func or move his to middleware
     public function checkPermissionInOrganization($organizationId){
         $authUser = auth("api")->user();
         $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
