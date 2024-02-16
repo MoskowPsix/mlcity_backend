@@ -122,10 +122,6 @@ class OrganizationController extends Controller
             return response()->json(["message"=>"User alredy in organization"], 409);
         }
 
-        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
-            return response()->json(["message"=>"You dont have a permission for adding users"], 403);
-        }
-
         $invitedUserEmail = $invitedUser->email;
         $permissions = $request->get("permissions");
         do {
@@ -166,6 +162,7 @@ class OrganizationController extends Controller
     public function addOrDeletePermissionToUser($organizationId, $userId, $permId){
         $user = User::find($userId);
         $authUser = auth("api")->user();
+        info($authUser);
         $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
         $organization = Organization::find($organizationId);
@@ -175,10 +172,6 @@ class OrganizationController extends Controller
         }
         if(!$organization){
             return response()->json(["message"=>"Organization is not found"], 404);
-        }
-
-        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
-            return response()->json(["message"=>"You don't have permission to change it"], 403);
         }
 
         $user->permissionsInOrganization()->where("organization_id", $organizationId)->toggle([$permId => ["organization_id" => $organizationId]]);
@@ -193,14 +186,14 @@ class OrganizationController extends Controller
     }
 
     // Compleate this func or move his to middleware
-    public function checkPermissionInOrganization($organizationId){
-        $authUser = auth("api")->user();
-        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
+    // public function checkPermissionInOrganization($organizationId){
+    //     $authUser = auth("api")->user();
+    //     $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
-        $organization = Organization::find($organizationId);
+    //     $organization = Organization::find($organizationId);
 
-        if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
-            return response()->json(["message"=>"You don't have permission to change it"], 403);
-        }
-    }
+    //     if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
+    //         return response()->json(["message"=>"You don't have permission to change it"], 403);
+    //     }
+    // }
 }
