@@ -27,9 +27,19 @@
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
-    <div
-        class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
+    <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
 
+        <div class="flex justify-center">
+            <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
+                <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
+                    <h1 class="font-[Montserrat-Regular]">Название</h1>
+                </div>
+
+                <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED] text-[#404040] rounded-lg mt-1 font-[Montserrat-Regular]">
+                    <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1>{{sight.name}}</h1></label>
+                </div>
+            </div>
+        </div>
         <div class="p-6">
             <div class="text-center">
                 <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
@@ -99,7 +109,7 @@
                     <div class="space-x-2">
                         <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a>
                     </div>
-                    
+
                     <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
@@ -289,7 +299,7 @@ export default {
             closeModal(searchType)
         },
         getAllTypes(){
-      
+
         this.getSightTypes().pipe(
           retry(3),
           delay(200),

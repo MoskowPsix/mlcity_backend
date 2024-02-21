@@ -14,7 +14,7 @@
                 </svg>
                 <h1 class="flex items-center mr-1 ml-1">Назад</h1>
             </button>
-          
+
             <input v-if="state && connectState.NameLine" class="border rounded-lg flex w-8/12 items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
             <label v-if="connectState.IdLine" class="flex items-center w-3/12" :id="'event-'+event.id+'-id'"><h1>ID: {{event.id}}</h1></label>
         </div>
@@ -23,22 +23,22 @@
 
         <div class="header-content flex  justify-center">
             <div class="header-content-main flex items-center  justify-center min-w-[100%] flex-col m-2 p-5 md:flex-col">
-            
+
                 <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[80%] text-xs lg:text-lg">
                     <h1 class=" font-[Montserrat-Regular]" >Название</h1>
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md text-[#404040] mt-1 font-[Montserrat-Medium] flex justify-center">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1>{{event.name}}</h1></label>
                 </div>
-                
+
                 <div class="lg:flex  mt-4">
-                    
+
                   <div class="w-[50%]">
                     <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label>
                     <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] max-w-[60%]" >
                         <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
                     </div>
                   </div>
-                   
+
                     <div class="  md:w-[100%] lg:ml-[5%]  ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
@@ -46,31 +46,31 @@
                         </div>
                     </div>
                 </div>
-                
+
 
                 <div class="flex w-[100%] mt-4">
-                    
-                    <div class="flex flex-col items-center  ">
-                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label>
-                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979]  w-[100%]" >
-                            <div class="font-[Montserrat-Regular] text-xs lg:text-lg">{{event.date_start}}</div>
-                        </div>
-                    </div>
-                    
 
-                    <div class="flex flex-col items-center  ml-4">
-                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
-                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] w-[100%] text-xs lg:text-lg" >
-                            <div>{{event.date_end}}</div>
+                        <div class="flex flex-col items-center  ">
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label>
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979]  w-[100%]" >
+                                <div class="font-[Montserrat-Regular] text-xs lg:text-lg">{{event.date_start}}</div>
+                            </div>
                         </div>
-                    </div>
 
-                    
+
+                        <div class="flex flex-col items-center  ml-4">
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] w-[100%] text-xs lg:text-lg" >
+                                <div>{{event.date_end}}</div>
+                            </div>
+                        </div>
+
+
                   </div>
 
                   <!-- Материалы -->
 
-                  <div class="  md:w-[100%]  mt-4  ">
+                  <div class="md:w-[100%]  mt-4">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Материалы</label>
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
@@ -81,12 +81,12 @@
 
                 </div>
 
-      
+
         </div>
 
 
         <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[80%] m-[auto]  mb-1" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-        
+
 
         <div class="content-descriprion w-[100%]  lg:w-[80%] m-[auto] pt-8">
             <h1 class=" font-[Montserrat-Bold] text-lg" >Описание</h1>
