@@ -29,50 +29,62 @@
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md text-[#404040] mt-1 font-[Montserrat-Medium] flex justify-center">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1>{{event.name}}</h1></label>
                 </div>
-
-                <div class="lg:flex  mt-4">
-
-                  <div class="w-[50%]">
-                    <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label>
-                    <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] max-w-[60%]" >
-                        <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
-                    </div>
-                  </div>
-
-                    <div class="  md:w-[100%] lg:ml-[5%]  ">
+                <div class="  md:w-[100%] mt-4 ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.sponsor}}</div>
                         </div>
                     </div>
+                <div class="flex justify-between lg:flex  mt-4">
+
+                  <div class="min-w-[20rem] max-w-[62%]">
+                    <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label>
+                    <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] max-w-[60%]" >
+                        <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
+                    </div>
+                  </div>
+                  <div class="flex">
+                    <div>
+                        <div class=" mr-4 flex flex-col items-center lg:mr-4 ">
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label>
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979]  w-[100%]" >
+                                <div class="font-[Montserrat-Medium] text-[#797979] w-[100%] text-xs text-center lg:text-lg ">{{event.date_start}}</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                            <div>
+                                <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
+                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] w-[100%] text-xs lg:text-lg" >
+                                    <div>{{event.date_end}}</div>
+                                </div>
+                            </div>
+
+                        </div>
+                  </div>
+
+
+
+                    <div class="flex flex-col items-center">
+
+
+
+
                 </div>
 
 
                 <div class="flex w-[100%] mt-4">
 
-                        <div class="flex flex-col items-center  ">
-                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label>
-                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979]  w-[100%]" >
-                                <div class="font-[Montserrat-Regular] text-xs lg:text-lg">{{event.date_start}}</div>
-                            </div>
-                        </div>
-
-
-                        <div class="flex flex-col items-center  ml-4">
-                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
-                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] text-[#797979] w-[100%] text-xs lg:text-lg" >
-                                <div>{{event.date_end}}</div>
-                            </div>
-                        </div>
 
 
                   </div>
 
                   <!-- Материалы -->
 
-                  <div class="md:w-[100%]  mt-4">
+                  <div class="  md:w-[100%]  mt-4   ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Материалы</label>
-                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
+                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm min-h-[2rem]" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                         </div>
                     </div>
