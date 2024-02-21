@@ -32,11 +32,20 @@
         <div class="flex justify-center">
             <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
                 <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
-                    <h1 class="font-[Montserrat-Regular]">Название</h1>
-                </div>
+                    <div>
+                        <h1 class="font-[Montserrat-Regular]">Название</h1>
+                        <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED]  rounded-lg mt-1 font-[Montserrat-Regular]">
+                            <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1 class="font-bold">{{sight.name}}</h1></label>
+                        </div>
+                    </div>
 
-                <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED] text-[#404040] rounded-lg mt-1 font-[Montserrat-Regular]">
-                    <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1>{{sight.name}}</h1></label>
+                    <div class="mt-4">
+                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Организатор</label>
+                        <div class="border-2 border-[#EDEDED] rounded-md py-2 font-[Montserrat-Medium] sm:text-sm text-center text-xs lg:text-lg">
+                            <p :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>

@@ -29,12 +29,12 @@
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md text-[#404040] mt-1 font-[Montserrat-Medium] flex justify-center">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1>{{event.name}}</h1></label>
                 </div>
-                <div class="  md:w-[100%] mt-4 ">
-                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
-                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
-                            <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.sponsor}}</div>
-                        </div>
+                <div class="md:w-[100%] mt-4">
+                    <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
+                    <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] text-[#797979] sm:text-sm" >
+                        <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.sponsor}}</div>
                     </div>
+                </div>
                 <div class="flex justify-between lg:flex  mt-4">
 
                   <div class="min-w-[20rem] max-w-[62%]">
