@@ -18,14 +18,13 @@ class CheckUserRoleInOrganization
     public function handle(Request $request, Closure $next, $role)
     {
         $authUser = auth("api")->user();
-        info($authUser);
         $organizationId = $request->route("organizationId");
         $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
         $organization = Organization::find($organizationId);
 
         if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name",$role)){
-            return response()->json(["message"=>"You don't have permission to change it"], 403);
+            return response()->json(["message"=>"You don't have a permission for this action"], 403);
         }
         return $next($request);
     }

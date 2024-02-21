@@ -14,6 +14,7 @@ use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\CreateOrganisation;
+use App\Http\Requests\Organization\UpdateOrganization;
 use App\Mail\OrganizationInvite as MailOrganizationInvite;
 use App\Models\Organization;
 use App\Models\OrganizationInvite;
@@ -92,7 +93,19 @@ class OrganizationController extends Controller
     //     return response()->json(["organization"=>$per, "message"=>"success"], 200);
     // }
     public function delete($id) {
+        $organization = Organization::find($id);
+        $organization->delete();
 
+        return response()->json(["message"=>"organization deleted"],204);
+    }
+    public function update($id, UpdateOrganization $request) {
+        $organization = Organization::find($id);
+
+        $request = $request->validated();
+
+         $organization->update($request);
+
+        return response()->json(["organization"=>["data"=>$organization], "message"=>"success"], 200);
     }
 
     public function getUsersOfOrganization($organizationId){

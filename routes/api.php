@@ -219,15 +219,20 @@ Route::controller(HistoryContentController::class)->group(function() {
 });
 
 Route::controller(OrganizationController::class)->group(function (){
-    Route::post("organizations", "store");
-    Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization")->middleware("orgPerm:add_user");
-
-    Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser");
-    Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser")->middleware("orgPerm:update_permissions");
-
+    Route::post("organizations", "store")->middleware("auth:sanctum");
     Route::get("organizations/{id}", "show");
     Route::get("organizations/", "index");
-    Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
+    Route::delete("organizations/{id}", "delete")->middleware("auth:sanctum");
+
+
+    Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization")->middleware(["auth:sanctum","orgPerm:add_user"]);
+    Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization")->middleware(["auth:sanctum","orgPerm:add_user"]);
+
+    Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser")->middleware([ "auth:sanctum","orgPerm:update_permissions"]);
+    Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser")->middleware(["auth:sanctum","orgPerm:add_user"]);
+
+
+
 });
 
 Route::controller(OrganizationInviteController::class)->group(function (){
