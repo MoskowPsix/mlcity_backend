@@ -26,7 +26,7 @@
             
                 <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[80%] text-xs lg:text-lg">
                     <h1 class=" font-[Montserrat-Regular]" >Название</h1>
-                <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md text-[#404040] mt-1 font-[Montserrat-Medium] flex justify-center">
+                <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1>{{event.name}}</h1></label>
                 </div>
                 <div class="  md:w-[100%] mt-4 ">
