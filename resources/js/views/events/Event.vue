@@ -70,6 +70,7 @@ export default {
                         }
                         this.nextPage = response.data.events.next_cursor
                         this.backPage = response.data.events.prev_cursor
+                     
                     }
                 ),
                 catchError(err => {
@@ -84,6 +85,7 @@ export default {
         },
         clickEvent(event) {
             router.push({ path: `/event/${event.id}`})
+            console.log(this.event)
         },
         viewBackPage() {
             this.setPageEventForPageEvents(this.backPage)

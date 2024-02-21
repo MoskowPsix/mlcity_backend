@@ -1,5 +1,19 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900&display=swap");
 
+@font-face {
+  font-family:"Montserrat-Regular";
+  src: url(/resources/fonts/Montserrat-Regular.ttf);
+}
+@font-face {
+  font-family:"Montserrat-Medium";
+  src: url(/resources/fonts/Montserrat-Medium.ttf);
+}
+@font-face {
+  font-family:"Montserrat-Bold";
+  src: url(/resources/fonts/Montserrat-Bold.ttf);
+}
+
+
 @tailwind base;
 
 @layer base {
