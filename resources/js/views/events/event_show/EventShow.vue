@@ -14,7 +14,7 @@
                 </svg>
                 <h1 class="flex items-center mr-1 ml-1">Назад</h1>
             </button>
-          
+
             <input v-if="state && connectState.NameLine" class="border rounded-lg flex w-8/12 items-center dark:bg-gray-700/20 dark:border-gray-600/50" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
             <label v-if="connectState.IdLine" class="flex items-center w-3/12" :id="'event-'+event.id+'-id'"><h1>ID: {{event.id}}</h1></label>
         </div>
@@ -52,7 +52,7 @@
                             </div>
                         </div>
                     </div>
-                        
+
 
                             <div class="text-center">
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
@@ -60,24 +60,24 @@
                                     <div>{{event.date_end}}</div>
                                 </div>
                             </div>
-                          
+
                         </div>
                   </div>
-                 
-                    
+
+
 
                     <div class="flex flex-col items-center">
-                  
 
-                   
-                   
+
+
+
                 </div>
-                
+
 
                 <div class="flex w-[100%] mt-4">
-                    
-                  
-                    
+
+
+
                   </div>
 
                   <!-- Материалы -->
@@ -93,7 +93,7 @@
 
                 </div>
 
-      
+
         </div>
 
 

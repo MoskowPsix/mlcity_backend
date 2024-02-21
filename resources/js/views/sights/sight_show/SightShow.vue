@@ -27,19 +27,96 @@
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
 
-    <div
-        class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
+    <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
 
-        <div class="p-6">
-            <div class="text-center">
-                <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+        <div class="flex justify-center">
+            <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
+                <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
+                    <div>
+                        <h1 class="font-[Montserrat-Regular]">Название</h1>
+                        <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED]  rounded-lg mt-1 font-[Montserrat-Regular]">
+                            <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1 class="font-bold">{{sight.name}}</h1></label>
+                            <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
+                            type="text"
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="font-[Montserrat-Regular]">Организатор</label>
+                        <div class="border-2 border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                            <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
+                            <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
+                            type="text"
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                        </div>
+                    </div>
+
+
+                    <div class="min-w-[20rem] max-w-[62%] mt-4">
+                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
+                        <div class="border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                            <div v-if="sight.types" class="text-center py-2 space-y-2.5">
+                                <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <div class="">
+                                <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
+                                <div class="border-2 border-[#EDEDED] rounded-md  p-2 font-[Montserrat-Medium] leading-6">
+                                    <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
+                                    <textarea v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
+                                    rows="4"
+                                    type="text"
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-4 mb-8">
+                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
+                        <div class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                            <p :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <div>
+                            <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
+                        <div class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
+                            <p :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
+                        </div>
+                    </div>
+
+
+
+                    <div class="mt-4">
+                        <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
+                        <div v-if="sight.materials">
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
+                            <div class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium] leading-5">
+                                <p :id="'sight-'+sight.id+'-materials'">{{ sight.materials }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </div>
+        <div class="p-6">
+
 
 
 
             <div>
                 <div class=" inline-block">
-                    <p class="">Место проведение:   </p>
+                    <p class="">Место проведение:</p>
                     <div v-if="!state"  class="">
                         <h6 :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
                     </div>
@@ -99,7 +176,7 @@
                     <div class="space-x-2">
                         <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a>
                     </div>
-                    
+
                     <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
@@ -289,7 +366,7 @@ export default {
             closeModal(searchType)
         },
         getAllTypes(){
-      
+
         this.getSightTypes().pipe(
           retry(3),
           delay(200),
@@ -646,4 +723,7 @@ export default {
 .modal-container {
 	z-index: 100;
 }
+input:focus {
+        outline:none;
+    }
 </style>
