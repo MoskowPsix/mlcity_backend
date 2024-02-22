@@ -20,6 +20,7 @@ class Kernel extends ConsoleKernel
         // $schedule->command('institutes_save')->weekly();
         $schedule->command('clear-log')->weeklyOn(7, '3:00');;
 	    $schedule->command('backup_db')->weeklyOn(6, '3:00');
+        $schedule->command('telescope:prune --hours=48')->daily();
     }
 
     /**

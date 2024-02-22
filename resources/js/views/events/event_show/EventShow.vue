@@ -1,6 +1,6 @@
 <template lang="">
-<div class="flex flex-col min-w-full min-h-full bg-white dark:bg-gray-900 p-1" v-if="event && connectState" :id="'event-'+event.id">
-    <form class="flex flex-col justify-center ">
+<div class= " flex flex-col min-w-full min-h-full bg-white dark:bg-gray-900 pl-0 pr-0 lg:pl-10 pr-10" v-if="event && connectState" :id="'event-'+event.id">
+    <form class="flex flex-col justify-center max-w-[90%] m-[auto] lg:max-w-[80%]">
         <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
@@ -23,11 +23,11 @@
 
         <div class="header-content flex  justify-center">
             <div class="header-content-main flex items-center  justify-center min-w-[100%] flex-col m-2 p-5 md:flex-col">
-
-                <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[80%] text-xs lg:text-lg">
+            
+                <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] text-xs lg:text-lg">
                     <h1 class=" font-[Montserrat-Regular]" >Название</h1>
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center">
-                    <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1>{{event.name}}</h1></label>
+                    <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
                 </div>
                 <div class="  md:w-[100%] mt-4 ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
@@ -36,8 +36,8 @@
                         </div>
                     </div>
                 <div class="flex justify-between lg:flex  mt-4">
-
-                  <div class="min-w-[20rem] max-w-[62%]">
+                    
+                  <div class="min-w-[35%] max-w-[62%]">
                     <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label>
                     <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] max-w-[60%]" >
                         <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
@@ -54,7 +54,7 @@
                     </div>
 
 
-                            <div>
+                            <div class="text-center">
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label>
                                 <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  w-[100%] text-xs lg:text-lg" >
                                     <div>{{event.date_end}}</div>
@@ -97,13 +97,26 @@
         </div>
 
 
-        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[80%] m-[auto]  mb-1" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+        
 
-
-        <div class="content-descriprion w-[100%]  lg:w-[80%] m-[auto] pt-8">
-            <h1 class=" font-[Montserrat-Bold] text-lg" >Описание</h1>
-            <div class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
+        <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2">
+            <h3 class=" font-[Montserrat-Bold] text-lg" >Описание</h3>
+            <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
                 {{event.description}}
+            </h3>
+
+
+            <div class="content-description-price mt-10">
+
+                <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
+
+                <div class="content-description-price-grid flex row flex-wrap justify-center ">
+                    <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                        <PriceSegment class="p-2 border w-full dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                    </div>
+                </div>
+
             </div>
 
 
@@ -133,7 +146,7 @@
                 <VueDatePicker v-if="state" v-model="eventTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
             </label> -->
         <!-- </div> -->
-        <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid m-1 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
+        <!-- <div v-if="connectState.PricesCard && connectState.TypeCard" class="grid m-1 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
             <div :id="'event-'+event.id+'-price'" v-if="connectState.PricesCard" class="border mr-1 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 bg-gray-100 p-2">
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Цены</h1>
@@ -151,38 +164,45 @@
                 <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                     <hr class="dark:border-gray-700/70">
-                    <!-- <div >
+                   
+                    <div >
                         <h2 v-for="etype in event.types">
                             <h1 :id="'event-'+event.id+'-type-'+etype.id">{{etype.name}}</h1>
                             <hr class="dark:border-gray-700/70">
 
                         </h2>
-                    </div> -->
+                    </div>
+
                     <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                     </div>
 
                 </label>
             </div>
-        </div>
-        <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="grid 2xl:grid-cols-1 xl:grid-cols-1 lg:grid-cols-1 md:grid-cols-1 sm:grid-cols-1 w-full p-1 ">
+        </div> -->
+
+
+        <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="w-[100%] bg-transparen font-[Montserrat-Regular] ">
             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
-                <div :id="'event-'+event.id+'-place'" class="border dark:bg-gray-800/50 dark:border-gray-700 p-1 rounded-lg">
+                <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
                     <div v-for="(place, index) in event.places_full" :key="place.id">
                         <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
                 </div>
             </div>
-            <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2 grid 2xl:grid-cols-1 xl:grid-cols-2 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2">
-                    <div  v-if="connectState.AuthorCard">
+            
+            <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]  xl:flex justify-between mt-8 row">
+                    <div class="" v-if="connectState.AuthorCard">
                         <AuthorMiniCard v-if="event.author" :author="event.author"/>
                     </div>
-                    <div v-if="!state && connectState.StatusCard" class=" border rounded-lg p-2 mt-1 dark:border-gray-700/70 dark:bg-gray-800">
+
+                    <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
                         <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
                     </div>
             </div>
         </div>
+        
         <div v-if="connectState.EditButton" class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
             <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
             <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
