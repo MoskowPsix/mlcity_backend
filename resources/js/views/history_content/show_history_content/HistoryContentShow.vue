@@ -23,7 +23,7 @@
                 <!-- Галерея -->
                 <CarouselGallery v-if="historyContent.history_files" :files="historyContent.history_files" :wrightState="false" class="mb-1"></CarouselGallery>
                 <!-- Описание -->
-                <div  class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+                <div v-if="historyContent.sponsor && historyContent.address && historyContent.description && historyContent.materials && historyContent.work_time && historyContent.date_start && historyContent.date_end" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
                     <label @click="getElement(type_element+'-'+event.id+'-sponsor')">
                         <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Спонсор</h1>
                         <p v-if="historyContent.sponsor" class="text-sm font-normal dark:text-gray-200 mb-2">{{historyContent.sponsor}}</p>
@@ -54,7 +54,7 @@
                 <!-- Цены и типы -->
                 <div v-if="historyContent.history_prices || historyContent.history_event_types || historyContent.history_sight_types" class="grid 2xl:grid-cols-2 xl:grid-cols-2 lg:grid-cols-2 ">
                     <!-- Цены -->
-                    <div v-if="historyContent.history_prices" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                    <div v-if="historyContent.history_prices.length" class="border 2xl:col-span-1 xl:col-span-1 rounded-lg w-full h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                         <label>
                             <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Цены</h1>
                             <hr class="dark:border-gray-700/70">

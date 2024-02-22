@@ -347,8 +347,6 @@ export default {
                     this.sight = response.data
                     this.status = this.sight.statuses[0].name
                     this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
-                    console.log(response)
-
                 }),
                 catchError(err => {
                     console.log(err)
@@ -375,7 +373,6 @@ export default {
           })
         ).subscribe(response => {
           this.allTypes = response.data.types
-          console.log(this.allTypes)
           this.closeLoaderFullPage()
         })
     },
@@ -406,7 +403,6 @@ export default {
 
         deleteFromCurrentPrices(price){
             for(let i = 0; i < this.sight.prices.length; i++){
-                console.log(Object.keys(this.sight.prices[i]).indexOf("new_id"))
 
                 if((Object.keys(this.sight.prices[i]).indexOf("new_id") != -1) && (this.sight.prices[i].new_id == price.new_id)){
                     this.sight.prices.splice(i, 1)
@@ -417,7 +413,6 @@ export default {
 
             }
             for(let i = 0; i < this.pricesUpd.length; i++){
-                console.log(Object.keys(this.pricesUpd[i]).indexOf("new_id"))
 
                 if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
                     this.pricesUpd.splice(i, 1)
@@ -429,7 +424,6 @@ export default {
             }
 
 
-            console.log(this.pricesDel)
         },
         addToCurrentPrices(){
             let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
@@ -441,7 +435,6 @@ export default {
         checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
                 if (array[i].id === obj.id){
-                    console.log(obj, array)
                     return true
                 }
             }
@@ -452,9 +445,7 @@ export default {
             if(!new_id){
                 for (let i = 0; i<array.length; i++){
                 if(array[i].price.price.new_id != undefined){
-                    console.log("WROK")
                     if (array[i].price.price.new_id == obj.price.new_id){
-
                         return true
                     }
                 }
@@ -467,7 +458,6 @@ export default {
             }
             else{
                 for (let i = 0; i<array.length; i++){
-                    console.log(array[i].price)
                 if(array[i].price.price.id != undefined){
                     if (array[i].price.price.id == obj.price.id){
 
@@ -475,7 +465,6 @@ export default {
                     }
                 }
                 else{
-                    console.log(array[i].price)
                 }
             }
                 return false
@@ -489,11 +478,8 @@ export default {
         },
         test(price){
             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
-                console.log("WORK")
                 this.pricesUpd.push(price)
             }
-            console.log("На обновление",this.pricesUpd)
-            console.log("Все цены", this.sight.prices)
         },
 
         backButton(){
@@ -581,37 +567,31 @@ export default {
                 switch(item[1].id) {
                     case(`sight-${this.sight.id}-name-input`):
                     if (item[1].value != this.sight.name) {
-                        console.log('new name value: ' + item[1].value)
                         historyData.history_content.name = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-sponsor-input`):
                     if (item[1].value != this.sight.sponsor) {
-                        console.log('new sponsor value: ' + item[1].value)
                         historyData.history_content.sponsor = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-description-input`):
                     if (item[1].value != this.sight.description) {
-                        console.log('new description value: ' + item[1].value)
                         historyData.history_content.description = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-materials-input`):
                     if ((item[1].value != this.sight.materials) && (item[1].value != "")) {
-                        console.log('new materials value: ' + item[1].value)
                         historyData.history_content.materials =  item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-work_time-input`):
                     if (item[1].value != this.sight.work_time) {
-                        console.log('new work_time value: ' + item[1].value)
                         historyData.history_content.work_time = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-address-input`):
                     if (item[1].value != this.sight.address) {
-                        console.log('new address value: ' + item[1].value)
                         historyData.history_content.address = item[1].value
                     }
                     break;
@@ -669,8 +649,6 @@ export default {
                 this.pricesDel.forEach(item => {
                     historyData.history_content.history_prices.push(item)
                 })
-
-                console.log(this.pricesUpd)
             }
 
 
@@ -681,7 +659,6 @@ export default {
 
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
-            console.log(historyData)
             if(Object.keys(historyData.history_content).length != 0){
                 this.openLoaderFullPage()
                 this.saveSightHistory(historyData).pipe(

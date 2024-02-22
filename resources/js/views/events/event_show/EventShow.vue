@@ -576,7 +576,6 @@ export default {
             this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
-                    console.log(this.event)
                     // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
                     // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
                     this.closeLoaderFullPage()
