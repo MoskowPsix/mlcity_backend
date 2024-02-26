@@ -1,11 +1,4 @@
 <template lang="">
-    <!-- <div>
-        <button class="p-4 bg-red-500" @click="searchTypeOpen()">Popen</button>
-        <button class="p-4 bg-red-500" @click="searchTypeClose()">Copen</button>
-
-    </div> -->
-
-    <ModalContainer/>
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
     <form enctype="multipart/form-data">
     <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
@@ -22,7 +15,7 @@
             <h1 class="flex items-center mr-1 ml-1">Назад</h1>
         </button>
 
-        <label v-if="!state && connectState.NameLine" class="flex items-center w-8/12" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
+        <label v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
         <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
@@ -34,7 +27,7 @@
                 <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
                     <div>
                         <h1 class="font-[Montserrat-Regular]">Название</h1>
-                        <div v-bind:class="{'border-blue-700/70':state}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
+                        <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
                             <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
                             type="text"
@@ -44,7 +37,7 @@
 
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular]">Организатор</label>
-                        <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                        <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
                             <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
                             type="text"
@@ -58,7 +51,7 @@
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
                             <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
                                 <div v-if="sight.types" class="text-center py-2 space-y-2.5">
-                                    <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
+                                    <p v-for="s_type in sight.types" class="border-b-2 mx-4" v-bind:class="{ 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}"> {{ s_type.name }}</p>
                                 </div>
                             </div>
                         </div>
@@ -66,9 +59,9 @@
                         <div>
                             <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
-                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
+                                <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
                                     <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
-                                    <textarea v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
+                                    <textarea  v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
                                     rows="3"
                                     type="text"
                                     class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"></textarea>
@@ -79,7 +72,7 @@
 
                     <div class="mt-4 mb-8">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
-                        <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                        <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
                             <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
                             type="text"
@@ -95,9 +88,9 @@
 
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
-                        <div class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
+                        <div  class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
                             <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
-                            <textarea v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
+                            <textarea v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
                                     rows="12"
                                     type="text"
                                     class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
@@ -107,7 +100,7 @@
 
 
 
-                    <div class="mt-4">
+                    <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="mt-4">
                         <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
                         <div v-if="sight.materials">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
@@ -133,11 +126,11 @@
                 <div class=" inline-block">
                     <p class="">Место проведение:</p>
                     <div v-if="!state"  class="">
-                        <h6 :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
+                        <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
                     </div>
                 </div>
 
-                <div v-if="state" class="flex mb-4 space-x-4">
+                <div  v-if="state" class="flex mb-4 space-x-4">
                     <input :id="'sight-'+sight.id+'-address-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.address"
                      id="address"
@@ -150,7 +143,7 @@
             <div>
                 <p class="">Время проведения:</p>
                 <div v-if="!state" >
-                    <h6 :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
@@ -162,28 +155,6 @@
                     </textarea>
                 </div>
             </div>
-
-            <div class="" v-if="connectState.DescriptionsCard">
-                <p class="">Описание:</p>
-                <div v-if="!state">
-                    <p :id="'sight-'+sight.id+'-description'" class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
-                        {{ sight.description }}
-                    </p>
-                </div>
-
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea :id="'sight-'+sight.id+'-description-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                    v-bind:value="sight.description"
-                    type="text"
-                    id="description"
-                    rows=7
-                    @input="event => text = event.target.value">
-                    </textarea>
-                </div>
-            </div>
-
-
-
 
             <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
@@ -229,7 +200,7 @@
             <div>
                 <p class=" ">Спонсор:</p>
                 <div v-if="!state" class="">
-                    <h6 :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
@@ -243,8 +214,8 @@
 
             <div>
                 <p class=" ">Материалы:</p>
-                <div v-if="!state" class="">
-                    <h6 :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
+                <div  v-if="!state" class="">
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
                 </div>
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input :id="'sight-'+sight.id+'-materials-input'" class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
@@ -354,9 +325,10 @@ export default {
             typesUpd: [],
             pricesDel:[],
             pricesUpd:[],
-
-
-
+            history_mode: false,
+            history_add: true,
+            history_edit: true,
+            history_delete: true,
         }
     },
     methods: {
