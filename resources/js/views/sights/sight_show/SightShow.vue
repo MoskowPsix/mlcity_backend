@@ -34,42 +34,44 @@
                 <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
                     <div>
                         <h1 class="font-[Montserrat-Regular]">Название</h1>
-                        <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED]  rounded-lg mt-1 font-[Montserrat-Regular]">
-                            <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1 class="font-bold">{{sight.name}}</h1></label>
+                        <div v-bind:class="{'border-blue-700/70':state}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
+                            <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
                             type="text"
-                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                            class="rounded-sm border-none p-0 focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
                         </div>
                     </div>
 
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular]">Организатор</label>
-                        <div class="border-2 border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                        <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
                             <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
                             type="text"
-                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
                         </div>
                     </div>
 
 
-                    <div class="min-w-[20rem] max-w-[62%] mt-4">
-                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
-                        <div class="border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
-                            <div v-if="sight.types" class="text-center py-2 space-y-2.5">
-                                <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
+                    <div class="grid lg:grid-cols-2 mt-4">
+                        <div>
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
+                            <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                <div v-if="sight.types" class="text-center py-2 space-y-2.5">
+                                    <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <div class="">
+                        <div>
+                            <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
-                                <div class="border-2 border-[#EDEDED] rounded-md  p-2 font-[Montserrat-Medium] leading-6">
+                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
                                     <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
                                     <textarea v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
-                                    rows="4"
+                                    rows="3"
                                     type="text"
-                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"></textarea>
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +79,11 @@
 
                     <div class="mt-4 mb-8">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
-                        <div class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
-                            <p :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
+                        <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                            <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
+                            <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
+                            type="text"
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"/>
                         </div>
                     </div>
 
@@ -91,7 +96,12 @@
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
                         <div class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
-                            <p :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
+                            <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
+                            <textarea v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
+                                    rows="12"
+                                    type="text"
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
+                            </textarea>
                         </div>
                     </div>
 
@@ -105,6 +115,11 @@
                                 <p :id="'sight-'+sight.id+'-materials'">{{ sight.materials }}</p>
                             </div>
                         </div>
+                        <textarea v-if="state && connectState.NameLine" v-bind:value=sight.materials @input="event => text = event.target.value"
+                                    rows="6"
+                                    type="text"
+                                    class="rounded-sm border-2 border-blue-500 focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -246,9 +261,22 @@
         </div>
     </div>
     <div v-if="connectState.EditButton">
-        <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
-        <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
-        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
+
+        <button v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 m-5 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-green-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+        </button>
+        <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 m-5 mr-20 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 flex justify-items-center m-5 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-700/70">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            </svg>
+        </button>
     </div>
 
     </form>
