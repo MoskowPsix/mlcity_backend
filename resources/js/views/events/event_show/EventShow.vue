@@ -4,7 +4,7 @@
         <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
-                @click.prevent="state = !state"
+                @click.prevent="backButton()"
                 type="button"
                 data-te-ripple-init
                 data-te-ripple-color="light"
