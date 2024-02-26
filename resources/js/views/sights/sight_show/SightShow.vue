@@ -1,11 +1,4 @@
 <template lang="">
-    <!-- <div>
-        <button class="p-4 bg-red-500" @click="searchTypeOpen()">Popen</button>
-        <button class="p-4 bg-red-500" @click="searchTypeClose()">Copen</button>
-
-    </div> -->
-
-    <ModalContainer/>
 <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
     <form enctype="multipart/form-data">
     <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
@@ -22,7 +15,7 @@
             <h1 class="flex items-center mr-1 ml-1">Назад</h1>
         </button>
 
-        <label v-if="!state && connectState.NameLine" class="flex items-center w-8/12" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
+        <label v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
         <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
         <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
     </div>
@@ -34,42 +27,44 @@
                 <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
                     <div>
                         <h1 class="font-[Montserrat-Regular]">Название</h1>
-                        <div class="text-center p-2 w-[100%] border-2 border-[#EDEDED]  rounded-lg mt-1 font-[Montserrat-Regular]">
-                            <label v-if="!state && connectState.NameLine" class="" :id="'sight-'+sight.id+'-name'"><h1 class="font-bold">{{sight.name}}</h1></label>
+                        <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
+                            <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
                             type="text"
-                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                            class="rounded-sm border-none p-0 focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
                         </div>
                     </div>
 
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular]">Организатор</label>
-                        <div class="border-2 border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                        <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
                             <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
                             <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
                             type="text"
-                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
                         </div>
                     </div>
 
 
-                    <div class="min-w-[20rem] max-w-[62%] mt-4">
-                        <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
-                        <div class="border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
-                            <div v-if="sight.types" class="text-center py-2 space-y-2.5">
-                                <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
+                    <div class="grid lg:grid-cols-2 mt-4">
+                        <div>
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
+                            <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                <div v-if="sight.types" class="text-center py-2 space-y-2.5">
+                                    <p v-for="s_type in sight.types" class="border-b-2 mx-4" v-bind:class="{ 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}"> {{ s_type.name }}</p>
+                                </div>
                             </div>
                         </div>
 
-                        <div class="mt-4">
-                            <div class="">
+                        <div>
+                            <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
-                                <div class="border-2 border-[#EDEDED] rounded-md  p-2 font-[Montserrat-Medium] leading-6">
+                                <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
                                     <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
-                                    <textarea v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
-                                    rows="4"
+                                    <textarea  v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
+                                    rows="3"
                                     type="text"
-                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"></textarea>
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"></textarea>
                                 </div>
                             </div>
                         </div>
@@ -77,8 +72,11 @@
 
                     <div class="mt-4 mb-8">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
-                        <div class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
-                            <p :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
+                        <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                            <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
+                            <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
+                            type="text"
+                            class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"/>
                         </div>
                     </div>
 
@@ -90,14 +88,19 @@
 
                     <div class="mt-4">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
-                        <div class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
-                            <p :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
+                        <div  class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
+                            <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
+                            <textarea v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
+                                    rows="12"
+                                    type="text"
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
+                            </textarea>
                         </div>
                     </div>
 
 
 
-                    <div class="mt-4">
+                    <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="mt-4">
                         <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
                         <div v-if="sight.materials">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
@@ -105,6 +108,11 @@
                                 <p :id="'sight-'+sight.id+'-materials'">{{ sight.materials }}</p>
                             </div>
                         </div>
+                        <textarea v-if="state && connectState.NameLine" v-bind:value=sight.materials @input="event => text = event.target.value"
+                                    rows="6"
+                                    type="text"
+                                    class="rounded-sm border-2 border-blue-500 focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
+                        </textarea>
                     </div>
                 </div>
             </div>
@@ -118,11 +126,11 @@
                 <div class=" inline-block">
                     <p class="">Место проведение:</p>
                     <div v-if="!state"  class="">
-                        <h6 :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
+                        <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
                     </div>
                 </div>
 
-                <div v-if="state" class="flex mb-4 space-x-4">
+                <div  v-if="state" class="flex mb-4 space-x-4">
                     <input :id="'sight-'+sight.id+'-address-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
                      v-bind:value="sight.address"
                      id="address"
@@ -135,7 +143,7 @@
             <div>
                 <p class="">Время проведения:</p>
                 <div v-if="!state" >
-                    <h6 :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
@@ -147,28 +155,6 @@
                     </textarea>
                 </div>
             </div>
-
-            <div class="" v-if="connectState.DescriptionsCard">
-                <p class="">Описание:</p>
-                <div v-if="!state">
-                    <p :id="'sight-'+sight.id+'-description'" class="mb-4 text-base text-neutral-800 dark:text-neutral-200">
-                        {{ sight.description }}
-                    </p>
-                </div>
-
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea :id="'sight-'+sight.id+'-description-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-full   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                    v-bind:value="sight.description"
-                    type="text"
-                    id="description"
-                    rows=7
-                    @input="event => text = event.target.value">
-                    </textarea>
-                </div>
-            </div>
-
-
-
 
             <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
                 <div class="">
@@ -214,7 +200,7 @@
             <div>
                 <p class=" ">Спонсор:</p>
                 <div v-if="!state" class="">
-                    <h6 :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
                 </div>
 
                 <div v-if="state" class="flex mb-4 space-x-4">
@@ -228,8 +214,8 @@
 
             <div>
                 <p class=" ">Материалы:</p>
-                <div v-if="!state" class="">
-                    <h6 :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
+                <div  v-if="!state" class="">
+                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
                 </div>
                 <div v-if="state" class="flex mb-4 space-x-4">
                     <input :id="'sight-'+sight.id+'-materials-input'" class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
@@ -246,9 +232,22 @@
         </div>
     </div>
     <div v-if="connectState.EditButton">
-        <input v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-green-600 m-5 p-2 z-50" type="button" value="Применить">
-        <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-red-600 m-5 mr-36 p-2 z-50">Отмена</button>
-        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-blue-600 m-5 p-2 z-50">Редактировать</button>
+
+        <button v-if="state" @click="clickUpd($event)" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 m-5 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-green-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
+            </svg>
+        </button>
+        <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 m-5 mr-20 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-700">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
+            </svg>
+        </button>
+        <button @click="state= !state" v-if="!state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 flex justify-items-center m-5 p-2 z-50">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-700/70">
+                <path stroke-linecap="round" stroke-linejoin="round" d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10" />
+            </svg>
+        </button>
     </div>
 
     </form>
@@ -326,9 +325,10 @@ export default {
             typesUpd: [],
             pricesDel:[],
             pricesUpd:[],
-
-
-
+            history_mode: false,
+            history_add: true,
+            history_edit: true,
+            history_delete: true,
         }
     },
     methods: {
@@ -347,8 +347,6 @@ export default {
                     this.sight = response.data
                     this.status = this.sight.statuses[0].name
                     this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
-                    console.log(response)
-
                 }),
                 catchError(err => {
                     console.log(err)
@@ -375,7 +373,6 @@ export default {
           })
         ).subscribe(response => {
           this.allTypes = response.data.types
-          console.log(this.allTypes)
           this.closeLoaderFullPage()
         })
     },
@@ -406,7 +403,6 @@ export default {
 
         deleteFromCurrentPrices(price){
             for(let i = 0; i < this.sight.prices.length; i++){
-                console.log(Object.keys(this.sight.prices[i]).indexOf("new_id"))
 
                 if((Object.keys(this.sight.prices[i]).indexOf("new_id") != -1) && (this.sight.prices[i].new_id == price.new_id)){
                     this.sight.prices.splice(i, 1)
@@ -417,7 +413,6 @@ export default {
 
             }
             for(let i = 0; i < this.pricesUpd.length; i++){
-                console.log(Object.keys(this.pricesUpd[i]).indexOf("new_id"))
 
                 if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
                     this.pricesUpd.splice(i, 1)
@@ -429,7 +424,6 @@ export default {
             }
 
 
-            console.log(this.pricesDel)
         },
         addToCurrentPrices(){
             let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
@@ -441,7 +435,6 @@ export default {
         checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
                 if (array[i].id === obj.id){
-                    console.log(obj, array)
                     return true
                 }
             }
@@ -452,9 +445,7 @@ export default {
             if(!new_id){
                 for (let i = 0; i<array.length; i++){
                 if(array[i].price.price.new_id != undefined){
-                    console.log("WROK")
                     if (array[i].price.price.new_id == obj.price.new_id){
-
                         return true
                     }
                 }
@@ -467,7 +458,6 @@ export default {
             }
             else{
                 for (let i = 0; i<array.length; i++){
-                    console.log(array[i].price)
                 if(array[i].price.price.id != undefined){
                     if (array[i].price.price.id == obj.price.id){
 
@@ -475,7 +465,6 @@ export default {
                     }
                 }
                 else{
-                    console.log(array[i].price)
                 }
             }
                 return false
@@ -489,11 +478,8 @@ export default {
         },
         test(price){
             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
-                console.log("WORK")
                 this.pricesUpd.push(price)
             }
-            console.log("На обновление",this.pricesUpd)
-            console.log("Все цены", this.sight.prices)
         },
 
         backButton(){
@@ -581,37 +567,31 @@ export default {
                 switch(item[1].id) {
                     case(`sight-${this.sight.id}-name-input`):
                     if (item[1].value != this.sight.name) {
-                        console.log('new name value: ' + item[1].value)
                         historyData.history_content.name = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-sponsor-input`):
                     if (item[1].value != this.sight.sponsor) {
-                        console.log('new sponsor value: ' + item[1].value)
                         historyData.history_content.sponsor = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-description-input`):
                     if (item[1].value != this.sight.description) {
-                        console.log('new description value: ' + item[1].value)
                         historyData.history_content.description = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-materials-input`):
                     if ((item[1].value != this.sight.materials) && (item[1].value != "")) {
-                        console.log('new materials value: ' + item[1].value)
                         historyData.history_content.materials =  item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-work_time-input`):
                     if (item[1].value != this.sight.work_time) {
-                        console.log('new work_time value: ' + item[1].value)
                         historyData.history_content.work_time = item[1].value
                     }
                     break;
                     case(`sight-${this.sight.id}-address-input`):
                     if (item[1].value != this.sight.address) {
-                        console.log('new address value: ' + item[1].value)
                         historyData.history_content.address = item[1].value
                     }
                     break;
@@ -669,8 +649,6 @@ export default {
                 this.pricesDel.forEach(item => {
                     historyData.history_content.history_prices.push(item)
                 })
-
-                console.log(this.pricesUpd)
             }
 
 
@@ -681,7 +659,6 @@ export default {
 
 
             // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
-            console.log(historyData)
             if(Object.keys(historyData.history_content).length != 0){
                 this.openLoaderFullPage()
                 this.saveSightHistory(historyData).pipe(

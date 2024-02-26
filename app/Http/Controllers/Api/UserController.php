@@ -776,6 +776,12 @@ class UserController extends Controller
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 
+    public function deleteForUsers(): \Illuminate\Http\JsonResponse
+    {
+        User::find(auth('api')->user()->id)->delete();
+        return response()->json(['status' => 'success', 'delete_user' => auth('api')->user()->id], 200);
+    }
+
     public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
     {
         $data = $request->validated();

@@ -78,7 +78,7 @@ class startIntegration extends Command
             $total_progress = $total / 100;
             while ($total >= 0) {
                 $start_timer = microtime(true); // Время начала процесса
-                $numberOfProcess = 100;
+                $numberOfProcess = 10;
                 for ($i = 0; $i < $numberOfProcess; $i++) { // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
                     $process = new Process(['php', 'artisan', $type.'s_save', $page, $limit]);
                     $process->setTimeout(0);
