@@ -3,9 +3,9 @@
         <div @click.prevent="changeState" :id="'event-'+eventId+'-place-' + place.id+ '-button'" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
             <label class="w-11/12 ml-2">
                 <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
-                <p :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
-                <p :id="'event-'+eventId+'-place-' + place.id+ '-coords'" class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
-                <p :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
+                <p v-if="place.address" :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
+                <p v-if="place.latitude && place.longitude" :id="'event-'+eventId+'-place-' + place.id+ '-coords'" class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
+                <p v-if="place.sight_id" :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
             </label>
             <div class="w-1/12 my-auto">
                 <svg v-if="!state" class="my-auto mx-auto w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
@@ -56,7 +56,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex justify-between">
+                <div v-if="place.seances" class="flex justify-between">
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Начало</label>
                     <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
                 </div>

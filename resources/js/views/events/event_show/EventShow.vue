@@ -4,7 +4,7 @@
         <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
-                @click.prevent="state = !state"
+                @click.prevent="backButton()"
                 type="button"
                 data-te-ripple-init
                 data-te-ripple-color="light"
@@ -576,7 +576,6 @@ export default {
             this.getEventForIds(id).pipe(
                 map(response => {
                     this.event = response.data
-                    console.log(this.event)
                     // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
                     // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
                     this.closeLoaderFullPage()
