@@ -362,6 +362,7 @@ export default {
             history_add: true,
             history_edit: true,
             history_delete: true,
+            priceId: 0,
         }
     },
 
@@ -562,14 +563,41 @@ export default {
                 takeUntil(this.destroy$)
             ).subscribe()
         },
-        deleteFromCurrentPrices(price) {
-            if (this.event.price.find(item => item.id === price.id)) {
-                this.event.price = this.event.price.filter(item => item.id !== price.id)
-                if (price.id){
-                    this.pricesDel.push({"id":price.id, "on_delete":true})
+        // deleteFromCurrentPrices(price) {
+        //     if (this.event.price.find(item => item.id === price.id)) {
+        //         this.event.price = this.event.price.filter(item => item.id !== price.id)
+        //         if (price.id){
+        //             this.pricesDel.push({"id":price.id, "on_delete":true})
+        //         }
+        //     }
+        // },
+
+        deleteFromCurrentPrices(price){
+            
+            for(let i = 0; i < this.event.price.length; i++){
+
+                if((Object.keys(this.event.price[i]).indexOf("new_id") != -1) && (this.event.price[i].new_id == price.new_id)){
+                    this.event.price.splice(i, 1)
+                }
+                else if(this.event.price[i].id == price.id){
+                    // this.sight.prices.splice(i, 1)
+                }
+
+            }
+            for(let i = 0; i < this.pricesUpd.length; i++){
+
+                if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
+                    this.pricesUpd.splice(i, 1)
                 }
             }
+
+            if (price.id && !price.new_id){
+                this.pricesDel.push({"price_id":price.id, "on_delete":true})
+            }
+
+
         },
+
         addToCurrentTypes(type){
             if (this.event.types.find(item => item.id === type.id)){
                 if (this.checkObjInArray(type, this.typesDel)){
@@ -611,9 +639,17 @@ export default {
             }
 
         },
-        addToCurrentPrices(){
-            this.event.price.push({"cost_rub":null, "descriptions":""})
+        // addToCurrentPrices(){
+        //     this.event.price.push({"cost_rub":null, "descriptions":""})
 
+        // },
+
+        addToCurrentPrices(){
+            let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
+            let price2 = price1
+            this.pricesUpd.push(price2)
+            this.event.price.push(price1)
+            this.priceId++
         },
         getAllTypes(){
             this.openLoaderFullPage()
