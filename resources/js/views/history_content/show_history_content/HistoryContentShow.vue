@@ -15,7 +15,7 @@
         <div class="rounded-lg border m-1">
             <!-- Жалкая пародия -->
             <EventShow v-if="event.id" class="rounded-lg" :id="event.id" :connectState="eventSettings"/>
-            <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight"  :connectState="sightSettings"/>
+            <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>
     </div>
 </template>
@@ -55,6 +55,7 @@ export default {
             event: {},
             sight: {},
             mergedSight: {},
+            changedFields: {},
             type_element: '',
             eventSettings: {
                 BackButton: false,
@@ -141,6 +142,7 @@ export default {
 
                         this.getSight(response.data.historyContents.history_contentable_id)
 
+
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
                         this.event.id = response.data.historyContents.history_contentable_id
                         this.historyContent = response.data.historyContents
@@ -156,23 +158,46 @@ export default {
                     return of(EMPTY)
                 }),
                 takeUntil(this.destroy$)
-            ).subscribe()
+            ).subscribe(()=>{
+
+            })
         },
         getSight(id){
             this.getSightForIds(id).pipe(
                 map((data) => {
                     this.sight = data.data
-                    console.log(this.sight)
+                    // console.log(this.sight)
+                    console.log("WORK")
 
                 })
-            ).subscribe()
+            ).subscribe(()=>{
+                this.mergeSight()
+            })
         },
         mergeSight(){
+            let sightAttr = Object.keys(this.sight)
+            let historyContentAttr = Object.keys(this.historyContent)
 
+            let mergedKeys = sightAttr.filter(key => historyContentAttr.includes(key) && this.historyContent[key] != null && !["id","created_at","updated_at","statuses", "user_id"].includes(key))
+            console.log(mergedKeys)
+
+            let changedSight = JSON.parse(JSON.stringify(this.sight))
+            let changedFields_ = {}
+
+            mergedKeys.forEach(key => {
+                changedSight[key] = this.historyContent[key]
+                changedFields_[key] = true
+            })
+            this.changedFields = changedFields_
+            console.log(this.changedFields)
+
+
+            this.historyContent = changedSight
         }
     },
     mounted() {
         this.getHistoryContent()
+
 
     },
 }

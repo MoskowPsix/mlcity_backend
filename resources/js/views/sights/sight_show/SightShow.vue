@@ -26,7 +26,7 @@
                     <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
                         <div>
                             <h1 class="font-[Montserrat-Regular]">Название</h1>
-                            <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
+                            <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode,'border-blue-400':this.$props.changedFields && this.$props.changedFields.name}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
                                 <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
                                 <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
                                 type="text"
@@ -37,7 +37,7 @@
 
                         <div class="mt-4">
                             <label class="font-[Montserrat-Regular]">Организатор</label>
-                            <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                            <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.sponsor}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
                                 <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
                                 <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
                                 type="text"
@@ -60,7 +60,7 @@
                             <div>
                                 <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                     <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
-                                    <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
+                                    <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.work_time}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
                                         <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
                                         <textarea  v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
                                         rows="3"
@@ -74,7 +74,7 @@
 
                         <div class="mt-4 mb-8">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
-                            <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                            <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.address}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
                                 <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
                                 <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
                                 type="text"
@@ -91,7 +91,7 @@
 
                         <div class="mt-4">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
-                            <div  class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
+                            <div  v-bind:class="{' border-2 border-blue-400 border-lg':this.$props.changedFields && this.$props.changedFields.description}" class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
                                 <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
                                 <textarea v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
                                         rows="12"
@@ -104,7 +104,7 @@
 
 
 
-                    <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" class="mt-4">
+                    <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
                         <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
                         <div v-if="sight.materials">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
@@ -122,119 +122,7 @@
                 </div>
             </div>
         </div>
-        <div class="p-6">
 
-
-
-
-            <div>
-                <div class=" inline-block">
-                    <p class="">Место проведение:</p>
-                    <div v-if="!state"  class="">
-                        <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-address'" class="mb-6"> {{ sight.address }}</h6>
-                    </div>
-                </div>
-
-                <div  v-if="state" class="flex mb-4 space-x-4">
-                    <input :id="'sight-'+sight.id+'-address-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                     v-bind:value="sight.address"
-                     id="address"
-                     type="text"
-                     @input="event => text = event.target.value">
-
-                </div>
-            </div>
-
-            <div>
-                <p class="">Время проведения:</p>
-                <div v-if="!state" >
-                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-work_time'" class="mb-4" >{{ sight.work_time }}</h6>
-                </div>
-
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <textarea :id="'sight-'+sight.id+'-work_time-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                     v-bind:value="sight.work_time"
-                     id="work_time"
-                     type="text"
-                     @input="event => text = event.target.value">
-                    </textarea>
-                </div>
-            </div>
-
-            <div :id="'sight-'+sight.id+'-type'" class="mb-4" v-if="connectState.TypeCard">
-                <div class="">
-                    <p>Типы события:</p>
-                    <div class="space-x-2">
-                        <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a>
-                    </div>
-
-                    <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
-                        <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mb-4" >
-
-
-                <div v-if="connectState.PricesCard && state==false && (sight.prices && sight.prices.length > 0)" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
-                        v-on:click="addToCurrentPrices()" v-if="state">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
-                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice=""/>
-                        </div>
-                    </div>
-                </div>
-                <div v-if="connectState.PricesCard && state" class="grid 2xl:grid-cols-12 xl:grid-cols-12 lg:grid-cols-12 md:grid-cols-12 sm:grid-cols-1">
-                    <div   :id="'sight-'+sight.id+'-price'" class="2xl:col-span-3 xl:col-span-7 lg:col-span-12 md:col-span-12 sm:col-span-12 rounded-lg bg-white p-6 shadow-lg dark:bg-gray-800">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
-                        v-on:click="addToCurrentPrices()" v-if="state">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                        <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
-                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="test"/>
-                        </div>
-                    </div>
-                </div>
-                <p v-if="sightPriceCheck()==false"> Цена не указанна!</p>
-            </div>
-
-            <div>
-                <p class=" ">Спонсор:</p>
-                <div v-if="!state" class="">
-                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-sponsor'" class="mb-4" >{{ sight.sponsor }}</h6>
-                </div>
-
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <input :id="'sight-'+sight.id+'-sponsor-input'" class=" text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                     v-bind:value="sight.sponsor"
-                     id="sponsor"
-                     @input="event => text = event.target.value"
-                     type="text">
-                </div>
-            </div>
-
-            <div>
-                <p class=" ">Материалы:</p>
-                <div  v-if="!state" class="">
-                    <h6 v-bind:class="{'bg-green-500/50': history_add, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" :id="'sight-'+sight.id+'-materials'" class="mb-4" >{{ sight.materials }}</h6>
-                </div>
-                <div v-if="state" class="flex mb-4 space-x-4">
-                    <input :id="'sight-'+sight.id+'-materials-input'" class=" text-xl leading-tight text-neutral-800 dark:text-neutral-50 w-3/4   dark:bg-gray-700 rounded-lg p-2 pl-1 border m-0"
-                     v-bind:value="sight.materials"
-                     id="materials"
-                     @input="event => text = event.target.value"
-                     type="text">
-                </div>
-            </div>
-            <div v-if="connectState.StatusCard">
-                <ChangeStatus  :status="status" @statusChanged="statusChange" v-if="!state"/>
-            </div>
-
-        </div>
     </div>
     <div v-if="connectState.EditButton">
 
@@ -310,10 +198,15 @@ export default {
         sight_: {
             type: Object,
             default: null
+        },
+        changedFields: {
+            type: Object,
+            default: null
         }
     },
     setup() {
         const destroy$ =  new Subject()
+
 
         return {
             destroy$,
@@ -363,6 +256,7 @@ export default {
                         this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
                         console.log(response)
 
+
                     }),
                     catchError(err => {
                         console.log(err)
@@ -375,6 +269,7 @@ export default {
             }
             else{
                 console.log(this.$props.sight_)
+                console.log(this.$props)
                 this.sight = this.$props.sight_
             }
 
@@ -720,6 +615,7 @@ export default {
         this.openLoaderFullPage()
         this.getSight()
         this.getAllTypes()
+
     },
 }
 </script>
