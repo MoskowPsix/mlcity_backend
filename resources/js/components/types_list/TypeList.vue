@@ -1,16 +1,16 @@
 
 
 <template>
-  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
+  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
     
-    <div class="mb-[0.125rem] block min-h-[1.5rem] pl-[1.5rem]">
-      <input type="checkbox" class="relative float-left ml-[1.5rem] mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
+    <div class="">
+      <input type="checkbox" class="relative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
 
-      <div v-if="!checkChild()">
+      <div class="flex " v-if="!checkChild()">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>
       </div>
     
-      <div v-else class="flex space-x-2 items-center" :id="type + '-'+ sightId +'-type-'+ allSTypes.id">
+      <div v-else class="absolute space-x-2 items-center" :id="type + '-'+ sightId +'-type-'+ allSTypes.id">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg">{{ allSTypes.name }}</button>
         <div class="flex">
           <p>{{ childsLength(allSTypes) }}</p>
@@ -24,7 +24,7 @@
 
     </div>
     
-    <div v-if="allSTypes.stypes" :class="{'ml-6': checkChild()}">
+    <div v-if="allSTypes.stypes" :class=" {'ml-6': checkChild()}">
       <Collapse :when="isExpanded" v-for="stypes in allSTypes.stypes" v-bind:key="stypes.id">
        <TypeList :enableState="enableState" :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
     </Collapse>

@@ -1,6 +1,6 @@
 <template>
 
-<button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
+<button data-drawer-toggle="logo-sidebar" data-drawer-target="logo-sidebar" aria-controls="logo-sidebar" type="button" class="inline-flex items-center p-2 mt-2 ml-3 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
    <span class="sr-only">Open sidebar</span>
    <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
       <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
@@ -10,7 +10,7 @@
 <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen transition-transform -translate-x-full sm:translate-x-0" aria-label="Sidebar">
    <div class="h-full px-5 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <a :href="urlFront">
-         <button type="button" class="w-full flex items-center justify-center w-1/2 m-2 mx-auto px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-900 dark:bg-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700/50">
+         <button type="button" class="w-full flex items-center justify-center m-2 mx-auto px-5 py-2 text-sm text-gray-700 transition-colors duration-200 bg-white border rounded-lg gap-x-2 sm:w-auto dark:hover:bg-gray-900 dark:bg-gray-800 hover:bg-gray-100 dark:text-gray-200 dark:border-gray-700/50">
             <svg class="w-5 h-5 rtl:rotate-180" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                <path stroke-linecap="round" stroke-linejoin="round" d="M6.75 15.75L3 12m0 0l3.75-3.75M3 12h18" />
             </svg>
@@ -131,15 +131,15 @@
 </template>
 
 <script>
-   import { useDark, useToggle } from '@vueuse/core'
-   import { Drawer } from 'flowbite'
-   import { useAuthStore } from '../../stores/AuthStore'
-   import { mapActions, mapState } from 'pinia'
-   import { useLocalStorageStore } from '../../stores/LocalStorageStore'
-   import { useLoaderStore } from '../../stores/LoaderStore'
-   import { MessageAuth } from '../../enums/auth_messages'
-   import { useToast } from "vue-toastification"
-   import router from "../../routes"
+import { useDark, useToggle } from '@vueuse/core'
+import { initFlowbite } from 'flowbite'
+import { useAuthStore } from '../../stores/AuthStore'
+import { mapActions, mapState } from 'pinia'
+import { useLocalStorageStore } from '../../stores/LocalStorageStore'
+import { useLoaderStore } from '../../stores/LoaderStore'
+import { MessageAuth } from '../../enums/auth_messages'
+import { useToast } from "vue-toastification"
+import { onMounted } from 'vue'
 
 
 export default {
@@ -152,6 +152,9 @@ export default {
       }
    },
    setup() {
+      onMounted(() => {
+         initFlowbite();
+      })
       const isDark = useDark();
       const toggleDark = useToggle(isDark);
       return {
@@ -186,15 +189,14 @@ export default {
             }
             this.closeLoaderFullPage()
          })
-      }
-
+      },
    },
 }
   </script>
 
 <style>
-input:checked ~ .dot {
+/* input:checked ~ .dot {
 transform: translateX(100%);
-}
+} */
 </style>
 
