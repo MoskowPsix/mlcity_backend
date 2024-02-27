@@ -348,6 +348,10 @@ export default {
             placeUpd: [],
             typesDel: [],
             typesUpd: [],
+            history_mode: false,
+            history_add: true,
+            history_edit: true,
+            history_delete: true,
         }
     },
 
