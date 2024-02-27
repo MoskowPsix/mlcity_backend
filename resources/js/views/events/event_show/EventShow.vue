@@ -50,7 +50,7 @@
 
 
                   <div  v-if="state" class="hidden xl:block min-w-[34%] ">
-                    <div @click="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-sky-500 rounded-md  dark:bg-gray-700/50 hover:bg-sky-400  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                    <div @click="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                         <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                     </div>
                   
@@ -85,7 +85,7 @@
                   </div>
 
                   <div  v-if="state" class="xl:hidden lg:block min-w-[34%] mt-4">
-                    <div @click="openTypeFnc()" class="  flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-sky-500 rounded-md  dark:bg-gray-700/50 hover:bg-sky-400  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                    <div @click="openTypeFnc()" class="  flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                         <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                     </div>
                   
@@ -103,11 +103,11 @@
                 <div class="flex w-[100%] mt-4">
                     <Transition name="slide-fade">
 
-                        <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  border  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 bg-gray-100 p-2">
+                        <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                         
                             <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                             
-                            <div  class=" max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
+                            <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
                                 <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                             
                             </div>
@@ -122,7 +122,7 @@
 
                   <div class="   mt-4   ">
                         <div  v-if="!state">
-                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Материалы</label>
+                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label>
                             <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
                                 <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                             </div>
@@ -175,12 +175,22 @@
 
                 <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
 
-                <div class="content-description-price-grid flex row flex-wrap justify-center ">
-                    <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                        <PriceSegment class="p-2 border w-full dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                <div class="content-description-price-grid flex justify-center  ">
+                    <div class=" flex row flex-wrap max-w-[80%] ">
+                       
+                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                                <PriceSegment class="p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                            </div>
+                       
                     </div>
+                  
+                    
+                
                 </div>
-
+                <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+                v-on:click="addToCurrentPrices()">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
             </div>
 
 
@@ -219,16 +229,16 @@
        
         </div> -->
  
-
+        <h3 class=" font-[Montserrat-Bold] text-lg mt-8">Расписание</h3>
         <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="w-[100%] bg-transparen font-[Montserrat-Regular] ">
             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                 <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
                     <div v-for="(place, index) in event.places_full" :key="place.id">
                         <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
-                    <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 text-blue-900 bg-blue-400 hover:bg-blue-400/70 hover:text-blue-900/70 dark:hover:border-blue-500/30 
+                    <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30 
                     dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 
-                    dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer">Добавить place</div>
+                    dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer mt-8 max-w-[14rem]">Добавить местопровидения</div>
                 </div>
             </div>
             
