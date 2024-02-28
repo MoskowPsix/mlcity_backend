@@ -179,7 +179,7 @@
                     <div class=" flex row flex-wrap max-w-[80%] ">
                        
                             <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                <PriceSegment class="p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                             </div>
                        
                     </div>
@@ -721,6 +721,7 @@ export default {
             router.go(-1)
         },
         setPlace(place) {
+            console.log(place)
             let event = JSON.parse(JSON.stringify(this.event))
             let index = place.index
             let placeOnDel = Object.keys(place).find(key => {

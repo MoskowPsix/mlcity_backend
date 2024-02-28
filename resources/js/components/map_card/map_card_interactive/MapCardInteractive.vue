@@ -1,5 +1,6 @@
 <template lang="">
     <div>
+        <!-- <input id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"> -->
         <YandexMap
         :id="'map'"
         class="w-full h-full"
@@ -21,7 +22,7 @@
 
 </template>
 <script>
-import { YandexMap, YandexMarker  } from 'vue-yandex-maps';
+import { YandexMap, YandexMarker, YaGeocoderService  } from 'vue-yandex-maps';
 import { unref } from 'vue'
 
 export default {
@@ -31,19 +32,21 @@ export default {
     },
     components: {
         YandexMap,
-        YandexMarker
+        YandexMarker,
+        YaGeocoderService
     },
     setup() {
         // Настройки карты
         const settings = {
-            apiKey: import.meta.env.VITE_YANDEX_APP_KEY, // Индивидуальный ключ API
+            apiKey: import.meta.env.VITE_YANDEX_APP_KEY+ '&' + `suggest_apikey=${import.meta.env.VITE_YANDEX_APP_KEY_SUBGEKT}`, // Индивидуальный ключ API
             lang: 'ru_RU', // Используемый язык
             coordorder: 'latlong', // Порядок задания географических координат
             debug: true, // Режим отладки
             version: '2.1' // Версия Я.Карт
         }
         // Элементы управления
-        const controls =['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']
+        const controls =['fullscreenControl', 'rulerControl', 'typeSelector']
+        // const controls =['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']
         // Переменная для инстанса карты
         let map = {}
         return {
@@ -63,6 +66,11 @@ export default {
                     if (map.getZoom() > 16) map.setZoom(16);
                 });
             }, 300);
+
+            // const search = new ymaps.SuggestView();  
+            // search.events.add('select', () => {     
+            //         this.ForwardGeocoder()
+            // })
         },
         // Достаём событие клика по карте
         onClick(e) {
