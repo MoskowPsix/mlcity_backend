@@ -29,14 +29,14 @@
 
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center ">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
-                    <input v-if="state && connectState.NameLine"  class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+                    <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                 </div>
 
                 <div class="  md:w-[100%] mt-4 ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor && !state">{{event.sponsor}}</div>
-                            <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
+                            <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                         </div>
                     </div>
                 <div class="flex justify-between mt-4 flex-col lg:flex-row ">
@@ -134,7 +134,7 @@
                             <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1>
                             <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
                                 <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
-                                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
                             </div>
                            
                         </label>
@@ -179,7 +179,7 @@
                     <div class=" flex row flex-wrap max-w-[80%] ">
                        
                             <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                <PriceSegment class="p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
                             </div>
                        
                     </div>
@@ -362,6 +362,7 @@ export default {
             history_add: true,
             history_edit: true,
             history_delete: true,
+            priceId: 0,
         }
     },
 
@@ -403,7 +404,6 @@ export default {
 
         openTypeFnc(){
             this.openType = !this.openType
-            console.log(this.openType)
         },
 
         clickUpd(event) {
@@ -562,14 +562,45 @@ export default {
                 takeUntil(this.destroy$)
             ).subscribe()
         },
-        deleteFromCurrentPrices(price) {
-            if (this.event.price.find(item => item.id === price.id)) {
-                this.event.price = this.event.price.filter(item => item.id !== price.id)
-                if (price.id){
-                    this.pricesDel.push({"id":price.id, "on_delete":true})
+        // deleteFromCurrentPrices(price) {
+        //     if (this.event.price.find(item => item.id === price.id)) {
+        //         this.event.price = this.event.price.filter(item => item.id !== price.id)
+        //         if (price.id){
+        //             this.pricesDel.push({"id":price.id, "on_delete":true})
+        //         }
+        //     }
+        // },
+
+        deleteFromCurrentPrices(price){
+            
+            for(let i = 0; i < this.event.price.length; i++){
+
+                if((Object.keys(this.event.price[i]).indexOf("new_id") != -1) && (this.event.price[i].new_id == price.new_id)){
+                    this.event.price.splice(i, 1)
+                }
+                else if(this.event.price[i].id == price.id){
+                    // this.sight.prices.splice(i, 1)
+                }
+
+            }
+            for(let i = 0; i < this.pricesUpd.length; i++){
+
+                if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
+                    this.pricesUpd.splice(i, 1)
                 }
             }
+
+            if (price.id && !price.new_id){
+                this.pricesDel.push({"price_id":price.id, "on_delete":true})
+                this.event.price.find((i, k) => {
+                    if (i.id == price.id) {
+                        this.event.price.splice(k, 1)
+                        return true
+                    }
+                })
+            }
         },
+
         addToCurrentTypes(type){
             if (this.event.types.find(item => item.id === type.id)){
                 if (this.checkObjInArray(type, this.typesDel)){
@@ -611,9 +642,17 @@ export default {
             }
 
         },
-        addToCurrentPrices(){
-            this.event.price.push({"cost_rub":null, "descriptions":""})
+        // addToCurrentPrices(){
+        //     this.event.price.push({"cost_rub":null, "descriptions":""})
 
+        // },
+
+        addToCurrentPrices(){
+            let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
+            let price2 = price1
+            this.pricesUpd.push(price2)
+            this.event.price.push(price1)
+            this.priceId++
         },
         getAllTypes(){
             this.openLoaderFullPage()

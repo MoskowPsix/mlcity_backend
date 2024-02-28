@@ -1,17 +1,23 @@
 <template lang="">
-    <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg  dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
+    <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12 dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
         
-        <div @click.prevent="changeState" :id="'event-'+eventId+'-place-' + place.id+ '-button'" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
-            <label class="w-11/12 ml-2">
-                <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
-                <p v-if="place.address" :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
-                <p v-if="place.latitude && place.longitude" :id="'event-'+eventId+'-place-' + place.id+ '-coords'" class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
-                <p v-if="place.sight_id" :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
-            </label>
-            <div v-if="stateUpd" @click.prevent="setDeletePlace" class="transition border p-2 mt-[auto] mb-[auto] rounded-lg font-medium text-center border-none  bg-red-600 hover:bg-red-400/70 hover:text-red-900/70 flex justify-center dark:hover:border-red-500/30 dark:border-red-500/70 text-[#fff] dark:bg-red-600 dark:hover:bg-red-700 min-w-[4rem] max-h-[2.2rem] dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer ">
+        <div v-if="stateUpd" @click.prevent="setDeletePlace" class="transition border p-2 ml-[auto] mr-[-1%]  mt-[-2rem] mb-[auto] rounded-lg font-medium  text-center border-none  bg-red-600 hover:bg-red-400/70 hover:text-red-900/70 flex justify-center dark:hover:border-red-500/30 dark:border-red-500/70 text-[#fff] dark:bg-red-600 dark:hover:bg-red-700 min-w-[4rem] max-w-[4rem] max-h-[2.2rem] dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-4 h-4 ">
                 <path stroke-linecap="round" stroke-linejoin="round" d="m14.74 9-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 0 1-2.244 2.077H8.084a2.25 2.25 0 0 1-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 0 0-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 0 1 3.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 0 0-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 0 0-7.5 0" />
-            </svg></div>
+                </svg>
+        </div>
+
+        <div @click.prevent="changeState" :id="'event-'+eventId+'-place-' + place.id+ '-button'" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
+            
+            <label class="w-11/12 ml-2">
+                <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}}</h1>
+                <p v-if="place.address" :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
+                <p v-if="place.latitude && place.longitude" :id="'event-'+eventId+'-place-' + place.id+ '-coords'" class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
+                <!-- <p v-if="place.sight_id" :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p> -->
+            </label>
+
+            
+
             <div class="w-1/12 my-auto">
                 <svg v-if="!state" class="my-auto mx-auto w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
@@ -22,26 +28,8 @@
             </div>
         </div>
         <!-- <input v-if="state" type="text" name="address" id="" class="w-full"> -->
-        <div v-if="state" class="">
-            <div class="max-w[80%]">
-                
-                <!-- <div class="" v-if="stateUpd">
-                    <div class="">
-                        <input :id="'event-'+eventId+'-place-' + place.id+ '-location-input'" v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
-                        <div class="relative top-0 h-40">
-                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
-                                <h1 v-if="!locationsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
-                                <div @click.prevent="setLocation(location)" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" v-for="location in locationsList">
-                                        <h1 class="text-gray-100 text-base">{{location.name}}</h1>
-                                        <p class="text-xs dark:text-gray-300" v-if="location.location_parent">{{location.location_parent.name}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <input :id="'event-'+eventId+'-place-' + place.id+ '-address-input'" v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
-                    </div>
-                </div> -->
+        <div v-if="state" class="lg:flex">
+            <div class="lg:min-w-[50%] lg:max-w-[50%] min">
                 <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="h-[20rem] mt-2" :marker="place" :zoom="16" />
                 <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
@@ -50,11 +38,15 @@
                 <RouterLink :id="'event-'+eventId+'-place-' + place.id+ '-sight-route'" v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
                     Проходит в достопримечательноти c id: {{place.sight_id}}
                 </RouterLink>
-              
-                <div v-if="place.seances && place.seances.length > 1" class="flex justify-between mt-8">
-                    <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Начало</label>
-                    <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
+              <div class="pl-[10%] pr-[10%]">
+                    <div v-if="place.seances && place.seances.length > 0" class="flex justify-between mt-8 w-[100%] ">
+                        
+                        <label class="p-1  font-bold  text-gray-700 dark:text-gray-300">Начало</label>
+                
+                        <label class="p-1  font-bold  text-gray-700 dark:text-gray-300">Конец</label>
                 </div>
+              </div>
+       
 
                 <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="   pl-1 pr-1  rounded-lg dark:border-gray-600 dark:bg-gray-900/40 " id="journal-scroll">
                     <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances" :key="seance.id">
@@ -122,7 +114,7 @@ export default {
         SeancesListSegment,
     },
     methods: {   
-        ...mapActions(useLocationStore, ['getLocationsByName']),
+        ...mapActions(useLocationStore, ['getLocationsByName', 'getLocationByCoords']),
         ...mapActions(useSightStore, ['getSights']),
         changeState() {
             this.state ? this.state = false : this.state = true
@@ -150,12 +142,22 @@ export default {
             })
         },
         setCoords(coords) {
-            this.$emit('onUpdPlace', {
-                index: this.index,
-                id: this.place.id,
-                latitude: coords[0],
-                longitude: coords[1]
-            })
+            this.getLocationByCoords(coords).pipe(
+                map(response => {
+                    this.$emit('onUpdPlace', {
+                        index: this.index,
+                        id: this.place.id,
+                        latitude: coords[0],
+                        longitude: coords[1],
+                        location: response.data.location,
+                    })
+                }),
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    console.log(err)
+                    return of(EMPTY)
+                })
+            ).subscribe()
         },
         setSight(sight) {
             this.$emit('onUpdPlace', {
