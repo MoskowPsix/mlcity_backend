@@ -353,6 +353,12 @@ export default {
 
             if (price.id && !price.new_id){
                 this.pricesDel.push({"price_id":price.id, "on_delete":true})
+                this.sight.prices.find((i, k) => {
+                    if (i.id == price.id) {
+                        this.sight.prices.splice(k, 1)
+                        return true
+                    }
+                })
             }
 
 

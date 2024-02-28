@@ -593,9 +593,14 @@ export default {
 
             if (price.id && !price.new_id){
                 this.pricesDel.push({"price_id":price.id, "on_delete":true})
+                this.event.price.find((i, k) => {
+                    if (i.id == price.id) {
+                        this.event.price.splice(k, 1)
+                        return true
+                    }
+                })
             }
-
-
+            console.log(this.pricesDel)
         },
 
         addToCurrentTypes(type){
