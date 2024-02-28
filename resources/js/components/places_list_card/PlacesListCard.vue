@@ -150,7 +150,6 @@ export default {
             })
         },
         setCoords(coords) {
-            let location = {}
             this.getLocationByCoords(coords).pipe(
                 map(response => {
                     this.$emit('onUpdPlace', {

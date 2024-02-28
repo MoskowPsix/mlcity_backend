@@ -404,7 +404,6 @@ export default {
 
         openTypeFnc(){
             this.openType = !this.openType
-            console.log(this.openType)
         },
 
         clickUpd(event) {
@@ -600,7 +599,6 @@ export default {
                     }
                 })
             }
-            console.log(this.pricesDel)
         },
 
         addToCurrentTypes(type){
@@ -721,7 +719,6 @@ export default {
             router.go(-1)
         },
         setPlace(place) {
-            console.log(place)
             let event = JSON.parse(JSON.stringify(this.event))
             let index = place.index
             let placeOnDel = Object.keys(place).find(key => {
