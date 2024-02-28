@@ -1,10 +1,10 @@
 
 
 <template>
-  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
+  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="text-xs lg:text-lg min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
     
     <div class="">
-      <input type="checkbox" class="relative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
+      <input type="checkbox" class=" text-xs lg:text-lgrelative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
 
       <div class="flex " v-if="!checkChild()">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>

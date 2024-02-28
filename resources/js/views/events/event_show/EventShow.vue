@@ -29,14 +29,14 @@
 
                 <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center ">
                     <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
-                    <input v-if="state && connectState.NameLine"  class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+                    <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                 </div>
 
                 <div class="  md:w-[100%] mt-4 ">
                         <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label>
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor && !state">{{event.sponsor}}</div>
-                            <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
+                            <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                         </div>
                     </div>
                 <div class="flex justify-between mt-4 flex-col lg:flex-row ">
@@ -134,7 +134,7 @@
                             <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1>
                             <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
                                 <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
-                                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
                             </div>
                            
                         </label>
