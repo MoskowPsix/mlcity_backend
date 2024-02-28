@@ -28,26 +28,8 @@
             </div>
         </div>
         <!-- <input v-if="state" type="text" name="address" id="" class="w-full"> -->
-        <div v-if="state" class="">
-            <div class="max-w[80%]">
-                
-                <!-- <div class="" v-if="stateUpd">
-                    <div class="">
-                        <input :id="'event-'+eventId+'-place-' + place.id+ '-location-input'" v-if="stateUpd" @input="$event.target.value  ? onSearchLocation($event) : locationsList = []" placeholder="Найти город" type="text" name="location_search" id="location_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
-                        <div class="relative top-0 h-40">
-                            <div class="border rounded-lg dark:border-gray-700 border-gray-300 flex flex-col h-full m-1 w-[96%] overflow-y-scroll" id="journal-scroll">
-                                <h1 v-if="!locationsList.length" class="my-auto mx-auto text-xl font-medium dark:text-gray-500 text-gray-400 text-center">Нет результатов</h1>
-                                <div @click.prevent="setLocation(location)" class="p-1 border rounded-sm dark:border-gray-700 hover:dark:bg-gray-100/10" v-for="location in locationsList">
-                                        <h1 class="text-gray-100 text-base">{{location.name}}</h1>
-                                        <p class="text-xs dark:text-gray-300" v-if="location.location_parent">{{location.location_parent.name}}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <input :id="'event-'+eventId+'-place-' + place.id+ '-address-input'" v-if="stateUpd" v-model="place.address" placeholder="адрес" type="text" name="address_search" id="address_search" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50" readonly>
-                    </div>
-                </div> -->
+        <div v-if="state" class="lg:flex">
+            <div class="lg:min-w-[50%] lg:max-w-[50%] min">
                 <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="h-[20rem] mt-2" :marker="place" :zoom="16" />
                 <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
@@ -56,11 +38,15 @@
                 <RouterLink :id="'event-'+eventId+'-place-' + place.id+ '-sight-route'" v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
                     Проходит в достопримечательноти c id: {{place.sight_id}}
                 </RouterLink>
-              
-                <div v-if="place.seances && place.seances.length > 1" class="flex justify-between mt-8">
-                    <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Начало</label>
-                    <label class="p-1 mx-auto font-medium text-gray-700 dark:text-gray-300">Конец</label>
+              <div class="pl-[10%] pr-[10%]">
+                    <div v-if="place.seances && place.seances.length > 0" class="flex justify-between mt-8 w-[100%] ">
+                        
+                        <label class="p-1  font-bold  text-gray-700 dark:text-gray-300">Начало</label>
+                
+                        <label class="p-1  font-bold  text-gray-700 dark:text-gray-300">Конец</label>
                 </div>
+              </div>
+       
 
                 <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="   pl-1 pr-1  rounded-lg dark:border-gray-600 dark:bg-gray-900/40 " id="journal-scroll">
                     <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances" :key="seance.id">

@@ -1,6 +1,7 @@
 <template lang="">
-    <div>
-        <!-- <input id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class="m-1 w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50"> -->
+    <div class="map">
+        <input @input="inputChange" id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class=" w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
+        <div id="result"></div>
         <YandexMap
         :id="'map'"
         class="w-full h-full"
@@ -49,7 +50,9 @@ export default {
         // const controls =['fullscreenControl', 'rulerControl', 'typeSelector', 'searchControl']
         // Переменная для инстанса карты
         let map = {}
+        let sub = {}
         return {
+            sub,
             map,
             settings,
             controls,
@@ -67,10 +70,12 @@ export default {
                 });
             }, 300);
 
-            // const search = new ymaps.SuggestView();  
-            // search.events.add('select', () => {     
-            //         this.ForwardGeocoder()
-            // })
+            this.sub = new ymaps.SuggestView('search-map', {container: document.getElementById('result')});  
+            this.sub.events.add('select', () => {     
+                this.ForwardGeocoder()
+                let wrapper =  document.getElementById('result')
+                console.log(wrapper)
+            })
         },
         // Достаём событие клика по карте
         onClick(e) {
@@ -83,6 +88,12 @@ export default {
                 this.$emit('onAddress', firstGeoObject.properties._data.text)
             })
         },
+        inputChange() {
+            let wrapper =  document.getElementById('result').firstChild
+            wrapper.style.top = '0'
+            wrapper.style.left = '0'
+            wrapper.style.position = 'relative'
+        }
     },
     watch: {
         marker(marker) {
@@ -90,10 +101,12 @@ export default {
             setTimeout(() => {
                 this.map.setCenter(this.marker)
             },1000)
-        }
+        },
     },
 }
 </script>
-<style lang="">
-    
+<style>
+    .subject{
+        
+    }
 </style>
