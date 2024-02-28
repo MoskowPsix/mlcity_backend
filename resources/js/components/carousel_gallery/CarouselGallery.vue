@@ -33,7 +33,7 @@
                     ref="carousel"
                     class="border dark:border-gray-600/50 bg-slate-400/30 border-slate-400/40 dark:bg-gray-700/50 m-2 rounded-lg w-10/12 mx-auto"
                     >
-                    <Slide  v-if="files.length >1" v-for="(slide, index) in files" :key="slide" >
+                    <Slide  v-for="(slide, index) in files" :key="slide" v-bind:class="{'bg-green-500/50': false, 'bg-red-500/50': false, 'bg-blue-500/50': false}">
                         <div class="flex flex-col max-h-[7rem] max-w-[7rem]" @click="slideTo(index)" >
                             <img :src="slide.link" :alt="slide.name" class="rounded-lg">
                             <button v-if="wrightState" class="absolute dark:text-red-200 text-red-600 bg-red-200/70 dark:bg-red-600/70 p-1 rounded-lg" @click="emitDelImg(slide)">

@@ -10,10 +10,10 @@
         <div @click.prevent="changeState" :id="'event-'+eventId+'-place-' + place.id+ '-button'" class=" transition flex flex-row justify-content-center active:dark:border-gray-600/80 active:scale-95">
             
             <label class="w-11/12 ml-2">
-                <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}} | ID:{{place.id}}</h1>
+                <h1 :id="'event-'+eventId+'-place-' + place.id+ '-name'" v-if="place.location && place.location.name" class="dark:text-gray-200 text-xl font-medium">{{place.location.name}}</h1>
                 <p v-if="place.address" :id="'event-'+eventId+'-place-' + place.id+ '-address'" class="dark:text-gray-400 text-sm font-normal">{{place.address}}</p>
                 <p v-if="place.latitude && place.longitude" :id="'event-'+eventId+'-place-' + place.id+ '-coords'" class="dark:text-gray-400 text-sm front-light"> {{place.latitude}} /  {{place.longitude}}</p>
-                <p v-if="place.sight_id" :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p>
+                <!-- <p v-if="place.sight_id" :id="'event-'+eventId+'-place-' + place.id+ '-sight'" class="dark:text-gray-400 text-sm front-light">ID Достопримечательности: {{place.sight_id ? place.sight_id : 'Нет'}}</p> -->
             </label>
 
             
@@ -128,7 +128,7 @@ export default {
         SeancesListSegment,
     },
     methods: {   
-        ...mapActions(useLocationStore, ['getLocationsByName']),
+        ...mapActions(useLocationStore, ['getLocationsByName', 'getLocationByCoords']),
         ...mapActions(useSightStore, ['getSights']),
         changeState() {
             this.state ? this.state = false : this.state = true
@@ -156,12 +156,22 @@ export default {
             })
         },
         setCoords(coords) {
-            this.$emit('onUpdPlace', {
-                index: this.index,
-                id: this.place.id,
-                latitude: coords[0],
-                longitude: coords[1]
-            })
+            this.getLocationByCoords(coords).pipe(
+                map(response => {
+                    this.$emit('onUpdPlace', {
+                        index: this.index,
+                        id: this.place.id,
+                        latitude: coords[0],
+                        longitude: coords[1],
+                        location: response.data.location,
+                    })
+                }),
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    console.log(err)
+                    return of(EMPTY)
+                })
+            ).subscribe()
         },
         setSight(sight) {
             this.$emit('onUpdPlace', {
