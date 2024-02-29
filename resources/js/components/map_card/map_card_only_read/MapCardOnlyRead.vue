@@ -5,7 +5,7 @@
 
     <div>
         <YandexMap
-        class="w-full "
+        class="w-100 h-full"
         :settings="settings"
         :zoom="16"
         :behaviors="['scrollZoom', 'drag']"
@@ -61,6 +61,6 @@ export default {
     },
 }
 </script>
-<style lang="">
-    
+<style>
+
 </style>

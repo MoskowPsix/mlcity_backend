@@ -13,7 +13,7 @@
                     </svg>
                 </div>
 
-                <div class=" mb-4 ]">
+                <div class=" mb-4">
                     <input class="text-sm text-center text-md bg-transparent  leading-tight text-neutral-800 dark:text-neutral-50 w-3/4 border-sky-400/30 bg-indigo-50 dark:bg-gray-700 rounded-lg p-2 pl-1 border-1 m-0"
                     type="number"
                     pattern = ""
