@@ -3,18 +3,18 @@
         <h1></h1>
         <!-- Общая информация -->
         <h1>Общая информация</h1>
-        {{event}} | {{sight.name}}
+        {{event.name}} | {{sight.name}}
 
     </div>
     <div class="grid grid-cols-2">
         <div class="rounded-lg border m-1">
             <!-- Оригинал -->
-            <EventShow v-if="event.id" class="rounded-lg" :id="event.id" :connectState="eventSettings"/>
+            <EventShow v-if="event.id" class="rounded-lg"  :event_="event" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
         </div>
         <div class="rounded-lg border m-1">
             <!-- Жалкая пародия -->
-            <EventShow v-if="event.id" class="rounded-lg" :id="event.id" :connectState="eventSettings"/>
+            <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>
     </div>
@@ -55,7 +55,10 @@ export default {
             event: {},
             sight: {},
             mergedSight: {},
+            mergedEvent: {},
             changedFields: {},
+            changedPlaceIds:[],
+            changedSeanceIds:[],
             type_element: '',
             eventSettings: {
                 BackButton: false,
@@ -136,7 +139,6 @@ export default {
                 map(response => {
                     console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
-                        response.data.historyContents.history_contentable_id
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
 
@@ -144,9 +146,11 @@ export default {
 
 
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
-                        this.event.id = response.data.historyContents.history_contentable_id
                         this.historyContent = response.data.historyContents
                         this.type_element = 'event'
+
+                        this.getEvent(response.data.historyContents.history_contentable_id)
+
                     } else {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')
                     }
@@ -174,6 +178,15 @@ export default {
                 this.mergeSight()
             })
         },
+        getEvent(id){
+            this.getEventForIds(id).pipe(
+                map(data => {
+                    this.event = data.data
+                })
+            ).subscribe(()=>{
+                this.mergeEvent()
+            })
+        },
         mergeSight(){
             let sightAttr = Object.keys(this.sight)
             let historyContentAttr = Object.keys(this.historyContent)
@@ -193,6 +206,107 @@ export default {
 
 
             this.historyContent = changedSight
+        },
+        mergeEvent(){
+            console.log(this.event)
+            console.log(this.historyContent)
+
+            let eventAttr = Object.keys(this.event)
+            let historyContentAttr = Object.keys(this.historyContent)
+            let changedEvent = JSON.parse(JSON.stringify(this.event))
+
+            let eventPlaceIds = []
+            let eventSeanceIds = []
+
+
+            let historyContentPlaceIds = []
+            let historyContentSeanceIds = []
+
+            let mergedPlaceIds = []
+            let mergedSeanceIds = []
+
+            // Собираем id плейсов и сеансов у события
+            this.event.places_full.forEach((place) => {
+                eventPlaceIds.push(place.id)
+                let seanceIds = []
+                place.seances.forEach((seance) => {
+                    seanceIds.push(seance.id)
+                })
+                eventSeanceIds.push(seanceIds)
+            })
+
+            // Собираем id плейсов и сеансов у истории
+            this.historyContent.history_places.forEach((place) => {
+                historyContentPlaceIds.push(place.place_id)
+                let historySeanceIds = []
+                place.history_seances.forEach((seance) => {
+                    historySeanceIds.push(seance.seance_id)
+                })
+                historyContentSeanceIds.push(historySeanceIds)
+            })
+
+            // Собираем id которые пересекаются в массивах
+            eventPlaceIds.forEach((id, index) => {
+                let hpIndex = historyContentPlaceIds.indexOf(id)
+                if (hpIndex != -1){
+                    mergedPlaceIds.push(id)
+
+                    // Зацепка для подставления найдена, она выше, через индекс ищем, потом достаем элементы и смотрим разницу и после перезаписываем
+                    let eventPlaceKeys = Object.keys(changedEvent.places_full[index])
+                    let historyContentPlaceKeys = Object.keys(this.historyContent.history_places[hpIndex])
+
+                    let mergedKeys = eventPlaceKeys.filter(key =>
+
+                        historyContentPlaceKeys.includes(key)
+                        &&
+                        this.historyContent.history_places[hpIndex][key] != null
+                        &&
+                        !["id","sight_id","updated_at","created_at"].includes(key)
+
+                    )
+
+                    // сливаем свойства которые различаются
+                    mergedKeys.forEach(key => {
+                        changedEvent.places_full[index][key] = this.historyContent.history_places[hpIndex][key]
+                    })
+
+                    eventSeanceIds[index].forEach((id, indexS) => {
+                        historyContentSeanceIds[hpIndex].forEach((idH, indexH) => {
+                            if(id == idH){
+                                mergedSeanceIds.push(id)
+                                let eventSeanceKeys = Object.keys(changedEvent.places_full[index].seances[indexS])
+                                let historySeanceKeys = Object.keys(this.historyContent.history_places[hpIndex].history_seances[indexH])
+
+                                let mergedKeys = eventSeanceKeys.filter(key =>
+                                historySeanceKeys.includes(key)
+                                &&
+                                this.historyContent.history_places[hpIndex].history_seances[indexH][key] != null
+                                &&
+                                ["date_start","date_end"].includes(key)
+                                )
+
+                                mergedKeys.forEach(key => {
+                                    changedEvent.places_full[index].seances[indexS][key] = this.historyContent.history_places[hpIndex].history_seances[indexH][key]
+                                })
+                            }
+                        })
+                    })
+                }
+            })
+
+            let mergedStandartAttr = eventAttr.filter(key => historyContentAttr.includes(key) && this.historyContent[key] != null && !["id","created_at","updated_at","statuses", "user_id"].includes(key))
+
+            mergedStandartAttr.forEach(key => {
+                changedEvent[key] = this.historyContent[key]
+            })
+
+            this.changedPlaceIds = mergedPlaceIds
+            this.changedSeanceIds =mergedSeanceIds
+
+            this.changedFields = mergedStandartAttr
+
+
+            this.historyContent = changedEvent
         }
     },
     mounted() {
