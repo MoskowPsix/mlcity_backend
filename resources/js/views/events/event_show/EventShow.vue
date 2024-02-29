@@ -10,7 +10,7 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
         </svg>
     </button>
-    <form class="flex flex-col justify-center max-w-[90%]  lg:max-w-[80%] m-[auto]">
+    <form class="flex flex-col justify-center max-w-[90%]  lg:min-w-[80%] lg:max-w-[80%] m-[auto]">
         <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
@@ -38,6 +38,7 @@
                         <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                     </div>
 
+
                     <div class="  md:w-[100%] mt-4 ">
                         <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label> -->
                         <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
@@ -45,6 +46,7 @@
                             <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                         </div>
                     </div>
+
                     <div class="flex justify-between mt-4 flex-col lg:flex-row ">
                         
                         <div  v-if="!state" class="min-w-[34%] mb-4 ">
