@@ -3,7 +3,7 @@
         <h1></h1>
         <!-- Общая информация -->
         <h1>Общая информация</h1>
-        {{event.name}} | {{sight.name}}
+        {{event.id}} | {{sight.name}}
 
     </div>
     <div class="grid grid-cols-2">
@@ -150,6 +150,7 @@ export default {
                         this.type_element = 'event'
 
                         this.getEvent(response.data.historyContents.history_contentable_id)
+                        console.log(response.data.historyContents.history_contentable_id)
 
                     } else {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')

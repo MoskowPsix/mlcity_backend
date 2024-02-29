@@ -1,7 +1,6 @@
 <template lang="">
-    <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12 dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
 
-    <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12  dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
+    <div :class="{'border-blue-700/70':this.$props.changedPlaceIds != null && this.$props.changedPlaceIds.includes(place.id)}" class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12  dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
 
         <div v-if="stateUpd" @click.prevent="setDeletePlace" class="transition border p-2 ml-[auto] mr-[-1%]  mt-[-2rem] mb-[auto] rounded-lg font-medium  text-center border-none  bg-red-600 hover:bg-red-400/70 hover:text-red-900/70 flex justify-center dark:hover:border-red-500/30 dark:border-red-500/70 text-[#fff] dark:bg-red-600 dark:hover:bg-red-700 min-w-[4rem] max-w-[4rem] max-h-[2.2rem] dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer ">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" data-slot="icon" class="w-4 h-4 ">
