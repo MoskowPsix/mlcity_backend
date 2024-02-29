@@ -1,7 +1,16 @@
 <template lang="">
     <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
+        <button
+            v-if="connectState.BackButton"
+            @click.prevent="backButton()"
+            type="button"
+            class="flex items-center m-4 rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-2/12 mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                </svg>
+            </button>
         <form enctype="multipart/form-data">
-        <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+        <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
                 @click.prevent="backButton()"
@@ -14,14 +23,12 @@
                 </svg>
                 <h1 class="flex items-center mr-1 ml-1">Назад</h1>
             </button>
-            <!-- Название достопримечательности -->
             <label v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-name'"><h1>Имя: {{sight.name}}</h1></label>
             <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
-            <!-- ID достопримечательности -->
             <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
-        </div>
-            <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-800">
-
+        </div> -->
+            <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900">
+               
                 <div class="flex justify-center">
                     <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
                         <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
