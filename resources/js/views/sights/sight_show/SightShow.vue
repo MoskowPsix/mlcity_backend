@@ -92,12 +92,6 @@
                             </div>
                         </div>
 
-                        <div>
-                            <div>
-                                <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-                            </div>
-                        </div>
-
                         <div class="mt-4">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
                             <div  v-bind:class="{' border-2 border-blue-400 border-lg':this.$props.changedFields && this.$props.changedFields.description}" class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
@@ -111,6 +105,11 @@
                             </div>
                         </div>
 
+                        <div>
+                            <div>
+                                <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+                            </div>
+                        </div>
 
 
                     <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
