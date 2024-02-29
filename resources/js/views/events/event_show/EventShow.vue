@@ -56,20 +56,18 @@
                             </div>
                         </div>
                         <div  v-if="state" class="hidden xl:block min-w-[34%] ">
-                            <div @click="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                            <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                 <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                             </div>            
                         </div>
                         <div class="flex">
-                            <div>
-                                <div v-if="!state" class=" mr-4 flex flex-col items-center lg:mr-4" >
-                                    <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label> -->
-                                    <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
-                                        <div class="font-[Montserrat-Medium]  w-[100%] text-xs text-center lg:text-lg ">{{event.date_start}}</div>
-                                    </div>
+                            <div v-if="!state" class=" mr-4 flex flex-col items-center lg:mr-4" >
+                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label> -->
+                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
+                                    <div class="font-[Montserrat-Medium]  w-[100%] text-xs text-center lg:text-lg ">{{event.date_start}}</div>
                                 </div>
-                                <VueDatePicker v-if="state" v-model="eventTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
                             </div>
+                            <VueDatePicker v-if="state" v-model="eventTime" range model-type="dd.MM.yyyy, HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата и время события" />
 
                             <div v-if="!state" class="text-center">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label> -->
@@ -82,40 +80,40 @@
                     </div>
 
                     <div  v-if="state" class="xl:hidden lg:block min-w-[34%] mt-4">
-                        <div @click="openTypeFnc()" class="  flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                        <div @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                             <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                         </div>
+                    </div>
 
-                        <div class="flex w-[100%] mt-4">
-                            <Transition name="slide-fade">
-                                <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
-                                    <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>   
-                                    <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
-                                        <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>    
-                                    </div>
-                                </div>
-                            </Transition>
-                        </div>
-
-                        <!-- Материалы -->
-                        <div class="   mt-4   ">
-                            <div  v-if="!state">
-                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
-                                    <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
+                    <div class="flex w-[100%] mt-4">
+                        <Transition name="slide-fade">
+                            <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                                <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>   
+                                <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
+                                    <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>    
                                 </div>
                             </div>
-                    
-                            <label v-if="state">
-                                <!-- <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
-                                    <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
-                                    <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
-                                </div>
-                                
-                            </label>
-                            
+                        </Transition>
+                    </div>
+
+                    <!-- Материалы -->
+                    <div class="mt-4">
+                        <div  v-if="!state">
+                            <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label> -->
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
+                                <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
+                            </div>
                         </div>
+                
+                        <label v-if="state">
+                            <!-- <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1> -->
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
+                                <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
+                                <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                            </div>
+                            
+                        </label>
+
                     </div>
                 </div>
             </div>
@@ -303,7 +301,7 @@ export default {
     data() {
         return {
             event: [],
-            openType: false,
+            openType: true,
             eventUpd: new FormData(),
             state: false,
             allTypes: null,
