@@ -25,7 +25,7 @@
                 <h1 class="flex items-center mr-1 ml-1">Назад</h1>
             </button>
 
-            
+
             <label v-if="connectState.IdLine" class="flex items-center w-3/12" :id="'event-'+event.id+'-id'"><h1>ID: {{event.id}}</h1></label>
         </div> -->
 
@@ -33,7 +33,7 @@
             <div class="header-content-main flex items-center  justify-center min-w-[100%] flex-col m-2 p-5 md:flex-col">
                 <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] text-xs lg:text-lg   ">
                     <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
-                    <div class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center ">
+                    <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('name')}" class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center ">
                         <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
                         <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                     </div>
@@ -41,14 +41,14 @@
 
                     <div class="  md:w-[100%] mt-4 ">
                         <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label> -->
-                        <div class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
+                        <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('sponsor')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
                             <div class="text-xs lg:text-lg" v-if="event.sponsor && !state">{{event.sponsor}}</div>
                             <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                         </div>
                     </div>
 
                     <div class="flex justify-between mt-4 flex-col lg:flex-row ">
-                        
+
                         <div  v-if="!state" class="min-w-[34%] mb-4 ">
                             <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
                             <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] " >
@@ -58,12 +58,12 @@
                         <div  v-if="state" class="hidden xl:block min-w-[34%] ">
                             <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                 <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
-                            </div>            
+                            </div>
                         </div>
                         <div class="flex">
                             <div v-if="!state" class=" mr-4 flex flex-col items-center lg:mr-4" >
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
+                                <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_start')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
                                     <div class="font-[Montserrat-Medium]  w-[100%] text-xs text-center lg:text-lg ">{{event.date_start}}</div>
                                 </div>
                             </div>
@@ -71,7 +71,7 @@
 
                             <div v-if="!state" class="text-center">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  w-[100%] text-xs lg:text-lg" >
+                                <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_end')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  w-[100%] text-xs lg:text-lg" >
                                     <div>{{event.date_end}}</div>
                                 </div>
                             </div>
@@ -87,63 +87,14 @@
                     <div class="flex w-[100%] mt-4">
                         <Transition name="slide-fade">
                             <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
-                                <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>   
+                                <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                                 <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
-                                    <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>    
+                                    <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                                 </div>
                             </div>
                         </Transition>
                     </div>
 
-                    <h3 class=" font-[Montserrat-Bold] text-lg mt-8">Расписание</h3>
-                    <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="w-[100%] bg-transparen font-[Montserrat-Regular] ">
-                        <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
-                            <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
-                                <div v-for="(place, index) in event.places_full" :key="place.id">
-                                    <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
-                                </div>
-                                <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30 
-                                dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 
-                                dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer mt-8 max-w-[14rem]">Добавить местопровидения</div>
-                            </div>
-                        </div>
-                        
-                      
-                    </div>
-
-                    <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">     
-                        <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
-                        <div v-if="!state">
-                            <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
-                                {{event.description}}
-                            </h3>
-                        </div>
-                        <div>
-                            <div class="border-2 border-[#EDEDED] rounded-md" v-if="state" >
-                                <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
-                            </div>
-                        </div>
-                        
-                        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-
-                        <div class="content-description-price mt-10">
-                            <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
-                            <div class="content-description-price-grid flex justify-center  ">
-                                <div class=" flex row flex-wrap max-w-[80%] ">      
-                                        <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                            <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
-                                        </div> 
-                                </div>
-                            </div>
-                            <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
-                            v-on:click="addToCurrentPrices()">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                            </svg>
-                        </div>
-                    </div>
-                    
-                    
-                    
                     <!-- Материалы -->
                     <div class="mt-4">
                         <div  v-if="!state">
@@ -152,33 +103,51 @@
                                 <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                             </div>
                         </div>
-                
+
                         <label v-if="state">
                             <!-- <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1> -->
                             <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
                                 <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
                                 <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
                             </div>
-                            
+
                         </label>
 
                     </div>
-
-                    <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]  xl:flex justify-between mt-8 row">
-                        <div class="" v-if="connectState.AuthorCard">
-                            <AuthorMiniCard v-if="event.author" :author="event.author"/>
-                        </div>
-
-                        <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
-                            <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
-                        </div>
-                </div>
                 </div>
             </div>
         </div>
 
 
-     
+        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+        <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">
+            <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
+            <div v-if="!state">
+                <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
+                    {{event.description}}
+                </h3>
+            </div>
+            <div>
+                <div class="border-2 border-[#EDEDED] rounded-md" v-if="state" >
+                    <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
+                </div>
+            </div>
+
+            <div class="content-description-price mt-10">
+                <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
+                <div class="content-description-price-grid flex justify-center  ">
+                    <div class=" flex row flex-wrap max-w-[80%] ">
+                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                            </div>
+                    </div>
+                </div>
+                <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+                v-on:click="addToCurrentPrices()">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+        </div>
 
             <!-- <div v-if="connectState.DescriptionsCard" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2"> -->
                 <!-- <label>
@@ -186,8 +155,8 @@
                     <p :id="'event-'+event.id+'-sponsor'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.sponsor}}</p>
                     <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="w-full dark:bg-gray-700/50" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                 </label> -->
-            
-            
+
+
 
                 <!-- <label>
                     <h1 class="text-xl font-medium dark:text-gray-300 mb-2">Дата начала и конца</h1>
@@ -210,7 +179,7 @@
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                     </svg>
                 </div>
-        
+
             </div> -->
     
             
@@ -304,6 +273,22 @@ export default {
         },
         id:{
             type: Number,
+            default: null
+        },
+        event_:{
+            type: Object,
+            default: null
+        },
+        changedFields:{
+            type: Array,
+            default: null
+        },
+        changedPlaceIds:{
+            type: Array,
+            default: null
+        },
+        changedSeanceIds:{
+            type: Array,
             default: null
         }
     },
@@ -535,7 +520,7 @@ export default {
         // },
 
         deleteFromCurrentPrices(price){
-            
+
             for(let i = 0; i < this.event.price.length; i++){
 
                 if((Object.keys(this.event.price[i]).indexOf("new_id") != -1) && (this.event.price[i].new_id == price.new_id)){
@@ -635,22 +620,28 @@ export default {
         getEvent() {
             let id
             this.$props.id ? id = this.id : id = this.$route.params.id
-            this.openLoaderFullPage()
-            this.getEventForIds(id).pipe(
-                map(response => {
-                    this.event = response.data
-                    // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
-                    // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
-                    this.closeLoaderFullPage()
-                }),
-                catchError(err => {
-                    console.log(err)
-                    this.showToast('При загрузке события возникла ошибка: ' + err.message, 'error')
-                    this.closeLoaderFullPage()
-                    return of(EMPTY)
-                }),
-                takeUntil(this.destroy$),
-            ).subscribe()
+            if(this.$props.event_ == null){
+                this.openLoaderFullPage()
+                this.getEventForIds(id).pipe(
+                    map(response => {
+                        this.event = response.data
+                        // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
+                        // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
+                        this.closeLoaderFullPage()
+                    }),
+                    catchError(err => {
+                        console.log(err)
+                        this.showToast('При загрузке события возникла ошибка: ' + err.message, 'error')
+                        this.closeLoaderFullPage()
+                        return of(EMPTY)
+                    }),
+                    takeUntil(this.destroy$),
+                ).subscribe()
+            }
+            else{
+                this.event = this.$props.event_
+            }
+
         },
         deleteFiles(file) {
             this.event.files.find((item, index) => {
@@ -849,14 +840,14 @@ export default {
 <style>
 
 
-.unselectable { 
-    -webkit-user-select: none; 
-    -webkit-touch-callout: none; 
-    -moz-user-select: none; 
-    -ms-user-select: none; 
-    user-select: none;    
-    
-    } 
+.unselectable {
+    -webkit-user-select: none;
+    -webkit-touch-callout: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+
+    }
 
     .slide-fade-enter-active {
             transition: all 0.3s ease-out;
@@ -876,7 +867,7 @@ export default {
     /* Светлый стиль datepicker */
 
 
-    
+
     .dp_theme_light {
         --dp-background-color: #fff;
         --dp-text-color: #212121;
