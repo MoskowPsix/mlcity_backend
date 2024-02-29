@@ -24,7 +24,6 @@
 </template>
 <script>
 import { YandexMap, YandexMarker, YaGeocoderService  } from 'vue-yandex-maps';
-import { unref } from 'vue'
 
 export default {
     name: 'MapCardInteractive',
@@ -73,8 +72,7 @@ export default {
             this.sub = new ymaps.SuggestView('search-map', {container: document.getElementById('result')});  
             this.sub.events.add('select', () => {     
                 this.ForwardGeocoder()
-                let wrapper =  document.getElementById('result')
-                console.log(wrapper)
+                // let wrapper =  document.getElementById('search-map').value
             })
         },
         // Достаём событие клика по карте
@@ -93,6 +91,17 @@ export default {
             wrapper.style.top = '0'
             wrapper.style.left = '0'
             wrapper.style.position = 'relative'
+        },
+        ForwardGeocoder() {
+            const wrapper =  document.getElementById('search-map').value
+            const geocodeResult = ymaps.geocode(wrapper, {
+                results: 1,
+            });
+            geocodeResult.then(result => {
+                const coords = result.geoObjects.get(0).geometry.getCoordinates();
+                this.$emit('onCoords', coords)
+                this.$emit('onAddress', wrapper)
+            })
         }
     },
     watch: {
