@@ -84,7 +84,6 @@
                             <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                         </div>
                     </div>
-
                     <div class="flex w-[100%] mt-4">
                         <Transition name="slide-fade">
                             <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
@@ -100,7 +99,7 @@
                     <div class="mt-4">
                         <div  v-if="!state">
                             <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label> -->
-                            <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('materials')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
+                            <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
                                 <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                             </div>
                         </div>
@@ -124,7 +123,7 @@
         <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">
             <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
             <div v-if="!state">
-                <h3 v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('description')}" class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
+                <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
                     {{event.description}}
                 </h3>
             </div>
@@ -188,7 +187,7 @@
             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                 <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
                     <div v-for="(place, index) in event.places_full" :key="place.id">
-                        <PlacesListCard :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
+                        <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                     </div>
                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30
                     dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
