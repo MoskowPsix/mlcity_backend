@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="min-w-full min-h-full bg-gray-300 dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
+    <div class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
         <button
             v-if="connectState.BackButton"
             @click.prevent="backButton()"
@@ -27,7 +27,7 @@
             <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
             <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
         </div> -->
-            <div class="block rounded-lg bg-white shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] dark:bg-gray-900">
+            <div class="block rounded-lg bg-white  dark:bg-gray-900">
                
                 <div class="flex justify-center">
                     <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
