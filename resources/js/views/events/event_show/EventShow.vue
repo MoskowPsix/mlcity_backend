@@ -84,7 +84,6 @@
                             <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                         </div>
                     </div>
-
                     <div class="flex w-[100%] mt-4">
                         <Transition name="slide-fade">
                             <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
@@ -96,6 +95,55 @@
                         </Transition>
                     </div>
 
+                    <h3 class=" font-[Montserrat-Bold] text-lg mt-8">Расписание</h3>
+                    <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="w-[100%] bg-transparen font-[Montserrat-Regular] ">
+                        <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
+                            <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
+                                <div v-for="(place, index) in event.places_full" :key="place.id">
+                                    <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
+                                </div>
+                                <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30 
+                                dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 
+                                dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer mt-8 max-w-[14rem]">Добавить местопровидения</div>
+                            </div>
+                        </div>
+                        
+                      
+                    </div>
+
+                    <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">     
+                        <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
+                        <div v-if="!state">
+                            <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
+                                {{event.description}}
+                            </h3>
+                        </div>
+                        <div>
+                            <div class="border-2 border-[#EDEDED] rounded-md" v-if="state" >
+                                <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
+                            </div>
+                        </div>
+                        
+                        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
+
+                        <div class="content-description-price mt-10">
+                            <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
+                            <div class="content-description-price-grid flex justify-center  ">
+                                <div class=" flex row flex-wrap max-w-[80%] ">      
+                                        <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                                            <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                                        </div> 
+                                </div>
+                            </div>
+                            <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+                            v-on:click="addToCurrentPrices()">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                    
+                    
+                    
                     <!-- Материалы -->
                     <div class="mt-4">
                         <div  v-if="!state">
@@ -115,40 +163,22 @@
                         </label>
 
                     </div>
+
+                    <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]  xl:flex justify-between mt-8 row">
+                        <div class="" v-if="connectState.AuthorCard">
+                            <AuthorMiniCard v-if="event.author" :author="event.author"/>
+                        </div>
+
+                        <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
+                            <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
+                        </div>
+                </div>
                 </div>
             </div>
         </div>
 
 
-        <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-        <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">     
-            <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
-            <div v-if="!state">
-                <h3 class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
-                    {{event.description}}
-                </h3>
-            </div>
-            <div>
-                <div class="border-2 border-[#EDEDED] rounded-md" v-if="state" >
-                    <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
-                </div>
-            </div>
-            
-            <div class="content-description-price mt-10">
-                <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
-                <div class="content-description-price-grid flex justify-center  ">
-                    <div class=" flex row flex-wrap max-w-[80%] ">      
-                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
-                            </div> 
-                    </div>
-                </div>
-                <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
-                v-on:click="addToCurrentPrices()">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
-        </div>
+     
 
             <!-- <div v-if="connectState.DescriptionsCard" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2"> -->
                 <!-- <label>
@@ -183,29 +213,6 @@
         
             </div> -->
     
-        <h3 class=" font-[Montserrat-Bold] text-lg mt-8">Расписание</h3>
-        <div v-if="connectState.PlaceCard && connectState.AuthorCard && connectState.StatusCard" class="w-[100%] bg-transparen font-[Montserrat-Regular] ">
-            <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
-                <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
-                    <div v-for="(place, index) in event.places_full" :key="place.id">
-                        <PlacesListCard :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
-                    </div>
-                    <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30 
-                    dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 
-                    dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer mt-8 max-w-[14rem]">Добавить местопровидения</div>
-                </div>
-            </div>
-            
-            <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]  xl:flex justify-between mt-8 row">
-                    <div class="" v-if="connectState.AuthorCard">
-                        <AuthorMiniCard v-if="event.author" :author="event.author"/>
-                    </div>
-
-                    <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
-                        <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
-                    </div>
-            </div>
-        </div>
             
         <div v-if="connectState.EditButton" class="transition absolute rounded-lg bottom-0 right-0 bg-gray-600/80 m-5 z-50 active:scale-95">
             <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
