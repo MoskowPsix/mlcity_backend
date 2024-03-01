@@ -52,8 +52,10 @@
 
                             <div  v-if="!state" class="min-w-[34%] mb-4 ">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] " >
-                                    <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
+                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                    <div v-if="event.types" class="text-center py-2 space-y-2.5">
+                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4" > {{ etype.name }}</p>
+                                    </div>
                                 </div>
                             </div>
                             <div  v-if="state" class="hidden xl:block min-w-[34%] ">
@@ -91,7 +93,7 @@
                                 <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                                     <div   class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes && state">
-                                        <TypeList  :type="'event'" :sightId="event.id" :changedTypeIds="changedTypeIds" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
+                                        <TypeList  :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                                     </div>
                                 </div>
                             </Transition>
@@ -217,7 +219,7 @@
 
                 </div> -->
        </section>
-                
+
                 <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
                     <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
@@ -226,7 +228,7 @@
                     </div>
                 </div>
         </form>
-        
+
     </div>
 
     </template>

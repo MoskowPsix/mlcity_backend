@@ -218,26 +218,40 @@ export default {
             let changedEvent = JSON.parse(JSON.stringify(this.event))
 
             let eventPlaceIds = []
+            let eventPriceIds = []
             let eventSeanceIds = []
 
             let eventTypeIds = []
+            let forDeleteTypeIds = []
 
             let historyContentTypeIds = []
 
             let historyContentPlaceIds = []
+            let historyContentPriceIds = []
             let historyContentSeanceIds = []
 
             let mergedPlaceIds = []
             let mergedSeanceIds = []
+            let mergedPriceIds = []
             let mergedTypeIds = []
 
             console.log(this.historyContent)
 
+
+
+            // Собираем типы для обоих
             historyContentTypeIds = this.historyContent.history_event_types.map(obj => obj.id)
             eventTypeIds = this.event.types.map(obj => obj.id)
 
-            historyContentSeanceIds.forEach((typeId) => {
-                if(!this.event.types.includes(typeId)){
+            // типы истории на удаление
+            this.historyContent.history_event_types.forEach((type) => {
+                if (type.pivot.on_delete == true){
+                    forDeleteTypeIds.push(type.id)
+                }
+            })
+            // Типы которые общие и не на удаление
+            historyContentTypeIds.forEach((typeId, index) => {
+                if(!this.event.types.includes(typeId) && this.historyContent.history_event_types[index].pivot.on_delete == null){
                     mergedTypeIds.push(typeId)
                 }
             })
@@ -260,6 +274,32 @@ export default {
                     historySeanceIds.push(seance.seance_id)
                 })
                 historyContentSeanceIds.push(historySeanceIds)
+            })
+
+            this.event.price.forEach((price) => {
+                eventPriceIds.push(price.id)
+            })
+            this.historyContent.history_prices.forEach((price) => {
+                historyContentPriceIds.push(price.price_id)
+            })
+
+            eventPriceIds.forEach((id, index) => {
+                let hpIndex = historyContentPriceIds.indexOf(id)
+
+                if (hpIndex != -1){
+                    mergedPriceIds.push(id)
+
+                    let eventPriceKeys = Object.keys(changedEvent.price[index])
+                    let historyContentPriceKeys = Object.keys(this.historyContent.history_prices[hpIndex])
+
+                    console.log(eventPriceKeys, historyContentPriceKeys)
+
+                    let mergedKeys = eventPriceKeys.filter(key =>
+                    historyContentPriceKeys.includes(key)
+                    &&
+                    this.historyContent.history_prices[index][key] != null
+                    )
+                }
             })
 
             // Собираем id которые пересекаются в массивах
@@ -321,6 +361,25 @@ export default {
             this.changedSeanceIds =mergedSeanceIds
             this.changedTypeIds = mergedTypeIds
             this.changedFields = mergedStandartAttr
+
+            this.historyContent.history_event_types.forEach((type) => {
+                if(forDeleteTypeIds.includes(type.id)){
+                    let t = JSON.parse(JSON.stringify(type))
+                    t.on_delete = true
+                    console.log(t)
+                    console.log(changedEvent.types)
+                    changedEvent.types = changedEvent.types.filter(obj => obj.id != t.id)
+                    changedEvent.types.push(t)
+
+
+                }
+                else if (!forDeleteTypeIds.includes(type.id) && mergedTypeIds.includes(type.id)){
+                    changedEvent.types.push(type)
+                }
+            })
+
+
+            console.log(changedEvent)
 
             this.historyContent = changedEvent
         }

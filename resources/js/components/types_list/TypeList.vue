@@ -1,7 +1,7 @@
 
 
 <template>
-  <div v-bind:class="{'border-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(allSTypes.id)}" :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="text-xs lg:text-lg min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
+  <div  :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="text-xs lg:text-lg min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
 
     <div class="">
       <input type="checkbox" class=" text-xs lg:text-lgrelative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @click="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
@@ -50,10 +50,6 @@ export default{
     enableState: Boolean,
     sightId: Number,
     type: String,
-    changedTypeIds:{
-        type: Array,
-        default: null
-    }
   },
   components:{
     Collapse
