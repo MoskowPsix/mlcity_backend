@@ -80,12 +80,13 @@
                             </div>
                         </div>
 
-                        <div  v-if="state" class="xl:hidden lg:block min-w-[34%] mt-4">
+                        <div  class="xl:hidden lg:block min-w-[34%] mt-4">
                             <div @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                 <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                             </div>
                         </div>
-                        <div class="flex w-[100%] mt-4">
+
+                        <div class="flex w-[100%] mt-4 "  v-if="state">
                             <Transition name="slide-fade">
                                 <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
@@ -217,7 +218,7 @@
                 </div> -->
        </section>
                 
-                <div v-if="connectState.EditButton" class="button-menu   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
                     <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                         <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
