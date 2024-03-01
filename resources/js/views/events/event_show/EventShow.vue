@@ -499,12 +499,14 @@
                         })
                     historyEvent.history_places = {...this.placeUpd}
                 }
+
                 this.state = false
                 const params = {
                     id: this.event.id,
                     type: "Event",
                     history_content: {...historyEvent}
                 }
+                console.log(params)
                 this.openLoaderFullPage()
                 this.saveHistory(params).pipe(
                     map(response => {
@@ -585,9 +587,18 @@
                     })
                 }
             },
+            checkObjInArray(obj, array){
+            for (let i = 0; i<array.length; i++){
+                if (array[i].id === obj.id){
+                    console.log(obj, array)
+                    return true
+                }
+            }
+            return false
+        },
 
             addToCurrentTypes(type){
-                console.log(this.event.types)
+                console.log(this.checkObjInArray(type, this.typesDel))
                 if (this.event.types.find(item => item.id === type.id)){
                     console.log("del",type)
                     if (this.checkObjInArray(type, this.typesDel)){
@@ -605,6 +616,7 @@
                     }
                 }
             },
+
             sightUpdPrice(price){
                 if(this.pricesUpd.find(item => item.id === price.id)){
                     let data
