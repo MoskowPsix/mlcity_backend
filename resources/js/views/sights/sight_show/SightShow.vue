@@ -1,4 +1,5 @@
 <template lang="">
+    
     <div class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
         <button
             v-if="connectState.BackButton"
@@ -10,6 +11,8 @@
                 </svg>
             </button>
         <form enctype="multipart/form-data">
+
+            
         <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
@@ -160,7 +163,9 @@
                 </button>
 
             </div>
-
+            <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
+                <ChangeStatus :id="'sight-'+sight.id+'-status'" v-if="sight.statuses" :editButton="connectState.EditButton" :status="sight.statuses[0].name" @statusChanged="statusChange"/>
+            </div>
         </form>
     </div>
 </template>
