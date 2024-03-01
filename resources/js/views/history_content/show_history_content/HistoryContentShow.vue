@@ -27,6 +27,9 @@
             <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>
+        <div v-if="historyStatus">
+            <ChangeStatus :editButton="true" :status="historyStatus" @statusChanged="statusChange"/>
+        </div>
     </div>
 </template>
 <script>
@@ -62,6 +65,7 @@ export default {
     data() {
         return {
             historyContent: '',
+            historyStatus: '',
             event: {},
             sight: {},
             mergedSight: {},
@@ -148,25 +152,21 @@ export default {
                 delay(100),
                 retry(2),
                 map(response => {
-                    console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
-
                         this.getSight(response.data.historyContents.history_contentable_id)
-
-
+                        this.historyStatus = response.data.historyContents.statuses[0].name
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'event'
-
                         this.getEvent(response.data.historyContents.history_contentable_id)
-                        console.log(response.data.historyContents.history_contentable_id)
-
+                        this.historyStatus = response.data.historyContents.statuses[0].name
                     } else {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')
                     }
                     this.closeLoaderFullPage()
+                    console.log( this.historyContent)
                 }),
                 catchError(err => {
                     console.log(err)
@@ -183,7 +183,6 @@ export default {
                 map((data) => {
                     this.sight = data.data
                     // console.log(this.sight)
-                    console.log("WORK")
 
                 })
             ).subscribe(()=>{
@@ -204,7 +203,6 @@ export default {
             let historyContentAttr = Object.keys(this.historyContent)
 
             let mergedKeys = sightAttr.filter(key => historyContentAttr.includes(key) && this.historyContent[key] != null && !["id","created_at","updated_at","statuses", "user_id"].includes(key))
-            console.log(mergedKeys)
 
             let changedSight = JSON.parse(JSON.stringify(this.sight))
             let changedFields_ = {}
@@ -214,14 +212,11 @@ export default {
                 changedFields_[key] = true
             })
             this.changedFields = changedFields_
-            console.log(this.changedFields)
 
 
             this.historyContent = changedSight
         },
         mergeEvent(){
-            console.log(this.event)
-            console.log(this.historyContent)
 
             let eventAttr = Object.keys(this.event)
             let historyContentAttr = Object.keys(this.historyContent)
@@ -241,7 +236,6 @@ export default {
             let mergedSeanceIds = []
             let mergedTypeIds = []
 
-            console.log(this.historyContent)
 
             historyContentTypeIds = this.historyContent.history_event_types.map(obj => obj.id)
             eventTypeIds = this.event.types.map(obj => obj.id)
