@@ -1,33 +1,30 @@
 <template lang="">
-    <div class="flex flex-row rounded-lg h-auto border m-1" @click="getElement">
-        <h1></h1>
-        <!-- Общая информация -->
-        <h1>Общая информация</h1>
-        {{event.id}} | {{sight.name}}
-
-    </div>
     
     <div class="md:grid md:grid-cols-2">
         <div class="rounded-lg border ">
             <!-- Оригинал -->
-            <div>
-                <h1 class=" font-[Montserrat-Bold] text-lg mb-2" >Изменённый</h1>
+            <div class="flex justify-center">
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#3eb76c]" >Изменённый</h1>
             </div>
             <EventShow v-if="event.id" class="rounded-lg"  :event_="event" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
         </div>
 
-        <div class="rounded-lg border mt-8 md:mt-0">
+        <div class="rounded-lg border mt-8 md:mt-0 ">
             <!-- Жалкая пародия -->
             <!-- Кринж - Weqil -->
-            <div>
-                <h1 class=" font-[Montserrat-Bold] text-lg mb-2" >Текущий</h1>
+            <div class="flex justify-center fons">
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#6393FF]">Текущий</h1>
             </div>
 
             <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>
-        <div v-if="historyStatus">
+       
+    </div>
+
+    <div class="flex justify-center min-w-[100%] mt-8" v-if="historyStatus">
+        <div>
             <ChangeStatus :editButton="true" :status="historyStatus" @statusChanged="statusChange"/>
         </div>
     </div>
@@ -85,7 +82,7 @@ export default {
                 TypeCard: true,
                 PlaceCard: true,
                 AuthorCard: true,
-                StatusCard: true,
+                StatusCard: false,
                 EditButton: false,
             },
             sightSettings:{
@@ -96,7 +93,7 @@ export default {
                 PricesCard: true,
                 TypeCard: true,
                 AuthorCard: true,
-                StatusCard: true,
+                StatusCard: false,
                 EditButton: false,
             }
         }

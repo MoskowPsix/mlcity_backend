@@ -1,5 +1,5 @@
 <template>
-<div class="mb-4 flex-col">
+<div class="mb-4 flex-col font-[Montserrat-Regular]">
     <form>
     <label for="status" class="mx-auto mb-2 text-gray-900 dark:text-white"><h1 class="text-center text-xl mb-2">Статус</h1></label>
     <select 
@@ -15,7 +15,7 @@
         <option value="В архиве">В архиве</option>
     </select>
     <div v-if="editButton" class="mt-2 flex justify-center">
-        <button @click.prevent="changeStatus($event.target.form[0].value)" type="submit" class="rounded-lg bg-green-600 w-36 p-2 z-50 text-center cursor-pointer">
+        <button @click.prevent="changeStatus($event.target.form[0].value)" type="submit" class="rounded-lg text-[#fff] bg-green-500 w-36 p-2 z-50 text-center cursor-pointer">
             Применить
         </button>
     </div>
