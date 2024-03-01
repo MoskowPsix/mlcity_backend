@@ -39,7 +39,7 @@
                 <RouterLink :id="'event-'+eventId+'-place-' + place.id+ '-sight-route'" v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
                     Проходит в достопримечательноти c id: {{place.sight_id}}
                 </RouterLink>
-              <div class="pl-[10%] pr-[10%]">
+              <div class="pl-[10%] pr-[10%] mt-4 ">
                     <div v-if="place.seances && place.seances.length > 0" class="flex justify-between mt-8 w-[100%] ">
 
                         <label class="p-1  font-bold  text-gray-700 dark:text-gray-300">Начало</label>
@@ -49,13 +49,13 @@
               </div>
 
 
-                <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="   pl-1 pr-1  rounded-lg dark:border-gray-600 " id="journal-scroll">
+                <div v-if="place.seances" :id="'event-'+eventId+'-place-' + place.id+ '-seance'" class="    rounded-lg dark:border-gray-600 " id="journal-scroll">
                     <div v-if="place.seances.length && place.seances" v-for="(seance, index) in place.seances" :key="seance.id">
                         <SeancesListSegment :changedSeanceIds="this.$props.changedSeanceIds" :location="place.location" :id="'event-'+eventId+'-place-' + place.id+ '-seance-'+ seance.id" v-if="seance && !seance.on_delete" :index="index" :seance="seance" :state="stateUpd" @onUpdSeance="setSeance"></SeancesListSegment>
                     </div>
                 </div>
 
-                <div v-if="place.history_seances" class="overflow-y-auto  pl-1 pr-1 max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
+                <div v-if="place.history_seances" class=" max-h-[40rem] border rounded-lg dark:border-gray-600 dark:bg-gray-900/40 bg-gray-300/50" id="journal-scroll">
                     <div v-if="place.history_seances.length && place.history_seances" v-for="(seance, index) in place.history_seances" :key="seance.id">
                         <SeancesListSegment :changedSeanceIds="this.$props.changedSeanceIds" :location="place.location" :seance="seance"  @onClickSeance="clickSeance"></SeancesListSegment>
                     </div>

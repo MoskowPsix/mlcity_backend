@@ -1,21 +1,31 @@
 <template lang="">
-    <div class="flex flex-row rounded-lg h-auto border m-1" @click="getElement">
-        <h1></h1>
-        <!-- Общая информация -->
-        <h1>Общая информация</h1>
-        {{event.id}} | {{sight.name}}
-
-    </div>
-    <div class="grid grid-cols-2">
-        <div class="rounded-lg border m-1">
+    
+    <div class="min-[961px]:grid min-[961px]:grid-cols-2">
+        <div class="rounded-lg border ">
             <!-- Оригинал -->
+            <div class="flex justify-center">
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#3eb76c]" >Текущий</h1>
+            </div>
             <EventShow v-if="event.id" class="rounded-lg"  :event_="event" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
         </div>
-        <div class="rounded-lg border m-1">
+
+        <div class="rounded-lg border mt-8 md:mt-0 ">
             <!-- Жалкая пародия -->
+            <!-- Кринж - Weqil -->
+            <div class="flex justify-center fons">
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#6393FF]">Изменённый</h1>
+            </div>
+
             <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
+        </div>
+       
+    </div>
+
+    <div class="flex justify-center min-w-[100%] mt-8" v-if="historyStatus">
+        <div>
+            <ChangeStatus :editButton="true" :status="historyStatus" @statusChanged="statusChange"/>
         </div>
     </div>
 </template>
@@ -52,6 +62,7 @@ export default {
     data() {
         return {
             historyContent: '',
+            historyStatus: '',
             event: {},
             sight: {},
             mergedSight: {},
@@ -71,7 +82,7 @@ export default {
                 TypeCard: true,
                 PlaceCard: true,
                 AuthorCard: true,
-                StatusCard: true,
+                StatusCard: false,
                 EditButton: false,
             },
             sightSettings:{
@@ -82,7 +93,7 @@ export default {
                 PricesCard: true,
                 TypeCard: true,
                 AuthorCard: true,
-                StatusCard: true,
+                StatusCard: false,
                 EditButton: false,
             }
         }
@@ -138,25 +149,21 @@ export default {
                 delay(100),
                 retry(2),
                 map(response => {
-                    console.log(response)
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
-
                         this.getSight(response.data.historyContents.history_contentable_id)
-
-
+                        this.historyStatus = response.data.historyContents.statuses[0].name
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'event'
-
                         this.getEvent(response.data.historyContents.history_contentable_id)
-                        console.log(response.data.historyContents.history_contentable_id)
-
+                        this.historyStatus = response.data.historyContents.statuses[0].name
                     } else {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')
                     }
                     this.closeLoaderFullPage()
+                    console.log( this.historyContent)
                 }),
                 catchError(err => {
                     console.log(err)
@@ -173,7 +180,6 @@ export default {
                 map((data) => {
                     this.sight = data.data
                     // console.log(this.sight)
-                    console.log("WORK")
 
                 })
             ).subscribe(()=>{
@@ -194,7 +200,6 @@ export default {
             let historyContentAttr = Object.keys(this.historyContent)
 
             let mergedKeys = sightAttr.filter(key => historyContentAttr.includes(key) && this.historyContent[key] != null && !["id","created_at","updated_at","statuses", "user_id"].includes(key))
-            console.log(mergedKeys)
 
             let changedSight = JSON.parse(JSON.stringify(this.sight))
             let changedFields_ = {}
@@ -204,14 +209,11 @@ export default {
                 changedFields_[key] = true
             })
             this.changedFields = changedFields_
-            console.log(this.changedFields)
 
 
             this.historyContent = changedSight
         },
         mergeEvent(){
-            console.log(this.event)
-            console.log(this.historyContent)
 
             let eventAttr = Object.keys(this.event)
             let historyContentAttr = Object.keys(this.historyContent)
@@ -235,7 +237,6 @@ export default {
             let mergedPriceIds = []
             let mergedTypeIds = []
 
-            console.log(this.historyContent)
 
 
 
