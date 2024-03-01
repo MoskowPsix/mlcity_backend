@@ -89,7 +89,7 @@
                                 <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                                     <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
-                                        <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
+                                        <TypeList  :type="'event'" :sightId="event.id" :changedTypeIds="changedTypeIds" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                                     </div>
                                 </div>
                             </Transition>
@@ -320,6 +320,10 @@
             },
             changedSeanceIds:{
                 type:Array,
+                default: null
+            },
+            changedTypeIds:{
+                type: Array,
                 default: null
             }
 
@@ -583,7 +587,9 @@
             },
 
             addToCurrentTypes(type){
+                console.log(this.event.types)
                 if (this.event.types.find(item => item.id === type.id)){
+                    console.log("del",type)
                     if (this.checkObjInArray(type, this.typesDel)){
                         this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                     } else {
@@ -591,6 +597,7 @@
                     }
 
                 } else {
+                    console.log("add",type)
                     if(this.typesUpd.find(item => item.id === type.id)) {
                         this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
                     } else {

@@ -14,7 +14,7 @@
         </div>
         <div class="rounded-lg border m-1">
             <!-- Жалкая пародия -->
-            <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
+            <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>
     </div>
@@ -59,6 +59,7 @@ export default {
             changedFields: {},
             changedPlaceIds:[],
             changedSeanceIds:[],
+            changedTypeIds: [],
             type_element: '',
             eventSettings: {
                 BackButton: false,
@@ -219,12 +220,27 @@ export default {
             let eventPlaceIds = []
             let eventSeanceIds = []
 
+            let eventTypeIds = []
+
+            let historyContentTypeIds = []
 
             let historyContentPlaceIds = []
             let historyContentSeanceIds = []
 
             let mergedPlaceIds = []
             let mergedSeanceIds = []
+            let mergedTypeIds = []
+
+            console.log(this.historyContent)
+
+            historyContentTypeIds = this.historyContent.history_event_types.map(obj => obj.id)
+            eventTypeIds = this.event.types.map(obj => obj.id)
+
+            historyContentSeanceIds.forEach((typeId) => {
+                if(!this.event.types.includes(typeId)){
+                    mergedTypeIds.push(typeId)
+                }
+            })
 
             // Собираем id плейсов и сеансов у события
             this.event.places_full.forEach((place) => {
@@ -303,9 +319,8 @@ export default {
 
             this.changedPlaceIds = mergedPlaceIds
             this.changedSeanceIds =mergedSeanceIds
-
+            this.changedTypeIds = mergedTypeIds
             this.changedFields = mergedStandartAttr
-
 
             this.historyContent = changedEvent
         }
