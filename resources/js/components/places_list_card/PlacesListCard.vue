@@ -1,6 +1,4 @@
 <template lang="">
-    <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12 dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
-
     <div class=" transition border dark:border-gray-700/80 p-2 rounded-lg mt-12  dark:bg-gray-800 active:dark:bg-gray-700 active:bg-gray-300 shadow-md">
 
         <div v-if="stateUpd" @click.prevent="setDeletePlace" class="transition border p-2 ml-[auto] mr-[-1%]  mt-[-2rem] mb-[auto] rounded-lg font-medium  text-center border-none  bg-red-600 hover:bg-red-400/70 hover:text-red-900/70 flex justify-center dark:hover:border-red-500/30 dark:border-red-500/70 text-[#fff] dark:bg-red-600 dark:hover:bg-red-700 min-w-[4rem] max-w-[4rem] max-h-[2.2rem] dark:hover:text-red-400 hover:border-red-500/30 active:scale-95 cursor-pointer ">
@@ -32,9 +30,10 @@
         <!-- <input v-if="state" type="text" name="address" id="" class="w-full"> -->
         <div v-if="state" class="m-[auto] lg:max-w-[80%] mt-8">
             <div class="lg:  min">
-                <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="min-h-[20rem] mt-2" :marker="place" :zoom="16" />
-                <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="min-h-[20rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
+                <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="h-[20rem] mt-2" :marker="place" :zoom="16" />
+                <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
+           
 
             <div class=" flex flex-col  justify-items-center" >
                 <RouterLink :id="'event-'+eventId+'-place-' + place.id+ '-sight-route'" v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -76,7 +75,7 @@ import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteract
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useLocationStore } from '../../stores/LocationStore'
-import { useSightStore } from '../../stores/SightStore';
+import { useSightStore } from '../../stores/SightStore'
 
 
 export default {
