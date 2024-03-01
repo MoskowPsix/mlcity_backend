@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col lg:flex-row pb-20" v-if="event && connectState" :id="'event-'+event.id">
+    <div class="flex flex-col pb-20" v-if="event && connectState" :id="'event-'+event.id">
         <!-- Кнопка назад -->
         <button
             v-if="connectState.BackButton"
@@ -10,7 +10,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
             </svg>
         </button>
-        <form class="flex flex-col justify-center max-w-[90%]  lg:min-w-[80%] lg:max-w-[80%] m-[auto]">
+        <form>
+            <section class="flex flex-col justify-center max-w-[90%]  lg:min-w-[80%] lg:max-w-[80%] m-[auto]">
             <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
                 <button
                     v-if="connectState.BackButton"
@@ -88,7 +89,7 @@
                             <Transition name="slide-fade">
                                 <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
-                                    <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
+                                    <div   class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes && state">
                                         <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                                     </div>
                                 </div>
@@ -136,7 +137,7 @@
                                     </div>
                                 </div>
 
-                                <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50"
+                                <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
                                 v-on:click="addToCurrentPrices()">
                                     Добавить билет
                                 </div>
@@ -214,17 +215,17 @@
                     </div>
 
                 </div> -->
-        
+       </section>
                 
-       
+                <div v-if="connectState.EditButton" class="button-menu   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                    <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
+                        <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
+                        <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
+                        <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+                    </div>
+                </div>
         </form>
-        <div v-if="connectState.EditButton" class="button-menu min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[80%] xl:max-w-[90%] 2xl:max-w-[88%]  justify-center fixed flex w-full bottom-[0%] bg-[#fff]  z-50">
-            <div class="m">
-                <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
-                <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
-                <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
-            </div>
-        </div>
+        
     </div>
 
     </template>
