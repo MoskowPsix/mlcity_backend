@@ -99,7 +99,7 @@
                     <div class="space-x-2">
                         <a :id="'type-'+stype.stype_id" v-on:click.prevent="goToElement($event)" class="inline hover:text-blue-700 transition duration-700 w-auto ease-in-out hover:cursor-pointer" v-for="stype in sight.types">{{ stype.name }}</a>
                     </div>
-                    
+
                     <div  class="space-y-4 border mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20" v-if="allTypes">
                         <TypeList :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
                     </div>
@@ -127,7 +127,7 @@
                             <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                         <div v-for="(price, index) in sight.prices" class="flex items-center  border rounded-lg p-2 mb-4" >
-                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="test"/>
+                            <PriceSegment :id="'sight-'+sight.id+'-price-'+price.id" :state="state" :price="price" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                         </div>
                     </div>
                 </div>
@@ -289,7 +289,7 @@ export default {
             closeModal(searchType)
         },
         getAllTypes(){
-      
+
         this.getSightTypes().pipe(
           retry(3),
           delay(200),
@@ -410,9 +410,8 @@ export default {
             this.state = this.state
             this.getSight()
         },
-        test(price){
+        priceUpd(price){
             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
-                console.log("WORK")
                 this.pricesUpd.push(price)
             }
             console.log("На обновление",this.pricesUpd)
