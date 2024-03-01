@@ -6,14 +6,24 @@
         {{event.id}} | {{sight.name}}
 
     </div>
-    <div class="grid grid-cols-2">
-        <div class="rounded-lg border m-1">
+    
+    <div class="md:grid md:grid-cols-2">
+        <div class="rounded-lg border ">
             <!-- Оригинал -->
+            <div>
+                <h1 class=" font-[Montserrat-Bold] text-lg mb-2" >Изменённый</h1>
+            </div>
             <EventShow v-if="event.id" class="rounded-lg"  :event_="event" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
         </div>
-        <div class="rounded-lg border m-1">
+
+        <div class="rounded-lg border mt-8 md:mt-0">
             <!-- Жалкая пародия -->
+            <!-- Кринж - Weqil -->
+            <div>
+                <h1 class=" font-[Montserrat-Bold] text-lg mb-2" >Текущий</h1>
+            </div>
+
             <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="historyContent" :changedFields="changedFields" :connectState="sightSettings"/>
         </div>

@@ -5,7 +5,7 @@
             v-if="connectState.BackButton"
             @click.prevent="backButton()"
             type="button"
-            class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-2/12 mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
+            class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
             </svg>
@@ -31,28 +31,28 @@
             </div> -->
 
             <div class="header-content flex  justify-center dark:text-gray-400">
-                <div class="header-content-main flex items-center  justify-center min-w-[100%] flex-col m-2 p-5 md:flex-col">
+                <div class="header-content-main flex items-center  justify-center min-w-[100%] flex-col m-2 md:p-5 md:flex-col">
                     <div class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] text-xs lg:text-lg   ">
                         <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
-                        <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('name')}" class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center ">
+                        <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('name')}" class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center dark:border-gray-700/80  ">
                             <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
-                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none " :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-gray-400 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none  dark:border-gray-700/80" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                         </div>
 
 
                         <div  class="  md:w-[100%] mt-4 ">
                             <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label> -->
-                            <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('sponsor')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2" >
+                            <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('sponsor')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2 dark:border-gray-700/80" >
                                 <div class="text-xs lg:text-lg" v-if="event.sponsor && !state">{{event.sponsor}}</div>
-                                <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-gray-700/50 text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
+                                <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-transparent text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                             </div>
                         </div>
 
-                        <div class="flex justify-between mt-4 flex-col lg:flex-row ">
+                        <div class="flex justify-between mt-4 flex-col  min-[1577px]:flex-row ">
 
                             <div  v-if="!state" class="min-w-[34%] mb-4 ">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] " >
+                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] dark:border-gray-700/70 " >
                                     <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
                                 </div>
                             </div>
@@ -64,7 +64,7 @@
                             <div class="flex">
                                 <div v-if="!state" class=" mr-4 flex flex-col items-center lg:mr-4" >
                                     <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Начало</label> -->
-                                    <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_start')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
+                                    <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_start')}" class="flex justify-center border-2 border-[#EDEDED] dark:border-gray-700/70 rounded-md  p-0.5 font-[Montserrat-Medium]   w-[100%]" >
                                         <div class="font-[Montserrat-Medium]  w-[100%] text-xs text-center lg:text-lg ">{{event.date_start}}</div>
                                     </div>
                                 </div>
@@ -72,7 +72,7 @@
 
                                 <div v-if="!state" class="text-center">
                                     <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Конец</label> -->
-                                    <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_end')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  w-[100%] text-xs lg:text-lg" >
+                                    <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('date_end')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md dark:border-gray-700/70  p-0.5 font-[Montserrat-Medium]  w-[100%] text-xs lg:text-lg" >
                                         <div>{{event.date_end}}</div>
                                     </div>
                                 </div>
@@ -81,7 +81,7 @@
                         </div>
 
                         <div  class="xl:hidden lg:block min-w-[34%] mt-4">
-                            <div @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                            <div v-if="state" @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                 <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                             </div>
                         </div>
@@ -115,14 +115,14 @@
 
                         <div class="content-descriprion w-[100%]  lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400">
                             <h3 class=" font-[Montserrat-Bold] text-lg mb-2" >Описание</h3>
-                            <div v-if="!state">
-                                <h3 v-bind:class="{'border-blue-700/70 border rounded-lg':this.$props.changedFields != null && this.$props.changedFields.includes('description')}" class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5">
+                            <div v-if="!state" class="dark:bg-gray-700/50 dark:border-gray-700/70 p-0.5 rounded">
+                                <h3 v-bind:class="{'border-blue-700/70 border rounded-lg':this.$props.changedFields != null && this.$props.changedFields.includes('description')}" class="description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p-0.5 dark:bg-gray-700/50 dark:border-gray-700/70">
                                     {{event.description}}
                                 </h3>
                             </div>
                             <div>
-                                <div class="border-2 border-[#EDEDED] rounded-md" v-if="state" >
-                                    <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 dark:bg-gray-700/50" :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
+                                <div class=" rounded-md dark:bg-gray-700/50" v-if="state" >
+                                    <textarea :id="'event-'+event.id+'-description-input'"  class=" border-none bg-transparent description font-[Montserrat-Medium] w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] m-[auto]  text-xs lg:text-lg p2 " :value="event.description" name="description" cols="30" rows="10" @input="event => text = event.target.value"></textarea>
                                 </div>
                             </div>
 
@@ -152,16 +152,16 @@
                         <div class="mt-4">
                             <div  v-if="!state">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label> -->
-                                <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('materials')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
+                                <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('materials')}" class="flex justify-center border-2 border-[#EDEDED] dark:border-gray-700/70 rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
                                     <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                                 </div>
                             </div>
 
                             <label v-if="state">
                                 <!-- <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]">
-                                    <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200 mb-2">{{event.materials}}</p>
-                                    <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full dark:bg-gray-700/50" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem] dark:border-gray-700/70  ">
+                                    <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200  mb-2">{{event.materials}}</p>
+                                    <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full bg-transparent" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
                                 </div>
 
                             </label>
