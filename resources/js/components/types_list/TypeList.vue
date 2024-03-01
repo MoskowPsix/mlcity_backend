@@ -1,15 +1,15 @@
 
 
 <template>
-  <div :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="text-xs lg:text-lg min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
-    
+  <div v-bind:class="{'border-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(allSTypes.id)}" :id="type + '-'+ sightId +'-type-'+ allSTypes.id" class="text-xs lg:text-lg min-w-[12rem] flex  items-center border rounded-lg dark:border-gray-600/70 dark:bg-gray-800/50 p-4 m-2 max-w-full" >
+
     <div class="">
-      <input type="checkbox" class=" text-xs lg:text-lgrelative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @change="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
+      <input type="checkbox" class=" text-xs lg:text-lgrelative float-left  mr-[6px] mt-[6px] rounded h-5 w-5"  :checked="checkType(currentStypes)" @click="selectedType(allSTypes)" :disabled="!enableState" v-bind:class="{'opacity-30': !enableState}">
 
       <div class="flex " v-if="!checkChild()">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg" >{{ allSTypes.name }}</button>
       </div>
-    
+
       <div v-else class="absolute space-x-2 items-center" :id="type + '-'+ sightId +'-type-'+ allSTypes.id">
         <button @click="isExpanded = !isExpanded"  type="button" class="text-lg">{{ allSTypes.name }}</button>
         <div class="flex">
@@ -18,12 +18,12 @@
             <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
           </svg>
         </div>
-        
-        
+
+
       </div>
 
     </div>
-    
+
     <div v-if="allSTypes.stypes" :class=" {'ml-6': checkChild()}">
       <Collapse :when="isExpanded" v-for="stypes in allSTypes.stypes" v-bind:key="stypes.id">
        <TypeList :enableState="enableState" :allSTypes="stypes" :currentStypes="currentStypes" class="mb-2" @checked="selectedType"></TypeList>
@@ -31,8 +31,8 @@
     </div>
   </div>
 
-  
-  
+
+
 </template>
 
 <script>
@@ -50,6 +50,10 @@ export default{
     enableState: Boolean,
     sightId: Number,
     type: String,
+    changedTypeIds:{
+        type: Array,
+        default: null
+    }
   },
   components:{
     Collapse
@@ -85,7 +89,7 @@ export default{
   },
   selectedType(type){
     this.$emit("checked", type)
-    
+
   },
   childsLength(type){
     if (this.type == 'sight') {
@@ -108,11 +112,11 @@ export default{
       return count
     }
   }
-  
-  }
-  
 
-  
-  
+  }
+
+
+
+
 }
 </script>

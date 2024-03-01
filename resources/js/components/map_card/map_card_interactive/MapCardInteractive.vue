@@ -1,6 +1,6 @@
 <template lang="">
     <div class="map">
-        <input @input="inputChange" id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class=" w-[100%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
+        <input @input="inputChange" id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class=" w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
         <div id="result"></div>
         <YandexMap
         :id="'map'"
@@ -24,6 +24,7 @@
 </template>
 <script>
 import { YandexMap, YandexMarker, YaGeocoderService  } from 'vue-yandex-maps';
+import { unref } from 'vue'
 
 export default {
     name: 'MapCardInteractive',
@@ -72,7 +73,8 @@ export default {
             this.sub = new ymaps.SuggestView('search-map', {container: document.getElementById('result')});  
             this.sub.events.add('select', () => {     
                 this.ForwardGeocoder()
-                // let wrapper =  document.getElementById('search-map').value
+                let wrapper =  document.getElementById('result')
+                console.log(wrapper)
             })
         },
         // Достаём событие клика по карте
@@ -91,17 +93,6 @@ export default {
             wrapper.style.top = '0'
             wrapper.style.left = '0'
             wrapper.style.position = 'relative'
-        },
-        ForwardGeocoder() {
-            const wrapper =  document.getElementById('search-map').value
-            const geocodeResult = ymaps.geocode(wrapper, {
-                results: 1,
-            });
-            geocodeResult.then(result => {
-                const coords = result.geoObjects.get(0).geometry.getCoordinates();
-                this.$emit('onCoords', coords)
-                this.$emit('onAddress', wrapper)
-            })
         }
     },
     watch: {
