@@ -52,8 +52,10 @@
 
                             <div  v-if="!state" class="min-w-[34%] mb-4 ">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
-                                <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium] dark:border-gray-700/70 " >
-                                    <div class="text-xs lg:text-lg w-[100%] text-center" v-if="event.types">{{event.types[0].name}}</div>
+                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                    <div v-if="event.types" class="text-center py-2 space-y-2.5">
+                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4" > {{ etype.name }}</p>
+                                    </div>
                                 </div>
                             </div>
                             <div  v-if="state" class="hidden xl:block min-w-[34%] ">
@@ -91,7 +93,7 @@
                                 <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                                     <div   class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes && state">
-                                        <TypeList  :type="'event'" :sightId="event.id" :changedTypeIds="changedTypeIds" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
+                                        <TypeList  :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
                                     </div>
                                 </div>
                             </Transition>
@@ -133,7 +135,7 @@
                                 <div class="content-description-price-grid flex justify-center  ">
                                     <div class=" flex row flex-wrap max-w-[80%] ">
                                             <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                                             </div>
                                     </div>
                                 </div>
@@ -217,16 +219,16 @@
 
                 </div> -->
        </section>
-                
-                <div v-if="connectState.EditButton" class="max-[642px]:ml-[0rem] button-menu ml-[-16rem] fixed  w-full bottom-[0%] bg-[#fff] dark:bg-gray-900  z-50 ">
-                    <div class="ml-[auto] max-w-[20rem] pb-4">
+
+                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                    <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                         <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
                         <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
                     </div>
                 </div>
         </form>
-        
+
     </div>
 
     </template>
@@ -452,6 +454,8 @@
                         historyEvent.history_prices.push(item)
                     })
                     this.pricesUpd.forEach((item) => {
+                        delete item.id
+                        delete item.new_id
                         historyEvent.history_prices.push(item)
                     })
                 historyEvent.history_files = []
@@ -603,51 +607,34 @@
             return false
         },
 
-            addToCurrentTypes(type){
-                console.log(this.checkObjInArray(type, this.typesDel))
-                if (this.event.types.find(item => item.id === type.id)){
-                    console.log("del",type)
-                    if (this.checkObjInArray(type, this.typesDel)){
-                        this.typesDel = this.typesDel.filter(item => item.id !== type.id)
-                    } else {
-                        this.typesDel.push({"id": type.id, "on_delete":true})
-                    }
-
+        addToCurrentTypes(type){
+            console.log(this.checkObjInArray(type, this.typesDel))
+            if (this.event.types.find(item => item.id === type.id)){
+                console.log("del",type)
+                if (this.checkObjInArray(type, this.typesDel)){
+                    this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                 } else {
-                    console.log("add",type)
-                    if(this.typesUpd.find(item => item.id === type.id)) {
-                        this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
-                    } else {
-                        this.typesUpd.push({"id": type.id})
-                    }
-                }
-            },
-
-            sightUpdPrice(price){
-                if(this.pricesUpd.find(item => item.id === price.id)){
-                    let data
-                    let index
-
-                    for (let i=0; i<this.pricesUpd.length; i++){
-                        if (this.pricesUpd[i].id === price.id){
-                            data = this.pricesUpd[i]
-                            index = i
-                        }
-                    }
-
-
-                    if (price.descriptions){
-                        this.pricesUpd[index].descriptions = price.descriptions
-                    }
-                    else if(price.cost_rub){
-                        this.pricesUpd[index].cost_rub = price.cost_rub
-                    }
-                }
-                else{
-                    this.pricesUpd.push(price)
+                    this.typesDel.push({"id": type.id, "on_delete":true})
                 }
 
-            },
+            } else {
+                console.log("add",type)
+                if(this.typesUpd.find(item => item.id === type.id)) {
+                    this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
+                } else {
+                    this.typesUpd.push({"id": type.id})
+                }
+            }
+        },
+
+        priceUpd(price){
+            if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
+                let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
+                this.pricesUpd.push(p)
+            }
+            console.log("На обновление",this.pricesUpd)
+            console.log("Все цены", this.event.price)
+        },
             // addToCurrentPrices(){
             //     this.event.price.push({"cost_rub":null, "descriptions":""})
 

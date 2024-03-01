@@ -31,7 +31,7 @@
             <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
         </div> -->
             <div class="block rounded-lg bg-white  dark:bg-gray-900">
-               
+
                 <div class="flex justify-center">
                     <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
                         <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
@@ -439,10 +439,12 @@ export default {
             this.state = this.state
             this.getSight()
         },
-        test(price){
+        priceUpd(price){
             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
                 this.pricesUpd.push(price)
             }
+            console.log("На обновление",this.pricesUpd)
+            console.log("Все цены", this.sight.prices)
         },
 
         backButton(){
