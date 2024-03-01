@@ -1,5 +1,5 @@
 <template lang="">
-    <div class="flex flex-col lg:flex-row" v-if="event && connectState" :id="'event-'+event.id">
+    <div class="flex flex-col lg:flex-row pb-20" v-if="event && connectState" :id="'event-'+event.id">
         <!-- Кнопка назад -->
         <button
             v-if="connectState.BackButton"
@@ -86,7 +86,7 @@
                         </div>
                         <div class="flex w-[100%] mt-4">
                             <Transition name="slide-fade">
-                                <div @click.prevent="" :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                                <div :id="'event-'+event.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
                                     <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
                                     <div  class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes">
                                         <TypeList :type="'event'" :sightId="event.id" v-for="etype in allTypes" v-if="allTypes && event.types != null" :allSTypes="etype" :enableState="state" :currentStypes="event.types" @checked="addToCurrentTypes"/>
@@ -104,7 +104,7 @@
                                     </div>
                                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30
                                     dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
-                                    dark:hover:text-blue-400 hover:border-blue-500/30 active:scale-95 cursor-pointer mt-8 max-w-[14rem]">Добавить местопровидения</div>
+                                    hover:border-blue-500/30  cursor-pointer max-w-[14rem]">Добавить местопровидения</div>
                                 </div>
                             </div>
 
@@ -135,10 +135,12 @@
                                             </div>
                                     </div>
                                 </div>
-                                <svg v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-10 h-8 text-emerald-600 ml-auto"
+
+                                <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="text-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50"
                                 v-on:click="addToCurrentPrices()">
-                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
+                                    Добавить билет
+                                </div>
+
                             </div>
                         </div>
 
@@ -216,14 +218,15 @@
                 
        
         </form>
-    </div>
-    <div v-if="connectState.EditButton" class="fixed flex justify-center w-full bottom-[0%] bg-[#fff]  z-50 active:scale-95">
-        <div class="flex">
-            <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
-            <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
-            <button @click="editUpd()" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
+        <div v-if="connectState.EditButton" class="button-menu min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[80%] xl:max-w-[90%] 2xl:max-w-[88%]  justify-center fixed flex w-full bottom-[0%] bg-[#fff]  z-50">
+            <div class="m">
+                <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
+                <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
+                <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+            </div>
         </div>
     </div>
+
     </template>
     <script>
     import { mapActions} from 'pinia'
@@ -873,7 +876,12 @@
     </script>
     <style>
 
-
+    .button-menu{
+        max-height: 80px;
+        -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
+        -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
+        box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
+    }
     .unselectable {
         -webkit-user-select: none;
         -webkit-touch-callout: none;
