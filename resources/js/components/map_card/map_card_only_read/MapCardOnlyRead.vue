@@ -1,8 +1,4 @@
 <template lang="">
-    <!-- {{center}}
-    {{[marker.latitude, marker.longitude]}}
-    {{zoom}} -->
-
     <div>
         <YandexMap
         class="w-100 h-full"
@@ -17,17 +13,12 @@
             :marker-id="marker.id"               
             :events="[]">
             </YandexMarker>
-            <!-- <YandexMarker v-if="markers.length" v-for="marker in markers"
-            :coordinates="[marker.latitude, marker.longitude]" 
-            :marker-id="marker.id"               
-            :events="[]">
-            </YandexMarker> -->
     </YandexMap>
     </div>
 
 </template>
 <script>
-import { YandexMap, YandexMarker, loadYmap  } from 'vue-yandex-maps';
+import { YandexMap, YandexMarker } from 'vue-yandex-maps';
 
 export default {
     name: 'MapCardOnlyRead',
@@ -41,7 +32,7 @@ export default {
     },
     setup() {
         const settings = {
-            apiKey: import.meta.env.VITE_YANDEX_APP_KEY, // Индивидуальный ключ API
+            apiKey: import.meta.env.VITE_YANDEX_APP_KEY+ '&' + `suggest_apikey=${import.meta.env.VITE_YANDEX_APP_KEY_SUBGEKT}`, // Индивидуальный ключ API
             lang: 'ru_RU', // Используемый язык
             coordorder: 'latlong', // Порядок задания географических координат
             debug: true, // Режим отладки

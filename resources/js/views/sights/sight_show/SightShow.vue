@@ -35,7 +35,7 @@
                         <!-- Название достопримечательности -->
                             <div>
                                 <h1 class="font-[Montserrat-Regular]">Название</h1>
-                                <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode,'border-blue-400':this.$props.changedFields && this.$props.changedFields.name}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
+                                <div v-bind:class="{'border-blue-700/70':state,'border-blue-400':this.$props.changedFields && this.$props.changedFields.name}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
                                     <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
                                     <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
                                     type="text"
@@ -46,7 +46,7 @@
                         <!-- Оргаизатор достопримечательности -->
                             <div class="mt-4">
                                 <label class="font-[Montserrat-Regular]">Организатор</label>
-                                <div v-bind:class="{'border-blue-700/70':state, 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.sponsor}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
+                                <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.sponsor}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
                                     <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
                                     <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
                                     type="text"
@@ -61,7 +61,7 @@
                                 <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label>
                                 <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
                                     <div v-if="sight.types" class="text-center py-2 space-y-2.5">
-                                        <p v-for="s_type in sight.types" class="border-b-2 mx-4" v-bind:class="{ 'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}"> {{ s_type.name }}</p>
+                                        <p v-for="s_type in sight.types" class="border-b-2 mx-4"> {{ s_type.name }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -69,7 +69,7 @@
                             <div>
                                 <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                     <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
-                                    <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.work_time}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
+                                    <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.work_time}" class="transition duration-1000 border-2 border-[#EDEDED] rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
                                         <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
                                         <textarea  v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
                                         rows="3"
@@ -83,24 +83,27 @@
 
                         <div class="mt-4 mb-8">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label>
-                            <div v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.address}" class="transition duration-1000 border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium]">
+                            <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.address}" class="transition duration-1000 border-2 border-[#ededed] rounded-md  font-[Montserrat-Medium]">
                                 <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
-                                <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
+                                <!-- <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
                                 type="text"
                                 :id="'sight-'+sight.id+'-address-input'"
-                                class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"/>
+                                class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"/> -->
+                                <MapCardOnlyRead :id="'sight-'+sight.id+'-map'" v-if="!state && sight.latitude && sight.longitude" class="h-[18rem] mt-2" :marker="sight" :zoom="16" />
+                                <MapCardInteractive :id="'sight-'+sight.id+'-map-input'" v-if="state" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="newCoords" :zoom="16" />
                             </div>
                         </div>
-
+                        
+                        
                         <div class="mt-4">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
                             <div  v-bind:class="{' border-2 border-blue-400 border-lg':this.$props.changedFields && this.$props.changedFields.description}" class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
                                 <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
-                                <textarea v-bind:class="{'border-blue-700/70':state,'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
-                                        rows="12"
-                                        type="text"
-                                        :id="'sight-'+sight.id+'-description-input'"
-                                        class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
+                                <textarea v-bind:class="{'border-blue-700/70':state}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
+                                    rows="12"
+                                    type="text"
+                                    :id="'sight-'+sight.id+'-description-input'"
+                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
                                 </textarea>
                             </div>
                         </div>
@@ -112,7 +115,7 @@
                         </div>
 
 
-                    <div v-bind:class="{'bg-green-500/50': history_mode, 'bg-red-500/50': history_mode, 'bg-blue-500/50': history_mode, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
+                    <div v-bind:class="{'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
                         <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
                         <div v-if="sight.materials">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
@@ -177,6 +180,9 @@ import CarouselGallery from '../../../components/carousel_gallery/CarouselGaller
 import { useTypeStore } from '../../../stores/TypeStore'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
 import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
+import MapCardInteractive from '../../../components/map_card/map_card_interactive/MapCardInteractive.vue'
+import MapCardOnlyRead from '../../../components/map_card/map_card_only_read/MapCardOnlyRead.vue'
+import { useLocationStore } from '../../../stores/LocationStore'
 
 
 
@@ -186,7 +192,9 @@ export default {
         CarouselGallery,
         TypeList,
         PriceSegment,
-        ChangeStatus
+        ChangeStatus,
+        MapCardInteractive,
+        MapCardOnlyRead
     },
     props:{
         connectState:{
@@ -242,10 +250,9 @@ export default {
             typesUpd: [],
             pricesDel:[],
             pricesUpd:[],
-            history_mode: false,
-            history_add: true,
-            history_edit: true,
-            history_delete: true,
+            newCoords: [0, 0],
+            newAddress: '',
+            newLocation: {},
         }
     },
     methods: {
@@ -253,6 +260,7 @@ export default {
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useTypeStore,['getSightTypes']),
+        ...mapActions(useLocationStore, ['getLocationsByName', 'getLocationByCoords']),
         getSight() {
             let id
             this.$props.id ? id = this.id : id = this.$route.params.id
@@ -263,12 +271,11 @@ export default {
                     retry(3),
                     delay(100),
                     map(response => {
+                        this.newCoords = [response.data.latitude, response.data.longitude]
                         this.sight = response.data
                         this.status = this.sight.statuses[0].name
                         this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
                         console.log(response)
-
-
                     }),
                     catchError(err => {
                         console.log(err)
@@ -285,6 +292,21 @@ export default {
                 this.sight = this.$props.sight_
             }
 
+        },
+        setCoords(coords) {
+            this.getLocationByCoords(coords).pipe(
+                map(response => {
+                    this.newCoords = coords
+                    this.newLocation = response.data.location
+                }),
+                takeUntil(this.destroy$),
+                catchError(err => {
+                    console.log(err)
+                    return of(EMPTY)
+                })
+            ).subscribe()
+        }, setAddress(address) {
+            this.newAddress = address
         },
         searchTypeOpen(){
             const props = {}
@@ -483,24 +505,21 @@ export default {
             this.typesUpd = []
             this.pricesDel =[]
             this.pricesUpd =[]
+            this.newCoords = []
+            this.newAddress = ''
+            this.newLocation = {}
         },
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
 
             console.log(event.target)
             let mass = Object.entries(event.target.form)
-
-
-
             let historyData = {
                 id: this.sight.id,
                 type:"Sight",
                 history_content: {
-
                 }
             }
-
-
 
             // Перебираем массив и формируем форм дату
             mass.forEach(item => {
@@ -566,10 +585,21 @@ export default {
                 })
             }
 
+            if (this.newLocation.length) {
+                historyData.history_content.location = this.newLocation
+            }
+
+            if (this.newAddress != this.sight.address) {
+                historyData.history_content.address = this.newAddress
+            }
+
+            if (this.newCoords[0] != this.sight.latitude || this.newCoords[1] != this.sight.longitude) {
+                historyData.history_content.latitude = this.newCoords[0]
+                historyData.history_content.longitude = this.newCoords[1]
+            }
+
             if (this.pricesDel.length > 0 || this.pricesUpd.length > 0){
                 historyData.history_content.history_prices = []
-
-
 
                 this.pricesUpd.forEach(item => {
                     delete item.new_id

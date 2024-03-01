@@ -34,6 +34,7 @@
                 <MapCardOnlyRead :id="'event-'+eventId+'-place-' + place.id+ '-map'" v-if="!stateUpd && place.latitude && place.longitude" class="h-[20rem] mt-2" :marker="place" :zoom="16" />
                 <MapCardInteractive :id="'event-'+eventId+'-place-' + place.id+ '-map-input'" v-if="stateUpd" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="[place.latitude, place.longitude]" :zoom="16" />
             </div>
+           
 
             <div class=" flex flex-col  justify-items-center" >
                 <RouterLink :id="'event-'+eventId+'-place-' + place.id+ '-sight-route'" v-if="place.sight_id && !stateUpd" :to="{name: 'sight', params: {id: place.sight_id}}" class="transition font-medium hover:bg-gray-300 text-blue-400 dark:text-blue-400 mx-auto hover:dark:bg-gray-700 p-1 rounded-lg">
@@ -75,7 +76,7 @@ import MapCardInteractive from '../map_card/map_card_interactive/MapCardInteract
 import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useLocationStore } from '../../stores/LocationStore'
-import { useSightStore } from '../../stores/SightStore';
+import { useSightStore } from '../../stores/SightStore'
 
 
 export default {
