@@ -292,13 +292,18 @@ export default {
                     let eventPriceKeys = Object.keys(changedEvent.price[index])
                     let historyContentPriceKeys = Object.keys(this.historyContent.history_prices[hpIndex])
 
-                    console.log(eventPriceKeys, historyContentPriceKeys)
 
                     let mergedKeys = eventPriceKeys.filter(key =>
                     historyContentPriceKeys.includes(key)
                     &&
                     this.historyContent.history_prices[index][key] != null
+                    &&
+                    !['id','created_at','updated_at'].includes(key)
                     )
+
+                    mergedKeys.forEach((key) => {
+                        changedEvent.price[index][key] = this.historyContent.history_prices[hpIndex][key]
+                    })
                 }
             })
 

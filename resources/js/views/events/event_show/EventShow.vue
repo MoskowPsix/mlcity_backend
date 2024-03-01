@@ -135,7 +135,7 @@
                                 <div class="content-description-price-grid flex justify-center  ">
                                     <div class=" flex row flex-wrap max-w-[80%] ">
                                             <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="sightUpdPrice"/>
+                                                <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                                             </div>
                                     </div>
                                 </div>
@@ -454,6 +454,8 @@
                         historyEvent.history_prices.push(item)
                     })
                     this.pricesUpd.forEach((item) => {
+                        delete item.id
+                        delete item.new_id
                         historyEvent.history_prices.push(item)
                     })
                 historyEvent.history_files = []
@@ -605,51 +607,34 @@
             return false
         },
 
-            addToCurrentTypes(type){
-                console.log(this.checkObjInArray(type, this.typesDel))
-                if (this.event.types.find(item => item.id === type.id)){
-                    console.log("del",type)
-                    if (this.checkObjInArray(type, this.typesDel)){
-                        this.typesDel = this.typesDel.filter(item => item.id !== type.id)
-                    } else {
-                        this.typesDel.push({"id": type.id, "on_delete":true})
-                    }
-
+        addToCurrentTypes(type){
+            console.log(this.checkObjInArray(type, this.typesDel))
+            if (this.event.types.find(item => item.id === type.id)){
+                console.log("del",type)
+                if (this.checkObjInArray(type, this.typesDel)){
+                    this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                 } else {
-                    console.log("add",type)
-                    if(this.typesUpd.find(item => item.id === type.id)) {
-                        this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
-                    } else {
-                        this.typesUpd.push({"id": type.id})
-                    }
-                }
-            },
-
-            sightUpdPrice(price){
-                if(this.pricesUpd.find(item => item.id === price.id)){
-                    let data
-                    let index
-
-                    for (let i=0; i<this.pricesUpd.length; i++){
-                        if (this.pricesUpd[i].id === price.id){
-                            data = this.pricesUpd[i]
-                            index = i
-                        }
-                    }
-
-
-                    if (price.descriptions){
-                        this.pricesUpd[index].descriptions = price.descriptions
-                    }
-                    else if(price.cost_rub){
-                        this.pricesUpd[index].cost_rub = price.cost_rub
-                    }
-                }
-                else{
-                    this.pricesUpd.push(price)
+                    this.typesDel.push({"id": type.id, "on_delete":true})
                 }
 
-            },
+            } else {
+                console.log("add",type)
+                if(this.typesUpd.find(item => item.id === type.id)) {
+                    this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
+                } else {
+                    this.typesUpd.push({"id": type.id})
+                }
+            }
+        },
+
+        priceUpd(price){
+            if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
+                let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
+                this.pricesUpd.push(p)
+            }
+            console.log("На обновление",this.pricesUpd)
+            console.log("Все цены", this.event.price)
+        },
             // addToCurrentPrices(){
             //     this.event.price.push({"cost_rub":null, "descriptions":""})
 
