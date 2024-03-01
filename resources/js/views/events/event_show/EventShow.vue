@@ -214,14 +214,15 @@
                 </div> -->
         
                 
-            <div v-if="connectState.EditButton" class="transition  absolute rounded-lg  bottom-[-1px] right-0 left-0 w-full bg-[#fff]  z-50 active:scale-95">
-                <div class="flex justify-center">
-                    <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
-                    <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
-                    <button @click="editUpd()" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
-                </div>
-            </div>
+       
         </form>
+    </div>
+    <div v-if="connectState.EditButton" class="fixed flex justify-center w-full bottom-[0%] bg-[#fff]  z-50 active:scale-95">
+        <div class="flex">
+            <input v-if="state" @click="clickUpd($event)" class="rounded-lg bg-green-600 m-5 p-2 z-50 cursor-pointer" type="button" value="Применить">
+            <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-red-600 m-5 p-2 cursor-pointer">Отмена</button>
+            <button @click="editUpd()" v-if="!state" class="rounded-lg bg-blue-600 m-5 p-2 cursor-pointer">Редактировать</button>
+        </div>
     </div>
     </template>
     <script>
