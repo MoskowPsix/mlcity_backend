@@ -4,7 +4,7 @@
         <div class="rounded-lg border ">
             <!-- Оригинал -->
             <div class="flex justify-center">
-                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#3eb76c]" >Изменённый</h1>
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#3eb76c]" >Текущий</h1>
             </div>
             <EventShow v-if="event.id" class="rounded-lg"  :event_="event" :connectState="eventSettings"/>
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
@@ -14,7 +14,7 @@
             <!-- Жалкая пародия -->
             <!-- Кринж - Weqil -->
             <div class="flex justify-center fons">
-                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#6393FF]">Текущий</h1>
+                <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#6393FF]">Изменённый</h1>
             </div>
 
             <EventShow v-if="event.id" class="rounded-lg" :event_="historyContent" :changedFields="changedFields" :changedPlaceIds="changedPlaceIds" :changedTypeIds="changedTypeIds" :changedSeanceIds="changedSeanceIds" :connectState="eventSettings"/>
