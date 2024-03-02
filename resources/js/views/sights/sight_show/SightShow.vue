@@ -1,5 +1,5 @@
 <template lang="">
-    
+
     <div class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
         <button
             v-if="connectState.BackButton"
@@ -12,7 +12,7 @@
             </button>
         <form enctype="multipart/form-data">
 
-            
+
         <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
@@ -69,6 +69,8 @@
                                 </div>
                             </div>
 
+                            
+
                             <div>
                                 <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
                                     <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label>
@@ -96,8 +98,8 @@
                                 <MapCardInteractive :id="'sight-'+sight.id+'-map-input'" v-if="state" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="newCoords" :zoom="16" />
                             </div>
                         </div>
-                        
-                        
+
+
                         <div class="mt-4">
                             <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
                             <div  v-bind:class="{' border-2 border-blue-400 border-lg':this.$props.changedFields && this.$props.changedFields.description}" class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
@@ -118,6 +120,22 @@
                         </div>
 
 
+                    <div class="content-description-price mt-10">
+                            <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
+                            <div class="content-description-price-grid flex justify-center  ">
+                                <div class=" flex row flex-wrap max-w-[80%] ">
+                                        <div v-for="(price, index) in sight.prices" class="flex flex-row mt-2 mr-2">
+                                            <PriceSegment :class="{'border-blue-700/70':this.$props.changedPriceIds != null && this.$props.changedPriceIds.includes(price.id),'border-green-600':price.new != null && price.new}" class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+sight.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
+                                        </div>
+                                </div>
+                            </div>
+
+                            <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
+                            v-on:click="addToCurrentPrices()">
+                                Добавить билет
+                            </div>
+
+                        </div>
                     <div v-bind:class="{'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
                         <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
                         <div v-if="sight.materials">
@@ -164,7 +182,7 @@
 
             </div>
             <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
-                <ChangeStatus :id="'sight-'+sight.id+'-status'" v-if="sight.statuses" :editButton="connectState.EditButton" :status="sight.statuses[0].name" @statusChanged="statusChange"/>
+                <ChangeStatus :id="'sight-'+sight.id+'-status'" v-if="sight.statuses" :editButton="connectState.EditButton" :status="sight.statuses.name" @statusChanged="statusChange"/>
             </div>
         </form>
     </div>
