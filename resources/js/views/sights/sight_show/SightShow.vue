@@ -59,14 +59,36 @@
                             </div>
 
                         <!-- Типы -->
-                        <div class="grid lg:grid-cols-2 mt-4">
+                            <div class="grid lg:grid-cols-2 mt-4">
                             <div>
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label> -->
-                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                <div v-if="!state" v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
                                     <div v-if="sight.types" class="text-center py-2 space-y-2.5">
                                         <p v-for="s_type in sight.types" class="border-b-2 dark:border-gray-700/50 mx-4"> {{ s_type.name }}</p>
                                     </div>
                                 </div>
+                                <div  v-if="state" class="hidden xl:block min-w-[34%] ">
+                                    <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                                        <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div  class="xl:hidden lg:block min-w-[34%] mt-4">
+                                <div v-if="state" @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                                    <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
+                                </div>
+                            </div>
+
+                            <div class="flex w-[100%] mt-4 "  v-if="state">
+                                <Transition name="slide-fade">
+                                    <div :id="'event-'+sight.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
+                                        <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
+                                        <div   class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes && state">
+                                            <TypeList  :type="'sight'" :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
+                                        </div>
+                                    </div>
+                                </Transition>
                             </div>
 
                             
@@ -276,6 +298,7 @@ export default {
             newCoords: [0, 0],
             newAddress: '',
             newLocation: {},
+            openType: false
         }
     },
     methods: {
@@ -284,6 +307,9 @@ export default {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
         ...mapActions(useTypeStore,['getSightTypes']),
         ...mapActions(useLocationStore, ['getLocationsByName', 'getLocationByCoords']),
+        openTypeFnc(){
+                this.openType = !this.openType
+            },
         getSight() {
             let id
             this.$props.id ? id = this.id : id = this.$route.params.id

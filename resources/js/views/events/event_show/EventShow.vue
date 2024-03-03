@@ -612,7 +612,6 @@
         },
 
         addToCurrentTypes(type){
-            console.log(this.checkObjInArray(type, this.typesDel))
             if (this.event.types.find(item => item.id === type.id)){
                 console.log("del",type)
                 if (this.checkObjInArray(type, this.typesDel)){
