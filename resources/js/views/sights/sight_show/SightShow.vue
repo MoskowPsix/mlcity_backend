@@ -458,11 +458,12 @@ export default {
             this.getSight()
         },
         priceUpd(price){
-            if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
-                this.pricesUpd.push(price)
+             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
+                let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
+                this.pricesUpd.push(p)
             }
             console.log("На обновление",this.pricesUpd)
-            console.log("Все цены", this.sight.prices)
+            console.log("Все цены", this.event.price)
         },
 
         backButton(){
