@@ -324,7 +324,6 @@ export default {
                         this.sight = response.data
                         this.status = this.sight.statuses[0].name
                         this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
-                        console.log(response)
                     }),
                     catchError(err => {
                         console.log(err)
@@ -336,8 +335,6 @@ export default {
                 ).subscribe()
             }
             else{
-                console.log(this.$props.sight_)
-                console.log(this.$props)
                 this.sight = this.$props.sight_
             }
 
@@ -396,10 +393,6 @@ export default {
                     this.typesUpd.push({"id": type.id})
                 }
             }
-            // console.log(this.sight.types)
-
-            // console.log("на удаление", this.typesDel)
-            // console.log("на добавление", this.typesUpd)
         },
 
         deleteFromCurrentPrices(price){
@@ -488,8 +481,6 @@ export default {
                 let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
                 this.pricesUpd.push(p)
             }
-            console.log("На обновление",this.pricesUpd)
-            console.log("Все цены", this.event.price)
         },
 
         backButton(){
@@ -563,8 +554,6 @@ export default {
         },
         clickUpd(event) {
             // Передаём форму обработанную в масси в локальную переменную функции
-
-            console.log(event.target)
             let mass = Object.entries(event.target.form)
             let historyData = {
                 id: this.sight.id,
@@ -613,13 +602,11 @@ export default {
                 historyData.history_content.history_files = []
                     // Перебираем и передаём фото на добавлений в форм дату
                 this.filesUpd.forEach((item) => {
-                    // console.log('upd' + item)
                     // this.sightUpd.append("file[]",item)
                     historyData.history_content.history_files.push(item)
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
                 this.filesDel.forEach((item) => {
-                    // console.log('del' + item)
                     item.on_delete = true
                     historyData.history_content.history_files.push(item)
                 })

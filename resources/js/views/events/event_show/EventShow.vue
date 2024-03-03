@@ -520,7 +520,6 @@
                     type: "Event",
                     history_content: {...historyEvent}
                 }
-                console.log(params)
                 this.openLoaderFullPage()
                 this.saveHistory(params).pipe(
                     map(response => {
@@ -604,7 +603,6 @@
             checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
                 if (array[i].id === obj.id){
-                    console.log(obj, array)
                     return true
                 }
             }
@@ -613,7 +611,6 @@
 
         addToCurrentTypes(type){
             if (this.event.types.find(item => item.id === type.id)){
-                console.log("del",type)
                 if (this.checkObjInArray(type, this.typesDel)){
                     this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                 } else {
@@ -621,7 +618,6 @@
                 }
 
             } else {
-                console.log("add",type)
                 if(this.typesUpd.find(item => item.id === type.id)) {
                     this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
                 } else {
@@ -635,8 +631,6 @@
                 let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
                 this.pricesUpd.push(p)
             }
-            console.log("На обновление",this.pricesUpd)
-            console.log("Все цены", this.event.price)
         },
             // addToCurrentPrices(){
             //     this.event.price.push({"cost_rub":null, "descriptions":""})
