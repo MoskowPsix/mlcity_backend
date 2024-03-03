@@ -180,7 +180,7 @@ export default {
             this.getSightForIds(id).pipe(
                 map((data) => {
                     this.sight = data.data
-                    // console.log(this.sight)
+
 
                 })
             ).subscribe(()=>{
@@ -274,8 +274,6 @@ export default {
             this.historyContent = changedSight
         },
         mergeEvent(){
-
-            console.log(this.historyContent)
             let eventAttr = Object.keys(this.event)
             let historyContentAttr = Object.keys(this.historyContent)
             let changedEvent = JSON.parse(JSON.stringify(this.event))
@@ -286,6 +284,9 @@ export default {
 
             let eventTypeIds = []
             let forDeleteTypeIds = []
+            let forDeleteSeanceIds = []
+            let forDeletePlaceIds = []
+            let forDeletePriceIds = []
 
             let historyContentPlaceIds = []
             let historyContentPriceIds = []
@@ -330,16 +331,24 @@ export default {
             // Собираем id плейсов и сеансов у истории
             this.historyContent.history_places.forEach((place) => {
 
-                if(place.place_id == null){
+                if(place.place_id == null && place.on_delete == null){
                     let p = place
                     p.new = true
                     changedEvent.places_full.push(p)
+                }
+                else if(place.on_delete == true){
+                    forDeletePlaceIds.push(place.place_id)
                 }
                 else{
                     historyContentPlaceIds.push(place.place_id)
                     let historySeanceIds = []
                     place.history_seances.forEach((seance) => {
-                        historySeanceIds.push(seance.seance_id)
+                        if(seance.on_delete = true){
+                            forDeleteSeanceIds.push(seance.seance_id)
+                        }
+                        else{
+                            historySeanceIds.push(seance.seance_id)
+                        }
                     })
                     historyContentSeanceIds.push(historySeanceIds)
                 }
@@ -354,6 +363,10 @@ export default {
                 if(price.price_id == null){
                     price.new = true
                     changedEvent.price.push(price)
+                }
+                else if(price.on_delete==true){
+                    // historyContentPriceIds.push(price.price_id)
+                    forDeletePriceIds.push(price.price_id)
                 }
                 else{
                     historyContentPriceIds.push(price.price_id)
@@ -384,6 +397,8 @@ export default {
                     })
                 }
             })
+
+
 
             // Собираем id которые пересекаются в массивах
             eventPlaceIds.forEach((id, index) => {
@@ -442,6 +457,24 @@ export default {
                     })
                 }
             })
+            // Ищем цены на удаление
+            changedEvent.price.forEach(price => {
+                if(forDeletePriceIds.includes(price.id)){
+                    price.delete = true
+                }
+            })
+            // Ищем сеансы или плейсы на удаление
+            console.log(forDeletePlaceIds)
+            changedEvent.places_full.forEach(place => {
+                if(forDeletePlaceIds.includes(place.id)){
+                    place.delete = true
+                }
+                place.seances.forEach(seance=>{
+                    if(forDeleteSeanceIds.includes(seance.id)){
+                        seance.delete = true
+                    }
+                })
+            })
 
             let mergedStandartAttr = eventAttr.filter(key => historyContentAttr.includes(key) && this.historyContent[key] != null && !["id","created_at","updated_at","statuses", "user_id"].includes(key))
 
@@ -458,10 +491,9 @@ export default {
 
             this.historyContent.history_event_types.forEach((type) => {
                 if(forDeleteTypeIds.includes(type.id)){
+                    // смотрим если тип на удаление подсвечиваем его
                     let t = JSON.parse(JSON.stringify(type))
                     t.on_delete = true
-                    console.log(t)
-                    console.log(changedEvent.types)
                     changedEvent.types = changedEvent.types.filter(obj => obj.id != t.id)
                     changedEvent.types.push(t)
 
@@ -472,8 +504,6 @@ export default {
                 }
             })
 
-
-            console.log(changedEvent)
 
             this.historyContent = changedEvent
         }

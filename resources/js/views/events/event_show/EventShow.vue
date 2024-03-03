@@ -104,7 +104,7 @@
                             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                                 <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
                                     <div v-for="(place, index) in event.places_full" :key="place.id">
-                                        <PlacesListCard :class="{'border-green-600':place.new}" :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
+                                        <PlacesListCard :class="{'border-green-600':place.new, 'border-red-600':place.delete}" :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                                     </div>
                                     <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30
                                     dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
@@ -135,7 +135,7 @@
                                 <div class="content-description-price-grid flex justify-center  ">
                                     <div class=" flex row flex-wrap max-w-[80%] ">
                                             <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
-                                                <PriceSegment :class="{'border-blue-700/70':this.$props.changedPriceIds != null && this.$props.changedPriceIds.includes(price.id),'border-green-600':price.new != null && price.new}" class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
+                                                <PriceSegment :class="{'border-blue-700/70':this.$props.changedPriceIds != null && this.$props.changedPriceIds.includes(price.id),'border-green-600':price.new != null && price.new, 'border-red-600':price.delete != null & price.delete}" class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                                             </div>
                                     </div>
                                 </div>
@@ -483,7 +483,17 @@
                             if (item.id == 0) {
                                 delete item.id
                                 delete this.placeUpd[key].id
-                            }else{
+                            }
+                            else if(item.on_delete == true){
+                                let saveAttr = ['place_id','on_delete','id']
+                                Object.keys(item).forEach(key => {
+                                    if(!saveAttr.includes(key)){
+                                        item.place_id = item.id
+                                        delete item[key]
+                                    }
+                                })
+                            }
+                            else{
                                 this.placeUpd[key].place_id = JSON.parse(JSON.stringify(item.id))
                                 delete this.placeUpd[key].id
                             }
