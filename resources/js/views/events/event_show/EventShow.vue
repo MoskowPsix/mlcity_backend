@@ -36,7 +36,7 @@
                         <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
                         <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('name')}" class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center dark:border-gray-700/80  ">
                             <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
-                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-gray-400 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none  dark:border-gray-700/80" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-gray-400 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent text-center border-none  dark:border-gray-700/80" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
                         </div>
 
 
@@ -52,14 +52,14 @@
 
                             <div  v-if="!state" class="min-w-[34%] mb-4 ">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
-                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
                                     <div v-if="event.types" class="text-center py-2 space-y-2.5">
-                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4" > {{ etype.name }}</p>
+                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4 dark:border-gray-700/50" > {{ etype.name }}</p>
                                     </div>
                                 </div>
                             </div>
                             <div  v-if="state" class="hidden xl:block min-w-[34%] ">
-                                <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                                <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                     <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                                 </div>
                             </div>
@@ -220,7 +220,7 @@
                 </div> -->
        </section>
 
-                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff] dark:bg-gray-900  z-50">
                     <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                         <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
