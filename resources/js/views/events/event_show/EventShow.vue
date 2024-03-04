@@ -1,7 +1,7 @@
 <template lang="">
-    <div class="flex flex-col pb-20" v-if="event && connectState" :id="'event-'+event.id">
+    <div class="flex flex-col pb-20 mt-20" v-if="event && connectState" :id="'event-'+event.id">
         <!-- Кнопка назад -->
-        <button
+        <!-- <button
             v-if="connectState.BackButton"
             @click.prevent="backButton()"
             type="button"
@@ -9,7 +9,7 @@
             <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
             </svg>
-        </button>
+        </button> -->
         <form>
             <section class="flex flex-col justify-center max-w-[90%]  lg:min-w-[80%] lg:max-w-[80%] m-[auto]">
             <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
@@ -168,7 +168,7 @@
 
                         </div>
 
-                        <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]   justify-between mt-8 row">
+                        <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2 max-w-[100%]   justify-between mt-8 row">
                             <div class="" v-if="connectState.AuthorCard">
                                 <AuthorMiniCard v-if="event.author" :author="event.author"/>
                             </div>
@@ -176,13 +176,10 @@
                             <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
                                 <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
                             </div>
-                    </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
-
-
 
                 <!-- <div v-if="connectState.DescriptionsCard" class="flex flex-col border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2"> -->
                     <!-- <label>
@@ -216,17 +213,26 @@
                     </div>
 
                 </div> -->
-       </section>
+            </section>
 
-                <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full bottom-[0%] bg-[#fff] dark:bg-gray-900 z-50">
-                    <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
-                        <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
-                        <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
-                        <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
-                    </div>
+            <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50">
+                <div class="flex m-[auto] dark:bg-gray-900">
+                    <button
+                        v-if="connectState.BackButton"
+                        @click.prevent="backButton()"
+                        type="button"
+                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                    </button>
+                    <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
+                    <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
+                    <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+                    <p class="flex items-center">Статус: {{statusNow}}</p>
                 </div>
+            </div>
         </form>
-
     </div>
 
     </template>
@@ -354,6 +360,7 @@
                 history_edit: true,
                 history_delete: true,
                 priceId: 0,
+                statusNow: ''
             }
         },
 
@@ -514,7 +521,6 @@
                     type: "Event",
                     history_content: {...historyEvent}
                 }
-                console.log(params)
                 this.openLoaderFullPage()
                 this.saveHistory(params).pipe(
                     map(response => {
@@ -668,6 +674,7 @@
                     this.getEventForIds(id).pipe(
                     map(response => {
                         this.event = response.data
+                        this.statusNow = response.data.statuses[0].name
                         // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
                         // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)
                         this.closeLoaderFullPage()

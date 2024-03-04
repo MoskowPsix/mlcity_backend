@@ -1,7 +1,7 @@
 <template lang="">
 
     <div v-if="sight" class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
-        <button
+        <!-- <button
             v-if="connectState.BackButton"
             @click.prevent="backButton()"
             type="button"
@@ -9,7 +9,7 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                 </svg>
-            </button>
+            </button> -->
         <form enctype="multipart/form-data">
 
 
@@ -178,10 +178,10 @@
         </div>
 
             </div>
-        <div v-if="connectState.EditButton">
+        <!-- <div v-if="connectState.EditButton">
 
                 <input class="hidden" type="button" value="Применить" @click="clickUpd($event)" ref="accept" id="acceptButton">
-            <label for="acceptButton">
+                <label for="acceptButton">
                 <button  v-if="state" @click.prevent="$refs.accept.click()" class="absolute rounded-lg bottom-0 right-0 dark:bg-gray-800 bg-gray-100 m-5 p-2 z-50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-green-700">
                         <path stroke-linecap="round" stroke-linejoin="round" d="m20.25 7.5-.625 10.632a2.25 2.25 0 0 1-2.247 2.118H6.622a2.25 2.25 0 0 1-2.247-2.118L3.75 7.5m8.25 3v6.75m0 0-3-3m3 3 3-3M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125Z" />
@@ -190,7 +190,7 @@
 
                 </label>
 
-            <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 dark:bg-gray-800 m-5 mr-20 p-2 z-50">
+                <button @click="discardChanges()" v-if="state" class="absolute rounded-lg bottom-0 right-0 bg-gray-100 dark:bg-gray-800 m-5 mr-20 p-2 z-50">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-red-700">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M6 18 18 6M6 6l12 12" />
                     </svg>
@@ -202,9 +202,28 @@
                     </svg>
                 </button>
 
-            </div>
+            </div> -->
+            
             <div  v-if="!state && connectState.StatusCard && sight.statuses" class="bg-transparent  p-2 mt-1  dark:border-gray-700/70 dark:">
                 <ChangeStatus :id="'sight-'+sight.id+'-status'" v-if="sight.statuses.length" :editButton="connectState.EditButton" :status="sight.statuses[0].name" @statusChanged="statusChange"/>
+            </div>
+
+            <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50">
+                <div class="flex m-[auto] dark:bg-gray-900">
+                    <button
+                        v-if="connectState.BackButton"
+                        @click.prevent="backButton()"
+                        type="button"
+                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        </svg>
+                    </button>
+                    <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
+                    <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
+                    <button @click="state= !state" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+                    <p class="flex items-center">Статус: {{statusNow}}</p>
+                </div>
             </div>
         </form>
     </div>
@@ -298,7 +317,8 @@ export default {
             newCoords: [0, 0],
             newAddress: '',
             newLocation: {},
-            openType: false
+            openType: false,
+            statusNow: '',
         }
     },
     methods: {
@@ -324,6 +344,7 @@ export default {
                         this.sight = response.data
                         this.status = this.sight.statuses[0].name
                         this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
+                        this.statusNow = response.data.statuses[0].name
                     }),
                     catchError(err => {
                         console.log(err)
