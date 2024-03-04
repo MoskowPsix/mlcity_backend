@@ -201,6 +201,7 @@ export default {
 
             let mergedPriceIds = []
             let mergedTypeIds = []
+            let forDeletePriceIds = []
 
             let historyContentTypeIds = []
 
@@ -225,16 +226,30 @@ export default {
                 }
             })
 
+
+            // Собираем ids цен
             this.sight.prices.forEach((price) => {
                 sightPriceIds.push(price.id)
             })
+
+            // Собираем ids цен у истории
             this.historyContent.history_prices.forEach((price) => {
                 if(price.price_id == null){
                     price.new = true
                     changedSight.prices.push(price)
                 }
+                else if(price.price_id != null && price.on_delete == true){
+                    forDeletePriceIds.push(price.price_id)
+                }
                 else{
                     historyContentPriceIds.push(price.price_id)
+                }
+            })
+
+            // Ищем цены на удаление
+            changedSight.prices.forEach(price => {
+                if(forDeletePriceIds.includes(price.id)){
+                    price.delete = true
                 }
             })
 
