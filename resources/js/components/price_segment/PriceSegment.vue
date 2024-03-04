@@ -1,5 +1,5 @@
 <template lang="">
-    <div v-if="price" class="font-[Montserrat-Regular] m-8">
+    <div v-if="price" class="font-[Montserrat-Regular] m-8 ">
        
 
         <div class="flex flex-col items-center" v-if="state">

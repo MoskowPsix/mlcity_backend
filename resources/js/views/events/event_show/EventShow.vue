@@ -36,7 +36,7 @@
                         <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
                         <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('name')}" class="title text-center p-2 w-[100%] border-2 border-[#EDEDED] rounded-md  mt-1 font-[Montserrat-Medium] flex justify-center dark:border-gray-700/80  ">
                             <label  v-if="!state && connectState.NameLine" class="" :id="'event-'+event.id+'-name'"><h1 class="font-bold">{{event.name}}</h1></label>
-                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-gray-400 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none  dark:border-gray-700/80" :value="event.name" @input="event => text = event.target.value" type="text" name="name" :id="'event-'+event.id+'-name-input'">
+                            <input v-if="state && connectState.NameLine"  class="text-xs lg:text-lg leading-tight text-neutral-800 dark:text-gray-400 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0 bg-transparent w-[100%] text-center border-none  dark:border-gray-700/80" :value="event.name" @input="event => text = event.target.value" type="text" name="name" placeholder="Введите название мероприятия" :id="'event-'+event.id+'-name-input'">
                         </div>
 
 
@@ -44,7 +44,7 @@
                             <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label> -->
                             <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('sponsor')}" class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium]  sm:text-sm mt-2 dark:border-gray-700/80" >
                                 <div class="text-xs lg:text-lg" v-if="event.sponsor && !state">{{event.sponsor}}</div>
-                                <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-transparent text-center border-none" type="text" name="sponsor" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
+                                <input :id="'event-'+event.id+'-sponsor-input'" v-if="state" class="text-xs lg:text-lg w-full dark:bg-transparent text-center border-none" type="text" name="sponsor" placeholder="Введите оганизатора" id="sponsor" :value="event.sponsor" @input="event => text = event.target.value">
                             </div>
                         </div>
 
@@ -106,9 +106,7 @@
                                     <div v-for="(place, index) in event.places_full" :key="place.id">
                                         <PlacesListCard :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                                     </div>
-                                    <div v-if="state" @click.prevent="addNewPlace" class="transition border p-2 mt-2 rounded-lg font-medium text-center border-blue-500/70 font-[Montserrat-Regular] text-[#fff] bg-[#4C81F7] hover:bg-[#6393FF] hover:text-gray dark:hover:border-blue-500/30
-                                    dark:border-blue-500/70 dark:text-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700
-                                    hover:border-blue-500/30  cursor-pointer max-w-[14rem]">Добавить местопровидения</div>
+                                    <div v-if="state" @click.prevent="addNewPlace" class="  flex items-center justify-center tetxt-center max-w-[14rem]  xl:h-[4rem] md:h-[4rem] sm:h-[3rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20">Добавить местопровидения</div>
                                 </div>
                             </div>
 
@@ -130,17 +128,17 @@
 
                             <CarouselGallery :id="'event-'+event.id+'-gallery'" class="w-[100%]  lg:w-[100%] m-[auto]  mb-1 mt-4" v-if="event.files && connectState.Gallery" :files="event.files" :wrightState="state" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
 
-                            <div class="content-description-price mt-10">
+                            <div class="content-description-price mt-10 ">
                                 <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
-                                <div class="content-description-price-grid flex justify-center  ">
-                                    <div class=" flex row flex-wrap max-w-[80%] ">
-                                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                                <div class="content-description-price-grid flex justify-center m-[auto]  ">
+                                    <div class=" m-[auto] flex row flex-wrap max-w-[82%] ">
+                                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2 max-w-[15rem]">
                                                 <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                                             </div>
                                     </div>
                                 </div>
 
-                                <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
+                                <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="  flex items-center justify-center tetxt-center max-w-[14rem] h-[3rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
                                 v-on:click="addToCurrentPrices()">
                                     Добавить билет
                                 </div>
@@ -153,24 +151,24 @@
                         <!-- Материалы -->
                         <div class="mt-4">
                             <div  v-if="!state">
-                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label> -->
+                                <label class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2" for="">Материалы</label>
                                 <div v-bind:class="{'border-blue-700/70':this.$props.changedFields != null && this.$props.changedFields.includes('materials')}" class="flex justify-center border-2 border-[#EDEDED] dark:border-gray-700/70 rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem]" >
                                     <div class="text-xs lg:text-lg" v-if="event.sponsor">{{event.materials}}</div>
                                 </div>
                             </div>
 
                             <label v-if="state">
-                                <!-- <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1> -->
+                                <h1 class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</h1>
                                 <div class="flex justify-center border-2 border-[#EDEDED] rounded-md  p-0.5 font-[Montserrat-Medium]  sm:text-sm min-h-[2rem] dark:border-gray-700/70  ">
                                     <p :id="'event-'+event.id+'-materials'" v-if="!state" class="text-sm font-normal dark:text-gray-200  mb-2">{{event.materials}}</p>
-                                    <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs lg:text-lg border-none w-full bg-transparent" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
+                                    <input :id="'event-'+event.id+'-materials-input'" v-if="state" class="text-xs text-center lg:text-lg border-none w-full bg-transparent" placeholder="Введите ссылки и т.д" type="text" name="materials" id="materials" :value="event.materials" @input="event => text = event.target.value">
                                 </div>
 
                             </label>
 
                         </div>
 
-                        <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]  xl:flex justify-between mt-8 row">
+                        <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2  max-w-[100%]   justify-between mt-8 row">
                             <div class="" v-if="connectState.AuthorCard">
                                 <AuthorMiniCard v-if="event.author" :author="event.author"/>
                             </div>
@@ -220,7 +218,7 @@
                 </div> -->
        </section>
 
-                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full bottom-[0%] bg-[#fff] dark:bg-gray-900 z-50">
                     <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                         <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
