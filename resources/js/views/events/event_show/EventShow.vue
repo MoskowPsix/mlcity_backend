@@ -169,11 +169,11 @@
                         </div>
 
                         <div :id="'event-'+event.id+'-author'" v-if="connectState.AuthorCard && connectState.StatusCard" class="m-2 max-w-[100%]   justify-between mt-8 row">
-                            <div class="" v-if="connectState.AuthorCard">
+                            <div class="" v-if="connectState.AuthorCard && (JSON.parse(user).id != event.user_id)">
                                 <AuthorMiniCard v-if="event.author" :author="event.author"/>
                             </div>
-
-                            <div  v-if="!state && connectState.StatusCard" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
+                            <!-- || (role != 'root' || role != 'Admin' || role != 'Moderator' -->
+                            <div  v-if="!state && connectState.StatusCard &&  (role == 'root' || role == 'Admin' || role == 'Moderator')" class="bg-transparent  p-2 mt-1 dark:border-gray-700/70 dark:">
                                 <ChangeStatus :id="'event-'+event.id+'-status'" v-if="event.statuses" :editButton="connectState.EditButton" :status="event.statuses[0].name" @statusChanged="statusChange"/>
                             </div>
                         </div>
@@ -228,7 +228,7 @@
                     </button>
                     <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                     <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
-                    <button @click="editUpd()" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+                    <button @click="editUpd()" v-if="!state && (role == 'root' || JSON.parse(user).id == event.user_id)" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
                     <p class="flex items-center">Статус: {{statusNow}}</p>
                 </div>
             </div>
@@ -237,7 +237,7 @@
 
     </template>
     <script>
-    import { mapActions} from 'pinia'
+    import { mapActions, mapState } from 'pinia'
     import { useToastStore } from '../../../stores/ToastStore'
     import { MessageContents } from '../../../enums/content_messages'
     import { useEventStore } from '../../../stores/EventStore'
@@ -248,6 +248,7 @@
     import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { useDark } from '@vueuse/core'
+    import { useLocalStorageStore } from '../../../stores/LocalStorageStore'
     import router from '../../../routes'
 
     import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
@@ -373,12 +374,16 @@
             VueDatePicker,
             TypeList
         },
+        computed: {
+            ...mapState(useLocalStorageStore, ['user', 'role'])
+        },
         methods: {
             ...mapActions(useEventStore, ['getEventForIds', 'changeStatus']),
             ...mapActions(useToastStore, ['showToast']),
             ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
             ...mapActions(useHistoryContentStore, ['saveHistory']),
             ...mapActions(useTypeStore,['getEventTypes']),
+            // ...mapActions(useLocalStorageStore, ['getUser', 'getRole']),
             editUpd() {
                 this.eventTime = [
                     this.event.date_start,
@@ -692,6 +697,9 @@
                     this.event = this.$props.event_
                 }
 
+            },
+            getUserId() {
+                return this.user.id
             },
             deleteFiles(file) {
                 this.event.files.find((item, index) => {

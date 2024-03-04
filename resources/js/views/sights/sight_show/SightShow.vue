@@ -221,7 +221,7 @@
                     </button>
                     <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                     <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
-                    <button @click="state= !state" v-if="!state" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
+                    <button @click="state= !state" v-if="!state && (role == 'root' || JSON.parse(user).id == event.user_id)" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
                     <p class="flex items-center">Статус: {{statusNow}}</p>
                 </div>
             </div>
@@ -231,7 +231,7 @@
 
 <script>
 import TypeList from '../../../components/types_list/TypeList.vue'
-import { mapActions} from 'pinia'
+import { mapActions, mapState } from 'pinia'
 import { MessageContents } from '../../../enums/content_messages'
 import { useToastStore } from '../../../stores/ToastStore'
 import { useSightStore } from '../../../stores/SightStore'
@@ -247,6 +247,7 @@ import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 import MapCardInteractive from '../../../components/map_card/map_card_interactive/MapCardInteractive.vue'
 import MapCardOnlyRead from '../../../components/map_card/map_card_only_read/MapCardOnlyRead.vue'
 import { useLocationStore } from '../../../stores/LocationStore'
+import { useLocalStorageStore } from '../../../stores/LocalStorageStore'
 
 
 
@@ -320,6 +321,9 @@ export default {
             openType: false,
             statusNow: '',
         }
+    },
+    computed: {
+        ...mapState(useLocalStorageStore, ['user', 'role'])
     },
     methods: {
         ...mapActions(useSightStore, ['getSightForIds','saveSightHistory']),
