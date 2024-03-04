@@ -80,13 +80,13 @@ class HistoryContentController extends Controller
         info(request("type"));
         if(request("type") == "Event")
         {
-            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || !(Event::find(request('id'))->author->id == auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin" || auth('api')->user()->role[0]->name == "Moderator") || !(Event::find(request('id'))->author->id == auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
-        } 
+        }
         else
          {
-            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || !(Sight::find(request('id'))->author->id == auth('api')->user()->id)) {
+            if(!(auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin" || auth('api')->user()->role[0]->name == "Moderator") || !(Sight::find(request('id'))->author->id == auth('api')->user()->id)) {
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         }
