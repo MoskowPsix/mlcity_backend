@@ -19,7 +19,10 @@
                     Адрес
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Создано / Изменено
+                    Создано | Изменено
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Статус
                 </th>
                 
                
@@ -41,6 +44,7 @@
                         <svg v-if="sight.cult_id" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" fill="currentColor" aria-hidden="true" class="flex-shrink-0 w-6 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white">
                             <path d="M110.55 117.41L76.92 63.69l29.73-44.82c.45-.69.5-1.57.1-2.3a2.222 2.222 0 0 0-1.97-1.18H80.34c-.74 0-1.45.38-1.86 1L51.49 57.08V17.64c0-1.24-1.01-2.24-2.24-2.24h-21.9c-1.24 0-2.24 1-2.24 2.24V118.6c0 1.24 1 2.24 2.24 2.24h21.9c1.23 0 2.24-1 2.24-2.24V70.55l30.82 49.24c.41.65 1.13 1.05 1.9 1.05h24.44c.81 0 1.57-.44 1.96-1.16c.39-.71.37-1.58-.06-2.27z"></path>
                         </svg>
+                        <img v-for="stype in sight.types" class="text-gray-100 w-5 h-5 ml-1" :src="stype.ico">
                     </div>
                 </td>
                 <td class="px-6 py-4">
@@ -54,7 +58,10 @@
                     {{sight.address}}
                 </td>
                 <td class="px-6 py-4">
-                    {{sight.created_at.slice(0,19).replace("T", '  ')}} / {{sight.updated_at.slice(0,19).replace("T", '  ')}}
+                    {{sight.created_at.slice(0,19).replace("T", '  ')}} | {{sight.updated_at.slice(0,19).replace("T", '  ')}}
+                </td>
+                <td class="px-6 py-4">
+                    {{sight.statuses[0].name}}
                 </td>
                 
             </tr>
@@ -73,6 +80,5 @@ export default {
     }
 }
 </script>
-<style lang="">
-    
+<style >
 </style>

@@ -162,7 +162,7 @@ class SightController extends Controller
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
-        $sights = Sight::query()->with('files', 'author', 'locations')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -221,7 +221,7 @@ class SightController extends Controller
     public function getSightsForAuthor(Request $request) {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $sights->count();
         $response = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'sights' => $response, 'total' => $total], 200);
