@@ -52,14 +52,14 @@
 
                             <div  v-if="!state" class="min-w-[34%] mb-4 ">
                                 <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg " for="">Тип</label> -->
-                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
+                                <div v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
                                     <div v-if="event.types" class="text-center py-2 space-y-2.5">
-                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4 dark:border-gray-700/50" > {{ etype.name }}</p>
+                                        <p :class="{'border-b-blue-700/70':this.$props.changedTypeIds != null && this.$props.changedTypeIds.includes(etype.id), 'border-red-600': etype.on_delete != null && etype.on_delete}" v-for="etype in event.types" class="border-b-2 mx-4" > {{ etype.name }}</p>
                                     </div>
                                 </div>
                             </div>
                             <div  v-if="state" class="hidden xl:block min-w-[34%] ">
-                                <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
+                                <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
                                     <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@
                             <div  v-if="connectState.PlaceCard" class="2xl:col-span-3 xl:col-span-1 lg:ol-span-1 mt-2 ">
                                 <div :id="'event-'+event.id+'-place'" class=" dark: dark:border-gray-700 p-1 rounded-lg ">
                                     <div v-for="(place, index) in event.places_full" :key="place.id">
-                                        <PlacesListCard :class="{'border-green-600':place.new, 'border-red-600':place.delete}" :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
+                                        <PlacesListCard :changedPlaceIds="changedPlaceIds" :changedSeanceIds="changedSeanceIds" :id="'event-'+event.id+'-place-' + place.id" v-if="!place.on_delete" :eventId="event.id" :stateUpd="state" :index="index" :place="JSON.parse(JSON.stringify(place))" @onUpdPlace="setPlace" class="mt-2"/>
                                     </div>
                                     <div v-if="state" @click.prevent="addNewPlace" class="  flex items-center justify-center tetxt-center max-w-[14rem]  xl:h-[4rem] md:h-[4rem] sm:h-[3rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20">Добавить местопровидения</div>
                                 </div>
@@ -130,9 +130,9 @@
 
                             <div class="content-description-price mt-10 ">
                                 <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
-                                <div class="content-description-price-grid flex justify-center  ">
-                                    <div class=" flex row flex-wrap max-w-[80%] ">
-                                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2">
+                                <div class="content-description-price-grid flex justify-center m-[auto]  ">
+                                    <div class=" m-[auto] flex row flex-wrap max-w-[82%] ">
+                                            <div v-for="(price, index) in event.price" class="flex flex-row mt-2 mr-2 max-w-[15rem]">
                                                 <PriceSegment class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+event.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
                                             </div>
                                     </div>
@@ -218,7 +218,7 @@
                 </div> -->
        </section>
 
-                <div v-if="connectState.EditButton" class="button-menu ml-[-16%]   fixed  w-full bottom-[0%] bg-[#fff]  z-50">
+                <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full bottom-[0%] bg-[#fff] dark:bg-gray-900 z-50">
                     <div class=" m-[auto] dark:bg-gray-900 min-[2600px]:max-w-[100%] sm:max-w-[70%] md:max-w-[75%] lg:max-w-[70%] xl:max-w-[74%] 2xl:max-w-[76%]">
                         <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
                         <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
@@ -329,10 +329,6 @@
                 default: null
             },
             changedTypeIds:{
-                type: Array,
-                default: null
-            },
-            changedPriceIds:{
                 type: Array,
                 default: null
             }
@@ -481,17 +477,7 @@
                             if (item.id == 0) {
                                 delete item.id
                                 delete this.placeUpd[key].id
-                            }
-                            else if(item.on_delete == true){
-                                let saveAttr = ['place_id','on_delete','id']
-                                Object.keys(item).forEach(key => {
-                                    if(!saveAttr.includes(key)){
-                                        item.place_id = item.id
-                                        delete item[key]
-                                    }
-                                })
-                            }
-                            else{
+                            }else{
                                 this.placeUpd[key].place_id = JSON.parse(JSON.stringify(item.id))
                                 delete this.placeUpd[key].id
                             }
@@ -528,6 +514,7 @@
                     type: "Event",
                     history_content: {...historyEvent}
                 }
+                console.log(params)
                 this.openLoaderFullPage()
                 this.saveHistory(params).pipe(
                     map(response => {
@@ -611,6 +598,7 @@
             checkObjInArray(obj, array){
             for (let i = 0; i<array.length; i++){
                 if (array[i].id === obj.id){
+                    console.log(obj, array)
                     return true
                 }
             }
@@ -618,7 +606,9 @@
         },
 
         addToCurrentTypes(type){
+            console.log(this.checkObjInArray(type, this.typesDel))
             if (this.event.types.find(item => item.id === type.id)){
+                console.log("del",type)
                 if (this.checkObjInArray(type, this.typesDel)){
                     this.typesDel = this.typesDel.filter(item => item.id !== type.id)
                 } else {
@@ -626,6 +616,7 @@
                 }
 
             } else {
+                console.log("add",type)
                 if(this.typesUpd.find(item => item.id === type.id)) {
                     this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
                 } else {
@@ -639,6 +630,8 @@
                 let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
                 this.pricesUpd.push(p)
             }
+            console.log("На обновление",this.pricesUpd)
+            console.log("Все цены", this.event.price)
         },
             // addToCurrentPrices(){
             //     this.event.price.push({"cost_rub":null, "descriptions":""})
