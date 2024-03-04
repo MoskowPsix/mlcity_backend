@@ -1,6 +1,6 @@
 <template lang="">
-    <div class="map">
-        <input @input="inputChange" id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class=" w-[96%] border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
+    <div class="map mb-8">
+        <input @input="inputChange" id="search-map" placeholder="Поиск по адресу" type="text" name="search_address" class=" w-[100%] mb-2 border rounded-lg flex items-center dark:bg-gray-700/20 dark:border-gray-600/50">
         <div id="result"></div>
         <YandexMap
         :id="'map'"
@@ -19,7 +19,7 @@
             :events="[]">
             </YandexMarker>
     </YandexMap>
-    </div>
+    </div >
 
 </template>
 <script>

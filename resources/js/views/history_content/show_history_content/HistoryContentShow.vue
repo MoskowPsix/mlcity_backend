@@ -1,6 +1,6 @@
 <template lang="">
 
-    <div class="min[1366]:grid min[1366px]:grid-cols-2">
+    <div class="2xl:grid 2xl:grid-cols-2 ">
         <div class="rounded-lg border ">
             <!-- Оригинал -->
             <div class="flex justify-center">

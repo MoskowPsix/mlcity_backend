@@ -84,6 +84,7 @@ class HistoryContentController extends Controller
                 return response()->json(["status"=>"error", "message" => "access denied" ],403);
             }
         }
+        }
         else
          {
             if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id == auth('api')->user()->id))) {
