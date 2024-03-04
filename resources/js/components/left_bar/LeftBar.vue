@@ -179,7 +179,8 @@ export default {
             await localStorage.clear()
             await this.localStorageInit()
             this.toast.success(MessageAuth.success_logout)
-            this.$router.push({name: 'login'})
+            window.location.href = import.meta.env.VITE_FRONT_APP_URL
+            // this.$router.push({name: 'login'})
          })
          .catch(err => {
             if (399 < err.response.status && err.response.status < 500) {
