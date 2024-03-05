@@ -217,6 +217,7 @@ Route::controller(HistoryContentController::class)->group(function() {
     Route::get("history-content/{id}","getHistoryContentForIds")->middleware('moderator');
     Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
     Route::patch("history-content", "acceptHistoryContent")->middleware('moderator');
+    Route::get("history-content/{type}/{id}", "getHistoryContentForIdsContent");
 });
 
 Route::controller(OrganizationController::class)->group(function (){

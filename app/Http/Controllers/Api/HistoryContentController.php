@@ -14,6 +14,7 @@ use App\Filters\HistoryContent\HistoryContentEventTypes;
 use App\Filters\HistoryContent\HistoryContentSightTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
+use App\Http\Requests\HistoryContent\GetLimitPageRequest;
 use App\Mail\HistoryContentCanceled;
 use App\Models\Event;
 use App\Models\FileType;
@@ -64,6 +65,20 @@ class HistoryContentController extends Controller
                     });
         return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
+    public function getHistoryContentForIdsContent($type, $id, GetLimitPageRequest $request) 
+    {
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+        $page = $request->page;
+        if($type == 'sight') {
+            $historyContents = Sight::find($id)->historyContents();
+            $total = Sight::find($id)->historyContents()->count();
+        } elseif ($type == 'event') {
+            $historyContents = Event::find($id)->historyContents();
+            $total = Event::find($id)->historyContents()->count();
+        } 
+        $response =  $historyContents->orderBy('created_at')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return response()->json(["status" => "success", "history_contents" => $response, "total" => $total], 200);
+    }   
 
     public function getHistoryContentForIds($id)
     {

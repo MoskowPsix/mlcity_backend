@@ -13,6 +13,9 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
             case 'contentsForPageContents':
                 this.contentsForPageContents()
             break;
+            case 'contentsForPageHistoryByIdsEvent':
+                this.contentsForPageHistoryByIdsEvent()
+            break;
         }
 
         return this.queryParams
@@ -26,6 +29,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
             this.statusLast = useHistoryContentsFilterStore().getContentStatusLast(),
             this.user = useHistoryContentsFilterStore().getContentUser()
         },
+        // Страница контента установка параметров
         contentsForPageContents() {
             let date = ['', '']
             if (this.date) {
@@ -44,6 +48,22 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
                 page: this.pageContentsForPageContent
             }
         },
+        // Страница истории изменения контента установка параметров
+        contentsForPageHistoryByIdsEvent() {
+            this.queryParams = {
+                page: this.pageContentsForPageHistoryByIdsEvent,
+                limit: this.limitContentsForPageHistoryByIdsEvent
+            }
+        },
+        // Страница истории изменения контента установка страницы
+        setPageContentsForPageHistoryByIdsEvent(page) {
+            this.pageContentsForPageHistoryByIdsEven = page
+        },
+         // Страница истории изменения контента установка лимита
+        setLimitContentsForPageHistoryByIdsEvent(limit) {
+            this.limitContentsForPageHistoryByIdsEven = limit
+        },
+        // Страница контента установка страницы
         setPageContentsForPageContents(page) {
             this.pageContentsForPageContent = page
         },
@@ -57,7 +77,8 @@ export const useHistoryContentsQueryBuilderStore = defineStore('useHistoryConten
         statuses: null,
         statusLast: null,
         user: null,
-        pageContentsForPageContent: null
-        
+        pageContentsForPageContent: null,
+        pageContentsForPageHistoryByIdsEvent: null,
+        limitContentsForPageHistoryByIdsEvent: null, 
     }),
 })
