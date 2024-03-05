@@ -1,7 +1,20 @@
 <template lang="">
+    <!-- Кнопка назад -->
+    <div class="button-menu ml:[-16%]   fixed  w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50">
+        <div class="flex m-[auto] dark:bg-gray-900">
+            <button
+                @click.prevent="backButton()"
+                type="button"
+                class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                </svg>
+            </button>
+        </div>
+    </div>
 
-    <div class="2xl:grid 2xl:grid-cols-2 ">
-        <div class="rounded-lg border ">
+    <div class="2xl:grid 2xl:grid-cols-2 mt-20">
+        <div class="rounded-lg border dark:border-gray-700/50 m-1">
             <!-- Оригинал -->
             <div class="flex justify-center">
                 <h1 class=" font-[Montserrat-Bold] text-2xl mb-2 mt-2 text-[#3eb76c]" >Текущий</h1>
@@ -10,7 +23,7 @@
             <SightShow v-if="sight.id" class="rounded-lg" :sight_="sight" :connectState="sightSettings"/>
         </div>
 
-        <div class="rounded-lg border mt-8 md:mt-0 ">
+        <div class="rounded-lg border m-1  dark:border-gray-700/50">
             <!-- Жалкая пародия -->
             <!-- Кринж - Weqil -->
             <div class="flex justify-center fons">
@@ -47,7 +60,9 @@ import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
-import { ref } from 'vue'
+import router from '../../../routes'
+
+
 export default {
     name: 'ShowHistoryContent',
     // props: {
@@ -114,6 +129,9 @@ export default {
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useSightStore, ['getSightForIds']),
         ...mapActions(useEventStore, ['getEventForIds']),
+        backButton(){
+            router.go(-1)
+        },
         getElement(id) {
             let element = document.getElementById(id)
             if (element) {
