@@ -12,7 +12,7 @@
             </button>
         </div>
     </div>
-
+    <ModalHistoryContnet/>
     <div class="2xl:grid 2xl:grid-cols-2 mt-20">
         <div class="rounded-lg border dark:border-gray-700/50 m-1">
             <!-- Оригинал -->
@@ -60,6 +60,7 @@ import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
 import PlacesListCard from '../../../components/places_list_card/PlacesListCard.vue'
 import AuthorMiniCard from '../../../components/author-mini-card/AuthorMiniCard.vue'
 import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
+import ModalHistoryContnet from '../../../components/modal_hostory_content/ModalHistoryContnet.vue'
 import router from '../../../routes'
 
 
@@ -115,6 +116,7 @@ export default {
         }
     },
     components: {
+        ModalHistoryContnet,
         EventShow,
         SightShow,
         CarouselGallery,
