@@ -145,7 +145,7 @@ class SightTypeSeeder extends Seeder
 
         $type14 = new SightType();
         $type14->name = 'Торговые центры';
-        $type14->ico = '/storage/icons/supermarket';
+        $type14->ico = '/storage/icons/supermarket.svg';
         $type14->save();
 
         $type15 = new SightType();

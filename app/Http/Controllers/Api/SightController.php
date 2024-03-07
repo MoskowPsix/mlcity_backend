@@ -552,7 +552,9 @@ class SightController extends Controller
             }
 
         }
-        $sight->types()->sync($request->type);
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $sight->types()->sync($types);
         $sight->statuses()->attach($request->status, ['last' => true]);
         $sight->likes()->create();
 //        $sight->likes()->create([

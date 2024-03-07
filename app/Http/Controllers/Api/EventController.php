@@ -637,7 +637,9 @@ class EventController extends Controller
             }
         }
 
-        $event->types()->sync($request->type);
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $event->types()->sync($types);
         $event->statuses()->attach($request->status, ['last' => true]);
         $event->likes()->create();
 //        $event->likes()->create([
