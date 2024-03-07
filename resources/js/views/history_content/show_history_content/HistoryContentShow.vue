@@ -81,6 +81,7 @@ export default {
             historyContent: '', 
             historyStatus: '',
             historyContentId: 0,
+            historyContentIdContent: 0,
             event: {},
             sight: {},
             history:'',
@@ -153,7 +154,7 @@ export default {
             this.getHistoryList()
         },
         getHistoryList(){
-            this.getHistoryByIdsEvent(this.historyContent.history_contentable_id, this.type_element, this.queryBuilder('contentsForPageHistoryByIdsEvent')).pipe(
+            this.getHistoryByIdsEvent(this.historyContentIdContent, this.type_element, this.queryBuilder('contentsForPageHistoryByIdsEvent')).pipe(
                 map(response => {
                     this.history = response
                 }),
@@ -190,6 +191,7 @@ export default {
                 delay(100),
                 retry(2),
                 map(response => {
+                    this.historyContentIdContent = response.data.historyContents.history_contentable_id
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'

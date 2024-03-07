@@ -10,17 +10,8 @@
                 <li v-for="content in this.contents.data.history_contents.data" class="date-list-item">
                     {{ content.created_at}}
                 </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
+                <li @click.prevent="nextPage()" class="date-list-item">
+                    загрузить ещё
                 </li>
             </ul>
         </Transition>
@@ -123,7 +114,10 @@ export default {
     methods: {
         openDataMenu(){
             this.openModal = !this.openModal
-            console.log('1')
+            console.log(this.contents)
+        },
+        nextPage() {
+            this.$emit('nextPage', this.contents.next_cursor)
         }
     },
     mounted() {
