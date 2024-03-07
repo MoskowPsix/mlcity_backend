@@ -16,6 +16,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
 use App\Http\Requests\HistoryContent\GetLimitPageRequest;
 use App\Mail\HistoryContentCanceled;
+use App\Mail\HistoryContentChanged;
 use App\Models\Event;
 use App\Models\FileType;
 use App\Models\HistoryContent;
@@ -65,7 +66,7 @@ class HistoryContentController extends Controller
                     });
         return response()->json(["status"=>"success", "historyContents" => $response[0], "total" => $response[1]],200);
     }
-    public function getHistoryContentForIdsContent($type, $id, GetLimitPageRequest $request) 
+    public function getHistoryContentForIdsContent($type, $id, GetLimitPageRequest $request)
     {
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
         $page = $request->page;
@@ -75,10 +76,10 @@ class HistoryContentController extends Controller
         } elseif ($type == 'event') {
             $historyContents = Event::find($id)->historyContents();
             $total = Event::find($id)->historyContents()->count();
-        } 
+        }
         $response =  $historyContents->orderBy('created_at')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(["status" => "success", "history_contents" => $response, "total" => $total], 200);
-    }   
+    }
 
     public function getHistoryContentForIds($id)
     {
@@ -266,9 +267,8 @@ class HistoryContentController extends Controller
         $status = $request["status"];
         $historyContentId = $request["historyContent"]['id'];
 
-        if ($status == "Опубликованно")
+        if ($status == "Опубликовано")
         {
-            #достаем историю по id
             $historyContent = HistoryContent::find($historyContentId);
             $historyParent = $historyContent->historyContentable;
 
@@ -450,6 +450,10 @@ class HistoryContentController extends Controller
             $historyContent->historyContentStatuses()->create([
                 "status_id" => 1
             ]);
+
+            $userFavoriteEmails = $historyParent->favoritesUsers->pluck("email")->toArray();
+            $this->sendNotificationAboutChanges($userFavoriteEmails, $historyParent->name);
+            
             return response()->json(["status"=>"success"],201);
         }
 
@@ -503,6 +507,12 @@ class HistoryContentController extends Controller
             'local' => 1
         ])->file_types()->attach($type[0]->id);
 
+    }
+
+    private function sendNotificationAboutChanges($emails, $data){
+        for ($i = 0; $i<count($emails); $i++){
+            Mail::to($emails[$i])->send(new HistoryContentChanged($data));
+        }
     }
 
     private function prepareHistoryPlaceData($data){
