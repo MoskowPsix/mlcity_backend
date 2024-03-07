@@ -534,7 +534,7 @@ class SightController extends Controller
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
-            'work_time'     => $request->workTime,
+            // 'work_time'     => $request->workTime,
         ]);
 
         foreach ($request->price as $price){
@@ -552,7 +552,9 @@ class SightController extends Controller
             }
 
         }
-        $sight->types()->sync($request->type);
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $sight->types()->sync($types);
         $sight->statuses()->attach($request->status, ['last' => true]);
         $sight->likes()->create();
 //        $sight->likes()->create([
