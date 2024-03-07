@@ -2,24 +2,21 @@
 
     <section class="main">
       
-            <button  @click="openDataMenu" class="open-history-button">
+            <button  @click="openDataMenu" class="open-history-button dark:bg-gray-700">
                 История
             </button>
         <Transition name="slide-fade">
-            <ul v-if="openModal" class="date-list">
-                <li class="date-list-item">
+            <ul v-if="openModal" class="date-list dark:bg-gray-800">
+                <li class="date-list-item dark:bg-gray-700">
                     12.02.2023
                 </li>
-                <li class="date-list-item">
+                <li class="date-list-item dark:bg-gray-700">
                     12.02.2023
                 </li>
-                <li class="date-list-item">
+                <li class="date-list-item dark:bg-gray-700">
                     12.02.2023
                 </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
+                <li class="date-list-item dark:bg-gray-700">
                     12.02.2023
                 </li>
             </ul>
@@ -44,6 +41,7 @@
     }
 
     .open-history-button{
+        margin-right: -2rem;
         transform:rotate(90deg);
         background-color: #6393FF;
         color: #fff;
@@ -52,6 +50,7 @@
         border-radius: 8px;
         backface-visibility: hidden;
         transition: 0.3s;
+
         
     }
 
@@ -68,7 +67,7 @@
         width: clamp(12.5rem, 10.579rem + 10.25vw, 16rem);
         height:80%;
         overflow: auto;
-        margin-left: -2.4rem;
+        margin-left: -1rem;
         -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
         -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
         box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -115,7 +114,6 @@ export default {
     methods: {
         openDataMenu(){
             this.openModal = !this.openModal
-            console.log('1')
         }
     },
     mounted() {

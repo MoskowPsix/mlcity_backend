@@ -136,7 +136,7 @@ class SightTypeSeeder extends Seeder
 
         $type13 = new SightType();
         $type13->name = 'Культура';
-        $type13->ico = '/storage/icons/religion.svg';
+        $type13->ico = '/storage/icons/mask.svg';
         $type13->cult_id = 561;
         $type13->cult_path = "traditions";
         $type13->save();
