@@ -80,6 +80,7 @@ export default {
         return {
             historyContent: '', 
             historyStatus: '',
+            historyContentId: 0,
             event: {},
             sight: {},
             history:'',
@@ -168,7 +169,7 @@ export default {
         },
         statusChange(status) {
             this.openLoaderFullPage()
-            this.changeStatus(status, this.historyContent.id).pipe(
+            this.changeStatus(status, this.historyContentId).pipe(
                 map(response => {
                     this.showToast(MessageContents.success_upd_status_content, 'success')
                     this.getHistoryContent()
@@ -192,11 +193,13 @@ export default {
                     if (response.data.historyContents.history_contentable_type == 'App\\Models\\Sight') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'sight'
+                        this.historyContentId = response.data.historyContents.id
                         this.getSight(response.data.historyContents.history_contentable_id)
                         this.historyStatus = response.data.historyContents.statuses[0].name
                     } else if (response.data.historyContents.history_contentable_type == 'App\\Models\\Event') {
                         this.historyContent = response.data.historyContents
                         this.type_element = 'event'
+                        this.historyContentId = response.data.historyContents.id
                         this.getEvent(response.data.historyContents.history_contentable_id)
                         this.historyStatus = response.data.historyContents.statuses[0].name
                     } else {

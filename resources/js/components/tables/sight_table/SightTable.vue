@@ -10,6 +10,9 @@
                     Тип
                 </th>
                 <th scope="col" class="px-6 py-3">
+                    Статус
+                </th>
+                <th scope="col" class="px-6 py-3">
                     Имя
                 </th>
                 <th scope="col" class="px-6 py-3">
@@ -21,11 +24,9 @@
                 <th scope="col" class="px-6 py-3">
                     Создано | Изменено
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Статус
-                </th>
-                
-               
+
+
+
             </tr>
         </thead>
         <tbody>
@@ -37,7 +38,7 @@
                     <div class="flex justify-between ">
                         <!-- <svg v-if="event.history_contentable_type === 'App\\Models\\Event'" aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white enable-background:new 0 0 24 24" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path d="M16.53 11.06L15.47 10l-4.88 4.88-2.12-2.12-1.06 1.06L10.59 17l5.94-5.94zM19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"></path></svg>
-                    
+
                         <svg v-if="event.history_contentable_type === 'App\\Models\\Sight'" aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 500 600" xmlns="http://www.w3.org/2000/svg">
                         <path d="M 501.62 92.11 L 267.24 2.04 a 31.958 31.958 0 0 0 -22.47 0 L 10.38 92.11 A 16.001 16.001 0 0 0 0 107.09 V 144 c 0 8.84 7.16 16 16 16 h 480 c 8.84 0 16 -7.16 16 -16 v -36.91 c 0 -6.67 -4.14 -12.64 -10.38 -14.98 Z M 64 192 v 160 H 48 c -8.84 0 -16 7.16 -16 16 v 48 h 448 v -48 c 0 -8.84 -7.16 -16 -16 -16 h -16 V 192 h -64 v 160 h -96 V 192 h -64 v 160 h -96 V 192 H 64 Z m 432 256 H 16 c -8.84 0 -16 7.16 -16 16 v 32 c 0 8.84 7.16 16 16 16 h 480 c 8.84 0 16 -7.16 16 -16 v -32 c 0 -8.84 -7.16 -16 -16 -16 Z"></path></svg> -->
 
@@ -46,6 +47,9 @@
                         </svg>
                         <img v-for="stype in sight.types" class="text-gray-100 w-5 h-5 ml-1" :src="stype.ico">
                     </div>
+                </td>
+                <td class="px-6 py-4">
+                    {{sight.statuses[0].name}}
                 </td>
                 <td class="px-6 py-4">
                     {{sight.name}}
@@ -60,10 +64,8 @@
                 <td class="px-6 py-4">
                     {{sight.created_at.slice(0,19).replace("T", '  ')}} | {{sight.updated_at.slice(0,19).replace("T", '  ')}}
                 </td>
-                <td class="px-6 py-4">
-                    {{sight.statuses[0].name}}
-                </td>
-                
+
+
             </tr>
         </tbody>
     </table>

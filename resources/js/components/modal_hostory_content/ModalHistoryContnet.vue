@@ -2,7 +2,7 @@
 
     <section class="main">
       
-            <button  @click="openDataMenu" class="open-history-button">
+            <button  @click="openDataMenu" class="open-history-button dark:bg-gray-700">
                 История
             </button>
         <Transition name="slide-fade">
@@ -10,8 +10,17 @@
                 <li v-for="content in this.contents.data.history_contents.data" class="date-list-item">
                     {{ content.created_at}}
                 </li>
-                <li @click.prevent="nextPage()" class="date-list-item">
-                    загрузить ещё
+                <li class="date-list-item">
+                    12.02.2023
+                </li>
+                <li class="date-list-item">
+                    12.02.2023
+                </li>
+                <li class="date-list-item">
+                    12.02.2023
+                </li>
+                <li class="date-list-item">
+                    12.02.2023
                 </li>
             </ul>
         </Transition>
@@ -35,6 +44,7 @@
     }
 
     .open-history-button{
+        margin-right: -2rem;
         transform:rotate(90deg);
         background-color: #6393FF;
         color: #fff;
@@ -43,6 +53,7 @@
         border-radius: 8px;
         backface-visibility: hidden;
         transition: 0.3s;
+
         
     }
 
@@ -59,7 +70,7 @@
         width: clamp(12.5rem, 10.579rem + 10.25vw, 16rem);
         height:80%;
         overflow: auto;
-        margin-left: -2.4rem;
+        margin-left: -1rem;
         -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
         -moz-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
         box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -112,10 +123,7 @@ export default {
     methods: {
         openDataMenu(){
             this.openModal = !this.openModal
-            console.log(this.contents)
-        },
-        nextPage() {
-            this.$emit('nextPage', this.contents.next_cursor)
+            console.log('1')
         }
     },
     mounted() {
