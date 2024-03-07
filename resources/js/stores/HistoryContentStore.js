@@ -27,7 +27,7 @@ export const useHistoryContentStore = defineStore('useContent', {
             return from(axios.patch(`history-content`, params))
         },
         getHistoryByIdsEvent(id, type, params) {
-            return from(axios.patch(`history-content/${type}/${id}`, params))
+            return from(axios.get(`history-content/${type}/${id}`, params))
         }
     },
 })

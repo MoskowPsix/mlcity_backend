@@ -12,7 +12,7 @@
             </button>
         </div>
     </div>
-    <ModalHistoryContnet/>
+    <ModalHistoryContnet :contents="this.history" @nextPage="nextHistoryList"/>
     <div class="2xl:grid 2xl:grid-cols-2 mt-20">
         <div class="rounded-lg border dark:border-gray-700/50 m-1">
             <!-- Оригинал -->
@@ -48,6 +48,7 @@ import { useLoaderStore } from '../../../stores/LoaderStore'
 import { useHistoryContentStore } from '../../../stores/HistoryContentStore'
 import { useSightStore } from '../../../stores/SightStore'
 import { useEventStore } from '../../../stores/EventStore'
+import { useHistoryContentsQueryBuilderStore } from '../../../stores/HistoryContentQueryBuilderStore'
 import { catchError, tap, map, retry, delay, takeUntil} from 'rxjs/operators'
 import { of, EMPTY, Subject } from 'rxjs'
 import { useToastStore } from '../../../stores/ToastStore'
@@ -77,10 +78,11 @@ export default {
     },
     data() {
         return {
-            historyContent: '',
+            historyContent: '', 
             historyStatus: '',
             event: {},
             sight: {},
+            history:'',
             mergedSight: {},
             mergedEvent: {},
             changedFields: {},
@@ -127,10 +129,11 @@ export default {
     },
     methods: {
         ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useHistoryContentStore, ['getHistoryContentByIds', 'changeStatus']),
+        ...mapActions(useHistoryContentStore, ['getHistoryContentByIds', 'changeStatus', 'getHistoryByIdsEvent']),
         ...mapActions(useToastStore, ['showToast']),
         ...mapActions(useSightStore, ['getSightForIds']),
         ...mapActions(useEventStore, ['getEventForIds']),
+        ...mapActions(useHistoryContentsQueryBuilderStore, ['queryBuilder', 'setPageContentsForPageHistoryByIdsEvent']),
         backButton(){
             router.go(-1)
         },
@@ -143,6 +146,22 @@ export default {
             } else {
                 this.showToast('Элемента не существует', 'info')
             }
+        },
+        nextHistoryList(page) {
+            this.setPageContentsForPageHistoryByIdsEvent(page)
+            this.getHistoryList()
+        },
+        getHistoryList(){
+            this.getHistoryByIdsEvent(this.historyContent.history_contentable_id, this.type_element, this.queryBuilder('contentsForPageHistoryByIdsEvent')).pipe(
+                map(response => {
+                    this.history = response
+                }),
+                catchError(err => {
+                    console.log(err)
+                    return of(EMPTY)
+                }),
+                takeUntil(this.destroy$),
+            ).subscribe()
         },
         clickSeance(seance) {
             this.getElement(this.type_element+'-'+this.event.id+'-place-' + seance.place_id+ '-seance-'+seance.seance_id)
@@ -184,6 +203,7 @@ export default {
                         this.showToast(MessageContents.warning_one_history_content_type, 'warning')
                     }
                     this.closeLoaderFullPage()
+                    this.getHistoryList()
                     console.log( this.historyContent)
                 }),
                 catchError(err => {
