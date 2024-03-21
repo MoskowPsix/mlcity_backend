@@ -1,20 +1,17 @@
 // import axios from 'axios';
 import { defineStore } from 'pinia'
-import { useToast } from "vue-toastification"
 
-
-const toast = useToast()
 export const useLocalStorageStore = defineStore('LocalStorage', {
-    state: () =>({
+    state: () => ({
         token: null,
         role: null,
         user: {},
         auth: false,
-        timeZone: ''
+        timeZone: '',
     }),
     actions: {
         localStorageInit() {
-            if(localStorage.getItem('token')) {
+            if (localStorage.getItem('token')) {
                 this.token = localStorage.getItem('token')
                 this.role = localStorage.getItem('role')
                 this.user = localStorage.getItem('user')
@@ -23,7 +20,7 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
                 this.token = ''
                 this.role = ''
                 this.user = ''
-                this.timeZone= ''
+                this.timeZone = ''
                 this.auth = false
                 localStorage.clear()
             }
@@ -45,13 +42,12 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
             localStorage.setItem('timezone', JSON.stringify(timeZone))
             this.timeZone = timeZone
         },
-
     },
     getters: {
-        getToken() {  
+        getToken() {
             return this.token
         },
-        getUser() {  
+        getUser() {
             return this.user
         },
         getRole() {
@@ -62,6 +58,6 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
         },
         getTimeZone() {
             return this.timeZone
-        }
-    }
+        },
+    },
 })

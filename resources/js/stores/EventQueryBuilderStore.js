@@ -1,36 +1,34 @@
 import { defineStore } from 'pinia'
-import { useEventFilterStore } from './EventFilterStore';
-
+import { useEventFilterStore } from './EventFilterStore'
 
 export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
-    
     actions: {
         queryBuilder(func) {
-        this.updateParams()
+            this.updateParams()
 
-        switch(func) {
-            case 'eventsForPageEvents':
-                this.eventsForPageEvents()
-            break;
-        }
+            switch (func) {
+                case 'eventsForPageEvents':
+                    this.eventsForPageEvents()
+                    break
+            }
 
-        return this.queryParams
+            return this.queryParams
         },
         updateParams() {
-            this.name = useEventFilterStore().getEventName(),
-            this.date = useEventFilterStore().getEventDate(),
-            this.sponsor = useEventFilterStore().getEventSponsor(),
-            this.searchText = useEventFilterStore().getEventText(),
-            this.statuses = useEventFilterStore().getEventStatuses(),
-            this.statusLast = useEventFilterStore().getEventStatusLast(),
-            this.user = useEventFilterStore().getEventUser()
+            ;(this.name = useEventFilterStore().getEventName()),
+                (this.date = useEventFilterStore().getEventDate()),
+                (this.sponsor = useEventFilterStore().getEventSponsor()),
+                (this.searchText = useEventFilterStore().getEventText()),
+                (this.statuses = useEventFilterStore().getEventStatuses()),
+                (this.statusLast = useEventFilterStore().getEventStatusLast()),
+                (this.user = useEventFilterStore().getEventUser())
         },
         eventsForPageEvents() {
             let date = [new Date().toISOString(), new Date().toISOString()]
             if (this.date) {
                 date = this.date.split('~')
             }
-            
+
             this.queryParams = {
                 name: this.name,
                 dateStart: date[0],
@@ -40,7 +38,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 statuses: this.statuses,
                 statusesLast: this.statusLast,
                 user: this.user,
-                page: this.pageEventsForPageEvent
+                page: this.pageEventsForPageEvent,
             }
         },
         setPageEventForPageEvents(page) {
@@ -56,7 +54,6 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
         statuses: null,
         statusLast: null,
         user: null,
-        pageEventsForPageEvent: null
-        
+        pageEventsForPageEvent: null,
     }),
 })

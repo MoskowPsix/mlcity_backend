@@ -1,13 +1,9 @@
 <template lang="">
-    <div>
-        Types
-    </div>
+    <div> Types </div>
 </template>
 <script>
-export default {
-    name: 'Types',
-}
+    export default {
+        name: 'TypesPage',
+    }
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

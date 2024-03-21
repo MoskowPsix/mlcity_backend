@@ -1,14 +1,9 @@
-import axios from 'axios';
-import { defineStore } from 'pinia';
-import { from } from 'rxjs';
-import { useToast } from "vue-toastification";
+import axios from 'axios'
+import { defineStore } from 'pinia'
+import { from } from 'rxjs'
 
-
-const toast = useToast()
 export const useLocationStore = defineStore('useLocation', {
-    state: () =>({
-        
-    }),
+    state: () => ({}),
     actions: {
         getLocationsByName(name) {
             return from(axios.get(`location/name/${name}`))
@@ -16,9 +11,9 @@ export const useLocationStore = defineStore('useLocation', {
         getLocationByCoords(coords) {
             const params = {
                 latitude: coords[0],
-                longitude: coords[1]
+                longitude: coords[1],
             }
-            return from(axios.get(`locations/search/coords`, {params}))
-        }
+            return from(axios.get(`locations/search/coords`, { params }))
+        },
     },
 })

@@ -1,16 +1,29 @@
 import { defineStore } from 'pinia'
-import { BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs'
 
 export const useEventFilterStore = defineStore('useEventFilter', {
     state: () => ({
-        eventName: new BehaviorSubject(localStorage.getItem('eventNameFilter') || ''),
-        eventDate: new BehaviorSubject(localStorage.getItem('eventDateFilter') || '~'),
-        eventSponsor: new BehaviorSubject(localStorage.getItem('eventSponsorFilter') || ''),
-        eventSearchText: new BehaviorSubject(localStorage.getItem('eventTextFilter') || ''),
-        eventStatuses: new BehaviorSubject(localStorage.getItem('eventStatusesFilter') || ''),
-        eventStatusLast: new BehaviorSubject(localStorage.getItem('eventStatusLastFilter') || 'true'),
-        eventUser: new BehaviorSubject(localStorage.getItem('eventUserFilter') || ''),
+        eventName: new BehaviorSubject(
+            localStorage.getItem('eventNameFilter') || '',
+        ),
+        eventDate: new BehaviorSubject(
+            localStorage.getItem('eventDateFilter') || '~',
+        ),
+        eventSponsor: new BehaviorSubject(
+            localStorage.getItem('eventSponsorFilter') || '',
+        ),
+        eventSearchText: new BehaviorSubject(
+            localStorage.getItem('eventTextFilter') || '',
+        ),
+        eventStatuses: new BehaviorSubject(
+            localStorage.getItem('eventStatusesFilter') || '',
+        ),
+        eventStatusLast: new BehaviorSubject(
+            localStorage.getItem('eventStatusLastFilter') || 'true',
+        ),
+        eventUser: new BehaviorSubject(
+            localStorage.getItem('eventUserFilter') || '',
+        ),
     }),
     actions: {
         setEventName(name) {
@@ -25,7 +38,10 @@ export const useEventFilterStore = defineStore('useEventFilter', {
             this.eventDate = date
         },
         getEventDate() {
-            return localStorage.getItem('eventDateFilter') || this.eventDate.getValue()
+            return (
+                localStorage.getItem('eventDateFilter') ||
+                this.eventDate.getValue()
+            )
         },
         setEventSponsor(sponsor) {
             localStorage.setItem('eventSponsorFilter', sponsor)
@@ -33,7 +49,6 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         },
         getEventSponsor() {
             return localStorage.getItem('eventSponsorFilter')
-
         },
         setEventText(text) {
             localStorage.setItem('eventTextFilter', text)
@@ -62,6 +77,6 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         },
         getEventUser() {
             return localStorage.getItem('eventUserFilter')
-        }
+        },
     },
 })
