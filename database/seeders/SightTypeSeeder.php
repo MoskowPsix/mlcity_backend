@@ -160,7 +160,7 @@ class SightTypeSeeder extends Seeder
 
         $type17 = new SightType();
         $type17->name = 'Спорт';
-        $type17->ico = '/storage/icons/ball.svg';
+        $type17->ico = '/storage/icons/bike.svg';
         $type17->save();
     }
 }
