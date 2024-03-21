@@ -157,5 +157,10 @@ class SightTypeSeeder extends Seeder
         $type16->name = 'Рестораны';
         $type16->ico = '/storage/icons/restaurant.svg';
         $type16->save();
+
+        $type17 = new SightType();
+        $type17->name = 'Спортивные';
+        $type17->ico = '/storage/icons/bike.svg';
+        $type17->save();
     }
 }
