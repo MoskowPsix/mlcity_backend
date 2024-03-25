@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('address');
             $table->decimal('latitude', 17, 14);
             $table->decimal('longitude', 17, 14);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('price')->nullable();
             $table->longText('materials')->nullable();
             $table->dateTime('date_start');

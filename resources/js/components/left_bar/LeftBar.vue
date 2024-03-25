@@ -80,7 +80,7 @@
          </li> -->
          <li v-if="role == 'Admin' || role == 'root'">
             <RouterLink :to="{name: 'types'}" exact-active-class="bg-gray-400 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-900" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
-               <svg fill="currentColor" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-blue-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+               <svg fill="currentColor" class="flex-shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-blue-400 group-hover:text-gray-900 dark:group-hover:text-white" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                   viewBox="0 0 400 400" xml:space="preserve">
                   <g>
                      <path d="M69.897,265.767h260.206c1.822,0,3.509-0.958,4.442-2.522c0.934-1.564,0.976-3.505,0.111-5.107l-63.683-118.042
@@ -158,7 +158,7 @@ export default {
       const isDark = useDark();
       const toggleDark = useToggle(isDark);
       return {
-         isDark, 
+         isDark,
          toggleDark
       }
    },
@@ -173,23 +173,12 @@ export default {
          window.location.href = 'http://localhost:8000/telescope'
       },
       logoutSubmit() {
-         this.openLoaderFullPage()
-         this.logout().
-         then(async response => {
-            await localStorage.clear()
-            await this.localStorageInit()
-            this.toast.success(MessageAuth.success_logout)
-            window.location.href = import.meta.env.VITE_FRONT_APP_URL
-            // this.$router.push({name: 'login'})
-         })
-         .catch(err => {
-            if (399 < err.response.status && err.response.status < 500) {
-               this.toast.warning(MessageAuth.warning_logout + ': ' + err.message)
-            } else if(499 < err.response.status && err.response.status < 600) {
-               this.toast.error(MessageAuth.error_logout + ': ' + err.message)
-            }
-            this.closeLoaderFullPage()
-         })
+        this.openLoaderFullPage()
+        localStorage.clear()
+        this.localStorageInit()
+        this.toast.success(MessageAuth.success_logout)
+        window.location.href = import.meta.env.VITE_FRONT_APP_URL
+        // this.$router.push({name: 'login'})
       },
    },
 }
