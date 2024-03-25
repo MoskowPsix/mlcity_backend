@@ -3,11 +3,10 @@ const getters = {}
 const actions = {}
 const mutations = {}
 
-
-export default{
+export default {
     namespaced: true,
     state,
     getters,
     actions,
-    mutations
+    mutations,
 }

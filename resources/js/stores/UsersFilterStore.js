@@ -1,14 +1,21 @@
 import { defineStore } from 'pinia'
-import { BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs'
 
 export const useUsersFilterStore = defineStore('useUsersFilter', {
     state: () => ({
         name: new BehaviorSubject(localStorage.getItem('userNameFilter') || ''),
-        email: new BehaviorSubject(localStorage.getItem('userEmailFilter') || ''),
-        createdDate: new BehaviorSubject(localStorage.getItem('userCreatedDateStart') || '~'),
-        updatedDate: new BehaviorSubject(localStorage.getItem('userUpdatedDateStart') || '~'),
-        locationId: new BehaviorSubject(localStorage.getItem('userLocationIdFilter') || '')
+        email: new BehaviorSubject(
+            localStorage.getItem('userEmailFilter') || '',
+        ),
+        createdDate: new BehaviorSubject(
+            localStorage.getItem('userCreatedDateStart') || '~',
+        ),
+        updatedDate: new BehaviorSubject(
+            localStorage.getItem('userUpdatedDateStart') || '~',
+        ),
+        locationId: new BehaviorSubject(
+            localStorage.getItem('userLocationIdFilter') || '',
+        ),
     }),
     actions: {
         setName(name) {
@@ -17,28 +24,32 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
         },
         getName() {
             return localStorage.getItem('userNameFilter')
-        }, 
+        },
         setEmail(email) {
             localStorage.setItem('userEmailFilter', email)
             this.email = email
-        }, 
+        },
         getEmail() {
             return localStorage.getItem('userEmailFilter')
-        }, 
+        },
         setCreatedDate(date) {
             localStorage.setItem('userCreatedDateFilter', date)
             this.createdDate = date
-        }, 
+        },
         getCreatedDate() {
-            let date = localStorage.getItem('userCreatedDateFilter') || this.createdDate.getValue()
+            let date =
+                localStorage.getItem('userCreatedDateFilter') ||
+                this.createdDate.getValue()
             return date
-        }, 
+        },
         setUpdatedDate(date) {
             localStorage.setItem('userUpdatedDateFilter', date)
             this.updatedDate = date
-        }, 
+        },
         getUpdatedDate() {
-            let date = localStorage.getItem('userUpdatedDateFilter') || this.updatedDate.getValue()
+            let date =
+                localStorage.getItem('userUpdatedDateFilter') ||
+                this.updatedDate.getValue()
             return date
         },
         setLocation(locationId) {
@@ -47,6 +58,6 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
         },
         getLocation() {
             return localStorage.getItem('userLocationIdFilter')
-        }
+        },
     },
 })

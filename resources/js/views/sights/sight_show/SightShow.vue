@@ -1,6 +1,9 @@
 <template lang="">
-
-    <div v-if="sight" class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1" :id="'sight-'+sight.id">
+    <div
+        v-if="sight"
+        :id="'sight-' + sight.id"
+        class="min-w-full min-h-full bg-white dark:bg-gray-900 p-1"
+    >
         <!-- <button
             v-if="connectState.BackButton"
             @click.prevent="backButton()"
@@ -11,9 +14,7 @@
                 </svg>
             </button> -->
         <form enctype="multipart/form-data">
-
-
-        <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
+            <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
             <button
                 v-if="connectState.BackButton"
                 @click.prevent="backButton()"
@@ -30,155 +31,442 @@
             <input v-if="state && connectState.NameLine" :id="'sight-'+sight.id+'-name-input'" v-bind:value=sight.name @input="event => text = event.target.value" class="text-xl  leading-tight text-neutral-800 dark:text-neutral-50 w-2/4   dark:bg-gray-700rounded-lgp-2pl-1borderm-0">
             <label class="flex items-center w-3/12" :id="'sight-'+sight.id+'-id'"><h1>ID: {{sight.id}}</h1></label>
         </div> -->
-            <div class="block rounded-lg bg-white  dark:bg-gray-900">
-
+            <div class="block rounded-lg bg-white dark:bg-gray-900">
                 <div class="flex justify-center">
-                    <div class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5">
+                    <div
+                        class="flex items-center justify-center min-w-[100%] flex-col m-2 p-5"
+                    >
                         <div class="w-[100%] xl:w-[80%] text-xs lg:text-lg">
-                        <!-- Название достопримечательности -->
+                            <!-- Название достопримечательности -->
                             <div>
                                 <!-- <h1 class="font-[Montserrat-Regular]">Название</h1> -->
-                                <div v-bind:class="{'border-blue-700/70':state,'border-blue-400':this.$props.changedFields && this.$props.changedFields.name}" class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] dark:border-gray-700/50 h-10 rounded-lg mt-1 font-[Montserrat-Regular]">
-                                    <p v-if="!state && connectState.NameLine" class="text-center" :id="'sight-'+sight.id+'-name'">{{sight.name}}</p>
-                                    <input v-if="state && connectState.NameLine" v-bind:value=sight.name @input="event => text = event.target.value"
-                                    type="text"
-                                    :id="'sight-'+sight.id+'-name-input'"
-                                    class="rounded-sm border-none p-0 focus:shadow-md focus:rounded-sm focus:ring-1 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                                <div
+                                    :class="{
+                                        'border-blue-700/70': state,
+                                        'border-blue-400':
+                                            $props.changedFields &&
+                                            $props.changedFields.name,
+                                    }"
+                                    class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] dark:border-gray-700/50 h-10 rounded-lg mt-1 font-[Montserrat-Regular]"
+                                >
+                                    <p
+                                        v-if="!state && connectState.NameLine"
+                                        :id="'sight-' + sight.id + '-name'"
+                                        class="text-center"
+                                        >{{ sight.name }}</p
+                                    >
+                                    <input
+                                        v-if="state && connectState.NameLine"
+                                        :id="
+                                            'sight-' + sight.id + '-name-input'
+                                        "
+                                        :value="sight.name"
+                                        type="text"
+                                        class="rounded-sm border-none p-0 focus:shadow-md focus:rounded-sm focus:ring-1 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"
+                                        @input="
+                                            (event) =>
+                                                (text = event.target.value)
+                                        "
+                                    />
                                 </div>
                             </div>
-                        <!-- Оргаизатор достопримечательности -->
+                            <!-- Оргаизатор достопримечательности -->
                             <div class="mt-4">
                                 <!-- <label class="font-[Montserrat-Regular]">Организатор</label> -->
-                                <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.sponsor}" class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] dark:border-gray-700/50 rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg">
-                                    <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-sponsor'" >{{ sight.sponsor }}</p>
-                                    <input v-if="state && connectState.NameLine" v-bind:value=sight.sponsor @input="event => text = event.target.value"
-                                    type="text"
-                                    :id="'sight-'+sight.id+'-sponsor-input'"
-                                class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"/>
+                                <div
+                                    :class="{
+                                        'border-blue-700/70': state,
+                                        'border-blue-400':
+                                            $props.changedFields &&
+                                            $props.changedFields.sponsor,
+                                    }"
+                                    class="transition duration-1000 border-2 h-10 flex justify-center items-center border-[#EDEDED] dark:border-gray-700/50 rounded-md p-2 font-[Montserrat-Medium] sm:text-sm text-center lg:text-lg"
+                                >
+                                    <p
+                                        v-if="!state && connectState.NameLine"
+                                        :id="'sight-' + sight.id + '-sponsor'"
+                                        >{{ sight.sponsor }}</p
+                                    >
+                                    <input
+                                        v-if="state && connectState.NameLine"
+                                        :id="
+                                            'sight-' +
+                                            sight.id +
+                                            '-sponsor-input'
+                                        "
+                                        :value="sight.sponsor"
+                                        type="text"
+                                        class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 p-0 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full text-center"
+                                        @input="
+                                            (event) =>
+                                                (text = event.target.value)
+                                        "
+                                    />
                                 </div>
                             </div>
 
-                        <!-- Типы -->
+                            <!-- Типы -->
                             <div class="grid lg:grid-cols-2 mt-4">
-                            <div>
-                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label> -->
-                                <div v-if="!state" v-bind:class="{'border-blue-700/70':state}" class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5">
-                                    <div v-if="sight.types" class="text-center py-2 space-y-2.5">
-                                        <p v-for="s_type in sight.types" class="border-b-2 dark:border-gray-700/50 mx-4"> {{ s_type.name }}</p>
-                                    </div>
-                                </div>
-                                <div  v-if="state" class="hidden xl:block min-w-[34%] ">
-                                    <div @click.prevent="openTypeFnc()" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
-                                        <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div  class="xl:hidden lg:block min-w-[34%] mt-4">
-                                <div v-if="state" @click.prevent="openTypeFnc()" class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50  cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20">
-                                    <label class=" font-[Montserrat-Regular]  cursor-pointer unselectable " for="">Изменить тип</label>
-                                </div>
-                            </div>
-
-                            <div class="flex w-[100%] mt-4 "  v-if="state">
-                                <Transition name="slide-fade">
-                                    <div :id="'event-'+sight.id+'-type'" v-if="connectState.TypeCard && openType" class=" z-50  rounded-lg  h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2">
-                                        <h1 class="text-xl font-medium dark:text-gray-300 mb-1">Типы</h1>
-                                        <div   class="  max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex  flex-wrap-reverse  row  mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20 " v-if="allTypes && state">
-                                            <TypeList  :type="'sight'" :sightId="sight.id" v-for="stype in allTypes" v-if="allTypes && sight.types != null" :allSTypes="stype" :enableState="state" :currentStypes="sight.types" @checked="addToCurrentTypes"/>
+                                <div>
+                                    <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Типы</label> -->
+                                    <div
+                                        v-if="!state"
+                                        :class="{ 'border-blue-700/70': state }"
+                                        class="transition duration-1000 border-2 dark:border-gray-700/50 rounded-md font-[Montserrat-Medium] max-w-[60%] py-0.5"
+                                    >
+                                        <div
+                                            v-if="sight.types"
+                                            class="text-center py-2 space-y-2.5"
+                                        >
+                                            <p
+                                                v-for="s_type in sight.types"
+                                                :key="s_type.id"
+                                                class="border-b-2 dark:border-gray-700/50 mx-4"
+                                            >
+                                                {{ s_type.name }}</p
+                                            >
                                         </div>
                                     </div>
-                                </Transition>
-                            </div>
+                                    <div
+                                        v-if="state"
+                                        class="hidden xl:block min-w-[34%]"
+                                    >
+                                        <div
+                                            class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
+                                            @click.prevent="openTypeFnc()"
+                                        >
+                                            <label
+                                                class="font-[Montserrat-Regular] cursor-pointer unselectable"
+                                                for=""
+                                                >Изменить тип</label
+                                            >
+                                        </div>
+                                    </div>
+                                </div>
 
-                            
+                                <div
+                                    class="xl:hidden lg:block min-w-[34%] mt-4"
+                                >
+                                    <div
+                                        v-if="state"
+                                        class="flex items-center justify-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
+                                        @click.prevent="openTypeFnc()"
+                                    >
+                                        <label
+                                            class="font-[Montserrat-Regular] cursor-pointer unselectable"
+                                            for=""
+                                            >Изменить тип</label
+                                        >
+                                    </div>
+                                </div>
 
-                            <div>
-                                <div class="lg:max-w-[100%] sm:max-w-[70%] h-40">
-                                    <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label> -->
-                                    <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.work_time}" class="transition duration-1000 border-2 border-[#EDEDED] dark:border-gray-700/50 rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6">
-                                        <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-work_time'">{{sight.work_time }}</p>
-                                        <textarea  v-if="state && connectState.NameLine" v-bind:value=sight.work_time @input="event => text = event.target.value"
-                                        rows="3"
-                                        type="text"
-                                        :id="'sight-'+sight.id+'-work_time-input'"
-                                        class="rounded-sm border-none focus:shadow-md dark:bg-gray-800 focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"></textarea>
+                                <div
+                                    v-if="state"
+                                    class="flex w-[100%] mt-4"
+                                >
+                                    <Transition name="slide-fade">
+                                        <div
+                                            v-if="
+                                                connectState.TypeCard &&
+                                                openType
+                                            "
+                                            :id="'event-' + sight.id + '-type'"
+                                            class="z-50 rounded-lg h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2"
+                                        >
+                                            <h1
+                                                class="text-xl font-medium dark:text-gray-300 mb-1"
+                                                >Типы</h1
+                                            >
+                                            <div
+                                                v-if="allTypes && state"
+                                                class="max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex flex-wrap-reverse row mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20"
+                                            >
+                                                <div
+                                                    v-for="stype in allTypes"
+                                                    :key="stype.id"
+                                                >
+                                                    <TypeList
+                                                        v-if="
+                                                            allTypes &&
+                                                            sight.types != null
+                                                        "
+                                                        :type="'sight'"
+                                                        :sight-id="sight.id"
+                                                        :all-s-types="stype"
+                                                        :enable-state="state"
+                                                        :current-stypes="
+                                                            sight.types
+                                                        "
+                                                        @checked="
+                                                            addToCurrentTypes
+                                                        "
+                                                    />
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </Transition>
+                                </div>
+
+                                <div>
+                                    <div
+                                        class="lg:max-w-[100%] sm:max-w-[70%] h-40"
+                                    >
+                                        <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Расписание</label> -->
+                                        <div
+                                            :class="{
+                                                'border-blue-700/70': state,
+                                                'border-blue-400':
+                                                    $props.changedFields &&
+                                                    $props.changedFields
+                                                        .work_time,
+                                            }"
+                                            class="transition duration-1000 border-2 border-[#EDEDED] dark:border-gray-700/50 rounded-md min-h-[112px] h-max p-2 font-[Montserrat-Medium] leading-6"
+                                        >
+                                            <p
+                                                v-if="
+                                                    !state &&
+                                                    connectState.NameLine
+                                                "
+                                                :id="
+                                                    'sight-' +
+                                                    sight.id +
+                                                    '-work_time'
+                                                "
+                                                >{{ sight.work_time }}</p
+                                            >
+                                            <textarea
+                                                v-if="
+                                                    state &&
+                                                    connectState.NameLine
+                                                "
+                                                :id="
+                                                    'sight-' +
+                                                    sight.id +
+                                                    '-work_time-input'
+                                                "
+                                                :value="sight.work_time"
+                                                rows="3"
+                                                type="text"
+                                                class="rounded-sm border-none focus:shadow-md dark:bg-gray-800 focus:rounded-sm focus:ring-1 p-0 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"
+                                                @input="
+                                                    (event) =>
+                                                        (text =
+                                                            event.target.value)
+                                                "
+                                            ></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <div class="mb-8">
-                            <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label> -->
-                            <div v-bind:class="{'border-blue-700/70':state, 'border-blue-400':this.$props.changedFields && this.$props.changedFields.address}" class="transition dark:border-gray-700/50 p-2 duration-1000 border-2 border-[#ededed] rounded-md  font-[Montserrat-Medium]">
-                                <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-address'">{{ sight.address }}</p>
-                                <!-- <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
+                            <div class="mb-8">
+                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Место проведения</label> -->
+                                <div
+                                    :class="{
+                                        'border-blue-700/70': state,
+                                        'border-blue-400':
+                                            $props.changedFields &&
+                                            $props.changedFields.address,
+                                    }"
+                                    class="transition dark:border-gray-700/50 p-2 duration-1000 border-2 border-[#ededed] rounded-md font-[Montserrat-Medium]"
+                                >
+                                    <p
+                                        v-if="!state && connectState.NameLine"
+                                        :id="'sight-' + sight.id + '-address'"
+                                        >{{ sight.address }}</p
+                                    >
+                                    <!-- <input v-if="state && connectState.NameLine" v-bind:value=sight.address @input="event => text = event.target.value"
                                 type="text"
                                 :id="'sight-'+sight.id+'-address-input'"
                                 class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"/> -->
-                                <MapCardOnlyRead :id="'sight-'+sight.id+'-map'" v-if="!state && sight.latitude && sight.longitude" class="h-[18rem] mt-2" :marker="sight" :zoom="16" />
-                                <MapCardInteractive :id="'sight-'+sight.id+'-map-input'" v-if="state" @onCoords="setCoords" @onAddress="setAddress" class="h-[20rem] mt-2" :marker="newCoords" :zoom="16" />
-                            </div>
-                        </div>
-
-
-                        <div class="mt-4">
-                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Описание</label>
-                            <div  v-bind:class="{' border-2 border-blue-400 border-lg':this.$props.changedFields && this.$props.changedFields.description}" class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5">
-                                <p v-if="!state && connectState.NameLine" :id="'sight-'+sight.id+'-description'">{{sight.description}}</p>
-                                <textarea v-bind:class="{'border-blue-700/70':state}" v-if="state && connectState.NameLine" v-bind:value=sight.description @input="event => text = event.target.value"
-                                    rows="12"
-                                    type="text"
-                                    :id="'sight-'+sight.id+'-description-input'"
-                                    class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
-                                </textarea>
-                            </div>
-                        </div>
-
-                        <div>
-                            <div>
-                                <CarouselGallery :id="'sight-'+sight.id+'-gallery'" :files="sight.files" :wrightState="state" v-if="sight.files && connectState.Gallery" @onDeleteFile="deleteFiles" @onUpdateFile="updateFiles"></CarouselGallery>
-                            </div>
-                        </div>
-
-
-                    <div class="content-description-price mt-10">
-                            <h3 class=" font-[Montserrat-Bold] text-lg">Цены</h3>
-                            <div class="content-description-price-grid flex justify-center  ">
-                                <div class=" flex row flex-wrap max-w-[80%] ">
-                                        <div v-for="(price, index) in sight.prices" class="flex flex-row mt-2 mr-2">
-                                            <PriceSegment :class="{'border-blue-700/70':this.$props.changedPriceIds != null && this.$props.changedPriceIds.includes(price.id),'border-green-600':price.new != null && price.new}" class=" p-2 border  dark:border-gray-700/50 rounded-lg" :id="'event-'+sight.id+'-price-'+price.id" :price="price" :state="state" :index="index" @onDelPrice="deleteFromCurrentPrices" @onUpdPrice="priceUpd"/>
-                                        </div>
+                                    <MapCardOnlyRead
+                                        v-if="
+                                            !state &&
+                                            sight.latitude &&
+                                            sight.longitude
+                                        "
+                                        :id="'sight-' + sight.id + '-map'"
+                                        class="h-[18rem] mt-2"
+                                        :marker="sight"
+                                        :zoom="16"
+                                    />
+                                    <MapCardInteractive
+                                        v-if="state"
+                                        :id="'sight-' + sight.id + '-map-input'"
+                                        class="h-[20rem] mt-2"
+                                        :marker="newCoords"
+                                        :zoom="16"
+                                        @on-coords="setCoords"
+                                        @on-address="setAddress"
+                                    />
                                 </div>
                             </div>
 
-                            <div v-if="state" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class=" flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] rounded-md  dark:bg-gray-700/50 cursor-pointer text-center unselectable rounded transition hover:dark:bg-gray-700/20"
-                            v-on:click="addToCurrentPrices()">
-                                Добавить билет
+                            <div class="mt-4">
+                                <label
+                                    class="font-[Montserrat-Regular] text-xs lg:text-lg"
+                                    >Описание</label
+                                >
+                                <div
+                                    :class="{
+                                        ' border-2 border-blue-400 border-lg':
+                                            $props.changedFields &&
+                                            $props.changedFields.description,
+                                    }"
+                                    class="rounded-md p-2 font-[Montserrat-Medium] leading-8 sm:leading-7.5"
+                                >
+                                    <p
+                                        v-if="!state && connectState.NameLine"
+                                        :id="
+                                            'sight-' + sight.id + '-description'
+                                        "
+                                        >{{ sight.description }}</p
+                                    >
+                                    <textarea
+                                        v-if="state && connectState.NameLine"
+                                        :id="
+                                            'sight-' +
+                                            sight.id +
+                                            '-description-input'
+                                        "
+                                        :class="{ 'border-blue-700/70': state }"
+                                        :value="sight.description"
+                                        rows="12"
+                                        type="text"
+                                        class="rounded-sm border-none focus:shadow-md focus:rounded-sm focus:ring-1 dark:bg-gray-800 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"
+                                        @input="
+                                            (event) =>
+                                                (text = event.target.value)
+                                        "
+                                    >
+                                    </textarea>
+                                </div>
                             </div>
 
-                        </div>
-                    <div v-bind:class="{'border-blue-400':this.$props.changedFields && this.$props.changedFields.materials}" class="mt-4">
-                        <label v-if="!sight.materials" class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы отсутствуют</label>
-                        <div v-if="sight.materials">
-                            <label class="font-[Montserrat-Regular] text-xs lg:text-lg">Материалы</label>
-                            <div class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium] leading-5">
-                                <p :id="'sight-'+sight.id+'-materials'">{{ sight.materials }}</p>
+                            <div>
+                                <div>
+                                    <CarouselGallery
+                                        v-if="
+                                            sight.files && connectState.Gallery
+                                        "
+                                        :id="'sight-' + sight.id + '-gallery'"
+                                        :files="sight.files"
+                                        :wright-state="state"
+                                        @on-delete-file="deleteFiles"
+                                        @on-update-file="updateFiles"
+                                    ></CarouselGallery>
+                                </div>
                             </div>
-                        </div>
-                        <textarea v-if="state && connectState.NameLine" v-bind:value=sight.materials @input="event => text = event.target.value"
+
+                            <div class="content-description-price mt-10">
+                                <h3 class="font-[Montserrat-Bold] text-lg"
+                                    >Цены</h3
+                                >
+                                <div
+                                    class="content-description-price-grid flex justify-center"
+                                >
+                                    <div class="flex row flex-wrap max-w-[80%]">
+                                        <div
+                                            v-for="(
+                                                price, index
+                                            ) in sight.prices"
+                                            :key="price.id"
+                                            class="flex flex-row mt-2 mr-2"
+                                        >
+                                            <PriceSegment
+                                                :id="
+                                                    'event-' +
+                                                    sight.id +
+                                                    '-price-' +
+                                                    price.id
+                                                "
+                                                :class="{
+                                                    'border-blue-700/70':
+                                                        $props.changedPriceIds !=
+                                                            null &&
+                                                        $props.changedPriceIds.includes(
+                                                            price.id,
+                                                        ),
+                                                    'border-green-600':
+                                                        price.new != null &&
+                                                        price.new,
+                                                }"
+                                                class="p-2 border dark:border-gray-700/50 rounded-lg"
+                                                :price="price"
+                                                :state="state"
+                                                :index="index"
+                                                @on-del-price="
+                                                    deleteFromCurrentPrices
+                                                "
+                                                @on-upd-price="priceUpd"
+                                            />
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div
+                                    v-if="state"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="flex items-center justify-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
+                                    @click="addToCurrentPrices()"
+                                >
+                                    Добавить билет
+                                </div>
+                            </div>
+                            <div
+                                :class="{
+                                    'border-blue-400':
+                                        $props.changedFields &&
+                                        $props.changedFields.materials,
+                                }"
+                                class="mt-4"
+                            >
+                                <label
+                                    v-if="!sight.materials"
+                                    class="font-[Montserrat-Regular] text-xs lg:text-lg"
+                                    >Материалы отсутствуют</label
+                                >
+                                <div v-if="sight.materials">
+                                    <label
+                                        class="font-[Montserrat-Regular] text-xs lg:text-lg"
+                                        >Материалы</label
+                                    >
+                                    <div
+                                        class="border-2 border-[#ededed] rounded-md p-2 font-[Montserrat-Medium] leading-5"
+                                    >
+                                        <p
+                                            :id="
+                                                'sight-' +
+                                                sight.id +
+                                                '-materials'
+                                            "
+                                            >{{ sight.materials }}</p
+                                        >
+                                    </div>
+                                </div>
+                                <textarea
+                                    v-if="state && connectState.NameLine"
+                                    :id="
+                                        'sight-' + sight.id + '-materials-input'
+                                    "
+                                    :value="sight.materials"
                                     rows="6"
                                     type="text"
-                                    :id="'sight-'+sight.id+'-materials-input'"
-                                    class="rounded-sm border-2 dark:bg-gray-800 border-blue-500 focus:shadow-md focus:rounded-sm focus:ring-1  focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full">
-                        </textarea>
+                                    class="rounded-sm border-2 dark:bg-gray-800 border-blue-500 focus:shadow-md focus:rounded-sm focus:ring-1 focus:ring-blue-500 focus:ring-opacity-50 focus:outline-none transition delay-200 duration-300 w-full"
+                                    @input="
+                                        (event) => (text = event.target.value)
+                                    "
+                                >
+                                </textarea>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-            </div>
-        <!-- <div v-if="connectState.EditButton">
+            <!-- <div v-if="connectState.EditButton">
 
                 <input class="hidden" type="button" value="Применить" @click="clickUpd($event)" ref="accept" id="acceptButton">
                 <label for="acceptButton">
@@ -203,26 +491,70 @@
                 </button>
 
             </div> -->
-            
-            <div  v-if="!state && connectState.StatusCard && sight.statuses" class="bg-transparent  p-2 mt-1  dark:border-gray-700/70 dark:">
-                <ChangeStatus :id="'sight-'+sight.id+'-status'" v-if="sight.statuses.length" :editButton="connectState.EditButton" :status="sight.statuses[0].name" @statusChanged="statusChange"/>
+
+            <div
+                v-if="!state && connectState.StatusCard && sight.statuses"
+                class="bg-transparent p-2 mt-1 dark:border-gray-700/70 dark:"
+            >
+                <ChangeStatus
+                    v-if="sight.statuses.length"
+                    :id="'sight-' + sight.id + '-status'"
+                    :edit-button="connectState.EditButton"
+                    :status="sight.statuses[0].name"
+                    @status-changed="statusChange"
+                />
             </div>
 
-            <div v-if="connectState.EditButton" class="button-menu ml:[-16%]   fixed  w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50">
+            <div
+                v-if="connectState.EditButton"
+                class="button-menu ml:[-16%] fixed w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50"
+            >
                 <div class="flex m-[auto] dark:bg-gray-900">
                     <button
                         v-if="connectState.BackButton"
-                        @click.prevent="backButton()"
                         type="button"
-                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80 ">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
+                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80"
+                        @click.prevent="backButton()"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                            />
                         </svg>
                     </button>
-                    <input v-if="state" @click="clickUpd($event)" class="rounded-lg  text-cyan-50  bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]" type="button" value="Применить">
-                    <button @click="canceleUpd()" v-if="state" class="rounded-lg bg-gray-600 font-[Montserrat-Regular]  text-cyan-50  m-5 p-2 cursor-pointer">Отмена</button>
-                    <button @click="state= !state" v-if="!state && (role == 'root' || JSON.parse(user).id == event.user_id)" class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer">Редактировать</button>
-                    <p class="flex items-center">Статус: {{statusNow}}</p>
+                    <input
+                        v-if="state"
+                        class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
+                        type="button"
+                        value="Применить"
+                        @click="clickUpd($event)"
+                    />
+                    <button
+                        v-if="state"
+                        class="rounded-lg bg-gray-600 font-[Montserrat-Regular] text-cyan-50 m-5 p-2 cursor-pointer"
+                        @click="canceleUpd()"
+                        >Отмена</button
+                    >
+                    <button
+                        v-if="
+                            !state &&
+                            (role == 'root' ||
+                                JSON.parse(user).id == event.user_id)
+                        "
+                        class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer"
+                        @click="state = !state"
+                        >Редактировать</button
+                    >
+                    <p class="flex items-center">Статус: {{ statusNow }}</p>
                 </div>
             </div>
         </form>
@@ -230,512 +562,547 @@
 </template>
 
 <script>
-import TypeList from '../../../components/types_list/TypeList.vue'
-import { mapActions, mapState } from 'pinia'
-import { MessageContents } from '../../../enums/content_messages'
-import { useToastStore } from '../../../stores/ToastStore'
-import { useSightStore } from '../../../stores/SightStore'
-import { useLoaderStore } from '../../../stores/LoaderStore'
-import {Ripple,initTE,Carousel} from "tw-elements"
-import router from '../../../routes'
-import { catchError, map, retry, delay, takeUntil} from 'rxjs/operators'
-import { of, EMPTY, Subject } from 'rxjs'
-import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
-import { useTypeStore } from '../../../stores/TypeStore'
-import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
-import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
-import MapCardInteractive from '../../../components/map_card/map_card_interactive/MapCardInteractive.vue'
-import MapCardOnlyRead from '../../../components/map_card/map_card_only_read/MapCardOnlyRead.vue'
-import { useLocationStore } from '../../../stores/LocationStore'
-import { useLocalStorageStore } from '../../../stores/LocalStorageStore'
+    import TypeList from '../../../components/types_list/TypeList.vue'
+    import { mapActions, mapState } from 'pinia'
+    import { MessageContents } from '../../../enums/content_messages'
+    import { useToastStore } from '../../../stores/ToastStore'
+    import { useSightStore } from '../../../stores/SightStore'
+    import { useLoaderStore } from '../../../stores/LoaderStore'
+    import { Ripple, initTE, Carousel } from 'tw-elements'
+    import router from '../../../routes'
+    import { catchError, map, retry, delay, takeUntil } from 'rxjs/operators'
+    import { of, EMPTY, Subject } from 'rxjs'
+    import CarouselGallery from '../../../components/carousel_gallery/CarouselGallery.vue'
+    import { useTypeStore } from '../../../stores/TypeStore'
+    import ChangeStatus from '../../../components/change_status/ChangeStatus.vue'
+    import PriceSegment from '../../../components/price_segment/PriceSegment.vue'
+    import MapCardInteractive from '../../../components/map_card/map_card_interactive/MapCardInteractive.vue'
+    import MapCardOnlyRead from '../../../components/map_card/map_card_only_read/MapCardOnlyRead.vue'
+    import { useLocationStore } from '../../../stores/LocationStore'
+    import { useLocalStorageStore } from '../../../stores/LocalStorageStore'
 
+    export default {
+        name: 'SightShow',
+        components: {
+            CarouselGallery,
+            TypeList,
+            PriceSegment,
+            ChangeStatus,
+            MapCardInteractive,
+            MapCardOnlyRead,
+        },
+        props: {
+            connectState: {
+                type: Object,
+                default() {
+                    return {
+                        BackButton: true,
+                        NameLine: true,
+                        IdLine: true,
+                        Gallery: true,
+                        DescriptionsCard: true,
+                        PricesCard: true,
+                        TypeCard: true,
+                        PlaceCard: true,
+                        AuthorCard: true,
+                        StatusCard: true,
+                        EditButton: true,
+                    }
+                },
+            },
+            id: {
+                type: Number,
+                default: null,
+            },
+            // eslint-disable-next-line vue/prop-name-casing
+            sight_: {
+                type: Object,
+                default: null,
+            },
+            changedFields: {
+                type: Object,
+                default: null,
+            },
+        },
+        setup() {
+            const destroy$ = new Subject()
 
-
-export default {
-    name: 'SightShow',
-    components:{
-        CarouselGallery,
-        TypeList,
-        PriceSegment,
-        ChangeStatus,
-        MapCardInteractive,
-        MapCardOnlyRead
-    },
-    props:{
-        connectState:{
-            type: Object,
-            default:{
-                BackButton: true,
-                NameLine: true,
-                IdLine: true,
-                Gallery: true,
-                PricesCard: true,
-                TypeCard: true,
-                AuthorCard: true,
-                StatusCard: true,
-                EditButton: true,
+            return {
+                destroy$,
             }
         },
-        id:{
-            type: Number,
-            default: null
+        data() {
+            return {
+                sight: [],
+                allTypes: null,
+                status: '',
+                sightFiles: [],
+                priceId: 0,
+                state: false,
+                currentSightPrice: [],
+                filesDel: [],
+                filesUpd: [],
+                typesDel: [],
+                typesUpd: [],
+                pricesDel: [],
+                pricesUpd: [],
+                newCoords: [0, 0],
+                newAddress: '',
+                newLocation: {},
+                openType: false,
+                statusNow: '',
+            }
         },
-        sight_: {
-            type: Object,
-            default: null
+        computed: {
+            ...mapState(useLocalStorageStore, ['user', 'role']),
         },
-        changedFields: {
-            type: Object,
-            default: null
-        }
-    },
-    setup() {
-        const destroy$ =  new Subject()
-
-
-        return {
-            destroy$,
-        }
-    },
-    mounted(){
-
-    },
-    data() {
-        return {
-            sight: [],
-            allTypes: null,
-            status: "",
-            sightFiles: [],
-            priceId: 0,
-            state: false,
-            currentSightPrice:[],
-            filesDel: [],
-            filesUpd: [],
-            typesDel: [],
-            typesUpd: [],
-            pricesDel:[],
-            pricesUpd:[],
-            newCoords: [0, 0],
-            newAddress: '',
-            newLocation: {},
-            openType: false,
-            statusNow: '',
-        }
-    },
-    computed: {
-        ...mapState(useLocalStorageStore, ['user', 'role'])
-    },
-    methods: {
-        ...mapActions(useSightStore, ['getSightForIds','saveSightHistory']),
-        ...mapActions(useToastStore, ['showToast']),
-        ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-        ...mapActions(useTypeStore,['getSightTypes']),
-        ...mapActions(useLocationStore, ['getLocationsByName', 'getLocationByCoords']),
-        openTypeFnc(){
+        mounted() {
+            initTE({ Ripple }, { Carousel }, { allowReinits: true })
+            this.openLoaderFullPage()
+            this.getSight()
+            this.getAllTypes()
+        },
+        methods: {
+            ...mapActions(useSightStore, [
+                'getSightForIds',
+                'saveSightHistory',
+            ]),
+            ...mapActions(useToastStore, ['showToast']),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
+            ...mapActions(useTypeStore, ['getSightTypes']),
+            ...mapActions(useLocationStore, [
+                'getLocationsByName',
+                'getLocationByCoords',
+            ]),
+            openTypeFnc() {
                 this.openType = !this.openType
             },
-        getSight() {
-            let id
-            this.$props.id ? id = this.id : id = this.$route.params.id
+            getSight() {
+                let id
+                this.$props.id ? (id = this.id) : (id = this.$route.params.id)
 
-            if(this.$props.sight_ == null){
-                this.openLoaderFullPage()
-                this.getSightForIds(id).pipe(
-                    retry(3),
-                    delay(100),
-                    map(response => {
-                        this.newCoords = [response.data.latitude, response.data.longitude]
-                        this.sight = response.data
-                        this.status = this.sight.statuses[0].name
-                        this.currentSightPrice = JSON.parse(JSON.stringify(this.sight.prices))
-                        this.statusNow = response.data.statuses[0].name
-                    }),
-                    catchError(err => {
-                        console.log(err)
-                        // router.go(-1)
+                if (this.$props.sight_ == null) {
+                    this.openLoaderFullPage()
+                    this.getSightForIds(id)
+                        .pipe(
+                            retry(3),
+                            delay(100),
+                            map((response) => {
+                                this.newCoords = [
+                                    response.data.latitude,
+                                    response.data.longitude,
+                                ]
+                                this.sight = response.data
+                                this.status = this.sight.statuses[0].name
+                                this.currentSightPrice = JSON.parse(
+                                    JSON.stringify(this.sight.prices),
+                                )
+                                this.statusNow = response.data.statuses[0].name
+                            }),
+                            catchError((err) => {
+                                console.log(err)
+                                // router.go(-1)
+                                this.closeLoaderFullPage()
+                                return of(EMPTY)
+                            }),
+                            takeUntil(this.destroy$),
+                        )
+                        .subscribe()
+                } else {
+                    this.sight = this.$props.sight_
+                }
+            },
+            setCoords(coords) {
+                this.getLocationByCoords(coords)
+                    .pipe(
+                        map((response) => {
+                            this.newCoords = coords
+                            this.newLocation = response.data.location
+                        }),
+                        takeUntil(this.destroy$),
+                        catchError((err) => {
+                            console.log(err)
+                            return of(EMPTY)
+                        }),
+                    )
+                    .subscribe()
+            },
+            setAddress(address) {
+                this.newAddress = address
+            },
+            getAllTypes() {
+                this.getSightTypes()
+                    .pipe(
+                        retry(3),
+                        delay(200),
+                        catchError((err) => {
+                            console.log(err)
+                        }),
+                    )
+                    .subscribe((response) => {
+                        this.allTypes = response.data.types
                         this.closeLoaderFullPage()
-                        return of(EMPTY)
-                    }),
-                    takeUntil(this.destroy$),
-                ).subscribe()
-            }
-            else{
-                this.sight = this.$props.sight_
-            }
-
-        },
-        setCoords(coords) {
-            this.getLocationByCoords(coords).pipe(
-                map(response => {
-                    this.newCoords = coords
-                    this.newLocation = response.data.location
-                }),
-                takeUntil(this.destroy$),
-                catchError(err => {
-                    console.log(err)
-                    return of(EMPTY)
-                })
-            ).subscribe()
-        }, setAddress(address) {
-            this.newAddress = address
-        },
-        searchTypeOpen(){
-            const props = {}
-            openModal(TypeList)
-        },
-        searchTypeClose(){
-            closeModal(searchType)
-        },
-        getAllTypes(){
-
-        this.getSightTypes().pipe(
-          retry(3),
-          delay(200),
-          catchError(error => {
-            console.log(err)
-          })
-        ).subscribe(response => {
-          this.allTypes = response.data.types
-          this.closeLoaderFullPage()
-        })
-    },
-        addToCurrentTypes(type){
-            if (this.checkObjInArray(type, this.sight.types)){
-                if (this.checkObjInArray(type, this.typesDel)){
-                    this.typesDel = this.typesDel.filter(item => item.id !== type.id)
-                }
-                else{
-                    this.typesDel.push({"id": type.id, "on_delete":true})
-                }
-                // this.sight.types = this.sight.types.filter(item => item.id !== type.id)
-
-            }
-            else{
-                if(this.checkObjInArray(type, this.typesUpd)){
-                    this.typesUpd = this.typesUpd.filter(item => item.id !== type.id)
-                }
-                else{
-                    this.typesUpd.push({"id": type.id})
-                }
-            }
-        },
-
-        deleteFromCurrentPrices(price){
-            for(let i = 0; i < this.sight.prices.length; i++){
-
-                if((Object.keys(this.sight.prices[i]).indexOf("new_id") != -1) && (this.sight.prices[i].new_id == price.new_id)){
-                    this.sight.prices.splice(i, 1)
-                }
-                else if(this.sight.prices[i].id == price.id){
-                    // this.sight.prices.splice(i, 1)
-                }
-
-            }
-            for(let i = 0; i < this.pricesUpd.length; i++){
-
-                if((Object.keys(this.pricesUpd[i]).indexOf("new_id") != -1) && (this.pricesUpd[i].new_id == price.new_id)){
-                    this.pricesUpd.splice(i, 1)
-                }
-            }
-
-            if (price.id && !price.new_id){
-                this.pricesDel.push({"price_id":price.id, "on_delete":true})
-                this.sight.prices.find((i, k) => {
-                    if (i.id == price.id) {
-                        this.sight.prices.splice(k, 1)
-                        return true
+                    })
+            },
+            addToCurrentTypes(type) {
+                if (this.checkObjInArray(type, this.sight.types)) {
+                    if (this.checkObjInArray(type, this.typesDel)) {
+                        this.typesDel = this.typesDel.filter(
+                            (item) => item.id !== type.id,
+                        )
+                    } else {
+                        this.typesDel.push({ id: type.id, on_delete: true })
                     }
-                })
-            }
-
-
-        },
-        addToCurrentPrices(){
-            let price1 = {"cost_rub":0, "descriptions":"Описание", "new_id":this.priceId}
-            let price2 = price1
-            this.pricesUpd.push(price2)
-            this.sight.prices.push(price1)
-            this.priceId++
-        },
-        checkObjInArray(obj, array){
-            for (let i = 0; i<array.length; i++){
-                if (array[i].id === obj.id){
-                    return true
-                }
-            }
-            return false
-        },
-
-        checkPriceInArray(obj, array, new_id = false){
-            if(!new_id){
-                for (let i = 0; i<array.length; i++){
-                if(array[i].price.price.new_id != undefined){
-                    if (array[i].price.price.new_id == obj.price.new_id){
-                        return true
+                    // this.sight.types = this.sight.types.filter(item => item.id !== type.id)
+                } else {
+                    if (this.checkObjInArray(type, this.typesUpd)) {
+                        this.typesUpd = this.typesUpd.filter(
+                            (item) => item.id !== type.id,
+                        )
+                    } else {
+                        this.typesUpd.push({ id: type.id })
                     }
                 }
-                else{
+            },
 
-                }
-
-            }
-                return false
-            }
-            else{
-                for (let i = 0; i<array.length; i++){
-                if(array[i].price.price.id != undefined){
-                    if (array[i].price.price.id == obj.price.id){
-
-                        return true
+            deleteFromCurrentPrices(price) {
+                for (let i = 0; i < this.sight.prices.length; i++) {
+                    if (
+                        Object.keys(this.sight.prices[i]).indexOf('new_id') !=
+                            -1 &&
+                        this.sight.prices[i].new_id == price.new_id
+                    ) {
+                        this.sight.prices.splice(i, 1)
+                    } else if (this.sight.prices[i].id == price.id) {
+                        // this.sight.prices.splice(i, 1)
                     }
                 }
-                else{
+                for (let i = 0; i < this.pricesUpd.length; i++) {
+                    if (
+                        Object.keys(this.pricesUpd[i]).indexOf('new_id') !=
+                            -1 &&
+                        this.pricesUpd[i].new_id == price.new_id
+                    ) {
+                        this.pricesUpd.splice(i, 1)
+                    }
                 }
-            }
-                return false
-            }
 
-        },
-
-        discardChanges(){
-            this.state = this.state
-            this.getSight()
-        },
-        priceUpd(price){
-             if(price.id != undefined && !this.checkObjInArray(price,this.pricesUpd)){
-                let p = {'id':price.id, 'cost_rub':price.cost_rub,'descriptions':price.descriptions, 'price_id':price.id}
-                this.pricesUpd.push(p)
-            }
-        },
-
-        backButton(){
-            router.go(-1)
-        },
-        deleteFiles(file) {
-            this.sight.files.find((item, index) => {
-                if (item.name == file.name ) {
-                    let coin = this.filesUpd.find((itm, i) => {
-                        if (itm.name == file.name ) {
-                            this.filesUpd.splice(i, 1)
+                if (price.id && !price.new_id) {
+                    this.pricesDel.push({ price_id: price.id, on_delete: true })
+                    this.sight.prices.find((i, k) => {
+                        if (i.id == price.id) {
+                            this.sight.prices.splice(k, 1)
                             return true
                         }
                     })
-
-                    coin ? null : this.filesDel.push({file_id:file.id})
-                    this.sight.files.splice(index, 1)
-                    return true
                 }
-            })
-
-        },
-        goToElement(event){
-            let target = "s"+event.target.id
-
-            let type = document.getElementById(target)
-            type.scrollIntoView({behavior: "smooth",
-                                block:'center'})
-            type.classList.add('bg-sky-100')
-            setInterval(() => {type.classList.remove('bg-sky-100')}, 1500)
-
-        },
-        updateFiles(files) {
-
-            files = Array.from(files)
-            files.forEach(file => {
-                let reader = new FileReader()
-                reader.readAsDataURL(file)
-                reader.onload = () => {
-                    this.sight.files.push({link: reader.result, name: file.name, size: file.size, type: file.type})
+            },
+            addToCurrentPrices() {
+                let price1 = {
+                    cost_rub: 0,
+                    descriptions: 'Описание',
+                    new_id: this.priceId,
                 }
-                this.filesUpd.push(file)
-            })
-        },
-
-
-        sightPriceCheck(){
-            return true
-        },
-
-        statusChange(status){
-            this.status = status
-        },
-        freshAll(){
-            this.sight = []
-            this.allTypes = null
-            this.status = ""
-            this.sightFiles = []
-            this.priceId = 0
-            this.state = false
-            this.currentSightPrice =[]
-            this.filesDel = []
-            this.filesUpd = []
-            this.typesDel = []
-            this.typesUpd = []
-            this.pricesDel =[]
-            this.pricesUpd =[]
-            this.newCoords = []
-            this.newAddress = ''
-            this.newLocation = {}
-        },
-        clickUpd(event) {
-            // Передаём форму обработанную в масси в локальную переменную функции
-            let mass = Object.entries(event.target.form)
-            let historyData = {
-                id: this.sight.id,
-                type:"Sight",
-                history_content: {
+                let price2 = price1
+                this.pricesUpd.push(price2)
+                this.sight.prices.push(price1)
+                this.priceId++
+            },
+            checkObjInArray(obj, array) {
+                for (let i = 0; i < array.length; i++) {
+                    if (array[i].id === obj.id) {
+                        return true
+                    }
                 }
-            }
+                return false
+            },
 
-            // Перебираем массив и формируем форм дату
-            mass.forEach(item => {
-                switch(item[1].id) {
-                    case(`sight-${this.sight.id}-name-input`):
-                    if (item[1].value != this.sight.name) {
-                        historyData.history_content.name = item[1].value
+            checkPriceInArray(obj, array, new_id = false) {
+                if (!new_id) {
+                    for (let i = 0; i < array.length; i++) {
+                        if (array[i].price.price.new_id != undefined) {
+                            if (
+                                array[i].price.price.new_id == obj.price.new_id
+                            ) {
+                                return true
+                            }
+                        }
                     }
-                    break;
-                    case(`sight-${this.sight.id}-sponsor-input`):
-                    if (item[1].value != this.sight.sponsor) {
-                        historyData.history_content.sponsor = item[1].value
+                    return false
+                } else {
+                    for (let i = 0; i < array.length; i++) {
+                        if (array[i].price.price.id != undefined) {
+                            if (array[i].price.price.id == obj.price.id) {
+                                return true
+                            }
+                        }
                     }
-                    break;
-                    case(`sight-${this.sight.id}-description-input`):
-                    if (item[1].value != this.sight.description) {
-                        historyData.history_content.description = item[1].value
-                    }
-                    break;
-                    case(`sight-${this.sight.id}-materials-input`):
-                    if ((item[1].value != this.sight.materials) && (item[1].value != "")) {
-                        historyData.history_content.materials =  item[1].value
-                    }
-                    break;
-                    case(`sight-${this.sight.id}-work_time-input`):
-                    if (item[1].value != this.sight.work_time) {
-                        historyData.history_content.work_time = item[1].value
-                    }
-                    break;
-                    case(`sight-${this.sight.id}-address-input`):
-                    if (item[1].value != this.sight.address) {
-                        historyData.history_content.address = item[1].value
-                    }
-                    break;
-
+                    return false
                 }
-            })
-            if (this.filesDel.length > 0 || this.filesUpd.length > 0){
-                historyData.history_content.history_files = []
-                    // Перебираем и передаём фото на добавлений в форм дату
-                this.filesUpd.forEach((item) => {
-                    // this.sightUpd.append("file[]",item)
-                    historyData.history_content.history_files.push(item)
-                })
-                // Перебираем, добавляем поле и передаём фото на удаление в форм дату
-                this.filesDel.forEach((item) => {
-                    item.on_delete = true
-                    historyData.history_content.history_files.push(item)
-                })
-            }
+            },
 
-
-            if (this.typesDel.length != 0 || this.typesUpd.length != 0){
-                historyData.history_content.history_types = []
-
-                this.typesDel.forEach(item => {
-                    historyData.history_content.history_types.push(item)
-                })
-                this.typesUpd.forEach(item => {
-                    historyData.history_content.history_types.push(item)
-                })
-            }
-
-            if (this.newLocation.length) {
-                historyData.history_content.location = this.newLocation
-            }
-
-            if (this.newAddress != this.sight.address) {
-                historyData.history_content.address = this.newAddress
-            }
-
-            if (this.newCoords[0] != this.sight.latitude || this.newCoords[1] != this.sight.longitude) {
-                historyData.history_content.latitude = this.newCoords[0]
-                historyData.history_content.longitude = this.newCoords[1]
-            }
-
-            if (this.pricesDel.length > 0 || this.pricesUpd.length > 0){
-                historyData.history_content.history_prices = []
-
-                this.pricesUpd.forEach(item => {
-                    delete item.new_id
-                    delete item.event_id
-                    delete item.created_at
-                    delete item.updated_at
-                    delete item.sight_id
-
-                    if(item.id != undefined){
-                        item.price_id = item.id
-                        delete item.id
+            discardChanges() {
+                this.getSight()
+            },
+            priceUpd(price) {
+                if (
+                    price.id != undefined &&
+                    !this.checkObjInArray(price, this.pricesUpd)
+                ) {
+                    let p = {
+                        id: price.id,
+                        cost_rub: price.cost_rub,
+                        descriptions: price.descriptions,
+                        price_id: price.id,
                     }
+                    this.pricesUpd.push(p)
+                }
+            },
 
-                    historyData.history_content.history_prices.push(item)
+            backButton() {
+                router.go(-1)
+            },
+            deleteFiles(file) {
+                this.sight.files.find((item, index) => {
+                    if (item.name == file.name) {
+                        let coin = this.filesUpd.find((itm, i) => {
+                            if (itm.name == file.name) {
+                                this.filesUpd.splice(i, 1)
+                                return true
+                            }
+                        })
+
+                        coin ? null : this.filesDel.push({ file_id: file.id })
+                        this.sight.files.splice(index, 1)
+                        return true
+                    }
                 })
+            },
+            goToElement(event) {
+                let target = 's' + event.target.id
 
-                this.pricesDel.forEach(item => {
-                    historyData.history_content.history_prices.push(item)
+                let type = document.getElementById(target)
+                type.scrollIntoView({ behavior: 'smooth', block: 'center' })
+                type.classList.add('bg-sky-100')
+                setInterval(() => {
+                    type.classList.remove('bg-sky-100')
+                }, 1500)
+            },
+            updateFiles(files) {
+                files = Array.from(files)
+                files.forEach((file) => {
+                    let reader = new FileReader()
+                    reader.readAsDataURL(file)
+                    reader.onload = () => {
+                        this.sight.files.push({
+                            link: reader.result,
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                        })
+                    }
+                    this.filesUpd.push(file)
                 })
-            }
+            },
 
+            sightPriceCheck() {
+                return true
+            },
 
-
-
-
-            // this.sightUpd.append("history_data",JSON.stringify(historyData))
-
-
-            // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
-            if(Object.keys(historyData.history_content).length != 0){
-                this.openLoaderFullPage()
-                this.saveSightHistory(historyData).pipe(
-                    takeUntil(this.destroy$),
-                    catchError(err => {
-                        399 < err.response.status && err.response.status < 500 ? this.showToast(MessageContents.warning_upd_content + ': ' + err.message, 'warning') : null
-                        499 < err.response.status && err.response.status < 600 ? this.showToast(MessageContents.error_upd_content + ': ' + err.message, 'error') : null
-                        console.log(err)
-                        return of(EMPTY)
-                    })
-                )
-
-                .subscribe(response => {
-                    this.showToast(MessageContents.sight_on_moderate, 'success')
-                    this.freshAll()
-                    this.getSight()
-                    this.closeLoaderFullPage()
-
-                })
+            statusChange(status) {
+                this.status = status
+            },
+            freshAll() {
+                this.sight = []
+                this.allTypes = null
+                this.status = ''
+                this.sightFiles = []
+                this.priceId = 0
                 this.state = false
-            }
-            else{
-                this.showToast("Изменения не обнаружены", "warning")
-            }
+                this.currentSightPrice = []
+                this.filesDel = []
+                this.filesUpd = []
+                this.typesDel = []
+                this.typesUpd = []
+                this.pricesDel = []
+                this.pricesUpd = []
+                this.newCoords = []
+                this.newAddress = ''
+                this.newLocation = {}
+            },
+            clickUpd(event) {
+                // Передаём форму обработанную в масси в локальную переменную функции
+                let mass = Object.entries(event.target.form)
+                let historyData = {
+                    id: this.sight.id,
+                    type: 'Sight',
+                    history_content: {},
+                }
 
+                // Перебираем массив и формируем форм дату
+                mass.forEach((item) => {
+                    switch (item[1].id) {
+                        case `sight-${this.sight.id}-name-input`:
+                            if (item[1].value != this.sight.name) {
+                                historyData.history_content.name = item[1].value
+                            }
+                            break
+                        case `sight-${this.sight.id}-sponsor-input`:
+                            if (item[1].value != this.sight.sponsor) {
+                                historyData.history_content.sponsor =
+                                    item[1].value
+                            }
+                            break
+                        case `sight-${this.sight.id}-description-input`:
+                            if (item[1].value != this.sight.description) {
+                                historyData.history_content.description =
+                                    item[1].value
+                            }
+                            break
+                        case `sight-${this.sight.id}-materials-input`:
+                            if (
+                                item[1].value != this.sight.materials &&
+                                item[1].value != ''
+                            ) {
+                                historyData.history_content.materials =
+                                    item[1].value
+                            }
+                            break
+                        case `sight-${this.sight.id}-work_time-input`:
+                            if (item[1].value != this.sight.work_time) {
+                                historyData.history_content.work_time =
+                                    item[1].value
+                            }
+                            break
+                        case `sight-${this.sight.id}-address-input`:
+                            if (item[1].value != this.sight.address) {
+                                historyData.history_content.address =
+                                    item[1].value
+                            }
+                            break
+                    }
+                })
+                if (this.filesDel.length > 0 || this.filesUpd.length > 0) {
+                    historyData.history_content.history_files = []
+                    // Перебираем и передаём фото на добавлений в форм дату
+                    this.filesUpd.forEach((item) => {
+                        // this.sightUpd.append("file[]",item)
+                        historyData.history_content.history_files.push(item)
+                    })
+                    // Перебираем, добавляем поле и передаём фото на удаление в форм дату
+                    this.filesDel.forEach((item) => {
+                        item.on_delete = true
+                        historyData.history_content.history_files.push(item)
+                    })
+                }
 
+                if (this.typesDel.length != 0 || this.typesUpd.length != 0) {
+                    historyData.history_content.history_types = []
 
-        }
-    },
-    mounted() {
-        initTE({ Ripple  }, { Carousel }, { allowReinits: true })
-        this.openLoaderFullPage()
-        this.getSight()
-        this.getAllTypes()
+                    this.typesDel.forEach((item) => {
+                        historyData.history_content.history_types.push(item)
+                    })
+                    this.typesUpd.forEach((item) => {
+                        historyData.history_content.history_types.push(item)
+                    })
+                }
 
-    },
-}
+                if (this.newLocation.length) {
+                    historyData.history_content.location = this.newLocation
+                }
+
+                if (this.newAddress != this.sight.address) {
+                    historyData.history_content.address = this.newAddress
+                }
+
+                if (
+                    this.newCoords[0] != this.sight.latitude ||
+                    this.newCoords[1] != this.sight.longitude
+                ) {
+                    historyData.history_content.latitude = this.newCoords[0]
+                    historyData.history_content.longitude = this.newCoords[1]
+                }
+
+                if (this.pricesDel.length > 0 || this.pricesUpd.length > 0) {
+                    historyData.history_content.history_prices = []
+
+                    this.pricesUpd.forEach((item) => {
+                        delete item.new_id
+                        delete item.event_id
+                        delete item.created_at
+                        delete item.updated_at
+                        delete item.sight_id
+
+                        if (item.id != undefined) {
+                            item.price_id = item.id
+                            delete item.id
+                        }
+
+                        historyData.history_content.history_prices.push(item)
+                    })
+
+                    this.pricesDel.forEach((item) => {
+                        historyData.history_content.history_prices.push(item)
+                    })
+                }
+
+                // this.sightUpd.append("history_data",JSON.stringify(historyData))
+
+                // this.saveSightHistory(this.sightUpd).pipe().subscribe(response => {console.log(response)})
+                if (Object.keys(historyData.history_content).length != 0) {
+                    this.openLoaderFullPage()
+                    this.saveSightHistory(historyData)
+                        .pipe(
+                            takeUntil(this.destroy$),
+                            catchError((err) => {
+                                399 < err.response.status &&
+                                err.response.status < 500
+                                    ? this.showToast(
+                                          MessageContents.warning_upd_content +
+                                              ': ' +
+                                              err.message,
+                                          'warning',
+                                      )
+                                    : null
+                                499 < err.response.status &&
+                                err.response.status < 600
+                                    ? this.showToast(
+                                          MessageContents.error_upd_content +
+                                              ': ' +
+                                              err.message,
+                                          'error',
+                                      )
+                                    : null
+                                console.log(err)
+                                return of(EMPTY)
+                            }),
+                        )
+
+                        .subscribe(() => {
+                            this.showToast(
+                                MessageContents.sight_on_moderate,
+                                'success',
+                            )
+                            this.freshAll()
+                            this.getSight()
+                            this.closeLoaderFullPage()
+                        })
+                    this.state = false
+                } else {
+                    this.showToast('Изменения не обнаружены', 'warning')
+                }
+            },
+        },
+    }
 </script>
 <style>
-.modal-container {
-	z-index: 100;
-}
-input:focus {
-        outline:none;
+    .modal-container {
+        z-index: 100;
+    }
+    input:focus {
+        outline: none;
     }
 </style>

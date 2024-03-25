@@ -1,13 +1,9 @@
 <template lang="">
-    <div>
-        Roles
-    </div>
+    <div> Roles </div>
 </template>
 <script>
-export default {
-    name: 'Roles'
-}
+    export default {
+        name: 'Roles',
+    }
 </script>
-<style lang="">
-    
-</style>
+<style lang=""></style>

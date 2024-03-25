@@ -1,10 +1,9 @@
-import { defineStore } from 'pinia';
-
+import { defineStore } from 'pinia'
 
 export const useLoaderStore = defineStore('LoaderStore', {
-    state: () =>({
+    state: () => ({
         loaderFullPageState: true,
-        loaderFullViewRouterState: true
+        loaderFullViewRouterState: true,
     }),
     actions: {
         openLoaderFullPage() {
@@ -18,6 +17,6 @@ export const useLoaderStore = defineStore('LoaderStore', {
         },
         closeLoaderFullRouterView() {
             this.loaderFullViewRouterState = false
-        }
+        },
     },
 })

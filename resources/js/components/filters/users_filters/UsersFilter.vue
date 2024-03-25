@@ -1,98 +1,150 @@
 <template lang="">
-    <div class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid grid-cols-2 gap-6 p-6">
-        <input v-model="userName" type="text" name="name" id="name" placeholder="Имя пользователя" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
-        <input v-model="userEmail" type="text" name="name" id="name" placeholder="Почта пользователя" class=" rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50">
-        <VueDatePicker v-model="userCreated" range model-type="yyyy-MM-dd HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата создания" />
-        <VueDatePicker v-model="userUpdated" range model-type="yyyy-MM-dd HH:mm:ss" :class="themeState ? 'w-full h-full mt-1 dp_theme_dark' : 'w-full h-full mt-1 dp_theme_light'" placeholder="Дата обновления" />
+    <div
+        class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid grid-cols-2 gap-6 p-6"
+    >
+        <input
+            id="name"
+            v-model="userName"
+            type="text"
+            name="name"
+            placeholder="Имя пользователя"
+            class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+        />
+        <input
+            id="name"
+            v-model="userEmail"
+            type="text"
+            name="name"
+            placeholder="Почта пользователя"
+            class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+        />
+        <VueDatePicker
+            v-model="userCreated"
+            range
+            model-type="yyyy-MM-dd HH:mm:ss"
+            :class="
+                themeState
+                    ? 'w-full h-full mt-1 dp_theme_dark'
+                    : 'w-full h-full mt-1 dp_theme_light'
+            "
+            placeholder="Дата создания"
+        />
+        <VueDatePicker
+            v-model="userUpdated"
+            range
+            model-type="yyyy-MM-dd HH:mm:ss"
+            :class="
+                themeState
+                    ? 'w-full h-full mt-1 dp_theme_dark'
+                    : 'w-full h-full mt-1 dp_theme_light'
+            "
+            placeholder="Дата обновления"
+        />
     </div>
 </template>
 <script>
-import { useUsersFilterStore } from '../../../stores/UsersFilterStore';
-import { mapState, mapActions } from 'pinia';
-import VueDatePicker from '@vuepic/vue-datepicker';
-import '@vuepic/vue-datepicker/dist/main.css'
-import { useDark } from '@vueuse/core'
+    import { useUsersFilterStore } from '../../../stores/UsersFilterStore'
+    import { mapActions } from 'pinia'
+    import VueDatePicker from '@vuepic/vue-datepicker'
+    import '@vuepic/vue-datepicker/dist/main.css'
+    import { useDark } from '@vueuse/core'
 
-export default {
-    name: 'UsersFilter',
-    setup() {
-        const themeState = useDark()
-        return {
-            themeState
-        }
-    },
-    data() {
-        return {
-            userName: this.getName(),
-            userEmail: this.getEmail(),
-            userCreated: [
-                this.getCreatedDate().split('~')[0].slice(0,19).replace("T", ' '),
-                this.getCreatedDate().split('~')[1].slice(0,19).replace("T", ' ')
-            ],
-            userUpdated: [
-                this.getCreatedDate().split('~')[0].slice(0,19).replace("T", '  '),
-                this.getCreatedDate().split('~')[1].slice(0,19).replace("T", '  ')
-            ],
-            userLocation: this.getLocation()
-        }
-    },
-    components: {
-        VueDatePicker
-    },
-    methods: {
-        ...mapActions(useUsersFilterStore, [
-            'setName',
-            'setEmail',
-            'setCreatedDate',
-            'setUpdatedDate',
-            'setLocation',
-            'getName',
-            'getEmail',
-            'getCreatedDate',
-            'getUpdatedDate',
-            'getLocation',
-        ]),
-    },
-    watch: {
-        userName(newName, oldName) {
-            if (newName.length > 3) {
-                this.setName(newName)
-            }
-            if(newName.length == 0) {
-                this.setName('')
+    export default {
+        name: 'UsersFilter',
+        components: {
+            VueDatePicker,
+        },
+        setup() {
+            const themeState = useDark()
+            return {
+                themeState,
             }
         },
-        userEmail(newEmail, oldEmail) {
-            if (newEmail.length > 3) {
-                this.setEmail(newEmail)
-            }
-            if(newName.length == 0) {
-                this.setEmail('')
+        data() {
+            return {
+                userName: this.getName(),
+                userEmail: this.getEmail(),
+                userCreated: [
+                    this.getCreatedDate()
+                        .split('~')[0]
+                        .slice(0, 19)
+                        .replace('T', ' '),
+                    this.getCreatedDate()
+                        .split('~')[1]
+                        .slice(0, 19)
+                        .replace('T', ' '),
+                ],
+                userUpdated: [
+                    this.getCreatedDate()
+                        .split('~')[0]
+                        .slice(0, 19)
+                        .replace('T', '  '),
+                    this.getCreatedDate()
+                        .split('~')[1]
+                        .slice(0, 19)
+                        .replace('T', '  '),
+                ],
+                userLocation: this.getLocation(),
             }
         },
-        userCreated(newDateCerated) {
-            if(newDateCerated) {
-                this.setCreatedDate(newDateCerated[0] + '~' + newDateCerated[1])
-            } else {
-                this.setCreatedDate(['~'])
-            }
+        watch: {
+            userName(newName) {
+                if (newName.length > 3) {
+                    this.setName(newName)
+                }
+                if (newName.length == 0) {
+                    this.setName('')
+                }
+            },
+            userEmail(newEmail) {
+                if (newEmail.length > 3) {
+                    this.setEmail(newEmail)
+                }
+                if (newEmail.length == 0) {
+                    this.setEmail('')
+                }
+            },
+            userCreated(newDateCerated) {
+                if (newDateCerated) {
+                    this.setCreatedDate(
+                        newDateCerated[0] + '~' + newDateCerated[1],
+                    )
+                } else {
+                    this.setCreatedDate(['~'])
+                }
+            },
+            userUpdated(newDateUpdated) {
+                if (newDateUpdated) {
+                    this.setUpdatedDate(
+                        newDateUpdated[0] + '~' + newDateUpdated[1],
+                    )
+                } else {
+                    this.setUpdatedDate(['~'])
+                }
+            },
+            userLocation(newLocation) {
+                this.setLocation(newLocation)
+            },
         },
-        userUpdated(newDateUpdated) {
-            if(newDateUpdated) {
-                this.setUpdatedDate(newDateUpdated[0] + '~' + newDateUpdated[1])
-            } else {
-                this.setUpdatedDate(['~'])
-            }
+        methods: {
+            ...mapActions(useUsersFilterStore, [
+                'setName',
+                'setEmail',
+                'setCreatedDate',
+                'setUpdatedDate',
+                'setLocation',
+                'getName',
+                'getEmail',
+                'getCreatedDate',
+                'getUpdatedDate',
+                'getLocation',
+            ]),
         },
-        userLocation(newLocation, oldLocation) {
-            this.setLocation(newLocation)
-        },
-    },
-}
+    }
 </script>
 <style>
- /* Светлый стиль datepicker */
- .dp_theme_light {
+    /* Светлый стиль datepicker */
+    .dp_theme_light {
         --dp-background-color: #fff;
         --dp-text-color: #212121;
         --dp-hover-color: #f3f3f3;
@@ -116,8 +168,14 @@ export default {
         --dp-tooltip-color: #fafafa;
         --dp-disabled-color-text: #8e8e8e;
         --dp-highlight-color: rgb(25 118 210 / 10%);
-        --dp-range-between-dates-background-color: var(--dp-hover-color, #f3f3f3);
-        --dp-range-between-dates-text-color: var(--dp-hover-text-color, #212121);
+        --dp-range-between-dates-background-color: var(
+            --dp-hover-color,
+            #f3f3f3
+        );
+        --dp-range-between-dates-text-color: var(
+            --dp-hover-text-color,
+            #212121
+        );
         --dp-range-between-border-color: var(--dp-hover-color, #f3f3f3);
     }
     /* Тёмный стиль datepicker */
@@ -145,7 +203,10 @@ export default {
         --dp-marker-color: #e53935;
         --dp-tooltip-color: #3e3e3e;
         --dp-highlight-color: rgb(0 92 178 / 20%);
-        --dp-range-between-dates-background-color: var(--dp-hover-color, #484848);
+        --dp-range-between-dates-background-color: var(
+            --dp-hover-color,
+            #484848
+        );
         --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
         --dp-range-between-border-color: var(--dp-hover-color, #fff);
     }

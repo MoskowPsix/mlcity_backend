@@ -1,37 +1,61 @@
 <template>
-
     <section class="main">
-      
-            <button  @click="openDataMenu" class="open-history-button dark:bg-gray-700">
-                История
-            </button>
+        <button
+            class="open-history-button dark:bg-gray-700"
+            @click="openDataMenu"
+        >
+            История
+        </button>
         <Transition name="slide-fade">
-            <ul v-if="openModal" class="date-list">
-                <li v-for="content in this.contents.data.history_contents.data" class="date-list-item">
-                    {{ content.created_at}}
+            <ul
+                v-if="openModal"
+                class="date-list"
+            >
+                <li
+                    v-for="content in contents.data.history_contents.data"
+                    :key="content.id"
+                    class="date-list-item"
+                >
+                    {{ content.created_at }}
                 </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
-                <li class="date-list-item">
-                    12.02.2023
-                </li>
+                <li class="date-list-item"> 12.02.2023 </li>
+                <li class="date-list-item"> 12.02.2023 </li>
+                <li class="date-list-item"> 12.02.2023 </li>
+                <li class="date-list-item"> 12.02.2023 </li>
             </ul>
         </Transition>
-     
     </section>
-    
 </template>
 
-<style>
+<script>
+    export default {
+        name: 'ModalHistoryContnet',
+        props: {
+            contents: {
+                type: Array,
+                default() {
+                    return []
+                },
+            },
+        },
+        data() {
+            return {
+                openModal: false,
+                historyArray: [],
+            }
+        },
+        mounted() {},
+        methods: {
+            openDataMenu() {
+                this.openModal = !this.openModal
+                console.log('1')
+            },
+        },
+    }
+</script>
 
-    .main{
+<style>
+    .main {
         max-height: 400px;
         display: flex;
         justify-content: center;
@@ -39,36 +63,35 @@
         z-index: 50;
         position: absolute;
         margin: auto;
-        top: 0; bottom: 0; right:0;
+        top: 0;
+        bottom: 0;
+        right: 0;
         position: absolute;
     }
 
-    .open-history-button{
+    .open-history-button {
         margin-right: -2rem;
-        transform:rotate(90deg);
-        background-color: #6393FF;
+        transform: rotate(90deg);
+        background-color: #6393ff;
         color: #fff;
-        height:clamp(3rem, 1.63rem + 1.98vw, 3.5rem);
+        height: clamp(3rem, 1.63rem + 1.98vw, 3.5rem);
         width: clamp(6rem, 5.259rem + 3.95vw, 10rem);
         border-radius: 8px;
         backface-visibility: hidden;
         transition: 0.3s;
-
-        
     }
 
-    .open-history-button:hover{
+    .open-history-button:hover {
         transition: 0.3s;
-        scale:1.05;
-       
+        scale: 1.05;
     }
 
-    .date-list{
+    .date-list {
         padding: 2rem;
         border-radius: 8px;
         background-color: #fdfdfd;
         width: clamp(12.5rem, 10.579rem + 10.25vw, 16rem);
-        height:80%;
+        height: 80%;
         overflow: auto;
         margin-left: -1rem;
         -webkit-box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
@@ -76,7 +99,7 @@
         box-shadow: 0px 5px 10px 2px rgba(34, 60, 80, 0.2);
     }
 
-    .date-list-item{
+    .date-list-item {
         cursor: pointer;
         margin-top: 10px;
         border-radius: 4px;
@@ -85,49 +108,20 @@
         max-width: 100%;
         font-size: 1.3rem;
         text-align: center;
-        background-color: #6393FF;
+        background-color: #6393ff;
         color: #f7f7f7;
         transition: 0.3s;
     }
 
-    .date-list-item:hover{
+    .date-list-item:hover {
         transition: 0.3s;
-        scale:1.05;
+        scale: 1.05;
     }
 
     .slide-fade-enter-active {
-        transition: all .3s ease;
-      }
-      .slide-fade-leave-active {
-        transition:  .3s ease;
-      }
-      
-
-</style>
-
-<script>
-export default {
-    name: "ModalHistoryContnet",
-    data() {
-        return {
-            openModal:false,
-            historyArray:[]
-        }
-    },
-    props: {
-        contents: {
-            type: Array,
-            default: []
-        }
-    },
-    methods: {
-        openDataMenu(){
-            this.openModal = !this.openModal
-            console.log('1')
-        }
-    },
-    mounted() {
-
+        transition: all 0.3s ease;
     }
-}
-</script>
+    .slide-fade-leave-active {
+        transition: 0.3s ease;
+    }
+</style>

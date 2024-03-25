@@ -1,15 +1,26 @@
 import { defineStore } from 'pinia'
-import { BehaviorSubject } from 'rxjs';
-
+import { BehaviorSubject } from 'rxjs'
 
 export const useSightFilterStore = defineStore('useSightFilter', {
     state: () => ({
-        sightName: new BehaviorSubject(localStorage.getItem('sightNameFilter') || ''),
-        sightSponsor: new BehaviorSubject(localStorage.getItem('sightSponsorFilter') || ''),
-        sightSearchText: new BehaviorSubject(localStorage.getItem('sightTextFilter') || ''),
-        sightStatuses: new BehaviorSubject(localStorage.getItem('sightStatusesFilter') || ''),
-        sightStatusLast: new BehaviorSubject(localStorage.getItem('sightStatusLastFilter') || 'true'),
-        sightUser: new BehaviorSubject(localStorage.getItem('sightUserFilter') || ''),
+        sightName: new BehaviorSubject(
+            localStorage.getItem('sightNameFilter') || '',
+        ),
+        sightSponsor: new BehaviorSubject(
+            localStorage.getItem('sightSponsorFilter') || '',
+        ),
+        sightSearchText: new BehaviorSubject(
+            localStorage.getItem('sightTextFilter') || '',
+        ),
+        sightStatuses: new BehaviorSubject(
+            localStorage.getItem('sightStatusesFilter') || '',
+        ),
+        sightStatusLast: new BehaviorSubject(
+            localStorage.getItem('sightStatusLastFilter') || 'true',
+        ),
+        sightUser: new BehaviorSubject(
+            localStorage.getItem('sightUserFilter') || '',
+        ),
     }),
     actions: {
         setSightName(name) {
@@ -25,7 +36,6 @@ export const useSightFilterStore = defineStore('useSightFilter', {
         },
         getSightSponsor() {
             return localStorage.getItem('sightSponsorFilter')
-
         },
         setSightText(text) {
             localStorage.setItem('sightTextFilter', text)
@@ -55,6 +65,6 @@ export const useSightFilterStore = defineStore('useSightFilter', {
         },
         getSightUser() {
             return localStorage.getItem('sightUserFilter')
-        }
+        },
     },
 })
