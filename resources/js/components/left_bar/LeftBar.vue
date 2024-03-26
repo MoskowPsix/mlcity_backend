@@ -351,71 +351,48 @@
     import { useToast } from 'vue-toastification'
     import { onMounted } from 'vue'
 
-    export default {
-        name: 'LeftBar',
-        setup() {
-            onMounted(() => {
-                initFlowbite()
-            })
-            const isDark = useDark()
-            const toggleDark = useToggle(isDark)
-            return {
-                isDark,
-                toggleDark,
-            }
-        },
-        data() {
-            return {
-                toast: useToast(),
-                urlFront: import.meta.env.VITE_FRONT_APP_URL,
-            }
-        },
-        computed: {
-            ...mapState(useLocalStorageStore, ['role']),
-        },
-        methods: {
-            ...mapActions(useAuthStore, ['logout']),
-            ...mapActions(useLocalStorageStore, ['localStorageInit']),
-            ...mapActions(useLoaderStore, [
-                'openLoaderFullPage',
-                'closeLoaderFullPage',
-            ]),
-            logTo() {
-                window.location.href = 'http://localhost:8000/telescope'
-            },
-            logoutSubmit() {
-                this.openLoaderFullPage()
-                this.logout()
-                    .then(async () => {
-                        await localStorage.clear()
-                        await this.localStorageInit()
-                        this.toast.success(MessageAuth.success_logout)
-                        window.location.href =
-                            import.meta.env.VITE_FRONT_APP_URL
-                        // this.$router.push({name: 'login'})
-                    })
-                    .catch((err) => {
-                        if (
-                            399 < err.response.status &&
-                            err.response.status < 500
-                        ) {
-                            this.toast.warning(
-                                MessageAuth.warning_logout + ': ' + err.message,
-                            )
-                        } else if (
-                            499 < err.response.status &&
-                            err.response.status < 600
-                        ) {
-                            this.toast.error(
-                                MessageAuth.error_logout + ': ' + err.message,
-                            )
-                        }
-                        this.closeLoaderFullPage()
-                    })
-            },
-        },
-    }
-</script>
+
+export default {
+   name: 'LeftBar',
+   components: {Drawer},
+   data()  {
+      return {
+         toast: useToast(),
+         urlFront: import.meta.env.VITE_FRONT_APP_URL,
+      }
+   },
+   setup() {
+      onMounted(() => {
+         initFlowbite();
+      })
+      const isDark = useDark();
+      const toggleDark = useToggle(isDark);
+      return {
+         isDark,
+         toggleDark
+      }
+   },
+   computed: {
+      ...mapState(useLocalStorageStore, ['role'])
+   },
+   methods: {
+      ...mapActions(useAuthStore, ['logout']),
+      ...mapActions(useLocalStorageStore, ['localStorageInit']),
+      ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
+      logTo() {
+         window.location.href = 'http://localhost:8000/telescope'
+      },
+      logoutSubmit() {
+        this.openLoaderFullPage()
+        localStorage.clear()
+        this.localStorageInit()
+        this.toast.success(MessageAuth.success_logout)
+        window.location.href = import.meta.env.VITE_FRONT_APP_URL
+        // this.$router.push({name: 'login'})
+      },
+   },
+}
+  </script>
 
 <style>
     /* input:checked ~ .dot {
