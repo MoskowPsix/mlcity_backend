@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
@@ -243,6 +244,10 @@ Route::controller(PermissionController::class)->group(function (){
     Route::get("permissions/", "index")->middleware('auth:sanctum');;
     Route::patch("permissions/", "update")->middleware('root');
     Route::delete("permissions/{id}", "delete")->middleware('root');
+});
+
+Route::controller(FeedbackController::class)->group(function (){
+    Route::post("feedback/user", "sendUserFeedback");
 });
 
 
