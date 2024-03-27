@@ -116,47 +116,58 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
-            DB::transaction(function() use($request) {
-            $input = $request->all();
-            $pass  =  bcrypt($input['password']);
-            if ($input['avatar']) {
-                $user  =  User::create([
-                    'name'=> $input['name'],
-                    'password'=> $pass,
-                    'avatar'=> $input['avatar'],
-                    'email' => $input['email'],
-                    'number' => $input['number'],
-                ]);
-            } else {
-                $user  =  User::create([
-                    'name'=> $input['name'],
-                    'password'=> $pass,
-                    'avatar'=> 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($input['email'] . $input['name']),
-                    'email' => $input['email'],
-                    'number' => $input['number'],
-                ]);
+            $trans = DB::transaction(function() use($request) {
+                $input = $request->all();
+                $pass  =  bcrypt($input['password']);
+                if ($input['avatar']) {
+                    $user  =  User::create([
+                        'name'=> $input['name'],
+                        'password'=> $pass,
+                        'avatar'=> $input['avatar'],
+                        'email' => $input['email'],
+                        // 'number' => $input['number'],
+                    ]);
+                } else {
+                    $user  =  User::create([
+                        'name'=> $input['name'],
+                        'password'=> $pass,
+                        'avatar'=> 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($input['email'] . $input['name']),
+                        'email' => $input['email'],
+                        // 'number' => $input['number'],
+                    ]);
+                }
+                
+                // try{
+                    $this->createCodeEmail($user); 
+                // } catch (Exception $e) {
+                //     return response()->json([
+                //         'status'        => 'error',
+                //         'message'       => 'email error',
+                //     ], 422);
+                // }
+                $this->createCodeEmail($user);
+
+                // $this->createCodePhone($user);
+
+                    // User::findI($user->id)->delete();
+                    // return response()->json([
+                    //     'status'        => 'error',
+                    //     'message'       => 'email error',
+                    // ], 422);
+
+                $token = $this->getAccessToken($user);
+
+                return response()->json([
+                    'status'        => 'success',
+                    'message'       => __('messages.register.success'),
+                    'access_token'  => $token,
+                    'token_type'    => 'Bearer',
+                    'user'          => $user
+                ], 200);
+            }, 3);
+            if ($trans) {
+                return $trans;
             }
-
-            $this->createCodeEmail($user);
-
-            // $this->createCodePhone($user);
-
-                // User::findI($user->id)->delete();
-                // return response()->json([
-                //     'status'        => 'error',
-                //     'message'       => 'email error',
-                // ], 422);
-
-            $token = $this->getAccessToken($user);
-
-            return response()->json([
-                'status'        => 'success',
-                'message'       => __('messages.register.success'),
-                'access_token'  => $token,
-                'token_type'    => 'Bearer',
-                'user'          => $user
-            ], 200);
-        }, 3);
         } catch(Exception $e) {
             return response()->json([
                 'status'        => 'error',
