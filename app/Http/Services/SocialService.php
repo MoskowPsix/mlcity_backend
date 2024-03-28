@@ -7,7 +7,6 @@ use App\Models\SocialAccount;
 use Illuminate\Support\Str;
 
 class SocialService {
-
     public function findOrCreateUser($socialUser, $provider)
     {
         if ($user = $this->findUserBySocialId($provider, $socialUser->getId())) {
@@ -18,13 +17,42 @@ class SocialService {
             $this->addSocialAccount($provider, $user, $socialUser);
             return $user;
         }
-        $user = User::create([
-            'name'      => $socialUser->getName(),
-            'avatar'    => $socialUser->getAvatar(),
-            'password'  => bcrypt(Str::random(8)),
-            'email' => $socialUser->getEmail(),
-            'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
-        ]);
+        // $user = User::create([
+        //     'name'      => $socialUser->getName(),
+        //     'avatar'    => $socialUser->getAvatar(),
+        //     'password'  => bcrypt(Str::random(8)),
+        //     'email' => $socialUser->getEmail(),
+        //     'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+        // ]);
+        switch($provider) {
+            case "vkontakte":
+                $user = User::create([
+                    'name'      => $socialUser->getName(),
+                    'avatar'    => $socialUser->getAvatar(),
+                    'password'  => bcrypt(Str::random(8)),
+                    'email' => $socialUser->getEmail(),
+                    'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+                ]);
+                break;
+            case "telegram":
+                $user = User::create([
+                    'name'      => $socialUser->getName(),
+                    'avatar'    => $socialUser->getAvatar(),
+                    'password'  => bcrypt(Str::random(8)),
+                    'email' => $socialUser->getEmail(),
+                    'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+                ]);
+                break;
+            case "apple":
+                $user = User::create([
+                    'name'      => $socialUser->getName(),
+                    'avatar'    => $socialUser->getAvatar(),
+                    'password'  => bcrypt(Str::random(8)),
+                    'email' => $socialUser->getEmail(),
+                    'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+                ]);
+                info($user);
+                break;
         
 
         $this->addSocialAccount($provider, $user, $socialUser);
@@ -59,6 +87,14 @@ class SocialService {
                 ]); 
                 break;
             case "telegram":
+                SocialAccount::create([
+                    'user_id'       => $user->id,
+                    'provider'      => $provider,
+                    'provider_id'   => $socialUser->getId(),
+                    'token'         => 'none',
+                ]); 
+                break;
+            case "apple":
                 SocialAccount::create([
                     'user_id'       => $user->id,
                     'provider'      => $provider,
