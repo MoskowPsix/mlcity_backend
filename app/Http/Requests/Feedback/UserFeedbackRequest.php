@@ -24,9 +24,9 @@ class UserFeedbackRequest extends FormRequest
     public function rules()
     {
         return [
-            "email" => "min:1|email",
-            "text" => "string|min:10",
-            "name" => "string|min:1"
+            "email" => "min:1|email|required",
+            "text" => "string|min:10|required",
+            "name" => "string|min:1|required"
         ];
     }
 }
