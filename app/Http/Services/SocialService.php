@@ -7,6 +7,7 @@ use App\Models\SocialAccount;
 use Illuminate\Support\Str;
 
 class SocialService {
+    
     public function findOrCreateUser($socialUser, $provider)
     {
         if ($user = $this->findUserBySocialId($provider, $socialUser->getId())) {
@@ -54,7 +55,7 @@ class SocialService {
                 info($user);
                 break;
         
-
+        }
         $this->addSocialAccount($provider, $user, $socialUser);
 
         return $user;
