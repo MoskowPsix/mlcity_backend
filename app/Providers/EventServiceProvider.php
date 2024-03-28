@@ -28,6 +28,7 @@ class EventServiceProvider extends ServiceProvider
             // ... other providers
             \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
             \SocialiteProviders\Telegram\TelegramExtendSocialite::class.'@handle',
+            \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
         ],
 
         EventCreated::class => [
