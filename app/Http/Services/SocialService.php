@@ -45,14 +45,28 @@ class SocialService {
                 ]);
                 break;
             case "apple":
-                $user = User::create([
-                    'name'      => $socialUser->getName(),
-                    'avatar'    => $socialUser->getAvatar(),
-                    'password'  => bcrypt(Str::random(8)),
-                    'email' => $socialUser->getEmail(),
-                    'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
-                ]);
-                info($user);
+                $email = $socialUser->getEmail();
+                if (!isset($email)) {
+                    $user = User::create([
+                        'name'      => $socialUser->getName(),
+                        'avatar'    => $socialUser->getAvatar(),
+                        'password'  => bcrypt(Str::random(8)),
+                        'email' => $socialUser->getEmail(),
+                        'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+                    ]);
+                } else {
+                    $name = 'user_' . Str::random(8);
+                    while(!User::where('name' ,$name)->count() == 0) {
+                        $name = 'user_' . Str::random(8);
+                    }
+                    $user = User::create([
+                        'name'      => $name,
+                        'avatar'    => 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($name),
+                        'password'  => bcrypt(Str::random(8)),
+                        // 'email' => $socialUser->getEmail(),
+                        // 'email_verified_at' => date("Y-m-d H:i:s", strtotime('now')),
+                    ]);
+                }
                 break;
         
         }
