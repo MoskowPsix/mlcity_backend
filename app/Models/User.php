@@ -162,8 +162,7 @@ class User extends Authenticatable
         return $this->belongsToMany(Location::class);
     }
 
-    public function role()
-    {
+    public function role(){
         return $this->belongsToMany(Role::class, $table="users_roles");
     }
 
@@ -171,8 +170,13 @@ class User extends Authenticatable
     public function permissionsInOrganization(){
         return $this->belongsToMany(Permission::class, "organization_permission_user", "user_id", "permission_id")->withPivot("organization_id");
     }
+
     public function organizations(){
         return $this->belongsToMany(Organization::class, "organization_permission_user", "user_id","organization_id");
+    }
+
+    public function userAgreements(){
+        return $this->belongsToMany(UserAgreement::class);
     }
 
 }

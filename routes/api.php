@@ -99,6 +99,8 @@ Route::controller(UserController::class)->group(function() {
 
     Route::post("users/{usr_id}/organizations", "addOrganization")->middleware('auth:sanctum');
     Route::get("users/{usr_id}/organizations", "getOrganizations")->middleware("auth:sanctum");
+
+    Route::post("users/agreements/accept","acceptAgreement");
 });
 
 Route::controller(AuthSocialController::class)->group(function() {

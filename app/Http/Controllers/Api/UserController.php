@@ -31,6 +31,8 @@ use App\Http\Requests\Organisation\CreateOrganisation;
 use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\UserRequest;
 use App\Models\Organization;
+use App\Models\UserAgreement;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -857,5 +859,25 @@ class UserController extends Controller
         }
 
         return response()->json(["message"=>"Access denied"],403);
+    }
+
+    public function acceptAgreement(Request $reqeust){
+        try{
+            $user = auth('api')->user();
+            $agreement =  UserAgreement::where("title", $reqeust->get("type"))->first()->id;
+
+            if ($agreement){
+                $user->userAgreements()->attach($agreement, ["status" => true]);
+
+                return response()->json(["message"=>"success"]);
+            }
+            else{
+                return response()->json(["message"=>"agreement is doest found"]);
+            }
+        }
+        catch (Exception $e) {
+            info($e);
+            return response()->json(["message"=>"server error", 500]);
+        }
     }
 }
