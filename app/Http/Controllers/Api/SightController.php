@@ -15,6 +15,7 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightIco;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
 use App\Models\Sight;
@@ -207,6 +208,7 @@ class SightController extends Controller
                         PlaceAddress::class,
                         SightTypes::class,
                         PlaceGeoPositionInArea::class,
+                        SightIco::class
                     ])
                     ->via('apply')
                     ->then(function ($sights) {

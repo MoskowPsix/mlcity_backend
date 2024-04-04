@@ -864,20 +864,35 @@ class UserController extends Controller
     public function acceptAgreement(Request $reqeust){
         try{
             $user = auth('api')->user();
+
             $agreement =  UserAgreement::where("title", $reqeust->get("type"))->first()->id;
+            $checkUserAgreementIsAlredy = $user->userAgreements()->where("user_agreement_id",$agreement)->get();
 
-            if ($agreement){
-                $user->userAgreements()->attach($agreement, ["status" => true]);
+            if(count($checkUserAgreementIsAlredy) > 0){
+                return response()->json(["message"=>"User is alredy acceptedч this agreement"]);
+            }
+            if (isset($agreement)){
+                $user->userAgreements()->attach([$agreement => ["status" => true]]);
 
-                return response()->json(["message"=>"success"]);
+                return response()->json(["message"=>"success", "data" => "agreement accepted"]);
             }
             else{
-                return response()->json(["message"=>"agreement is doest found"]);
+                return response()->json(["message"=>"agreement not found"]);
             }
         }
         catch (Exception $e) {
             info($e);
             return response()->json(["message"=>"server error", 500]);
+        }
+    }
+
+    public function checkAgreement(Request $reqeust, $agreement_id){
+        $user = auth("api")->user();
+
+        $agreement = $user->userAgreements()->where("user_agreement_id",$agreement_id)->get();
+
+        if($agreement){
+            return response()->json(["message"=>"success", "data"=>$agreement]);
         }
     }
 }
