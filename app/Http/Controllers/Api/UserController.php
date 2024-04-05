@@ -894,6 +894,6 @@ class UserController extends Controller
         if($agreement){
             return response()->json(["message"=>"success", "data"=>$agreement]);
         }
-        return response()->json(["message" => "user dont accept this agreement"],404);
+        return response()->json(["message" => "user dont accept this agreement"],200);
     }
 }
