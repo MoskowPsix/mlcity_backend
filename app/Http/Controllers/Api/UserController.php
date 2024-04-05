@@ -865,7 +865,7 @@ class UserController extends Controller
         try{
             $user = auth('api')->user();
 
-            $agreement =  UserAgreement::where("id", $reqeust->get("agreement_id"))->first()->id;
+            $agreement =  UserAgreement::find($reqeust->get("id"))->first()->id;
             $checkUserAgreementIsAlredy = $user->userAgreements()->where("user_agreement_id",$agreement)->get();
 
             if(count($checkUserAgreementIsAlredy) > 0){
@@ -882,7 +882,7 @@ class UserController extends Controller
         }
         catch (Exception $e) {
             info($e);
-            return response()->json(["message"=>"server error", 500]);
+            return response()->json(["message"=>"server error"], 500);
         }
     }
 
