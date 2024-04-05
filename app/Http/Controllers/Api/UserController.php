@@ -865,11 +865,12 @@ class UserController extends Controller
         try{
             $user = auth('api')->user();
 
-            $agreement =  UserAgreement::find($reqeust->get("agreement_id"))->first()->id;
+            $agreement =  UserAgreement::find($reqeust->get("agreement_id"))->id;
+            info($agreement);
             $checkUserAgreementIsAlredy = $user->userAgreements()->where("user_agreement_id",$agreement)->get();
-
+            info($checkUserAgreementIsAlredy);
             if(count($checkUserAgreementIsAlredy) > 0){
-                return response()->json(["message"=>"User is alredy acceptedч this agreement"]);
+                return response()->json(["message"=>"User is alredy accepted this agreement"]);
             }
             if (isset($agreement)){
                 $user->userAgreements()->attach([$agreement => ["status" => true]]);
