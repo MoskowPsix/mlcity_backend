@@ -865,7 +865,7 @@ class UserController extends Controller
         try{
             $user = auth('api')->user();
 
-            $agreement =  UserAgreement::find($reqeust->get("id"))->first()->id;
+            $agreement =  UserAgreement::find($reqeust->get("agreement_id"))->first()->id;
             $checkUserAgreementIsAlredy = $user->userAgreements()->where("user_agreement_id",$agreement)->get();
 
             if(count($checkUserAgreementIsAlredy) > 0){
