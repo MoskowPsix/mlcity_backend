@@ -68,6 +68,7 @@ class HistoryContentController extends Controller
     }
     public function getHistoryContentForIdsContent($type, $id, GetLimitPageRequest $request)
     {
+        info("test");
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
         $page = $request->page;
         if($type == 'sight') {
@@ -453,7 +454,7 @@ class HistoryContentController extends Controller
 
             $userFavoriteEmails = $historyParent->favoritesUsers->pluck("email")->toArray();
             $this->sendNotificationAboutChanges($userFavoriteEmails, $historyParent->name);
-            
+
             return response()->json(["status"=>"success"],201);
         }
 
