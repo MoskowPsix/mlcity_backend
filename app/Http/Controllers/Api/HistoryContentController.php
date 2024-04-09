@@ -68,7 +68,6 @@ class HistoryContentController extends Controller
     }
     public function getHistoryContentForIdsContent($type, $id, GetLimitPageRequest $request)
     {
-        info("test");
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
         $page = $request->page;
         if($type == 'sight') {
