@@ -49,7 +49,10 @@ class HistoryContentService {
         return $historySeance;
     }
 
-    public function createHistoryPrice(History)
+    public function createHistoryPrice(HistoryContent $historyContent, $price){
+        $historyPrice = $historyContent->historyPrices()->create($price);
+        return $historyPrice;
+    }
 
     private function prepareHistoryPlaceData($data){
         if(isset($data["location"])){
