@@ -15,12 +15,22 @@ class EventHistoryContentService{
     private $historyTypes;
     private $historyFiles;
 
-    public function __construct($places, $prices, $types, $files)
+    public function __construct($historyContent)
     {
-        $this->historyPlaces = $places;
-        $this->historyPrices = $prices;
-        $this->historyTypes = $types;
-        $this->historyFiles = $files;
+        $this->historyContentService = new HistoryContentService();
+        if(isset($historyContent["history_places"])){
+            $this->historyPlaces = $historyContent["history_places"];
+        }
+        if(isset($historyContent["history_prices"])){
+            $this->historyPrices = $historyContent["history_prices"];
+        }
+        if(isset($historyContent["history_types"])){
+            $this->historyTypes = $historyContent["history_types"];
+        }
+        if(isset($historyContent["history_files"])){
+            $this->historyFiles = $historyContent["history_files"];
+        }
+
     }
     public function storeHistoryContent(array $dataForHistoryContent, int $event_id, int $status_id){
         $event = Event::find($event_id);
@@ -35,7 +45,9 @@ class EventHistoryContentService{
         $this->storeHistoryPlacesWithSeances($historyContent);
         $this->storeHistoryPrices($historyContent);
         $this->storeHistoryTypes($historyContent);
-        
+        $this->storeHistoryFiles($historyContent);
+
+        return $historyContent;
     }
 
     private function storeHistoryPlacesWithSeances($historyContent){
@@ -63,7 +75,25 @@ class EventHistoryContentService{
     private function storeHistoryTypes($historyContent){
         if($this->historyTypes){
             foreach($this->historyTypes as $type){
-                $this->historyContentService->createEventHistoryType($historyContent, $type, $type["on_delete"]);
+                if(isset($type["on_delete"])){
+                    $this->historyContentService->createEventHistoryType($historyContent, $type, $type["on_delete"]);
+                }
+                else{
+                    $this->historyContentService->createEventHistoryType($historyContent, $type);
+                }
+            }
+        }
+    }
+
+    private function storeHistoryFiles($historyContent){
+        if($this->historyFiles){
+            foreach($this->historyFiles as $file){
+                if(isset($file["on_delete"]) && $file["on_delete"] == true){
+                    $historyContent->historyFiles()->create($file);
+                }
+                else{
+                    $this->historyContentService->saveLocalFilesImg($historyContent, $file);
+                }
             }
         }
     }

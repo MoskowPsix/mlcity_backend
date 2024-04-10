@@ -49,12 +49,15 @@ class HistoryContentService {
         return $historyPrice;
     }
 
-    public function createEventHistoryType(HistoryContent $historyContent, $type, bool $onDelete){
-        $historyTypes = $historyContent->historyEventTypes()->create($type, ["on_delete" => $onDelete]);
+    public function createEventHistoryType(HistoryContent $historyContent, $type, bool $onDelete = null){
+        info($type);
+        $historyTypes = $historyContent->historyEventTypes()->attach($type["id"], ["on_delete" => $onDelete]);
         return $historyTypes;
     }
 
-    
+    public function createHistoryFile(HistoryContent $historyContent, $file, bool $onDelete){
+        $historyContent->historyFiles()->create($file);
+    }
 
     private function prepareHistoryPlaceData($data){
         if(isset($data["location"])){
@@ -86,7 +89,7 @@ class HistoryContentService {
         return Carbon::parse($date)->format($format);
     }
 
-    private function saveLocalFilesImg($historyContent, $file){
+    public function saveLocalFilesImg($historyContent, $file){
         $filename = uniqid('img_');
 
         $path = $file->store('history_content/'.$historyContent->id, 'public');

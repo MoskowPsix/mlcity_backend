@@ -27,6 +27,7 @@ use App\Models\Seance;
 use App\Models\Sight;
 use App\Models\Status;
 use App\Models\User;
+use App\Services\EventHistoryContentService;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
@@ -114,88 +115,9 @@ class HistoryContentController extends Controller
 
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
-            $event = Event::where('id',$data['id'])->first();
+            $eventHistoryContentService = new EventHistoryContentService($data["history_content"]);
 
-            $historyContent = $data["history_content"];
-
-            if (isset($historyContent["date_start"])){
-                $historyContent["date_start"] = Carbon::parse($historyContent["date_start"])->format("Y-m-d H:i:s");
-                $historyContent["date_end"] = Carbon::parse($historyContent["date_end"])->format("Y-m-d H:i:s");
-            }
-
-            unset($historyContent["history_places"]);
-            unset($historyContent['history_prices']);
-            unset($historyContent['history_types']);
-            unset($historyContent['history_files']);
-
-            $historyContent = $event->historyContents()->create($historyContent);
-            $historyContent->historyContentStatuses()->create([
-                "status_id" => $status_id
-            ]);
-
-            #проверяем содержит ли массив places
-            if(isset($data["history_content"]["history_places"])){
-
-                for($i = 0; $i<count($data["history_content"]["history_places"]); $i++){
-                    $historyPlace = $this->prepareHistoryPlaceData($data["history_content"]["history_places"][$i]);
-                    $historyPlace = $historyContent->historyPlaces()->create($historyPlace);
-
-                    #проверяем содержит ли массив seances
-                    if (isset($data["history_content"]["history_places"][$i]["history_seances"])){
-                        $historySeances = $data["history_content"]["history_places"][$i]["history_seances"];
-                        foreach($historySeances as $historySeance){
-                            $historySeance = $this->unsetRawSeanseData($historySeance);
-                            $historySeance = $historyPlace->historySeances()->create($historySeance);
-                        }
-
-                    }
-                }
-
-            }
-            #Проверка есть ли цена на изменение или удаление
-
-            if(isset($data["history_content"]["history_prices"])){
-                $historyPrices = $data["history_content"]["history_prices"];
-
-                if(!empty($historyPrices)){
-                    for($i = 0; $i<count($historyPrices); $i++){
-                        $historyContent->historyPrices()->create($historyPrices[$i]);
-                    }
-                }
-            }
-
-            #Проверка если ли типы на удаление или на добавление
-
-
-            if(isset($data["history_content"]["history_types"])){
-                $historyTypes = $data["history_content"]["history_types"];
-
-                for($i = 0; $i<count($historyTypes); $i++){
-
-
-                    if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
-                        $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
-                    }
-                    else{
-                        $historyContent->historyEventTypes()->attach($historyTypes[$i]["id"]);
-                    }
-
-                }
-            }
-
-            if(isset($data['history_content']["history_files"])){
-                $files = $data['history_files'];
-                foreach($files as $file){
-                    if(isset($file["on_delete"]) && $file["on_delete"] == true){
-                        $historyContent->historyFiles()->create($file);
-                    }
-                    else{
-                        $this->saveLocalFilesImg($historyContent, $file);
-                    }
-                }
-
-            }
-
+            $historyContent = $eventHistoryContentService->storeHistoryContent($data["history_content"], $data["id"], $status_id);
         }
         else if($data["type"] == "Sight"){
             $sight = Sight::where('id',$data['id'])->first();
