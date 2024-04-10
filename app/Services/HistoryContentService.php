@@ -20,11 +20,6 @@ class HistoryContentService {
         return $historyContent;
     }
 
-    # форматирует дату к переданному формату
-    public function reformatTheDate(string $date, string $format){
-        return Carbon::parse($date)->format($format);
-    }
-
     # возвращает "чистую" историю без плейсов, цен, типов и тд
     public function getClearHistoryContent($dataForHistoryContent){
         unset($dataForHistoryContent["history_places"]);
@@ -54,6 +49,13 @@ class HistoryContentService {
         return $historyPrice;
     }
 
+    public function createEventHistoryType(HistoryContent $historyContent, $type, bool $onDelete){
+        $historyTypes = $historyContent->historyEventTypes()->create($type, ["on_delete" => $onDelete]);
+        return $historyTypes;
+    }
+
+    
+
     private function prepareHistoryPlaceData($data){
         if(isset($data["location"])){
             $data["location_id"] = $data['location']["location_id"];
@@ -77,6 +79,11 @@ class HistoryContentService {
         unset($data['place_id']);
 
         return $data;
+    }
+
+    # форматирует дату к переданному формату
+    public function reformatTheDate(string $date, string $format){
+        return Carbon::parse($date)->format($format);
     }
 
     private function saveLocalFilesImg($historyContent, $file){

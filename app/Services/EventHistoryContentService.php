@@ -34,8 +34,8 @@ class EventHistoryContentService{
         $historyContent = $this->historyContentService->createHistoryContent($event, $data, $status_id);
         $this->storeHistoryPlacesWithSeances($historyContent);
         $this->storeHistoryPrices($historyContent);
+        $this->storeHistoryTypes($historyContent);
         
-
     }
 
     private function storeHistoryPlacesWithSeances($historyContent){
@@ -56,6 +56,14 @@ class EventHistoryContentService{
         if($this->historyPrices){
             foreach($this->historyPrices as $price){
                 $this->historyContentService->createHistoryPrice($historyContent, $price);
+            }
+        }
+    }
+
+    private function storeHistoryTypes($historyContent){
+        if($this->historyTypes){
+            foreach($this->historyTypes as $type){
+                $this->historyContentService->createEventHistoryType($historyContent, $type, $type["on_delete"]);
             }
         }
     }
