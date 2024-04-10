@@ -123,7 +123,6 @@ class HistoryContentController extends Controller
                 $historyContent["date_end"] = Carbon::parse($historyContent["date_end"])->format("Y-m-d H:i:s");
             }
 
-            info($historyContent);
             unset($historyContent["history_places"]);
             unset($historyContent['history_prices']);
             unset($historyContent['history_types']);
@@ -488,9 +487,6 @@ class HistoryContentController extends Controller
             'local' => 1
         ]);
         $historyType = $historyFile->historyFileType()->attach($type[0]->id);
-
-
-
     }
     private function saveLocalSightFilesImg($sight, $file){
 
