@@ -50,8 +50,12 @@ class HistoryContentService {
     }
 
     public function createEventHistoryType(HistoryContent $historyContent, $type, bool $onDelete = null){
-        info($type);
         $historyTypes = $historyContent->historyEventTypes()->attach($type["id"], ["on_delete" => $onDelete]);
+        return $historyTypes;
+    }
+
+    public function createSightHistoryType(HistoryContent $historyContent, $type, bool $onDelete = null){
+        $historyTypes = $historyContent->historySightTypes()->attach($type["id"], ["on_delete" => $onDelete]);
         return $historyTypes;
     }
 

@@ -32,10 +32,11 @@ class EventHistoryContentService{
         }
 
     }
-    public function storeHistoryContent(array $dataForHistoryContent, int $event_id, int $status_id){
-        $event = Event::find($event_id);
+    public function storeHistoryContentWithAllData(array $dataForHistoryContent, int $eventId, int $status_id){
+        $event = Event::find($eventId);
         $data = $this->historyContentService->getClearHistoryContent($dataForHistoryContent);
 
+        # думаю тут это лишнее, вынести бы потом куда то
         if(isset($data["date_start"])){
             $data["date_start"] =  $this->historyContentService->reformatTheDate($data["date_start"], "Y-m-d H:i:s");
             $data["date_end"] =  $this->historyContentService->reformatTheDate($data["date_end"], "Y-m-d H:i:s");

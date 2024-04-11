@@ -28,6 +28,7 @@ use App\Models\Sight;
 use App\Models\Status;
 use App\Models\User;
 use App\Services\EventHistoryContentService;
+use App\Services\SightHistoryContentService;
 use Carbon\Carbon;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Pipeline\Pipeline;
@@ -116,68 +117,11 @@ class HistoryContentController extends Controller
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
             $eventHistoryContentService = new EventHistoryContentService($data["history_content"]);
-
-            $historyContent = $eventHistoryContentService->storeHistoryContent($data["history_content"], $data["id"], $status_id);
+            $historyContent = $eventHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
         }
         else if($data["type"] == "Sight"){
-            $sight = Sight::where('id',$data['id'])->first();
-            $historyContent = $data['history_content'];
-
-            unset($historyContent['history_prices']);
-            unset($historyContent['history_types']);
-            unset($historyContent['history_files']);
-            $historyContent = $sight->historyContents()->create($historyContent);
-
-
-
-            $historyContent->historyContentStatuses()->create([
-                "status_id" => $status_id
-            ]);
-
-            #Проверка есть ли цена на изменение или удаление
-            if(isset($data["history_content"]["history_prices"])){
-                $historyPrices = $data["history_content"]["history_prices"];
-                if(!empty($historyPrices)){
-                    for($i = 0; $i<count($historyPrices); $i++){
-                        $historyContent->historyPrices()->create($historyPrices[$i]);
-                    }
-                }
-            }
-
-
-            #Проверка если ли типы на удаление или на добавление
-            if(isset($data["history_content"]["history_types"])){
-                $historyTypes = $data["history_content"]["history_types"];
-                if(!empty($historyTypes)){
-
-                    for($i = 0; $i<count($historyTypes); $i++){
-                        if(isset($historyTypes[$i]["on_delete"]) &&  $historyTypes[$i]["on_delete"] == true){
-                            $historyContent->historySightTypes()->attach($historyTypes[$i]["id"], ['on_delete'=>true]);
-                        }
-                        else{
-                            $historyContent->historySightTypes()->attach($historyTypes[$i]["id"]);
-                        }
-
-                    }
-                }
-            }
-
-            if(isset($data['history_content']["history_files"])){
-                $files = $data['history_content']["history_files"];
-                for($i = 0; $i<count($files); $i++){
-                    $file = $files[$i];
-                    if($file instanceof UploadedFile){
-                        $this->saveLocalFilesImg($historyContent, $file);
-                    }
-                    else{
-                        $historyContent->historyFiles()->create($file);
-                    }
-                }
-
-            }
-
-
-
+            $sightHistoryContentService = new SightHistoryContentService($data["history_content"]);
+            $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
         }
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent->id],201);
