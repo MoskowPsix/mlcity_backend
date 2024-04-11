@@ -121,7 +121,7 @@ class HistoryContentController extends Controller
         }
         else if($data["type"] == "Sight"){
             $sightHistoryContentService = new SightHistoryContentService($data["history_content"]);
-            $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
+            $historyContent = $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
         }
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent->id],201);

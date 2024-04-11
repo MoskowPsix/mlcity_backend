@@ -39,6 +39,8 @@ class SightHistoryContentService{
         $this->storeHistoryPrices();
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
+
+        return $this->historyContent;
     }
 
     private function storeHistoryPrices(){
