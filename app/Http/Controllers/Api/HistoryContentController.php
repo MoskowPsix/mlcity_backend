@@ -94,21 +94,7 @@ class HistoryContentController extends Controller
     {
         // info();
         #получаем данные для статуса и дальнейших манипуляций
-        info(auth('api')->user()->role[0]->name);
-        info(request("type"));
-        if(request("type") == "Event")
-        {
-            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id == auth('api')->user()->id))) {
-                return response()->json(["status"=>"error", "message" => "access denied" ],403);
-            }
-        }
-        else
-         {
-            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id == auth('api')->user()->id))) {
-                return response()->json(["status"=>"error", "message" => "access denied" ],403);
-            }
-        }
-
+        $this->checkAccessToCreateHistoryContent();
         $data = $request->toArray();
 
         $data['history_content']["user_id"] = auth("api")->user()->id;
@@ -124,7 +110,7 @@ class HistoryContentController extends Controller
             $historyContent = $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
         }
 
-        return response()->json(["status"=>"success", "history_content"=>$historyContent->id],201);
+        return response()->json(["status"=>"success", "history_content"=>$historyContent],201);
     }
 
     public function acceptHistoryContent(Request $request){
@@ -402,6 +388,21 @@ class HistoryContentController extends Controller
 
         return $data;
 
+    }
+
+    private function checkAccessToCreateHistoryContent(){
+        if(request("type") == "Event")
+        {
+            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id == auth('api')->user()->id))) {
+                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            }
+        }
+        else
+         {
+            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id == auth('api')->user()->id))) {
+                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            }
+        }
     }
 
     private function unsetRawHistoryPlaceData($historyRawData){
