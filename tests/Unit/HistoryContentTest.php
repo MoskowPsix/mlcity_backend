@@ -3,6 +3,7 @@
 namespace Tests\Unit;
 
 use App\Models\Event;
+use App\Models\Price;
 use App\Models\Sight;
 use App\Models\User;
 use Database\Seeders\test\TestSightsSeeder;
@@ -18,12 +19,10 @@ class HistoryContentTest extends TestCase
      */
     public function test_create_history_content_for_sight_with_standart_attrs()
     {
-        $this->seed();
-        $this->seed([
-            TestSightsSeeder::class
-        ]);
+        $this->prepare_seeds_for_sight_tests();
+
         $user = User::find(1);
-        $sight = Sight::find(1);
+        $sight = Sight::factory()->create();
 
         $data = [
             "id" => $sight->id,
@@ -36,16 +35,68 @@ class HistoryContentTest extends TestCase
                 "latitude" => 50,
                 "longitude" => 51,
                 "description" => "new description",
+                "work_time"=> "new work_timessss"
             ]
         ];
 
         $response = $this->actingAs($user)
         ->postJson("/api/history-content", $data);
 
+        $response->assertStatus(201)
+        ->assertJsonFragment($data['history_content']);
+    }
+
+    public function test_create_history_content_for_sight_with_new_prices(){
+        $this->prepare_seeds_for_sight_tests();
+
+        $user = User::first();
+        $sight = Sight::factory()->create();
+        $price = Price::factory()->create();
+        $price2 = Price::factory()->create();
+        $price3 = Price::factory()->create();
+
+        $data = [
+            "id" => $sight->id,
+            "type" => "Sight",
+
+            "history_content" => [
+                "history_prices" => [
+                    [
+                        "cost_rub" => $price->cost_rub,
+                        "descriptions" => $price->descriptions
+                    ],
+                    [
+                        "cost_rub" => $price2->cost_rub,
+                        "descriptions" => $price2->descriptions
+                    ],
+                    [
+                        "cost_rub" => $price3->cost_rub,
+                        "descriptions" => $price3->descriptions
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $this->actingAs($user)
+        ->postJson("/api/history-content",$data);
+
         $response->assertStatus(201);
-        $response->assertSee($data['history_content']);
 
+        foreach($data["history_content"]["history_prices"] as $price){
+            $this->assertDatabaseHas("history_prices", [
+                "history_content_id" =>$response["history_content"]["id"],
+                "cost_rub" => $price["cost_rub"],
+                "descriptions" => $price["descriptions"]
+            ]);
+        }
+    }
+    
 
+    private function prepare_seeds_for_sight_tests(){
+        $this->seed();
+        $this->seed([
+            TestSightsSeeder::class
+        ]);
     }
 
 
