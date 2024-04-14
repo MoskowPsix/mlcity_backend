@@ -7,6 +7,7 @@ use App\Models\Price;
 use App\Models\Sight;
 use App\Models\SightType;
 use App\Models\User;
+use Database\Seeders\test\TestEventSeeder;
 use Database\Seeders\test\TestSightsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -131,11 +132,43 @@ class HistoryContentTest extends TestCase
 
     }
 
+    public function test_create_history_content_for_event_with_all_attrs(){
+        $this->prepare_seeds_for_event_tests();
+        $user = User::first();
+        $event = Event::first();
+
+        $data = [
+            "id" => $event->id,
+            "type" => "Event",
+
+            "history_content" => [
+                "name" => "new name",
+                "sponsor" => "new sponsor",
+                "description" => "new desc",
+                "materials" => "new materials",
+                "date_start" => "2005-05-27 00:00:00",
+                "date_end" => "2005-05-28 00:00:00"
+            ]
+        ];
+
+        $response = $this->actingAs($user)
+        ->postJson("/api/history-content", $data);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment($data["history_content"]);
+    }
+
 
     private function prepare_seeds_for_sight_tests(){
         $this->seed();
         $this->seed([
             TestSightsSeeder::class
+        ]);
+    }
+    private function prepare_seeds_for_event_tests(){
+        $this->seed();
+        $this->seed([
+            TestEventSeeder::class
         ]);
     }
 
