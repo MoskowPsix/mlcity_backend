@@ -5,6 +5,7 @@ namespace Tests\Unit;
 use App\Models\Event;
 use App\Models\Price;
 use App\Models\Sight;
+use App\Models\SightType;
 use App\Models\User;
 use Database\Seeders\test\TestSightsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -90,7 +91,46 @@ class HistoryContentTest extends TestCase
             ]);
         }
     }
-    
+
+    public function test_create_history_content_for_sight_with_new_types(){
+        $this->prepare_seeds_for_sight_tests();
+        $type1 = SightType::inRandomOrder()->first();
+        $type2 = SightType::inRandomOrder()->first();
+        $type3 = SightType::inRandomOrder()->first();
+        $sight = Sight::first();
+        $user = User::first();
+
+        $data = [
+            "id" => $sight->id,
+            "type" => "Sight",
+            "history_content" => [
+                "history_types" => [
+                    [
+                        "id" => $type1->id
+                    ],
+                    [
+                        "id" => $type2->id
+                    ],
+                    [
+                        "id" => $type3->id
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $this->actingAs($user)
+        ->postJson("/api/history-content", $data);
+
+        foreach($data['history_content']["history_types"] as $type){
+            $this->assertDatabaseHas("history_contentables", [
+                "history_content_id" => $response["history_content"]["id"],
+                "history_contentable_id" => $type["id"]
+            ]);
+        }
+        $response->assertStatus(201);
+
+    }
+
 
     private function prepare_seeds_for_sight_tests(){
         $this->seed();
