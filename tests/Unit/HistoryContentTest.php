@@ -7,6 +7,7 @@ use App\Models\Price;
 use App\Models\Sight;
 use App\Models\SightType;
 use App\Models\User;
+use Database\Factories\EventPriceFactory;
 use Database\Seeders\test\TestEventSeeder;
 use Database\Seeders\test\TestSightsSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -156,6 +157,59 @@ class HistoryContentTest extends TestCase
 
         $response->assertStatus(201);
         $response->assertJsonFragment($data["history_content"]);
+    }
+
+    public function test_create_history_content_for_event_with_prices(){
+        $this->prepare_seeds_for_event_tests();
+        $user = User::first();
+        $event = Event::first();
+        $price1 = Price::factory()->make([
+            "sight_id" => null,
+            "event_id" => $event->id
+        ]);
+        $price2 = Price::factory()->make([
+            "sight_id" => null,
+            "event_id" => $event->id
+        ]);
+        $price3 = Price::factory()->make([
+            "sight_id" => null,
+            "event_id" => $event->id
+        ]);
+
+
+        $data = [
+            "id" => $event->id,
+            "type" => "Event",
+
+            "history_content" => [
+                "history_prices" => [
+                    [
+                        "cost_rub" => $price1->cost_rub,
+                        "descriptions" => $price1->descriptions
+                    ],
+                    [
+                        "cost_rub" => $price2->cost_rub,
+                        "descriptions" => $price2->descriptions
+                    ],
+                    [
+                        "cost_rub" => $price3->cost_rub,
+                        "descriptions" => $price3->descriptions
+                    ]
+                ]
+            ]
+        ];
+
+        $response = $this->actingAs($user)
+        ->postJson("/api/history-content",$data);
+
+        foreach($data["history_content"]["history_prices"] as $price){
+            $response->assertStatus(201);
+            $this->assertDatabaseHas("history_prices", [
+                "history_content_id" => $response["history_content"]["id"],
+                "cost_rub" => $price["cost_rub"],
+                "descriptions" => $price["descriptions"]
+            ]);
+        }
     }
 
 
