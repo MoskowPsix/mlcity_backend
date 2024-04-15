@@ -91,7 +91,6 @@ class RoleTest extends TestCase
         $auth = $this->postJson('/api/login',$this->user_root);
         $auth->withHeaders(['Bearer Token'=>$auth->baseResponse->original['access_token']]);
 
-        echo "adsdsdaaaa";
         $role_id = Role::where('name','Moderator')->firstOrfail()->id;
         $user_id = User::where('name','Test_user')->firstOrFail()->id;
         

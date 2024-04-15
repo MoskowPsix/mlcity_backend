@@ -31,7 +31,7 @@ class EventTypeController extends Controller
      */
     public function getTypes(): \Illuminate\Http\JsonResponse
     {
-        $types = EventType::all();
+        $types = EventType::where('etype_id')->with('etypes')->get();
 
         return response()->json([
             'status'        => 'success',

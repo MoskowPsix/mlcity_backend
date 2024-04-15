@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Services\SocialService;
+use App\Models\User;
 use Laravel\Socialite\Facades\Socialite;
 
 
@@ -30,9 +31,10 @@ class AuthSocialController extends Controller
 
         $socialService = new SocialService();
         $user = $socialService->findOrCreateUser($socialUser, $provider);
+        $token = $user->createToken('auth_token')->plainTextToken;
 
         if ($user) {
-            return redirect(env('FRONT_APP_URL' ).'/login/'.$user->id);
+            return redirect(env('FRONT_APP_URL' ).'/login/'.$token);
         }
 
         return redirect(env('FRONT_APP_URL' ).'/login');
