@@ -23,5 +23,14 @@ export const useSightStore = defineStore('useSight', {
                 }),
             )
         },
+        changeStatus(statusName, sigthId, description = " "){
+            const params = {
+                status: statusName,
+                sight_id: sigthId,
+                description: description
+            }
+            console.log(params)
+            return from(axios.post("sights/statuses", params))
+        }
     },
 })

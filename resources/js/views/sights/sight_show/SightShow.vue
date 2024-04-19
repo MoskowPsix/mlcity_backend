@@ -548,7 +548,7 @@
                         v-if="
                             !state &&
                             (role == 'root' ||
-                                JSON.parse(user).id == event.user_id)
+                                JSON.parse(user).id == sight.user_id)
                         "
                         class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer"
                         @click="state = !state"
@@ -666,6 +666,7 @@
             ...mapActions(useSightStore, [
                 'getSightForIds',
                 'saveSightHistory',
+                'changeStatus'
             ]),
             ...mapActions(useToastStore, ['showToast']),
             ...mapActions(useLoaderStore, [
@@ -913,7 +914,44 @@
             },
 
             statusChange(status) {
-                this.status = status
+                this.openLoaderFullPage()
+                console.log(status, this.sight.id)
+                this.changeStatus(status, this.sight.id)
+                    .pipe(
+                        map(() => {
+                            this.showToast(
+                                MessageContents.success_upd_status_content,
+                                'success',
+                            )
+                            this.freshAll()
+                            this.getSight()
+                            this.closeLoaderFullPage()
+                        }),
+                        catchError((err) => {
+                            399 < err.response.status &&
+                            err.response.status < 500
+                                ? this.showToast(
+                                      MessageContents.warning_upd_status_content +
+                                          ': ' +
+                                          err.message,
+                                      'warning',
+                                  )
+                                : null
+                            499 < err.response.status &&
+                            err.response.status < 600
+                                ? this.showToast(
+                                      MessageContents.error_upd_status_content +
+                                          ': ' +
+                                          err.message,
+                                      'error',
+                                  )
+                                : null
+                            console.log(err)
+                            return of(EMPTY)
+                        }),
+                        takeUntil(this.destroy$),
+                    )
+                    .subscribe()
             },
             freshAll() {
                 this.sight = []
