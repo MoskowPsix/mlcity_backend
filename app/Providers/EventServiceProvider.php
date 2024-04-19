@@ -2,6 +2,12 @@
 
 namespace App\Providers;
 
+use App\Events\Event\EventCreated;
+use App\Events\Place\PlaceCreated;
+use App\Events\Sight\SightCreated;
+use App\Listeners\Event\CreateHistoryContent;
+use App\Listeners\Place\CreateHistoryPlace;
+use App\Listeners\Sight\CreateHistoryContent as SightCreateHistoryContent;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
@@ -21,7 +27,19 @@ class EventServiceProvider extends ServiceProvider
         \SocialiteProviders\Manager\SocialiteWasCalled::class => [
             // ... other providers
             \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
+            \SocialiteProviders\Telegram\TelegramExtendSocialite::class.'@handle',
+            \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
         ],
+
+        EventCreated::class => [
+            CreateHistoryContent::class
+        ],
+
+        SightCreated::class => [
+            SightCreateHistoryContent::class
+        ]
+
+        
     ];
 
     /**

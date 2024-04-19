@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Type\TypeName;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\SightType;
 use App\Models\Sight;
-
+use Illuminate\Pipeline\Pipeline;
 
 class SightTypeController extends Controller
 {
@@ -30,15 +31,34 @@ class SightTypeController extends Controller
      *     ),
      * )
      */
-    public function getTypes(): \Illuminate\Http\JsonResponse
+    public function getTypes(Request $request): \Illuminate\Http\JsonResponse
     {
-        $types = SightType::all();
+        if (count($request->all())>0){
+            $types = SightType::query()->with('stypes');
+        }
+        else{
+            $types = SightType::query()->with('stypes')->where('stype_id');
+        }
+
+        $response = 
+        app(Pipeline::class)
+            ->send($types)
+            ->through([
+                TypeName::class
+            ])
+            ->via("apply")
+            ->then(function($types){
+                $types = $types->orderBy("name")->get();
+                return $types;
+            });
 
         return response()->json([
             'status'        => 'success',
-            'types'          => $types
+            'types'          => $response
         ], 200);
     }
+
+    
     /**
      * @OA\Get(
      *     path="/sights/getTypesId/{id}",

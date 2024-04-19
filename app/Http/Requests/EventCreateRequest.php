@@ -26,12 +26,32 @@ class EventCreateRequest extends FormRequest
         return [
             'name'         => 'required|min:3',
             'sponsor'      => 'required|min:3',
-            'coords'       => 'required|min:2',
             'description'  => 'required|min:10',
             'dateStart'    => 'required|date',
             'dateEnd'      => 'required|date|after:date_start',
             'type'         => 'required',
             'status'       => 'required',
+            'places'       => 'nullable|array',
+            'prices'       => 'nullable|array',
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            "name.required" => "A name is required",
+            "name.min" => "A name length is must be more than 3",
+
+            "sponsor.required" => "A sponsor is required",
+            "sponsor.min" => "A sponsor length is must be more than 3",
+
+            "description.required" => "A description is required",
+            "description.min" => "A description length is must be more than 10",
+
+            "dateStart.required" => "A date is required",
+            "dateEnd.required" => "A dateEnd is required",
+            "type.required" => "A type is required",
+            "status.required" => "A status is required"
         ];
     }
 }

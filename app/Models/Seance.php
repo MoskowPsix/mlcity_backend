@@ -12,7 +12,11 @@ class Seance extends Model
     protected $table = 'seances';
     protected $fillable = [
         'place_id',
-        'dateStart',
-        'dateEnd',
+        'date_start',
+        'date_end',
     ];
+
+    public function historySeances(){
+        return $this->belongsTo(HistorySeance::class);
+    }
 }

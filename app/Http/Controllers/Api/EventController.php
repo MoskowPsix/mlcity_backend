@@ -8,24 +8,32 @@ use App\Filters\Event\EventAuthorName;
 use App\Filters\Sight\SightAuthor;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Event\EventSponsor;
-use App\Filters\Event\EventAddress;
-use App\Filters\Event\EventLocation;
+use App\Filters\Event\EventPlaceAddress;
+use App\Filters\Event\EventPlaceLocation;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
-use App\Filters\Event\EventGeoPositionInArea;
+use App\Filters\Event\EventPlaceGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
+use App\Filters\Event\EventTotal;
 use App\Filters\Event\EventTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\EventCreateRequest;
+use App\Http\Requests\Events\EventForAuthorReqeust;
+use App\Http\Requests\Events\GetEventRequest;
+use App\Http\Requests\Events\SetEventUserLikedRequest;
+use App\Http\Requests\Events\UpdateVkLikesRequest;
+use App\Http\Requests\PageANDLimitRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\Location;
+use App\Models\Timezone;
 use App\Models\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -189,7 +197,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -204,50 +212,50 @@ class EventController extends Controller
      */
     public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
-        $pagination = $request->pagination;
+        $total = 0;
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-        $events = Event::query()->with('types', 'files','statuses', 'author', 'comments', 'places', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
             ->send($events)
             ->through([
+                // EventTotal::class,
                 EventName::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
                 EventStatusesLast::class,
-                EventLocation::class,
+                EventPlaceLocation::class,
                 EventDate::class,
                 EventTypes::class,
-                //EventGeoPositionInArea::class,
+                EventPlaceGeoPositionInArea::class,
                 EventSearchText::class,
-                EventAddress::class,
+                EventPlaceAddress::class,
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
                 SightAuthor::class,
-                
-                
             ])
             ->via('apply')
-            ->then(function ($events) use ($pagination , $page, $limit){
-                return $pagination === 'true'
-                    ? $events->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'))
-                    : $events->orderBy('date_start','desc')->get();
+            ->then(function ($events) use ($page, $limit, $total){
+                $total = $events->count();
+                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+                return [$events, $total];
             });
 
-            // foreach ($response['data'] as $event) {
-            //     /////////TEST_TEST_TEST///////////////
-            //     View::create([
-            //         'user_id'  => auth('api')->user()->id,
-            //         'event_id' => $event['id'],
-            //     ]);
-            //     //Log::info($event);
-            // }
-            // Log::info($response['data']);
-        return response()->json(['status' => 'success', 'events' => $response], 200);
+            // $event['events'] = ['total' => $total ];
+        return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
+    }
+
+    public function getEventsForAuthor(Request $request) {
+        isset($request->page) ?  $page = $request->page :  $page = 1;
+        isset($request->limit) ?  $limit = $request->limit : $limit =  5;
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $total = $events->count();
+        $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return response()->json(['status' => 'success', 'events' => $response, 'total' => $total], 200);
     }
 
 
@@ -282,7 +290,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -296,6 +304,7 @@ class EventController extends Controller
      * )
      */
     public function updateVkLikes(Request $request){
+        // $request = $request->validated();
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
@@ -313,7 +322,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -327,7 +336,7 @@ class EventController extends Controller
      * )
      */
     //Создаем отношение - юзер лайкнул ивент
-    public function setEvenUserLiked(Request $request): \Illuminate\Http\JsonResponse{
+    public function setEvenUserLiked(SetEventUserLikedRequest $request): \Illuminate\Http\JsonResponse{
         $event = Event::find($request->event_id);
         $likedUser = false;
 
@@ -352,7 +361,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -388,7 +397,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -424,7 +433,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -439,7 +448,13 @@ class EventController extends Controller
      */
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'places', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'placesFull', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+
+        return response()->json($event, 200);
+    }
+    public function showForMap($id): \Illuminate\Http\JsonResponse
+    {
+        $event = Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
 
         return response()->json($event, 200);
     }
@@ -546,7 +561,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -559,31 +574,72 @@ class EventController extends Controller
      *     ),
      * )
      */
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
-        $coords = explode(',',$request->coords);
-        $latitude   = $coords[0]; // широта
-        $longitude  = $coords[1]; // долгота
+        // $coords = explode(',',$request->coords);
+        // $latitude   = $coords[0]; // широта
+        // $longitude  = $coords[1]; // долгота
 
         $event = Event::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
-            'address'       => $request->address,
-            'latitude'      => $latitude,
-            'longitude'     => $longitude,
+            // 'address'       => $request->address,
+            // 'latitude'      => $latitude,
+            // 'longitude'     => $longitude,
             'description'   => $request->description,
             'price'         => $request->price,
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,
             'date_end'      => $request->dateEnd,
-            'location_id'   => $request->locationId,
+            // 'location_id'   => $request->locationId,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
         ]);
+        // Устанавливаем цену
+        foreach ($request->prices as $price){
+            if($price["cost_rub"] == ""){
+                $event->price()->create([
+                    'cost_rub' => 0,
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+            else{
+                $event->price()->create([
+                    'cost_rub' => $price['cost_rub'],
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+        }
+        // Устанавливаем марки
+        foreach ($request->places as $place){
+            $coords = explode(',',$place['coords']);
+            $latitude   = $coords[0]; // широта
+            $longitude  = $coords[1]; // долгота
+            $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
+            $place_cr = $event->places()->create([
+                'sight_id' => $place['sightId'],
+                'location_id' => $place['locationId'],
+                'latitude' => $latitude,
+                'longitude' => $longitude,
+                'address' => $place['address'],
+                'timezone_id' => $timezone_id
+            ]);
+            // Устанавливаем сеансы марок
 
-        $event->types()->sync($request->type);
+            foreach($place['seances'] as $seance) {
+                info($seance);
+                $sean_cr = $place_cr->seances()->create([
+                    'date_start' => $seance['dateStart'],
+                    'date_end' => $seance['dateEnd']
+                ]);
+
+            }
+        }
+
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $event->types()->sync($types);
         $event->statuses()->attach($request->status, ['last' => true]);
         $event->likes()->create();
 //        $event->likes()->create([
@@ -629,7 +685,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -642,7 +698,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEventUserLikedIds($id, Request $request): \Illuminate\Http\JsonResponse
+    public function getEventUserLikedIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->likedUsers;
         $likedUsersIds = [];
@@ -685,7 +741,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -698,7 +754,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEventUserFavoritesIds($id, Request $request): \Illuminate\Http\JsonResponse
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->favoritesUsers;
         $likedUsersIds = [];
@@ -823,7 +879,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -842,7 +898,7 @@ class EventController extends Controller
         $event = Event::where('id', $id)->firstOrFail();
         $event->fill($data);
         $event->save();
-    
+
         $jsonData = [
             'status' => 'SUCCESS',
             'event' => [
@@ -858,10 +914,10 @@ class EventController extends Controller
                 'materials' => $event->materials,
                 'date_start' => $event->date_start,
                 'date_end' => $event->date_end,
-                
+
             ]
         ];
-    
+
         return response()->json($jsonData);
     }
 

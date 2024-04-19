@@ -10,6 +10,7 @@ use App\Models\Status;
 use App\Models\SightFile;
 use App\Models\SightLike;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Sight extends Model
 {
@@ -82,12 +83,21 @@ class Sight extends Model
     {
         return $this->hasMany(Comment::class)->where('comment_id')->with('user', 'comments');
     }
-    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(User::class, 'view', 'sight_id','user_id');
+        return $this->hasMany(View::class);
     }
     public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Location::class, 'location_id');
+    }
+
+    public function historyContents(): MorphMany
+    {
+        return $this->morphMany(HistoryContent::class, "history_contentable");
+    }
+    public function prices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Price::class);
     }
 }

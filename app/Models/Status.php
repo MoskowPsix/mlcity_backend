@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 use App\Models\Sight;
 use App\Models\Event;
+use App\Models\HistoryContent;
 
 class Status extends Model
 {
@@ -24,5 +25,10 @@ class Status extends Model
     public function sights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Sight::class)->withPivot('last')->withTimestamps();
+    }
+
+    public function historyStatuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(HistoryContent::class)->withPivot('last')->withTimestamps();
     }
 }

@@ -15,13 +15,13 @@ return new class extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->text('name');
             $table->string('sponsor');
             $table->string('city')->nullable();
             $table->string('address');
             $table->decimal('latitude', 17, 14);
             $table->decimal('longitude', 17, 14);
-            $table->longText('description');
+            $table->longText('description')->nullable();
             $table->integer('price')->nullable();
             $table->longText('materials')->nullable();
             $table->dateTime('date_start');

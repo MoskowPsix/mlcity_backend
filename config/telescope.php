@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Middleware\Authenticate;
+use App\Http\Middleware\ChekUserForTelescope;
 use Laravel\Telescope\Http\Middleware\Authorize;
 use Laravel\Telescope\Watchers;
 
@@ -76,8 +78,7 @@ return [
     */
 
     'middleware' => [
-        'web',
-        Authorize::class,
+        'checkRootCookie'
     ],
 
     /*

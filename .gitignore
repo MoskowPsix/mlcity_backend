@@ -1,8 +1,10 @@
 /node_modules
+/database/backup/
 /public/build
 /public/hot
 /public/storage
 /storage/*.key
+/storage/apple-jwt/*
 /vendor
 .env
 .env.backup

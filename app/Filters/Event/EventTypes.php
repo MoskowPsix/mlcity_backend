@@ -13,7 +13,7 @@ class EventTypes implements Pipe {
             $types= explode(',', request()->get('eventTypes'));
 
             $content->whereHas('types', function($q) use ($types){
-                $q->whereIn('etype_id', $types);
+                $q->whereIn('events_etypes.etype_id', $types);
             });
         }
 

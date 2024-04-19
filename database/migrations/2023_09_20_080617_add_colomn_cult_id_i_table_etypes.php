@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::table('etypes', function (Blueprint $table) {
             $table->integer('cult_id')->nullable();
+            $table->integer('etype_id')->nullable();
+            $table->foreign('etype_id')->references('id')->on('etypes')->onDelete('cascade');
         });
     }
 
@@ -26,6 +28,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('etypes', function (Blueprint $table) {
+            $table->dropColumn('etype_id');
             $table->dropColumn('cult_id');
         });
     }
