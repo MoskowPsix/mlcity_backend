@@ -387,7 +387,6 @@ class HistoryContentController extends Controller
         unset($data['history_contentable']);
 
         return $data;
-
     }
 
     private function checkAccessToCreateHistoryContent(){

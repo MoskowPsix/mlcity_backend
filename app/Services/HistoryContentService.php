@@ -63,6 +63,7 @@ class HistoryContentService {
         $historyContent->historyFiles()->create($file);
     }
 
+
     private function prepareHistoryPlaceData($data){
         if(isset($data["location"])){
             $data["location_id"] = $data['location']["location_id"];
@@ -105,6 +106,6 @@ class HistoryContentService {
             'link'  => '/storage/'.$path,
             'local' => 1
         ]);
-        $historyType = $historyFile->historyFileType()->attach($type[0]->id);
+        $historyFile->historyFileType()->attach($type[0]->id);
     }
 }
