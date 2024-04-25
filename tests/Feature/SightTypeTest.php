@@ -12,6 +12,7 @@ use Tests\TestCase;
 
 class SightTypeTest extends TestCase
 {
+    use RefreshDatabase;
     /**
      * A basic feature test example.
      *
@@ -26,9 +27,9 @@ class SightTypeTest extends TestCase
     public function test_get_sight_type()
     {
         $this->seed();
-        $this->seed([TestLocationSeeder::class,TestSightsSeeder::class]);
+        $this->seed([TestSightsSeeder::class]);
 
-        
+
         $types = SightType::all()->toArray();
 
         $response = $this->getJson('/api/sight-types');
@@ -39,21 +40,21 @@ class SightTypeTest extends TestCase
     public function test_get_sight_by_id()
     {
         $this->seed();
-        $this->seed([TestLocationSeeder::class,TestSightsSeeder::class]);
-        
+        $this->seed([TestSightsSeeder::class]);
+
         $sight_type_id = SightType::first()->id;
         $sight_type = SightType::where('id',$sight_type_id)->get()->toArray();
-        
+
         $response = $this->getJson('/api/sights/getTypesId/'.$sight_type_id);
         $response->assertJson(['status'=>'success', 'types'=>$sight_type[0]]);
-        
-        
+
+
     }
 
     public function test_add_type_sight()
     {
         $this->seed();
-        $this->seed([TestLocationSeeder::class, TestSightsSeeder::class]);
+        $this->seed([TestSightsSeeder::class]);
 
         $sight = Sight::where('name','Клуб Лайм')->first();
         $sight_type = SightType::where('name','Святыни')->first();
@@ -69,7 +70,7 @@ class SightTypeTest extends TestCase
     public function test_update_type_sight()
     {
         $this->seed();
-        $this->seed([TestLocationSeeder::class, TestSightsSeeder::class]);
+        $this->seed([TestSightsSeeder::class]);
 
         $sight = Sight::where('name','Клуб Лайм')->first();
         $sight_type1 = SightType::where('name','Святыни')->first();
@@ -81,5 +82,5 @@ class SightTypeTest extends TestCase
 
         $response = $this->putJson('/api/sights/updateTypeSight/'.$sight->id.'/'.$sight_type2->id);
         $response->assertJson(['status'=>'success','sight'=>$sight->id,'update_type'=>$sight_type2->id]);
-    }  
+    }
 }

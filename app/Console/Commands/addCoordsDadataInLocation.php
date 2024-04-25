@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Models\Location;
 
-class addCoordsInLocation extends Command
+class addCoordsDadataInLocation extends Command
 {
     /**
      * The name and signature of the console command.
