@@ -69,7 +69,6 @@ class PlaceController extends Controller
         return response()->json(['status' => 'success', 'places' => $place], 200);
     }
     public function getPlacesAtEventIds($id,Request $request) {
-        info($request->page);
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
