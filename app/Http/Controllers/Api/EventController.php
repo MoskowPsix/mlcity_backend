@@ -214,7 +214,7 @@ class EventController extends Controller
     {
         $total = 0;
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
         $events = Event::query()->with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
@@ -251,7 +251,7 @@ class EventController extends Controller
 
     public function getEventsForAuthor(Request $request) {
         isset($request->page) ?  $page = $request->page :  $page = 1;
-        isset($request->limit) ?  $limit = $request->limit : $limit =  5;
+        isset($request->limit) ?  $limit = $request->limit : $limit =  6;
         $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $events->count();
         $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
