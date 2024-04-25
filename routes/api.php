@@ -148,6 +148,7 @@ Route::controller(SightController::class)->group(function() {
     Route::put('sights/updateSight/{id}', 'updateSight')->middleware('moderator');
     Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('sights/{id}', 'show');
+    Route::get("sights/{id}/events", "getEventsInSight")->middleware('auth:sanctum');
     Route::get('sights/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('sights/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('sights/create', 'create')->middleware('auth:sanctum');

@@ -240,13 +240,12 @@ class EventController extends Controller
             ])
             ->via('apply')
             ->then(function ($events) use ($page, $limit, $total){
-                $total = $events->count();
                 $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-                return [$events, $total];
-            });
 
+                return $events;
+            });
             // $event['events'] = ['total' => $total ];
-        return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
+        return response()->json(['status' => 'success', 'events' => $response], 200);
     }
 
     public function getEventsForAuthor(Request $request) {
