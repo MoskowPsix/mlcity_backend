@@ -186,12 +186,11 @@ class SightController extends Controller
                 ])
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
-                    $total = $sights->count();
                     $sights = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-                    return [$sights, $total];
+                    return $sights;
                 });
 
-        return response()->json(['status' => 'success', 'sights' => $response[0], 'total' => $response[1]], 200);
+        return response()->json(['status' => 'success', 'sights' => $response], 200);
     }
 
     public function getSightsForMap(Request $request): \Illuminate\Http\JsonResponse
