@@ -15,6 +15,7 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightEvents;
 use App\Filters\Sight\SightIco;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
@@ -413,9 +414,32 @@ class SightController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices');
+        $response =
+        app(Pipeline::class)
+        ->send($sight)
+        ->through([
+            SightEvents::class
+        ])
+        ->via("apply")
+        ->then(function ($sight){
+            $sight = $sight->get();
+            return $sight[0];
+        });
+        return response()->json($response, 200);
+    }
 
-        return response()->json($sight, 200);
+    public function getEventsInSight(Request $request, $id){
+        $sight = Sight::find($id);
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        if($sight){
+            $events = $sight->events()->cursorPaginate($limit, ['*'], 'page' , $page);
+
+            return response()->json(['status' => 'success', 'events' => $events], 200);
+        }
+
+        return response()->json(["message" => "Sight not found"], 404);
     }
     /**
      * @OA\Post(
