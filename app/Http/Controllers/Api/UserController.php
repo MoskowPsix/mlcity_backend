@@ -639,7 +639,7 @@ class UserController extends Controller
     public function listUsers(Request $request)
     {
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 1;
+        $limit = $request->limit ? $request->limit : 10;
         $name = $request->name ? $request->name : '';
         $users = User::with('roles', 'locations');
 
