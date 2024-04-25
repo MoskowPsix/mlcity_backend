@@ -8,6 +8,7 @@ use App\Filters\Place\PlaceGeoPositionInArea;
 use App\Filters\Place\PlaceIco;
 use App\Filters\Place\PlaceTypes;
 use App\Filters\Place\PlaceStatuses;
+use App\Filters\Place\PlaceLocation;
 use App\Filters\Place\PlaceStatusesLast;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
@@ -68,10 +69,25 @@ class PlaceController extends Controller
         return response()->json(['status' => 'success', 'places' => $place], 200);
     }
     public function getPlacesAtEventIds($id,Request $request) {
+        info($request->page);
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
-        $place = Event::where('id', $id)->first()->places()->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-        return response()->json(['status'=> 'success','places'=> $place], 200);
+        $places = Event::find($id)->places();
+
+        $response =
+                app(Pipeline::class)
+                ->send($places)
+                ->through([
+                    PlaceLocation::class,
+                ])
+                ->via('apply')
+                ->then(function ($places) use($limit, $page) {
+                    $places = $places->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+                    return $places;
+                });
+
+        // $place = Event::where('id', $id)->first()->places()->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return response()->json(['status'=> 'success','places'=> $response], 200);
     }
 }
