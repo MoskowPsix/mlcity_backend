@@ -38,10 +38,10 @@ class PlaceGeoPositionInArea implements Pipe {
             $maxLon = $longitude + (.50); // максимальная долгота области
             $minLat = $latitude - (.50); // минимальная широта области
             $maxLat = $latitude + (.50); // максимальная широта области
+            $envelope = DB::raw("ST_MakeEnvelope($minLat, $minLon, $maxLat, $maxLon, 4326)");
 
 
             if (request()->has('forEventPage')){
-                $envelope = DB::raw("ST_MakeEnvelope($minLat, $minLon, $maxLat, $maxLon, 4326)");
                 $content->whereRaw("ST_CONTAINS($envelope, coordinates::geometry)");
 
                 // $content->where('city', '!=' , request()->get('city'))
@@ -58,8 +58,6 @@ class PlaceGeoPositionInArea implements Pipe {
                 //         [$latitude, $longitude,  $latitude,  $radius]);
                 // });
             } else {
-
-                $envelope = DB::raw("ST_MakeEnvelope($minLat, $minLon, $maxLat, $maxLon, 4326)");
                 $content->whereRaw("ST_CONTAINS($envelope, coordinates::geometry)");
 //                $content->where(function($q) use ($lat_coords, $lon_coords){
 //                    $q->whereBetween('latitude', $lat_coords)
