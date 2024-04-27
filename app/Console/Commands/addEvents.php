@@ -126,8 +126,11 @@ class addEvents extends Command
                                 $place_cr->event_id = $event_cr->id;
                                 $place_cr->address = $place->address;
                                 $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
-                                $place_cr->latitude = $place->location->coordinates[1];
-                                $place_cr->longitude = $place->location->coordinates[0];
+                                // $place_cr->coordinates = `POINT(`.$place->location->coordinates[1].`, `.$place->location->coordinates[0].`)`;
+                                // $place_cr->coordinates = `'POINT(`.$place->location->coordinates[1].` `.$place->location->coordinates[0].`)'`;
+                                $place_cr->coordinates = "point({$place->location->coordinates[1]} {$place->location->coordinates[0]})";
+                                // $place_cr->latitude = $place->location->coordinates[1];
+                                // $place_cr->longitude = $place->location->coordinates[0];
                                 $place_cr->sight_id = $sight_id;
                                 $place_cr->timezone_id = $timezone;
                                 $place_cr->save();

@@ -20,8 +20,7 @@ class Place extends Model
         'event_id',
         'sight_id',
         'location_id',
-        'latitude',
-        'longitude',
+        'coordinates',
         'address',
         'timezone_id'
     ];

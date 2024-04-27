@@ -28,37 +28,45 @@ class PlaceGeoPositionInArea implements Pipe {
 //                    });
 //            }
 
+            $upper_latitude = $latitude + (.50); //Change .50 to small values
+            $lower_latitude = $latitude - (.50); //Change .50 to small values
+            $upper_longitude = $longitude + (.50); //Change .50 to small values
+            $lower_longitude = $longitude - (.50); //Change .50 to small values
+
             if (request()->has('forEventPage')){
-                $content->where('city', '!=' , request()->get('city'))
-                    ->where(function($q) use ($latitude, $longitude, $radius){
-                        $q->whereRaw('(
-                                   6371 *
-                                   acos(cos(radians(?)) *
-                                   cos(radians(latitude)) *
-                                   cos(radians(longitude) -
-                                   radians(?)) +
-                                   sin(radians(?)) *
-                                   sin(radians(latitude )))
-                                ) <= ? ',
-                        [$latitude, $longitude,  $latitude,  $radius]);
-                });
+                $content->whereRaw("ST_CONTAINS(ST_MakeEnvelope($lower_longitude, $lower_latitude, $upper_longitude, $upper_latitude, 4326), coordinates)");
+                // $content->where('city', '!=' , request()->get('city'))
+                //     ->where(function($q) use ($latitude, $longitude, $radius){
+                //         $q->whereRaw('(
+                //                    6371 *
+                //                    acos(cos(radians(?)) *
+                //                    cos(radians(latitude)) *
+                //                    cos(radians(longitude) -
+                //                    radians(?)) +
+                //                    sin(radians(?)) *
+                //                    sin(radians(latitude )))
+                //                 ) <= ? ',
+                //         [$latitude, $longitude,  $latitude,  $radius]);
+                // });
             } else {
+                $content->whereRaw("ST_CONTAINS(ST_MakeEnvelope($lower_longitude, $lower_latitude, $upper_longitude, $upper_latitude, 4326), coordinates)");
 //                $content->where(function($q) use ($lat_coords, $lon_coords){
 //                    $q->whereBetween('latitude', $lat_coords)
 //                        ->whereBetween('longitude', $lon_coords);
 //                });
-                $content->where(function($q) use ($latitude, $longitude, $radius){
-                    $q->whereRaw('(
-                                   6371 *
-                                   acos(cos(radians(?)) *
-                                   cos(radians(latitude)) *
-                                   cos(radians(longitude) -
-                                   radians(?)) +
-                                   sin(radians(?)) *
-                                   sin(radians(latitude )))
-                                ) <= ? ',
-                    [$latitude, $longitude,  $latitude,  $radius]);
-                });
+                // $content->where(function($q) use ($latitude, $longitude, $radius){
+                //     $q->whereBetween();
+                //     $q->whereRaw('(
+                //                    6371 *
+                //                    acos(cos(radians(?)) *
+                //                    cos(radians(latitude)) *
+                //                    cos(radians(longitude) -
+                //                    radians(?)) +
+                //                    sin(radians(?)) *
+                //                    sin(radians(latitude )))
+                //                 ) <= ? ',
+                //     [$latitude, $longitude,  $latitude,  $radius]);
+                // });
             }
         }
 
