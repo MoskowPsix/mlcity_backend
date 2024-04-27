@@ -15,7 +15,7 @@ class PlaceGeoPositionInArea implements Pipe {
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));
 
-            $radius = request()->get('radius');
+            $radius = request()->get('radius') * 0.01;
 
             $latitude =  request()->get('latitude');
             $longitude  =  request()->get('longitude');
@@ -33,11 +33,11 @@ class PlaceGeoPositionInArea implements Pipe {
             // $lower_latitude = $latitude - (.50); //Change .50 to small values
             // $upper_longitude = $longitude + (.50); //Change .50 to small values
             // $lower_longitude = $longitude - (.50); //Change .50 to small values
-
-            $minLon = $longitude - (.50);; // минимальная долгота области
-            $maxLon = $longitude + (.50); // максимальная долгота области
-            $minLat = $latitude - (.50); // минимальная широта области
-            $maxLat = $latitude + (.50); // максимальная широта области
+            info($radius);
+            $minLon = $longitude - ($radius);; // минимальная долгота области
+            $maxLon = $longitude + ($radius); // максимальная долгота области
+            $minLat = $latitude - ($radius); // минимальная широта области
+            $maxLat = $latitude + ($radius); // максимальная широта области
             $envelope = DB::raw("ST_MakeEnvelope($minLat, $minLon, $maxLat, $maxLon, 4326)");
 
 
