@@ -39,11 +39,15 @@ class PlaceController extends Controller
                 ])
                 ->via('apply')
                 ->then(function ($places) {
-                    $places = $places->orderBy('created_at')->get();
+                    $places = $places->get();
 
                     foreach($places as $key=>$place){
                         $places[$key]->ico = $place->event->types[0]->ico;
                         unset($places[$key]->event);
+                        // preg_match('/POINT\(([^ ]*) ([^ ]*)\)/', $place->coordinates, $matches);
+                        // info($place->coordinates);
+                        // $places[$key]->latitude = $matches-;  // Получаем широту
+                        // $places[$key]->longitude = $matches->x();  // Получаем долготу
                     }
                     // foreach($places as $key=>$place){
                     //     $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;

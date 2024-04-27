@@ -4,6 +4,7 @@ namespace App\Filters\Place;
 
 use Closure;
 use App\Filters\Pipe;
+use Illuminate\Support\Facades\DB;
 
 class PlaceGeoPositionInArea implements Pipe {
     //фильтр попадания ивента или места в заданный круг
@@ -28,13 +29,21 @@ class PlaceGeoPositionInArea implements Pipe {
 //                    });
 //            }
 
-            $upper_latitude = $latitude + (.50); //Change .50 to small values
-            $lower_latitude = $latitude - (.50); //Change .50 to small values
-            $upper_longitude = $longitude + (.50); //Change .50 to small values
-            $lower_longitude = $longitude - (.50); //Change .50 to small values
+            // $upper_latitude = $latitude + (.50); //Change .50 to small values
+            // $lower_latitude = $latitude - (.50); //Change .50 to small values
+            // $upper_longitude = $longitude + (.50); //Change .50 to small values
+            // $lower_longitude = $longitude - (.50); //Change .50 to small values
+
+            $minLon = $longitude - (.50);; // минимальная долгота области
+            $maxLon = $longitude + (.50); // максимальная долгота области
+            $minLat = $latitude - (.50); // минимальная широта области
+            $maxLat = $latitude + (.50); // максимальная широта области
+
+            $envelope = DB::raw("ST_MakeEnvelope($minLon, $minLat, $maxLon, $maxLat, 4326)");
 
             if (request()->has('forEventPage')){
-                $content->whereRaw("ST_CONTAINS(ST_MakeEnvelope($lower_longitude, $lower_latitude, $upper_longitude, $upper_latitude, 4326), coordinates)");
+                $content->whereRaw("ST_CONTAINS($envelope, coordinates::geometry)");
+    
                 // $content->where('city', '!=' , request()->get('city'))
                 //     ->where(function($q) use ($latitude, $longitude, $radius){
                 //         $q->whereRaw('(
@@ -49,7 +58,7 @@ class PlaceGeoPositionInArea implements Pipe {
                 //         [$latitude, $longitude,  $latitude,  $radius]);
                 // });
             } else {
-                $content->whereRaw("ST_CONTAINS(ST_MakeEnvelope($lower_longitude, $lower_latitude, $upper_longitude, $upper_latitude, 4326), coordinates)");
+                $content->whereRaw("ST_CONTAINS($envelope, coordinates::geometry)");
 //                $content->where(function($q) use ($lat_coords, $lon_coords){
 //                    $q->whereBetween('latitude', $lat_coords)
 //                        ->whereBetween('longitude', $lon_coords);
