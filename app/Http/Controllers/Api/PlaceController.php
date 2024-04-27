@@ -24,7 +24,7 @@ class PlaceController extends Controller
     {
         if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
 
-            $places = Place::query();
+            $places = Place::query()->select(["*", DB::raw("ST_X(coordinates::geometry) AS latitude"), DB::raw("ST_Y(coordinates::geometry) AS longitude")]);
             $response =
                 app(Pipeline::class)
                 ->send($places)
