@@ -12,10 +12,10 @@ class PlaceStatuses implements Pipe {
     {
         if(request()->has('statuses') && !request()->has('statusLast')) {
             $statuses = explode(',', request()->get('statuses'));
-            $status = Status::where('name', $statuses[0])->first()->id;
-            $content->whereHas('eventStatuses', function($q) use ($status) {
-                $q->whereHas('statuses', function($q) use ($status){
-                    $q->where("event_status.status_id", $status);
+            // $status = Status::where('name', $statuses[0])->first()->id;
+            $content->whereHas('eventStatuses', function($q) use ($statuses) {
+                $q->whereHas('statuses', function($q) use ($statuses){
+                    $q->where("event_status.status_id", $statuses);
                 });
             });
         }

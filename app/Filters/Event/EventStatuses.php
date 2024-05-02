@@ -4,6 +4,7 @@ namespace App\Filters\Event;
 
 use Closure;
 use App\Filters\Pipe;
+use App\Models\Status;
 
 class EventStatuses implements Pipe {
 
@@ -11,9 +12,9 @@ class EventStatuses implements Pipe {
     {
         if(request()->has('statuses') && !request()->has('statusLast')){
             $statuses = '%'.request()->get('statuses').'%';
-
-            $content->whereHas('statuses', function($q) use ($statuses){
-                $q->where('name', 'LIKE', $statuses);
+            $status = Status::where('name', $statuses[0])->first()->id;
+            $content->whereHas('statuses', function($q) use ($status){
+                $q->whereIn('status_id', $status);
             });
         }
 
