@@ -39,7 +39,7 @@ class PlaceController extends Controller
                 ])
                 ->via('apply')
                 ->then(function ($places) {
-                    $places = $places->orderBy('created_at')->get();
+                    $places = $places->get();
 
                     foreach($places as $key=>$place){
                         $places[$key]->ico = $place->event->types[0]->ico;
