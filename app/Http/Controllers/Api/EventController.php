@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Event\EventByIds;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
@@ -223,6 +224,7 @@ class EventController extends Controller
             ->through([
                 // EventTotal::class,
                 EventName::class,
+                EventByIds::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
@@ -236,10 +238,10 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class,
+                SightAuthor::class
             ])
             ->via('apply')
-            ->then(function ($events) use ($page, $limit, $total){
+            ->then(function ($events) use ($page, $limit){
                 $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
 
                 return $events;

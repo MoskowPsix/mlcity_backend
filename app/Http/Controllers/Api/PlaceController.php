@@ -11,7 +11,6 @@ use App\Filters\Place\PlaceTypes;
 use App\Filters\Place\PlaceStatuses;
 use App\Filters\Place\PlaceLocation;
 use App\Filters\Place\PlaceStatusesLast;
-use App\Filters\Place\PlaceWithEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventType;
@@ -24,35 +23,42 @@ class PlaceController extends Controller
 {
     public function getPlaces (Request $request): \Illuminate\Http\JsonResponse
     {
-        $places = Place::query();
-        $response =
-            app(Pipeline::class)
-            ->send($places)
-            ->through([
-                PlaceGeoPositionInArea::class,
-                PlaceAddress::class,
-                PlaceDate::class,
-                PlaceTypes::class,
-                PlaceStatusesLast::class,
-                PlaceStatuses::class,
-                PlaceIco::class,
-                PlaceIds::class,
-                PlaceWithEvent::class
-            ])
-            ->via('apply')
-            ->then(function ($places) {
-                $places = $places->get();
+        if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
 
-                foreach($places as $key=>$place){
-                    $places[$key]->ico = $place->event->types[0]->ico;
-                    if(request()->get("events") != true){
+            $places = Place::query();
+            $response =
+                app(Pipeline::class)
+                ->send($places)
+                ->through([
+                    PlaceGeoPositionInArea::class,
+                    PlaceAddress::class,
+                    PlaceDate::class,
+                    PlaceTypes::class,
+                    PlaceStatusesLast::class,
+                    PlaceStatuses::class,
+                    PlaceIco::class,
+                    // PlaceIds::class,
+                ])
+                ->via('apply')
+                ->then(function ($places) {
+                    $places = $places->get();
+
+                    foreach($places as $key=>$place){
+                        $places[$key]->ico = $place->event->types[0]->ico;
                         unset($places[$key]->event);
                     }
-                }
-                return $places;
-            });
+                    // foreach($places as $key=>$place){
+                    //     $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
+                    //     $ico = EventType::find($type_id)->ico;
+                    //     $places[$key]->ico = $ico;
+                    // }
+                    return $places;
+                });
 
             return response()->json(['status' => 'success', 'places' => $response], 200);
+        } else {
+            return response()->json(['status' => 'error arguments'], 400);
+        }
     }
 
     public function getPlacesIds($id) {
