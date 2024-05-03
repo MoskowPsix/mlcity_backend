@@ -15,6 +15,7 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightByIds;
 use App\Filters\Sight\SightEvents;
 use App\Filters\Sight\SightIco;
 use App\Http\Controllers\Controller;
@@ -182,7 +183,8 @@ class SightController extends Controller
                     SightTypes::class,
                     SightAuthor::class,
                     PlaceGeoPositionInArea::class,
-                    EventSearchText::class
+                    EventSearchText::class,
+                    SightByIds::class
                 ])
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
