@@ -11,6 +11,7 @@ use App\Filters\Place\PlaceTypes;
 use App\Filters\Place\PlaceStatuses;
 use App\Filters\Place\PlaceLocation;
 use App\Filters\Place\PlaceStatusesLast;
+use App\Filters\Place\PlaceWithEvent;
 use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventType;
@@ -35,7 +36,8 @@ class PlaceController extends Controller
                 PlaceStatusesLast::class,
                 PlaceStatuses::class,
                 PlaceIco::class,
-                PlaceIds::class
+                PlaceIds::class,
+                PlaceWithEvent::class
             ])
             ->via('apply')
             ->then(function ($places) {
@@ -43,13 +45,10 @@ class PlaceController extends Controller
 
                 foreach($places as $key=>$place){
                     $places[$key]->ico = $place->event->types[0]->ico;
-                    unset($places[$key]->event);
+                    if(request()->get("events") != true){
+                        unset($places[$key]->event);
+                    }
                 }
-                // foreach($places as $key=>$place){
-                //     $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
-                //     $ico = EventType::find($type_id)->ico;
-                //     $places[$key]->ico = $ico;
-                // }
                 return $places;
             });
 
