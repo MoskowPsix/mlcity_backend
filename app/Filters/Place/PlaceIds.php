@@ -20,6 +20,7 @@ class PlaceIds implements Pipe{
         $array = trim($array, "[");
         $array = trim($array, "]");
         $placeIds = explode(",", $array);
+        $placeIds = array_map('intval', $placeIds);
 
         return $placeIds;
     }
