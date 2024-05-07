@@ -22,7 +22,8 @@ class Location extends Model
         'latitude',
         'longitude',
         'info_dadata',
-        'time_zone_utc'
+        'time_zone_utc',
+        'display'
     ];
 
     public function locationsChildren(): hasMany
