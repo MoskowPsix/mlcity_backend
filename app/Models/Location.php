@@ -40,6 +40,11 @@ class Location extends Model
         return $this->belongsToMany(User::class);
     }
 
+    public function favoriteCity()
+    {
+        return $this->belongsTo(FavoriteCity::class);
+    }
+
     public function sights(): hasMany
     {
         return $this->hasMany(Sights::class);

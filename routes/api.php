@@ -213,6 +213,7 @@ Route::controller(LocationController::class)->group(function() {
     Route::get('locations','getLocationsAll');
     Route::get('locationWithRegion','getLocationsAndRegion');
     Route::get('locations/search/coords' , 'searchLocationByCoords');
+    Route::get('locations/favorities', "getFavoriteCities");
 });
 
 Route::controller(LogApiController::class)->group(function() {

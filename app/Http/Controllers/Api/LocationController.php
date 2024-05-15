@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\Location\LocationDisplay;
 use App\Http\Controllers\Controller;
+use App\Models\FavoriteCity;
 use Illuminate\Http\Request;
 use App\Models\Location;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pipeline\Pipeline;
 
 class LocationController extends Controller
@@ -65,5 +68,14 @@ class LocationController extends Controller
         $region = Location::where('name', 'LIKE', '%' . $request->parentName . '%')->first();
         $locations = Location::where('name', 'LIKE' , '%' . $request->name . '%')->where('location_id', $region->id)->with('locationParent')->first();
         return response()->json(['status' => 'success', 'locations' => $locations], 200);
+    }
+
+    public function getFavoriteCities(Request $request)
+    {
+        $favoriteCities = Location::whereIn("id", function (QueryBuilder $query) {
+            $query->select("location_id")->from("favorite_cities");
+        })->with("locationParent")->get();
+
+        return response()->json(["status" => "success", "cities" => $favoriteCities]);
     }
 }
