@@ -72,10 +72,18 @@ class LocationController extends Controller
 
     public function getFavoriteCities(Request $request)
     {
+        $favoriteCitiesName = FavoriteCity::query()->with("city")->get()->pluck("city.name");
+
         $favoriteCities = Location::whereIn("id", function (QueryBuilder $query) {
             $query->select("location_id")->from("favorite_cities");
-        })->with("locationParent")->get();
+        })
+        ->with("locationParent")
+        ->get()
+        ->sortBy(function ($city) use($favoriteCitiesName) {
+            return array_search($city->name,$favoriteCitiesName->toArray());
+        });
 
-        return response()->json(["status" => "success", "cities" => $favoriteCities]);
+
+        return response()->json(["status" => "success", "cities" => $favoriteCities->values()->all()]);
     }
 }

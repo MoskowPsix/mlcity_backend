@@ -31,5 +31,6 @@ class DatabaseSeeder extends Seeder
         $this->call(LocationSeeder::class);
         $this->call(PermissionSeeder::class);
         $this->call(AgreementSeeder::class);
+        $this->call(FavoriteCitySeeader::class);
     }
 }
