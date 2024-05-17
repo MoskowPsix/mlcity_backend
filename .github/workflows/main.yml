@@ -2,7 +2,7 @@ name: 'MLCity Backend Deploy'
 
 on:
   push:
-    branches: ['main', 'setting-CI/CD']
+    branches: ['main']
 
 jobs:
   build-admin:
