@@ -10,7 +10,6 @@ class PlaceIds implements Pipe{
     public function apply($content, Closure $next){
         if (request()->has("placeIds")){
             $placesIds = $this->parseIds(request()->get("placeIds"));
-            info($placesIds);
             $content->whereIn("id", $placesIds);
         }
         return $next($content);

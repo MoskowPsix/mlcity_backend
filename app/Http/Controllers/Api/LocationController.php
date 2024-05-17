@@ -33,7 +33,6 @@ class LocationController extends Controller
         ->then(function ($locations) {
 
             $locations = $locations->get();
-            info($locations);
             return $locations;
         });
 

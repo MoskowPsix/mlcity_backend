@@ -64,7 +64,6 @@ class OrganizationController extends Controller
 
     public function store(CreateOrganisation $request) {
         $data = $request->validated();
-        info($data);
         $organization = Organization::create($data);
 
         return response()->json(["organization"=>$organization, "message"=>"success"], $status=201);
@@ -161,9 +160,6 @@ class OrganizationController extends Controller
 
     public function addOrDeletePermissionToUser($organizationId, $userId, $permId){
         $user = User::find($userId);
-        $authUser = auth("api")->user();
-        info($authUser);
-        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
         $organization = Organization::find($organizationId);
 
