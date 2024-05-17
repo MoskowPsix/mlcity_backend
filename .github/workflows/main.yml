@@ -20,6 +20,6 @@ jobs:
             git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
             npm install;
             npm run build;
-            php artisan migrate && echo yes;
+            php artisan migrate --force;
 
 
