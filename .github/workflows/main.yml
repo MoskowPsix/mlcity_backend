@@ -16,6 +16,7 @@ jobs:
 
           script: |
             cd ${{ secrets.DIR }};
+            git checkout main;
             git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
             npm install;
             npm run build;
