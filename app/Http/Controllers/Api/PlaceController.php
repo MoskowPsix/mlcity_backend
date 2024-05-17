@@ -23,6 +23,7 @@ class PlaceController extends Controller
 {
     public function getPlaces (Request $request): \Illuminate\Http\JsonResponse
     {
+        info("I WORK");
         if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
 
             $places = Place::query();
