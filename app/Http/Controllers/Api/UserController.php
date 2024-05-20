@@ -25,7 +25,14 @@ use App\Filters\Users\UsersLocation;
 use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
+use App\Filters\Organization\OrganizationId;
+use App\Filters\Organization\OrganizationName;
+use App\Http\Requests\Organisation\CreateOrganisation;
+use App\Http\Requests\User\UpdateRequest;
 use App\Http\Requests\UserRequest;
+use App\Models\Organization;
+use App\Models\UserAgreement;
+use Exception;
 use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -44,9 +51,9 @@ class UserController extends Controller
      *             type="integer"
      *         ),
      *     ),
-     * 
+     *
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -60,16 +67,17 @@ class UserController extends Controller
      * )
      */
 
-    
+
     // Получить юзера по ИД
     public function getUser(): \Illuminate\Http\JsonResponse
     {
-        $user = User::with('roles', 'socialAccount')->findOrFail(auth('api')->user()->id);
+        $user = User::where('id',auth('api')->user()->id)->with('roles', 'socialAccount')->first();
 
         return response()->json([
             'status'        => 'success',
-            'message'       => __('messages.login.success'),
-            'user'          => $user
+            // 'message'       => __('messages.login.success'),
+            'user'          => $user,
+            'user_id'       => auth('api')->user()->id
         ], 200);
     }
     /**
@@ -86,7 +94,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -122,7 +130,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -140,7 +148,7 @@ class UserController extends Controller
    {
         $page = $request->page;
         $limit = $request->limit ? $request->limit : 6;
-        $request->merge(['userId' => $id]); 
+        $request->merge(['userId' => $id]);
 
         $favoriteEvents = User::findOrFail($id)->favoriteEvents();
 
@@ -149,7 +157,7 @@ class UserController extends Controller
             ->send($favoriteEvents)
             ->through([
                 EventLikedUserExists::class,
-                EventFavoritesUserExists::class   
+                EventFavoritesUserExists::class
             ])
             ->via('apply')
             ->then(function ($favoriteEvents) use ($page, $limit){
@@ -160,7 +168,7 @@ class UserController extends Controller
            'result' => $response,
         ], 200);
    }
-    
+
     // Получаем ивенты, которые юзер айкнул
     private function getUserLikedEvents()
     {
@@ -180,7 +188,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -231,7 +239,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -248,7 +256,7 @@ class UserController extends Controller
    {
     $page = $request->page;
     $limit = $request->limit ? $request->limit : 6;
-    $request->merge(['userId' => $id]); 
+    $request->merge(['userId' => $id]);
 
     $favoriteSights = User::findOrFail($id)->favoriteSights();
 
@@ -257,7 +265,7 @@ class UserController extends Controller
         ->send($favoriteSights)
         ->through([
             EventLikedUserExists::class,
-            EventFavoritesUserExists::class   
+            EventFavoritesUserExists::class
         ])
         ->via('apply')
         ->then(function ($favoriteSights) use ($page, $limit){
@@ -282,7 +290,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -315,7 +323,7 @@ class UserController extends Controller
         }
     }
 
-    public function chekUserEmail($email) 
+    public function chekUserEmail($email)
     {
         if (strlen($email) >= 3) {
             $user = User::where('email', $email)->first();
@@ -365,9 +373,9 @@ class UserController extends Controller
 
             $likedSightsIds[] = $sight;
         }
-        
+
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6; 
+        $limit = $request->limit ? $request->limit : 6;
 
         $paginator = new LengthAwarePaginator($likedSightsIds, count($likedSightsIds), $limit);
         $items = $paginator->getCollection();
@@ -394,7 +402,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -410,10 +418,10 @@ class UserController extends Controller
     //Добавляем убираем лайк
     public function toggleLikedEvent(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->likedEvents()->toggle($request->event_id); // верно
+        User::findOrFail(Auth::user()->id)->likedEvents()->toggle($request->event_id); // верно
         $event =  Event::find($request->event_id); // верно
 
-        if (Auth::user()->likedEvents()->where('event_id',$request->event_id)->exists()){
+        if (User::findOrFail(Auth::user()->id)->likedEvents()->where('event_id',$request->event_id)->exists()){
             $event->likes()->where('event_id',$request->event_id)->exists()
                 ? $event->likes->increment('local_count')
                 : $event->likes()->create(["local_count" => 1]);
@@ -440,7 +448,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -485,7 +493,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -521,7 +529,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -614,7 +622,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -628,10 +636,10 @@ class UserController extends Controller
      * )
      */
     //Получить всех юзеров через фильтры
-    public function listUsers(Request $request) 
+    public function listUsers(Request $request)
     {
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
+        $limit = $request->limit ? $request->limit : 10;
         $name = $request->name ? $request->name : '';
         $users = User::with('roles', 'locations');
 
@@ -648,11 +656,11 @@ class UserController extends Controller
                 UsersLocation::class,
             ])
             ->then(function ($users) use ($page, $limit, $request){
-                return $users->orderBy('created_at','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+                return $users->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
             });
 
             return response()->json(['status' => 'success', 'users' => $response], 200);
-    }  
+    }
 
     /**
      * @OA\Put(
@@ -710,7 +718,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -725,24 +733,16 @@ class UserController extends Controller
      */
     public function updateUsers(Request $request, $id)
     {
-    
+
         $data = $request->all();
-        $user = User::where('id', $id)->firstOrFail();
+        $user = User::findOrFail($id);
         $user->fill($data);
         $user->save();
-    
-        $jsonData = [
-            'status' => 'SUCCESS',
-            'user' => [
-                'id' => $user->id,
-                'name' => $user->name,
-                'email' => $user->email,
-                'city' => $user->city,
-                'region' => $user->region,
-            ]
-        ];
-    
-        return response()->json($jsonData);
+
+        return response()->json([
+            'status' => 'success',
+            'user' => $user,
+        ], 200);
     }
 
     /**
@@ -759,7 +759,7 @@ class UserController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -778,31 +778,29 @@ class UserController extends Controller
         return response()->json(['status' => 'success', 'delete user' => $id], 200);
     }
 
-    public function updateUser(Request $request): \Illuminate\Http\JsonResponse
+    public function deleteForUsers(): \Illuminate\Http\JsonResponse
     {
-        
-        Log::info($request);
-        
+        User::find(auth('api')->user()->id)->delete();
+        return response()->json(['status' => 'success', 'delete_user' => auth('api')->user()->id], 200);
+    }
 
-        // return response()->json(['hi'], 200)
-        if ($request->new_name)
+    public function updateUser(UpdateRequest $request): \Illuminate\Http\JsonResponse
+    {
+        $data = $request->validated();
+          // return response()->json(['hi'], 200)
+        if ($data["new_name"])
         {
             if($request->hasFile('avatar')){
                 if($request->file('avatar')->isValid()){
-                    Log::info('IF WORKED');
                     $file = $request->file('avatar');
-                
+
                     $path = $file->store('users/'.auth('api')->user()->id.'/avatars','public');
                     $user = User::where('id',auth('api')->user()->id)->first();
                     $user->update(['avatar'=>'/storage/'.$path]);
                 }
-                else{
-                    Log::info('IF NOT WORKED');
-                }
-                
             }
             $user = User::where('id',auth('api')->user()->id)->first();
-            $user->update(['name'=>$request->new_name]);
+            $user->update(['name'=>$data["new_name"]]);
 
             return response()->json([
                 'status'=>'success',
@@ -818,8 +816,85 @@ class UserController extends Controller
                 'message'=>'maybe your input field is empty'
             ], 401);
         }
+    }
 
-        
-        
+    public function addOrganization($usr_id, CreateOrganisation $request){
+        $data = $request->validated();
+        $user_id = auth("api")->user()->id;
+
+        if($user_id == $usr_id){
+            $data["user_id"] = $user_id;
+            $organization = Organization::create($data);
+        }
+        else{
+            return response()->json(["message"=>"Access denied"], 403);
+        }
+
+
+        return response()->json(["message" => "created", "data"=>["organization"=>$organization]], 201);
+    }
+
+    public function getOrganizations($usr_id, Request $request){
+        $user_id = auth()->user()->id;
+
+        if ($user_id == $usr_id){
+            $organizations = Organization::query()->where("user_id",$user_id);
+            $response =
+                app(Pipeline::class)
+                ->send($organizations)
+                ->through([
+                    OrganizationId::class,
+                    OrganizationName::class,
+                ])
+                ->via("apply")
+                ->then(function ($organizations) use($usr_id){
+                    $organizations = $organizations->get();
+                    return $organizations;
+                });
+
+
+            return response()->json(["message"=>"success", "user_id"=>$usr_id, "data"=>["organizations"=>$response]], 200);
+
+
+        }
+
+        return response()->json(["message"=>"Access denied"],403);
+    }
+
+    public function acceptAgreement(Request $reqeust){
+        try{
+            $user = auth('api')->user();
+
+            $agreement =  UserAgreement::find($reqeust->get("agreement_id"))->id;
+            info($agreement);
+            $checkUserAgreementIsAlredy = $user->userAgreements()->where("user_agreement_id",$agreement)->get();
+            info($checkUserAgreementIsAlredy);
+            if(count($checkUserAgreementIsAlredy) > 0){
+                return response()->json(["message"=>"User is alredy accepted this agreement"]);
+            }
+            if (isset($agreement)){
+                $user->userAgreements()->attach([$agreement => ["status" => true]]);
+
+                return response()->json(["message"=>"success", "data" => "agreement accepted"]);
+            }
+            else{
+                return response()->json(["message"=>"agreement not found"]);
+            }
+        }
+        catch (Exception $e) {
+            info($e);
+            return response()->json(["message"=>"server error"], 500);
+        }
+    }
+
+    public function checkAgreement(Request $reqeust, $agreement_id){
+        $user = auth("api")->user();
+
+        $agreement = $user->userAgreements()->where("user_agreement_id",$agreement_id)->first();
+        info($agreement);
+        if($agreement){
+            return response()->json(["message"=>"success", "data"=>$agreement]);
+        }
+        return response()->json(["message" => "user dont accept this agreement"],200);
     }
 }

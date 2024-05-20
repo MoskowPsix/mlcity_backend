@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Events\Event\EventCreated;
 use App\Models\Place;
 use App\Models\Price;
 use App\Models\User;
@@ -13,6 +14,7 @@ use App\Models\EventFile;
 use App\Models\EventLike;
 use App\Models\Comment;
 use App\Models\View;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Event extends Model
 {
@@ -32,6 +34,14 @@ class Event extends Model
         'vk_post_id',
         'cult_id'
     ];
+    
+
+    // protected static function booted()
+    // {
+    //     static::created(function($model){
+    //         event(new EventCreated($model));
+    //     });
+    // }
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
@@ -75,6 +85,8 @@ class Event extends Model
         return $this->hasMany(EventFile::class)->with('file_types');
     }
 
+    
+
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
         return $this->hasOne(EventLike::class);
@@ -88,9 +100,9 @@ class Event extends Model
     // {
     //     return $this->hasOne(View::has('id'));
     // }
-    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->belongsToMany(User::class, 'view', 'event_id','user_id');
+        return $this->hasMany(View::class);
     }
 
     // public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
@@ -104,11 +116,15 @@ class Event extends Model
     }
     public function placesFull(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
-        return $this->hasMany(Place::class)->with('seances', 'location');
+        return $this->hasMany(Place::class)->with('seances', 'location', "timezones");
     }
     // Подтягиваем цену
     public function price(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Price::class);
+    }
+
+    public function historyContents(): MorphMany{
+        return $this->morphMany(HistoryContent::class, "history_contentable");
     }
 }

@@ -15,6 +15,9 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Sight\SightAuthor;
+use App\Filters\Sight\SightByIds;
+use App\Filters\Sight\SightEvents;
+use App\Filters\Sight\SightIco;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\SightCreateRequest;
 use App\Models\Sight;
@@ -143,7 +146,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -160,9 +163,9 @@ class SightController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
 
-        $sights = Sight::query()->with('files', 'author', 'locations')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -180,16 +183,16 @@ class SightController extends Controller
                     SightTypes::class,
                     SightAuthor::class,
                     PlaceGeoPositionInArea::class,
-                    EventSearchText::class
+                    EventSearchText::class,
+                    SightByIds::class
                 ])
                 ->via('apply')
                 ->then(function ($sights) use ($pagination , $page, $limit){
-                    $total = $sights->count();
                     $sights = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-                    return [$sights, $total];
+                    return $sights;
                 });
 
-        return response()->json(['status' => 'success', 'sights' => $response[0], 'total' => $response[1]], 200);
+        return response()->json(['status' => 'success', 'sights' => $response], 200);
     }
 
     public function getSightsForMap(Request $request): \Illuminate\Http\JsonResponse
@@ -207,6 +210,7 @@ class SightController extends Controller
                         PlaceAddress::class,
                         SightTypes::class,
                         PlaceGeoPositionInArea::class,
+                        SightIco::class
                     ])
                     ->via('apply')
                     ->then(function ($sights) {
@@ -220,8 +224,8 @@ class SightController extends Controller
     }
     public function getSightsForAuthor(Request $request) {
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $sights->count();
         $response = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'sights' => $response, 'total' => $total], 200);
@@ -253,7 +257,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -284,7 +288,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -323,7 +327,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -359,7 +363,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -395,7 +399,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -411,9 +415,32 @@ class SightController extends Controller
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices');
+        $response =
+        app(Pipeline::class)
+        ->send($sight)
+        ->through([
+            SightEvents::class
+        ])
+        ->via("apply")
+        ->then(function ($sight){
+            $sight = $sight->get();
+            return $sight[0];
+        });
+        return response()->json($response, 200);
+    }
 
-        return response()->json($sight, 200);
+    public function getEventsInSight(Request $request, $id){
+        $sight = Sight::find($id);
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        if($sight){
+            $events = $sight->events()->cursorPaginate($limit, ['*'], 'page' , $page);
+
+            return response()->json(['status' => 'success', 'events' => $events], 200);
+        }
+
+        return response()->json(["message" => "Sight not found"], 404);
     }
     /**
      * @OA\Post(
@@ -502,7 +529,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -515,13 +542,12 @@ class SightController extends Controller
      *     ),
      * )
      */
-    public function create(SightCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         $coords = explode(',',$request->coords);
         $latitude   = $coords[0]; // широта
         $longitude  = $coords[1]; // долгота
 
-        \Illuminate\Support\Facades\Log::info($request->collect());
         $sight = Sight::create([
             'name'          => $request->name,
             'sponsor'       => $request->sponsor,
@@ -530,15 +556,32 @@ class SightController extends Controller
             'latitude'      => $latitude,
             'longitude'     => $longitude,
             'description'   => $request->description,
-            'price'         => $request->price,
+            // 'price'         => $request->price,
             'materials'     => $request->materials,
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
-            'work_time'     => $request->workTime,
+            // 'work_time'     => $request->workTime,
         ]);
 
-        $sight->types()->sync($request->type);
+        foreach ($request->price as $price){
+            if($price["cost_rub"] == ""){
+                $sight->prices()->create([
+                    'cost_rub' => 0,
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+            else{
+                $sight->prices()->create([
+                    'cost_rub' => $price['cost_rub'],
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+
+        }
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $sight->types()->sync($types);
         $sight->statuses()->attach($request->status, ['last' => true]);
         $sight->likes()->create();
 //        $sight->likes()->create([
@@ -584,7 +627,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -640,7 +683,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -762,7 +805,7 @@ class SightController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -781,7 +824,7 @@ class SightController extends Controller
         $sight = Sight::where('id', $id)->firstOrFail();
         $sight->fill($data);
         $sight->save();
-    
+
         $jsonData = [
             'status' => 'SUCCESS',
             'sight' => [
@@ -801,7 +844,7 @@ class SightController extends Controller
                 'vk_post_id'    => $request->vk_post_id,
             ]
         ];
-    
+
         return response()->json($jsonData);
     }
 
@@ -818,6 +861,7 @@ class SightController extends Controller
                 "link" => $file,
             ])->file_types()->attach($type[0]->id);
         }
+
     }
     private function saveVkFilesVideo($sight, $files){
         $type = FileType::where('name', 'video')->get();

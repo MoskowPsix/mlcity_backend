@@ -13,11 +13,16 @@ use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\FeedbackController;
+use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use App\Http\Controllers\Api\OrganizationController;
+use App\Http\Controllers\Api\PermissionController;
+use App\Http\Controllers\Api\OrganizationInviteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -63,20 +68,21 @@ Route::controller(AuthController::class)->group(function() {
 
     // Методы манипуляций с телефоном
     Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
-    Route::get('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
-    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum'); 
+    Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
+    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum');
 });
 
 
 Route::controller(UserController::class)->group(function() {
-    Route::get('admin/users/', 'listUsers'); // Для админ панели(поиск юзера по фильтрам)
+    Route::get('admin/users/', 'listUsers')->middleware('admin'); // Для админ панели(поиск юзера по фильтрам)
     Route::put('admin/users/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
     Route::delete('admin/users/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
 
     Route::get('users', 'getUser')->middleware('auth:sanctum');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
-    Route::post('profile/users','updateUser');
-    
+    Route::post('profile/users','updateUser')->middleware('auth:sanctum');
+    Route::delete('users', 'deleteForUsers')->middleware('auth:sanctum');
+
     Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/liked-events', 'getUserLikedEventsIds')->middleware('auth:sanctum');
     Route::get('users/{id}/favorite-sights', 'getUserFavoriteSightsIds')->middleware('auth:sanctum');
@@ -90,11 +96,19 @@ Route::controller(UserController::class)->group(function() {
     Route::get('users/name/check/{name}', 'chekUserName');
     Route::get('users/email/check/{email}', 'chekUserEmail');
     Route::get('users/number/check/{number}', 'checkUserNumber');
+
+    Route::post("users/{usr_id}/organizations", "addOrganization")->middleware('auth:sanctum');
+    Route::get("users/{usr_id}/organizations", "getOrganizations")->middleware("auth:sanctum");
+
+    Route::post("users/agreements/accept","acceptAgreement");
+    Route::get("users/agreements/{agreement_id}/check", "checkAgreement");
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
     Route::get('social-auth/{provider}', 'index')->name('auth.social');
+    Route::post('social-auth/apple', 'callbackApple')->name('auth.social');
     Route::get('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
+    Route::post('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
 });
 
 Route::controller(EventController::class)->group(function() {
@@ -134,6 +148,7 @@ Route::controller(SightController::class)->group(function() {
     Route::put('sights/updateSight/{id}', 'updateSight')->middleware('moderator');
     Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('sights/{id}', 'show');
+    Route::get("sights/{id}/events", "getEventsInSight");
     Route::get('sights/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('sights/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
     Route::post('sights/create', 'create')->middleware('auth:sanctum');
@@ -177,11 +192,11 @@ Route::controller(StatusController::class)->group(function() {
 });
 
 Route::controller(RoleController::class)->group(function() {
-    Route::get('role', 'allRole')->middleware('moderator');
-    Route::get('role/{id}', 'getRole')->middleware('moderator');
-    Route::post('role', 'addRole')->middleware('root');
-    Route::put('role/{id}', 'updateRole')->middleware('root');
-    Route::delete('role/{id}', 'deleteRole')->middleware('root');
+    Route::get('roles', 'allRole')->middleware('moderator');
+    Route::get('roles/{id}', 'getRole')->middleware('moderator');
+    Route::post('roles', 'addRole')->middleware('root');
+    Route::put('roles/{id}', 'updateRole')->middleware('root');
+    Route::delete('roles/{id}', 'deleteRole')->middleware('root');
 
     Route::post('users/role/{user_id}/{role_id}', 'addRoleUser')->middleware('root');
     Route::put('users/role/{user_id}/{role_id}', 'updateRoleUser')->middleware('root');
@@ -197,10 +212,49 @@ Route::controller(LocationController::class)->group(function() {
     Route::get('location/name/{name}','getLocationsName');
     Route::get('locations','getLocationsAll');
     Route::get('locationWithRegion','getLocationsAndRegion');
+    Route::get('locations/search/coords' , 'searchLocationByCoords');
+    Route::get('locations/favorities', "getFavoriteCities");
 });
 
 Route::controller(LogApiController::class)->group(function() {
     Route::get('logs', 'getLogs')->middleware('root');
+});
+
+Route::controller(HistoryContentController::class)->group(function() {
+    Route::get("history-content", 'getHistoryContent')->middleware('moderator');
+    Route::get("history-content/{id}","getHistoryContentForIds")->middleware('moderator');
+    Route::post("history-content","createHistoryContent")->middleware('auth:sanctum');
+    Route::patch("history-content", "acceptHistoryContent")->middleware('moderator');
+    Route::get("history-content/{type}/{id}", "getHistoryContentForIdsContent");
+});
+
+Route::controller(OrganizationController::class)->group(function (){
+    Route::post("organizations", "store");
+    Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization")->middleware("orgPerm:add_user");
+
+    Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser");
+    Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser")->middleware("orgPerm:update_permissions");
+
+    Route::get("organizations/{id}", "show");
+    Route::get("organizations/", "index");
+    Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
+});
+
+Route::controller(OrganizationInviteController::class)->group(function (){
+    Route::get("organizations/invite/accept","acceptInvite")->name("organizationInvite.accept");
+    // Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
+});
+
+Route::controller(PermissionController::class)->group(function (){
+    Route::post("permissions", "store")->middleware('root');
+    Route::get("permissions/{id}", "show")->middleware('auth:sanctum');;
+    Route::get("permissions/", "index")->middleware('auth:sanctum');;
+    Route::patch("permissions/", "update")->middleware('root');
+    Route::delete("permissions/{id}", "delete")->middleware('root');
+});
+
+Route::controller(FeedbackController::class)->group(function (){
+    Route::post("feedback/user", "sendUserFeedback");
 });
 
 

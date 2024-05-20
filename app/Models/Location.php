@@ -18,7 +18,12 @@ class Location extends Model
         'name',
         'time_zone',
         'location_id',
-        'cult_id'
+        'cult_id',
+        'latitude',
+        'longitude',
+        'info_dadata',
+        'time_zone_utc',
+        'display'
     ];
 
     public function locationsChildren(): hasMany
@@ -33,6 +38,11 @@ class Location extends Model
     public function users(): BelongsToMany
     {
         return $this->belongsToMany(User::class);
+    }
+
+    public function favoriteCity()
+    {
+        return $this->belongsTo(FavoriteCity::class);
     }
 
     public function sights(): hasMany

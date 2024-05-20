@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use Laravel\Telescope\Http\Middleware\Authorize;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,10 +19,14 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // })->name('');
 
-Route::get('/', function () {
-     return view('app'); 
-});
+// Route::get('/{any}', function () {
+//      return view('app');
+// })->where('any', '.*');
+
+Route::get('/{any}', function () {
+     return view('app');
+})->where('any', '.*');
 
 // Route::get('/test', function () {
-//      return view('test'); 
+//      return view('test');
 // });

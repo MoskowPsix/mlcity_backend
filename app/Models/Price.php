@@ -16,4 +16,9 @@ class Price extends Model
         'cost_rub',
         'descriptions',
     ];
+
+
+    public function historyPrices(){
+        return $this->hasMany(HistoryPrice::class);
+    }
 }

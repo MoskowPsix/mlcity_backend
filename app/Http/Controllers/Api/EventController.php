@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Filters\Event\EventByIds;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
@@ -32,6 +33,8 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\Location;
+use App\Models\Timezone;
 use App\Models\View;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
@@ -195,7 +198,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -208,12 +211,12 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function getEvents(GetEventRequest $request): \Illuminate\Http\JsonResponse
+    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
         $total = 0;
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
-        $events = Event::query()->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -221,6 +224,7 @@ class EventController extends Controller
             ->through([
                 // EventTotal::class,
                 EventName::class,
+                EventByIds::class,
                 EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
@@ -234,25 +238,22 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class,           
+                SightAuthor::class
             ])
             ->via('apply')
-            ->then(function ($events) use ($page, $limit, $total){
-                $total = $events->count();
+            ->then(function ($events) use ($page, $limit){
                 $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-                return [$events, $total];
-            });
 
+                return $events;
+            });
             // $event['events'] = ['total' => $total ];
-        return response()->json(['status' => 'success', 'events' => $response[0], 'total' => $response[1]], 200);
+        return response()->json(['status' => 'success', 'events' => $response], 200);
     }
 
-    public function getEventsForAuthor(EventForAuthorReqeust $request) {
-        $request = $request->validated();
-        info($request);
-        $page = $request["page"];
-        $limit = $request['limit'] && ($request['limit'] < 50)? $request['limit'] : 5;
-        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+    public function getEventsForAuthor(Request $request) {
+        isset($request->page) ?  $page = $request->page :  $page = 1;
+        isset($request->limit) ?  $limit = $request->limit : $limit =  6;
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $total = $events->count();
         $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'events' => $response, 'total' => $total], 200);
@@ -290,7 +291,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -322,7 +323,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -361,7 +362,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -397,7 +398,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -433,7 +434,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -448,7 +449,7 @@ class EventController extends Controller
      */
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'placesFull', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
 
         return response()->json($event, 200);
     }
@@ -561,7 +562,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -574,7 +575,7 @@ class EventController extends Controller
      *     ),
      * )
      */
-    public function create(EventCreateRequest $request): \Illuminate\Http\JsonResponse
+    public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         // $coords = explode(',',$request->coords);
         // $latitude   = $coords[0]; // широта
@@ -598,33 +599,48 @@ class EventController extends Controller
         ]);
         // Устанавливаем цену
         foreach ($request->prices as $price){
-            $event->price()->create([
-                'cost_rub' => $price['cost_rub'],
-                'descriptions' => $price['descriptions']
-            ]);
+            if($price["cost_rub"] == ""){
+                $event->price()->create([
+                    'cost_rub' => 0,
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
+            else{
+                $event->price()->create([
+                    'cost_rub' => $price['cost_rub'],
+                    'descriptions' => $price['descriptions']
+                ]);
+            }
         }
         // Устанавливаем марки
         foreach ($request->places as $place){
             $coords = explode(',',$place['coords']);
             $latitude   = $coords[0]; // широта
             $longitude  = $coords[1]; // долгота
+            $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
             $place_cr = $event->places()->create([
                 'sight_id' => $place['sightId'],
                 'location_id' => $place['locationId'],
                 'latitude' => $latitude,
                 'longitude' => $longitude,
-                'address' => $place['address']
+                'address' => $place['address'],
+                'timezone_id' => $timezone_id
             ]);
             // Устанавливаем сеансы марок
+
             foreach($place['seances'] as $seance) {
-                $place_cr->seances()->create([
-                    'dateStart' => $seance['dateStart'], 
-                    'dateEnd' => $seance['dateEnd']
+                info($seance);
+                $sean_cr = $place_cr->seances()->create([
+                    'date_start' => $seance['dateStart'],
+                    'date_end' => $seance['dateEnd']
                 ]);
+
             }
         }
 
-        $event->types()->sync($request->type);
+        $types = explode(",",$request->type[0]);
+        // info($types);
+        $event->types()->sync($types);
         $event->statuses()->attach($request->status, ['last' => true]);
         $event->likes()->create();
 //        $event->likes()->create([
@@ -670,7 +686,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -726,7 +742,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -864,7 +880,7 @@ class EventController extends Controller
      *         ),
      *     ),
      *     @OA\Response(
-     *         response="200", 
+     *         response="200",
      *         description="Success"
      *     ),
      *     @OA\Response(
@@ -883,7 +899,7 @@ class EventController extends Controller
         $event = Event::where('id', $id)->firstOrFail();
         $event->fill($data);
         $event->save();
-    
+
         $jsonData = [
             'status' => 'SUCCESS',
             'event' => [
@@ -899,10 +915,10 @@ class EventController extends Controller
                 'materials' => $event->materials,
                 'date_start' => $event->date_start,
                 'date_end' => $event->date_end,
-                
+
             ]
         ];
-    
+
         return response()->json($jsonData);
     }
 

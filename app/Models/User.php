@@ -22,7 +22,7 @@ use App\Models\Sight;
 use App\Models\EventLike;
 use App\Models\SightLike;
 
-class User extends Authenticatable 
+class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRolesTrait, SoftDeletes;
 
@@ -68,7 +68,7 @@ class User extends Authenticatable
      * Summary of pcode
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function pcode(): \Illuminate\Database\Eloquent\Relations\HasMany 
+    public function pcode(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(PhoneCode::class);
     }
@@ -76,7 +76,7 @@ class User extends Authenticatable
      * Summary of ecode
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ecode(): \Illuminate\Database\Eloquent\Relations\HasMany 
+    public function ecode(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(EmailCode::class);
     }
@@ -160,6 +160,23 @@ class User extends Authenticatable
     public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Location::class);
+    }
+
+    public function role(){
+        return $this->belongsToMany(Role::class, $table="users_roles");
+    }
+
+
+    public function permissionsInOrganization(){
+        return $this->belongsToMany(Permission::class, "organization_permission_user", "user_id", "permission_id")->withPivot("organization_id");
+    }
+
+    public function organizations(){
+        return $this->belongsToMany(Organization::class, "organization_permission_user", "user_id","organization_id");
+    }
+
+    public function userAgreements(){
+        return $this->belongsToMany(UserAgreement::class);
     }
 
 }

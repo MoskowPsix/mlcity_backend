@@ -18,6 +18,18 @@ class UsersUpdated implements Pipe {
                 ->whereDate('updated_at', '>=', $dateStart);
             });
         }
+
+        if (request()->filled('updatedDateStart')) {
+            $dateStart = request()->get('updatedDateStart');
+            $content->where(function($q) use ($dateStart){
+                $q->whereDate('updated_at', '>=', $dateStart);
+            });
+        } elseif (request()->filled('updatedDateEnd')) {
+            $dateEnd = request()->get('updatedDateEnd');
+            $content->where(function($q) use ($dateEnd){
+                $q->whereDate('updated_at', '<=', $dateEnd);
+            });
+        }
         return $next($content);
     }
 }

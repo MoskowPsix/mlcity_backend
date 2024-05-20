@@ -26,6 +26,11 @@ class DatabaseSeeder extends Seeder
         //$this->call(SightTypeSeeder::class);
         $this->call(StatusesSeeder::class);
         $this->call(FileTypeSeeder::class);
-        
+        $this->call(SightTypeSeeder::class);
+        $this->call(EventTypeSeeder::class);
+        $this->call(LocationSeeder::class);
+        $this->call(PermissionSeeder::class);
+        $this->call(AgreementSeeder::class);
+        $this->call(FavoriteCitySeeader::class);
     }
 }
