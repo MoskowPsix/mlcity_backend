@@ -64,5 +64,5 @@ services:
       - "../:/var/www/MLCity_backend"
     working_dir: /var/www/MLCity_backend
     entrypoint: ["/bin/bash"]
-    command: ["-c", "composer install && php artisan migrate && php artisan db:seed"]
+    command: ["-c", "composer install && php artisan migrate --force && php artisan db:seed --force"]
 
