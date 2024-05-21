@@ -40,6 +40,7 @@ services:
     ports:
       - "9000:9000"
     working_dir: /var/www/MLCity_backend
+    # command: composer install && php artisan migrate
 
 
   build-admin:
@@ -52,4 +53,15 @@ services:
     volumes:
       - "../:/var/www/MLCity_backend"
     working_dir: /var/www/MLCity_backend
+
+  artisan:
+    depends_on:
+      - backend
+    build:
+      context: ./php
+      dockerfile: dockerfile
+    volumes:
+      - "../:/var/www/MLCity_backend"
+    working_dir: /var/www/MLCity_backend
+    command: composer install && php artisan migrate && php artisan db:seed
 
