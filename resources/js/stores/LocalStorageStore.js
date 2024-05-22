@@ -42,6 +42,9 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
             localStorage.setItem('timezone', JSON.stringify(timeZone))
             this.timeZone = timeZone
         },
+        getUserLocalStorage() {
+            return JSON.parse(localStorage.getItem('user'))
+        },
     },
     getters: {
         getToken() {

@@ -20,6 +20,8 @@ class Event extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'name',
         'sponsor',
@@ -32,7 +34,9 @@ class Event extends Model
         'date_end',
         'user_id',
         'vk_post_id',
-        'cult_id'
+        'cult_id',
+        'creates_at',
+        'updated_at'
     ];
     
 

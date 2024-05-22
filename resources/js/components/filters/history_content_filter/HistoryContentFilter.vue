@@ -4,7 +4,7 @@
     >
         <input
             id="name"
-            v-model="contentName"
+            v-model.lazy="contentName"
             data-te-input-wrapper-init
             type="text"
             name="name"
@@ -13,7 +13,7 @@
         />
         <input
             id="sponsor"
-            v-model="contentSponsor"
+            v-model.lazy="contentSponsor"
             type="text"
             name="sponsor"
             placeholder="Спонсор мероприятия"
@@ -21,7 +21,7 @@
         />
         <input
             id="text"
-            v-model="contentSearchText"
+            v-model.lazy="contentSearchText"
             type="text"
             name="text"
             placeholder="Поиск по тексту"
@@ -29,7 +29,7 @@
         />
         <input
             id="user"
-            v-model="contentUser"
+            v-model.lazy="contentUser"
             type="text"
             name="user"
             placeholder="Имя автора"
@@ -85,7 +85,7 @@
         </div>
         <input
             id="user"
-            v-model="contentUser"
+            v-model.lazy="contentUser"
             type="text"
             name="user"
             placeholder="Имя или почта автора"

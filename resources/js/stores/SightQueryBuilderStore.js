@@ -31,6 +31,7 @@ export const useSightQueryBuilderStore = defineStore('useSightQueryBuilder', {
                 statusesLast: this.statusLast,
                 user: this.user,
                 page: this.pageSightsForPageSights,
+                order: 'created_at,updated_at',
             }
         },
         setPageSightsForPageSights(page) {

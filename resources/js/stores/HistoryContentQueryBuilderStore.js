@@ -52,6 +52,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore(
                     statusesLast: this.statusLast,
                     user: this.user,
                     page: this.pageContentsForPageContent,
+                    order: 'created_at,updated_at',
                 }
             },
             // Страница истории изменения контента установка параметров

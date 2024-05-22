@@ -1,10 +1,17 @@
 <template lang="">
     <div>
         <EventTable
+            v-if="events.length"
             :events="events"
             class="m-1"
             @event="clickEvent"
         />
+        <label
+            v-if="!events.length"
+            class="h-[100%] w-[100%] text-center"
+        >
+            <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+        </label>
         <div
             v-if="nextPage || backPage"
             class="flex justify-center m-1"
@@ -20,28 +27,24 @@
     </div>
 </template>
 <script>
-    import { mapActions, mapState } from 'pinia'
+    import { mapActions } from 'pinia'
     import { useToastStore } from '../../stores/ToastStore'
     import { MessageEvents } from '../../enums/events_messages'
     import { useEventStore } from '../../stores/EventStore'
     import { useLoaderStore } from '../../stores/LoaderStore'
-    import {
-        catchError,
-        tap,
-        map,
-        retry,
-        delay,
-        takeUntil,
-    } from 'rxjs/operators'
+    import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
 
     import router from '../../routes'
     import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
     import EventTable from '../../components/tables/event_table/EventTable.vue'
-    import EventFilter from '../../components/filters/events_filter/EventFilter.vue'
 
     export default {
         name: 'MyEvents',
+        components: {
+            PaginateBar,
+            EventTable,
+        },
         setup() {
             const destroy$ = new Subject()
             return {
@@ -54,6 +57,9 @@
                 nextPage: null,
                 backPage: null,
             }
+        },
+        mounted() {
+            this.getAllEventForAuthor()
         },
         methods: {
             ...mapActions(useToastStore, ['showToast']),
@@ -115,13 +121,6 @@
             viewNextPage() {
                 this.getAllEventForAuthor(this.nextPage)
             },
-        },
-        components: {
-            PaginateBar,
-            EventTable,
-        },
-        mounted() {
-            this.getAllEventForAuthor()
         },
     }
 </script>

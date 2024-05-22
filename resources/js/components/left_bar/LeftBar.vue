@@ -71,6 +71,23 @@
                     </label>
                 </div>
             </a>
+
+            <a
+                class="flex items-center pl-2.5 mb-5 border rounded-lg dark:border-gray-500/50 p-2"
+            >
+                <img
+                    :src="local_user.avatar"
+                    class="h-6 mr-3 sm:h-7 rounded-lg"
+                    alt="ava"
+                />
+                <span
+                    class="self-center text-xs font-semibold whitespace-nowrap dark:text-white"
+                    >{{ local_user.name
+                    }}<p class="text-xs items-center">{{
+                        local_user.email
+                    }}</p></span
+                >
+            </a>
             <ul class="space-y-2 font-medium">
                 <li>
                     <RouterLink
@@ -140,10 +157,10 @@
                         <span class="flex-1 ml-3 whitespace-nowrap"
                             >Все События</span
                         >
-                        <span
+                        <!-- <span
                             class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
                             >1</span
-                        >
+                        > -->
                     </RouterLink>
                 </li>
                 <li
@@ -170,10 +187,10 @@
                         <span class="flex-1 ml-3 whitespace-nowrap"
                             >Все Места</span
                         >
-                        <span
+                        <!-- <span
                             class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
                             >1</span
-                        >
+                        > -->
                     </RouterLink>
                 </li>
                 <li
@@ -202,10 +219,10 @@
                         <span class="flex-1 ml-3 whitespace-nowrap"
                             >На редактуре</span
                         >
-                        <span
+                        <!-- <span
                             class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
                             >1</span
-                        >
+                        > -->
                     </RouterLink>
                 </li>
                 <!-- <li>
@@ -215,7 +232,7 @@
                <span class="flex-1 ml-3 whitespace-nowrap">Роли</span>
          </RouterLink>
          </li> -->
-                <li v-if="role == 'Admin' || role == 'root'">
+                <!-- <li v-if="role == 'Admin' || role == 'root'">
                     <RouterLink
                         :to="{ name: 'types' }"
                         exact-active-class="bg-gray-400 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-900"
@@ -254,7 +271,7 @@
                             >Типы (Ещё нету)</span
                         >
                     </RouterLink>
-                </li>
+                </li> -->
                 <li v-if="role == 'Admin' || role == 'root'">
                     <RouterLink
                         :to="{ name: 'users' }"
@@ -351,48 +368,66 @@
     import { useToast } from 'vue-toastification'
     import { onMounted } from 'vue'
 
-
-export default {
-   name: 'LeftBar',
-   components: {Drawer},
-   data()  {
-      return {
-         toast: useToast(),
-         urlFront: import.meta.env.VITE_FRONT_APP_URL,
-      }
-   },
-   setup() {
-      onMounted(() => {
-         initFlowbite();
-      })
-      const isDark = useDark();
-      const toggleDark = useToggle(isDark);
-      return {
-         isDark,
-         toggleDark
-      }
-   },
-   computed: {
-      ...mapState(useLocalStorageStore, ['role'])
-   },
-   methods: {
-      ...mapActions(useAuthStore, ['logout']),
-      ...mapActions(useLocalStorageStore, ['localStorageInit']),
-      ...mapActions(useLoaderStore, ['openLoaderFullPage', 'closeLoaderFullPage']),
-      logTo() {
-         window.location.href = 'http://localhost:8000/telescope'
-      },
-      logoutSubmit() {
-        this.openLoaderFullPage()
-        localStorage.clear()
-        this.localStorageInit()
-        this.toast.success(MessageAuth.success_logout)
-        window.location.href = import.meta.env.VITE_FRONT_APP_URL
-        // this.$router.push({name: 'login'})
-      },
-   },
-}
-  </script>
+    export default {
+        name: 'LeftBar',
+        setup() {
+            onMounted(() => {
+                initFlowbite()
+            })
+            const isDark = useDark()
+            const toggleDark = useToggle(isDark)
+            return {
+                isDark,
+                toggleDark,
+            }
+        },
+        data() {
+            return {
+                toast: useToast(),
+                urlFront: import.meta.env.VITE_FRONT_APP_URL,
+                local_user: {},
+            }
+        },
+        computed: {
+            ...mapState(useLocalStorageStore, ['role', 'user']),
+        },
+        watch: {
+            user() {
+                this.getUserLocal()
+            },
+        },
+        mounted() {
+            this.getUserLocal()
+        },
+        methods: {
+            ...mapActions(useAuthStore, ['logout']),
+            ...mapActions(useLocalStorageStore, [
+                'localStorageInit',
+                'setUser',
+                'getUserLocalStorage',
+            ]),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
+            getUserLocal() {
+                this.local_user = this.getUserLocalStorage()
+                console.log(this.local_user)
+            },
+            logTo() {
+                window.location.href = 'http://localhost:8000/telescope'
+            },
+            logoutSubmit() {
+                this.openLoaderFullPage()
+                localStorage.clear()
+                this.localStorageInit()
+                this.toast.success(MessageAuth.success_logout)
+                window.location.href = import.meta.env.VITE_FRONT_APP_URL
+                // this.$router.push({name: 'login'})
+            },
+        },
+    }
+</script>
 
 <style>
     /* input:checked ~ .dot {

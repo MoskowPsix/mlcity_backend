@@ -10,11 +10,17 @@
         <UsersFilter />
         <!-- Список пользователей -->
         <UsersTable
-            v-if="users"
+            v-if="users.length"
             :users="users"
             class="mt-1"
             @user="onUserModal"
         />
+        <label
+            v-if="!users.length"
+            class="h-[100%] w-[100%] text-center"
+        >
+            <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+        </label>
         <!-- Кнопки пагинации -->
         <!-- <div class="grid grid-cols-2 w-full">
             <div class="flex justify-evenly">
@@ -77,7 +83,7 @@
         },
         data() {
             return {
-                users: null,
+                users: [],
                 user: null,
                 total: 0,
                 nextPage: null,

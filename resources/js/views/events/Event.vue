@@ -1,10 +1,17 @@
 <template lang="">
     <EventFilter class="m-1" />
     <EventTable
+        v-if="events.length"
         :events="events"
         class="m-1"
         @event="clickEvent"
     />
+    <label
+        v-if="!events.length"
+        class="h-[100%] w-[100%] text-center"
+    >
+        <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+    </label>
     <div
         v-if="nextPage || backPage"
         class="flex justify-center m-1"
@@ -112,6 +119,7 @@
                             if (response.data.events.data.length) {
                                 this.events = response.data.events.data
                             } else {
+                                this.events = []
                                 this.showToast(
                                     MessageEvents.info_events,
                                     'info',

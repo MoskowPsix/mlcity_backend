@@ -7,7 +7,6 @@ use App\Filters\Event\EventName;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
 use App\Filters\Sight\SightAuthor;
-use App\Filters\Sight\SightTypes;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventPlaceAddress;
 use App\Filters\Event\EventPlaceLocation;
@@ -15,18 +14,13 @@ use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventPlaceGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
-use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
-use App\Filters\Event\EventTotal;
 use App\Filters\Event\EventTypes;
+use App\Filters\Event\EventOrderByDateCreate;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\EventCreateRequest;
-use App\Http\Requests\Events\EventForAuthorReqeust;
-use App\Http\Requests\Events\GetEventRequest;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
-use App\Http\Requests\Events\UpdateVkLikesRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
@@ -35,9 +29,7 @@ use App\Models\Event;
 use App\Models\FileType;
 use App\Models\Location;
 use App\Models\Timezone;
-use App\Models\View;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
 
 class EventController extends Controller
 {
@@ -223,6 +215,7 @@ class EventController extends Controller
             ->send($events)
             ->through([
                 // EventTotal::class,
+                EventOrderByDateCreate::class,
                 EventName::class,
                 EventByIds::class,
                 EventLikedUserExists::class,
@@ -238,10 +231,10 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class
+                SightAuthor::class,
             ])
             ->via('apply')
-            ->then(function ($events) use ($page, $limit){
+            ->then(function ($events) use ($page, $limit, $request){
                 $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
 
                 return $events;

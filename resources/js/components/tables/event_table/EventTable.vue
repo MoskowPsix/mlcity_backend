@@ -51,6 +51,18 @@
                     >
                         Дата окончания
                     </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Изменено
+                    </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Обновлено
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -115,6 +127,12 @@
                     <td class="px-6 py-4">
                         {{ event.date_end }}
                     </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(event.updated_at.slice(0, 19)) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(event.created_at.slice(0, 19)) }}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -135,6 +153,9 @@
         methods: {
             emitEvent(event) {
                 this.$emit('event', event)
+            },
+            getCurrentTime(time) {
+                return this.$helpers.DateHelp.getCurrentFormate(time)
             },
         },
     }

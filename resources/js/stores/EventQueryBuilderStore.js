@@ -39,6 +39,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 statusesLast: this.statusLast,
                 user: this.user,
                 page: this.pageEventsForPageEvent,
+                order: 'created_at,updated_at',
             }
         },
         setPageEventForPageEvents(page) {

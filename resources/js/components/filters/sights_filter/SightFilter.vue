@@ -5,7 +5,7 @@
         >
             <input
                 id="name"
-                v-model="sightName"
+                v-model.lazy="sightName"
                 type="text"
                 name="name"
                 placeholder="Название"
@@ -13,7 +13,7 @@
             />
             <input
                 id="sponsor"
-                v-model="sightSponsor"
+                v-model.lazy="sightSponsor"
                 type="text"
                 name="sponsor"
                 placeholder="Спонсор мероприятия"
@@ -21,7 +21,7 @@
             />
             <input
                 id="text"
-                v-model="sightText"
+                v-model.lazy="sightText"
                 type="text"
                 name="text"
                 placeholder="Поиск по тексту"
@@ -66,7 +66,7 @@
             </div>
             <input
                 id="user"
-                v-model="sightUser"
+                v-model.lazy="sightUser"
                 type="text"
                 name="user"
                 placeholder="Имя или почта автора"

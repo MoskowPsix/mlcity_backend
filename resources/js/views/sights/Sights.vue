@@ -1,10 +1,17 @@
 <template lang="">
     <SightFilter class="m-1" />
     <SightTable
+        v-if="sights.length"
         :sights="sights"
         class="m-1"
         @sight="clickSight"
     />
+    <label
+        v-if="!sights.length"
+        class="h-[100%] w-[100%] text-center"
+    >
+        <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+    </label>
     <div
         v-if="nextPage || backPage"
         class="flex justify-center"
@@ -25,14 +32,7 @@
     import { useSightStore } from '../../stores/SightStore'
     import { useSightQueryBuilderStore } from '../../stores/SightQueryBuilderStore'
     import { useSightFilterStore } from '../../stores/SightFilterStore'
-    import {
-        catchError,
-        tap,
-        map,
-        retry,
-        delay,
-        takeUntil,
-    } from 'rxjs/operators'
+    import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
 
     import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
@@ -41,6 +41,7 @@
     import router from '../../routes'
 
     export default {
+        // eslint-disable-next-line vue/multi-word-component-names
         name: 'Sights',
         components: {
             PaginateBar,

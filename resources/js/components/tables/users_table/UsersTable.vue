@@ -80,10 +80,10 @@
                         Нету
                     </td>
                     <td class="px-6 py-4">
-                        {{ user.created_at.slice(0, 19).replace('T', '  ') }}
+                        {{ getCurrentTime(user.created_at) }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ user.updated_at.slice(0, 19).replace('T', '  ') }}
+                        {{ getCurrentTime(user.updated_at) }}
                     </td>
                 </tr>
             </tbody>
@@ -102,14 +102,12 @@
             },
         },
         emits: ['user'],
-        watch: {
-            // userModal(newUser, oldUser) {
-            //     this.$emit('updateParent', newUser)
-            // }
-        },
         methods: {
             emitUser(user) {
                 this.$emit('user', user)
+            },
+            getCurrentTime(time) {
+                return this.$helpers.DateHelp.getCurrentFormate(time)
             },
         },
     }

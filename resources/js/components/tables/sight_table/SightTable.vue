@@ -49,7 +49,13 @@
                         scope="col"
                         class="px-6 py-3"
                     >
-                        Создано | Изменено
+                        Изменено
+                    </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Создано
                     </th>
                 </tr>
             </thead>
@@ -96,7 +102,9 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        {{ sight.statuses[0].name }}
+                        <p v-if="sight.statuses.length">{{
+                            sight.statuses[0].name
+                        }}</p>
                     </td>
                     <td class="px-6 py-4">
                         {{ sight.name }}
@@ -113,8 +121,10 @@
                         {{ sight.address }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ sight.created_at.slice(0, 19).replace('T', '  ') }} |
-                        {{ sight.updated_at.slice(0, 19).replace('T', '  ') }}
+                        {{ getCurrentTime(sight.updated_at) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(sight.created_at) }}
                     </td>
                 </tr>
             </tbody>
@@ -136,6 +146,9 @@
         methods: {
             emitEvent(sight) {
                 this.$emit('sight', sight)
+            },
+            getCurrentTime(time) {
+                return this.$helpers.DateHelp.getCurrentFormate(time)
             },
         },
     }

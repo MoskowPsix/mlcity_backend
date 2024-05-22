@@ -6,6 +6,7 @@ use App\Filters\HistoryContent\HistoryContentAuthor;
 use App\Filters\HistoryContent\HistoryContentStatuses;
 use App\Filters\HistoryContent\HistoryContentStatusesLast;
 use App\Filters\HistoryContent\HistoryContentGeoPositionAreaHistoryPlace;
+use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSearchText;
@@ -48,6 +49,7 @@ class HistoryContentController extends Controller
         $response = app(Pipeline::class)
                     ->send($historyContents)
                     ->through([
+                        EventOrderByDateCreate::class,
                         EventName::class,
                         EventDate::class,
                         EventSponsor::class,

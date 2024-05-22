@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\Sight\SightLocation;
 use App\Filters\Place\PlaceAddress;
+use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -172,6 +173,7 @@ class SightController extends Controller
                 ->send($sights)
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
+                    EventOrderByDateCreate::class,
                     EventLikedUserExists::class,
                     EventName::class,
                     EventSponsor::class,

@@ -1,7 +1,7 @@
 import DeepMerge from './deepMerge'
-import OutputCurentTime from './outputCurentTime'
+import DateHelp from './outputCurentTime'
 
 export default {
     DeepMerge,
-    OutputCurentTime,
+    DateHelp,
 }

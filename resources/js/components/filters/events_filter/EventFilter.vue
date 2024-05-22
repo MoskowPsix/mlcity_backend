@@ -5,7 +5,7 @@
         >
             <input
                 id="name"
-                v-model="eventName"
+                v-model.lazy="eventName"
                 type="text"
                 name="name"
                 placeholder="Название"
@@ -13,7 +13,7 @@
             />
             <input
                 id="sponsor"
-                v-model="eventSponsor"
+                v-model.lazy="eventSponsor"
                 type="text"
                 name="sponsor"
                 placeholder="Спонсор мероприятия"
@@ -21,7 +21,7 @@
             />
             <input
                 id="text"
-                v-model="eventText"
+                v-model.lazy="eventText"
                 type="text"
                 name="text"
                 placeholder="Поиск по тексту"
@@ -66,7 +66,7 @@
             </div>
             <input
                 id="user"
-                v-model="eventUser"
+                v-model.lazy="eventUser"
                 type="text"
                 name="user"
                 placeholder="Имя или почта автора"
@@ -134,6 +134,7 @@
         },
         watch: {
             eventName(name) {
+                console.log('lazy')
                 if (name.length > 3) {
                     this.setEventName(name)
                 } else if (name == 0) {
@@ -165,7 +166,8 @@
                 this.setEventStatuses(status)
             },
             eventStatusLast(status) {
-                this.setEventStatuses(status)
+                console.log(status)
+                this.setEventStatusLast(status)
             },
             eventUser(user) {
                 if (user.length > 3) {
