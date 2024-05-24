@@ -5,6 +5,9 @@ export const useHistoryContentsFilterStore = defineStore(
     'useHistoryContentsFilter',
     {
         state: () => ({
+            contentLocation: new BehaviorSubject(
+                localStorage.getItem('contentLocationFilter') || '',
+            ),
             contentName: new BehaviorSubject(
                 localStorage.getItem('contentNameFilter') || '',
             ),
@@ -28,6 +31,13 @@ export const useHistoryContentsFilterStore = defineStore(
             ),
         }),
         actions: {
+            setContentLocation(location) {
+                localStorage.setItem('contentLocationFilter', location)
+                this.contentLocation = location
+            },
+            getContentLocation() {
+                return localStorage.getItem('contentLocationFilter')
+            },
             setContentName(name) {
                 localStorage.setItem('contentNameFilter', name)
                 this.contentName = name

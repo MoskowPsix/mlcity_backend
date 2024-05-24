@@ -21,14 +21,14 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 (this.searchText = useEventFilterStore().getEventText()),
                 (this.statuses = useEventFilterStore().getEventStatuses()),
                 (this.statusLast = useEventFilterStore().getEventStatusLast()),
-                (this.user = useEventFilterStore().getEventUser())
+                (this.user = useEventFilterStore().getEventUser()),
+                (this.locationId = useEventFilterStore().getEventLocation())
         },
         eventsForPageEvents() {
             let date = [new Date().toISOString(), new Date().toISOString()]
             if (this.date) {
                 date = this.date.split('~')
             }
-
             this.queryParams = {
                 name: this.name,
                 dateStart: date[0],
@@ -39,6 +39,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 statusesLast: this.statusLast,
                 user: this.user,
                 page: this.pageEventsForPageEvent,
+                locationId: this.locationId,
                 order: 'created_at,updated_at',
             }
         },
@@ -55,6 +56,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
         statuses: null,
         statusLast: null,
         user: null,
+        locationId: null,
         pageEventsForPageEvent: null,
     }),
 })

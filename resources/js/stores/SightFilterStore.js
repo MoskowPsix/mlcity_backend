@@ -3,6 +3,9 @@ import { BehaviorSubject } from 'rxjs'
 
 export const useSightFilterStore = defineStore('useSightFilter', {
     state: () => ({
+        sightLocation: new BehaviorSubject(
+            localStorage.getItem('sightLocationFilter') || '',
+        ),
         sightName: new BehaviorSubject(
             localStorage.getItem('sightNameFilter') || '',
         ),
@@ -23,6 +26,13 @@ export const useSightFilterStore = defineStore('useSightFilter', {
         ),
     }),
     actions: {
+        setSightLocation(location) {
+            localStorage.setItem('sightLocationFilter', location)
+            this.sightLocation = location
+        },
+        getSightLocation() {
+            return localStorage.getItem('sightLocationFilter')
+        },
         setSightName(name) {
             localStorage.setItem('sightNameFilter', name)
             this.sightName = name

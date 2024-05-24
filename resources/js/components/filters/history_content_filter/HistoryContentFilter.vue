@@ -1,6 +1,6 @@
 <template lang="">
     <div
-        class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid grid-cols-4 gap-6 p-6 dark:text-gray-300"
+        class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-6 p-6 dark:text-gray-300"
     >
         <input
             id="name"
@@ -91,10 +91,48 @@
             placeholder="Имя или почта автора"
             class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
         />
+        <!-- <div class="">
+            <input
+                id="location"
+                v-model="locationText"
+                type="text"
+                name="location"
+                placeholder="Поиск по городу"
+                class="w-full rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+                @click="modalSearchLocation = true"
+            />
+            <transition name="slide-fade">
+                <div
+                    v-if="
+                        locations.length !== 0 &&
+                        modalSearchLocation &&
+                        locationText.length
+                    "
+                    class="mt-1 absolute max-w-[15%] z-50 p-2 border rounded-lg dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-300 bg-gray-300/80 border-gray-400/50"
+                >
+                    <ul>
+                        <li
+                            v-for="location in locations"
+                            :key="location.id"
+                            class="line-clamp-3 hover:bg-gray-500/50 p-2 rounded-lg"
+                            @click="setLocationClick(location)"
+                        >
+                            <label>
+                                <h2 class="text-sm">{{ location.name }}</h2>
+                                <p class="text-xs">{{
+                                    location.location_parent.name
+                                }}</p>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </transition>
+        </div> -->
     </div>
 </template>
 
 <script>
+    import { useLocationStore } from '../../../stores/LocationStore'
     import { mapActions } from 'pinia'
     import { useHistoryContentsFilterStore } from '../../../stores/HistoryContentFilterStore'
     import { useStatusStore } from '../../../stores/StatusStore'
@@ -138,9 +176,22 @@
                 contentUser: this.getContentUser(),
                 statuses: [],
                 allStatuses: [],
+                locationText: '',
+                modalSearchLocation: false,
+                loaderModalSearchLocation: false,
+                locations: [],
             }
         },
         watch: {
+            locationText(value) {
+                if (value.length >= 3) {
+                    this.getLocation(value)
+                } else if (value.length) {
+                    this.setContentLocation('')
+                    this.modalSearchLocation = false
+                    this.locations = []
+                }
+            },
             contentName(name) {
                 if (name.length > 3) {
                     this.setContentName(name)
@@ -183,9 +234,17 @@
                 }
             },
         },
+        // created() {
+        //     window.addEventListener('click', (e) => {
+        //         if (!document.getElementById('location').contains(e.target)) {
+        //             this.modalSearchLocation = false
+        //         }
+        //     })
+        // },
         mounted() {
             this.getAllStatuses()
             initTE({ Select }, { allowReinits: true })
+            this.getLocationForId()
         },
         methods: {
             ...mapActions(useHistoryContentsFilterStore, [
@@ -203,8 +262,53 @@
                 'getContentStatuses',
                 'getContentStatusLast',
                 'getContentUser',
+                'getContentLocation',
+                'setContentLocation',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
+            ...mapActions(useLocationStore, [
+                'getLocationsByName',
+                'getLocationId',
+            ]),
+            getLocationForId() {
+                if (this.getContentLocation()) {
+                    this.getLocationId(this.getContentLocation())
+                        .pipe(
+                            catchError((err) => {
+                                console.log(err)
+                                return of(EMPTY)
+                            }),
+                        )
+                        .subscribe((response) => {
+                            this.locationText = response.data.location.name
+                            this.modalSearchLocation = false
+                        })
+                }
+            },
+            getLocation(name) {
+                this.loaderModalSearchLocation = true
+                this.getLocationsByName(name)
+                    .pipe(
+                        catchError((err) => {
+                            console.log(err)
+                            this.modalSearchLocation = false
+                            return of(EMPTY)
+                        }),
+                    )
+                    .subscribe((response) => {
+                        if (response.data.locations.length) {
+                            this.locations = response.data.locations
+                            this.modalSearchLocation = true
+                        } else {
+                            this.locations = []
+                            this.modalSearchLocation = false
+                        }
+                    })
+            },
+            setLocationClick(location) {
+                this.setContentLocation(location.id)
+                this.locationText = location.name
+            },
             getAllStatuses() {
                 this.getStatuses()
                     .pipe(

@@ -78,9 +78,13 @@
                 'contentStatuses',
                 'contentStatusLast',
                 'contentUser',
+                'contentLocation',
             ]),
         },
         watch: {
+            contentLocation() {
+                this.getAllContents()
+            },
             contentName() {
                 this.getAllContents()
             },

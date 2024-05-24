@@ -33,7 +33,9 @@ export const useHistoryContentsQueryBuilderStore = defineStore(
                     (this.statusLast =
                         useHistoryContentsFilterStore().getContentStatusLast()),
                     (this.user =
-                        useHistoryContentsFilterStore().getContentUser())
+                        useHistoryContentsFilterStore().getContentUser()),
+                    (this.LocationId =
+                        useHistoryContentsFilterStore().getContentLocation())
             },
             // Страница контента установка параметров
             contentsForPageContents() {
@@ -52,6 +54,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore(
                     statusesLast: this.statusLast,
                     user: this.user,
                     page: this.pageContentsForPageContent,
+                    locationId: this.locationId,
                     order: 'created_at,updated_at',
                 }
             },
@@ -84,6 +87,7 @@ export const useHistoryContentsQueryBuilderStore = defineStore(
             statuses: null,
             statusLast: null,
             user: null,
+            locationId: null,
             pageContentsForPageContent: null,
             pageContentsForPageHistoryByIdsEvent: null,
             limitContentsForPageHistoryByIdsEvent: null,

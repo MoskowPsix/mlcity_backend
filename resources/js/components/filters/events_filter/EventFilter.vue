@@ -1,7 +1,7 @@
 <template lang="">
     <div>
         <div
-            class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid grid-cols-4 gap-6 p-6 dark:text-gray-300"
+            class="border dark:bg-gray-800 bg-gray-200 border-gray-300 dark:border-gray-700 shadow rounded grid 2xl:grid-cols-4 xl:grid-cols-4 lg:grid-cols-3 md:grid-cols-2 xs:grid-cols-1 gap-6 p-6 dark:text-gray-300"
         >
             <input
                 id="name"
@@ -83,10 +83,48 @@
                 "
                 placeholder="Дата и время события"
             />
+            <div class="">
+                <input
+                    id="location"
+                    v-model="locationText"
+                    type="text"
+                    name="location"
+                    placeholder="Поиск по городу"
+                    class="w-full rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+                    @click="modalSearchLocation = true"
+                />
+                <transition name="slide-fade">
+                    <div
+                        v-if="
+                            locations.length !== 0 &&
+                            modalSearchLocation &&
+                            locationText.length
+                        "
+                        class="mt-1 absolute max-w-[15%] z-50 p-2 border rounded-lg dark:border-gray-700 dark:bg-gray-900/80 dark:text-gray-300 bg-gray-300/80 border-gray-400/50"
+                    >
+                        <ul>
+                            <li
+                                v-for="location in locations"
+                                :key="location.id"
+                                class="line-clamp-3 hover:bg-gray-500/50 p-2 rounded-lg"
+                                @click="setLocationClick(location)"
+                            >
+                                <label>
+                                    <h2 class="text-sm">{{ location.name }}</h2>
+                                    <p class="text-xs">{{
+                                        location.location_parent.name
+                                    }}</p>
+                                </label>
+                            </li>
+                        </ul>
+                    </div>
+                </transition>
+            </div>
         </div>
     </div>
 </template>
 <script>
+    import { useLocationStore } from '../../../stores/LocationStore'
     import { useEventFilterStore } from '../../../stores/EventFilterStore'
     import { useStatusStore } from '../../../stores/StatusStore'
     import { mapActions } from 'pinia'
@@ -101,6 +139,9 @@
         name: 'EventFilter',
         components: {
             VueDatePicker,
+        },
+        away() {
+            this.modalSearchLocation = false
         },
         setup() {
             const destroy$ = new Subject()
@@ -130,11 +171,24 @@
                 eventUser: this.getEventUser(),
                 statuses: [],
                 allStatuses: [],
+                locationText: '',
+                modalSearchLocation: false,
+                loaderModalSearchLocation: false,
+                locations: [],
             }
         },
+
         watch: {
+            locationText(value) {
+                if (value.length >= 3) {
+                    this.getLocation(value)
+                } else if (value.length) {
+                    this.setEventLocation('')
+                    this.modalSearchLocation = false
+                    this.locations = []
+                }
+            },
             eventName(name) {
-                console.log('lazy')
                 if (name.length > 3) {
                     this.setEventName(name)
                 } else if (name == 0) {
@@ -166,7 +220,6 @@
                 this.setEventStatuses(status)
             },
             eventStatusLast(status) {
-                console.log(status)
                 this.setEventStatusLast(status)
             },
             eventUser(user) {
@@ -177,9 +230,17 @@
                 }
             },
         },
+        created() {
+            window.addEventListener('click', (e) => {
+                if (!document.getElementById('location')?.contains(e.target)) {
+                    this.modalSearchLocation = false
+                }
+            })
+        },
         mounted() {
             initTE({ Select }, { allowReinits: true })
             this.getAllStatuses()
+            this.getLocationForId()
         },
         methods: {
             ...mapActions(useEventFilterStore, [
@@ -197,8 +258,53 @@
                 'getEventStatusLast',
                 'setEventUser',
                 'getEventUser',
+                'setEventLocation',
+                'getEventLocation',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
+            ...mapActions(useLocationStore, [
+                'getLocationsByName',
+                'getLocationId',
+            ]),
+            getLocationForId() {
+                if (this.getEventLocation()) {
+                    this.getLocationId(this.getEventLocation())
+                        .pipe(
+                            catchError((err) => {
+                                console.log(err)
+                                return of(EMPTY)
+                            }),
+                        )
+                        .subscribe((response) => {
+                            this.locationText = response.data.location.name
+                            this.modalSearchLocation = false
+                        })
+                }
+            },
+            getLocation(name) {
+                this.loaderModalSearchLocation = true
+                this.getLocationsByName(name)
+                    .pipe(
+                        catchError((err) => {
+                            console.log(err)
+                            this.modalSearchLocation = false
+                            return of(EMPTY)
+                        }),
+                    )
+                    .subscribe((response) => {
+                        if (response.data.locations.length) {
+                            this.locations = response.data.locations
+                            this.modalSearchLocation = true
+                        } else {
+                            this.locations = []
+                            this.modalSearchLocation = false
+                        }
+                    })
+            },
+            setLocationClick(location) {
+                this.setEventLocation(location.id)
+                this.locationText = location.name
+            },
             getAllStatuses() {
                 this.getStatuses()
                     .pipe(
@@ -287,5 +393,18 @@
         );
         --dp-range-between-dates-text-color: var(--dp-hover-text-color, #fff);
         --dp-range-between-border-color: var(--dp-hover-color, #fff);
+    }
+    .slide-fade-enter-active {
+        transition: all 0.3s ease-out;
+    }
+
+    .slide-fade-leave-active {
+        transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+    }
+
+    .slide-fade-enter-from,
+    .slide-fade-leave-to {
+        transform: translateX(20px);
+        opacity: 0;
     }
 </style>

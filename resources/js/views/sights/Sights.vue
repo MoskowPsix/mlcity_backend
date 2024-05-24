@@ -69,7 +69,34 @@
                 'sightStatuses',
                 'sightStatusLast',
                 'sightUser',
+                'sightLocation',
             ]),
+        },
+        watch: {
+            sightLocation() {
+                this.getAllSights()
+            },
+            sightName() {
+                this.getAllSights()
+            },
+            sightSponsor() {
+                this.getAllSights()
+            },
+            sightSearchText() {
+                this.getAllSights()
+            },
+            sightStatuses() {
+                this.getAllSights()
+            },
+            sightStatusLast() {
+                this.getAllSights()
+            },
+            sightUser() {
+                this.getAllSights()
+            },
+        },
+        mounted() {
+            this.getAllSights()
         },
         methods: {
             ...mapActions(useToastStore, ['showToast']),
@@ -116,29 +143,6 @@
             clickSight(sight) {
                 router.push({ path: `/sight/${sight.id}` })
             },
-        },
-        watch: {
-            sightName() {
-                this.getAllSights()
-            },
-            sightSponsor() {
-                this.getAllSights()
-            },
-            sightSearchText() {
-                this.getAllSights()
-            },
-            sightStatuses() {
-                this.getAllSights()
-            },
-            sightStatusLast() {
-                this.getAllSights()
-            },
-            sightUser() {
-                this.getAllSights()
-            },
-        },
-        mounted() {
-            this.getAllSights()
         },
     }
 </script>

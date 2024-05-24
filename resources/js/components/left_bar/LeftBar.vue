@@ -73,6 +73,7 @@
             </a>
 
             <a
+                v-if="local_user.length"
                 class="flex items-center pl-2.5 mb-5 border rounded-lg dark:border-gray-500/50 p-2"
             >
                 <img
@@ -412,7 +413,6 @@
             ]),
             getUserLocal() {
                 this.local_user = this.getUserLocalStorage()
-                console.log(this.local_user)
             },
             logTo() {
                 window.location.href = 'http://localhost:8000/telescope'

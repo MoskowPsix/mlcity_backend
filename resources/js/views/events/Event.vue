@@ -71,6 +71,7 @@
                 'eventStatuses',
                 'eventStatusLast',
                 'eventUser',
+                'eventLocation',
             ]),
         },
         watch: {
@@ -93,6 +94,9 @@
                 this.getAllEvent()
             },
             eventUser() {
+                this.getAllEvent()
+            },
+            eventLocation() {
                 this.getAllEvent()
             },
         },

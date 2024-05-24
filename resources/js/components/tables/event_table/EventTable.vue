@@ -108,8 +108,11 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        {{ event.statuses[0].name }}
-                    </td>
+                        <p v-if="event.statuses.length">{{
+                            event.statuses[0].name
+                        }}</p
+                        ><p> </p
+                    ></td>
                     <td class="px-6 py-4">
                         {{ event.name }}
                     </td>
