@@ -15,6 +15,7 @@ use App\Filters\Event\EventDate;
 use App\Filters\Event\EventFavoritesUserExists;
 use App\Filters\Event\EventPlaceGeoPositionInArea;
 use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventOrderBy;
 use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
@@ -238,11 +239,12 @@ class EventController extends Controller
                 EventSponsor::class,
                 EventAuthorName::class,
                 EventAuthorEmail::class,
-                SightAuthor::class
+                SightAuthor::class,
+                EventOrderBy::class
             ])
             ->via('apply')
             ->then(function ($events) use ($page, $limit){
-                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+                $events = $events->cursorPaginate($limit, ['*'], 'page' , $page);
 
                 return $events;
             });
