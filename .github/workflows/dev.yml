@@ -12,7 +12,7 @@ jobs:
         with:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
-          key: ${{ secrets.DEV_SSH_PRIVATE }}
+          key: "беб бе"
 
           script: |
             cd ${{ secrets.DEV_DIR }};
