@@ -177,7 +177,7 @@
                 locations: [],
             }
         },
-
+//
         watch: {
             locationText(value) {
                 if (value.length >= 3) {
