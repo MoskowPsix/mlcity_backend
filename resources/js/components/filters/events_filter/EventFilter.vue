@@ -30,7 +30,7 @@
             <div
                 class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
-                <div>
+                <div v-if="statuses.length > 0">
                     <select
                         v-model="eventStatuses"
                         class="h-6"
@@ -201,6 +201,7 @@
                 this.getStatuses()
                     .pipe(
                         map((response) => {
+                            console.log(response)
                             if (response.data.statuses.length) {
                                 this.statuses = response.data.statuses
                             } else {
