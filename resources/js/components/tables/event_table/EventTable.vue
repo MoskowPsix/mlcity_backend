@@ -146,9 +146,6 @@
                 this.$emit('event', event)
             },
         },
-        mounted() {
-            console.log(this.event)
-        },
     }
 </script>
 <style lang=""></style>

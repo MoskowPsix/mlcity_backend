@@ -122,7 +122,6 @@
             EventTable,
         },
         mounted() {
-            console.log("I WORK")
             this.getAllEventForAuthor()
         },
     }
