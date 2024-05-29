@@ -96,7 +96,7 @@
                         </div>
                     </td>
                     <td
-                        v-if="event.statuses[0].name"
+                        v-if="event.statuses"
                         class="px-6 py-4"
                     >
                         {{ event.statuses[0].name }}
