@@ -152,7 +152,6 @@
                 },
             },
         },
-        //
         emits: ['event'],
         methods: {
             emitEvent(event) {
