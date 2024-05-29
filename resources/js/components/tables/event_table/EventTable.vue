@@ -95,7 +95,18 @@
                             />
                         </div>
                     </td>
-
+                    <td
+                        v-if="event.statuses.length > 0"
+                        class="px-6 py-4"
+                    >
+                        {{ event.statuses[0].name }}
+                    </td>
+                    <td
+                        v-else
+                        class="px-6 py-4"
+                    >
+                        Ошибка статуса
+                    </td>
                     <td class="px-6 py-4">
                         {{ event.name }}
                     </td>
