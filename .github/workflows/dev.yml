@@ -13,6 +13,7 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           password: ${{ secrets.DEV_PASS }}
           username: ${{ secrets.DEV_USER }}
+          key: ${{ secrets.DEV_SSH_PRIVATE }}
 
           script: |
             cd ${{ secrets.DEV_DIR }};
