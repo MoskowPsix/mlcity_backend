@@ -47,7 +47,6 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
             this.pageEventsForPageEvent = page
         },
     },
-    //
     state: () => ({
         queryParams: [],
         name: null,
