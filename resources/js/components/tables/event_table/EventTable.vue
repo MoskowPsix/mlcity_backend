@@ -95,7 +95,10 @@
                             />
                         </div>
                     </td>
-                    <td class="px-6 py-4">
+                    <td
+                        v-if="event.statuses[0].name"
+                        class="px-6 py-4"
+                    >
                         {{ event.statuses[0].name }}
                     </td>
                     <td class="px-6 py-4">
@@ -136,6 +139,9 @@
             emitEvent(event) {
                 this.$emit('event', event)
             },
+        },
+        mounted() {
+            console.log(this.event)
         },
     }
 </script>

@@ -30,7 +30,7 @@
             <div
                 class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
-                <div v-if="statuses.length > 0">
+                <div>
                     <select
                         v-model="eventStatuses"
                         class="h-6"
