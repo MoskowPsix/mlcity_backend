@@ -21,7 +21,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 (this.searchText = useEventFilterStore().getEventText()),
                 (this.statuses = useEventFilterStore().getEventStatuses()),
                 (this.statusLast = useEventFilterStore().getEventStatusLast()),
-                (this.user = useEventFilterStore().getEventUser()),
+                (this.user = useEventFilterStore().getEventUser())
         },
         eventsForPageEvents() {
             let date = [new Date().toISOString(), new Date().toISOString()]
