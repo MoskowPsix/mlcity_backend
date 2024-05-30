@@ -48,6 +48,8 @@ class EventHistoryContentService{
         $this->storeHistoryTypes($historyContent);
         $this->storeHistoryFiles($historyContent);
 
+
+        $historyContent->historyContentable->statuses()->attach(["id" => $status_id, "last"=>true]);
         return $historyContent;
     }
 
