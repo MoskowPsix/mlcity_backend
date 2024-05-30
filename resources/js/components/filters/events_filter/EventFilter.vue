@@ -194,7 +194,6 @@
                     this.setEventName(name)
                 }
             },
-            //
             eventSponsor(sponsor) {
                 if (sponsor.length > 3) {
                     this.setEventSponsor(sponsor)
