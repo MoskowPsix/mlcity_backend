@@ -2,7 +2,7 @@ name : 'MLCity Backend develop server deploy'
 
 on:
   push:
-    branches: ["develop"]
+    branches: ["####"]
 
 jobs:
   re-build-docker-image:
