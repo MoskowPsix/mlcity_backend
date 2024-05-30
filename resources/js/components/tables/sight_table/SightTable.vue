@@ -105,6 +105,7 @@
                         <p v-if="sight.statuses.length">{{
                             sight.statuses[0].name
                         }}</p>
+                        <p v-else> Неизвестен </p>
                     </td>
                     <td class="px-6 py-4">
                         {{ sight.name }}
