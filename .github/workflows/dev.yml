@@ -2,7 +2,7 @@ name : 'MLCity Backend develop server deploy'
 
 on:
   push:
-    branches: ["####"]
+    branches: ["develop"]
 
 jobs:
   re-build-docker-image:
@@ -12,7 +12,7 @@ jobs:
         with:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
-          key: ${{ secrets.SSH }}
+          key: ${{ secrets.DEV_SSH }}
 
           script: |
             cd ${{ secrets.DEV_DIR }};
