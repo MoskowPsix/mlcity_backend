@@ -94,14 +94,12 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
-        // info();
         #получаем данные для статуса и дальнейших манипуляций
         $this->checkAccessToCreateHistoryContent();
         $data = $request->toArray();
 
         $data['history_content']["user_id"] = auth("api")->user()->id;
         $status_id = Status::where("name", "На модерации")->first()->id;
-
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
             $eventHistoryContentService = new EventHistoryContentService($data["history_content"]);
@@ -111,6 +109,7 @@ class HistoryContentController extends Controller
             $sightHistoryContentService = new SightHistoryContentService($data["history_content"]);
             $historyContent = $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
         }
+
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent],201);
     }

@@ -39,7 +39,9 @@ class SightHistoryContentService{
         $this->storeHistoryPrices();
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
-        info($this->historyContent);
+
+        $this->historyContent->historyContentable->statuses()->attach(["id" => $status_id, "last"=>true]);
+
         return $this->historyContent;
     }
 
