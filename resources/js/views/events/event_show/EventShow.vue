@@ -928,7 +928,7 @@
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
                 this.filesDel.forEach((item) => {
-                    item.onDelete = true
+                    item.on_delete = true
                     historyEvent.history_files.push(item)
                 })
                 if (this.placeUpd) {
