@@ -122,6 +122,7 @@
                             this.closeLoaderFullPage()
                             if (response.data.events.data.length) {
                                 this.events = response.data.events.data
+                                console.log(response.data.events.data)
                             } else {
                                 this.events = []
                                 this.showToast(

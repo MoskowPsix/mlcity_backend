@@ -11,12 +11,11 @@ class EventStatusesLast implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if(request()->has('statuses') && request()->has('statusLast')){
+        if(true){
             $statuses = explode(',', request()->get('statuses'));
-            // $status = Status::where('name', $statuses[0])->first()->id;
-
-            $content->whereHas('statuses', function($q) use ($statuses){
-                $q->whereIn('status_id', $statuses)->where('last', true);
+            $status_id = Status::where('name', $statuses[0])->first()->id;
+            $content->whereHas('statuses', function($q) use ($status_id){
+                $q->where('last', true)->where('status_id', $status_id);
             });
         }
 
