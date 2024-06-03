@@ -31,6 +31,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
             }
             this.queryParams = {
                 name: this.name,
+                limit: 20,
                 dateStart: date[0],
                 dateEnd: date[1],
                 sponsor: this.sponsor,
