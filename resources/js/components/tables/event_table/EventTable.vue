@@ -109,7 +109,9 @@
                     </td>
                     <td class="px-6 py-4">
                         <p v-if="event.statuses.length">
-                        {{event.statuses[0].name}}
+                            <p v-for="status in event.statuses">
+                                <p v-if="status.pivot.last == true">{{ status.name }}</p>
+                            </p>
                         </p>
 
                         <p v-else>Неизвестен</p>
