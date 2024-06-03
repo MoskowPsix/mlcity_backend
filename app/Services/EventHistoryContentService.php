@@ -49,8 +49,19 @@ class EventHistoryContentService{
         $this->storeHistoryFiles($historyContent);
 
 
-        $historyContent->historyContentable->statuses()->attach(["id" => $status_id, "last"=>true]);
+        $this->resetOldStatuses($historyContent);
+        $historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
         return $historyContent;
+    }
+
+    private function resetOldStatuses($historyContent) {
+        $statuses = $historyContent->historyContentable->statuses;
+
+        foreach($statuses as $status) {
+            $historyContent->historyContentable->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
     }
 
     private function storeHistoryPlacesWithSeances($historyContent){

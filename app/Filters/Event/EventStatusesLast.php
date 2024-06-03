@@ -13,10 +13,8 @@ class EventStatusesLast implements Pipe {
     {
         if(request()->has('statuses') && request()->has('statusLast')){
             $statuses = explode(',', request()->get('statuses'));
-            info($statuses);
             // Клиент присылает id статуса
             if((is_numeric($statuses[0]))) {
-                info($statuses[0]);
                 $status_id = Status::find($statuses[0])->id;
             }
             // Админ присылает название статуса 

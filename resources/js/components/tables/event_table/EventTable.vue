@@ -158,7 +158,17 @@
         emits: ['event'],
         methods: {
             emitEvent(event) {
+                if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "На модерации") && this.checkStatusIsLast(event.statuses)) {
+                    console.log("its me")
+                }
                 this.$emit('event', event)
+            },
+
+            checkArrayOfObjHaveAttr(array, key, value) {
+                    return array.find(obj => obj[key] == value)
+            },
+            checkStatusIsLast(array) {
+                return array.find(obj => obj.pivot.last == true)
             },
             getCurrentTime(time) {
                 return this.$helpers.DateHelp.getCurrentFormate(time)
