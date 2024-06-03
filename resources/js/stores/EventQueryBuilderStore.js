@@ -37,7 +37,7 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
                 sponsor: this.sponsor,
                 searchText: this.searchText,
                 statuses: this.statuses,
-                statusesLast: this.statusLast,
+                statusLast: this.statusLast,
                 user: this.user,
                 page: this.pageEventsForPageEvent,
                 locationId: this.locationId,
