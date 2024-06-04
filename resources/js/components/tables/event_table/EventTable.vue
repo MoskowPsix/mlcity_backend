@@ -169,17 +169,21 @@ import { mapActions } from 'pinia'
             ]),
             emitEvent(event) {
                 if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "На модерации") && this.checkStatusIsLast(event.statuses)) {
-                    this.goToHistoryContent(event.id)
+                    this.goToHistoryContentOrEvent(event)
                 } else {
                     this.$emit('event', event)
                 }
             },
 
-            goToHistoryContent(event_id) {
+            goToHistoryContentOrEvent(event) {
                 this.openLoaderFullPage()
-                this.getEventHistoryContent(event_id, {last: true}).pipe().subscribe((response) => {
-                    this.$emit("history-content", response.data.history_content.id)
-
+                this.getEventHistoryContent(event.id, {last: true}).pipe().subscribe((response) => {
+                    if(response.data.history_content.length > 0) {
+                        this.$emit("history-content", response.data.history_content.id)
+                    }
+                    else {
+                        this.$emit('event', event)
+                    }
                 })
             },
 
