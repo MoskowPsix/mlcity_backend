@@ -178,7 +178,8 @@ import { mapActions } from 'pinia'
             goToHistoryContentOrEvent(event) {
                 this.openLoaderFullPage()
                 this.getEventHistoryContent(event.id, {last: true}).pipe().subscribe((response) => {
-                    if(response.data.history_content.length > 0) {
+                    console.log(response)
+                    if(response.data.history_content.id != null) {
                         this.$emit("history-content", response.data.history_content.id)
                     }
                     else {
