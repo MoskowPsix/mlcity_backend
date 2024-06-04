@@ -10,8 +10,8 @@ export const useEventStore = defineStore('useEvent', {
         getEventsForAuthor(params) {
             return from(axios.get(`events-for-author`, { params }))
         },
-        getEventForIds(id) {
-            return from(axios.get(`events/${id}`))
+        getEventForIds(id, params) {
+            return from(axios.get(`events/${id}`, { params }))
         },
         changeStatus(statusName, eventId, descriptions = ' ') {
             const params = {

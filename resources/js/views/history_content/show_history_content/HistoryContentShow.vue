@@ -358,7 +358,7 @@
                     })
             },
             getEvent(id) {
-                this.getEventForIds(id)
+                this.getEventForIds(id, { withPlacesFull: true })
                     .pipe(
                         map((data) => {
                             this.event = data.data

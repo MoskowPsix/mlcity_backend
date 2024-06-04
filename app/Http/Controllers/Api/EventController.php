@@ -19,6 +19,7 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventOrderByDateCreate;
+use App\Filters\Event\EventWithPlaceFull;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
@@ -447,11 +448,11 @@ class EventController extends Controller
         app(Pipeline::class)
         ->send($event)
         ->through([
-
+            EventWithPlaceFull::class
         ])
         ->via("apply")
         ->then(function($event){
-            return $event->get();
+            return $event->firstOrFail();
         });
         return response()->json($response, 200);
     }
