@@ -17,12 +17,12 @@ class EventStatusesLast implements Pipe {
             if((is_numeric($statuses[0]))) {
                 $status_id = Status::find($statuses[0])->id;
             }
-            // Админ присылает название статуса 
+            // Админ присылает название статуса
             else {
                 $status_id = Status::where('name', $statuses[0])->first()->id;
             }
             $content->whereHas('statuses', function($q) use ($status_id){
-                $q->where('last', true)->where('status_id', $status_id);
+                $q->where('status_id', $status_id)->where('last', true);
             });
         }
 
