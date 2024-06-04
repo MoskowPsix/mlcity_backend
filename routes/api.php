@@ -119,6 +119,8 @@ Route::controller(EventController::class)->group(function() {
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('events/{id}', 'show');
 
+    Route::get("events/{id}/history-contents", "getHistoryContent");
+
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
 

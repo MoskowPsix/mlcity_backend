@@ -145,6 +145,11 @@
     </div>
 </template>
 <script>
+import { useEventStore } from '../../../stores/EventStore'
+import { useLoaderStore } from '../../../stores/LoaderStore'
+import { mapActions } from 'pinia'
+
+
     export default {
         name: 'EventTable',
         props: {
@@ -155,13 +160,27 @@
                 },
             },
         },
-        emits: ['event'],
+        emits: ['event', 'history-content'],
         methods: {
+            ...mapActions(useEventStore, ['getEventHistoryContent']),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
             emitEvent(event) {
                 if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "На модерации") && this.checkStatusIsLast(event.statuses)) {
-                    console.log("its me")
+                    this.goToHistoryContent(event.id)
+                } else {
+                    this.$emit('event', event)
                 }
-                this.$emit('event', event)
+            },
+
+            goToHistoryContent(event_id) {
+                this.openLoaderFullPage()
+                this.getEventHistoryContent(event_id, {last: true}).pipe().subscribe((response) => {
+                    this.$emit("history-content", response.data.history_content.id)
+
+                })
             },
 
             checkArrayOfObjHaveAttr(array, key, value) {

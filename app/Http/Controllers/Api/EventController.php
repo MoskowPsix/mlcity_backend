@@ -19,6 +19,7 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventOrderByDateCreate;
+use App\Filters\HistoryContent\HistoryContentLast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
@@ -27,6 +28,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\HistoryContent;
 use App\Models\Location;
 use App\Models\Timezone;
 use Illuminate\Pagination\LengthAwarePaginator;
@@ -913,6 +915,36 @@ class EventController extends Controller
         ];
 
         return response()->json($jsonData);
+    }
+
+    public function getHistoryContent(Request $request, $id)
+    {
+        $pagination = $request->pagination;
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+
+        $historyContent = HistoryContent::query()->where("history_contentable_id", $id)->where("history_contentable_type", "App\Models\Event");
+
+        $response =
+        app(Pipeline::class)
+        ->send($historyContent)
+        ->through([
+            HistoryContentLast::class
+        ])
+        ->via("apply")
+        ->then(function($historyContent) use ($pagination , $page, $limit) {
+
+            if(request()->get("last") == true)
+            {
+                $res = $historyContent->get()->first();
+            }
+            else {
+                $res = $historyContent->cursorPaginate($limit, ['*'], 'page' , $page);
+            }
+            return $res;
+        });
+
+        return response()->json(["status"=>"success", "history_content" => $response]);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

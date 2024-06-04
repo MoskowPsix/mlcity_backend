@@ -4,6 +4,7 @@
         v-if="events.length"
         :events="events"
         class="m-1"
+        @history-content="clickHistoryContent"
         @event="clickEvent"
     />
     <label
@@ -163,6 +164,9 @@
             clickEvent(event) {
                 router.push({ path: `/event/${event.id}` })
                 console.log(this.event)
+            },
+            clickHistoryContent(id) {
+                router.push({ path: `edit/${id}` })
             },
             viewBackPage() {
                 this.setPageEventForPageEvents(this.backPage)
