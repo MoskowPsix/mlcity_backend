@@ -442,9 +442,18 @@ class EventController extends Controller
      */
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price', "placesFull")->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $response =
+        app(Pipeline::class)
+        ->send($event)
+        ->through([
 
-        return response()->json($event, 200);
+        ])
+        ->via("apply")
+        ->then(function($event){
+            return $event->get();
+        });
+        return response()->json($response, 200);
     }
     public function showForMap($id): \Illuminate\Http\JsonResponse
     {
