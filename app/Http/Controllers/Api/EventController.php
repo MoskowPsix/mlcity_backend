@@ -20,6 +20,7 @@ use App\Filters\Event\EventStatusesLast;
 use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\HistoryContent\HistoryContentLast;
+use App\Filters\Event\EventWithPlaceFull;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
@@ -210,7 +211,7 @@ class EventController extends Controller
         $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -444,9 +445,18 @@ class EventController extends Controller
      */
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
-
-        return response()->json($event, 200);
+        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $response =
+        app(Pipeline::class)
+        ->send($event)
+        ->through([
+            EventWithPlaceFull::class
+        ])
+        ->via("apply")
+        ->then(function($event){
+            return $event->firstOrFail();
+        });
+        return response()->json($response, 200);
     }
     public function showForMap($id): \Illuminate\Http\JsonResponse
     {

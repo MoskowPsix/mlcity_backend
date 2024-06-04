@@ -103,7 +103,10 @@ class EventHistoryContentService{
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
                 if(isset($file["on_delete"]) && $file["on_delete"] == true){
-                    $historyContent->historyFiles()->create($file);
+                    $historyContent->historyFiles()->create([
+                        "file_id" => $file["id"],
+                        "on_delete" => true
+                    ]);
                 }
                 else{
                     $this->historyContentService->saveLocalFilesImg($historyContent, $file);
