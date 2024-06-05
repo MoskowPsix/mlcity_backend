@@ -1,5 +1,5 @@
 <template lang="">
-    <div>
+    <!-- <div>
         <EventTable
             :events="events"
             class="m-1"
@@ -17,7 +17,8 @@
                 @on-next-page="viewNextPage()"
             />
         </div>
-    </div>
+    </div> -->
+    <MyEventsGrid :events="events"></MyEventsGrid>
 </template>
 <script>
     import { mapActions, mapState } from 'pinia'
@@ -39,6 +40,7 @@
     import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
     import EventTable from '../../components/tables/event_table/EventTable.vue'
     import EventFilter from '../../components/filters/events_filter/EventFilter.vue'
+    import MyEventsGrid from '../../components/my_events_grid/myEventsGrid.vue'
 
     export default {
         name: 'MyEvents',
@@ -120,6 +122,7 @@
         components: {
             PaginateBar,
             EventTable,
+            MyEventsGrid,
         },
         mounted() {
             this.getAllEventForAuthor()
