@@ -16,28 +16,10 @@ class StatusesSeeder extends Seeder
      */
     public function run()
     {
-        $status1 = new Status();
-        $status1->name = 'Опубликовано';
-        $status1->save();
+        $statuses = ["Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ", "Заблокировано"];
 
-        $status2 = new Status();
-        $status2->name = 'Отказ';
-        $status2->save();
-
-        $status = new Status();
-        $status->name = "Новое";
-        $status->save();
-
-        $status = new Status();
-        $status->name = "Изменено";
-        $status->save();
-
-        $status3 = new Status();
-        $status3->name = 'Черновик';
-        $status3->save();
-
-        $status5 = new Status();
-        $status5->name = 'В архиве';
-        $status5->save();
+        foreach($statuses as $status) {
+            Status::create(["name" => $status]);
+        }
     }
 }
