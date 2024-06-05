@@ -8,6 +8,10 @@
     justify-content: center;
 }
 
+.card-wrapper {
+    position: relative;
+}
+
 .card {
     border-radius: 10px;
     width: 20.5rem;
@@ -16,10 +20,13 @@
     background-position: center;
     color: white;
     text-align: center;
+    position: relative;
 }
 
+
+
 .info-wrapper {
-    display: none;
+    pointer-events: none;
     border-radius: 10px;
     position: absolute;
     background-color: none;
@@ -29,7 +36,9 @@
 }
 
 .price {
-    background-color: #1c2226d5;
+    font-size: 0.8rem;
+    text-align: center;
+    background-color: #1C2226;
     color: #fff;
     border-radius: 0 5px 5px 0;
     min-width: 3.75rem;
@@ -37,9 +46,12 @@
 }
 
 .edit-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     width: 2rem;
     height: 2rem;
-    background-color: #1c2226d5;
+    background-color: #F98F11;
     border-radius: 50%;
 }
 
@@ -68,6 +80,8 @@
 }
 
 .info-text {
+    font-size: 0.7rem;
+    color: #fff;
     background-color: #1c2226d5;
     min-width: 3.125rem;
     height: 1.438rem;

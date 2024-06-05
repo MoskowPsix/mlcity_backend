@@ -4,16 +4,30 @@
             v-for="event in events"
             v-if="events.length > 0"
             class="card-wrapper"
-        >   
+        >
             <div class="info-wrapper">
                 <div class="info-header">
-                    <div class="price"></div>
-                    <div class="edit-button"></div>
+                    <div class="price"> {{ event.price[0].cost_rub }} ₽ </div>
+                    <div class="edit-button">
+                        <img
+                            src="/storage/app/public/icons/edit_pen.svg"
+                            alt=""
+                        />
+                    </div>
                 </div>
                 <div class="info-footer">
                     <div class="info-text-container">
-                        <div class="info-text"></div>
-                        <div class="info-text"></div>
+                        <div class="info-text">
+                            {{
+                                // eslint-disable-next-line vue/no-deprecated-filter
+                                formatDate(event.date_start)
+                            }} - 
+                            {{
+                                // eslint-disable-next-line vue/no-deprecated-filter
+                                formatDate(event.date_end)
+                            }}
+                        </div>
+                        
                     </div>
                 </div>
             </div>
@@ -43,6 +57,9 @@
     </div>
 </template>
 <script>
+import  moment from 'moment'
+import 'moment/locale/ru';
+
     export default {
         name: 'MyEventsGrid',
         props: {
@@ -57,6 +74,7 @@
         data() {
             return {
                 cards: [1, 2, 3],
+               
             }
         },
         mounted() {
@@ -68,6 +86,13 @@
                     console.log(this.events[0])
                 }, 5000)
             },
+
+            formatDate(date) {
+                date =  moment(date)
+                date.locale("ru")
+                console.log(date.locale())
+                return date.format("MMM Do")
+            }
         },
     }
 </script>
