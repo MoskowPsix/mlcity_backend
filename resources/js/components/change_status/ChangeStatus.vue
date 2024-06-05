@@ -15,8 +15,9 @@
                 <option value="Отказ">Отказ</option>
                 <option value="Опубликовано">Опубликовано</option>
                 <option value="Черновик">Черновик</option>
-                <option value="На модерации">На модерации</option>
+                <option value="На редактировании">На редактировании</option>
                 <option value="В архиве">В архиве</option>
+                <option value="Новое">Новое</option>
             </select>
             <div
                 v-if="editButton"

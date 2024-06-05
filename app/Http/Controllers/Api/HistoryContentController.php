@@ -99,7 +99,7 @@ class HistoryContentController extends Controller
         $data = $request->toArray();
 
         $data['history_content']["user_id"] = auth("api")->user()->id;
-        $status_id = Status::where("name", "На модерации")->first()->id;
+        $status_id = Status::where("name", "На редактировании")->first()->id;
         #определяем тип того что будет создаваться тк id события и достопремечательности может совпадать
         if($data["type"] == "Event") {
             $eventHistoryContentService = new EventHistoryContentService($data["history_content"]);

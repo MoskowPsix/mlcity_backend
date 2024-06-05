@@ -24,13 +24,17 @@ class StatusesSeeder extends Seeder
         $status2->name = 'Отказ';
         $status2->save();
 
+        $status = new Status();
+        $status->name = "Новое";
+        $status->save();
+
+        $status = new Status();
+        $status->name = "На редактировании";
+        $status->save();
+
         $status3 = new Status();
         $status3->name = 'Черновик';
         $status3->save();
-
-        $status4 = new Status();
-        $status4->name = 'На модерации';
-        $status4->save();
 
         $status5 = new Status();
         $status5->name = 'В архиве';
