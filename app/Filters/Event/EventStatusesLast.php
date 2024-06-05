@@ -21,9 +21,12 @@ class EventStatusesLast implements Pipe {
             else {
                 $status_id = Status::where('name', $statuses[0])->first()->id;
             }
-            $content->whereHas('statuses', function($q) use ($status_id){
-                $q->where('status_id', $status_id)->where('last', true);
-            });
+
+            if($status_id){
+                $content->whereHas('statuses', function($q) use ($status_id){
+                    $q->where('status_id', $status_id)->where('last', true);
+                });
+            }
         }
 
         return $next($content);

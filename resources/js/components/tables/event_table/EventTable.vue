@@ -168,7 +168,7 @@ import { mapActions } from 'pinia'
                 'closeLoaderFullPage',
             ]),
             emitEvent(event) {
-                if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "На редактировании") && this.checkStatusIsLast(event.statuses)) {
+                if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "Изменено") && this.checkStatusIsLast(event.statuses)) {
                     this.goToHistoryContentOrEvent(event)
                 } else {
                     this.$emit('event', event)

@@ -29,7 +29,7 @@ class StatusesSeeder extends Seeder
         $status->save();
 
         $status = new Status();
-        $status->name = "На редактировании";
+        $status->name = "Изменено";
         $status->save();
 
         $status3 = new Status();

@@ -15,7 +15,7 @@
                 <option value="Отказ">Отказ</option>
                 <option value="Опубликовано">Опубликовано</option>
                 <option value="Черновик">Черновик</option>
-                <option value="На редактировании">На редактировании</option>
+                <option value="Изменено">Изменено</option>
                 <option value="В архиве">В архиве</option>
                 <option value="Новое">Новое</option>
             </select>
