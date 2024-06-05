@@ -52,13 +52,13 @@ class StatusController extends Controller
                     }
                 }
                 else{
-                    $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Изменено')->get();
+                    $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
                 }
             } else {
-                $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Изменено')->get();
+                $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
             }
         } else {
-            $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Изменено')->get();
+            $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
         }
 
         return response()->json([
