@@ -42,6 +42,7 @@
                             :value="status.name"
                             >{{ status.name }}</option
                         >
+                        <option :value="'Все'"> Все </option>
                     </select>
                     <label data-te-select-label-ref>статусы</label>
                 </div>

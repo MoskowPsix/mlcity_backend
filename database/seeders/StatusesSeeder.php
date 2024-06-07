@@ -16,7 +16,7 @@ class StatusesSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = ["Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ", "Заблокировано"];
+        $statuses = ["Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ"];
 
         foreach($statuses as $status) {
             Status::create(["name" => $status]);
