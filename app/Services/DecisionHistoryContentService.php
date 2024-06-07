@@ -21,16 +21,29 @@ class DecisionHistoryContentService {
     }
 
     public function publishAcceptedHistoryContent() {
+        $publishedStatusId = Status::where("name", "Опубликовано")->get()->first()->id;
         $this->changeHistoryContent();
         $this->changeHistoryContentPlacesAndSeances();
         $this->changeHistoryContentPrices();
         $this->changeHistoryContentTypes();
         $this->changeHistoryFiles();
         $this->setAccepter();
+        $this->resetOldStatuses();
+        $this->historyContent->historyContentable->statuses()->attach($publishedStatusId, ["last"=>true]);
         $this->historyContent->historyContentStatuses()->create([
             "status_id" => Status::where("name", "Опубликовано")->get()[0]->id
         ]);
 
+    }
+
+    private function resetOldStatuses() {
+        $statuses = $this->historyContent->historyContentable->statuses;
+
+        foreach($statuses as $status) {
+            $this->historyContent->historyContentable->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
     }
 
     public function declineHistoryContent($description) {
@@ -244,7 +257,7 @@ class DecisionHistoryContentService {
 
     private function setAccepter() {
         $this->historyContent->update([
-            "accepter_id" => request()->user()->id
+            "accepter_id" => auth('api')->user()->id
         ]);
     }
 
