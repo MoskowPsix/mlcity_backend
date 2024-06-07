@@ -39,7 +39,6 @@ class SightHistoryContentService{
         $this->storeHistoryPrices();
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
-
         $this->resetOldStatuses($this->historyContent);
         $this->historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
 

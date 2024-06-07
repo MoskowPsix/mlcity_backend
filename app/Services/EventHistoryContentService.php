@@ -47,8 +47,6 @@ class EventHistoryContentService{
         $this->storeHistoryPrices($historyContent);
         $this->storeHistoryTypes($historyContent);
         $this->storeHistoryFiles($historyContent);
-
-
         $this->resetOldStatuses($historyContent);
         $historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
         return $historyContent;
@@ -68,9 +66,10 @@ class EventHistoryContentService{
         if($this->historyPlaces){
             foreach($this->historyPlaces as $place){
                 $historyPlace = $this->historyContentService->createHistoryPlace($historyContent, $place);
-                $historySeances = $place["history_seances"];
 
-                if(isset($historySeances)){
+
+                if(isset($place["history_seances"])){
+                    $historySeances = $place["history_seances"];
                     foreach($historySeances as $seance)
                     $this->historyContentService->createHistorySeance($historyPlace, $seance);
                 }
@@ -103,10 +102,7 @@ class EventHistoryContentService{
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
                 if(isset($file["on_delete"]) && $file["on_delete"] == true){
-                    $historyContent->historyFiles()->create([
-                        "file_id" => $file["id"],
-                        "on_delete" => true
-                    ]);
+                    $historyContent->historyFiles()->create($file);
                 }
                 else{
                     $this->historyContentService->saveLocalFilesImg($historyContent, $file);
