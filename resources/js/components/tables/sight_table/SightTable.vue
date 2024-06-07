@@ -133,6 +133,9 @@
     </div>
 </template>
 <script>
+    import { mapActions } from 'pinia'
+    import { useLoaderStore } from '../../../stores/LoaderStore'
+    import { useSightStore } from '../../../stores/SightStore'
     export default {
         name: 'SightTable',
         props: {
@@ -143,10 +146,40 @@
                 },
             },
         },
-        emits: ['sight'],
+        emits: ['sight', 'history-content'],
         methods: {
+            ...mapActions(useSightStore, ['getSightHistoryContent']),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
             emitEvent(sight) {
-                this.$emit('sight', sight)
+                if (this.checkArrayOfObjHaveAttr(sight.statuses, "name", "Изменено") && this.checkStatusIsLast(sight.statuses)) {
+                    this.goToHistoryContentOrSight(sight)
+                } else {
+                    this.$emit('sight', sight)
+                }
+            },
+            goToHistoryContentOrSight(sight) {
+                this.openLoaderFullPage()
+                this.getSightHistoryContent(sight.id, { last: true })
+                    .pipe()
+                    .subscribe((response) => {
+                        if (response.data.history_content.id != null) {
+                            this.$emit(
+                                'history-content',
+                                response.data.history_content.id,
+                            )
+                        } else {
+                            this.$emit('sight', sight)
+                        }
+                })
+            },
+            checkArrayOfObjHaveAttr(array, key, value) {
+                return array.find((obj) => obj[key] == value)
+            },
+            checkStatusIsLast(array) {
+                return array.find((obj) => obj.pivot.last == true)
             },
             getCurrentTime(time) {
                 return this.$helpers.DateHelp.getCurrentFormate(time)

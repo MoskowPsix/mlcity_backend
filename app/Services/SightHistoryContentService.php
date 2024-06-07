@@ -40,7 +40,7 @@ class SightHistoryContentService{
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
 
-        $this->resetOldStatuses($historyContent);
+        $this->resetOldStatuses($this->historyContent);
         $this->historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
 
         return $this->historyContent;

@@ -156,6 +156,7 @@ Route::controller(SightController::class)->group(function() {
     Route::post('sights/create', 'create')->middleware('auth:sanctum');
     Route::get('sights/{id}/liked-users', 'getSightUserLikedIds')->middleware('auth:sanctum');
     Route::get('sights/{id}/favorites-users', 'getSightUserFavoritesIds')->middleware('auth:sanctum');
+    Route::get('sights/{id}/history-contents', "getHistoryContent");
 });
 
 Route::controller(CommentController::class)->group(function() {
