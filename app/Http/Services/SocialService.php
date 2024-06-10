@@ -7,7 +7,7 @@ use App\Models\SocialAccount;
 use Illuminate\Support\Str;
 
 class SocialService {
-    
+
     public function findOrCreateUser($socialUser, $provider)
     {
         if ($user = $this->findUserBySocialId($provider, $socialUser->getId())) {
@@ -68,7 +68,16 @@ class SocialService {
                     ]);
                 }
                 break;
-        
+            case 'yandex':
+                $user = User::create([
+                    'name' => $socialUser->nickname,
+                    'email' => $socialUser->getEmail(),
+                    'avatar' => $socialUser->getAvatar(),
+                    'first_name' => $socialUser->user['first_name'],
+                    'last_name' => $socialUser->user['last_name'],
+                    'password' => bcrypt(Str::random(8)),
+                ]);
+
         }
         $this->addSocialAccount($provider, $user, $socialUser);
 
@@ -99,7 +108,7 @@ class SocialService {
                     'provider'      => $provider,
                     'provider_id'   => $socialUser->getId(),
                     'token'         => $socialUser->token,
-                ]); 
+                ]);
                 break;
             case "telegram":
                 SocialAccount::create([
@@ -107,7 +116,7 @@ class SocialService {
                     'provider'      => $provider,
                     'provider_id'   => $socialUser->getId(),
                     'token'         => 'none',
-                ]); 
+                ]);
                 break;
             case "apple":
                 SocialAccount::create([
@@ -115,8 +124,15 @@ class SocialService {
                     'provider'      => $provider,
                     'provider_id'   => $socialUser->getId(),
                     'token'         => 'none',
-                ]); 
+                ]);
                 break;
+            case 'yandex':
+                SocialAccount::create([
+                    'user_id'       => $user->id,
+                    'provider'      => $provider,
+                    'provider_id'   => $socialUser->getId(),
+                    'token'         => 'none',
+                ]);
         }
     }
 }

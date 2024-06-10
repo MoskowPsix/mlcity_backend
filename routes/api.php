@@ -105,8 +105,12 @@ Route::controller(UserController::class)->group(function() {
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
-    Route::get('social-auth/{provider}', 'index')->name('auth.social');
+    Route::get('social-auth/yandex', 'yandex')->name("yandex");
+    Route::get('social-auth/yandex/redirect','yandexRedirect')->name('yandexRedirect');
+
     Route::post('social-auth/apple', 'callbackApple')->name('auth.social');
+    
+    Route::get('social-auth/{provider}', 'index')->name('auth.social');
     Route::get('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
     Route::post('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
 });
