@@ -1,14 +1,9 @@
 <template>
-    <div class="mb-4 flex-col font-[Montserrat-Regular]">
-        <form>
-            <label
-                for="status"
-                class="mx-auto mb-2 text-gray-900 dark:text-white"
-                ><h1 class="text-center text-xl mb-2">Статус</h1></label
-            >
+    <div class="mb-4 font-[Montserrat-Regular]">
+        <form class="flex">
             <select
                 id="statuses"
-                class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                class="mx-auto bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-1/10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 mt-2 mr-2"
                 :value="status"
                 :disabled="!editButton"
             >

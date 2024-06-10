@@ -1,6 +1,6 @@
 <template lang="">
     <DropZone
-        class="border w-full h-full rounded-lg dark:bg-gray-800 bg-gray-100 border-gray-400/70 shadow-lg dark:border-gray-700"
+        class="border w-full rounded-lg dark:bg-gray-800 bg-gray-100 border-gray-400/70 shadow-lg dark:border-gray-700 "
         @files-dropped="emitUpdImg"
         @state="setState"
     >
