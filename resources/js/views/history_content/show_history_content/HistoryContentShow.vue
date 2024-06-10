@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template lang="">
     <!-- Кнопка назад -->
     <div
@@ -42,6 +43,7 @@
             <EventShow
                 v-if="event.id"
                 class="rounded-lg"
+                :frameState="false"
                 :event_="event"
                 :connect-state="eventSettings"
             />
@@ -66,6 +68,7 @@
             <EventShow
                 v-if="event.id"
                 class="rounded-lg"
+                :frameState="false"
                 :event_="historyContent"
                 :changed-fields="changedFields"
                 :changed-place-ids="changedPlaceIds"

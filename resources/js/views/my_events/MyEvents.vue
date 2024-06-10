@@ -1,11 +1,16 @@
 <template lang="">
     <div>
-        <EventTable
+        <!-- <EventTable
             v-if="events.length"
             :events="events"
             class="m-1"
             @event="clickEvent"
-        />
+        /> -->
+        <MyEventsGrid
+            v-if="events.length"
+            class="m-1"
+            :events="events"
+        ></MyEventsGrid>
         <label
             v-if="!events.length"
             class="h-[100%] w-[100%] text-center"
@@ -37,13 +42,15 @@
 
     import router from '../../routes'
     import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
-    import EventTable from '../../components/tables/event_table/EventTable.vue'
+    // import EventTable from '../../components/tables/event_table/EventTable.vue'
+    import MyEventsGrid from '../../components/my_events_grid/MyEventsGrid.vue'
 
     export default {
         name: 'MyEvents',
         components: {
             PaginateBar,
-            EventTable,
+            // EventTable,
+            MyEventsGrid,
         },
         setup() {
             const destroy$ = new Subject()
@@ -70,7 +77,7 @@
             ...mapActions(useEventStore, ['getEventsForAuthor']),
             getAllEventForAuthor(page) {
                 this.openLoaderFullPage()
-                this.getEventsForAuthor({ page: page })
+                this.getEventsForAuthor({ page: page, limit: 8 })
                     .pipe(
                         map((response) => {
                             this.closeLoaderFullPage()
