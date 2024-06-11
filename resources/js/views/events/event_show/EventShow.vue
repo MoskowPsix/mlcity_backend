@@ -46,7 +46,7 @@
                         class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
                         type="button"
                         value="Применить"
-                        @click="clickUpd($event)"
+                        @click="clickUpd()"
                     />
                     <button
                         v-if="state"
@@ -67,7 +67,6 @@
                 </div>
             </div>
             <div class="hidden lg:flex">
-                <p class="flex items-center">Статус:</p>
                 <div
                     v-if="connectState.AuthorCard && connectState.StatusCard"
                     :id="'event-' + event.id + '-author'"
@@ -81,8 +80,16 @@
                                 role == 'Admin' ||
                                 role == 'Moderator')
                         "
-                        class="bg-transparent p-2 mt-1 dark:border-gray-700/70 dark:"
+                        class="bg-transparent p-2 mt-1 dark:border-gray-700/70 flex dark:"
                     >
+                        <span
+                            v-if="
+                                connectState.AuthorCard &&
+                                connectState.StatusCard
+                            "
+                            class="flex items-center mr-4"
+                            >Статус:
+                        </span>
                         <ChangeStatus
                             v-if="event.statuses"
                             :id="'event-' + event.id + '-status'"
@@ -115,7 +122,6 @@
         </div>
 
         <div class="flex lg:hidden mt-4">
-            <p class="flex items-center">Статус:</p>
             <div
                 v-if="connectState.AuthorCard && connectState.StatusCard"
                 :id="'event-' + event.id + '-author'"
@@ -129,8 +135,15 @@
                             role == 'Admin' ||
                             role == 'Moderator')
                     "
-                    class="bg-transparent p-2 mt-1 dark:border-gray-700/70 dark:"
+                    class="bg-transparent p-2 mt-1 dark:border-gray-700/70 flex"
                 >
+                    <p
+                        v-if="
+                            connectState.AuthorCard && connectState.StatusCard
+                        "
+                        class="flex items-center mr-4"
+                        >Статус:</p
+                    >
                     <ChangeStatus
                         v-if="event.statuses"
                         :id="'event-' + event.id + '-status'"
@@ -153,7 +166,10 @@
                 </div>
             </div>
         </div>
-        <form class="max-w-[90%]">
+        <form
+            id="editForm"
+            class="max-w-[90%]"
+        >
             <section
                 v-if="!frameState || state"
                 class="flex justify-center max-w-[90%] lg:min-w-[80%] lg:max-w-[80%] m-[auto]"
@@ -882,9 +898,10 @@
                 this.openType = !this.openType
             },
 
-            clickUpd(event) {
+            clickUpd() {
+                console.log(document.getElementById('editForm'))
                 // Передаём форму обработанную в масси в локальную переменную функции
-                let mass = Object.entries(event.target.form)
+                let mass = Object.entries(document.getElementById('editForm'))
                 let historyEvent = {
                     history_files: [],
                     history_places: [],
@@ -1561,6 +1578,7 @@
 </script>
 <style>
     .button-menu {
+        position: fixed;
         max-height: 80px;
         -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
         -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
