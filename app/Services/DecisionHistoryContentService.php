@@ -147,6 +147,7 @@ class DecisionHistoryContentService {
             }
         }
     }
+    //check
 
     public function changeHistoryFiles() {
         $historyFiles = $this->historyContent->historyFiles;
