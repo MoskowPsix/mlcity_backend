@@ -13,7 +13,7 @@ class EventDate implements Pipe {
             $dateStart = request()->get('dateStart');
             $dateEnd = request()->get('dateEnd');
 
-            $content->where(function($q) use ($dateStart, $dateEnd){
+            $content->whereHas("places.seances", function($q) use ($dateStart, $dateEnd){
                 $q->whereDate('date_start', '<=', $dateEnd)
                 ->whereDate('date_end', '>=', $dateStart);
             });
