@@ -101,7 +101,7 @@ class EventHistoryContentService{
     private function storeHistoryFiles($historyContent){
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
-                if(isset($file['on_delete']) && $file['on_delete'] == true){
+                if(is_array($file) && isset($file['on_delete']) && $file['on_delete'] == true){
                     $file['on_delete'] = true;
                     unset($file['file_types']);
                     $historyFile = $historyContent->historyFiles()->create($file);

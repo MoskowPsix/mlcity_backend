@@ -1321,6 +1321,7 @@
                         coin
                             ? null
                             : this.filesDel.push({
+                                  file_id: file.id,
                                   on_delete: true,
                               })
                         this.event.files.splice(index, 1)

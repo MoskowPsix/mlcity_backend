@@ -22,7 +22,7 @@ class SightHistoryContentService{
             $this->historyTypes = $historyContent["history_types"];
         }
         if(isset($historyContent["history_files"])){
-            $this->historyFiles = $historyContent->history_files;
+            $this->historyFiles = $historyContent["history_files"];
         }
     }
 
@@ -79,8 +79,7 @@ class SightHistoryContentService{
     private function storeHistoryFiles(){
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
-                info($file);
-                if(isset($file->on_delete) && $file->on_delete == true){
+                if(is_array($file) && isset($file['on_delete']) && $file['on_delete'] == true){
                     $this->historyContent->historyFiles()->create($file);
                 }
                 else{

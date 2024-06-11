@@ -151,10 +151,10 @@ class DecisionHistoryContentService {
 
     public function changeHistoryFiles() {
         $historyFiles = $this->historyContent->historyFiles;
-        if($this->dataIsEmpty($historyFiles)) {
+        if(!$this->dataIsEmpty($historyFiles)) {
             foreach($historyFiles as $historyFile) {
                 if(isset($historyFile['on_delete']) && $historyFile['on_delete']==true){
-
+                    info($this->historyParent->files()->where('id',$historyFile['file_id'])->get());
                     $this->historyParent->files()->where('id',$historyFile['file_id'])->delete();
                 }
                 else{
