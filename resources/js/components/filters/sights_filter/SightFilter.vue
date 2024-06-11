@@ -27,26 +27,8 @@
                 placeholder="Поиск по тексту"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
-            <div
-                class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
-            >
-                <div>
-                    <select
-                        v-model="sightStatuses"
-                        class="h-6"
-                        data-te-select-init
-                    >
-                        <option
-                            v-for="status in statuses"
-                            :key="status.id"
-                            :value="status.name"
-                            >{{ status.name }}</option
-                        >
-                    </select>
-                    <label data-te-select-label-ref>статусы</label>
-                </div>
-            </div>
-            <div
+
+            <!-- <div
                 class="mb-[0.125rem] block min-h-[1.5rem] pl-7 border rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
                 <input
@@ -63,7 +45,7 @@
                 >
                     Последний статус
                 </label>
-            </div>
+            </div> -->
             <input
                 id="user"
                 v-model.lazy="sightUser"
@@ -72,6 +54,26 @@
                 placeholder="Имя или почта автора"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
+            <div
+                class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+            >
+                <div>
+                    <select
+                        v-model="sightStatuses"
+                        class="h-6"
+                        data-te-select-init
+                    >
+                        <option
+                            v-for="status in statuses"
+                            :key="status.id"
+                            :value="status.name"
+                            >{{ status.name }}</option
+                        >
+                        <option :value="'Все'"> Все </option>
+                    </select>
+                    <label data-te-select-label-ref>статусы</label>
+                </div>
+            </div>
             <div class="">
                 <input
                     id="location"

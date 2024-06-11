@@ -47,17 +47,29 @@ class EventHistoryContentService{
         $this->storeHistoryPrices($historyContent);
         $this->storeHistoryTypes($historyContent);
         $this->storeHistoryFiles($historyContent);
-
+        $this->resetOldStatuses($historyContent);
+        $historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
         return $historyContent;
+    }
+
+    private function resetOldStatuses($historyContent) {
+        $statuses = $historyContent->historyContentable->statuses;
+
+        foreach($statuses as $status) {
+            $historyContent->historyContentable->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
     }
 
     private function storeHistoryPlacesWithSeances($historyContent){
         if($this->historyPlaces){
             foreach($this->historyPlaces as $place){
                 $historyPlace = $this->historyContentService->createHistoryPlace($historyContent, $place);
-                $historySeances = $place["history_seances"];
 
-                if(isset($historySeances)){
+
+                if(isset($place["history_seances"])){
+                    $historySeances = $place["history_seances"];
                     foreach($historySeances as $seance)
                     $this->historyContentService->createHistorySeance($historyPlace, $seance);
                 }

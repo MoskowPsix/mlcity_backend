@@ -13,7 +13,9 @@ export const useSightStore = defineStore('useSight', {
         getSightForIds(id) {
             return from(axios.get(`sights/${id}`))
         },
-
+        getSightHistoryContent(id, params) {
+            return from(axios.get(`sights/${id}/history-contents`, { params }))
+        },
         saveSightHistory(data) {
             return from(
                 axios.post('history-content', data, {

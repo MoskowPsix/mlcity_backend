@@ -46,5 +46,10 @@ return [
         'client_id' => env('APPLE_CLIENT_ID'),
         'client_secret' => env('APPLE_CLIENT_SECRET'),
         'redirect' => env('APPLE_REDIRECT_URI')
-    ]
+    ],
+    'yandex' => [
+        'client_id' => env("YANDEX_CLIENT_ID"),
+        'client_secret' => env("YANDEX_CLIENT_SECRET"),
+        'redirect' => env("YANDEX_REDIRECT_URI")
+    ],
 ];

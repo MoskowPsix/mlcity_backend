@@ -58,6 +58,14 @@ const router = createRouter({
             path: '/event/:id',
             name: 'event',
             component: () => import('../views/events/event_show/EventShow.vue'),
+            children: [
+                {
+                    path: ':state',
+                    name: 'event-edit',
+                    component: () =>
+                        import('../views/events/event_show/EventShow.vue'),
+                },
+            ],
         },
         {
             path: '/types',

@@ -29,7 +29,7 @@ class AuthSocialController extends Controller
             return response()->json([
                 'status' => 'success',
                 'token' => $token
-            ], 200); 
+            ], 200);
         } elseif (isset($body['givenName']) && isset($body['user']) && $body['authorizationCode']) {
             $email = $body['email'] ? $body['email'] : '';
             $name = $body['givenName'] ? $body['givenName'] : 'user_' . Str::random(8);
@@ -41,8 +41,8 @@ class AuthSocialController extends Controller
             }
             $user = User::create([
                 'name' => $name,
-                'email' => $email, 
-                'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($name), 
+                'email' => $email,
+                'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($name),
                 'password' => bcrypt(Str::random(8)),
             ]);
             $social = $user->socialAccount()->create([
@@ -50,18 +50,25 @@ class AuthSocialController extends Controller
                 'provider' => 'apple',
                 'token' =>  $body['authorizationCode'],
             ]);
-            $token = $user->createToken('auth_token')->plainTextToken; 
+            $token = $user->createToken('auth_token')->plainTextToken;
             return response()->json([
                 'status' => 'success',
                 'token' => $token
             ], 200);
         }
-        
+
         // $token = $user->createToken('auth_token')->plainTextToken;
         return response()->json([
             'status' => 'error',
             'message' => 'not found arguments'
         ], 200);
+    }
+
+    public function yandex() {
+        info("redirect");
+        return Socialite::driver('yandex')
+            ->stateless()
+            ->redirect();
     }
 
     public function callback($provider): \Illuminate\Contracts\Foundation\Application|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector

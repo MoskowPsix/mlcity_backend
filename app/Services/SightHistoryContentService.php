@@ -39,8 +39,20 @@ class SightHistoryContentService{
         $this->storeHistoryPrices();
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
-        info($this->historyContent);
+        $this->resetOldStatuses($this->historyContent);
+        $this->historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
+
         return $this->historyContent;
+    }
+
+    private function resetOldStatuses($historyContent) {
+        $statuses = $historyContent->historyContentable->statuses;
+
+        foreach($statuses as $status) {
+            $historyContent->historyContentable->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
     }
 
     private function storeHistoryPrices(){
