@@ -19,7 +19,7 @@
                     @click="alert(1)"
                 >
                     <img
-                        src="/storage/app/public/icons/edit_pen.svg"
+                        src="/storage/icons/edit_pen.svg"
                         alt=""
                     />
                 </div>
