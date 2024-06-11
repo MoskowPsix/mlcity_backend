@@ -31,7 +31,13 @@
                 </div>
                 <div class="info-footer">
                     <div class="info-text-container">
-                        <div class="info-text">
+                        <div
+                            v-if="
+                                formatDate(event.date_start) !==
+                                formatDate(event.date_end)
+                            "
+                            class="info-text"
+                        >
                             {{
                                 // eslint-disable-next-line vue/no-deprecated-filter
                                 formatDate(event.date_start)
@@ -40,6 +46,18 @@
                             {{
                                 // eslint-disable-next-line vue/no-deprecated-filter
                                 formatDate(event.date_end)
+                            }}
+                        </div>
+                        <div
+                            v-if="
+                                formatDate(event.date_start) ==
+                                formatDate(event.date_end)
+                            "
+                            class="info-text"
+                        >
+                            {{
+                                // eslint-disable-next-line vue/no-deprecated-filter
+                                formatDate(event.date_start)
                             }}
                         </div>
                     </div>
