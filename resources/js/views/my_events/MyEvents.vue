@@ -67,6 +67,7 @@
         },
         mounted() {
             this.getAllEventForAuthor()
+            //fix
         },
         methods: {
             ...mapActions(useToastStore, ['showToast']),
