@@ -928,7 +928,7 @@
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
                 this.filesDel.forEach((item) => {
-                    item.onDelete = true
+                    item.on_delete = true
                     historyEvent.history_files.push(item)
                 })
                 if (this.placeUpd) {
@@ -1259,6 +1259,7 @@
                 return this.user.id
             },
             deleteFiles(file) {
+                console.log(file)
                 this.event.files.find((item, index) => {
                     if (item.name == file.name) {
                         let coin = this.filesUpd.find((itm, i) => {
@@ -1267,7 +1268,11 @@
                                 return true
                             }
                         })
-                        coin ? null : this.filesDel.push(file)
+                        coin
+                            ? null
+                            : this.filesDel.push({
+                                  on_delete: true,
+                              })
                         this.event.files.splice(index, 1)
                         return true
                     }
