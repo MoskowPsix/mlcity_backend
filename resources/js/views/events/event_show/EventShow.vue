@@ -1309,6 +1309,7 @@
                 return this.user.id
             },
             deleteFiles(file) {
+                console.log(file)
                 this.event.files.find((item, index) => {
                     if (item.name == file.name) {
                         let coin = this.filesUpd.find((itm, i) => {
@@ -1317,7 +1318,11 @@
                                 return true
                             }
                         })
-                        coin ? null : this.filesDel.push(file)
+                        coin
+                            ? null
+                            : this.filesDel.push({
+                                  on_delete: true,
+                              })
                         this.event.files.splice(index, 1)
                         return true
                     }

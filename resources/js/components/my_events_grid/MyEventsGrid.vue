@@ -19,7 +19,7 @@
                     @click="alert(1)"
                 >
                     <img
-                        src="/storage/app/public/icons/edit_pen.svg"
+                        :src="'/storage/icons/edit_pen.svg'"
                         alt=""
                     />
                 </div>
@@ -107,6 +107,7 @@
         data() {
             return {
                 cards: [1, 2, 3],
+                backUrl: import.meta.env.VITE_APP_URL,
             }
         },
         mounted() {

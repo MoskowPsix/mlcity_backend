@@ -88,8 +88,8 @@ class EventHistoryContentService{
     private function storeHistoryTypes($historyContent){
         if($this->historyTypes){
             foreach($this->historyTypes as $type){
-                if(isset($type["on_delete"])){
-                    $this->historyContentService->createEventHistoryType($historyContent, $type, $type["on_delete"]);
+                if(isset($type->on_delete)){
+                    $this->historyContentService->createEventHistoryType($historyContent, $type, $type->on_delete);
                 }
                 else{
                     $this->historyContentService->createEventHistoryType($historyContent, $type);
@@ -101,8 +101,10 @@ class EventHistoryContentService{
     private function storeHistoryFiles($historyContent){
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
-                if(isset($file["on_delete"]) && $file["on_delete"] == true){
-                    $historyContent->historyFiles()->create($file);
+                if(isset($file['on_delete']) && $file['on_delete'] == true){
+                    $file['on_delete'] = true;
+                    unset($file['file_types']);
+                    $historyFile = $historyContent->historyFiles()->create($file);
                 }
                 else{
                     $this->historyContentService->saveLocalFilesImg($historyContent, $file);
