@@ -41,7 +41,7 @@
                             />
                         </svg>
                     </button>
-                    <input
+                    <inputbackUrl
                         v-if="state"
                         class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
                         type="button"
@@ -106,7 +106,7 @@
             width="100%"
             height="1000rem"
             class="z-10"
-            :src="'http://localhost:8100/events/' + event.id"
+            :src="frontkUrl + '/events/' + event.id"
         >
         </iframe>
         <div
@@ -848,6 +848,7 @@
                 priceId: 0,
                 statusNow: '',
                 loaderPlaces: false,
+                frontkUrl: import.meta.env.VITE_APP_FRONT,
             }
         },
         computed: {
@@ -899,7 +900,6 @@
             },
 
             clickUpd() {
-                console.log(document.getElementById('editForm'))
                 // Передаём форму обработанную в масси в локальную переменную функции
                 let mass = Object.entries(document.getElementById('editForm'))
                 let historyEvent = {
@@ -1067,7 +1067,7 @@
                                       'error',
                                   )
                                 : null
-                            console.log(err)
+
                             return of(EMPTY)
                         }),
                     )
@@ -1215,7 +1215,6 @@
             },
             checkRout() {
                 let user = this.getUserLocalStorage()
-                console.log(user.id)
                 if (this.$route.params.state) {
                     this.state = true
                 }
@@ -1294,7 +1293,7 @@
                         takeUntil(this.destroy$),
                         catchError((err) => {
                             this.loaderPlaces = false
-                            console.log(err)
+
                             this.showToast(
                                 'При загрузке мест возникла ошибка: ' +
                                     err.message,
@@ -1309,7 +1308,6 @@
                 return this.user.id
             },
             deleteFiles(file) {
-                console.log(file)
                 this.event.files.find((item, index) => {
                     if (item.name == file.name) {
                         let coin = this.filesUpd.find((itm, i) => {
