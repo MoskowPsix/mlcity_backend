@@ -1,6 +1,6 @@
 <template lang="">
     <DropZone
-        class="border w-full rounded-lg dark:bg-gray-800 bg-gray-100 border-gray-400/70 shadow-lg dark:border-gray-700 "
+        class="border w-full rounded-lg dark:bg-gray-800 bg-gray-100 border-gray-400/70 shadow-lg dark:border-gray-700"
         @files-dropped="emitUpdImg"
         @state="setState"
     >
@@ -41,9 +41,16 @@
                         :style="{ backgroundImage: `url(${slide.link})` }"
                     ></div>
                     <img
+                        v-if="sizeImage == 'large'"
                         :src="slide.link"
                         :alt="slide.name"
-                        class="rounded-lg max-h-[20rem] max-w-[30rem] z-30"
+                        class="rounded-lg max-h-[20rem] max-w-[19rem] z-30"
+                    />
+                    <img
+                        v-if="sizeImage == 'small'"
+                        :src="slide.link"
+                        :alt="slide.name"
+                        class="rounded-lg max-h-[20rem] max-w-[10rem] z-30"
                     />
                 </Slide>
             </Carousel>
@@ -145,6 +152,7 @@
             // eslint-disable-next-line vue/require-default-prop
             files: Array, // Входной массив файлов
             wrightState: Boolean, // Определяет состояние редактирования(true: включено редактирование, false: редактирование отключено)
+            sizeImage: String,
         },
         emits: ['onDeleteFile', 'onUpdateFile'],
         data() {

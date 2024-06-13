@@ -182,6 +182,7 @@
         },
         mounted() {
             this.getHistoryContent()
+
         },
         methods: {
             ...mapActions(useLoaderStore, [

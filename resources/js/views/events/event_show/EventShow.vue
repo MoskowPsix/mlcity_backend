@@ -41,13 +41,14 @@
                             />
                         </svg>
                     </button>
-                    <inputbackUrl
+                    <button
                         v-if="state"
                         class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
                         type="button"
                         value="Применить"
                         @click="clickUpd()"
-                    />
+                        >Применить</button
+                    >
                     <button
                         v-if="state"
                         class="rounded-lg bg-gray-600 font-[Montserrat-Regular] text-cyan-50 m-5 p-2 cursor-pointer"
@@ -168,7 +169,7 @@
         </div>
         <form
             id="editForm"
-            class="max-w-[90%]"
+            class="mx-[auto]"
         >
             <section
                 v-if="!frameState || state"
@@ -193,7 +194,7 @@
             </div> -->
 
                 <div
-                    class="header-content flex justify-center dark:text-gray-400"
+                    class="header-content flex justify-center dark:text-gray-400 mx-[auto]"
                 >
                     <div
                         class="header-content-main flex items-center justify-center min-w-[100%] flex-col m-2 md:p-5 md:flex-col"
@@ -203,10 +204,29 @@
                         >
                             <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
                             <CarouselGallery
-                                v-if="event.files && connectState.Gallery"
+                                v-if="
+                                    event.files &&
+                                    connectState.Gallery &&
+                                    currentRout == 'event'
+                                "
                                 :id="'event-' + event.id + '-gallery'"
                                 class="w-[100%] lg:w-[100%] m-[auto] mb-4 mt-4"
                                 :files="event.files"
+                                :size-image="'large'"
+                                :wright-state="state"
+                                @on-delete-file="deleteFiles"
+                                @on-update-file="updateFiles"
+                            ></CarouselGallery>
+                            <CarouselGallery
+                                v-if="
+                                    event.files &&
+                                    connectState.Gallery &&
+                                    currentRout == 'edit'
+                                "
+                                :id="'event-' + event.id + '-gallery'"
+                                class="w-[100%] lg:w-[100%] m-[auto] mb-4 mt-4"
+                                :files="event.files"
+                                :size-image="'small'"
                                 :wright-state="state"
                                 @on-delete-file="deleteFiles"
                                 @on-update-file="updateFiles"
@@ -424,7 +444,7 @@
                                         </div>
                                         <div
                                             v-if="state"
-                                            class="flex items-center justify-center tetxt-center max-w-[14rem] xl:h-[4rem] md:h-[4rem] sm:h-[3rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
+                                            class="flex items-center justify-center tetxt-center max-w-[14rem] xl:h-[4rem] md:h-[4rem] h-[3rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
                                             @click.prevent="addNewPlace"
                                             >Добавить местопровидения</div
                                         >
@@ -845,6 +865,7 @@
                 history_add: true,
                 history_edit: true,
                 history_delete: true,
+                currentRout: this.$route.name,
                 priceId: 0,
                 statusNow: '',
                 loaderPlaces: false,
@@ -859,7 +880,6 @@
             this.openLoaderFullPage
             this.getEvent()
             this.getAllTypes()
-            this.checkRout()
         },
         methods: {
             ...mapActions(useLocalStorageStore, ['getUserLocalStorage']),
@@ -898,7 +918,6 @@
             openTypeFnc() {
                 this.openType = !this.openType
             },
-
             clickUpd() {
                 // Передаём форму обработанную в масси в локальную переменную функции
                 let mass = Object.entries(document.getElementById('editForm'))

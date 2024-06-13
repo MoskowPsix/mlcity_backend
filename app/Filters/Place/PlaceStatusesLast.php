@@ -17,7 +17,7 @@ class PlaceStatusesLast implements Pipe {
 
             $content->whereHas('eventStatuses', function($q) use ($statuses) {
                 $q->whereHas('statuses', function($q) use ($statuses){
-                    $q->whereIn("event_status.status_id", $statuses)->where('last', true);
+                    $q->whereIn("name", $statuses)->where('last', true);
                 });
             });
         }
