@@ -20,6 +20,7 @@ use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\OrganizationInviteController;
+use App\Http\Controllers\Api\PasswordRecoveryController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -262,6 +263,11 @@ Route::controller(PermissionController::class)->group(function (){
 
 Route::controller(FeedbackController::class)->group(function (){
     Route::post("feedback/user", "sendUserFeedback");
+});
+
+Route::controller(PasswordRecoveryController::class)->group(function (){
+    Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
+    Route::post("recovery/password", "recoveryPasswordByCode");
 });
 
 
