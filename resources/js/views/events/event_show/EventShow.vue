@@ -1,8 +1,8 @@
-<template lang="">
+<template class="flex" lang="">
     <div
         v-if="event && connectState"
         :id="'event-' + event.id"
-        class="flex flex-col pb-20 mt-20"
+        class="lg:pb-20 lg:mt-20"
     >
         <!-- Кнопка назад -->
         <!-- <button
@@ -14,9 +14,165 @@
                 <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
             </svg>
         </button> -->
-        <form>
+        <div
+            v-if="connectState.EditButton"
+            class="button-menu absolute top-[0%] bg-[#fff] dark:bg-gray-900 z-50 w-full lg:w-[75%] flex justify-between"
+        >
+            <div class="flex dark:bg-gray-900 w-full justify-between">
+                <div class="flex">
+                    <button
+                        v-if="connectState.BackButton"
+                        type="button"
+                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80"
+                        @click.prevent="backButton()"
+                    >
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="currentColor"
+                            viewBox="0 0 24 24"
+                            stroke-width="1.5"
+                            stroke="currentColor"
+                            class="w-6 h-6"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
+                            />
+                        </svg>
+                    </button>
+                    <inputbackUrl
+                        v-if="state"
+                        class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
+                        type="button"
+                        value="Применить"
+                        @click="clickUpd()"
+                    />
+                    <button
+                        v-if="state"
+                        class="rounded-lg bg-gray-600 font-[Montserrat-Regular] text-cyan-50 m-5 p-2 cursor-pointer"
+                        @click="canceleUpd()"
+                        >Отмена</button
+                    >
+                    <button
+                        v-if="
+                            !state &&
+                            (role == 'root' ||
+                                JSON.parse(user).id == event.user_id)
+                        "
+                        class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer"
+                        @click="editUpd()"
+                        >Редактировать</button
+                    >
+                </div>
+            </div>
+            <div class="hidden lg:flex">
+                <div
+                    v-if="connectState.AuthorCard && connectState.StatusCard"
+                    :id="'event-' + event.id + '-author'"
+                >
+                    <!-- || (role != 'root' || role != 'Admin' || role != 'Moderator' -->
+                    <div
+                        v-if="
+                            !state &&
+                            connectState.StatusCard &&
+                            (role == 'root' ||
+                                role == 'Admin' ||
+                                role == 'Moderator')
+                        "
+                        class="bg-transparent p-2 mt-1 dark:border-gray-700/70 flex dark:"
+                    >
+                        <span
+                            v-if="
+                                connectState.AuthorCard &&
+                                connectState.StatusCard
+                            "
+                            class="flex items-center mr-4"
+                            >Статус:
+                        </span>
+                        <ChangeStatus
+                            v-if="event.statuses"
+                            :id="'event-' + event.id + '-status'"
+                            :edit-button="connectState.EditButton"
+                            :status="event.statuses[0].name"
+                            @status-changed="statusChange"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <iframe
+            v-if="frameState && !state"
+            width="100%"
+            height="1000rem"
+            class="z-10"
+            :src="frontkUrl + '/events/' + event.id"
+        >
+        </iframe>
+        <div
+            v-if="
+                connectState.AuthorCard && JSON.parse(user).id != event.user_id
+            "
+            class="max-w-[25rem] hidden lg:block m-8"
+        >
+            <AuthorMiniCard
+                v-if="event.author"
+                :author="event.author"
+            />
+        </div>
+
+        <div class="flex lg:hidden mt-4">
+            <div
+                v-if="connectState.AuthorCard && connectState.StatusCard"
+                :id="'event-' + event.id + '-author'"
+            >
+                <!-- || (role != 'root' || role != 'Admin' || role != 'Moderator' -->
+                <div
+                    v-if="
+                        !state &&
+                        connectState.StatusCard &&
+                        (role == 'root' ||
+                            role == 'Admin' ||
+                            role == 'Moderator')
+                    "
+                    class="bg-transparent p-2 mt-1 dark:border-gray-700/70 flex"
+                >
+                    <p
+                        v-if="
+                            connectState.AuthorCard && connectState.StatusCard
+                        "
+                        class="flex items-center mr-4"
+                        >Статус:</p
+                    >
+                    <ChangeStatus
+                        v-if="event.statuses"
+                        :id="'event-' + event.id + '-status'"
+                        :edit-button="connectState.EditButton"
+                        :status="event.statuses[0].name"
+                        @status-changed="statusChange"
+                    />
+                    <div
+                        v-if="
+                            connectState.AuthorCard &&
+                            JSON.parse(user).id != event.user_id
+                        "
+                        class=""
+                    >
+                        <AuthorMiniCard
+                            v-if="event.author"
+                            :author="event.author"
+                        />
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form
+            id="editForm"
+            class="max-w-[90%]"
+        >
             <section
-                class="flex flex-col justify-center max-w-[90%] lg:min-w-[80%] lg:max-w-[80%] m-[auto]"
+                v-if="!frameState || state"
+                class="flex justify-center max-w-[90%] lg:min-w-[80%] lg:max-w-[80%] m-[auto]"
             >
                 <!-- <div v-if="connectState.IdLine || connectState.NameLine || connectState.BackButton" class="flex items-center border rounded-lg bg-gray-50 dark:border-gray-700 dark:bg-gray-800/90 dark:text-gray-300 p-2 mb-2">
                 <button
@@ -46,6 +202,15 @@
                             class="w-[100%] sm:w-[100%] md:w-[100%] xl:w-[100%] text-xs lg:text-lg"
                         >
                             <!-- <h1 class=" font-[Montserrat-Regular] mb-2" >Название</h1> -->
+                            <CarouselGallery
+                                v-if="event.files && connectState.Gallery"
+                                :id="'event-' + event.id + '-gallery'"
+                                class="w-[100%] lg:w-[100%] m-[auto] mb-4 mt-4"
+                                :files="event.files"
+                                :wright-state="state"
+                                @on-delete-file="deleteFiles"
+                                @on-update-file="updateFiles"
+                            ></CarouselGallery>
                             <div
                                 :class="{
                                     'border-blue-700/70':
@@ -74,43 +239,6 @@
                                         (event) => (text = event.target.value)
                                     "
                                 />
-                            </div>
-
-                            <div class="md:w-[100%] mt-4">
-                                <!-- <label class="font-[Montserrat-Regular] text-xs lg:text-lg" for="">Организатор</label> -->
-                                <div
-                                    :class="{
-                                        'border-blue-700/70':
-                                            $props.changedFields != null &&
-                                            $props.changedFields.includes(
-                                                'sponsor',
-                                            ),
-                                    }"
-                                    class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] sm:text-sm mt-2 dark:border-gray-700/80"
-                                >
-                                    <div
-                                        v-if="event.sponsor && !state"
-                                        class="text-xs lg:text-lg"
-                                        >{{ event.sponsor }}</div
-                                    >
-                                    <input
-                                        v-if="state"
-                                        :id="
-                                            'event-' +
-                                            event.id +
-                                            '-sponsor-input'
-                                        "
-                                        class="text-xs lg:text-lg w-full dark:bg-transparent text-center border-none"
-                                        type="text"
-                                        name="sponsor"
-                                        placeholder="Введите оганизатора"
-                                        :value="event.sponsor"
-                                        @input="
-                                            (event) =>
-                                                (text = event.target.value)
-                                        "
-                                    />
-                                </div>
                             </div>
 
                             <div
@@ -155,16 +283,6 @@
                                     v-if="state"
                                     class="hidden xl:block min-w-[34%]"
                                 >
-                                    <div
-                                        class="flex items-center justify-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
-                                        @click.prevent="openTypeFnc()"
-                                    >
-                                        <label
-                                            class="font-[Montserrat-Regular] cursor-pointer unselectable"
-                                            for=""
-                                            >Изменить тип</label
-                                        >
-                                    </div>
                                 </div>
                                 <div class="flex">
                                     <div
@@ -225,64 +343,8 @@
                             </div>
 
                             <div class="xl:hidden lg:block min-w-[34%] mt-4">
-                                <div
-                                    v-if="state"
-                                    class="flex items-center justify-center tetxt-center max-w-[14rem] h-[2rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
-                                    @click.prevent="openTypeFnc()"
-                                >
-                                    <label
-                                        class="font-[Montserrat-Regular] cursor-pointer unselectable"
-                                        for=""
-                                        >Изменить тип</label
-                                    >
-                                </div>
                             </div>
 
-                            <div
-                                v-if="state"
-                                class="flex w-[100%] mt-4"
-                            >
-                                <Transition name="slide-fade">
-                                    <div
-                                        v-if="connectState.TypeCard && openType"
-                                        :id="'event-' + event.id + '-type'"
-                                        class="z-50 rounded-lg h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2"
-                                    >
-                                        <h1
-                                            class="text-xl font-medium dark:text-gray-300 mb-1"
-                                            >Типы</h1
-                                        >
-                                        <div
-                                            v-if="allTypes && state"
-                                            class="max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex flex-wrap-reverse row mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20"
-                                        >
-                                            <div
-                                                v-for="etype in allTypes"
-                                                :key="etype.id"
-                                            >
-                                                <TypeList
-                                                    v-if="
-                                                        allTypes &&
-                                                        event.types != null
-                                                    "
-                                                    :type="'event'"
-                                                    :sight-id="event.id"
-                                                    :all-s-types="etype"
-                                                    :enable-state="state"
-                                                    :current-stypes="
-                                                        event.types
-                                                    "
-                                                    @checked="addToCurrentTypes"
-                                                />
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Transition>
-                            </div>
-
-                            <h3 class="font-[Montserrat-Bold] text-lg mt-8"
-                                >Расписание</h3
-                            >
                             <div
                                 v-if="
                                     connectState.PlaceCard &&
@@ -296,7 +358,7 @@
                                 >
                                     <div
                                         :id="'event-' + event.id + '-place'"
-                                        class="dark: dark:border-gray-700 p-1 rounded-lg"
+                                        class="dark: dark:border-gray-700 p-1 rounded-lg mt-4"
                                     >
                                         <div
                                             v-for="(
@@ -330,7 +392,7 @@
                                                 @on-upd-place="setPlace"
                                             />
                                         </div>
-                                        <div class="pb-12">
+                                        <div class="">
                                             <button
                                                 v-if="pagePlaceForPageEvent"
                                                 class="w-full dark:bg-blue-500/60 py-3 bg-blue-500/60 dark:text-gray-300 rounded-lg shadow-lg"
@@ -369,7 +431,6 @@
                                     </div>
                                 </div>
                             </div>
-
                             <div
                                 class="content-descriprion w-[100%] lg:w-[100%] m-[auto] mt-10 pt-8 p2 dark:border-gray-700/80 p-2 mb-2 text-ms dark:text-gray-400"
                             >
@@ -416,68 +477,96 @@
                                         ></textarea>
                                     </div>
                                 </div>
-
-                                <CarouselGallery
-                                    v-if="event.files && connectState.Gallery"
-                                    :id="'event-' + event.id + '-gallery'"
-                                    class="w-[100%] lg:w-[100%] m-[auto] mb-1 mt-4"
-                                    :files="event.files"
-                                    :wright-state="state"
-                                    @on-delete-file="deleteFiles"
-                                    @on-update-file="updateFiles"
-                                ></CarouselGallery>
-
-                                <div class="content-description-price mt-10">
-                                    <h3 class="font-[Montserrat-Bold] text-lg"
-                                        >Цены</h3
-                                    >
+                            </div>
+                            <div
+                                v-if="state"
+                                class="flex w-[100%] mt-4"
+                            >
+                                <Transition name="slide-fade">
                                     <div
-                                        class="content-description-price-grid flex justify-center m-[auto]"
+                                        :id="'event-' + event.id + '-type'"
+                                        class="z-50 rounded-lg h-auto dark:bg-gray-800 dark:border-gray-700/70 p-2"
                                     >
+                                        <h1
+                                            class="text-xl font-medium dark:text-gray-300 mb-1"
+                                            >Типы</h1
+                                        >
                                         <div
-                                            class="m-[auto] flex row flex-wrap max-w-[82%]"
+                                            v-if="allTypes && state"
+                                            class="max-w-[30rem] lg:max-w-[100%] 2xl:max-w[100%] flex flex-wrap-reverse row mt-2 rounded-lg dark:border-gray-600/60 py-4 tree dark:bg-gray-700/20"
                                         >
                                             <div
-                                                v-for="(
-                                                    price, index
-                                                ) in event.price"
-                                                :key="price.id"
-                                                class="flex flex-row mt-2 mr-2 max-w-[15rem]"
+                                                v-for="etype in allTypes"
+                                                :key="etype.id"
                                             >
-                                                <PriceSegment
-                                                    :id="
-                                                        'event-' +
-                                                        event.id +
-                                                        '-price-' +
-                                                        price.id
+                                                <TypeList
+                                                    v-if="
+                                                        allTypes &&
+                                                        event.types != null
                                                     "
-                                                    class="p-2 border dark:border-gray-700/50 rounded-lg"
-                                                    :price="price"
-                                                    :state="state"
-                                                    :index="index"
-                                                    @on-del-price="
-                                                        deleteFromCurrentPrices
+                                                    :type="'event'"
+                                                    :sight-id="event.id"
+                                                    :all-s-types="etype"
+                                                    :enable-state="state"
+                                                    :current-stypes="
+                                                        event.types
                                                     "
-                                                    @on-upd-price="priceUpd"
+                                                    @checked="addToCurrentTypes"
                                                 />
                                             </div>
                                         </div>
                                     </div>
-
+                                </Transition>
+                            </div>
+                            <div class="content-description-price mt-10">
+                                <h3 class="font-[Montserrat-Bold] text-lg"
+                                    >Цены</h3
+                                >
+                                <div
+                                    class="content-description-price-grid flex justify-center m-[auto]"
+                                >
                                     <div
-                                        v-if="state"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke-width="1.5"
-                                        stroke="currentColor"
-                                        class="flex items-center justify-center max-w-[14rem] h-[3rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
-                                        @click="addToCurrentPrices()"
+                                        class="m-[auto] flex row flex-wrap max-w-[82%]"
                                     >
-                                        Добавить билет
+                                        <div
+                                            v-for="(
+                                                price, index
+                                            ) in event.price"
+                                            :key="price.id"
+                                            class="flex flex-row mt-2 mr-2 max-w-[15rem]"
+                                        >
+                                            <PriceSegment
+                                                :id="
+                                                    'event-' +
+                                                    event.id +
+                                                    '-price-' +
+                                                    price.id
+                                                "
+                                                class="p-2 border dark:border-gray-700/50 rounded-lg"
+                                                :price="price"
+                                                :state="state"
+                                                :index="index"
+                                                @on-del-price="
+                                                    deleteFromCurrentPrices
+                                                "
+                                                @on-upd-price="priceUpd"
+                                            />
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
 
+                                <div
+                                    v-if="state"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke-width="1.5"
+                                    stroke="currentColor"
+                                    class="flex items-center justify-center max-w-[14rem] h-[3rem] mb-4 text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] rounded-md dark:bg-gray-700/50 cursor-pointer text-center unselectable transition hover:dark:bg-gray-700/20"
+                                    @click="addToCurrentPrices()"
+                                >
+                                    Добавить билет
+                                </div>
+                            </div>
                             <!-- Материалы -->
                             <div class="mt-4">
                                 <div v-if="!state">
@@ -543,43 +632,43 @@
                                 </label>
                             </div>
 
-                            <div
-                                v-if="
-                                    connectState.AuthorCard &&
-                                    connectState.StatusCard
-                                "
-                                :id="'event-' + event.id + '-author'"
-                                class="m-2 max-w-[100%] justify-between mt-8 row"
-                            >
-                                <div
-                                    v-if="
-                                        connectState.AuthorCard &&
-                                        JSON.parse(user).id != event.user_id
-                                    "
-                                    class=""
+                            <div class="md:w-[100%] mt-4">
+                                <label
+                                    class="font-[Montserrat-Regular] text-xs lg:text-lg mb-2"
+                                    for=""
+                                    >Оганизатор</label
                                 >
-                                    <AuthorMiniCard
-                                        v-if="event.author"
-                                        :author="event.author"
-                                    />
-                                </div>
-                                <!-- || (role != 'root' || role != 'Admin' || role != 'Moderator' -->
                                 <div
-                                    v-if="
-                                        !state &&
-                                        connectState.StatusCard &&
-                                        (role == 'root' ||
-                                            role == 'Admin' ||
-                                            role == 'Moderator')
-                                    "
-                                    class="bg-transparent p-2 mt-1 dark:border-gray-700/70 dark:"
+                                    :class="{
+                                        'border-blue-700/70':
+                                            $props.changedFields != null &&
+                                            $props.changedFields.includes(
+                                                'sponsor',
+                                            ),
+                                    }"
+                                    class="flex justify-center border-2 border-[#EDEDED] rounded-md w-[100%] p-0.5 font-[Montserrat-Medium] sm:text-sm mt-2 dark:border-gray-700/80"
                                 >
-                                    <ChangeStatus
-                                        v-if="event.statuses"
-                                        :id="'event-' + event.id + '-status'"
-                                        :edit-button="connectState.EditButton"
-                                        :status="event.statuses[0].name"
-                                        @status-changed="statusChange"
+                                    <div
+                                        v-if="event.sponsor && !state"
+                                        class="text-xs lg:text-lg"
+                                        >{{ event.sponsor }}</div
+                                    >
+                                    <input
+                                        v-if="state"
+                                        :id="
+                                            'event-' +
+                                            event.id +
+                                            '-sponsor-input'
+                                        "
+                                        class="text-xs lg:text-lg w-full dark:bg-transparent text-center border-none"
+                                        type="text"
+                                        name="sponsor"
+                                        placeholder="Введите оганизатора"
+                                        :value="event.sponsor"
+                                        @input="
+                                            (event) =>
+                                                (text = event.target.value)
+                                        "
                                     />
                                 </div>
                             </div>
@@ -618,59 +707,6 @@
 
                 </div> -->
             </section>
-
-            <div
-                v-if="connectState.EditButton"
-                class="button-menu ml:[-16%] fixed w-full top-[0%] bg-[#fff] dark:bg-gray-900 z-50"
-            >
-                <div class="flex m-[auto] dark:bg-gray-900">
-                    <button
-                        v-if="connectState.BackButton"
-                        type="button"
-                        class="flex m-4 items-center rounded bg-gray-200/40 dark:bg-gray-800/80 max-h-12 min-w-1/12 max-w-[5rem] mr-3 px-4 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-gray-500 dark:text-gray-300/50 transition duration-150 ease-in-out hover:bg-gray-400/30 dark:hover:bg-gray-700/60 active:bg-gray-400/60 dark:active:bg-gray-700/80"
-                        @click.prevent="backButton()"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            stroke-width="1.5"
-                            stroke="currentColor"
-                            class="w-6 h-6"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75"
-                            />
-                        </svg>
-                    </button>
-                    <input
-                        v-if="state"
-                        class="rounded-lg text-cyan-50 bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 z-50 cursor-pointer font-[Montserrat-Regular]"
-                        type="button"
-                        value="Применить"
-                        @click="clickUpd($event)"
-                    />
-                    <button
-                        v-if="state"
-                        class="rounded-lg bg-gray-600 font-[Montserrat-Regular] text-cyan-50 m-5 p-2 cursor-pointer"
-                        @click="canceleUpd()"
-                        >Отмена</button
-                    >
-                    <button
-                        v-if="
-                            !state &&
-                            (role == 'root' ||
-                                JSON.parse(user).id == event.user_id)
-                        "
-                        class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer"
-                        @click="editUpd()"
-                        >Редактировать</button
-                    >
-                    <p class="flex items-center">Статус: {{ statusNow }}</p>
-                </div>
-            </div>
         </form>
     </div>
 </template>
@@ -768,6 +804,10 @@
                 type: Array,
                 default: null,
             },
+            frameState: {
+                type: Boolean,
+                default: true,
+            },
         },
         setup() {
             let themeState = useDark() // Переменная состояния темы(false: light, true: dark)
@@ -808,6 +848,7 @@
                 priceId: 0,
                 statusNow: '',
                 loaderPlaces: false,
+                frontkUrl: import.meta.env.VITE_APP_FRONT,
             }
         },
         computed: {
@@ -818,8 +859,10 @@
             this.openLoaderFullPage
             this.getEvent()
             this.getAllTypes()
+            this.checkRout()
         },
         methods: {
+            ...mapActions(useLocalStorageStore, ['getUserLocalStorage']),
             ...mapActions(usePlaceStore, ['getPlaces']),
             ...mapActions(usePlaceQueryBuilderStore, [
                 'queryBuilder',
@@ -856,9 +899,9 @@
                 this.openType = !this.openType
             },
 
-            clickUpd(event) {
+            clickUpd() {
                 // Передаём форму обработанную в масси в локальную переменную функции
-                let mass = Object.entries(event.target.form)
+                let mass = Object.entries(document.getElementById('editForm'))
                 let historyEvent = {
                     history_files: [],
                     history_places: [],
@@ -928,7 +971,7 @@
                 })
                 // Перебираем, добавляем поле и передаём фото на удаление в форм дату
                 this.filesDel.forEach((item) => {
-                    item.onDelete = true
+                    item.on_delete = true
                     historyEvent.history_files.push(item)
                 })
                 if (this.placeUpd) {
@@ -1024,7 +1067,7 @@
                                       'error',
                                   )
                                 : null
-                            console.log(err)
+
                             return of(EMPTY)
                         }),
                     )
@@ -1170,6 +1213,12 @@
                 this.event.price.push(price1)
                 this.priceId++
             },
+            checkRout() {
+                let user = this.getUserLocalStorage()
+                if (this.$route.params.state) {
+                    this.state = true
+                }
+            },
             getAllTypes() {
                 this.openLoaderFullPage()
                 this.getEventTypes()
@@ -1244,7 +1293,7 @@
                         takeUntil(this.destroy$),
                         catchError((err) => {
                             this.loaderPlaces = false
-                            console.log(err)
+
                             this.showToast(
                                 'При загрузке мест возникла ошибка: ' +
                                     err.message,
@@ -1267,7 +1316,12 @@
                                 return true
                             }
                         })
-                        coin ? null : this.filesDel.push(file)
+                        coin
+                            ? null
+                            : this.filesDel.push({
+                                  file_id: file.id,
+                                  on_delete: true,
+                              })
                         this.event.files.splice(index, 1)
                         return true
                     }
@@ -1528,6 +1582,7 @@
 </script>
 <style>
     .button-menu {
+        position: fixed;
         max-height: 80px;
         -webkit-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);
         -moz-box-shadow: 0px -5px 5px -5px rgba(34, 60, 80, 0.29);

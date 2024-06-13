@@ -48,6 +48,18 @@
                     >
                         Дата окончания
                     </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Изменено
+                    </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Создано
+                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -129,6 +141,12 @@
                     <td class="px-6 py-4">
                         {{ content.date_end }}
                     </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(content.updated_at) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(content.created_at) }}
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -149,6 +167,9 @@
         methods: {
             clickContent(historyContent) {
                 this.$emit('onClick', historyContent)
+            },
+            getCurrentTime(time) {
+                return this.$helpers.DateHelp.getCurrentFormate(time)
             },
         },
     }

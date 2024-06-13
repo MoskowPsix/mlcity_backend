@@ -8,6 +8,9 @@ export const useLocationStore = defineStore('useLocation', {
         getLocationsByName(name) {
             return from(axios.get(`location/name/${name}`))
         },
+        getLocationId(id) {
+            return from(axios.get(`location/${id}`))
+        },
         getLocationByCoords(coords) {
             const params = {
                 latitude: coords[0],

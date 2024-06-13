@@ -10,7 +10,7 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
-            path: '/',
+            path: '/users',
             name: 'users',
             component: () => import('../views/users/Users.vue'),
         },
@@ -50,9 +50,22 @@ const router = createRouter({
             component: () => import('../views/my_events/MyEvents.vue'),
         },
         {
+            path: '/',
+            name: 'my-events-home',
+            component: () => import('../views/my_events/MyEvents.vue'),
+        },
+        {
             path: '/event/:id',
             name: 'event',
             component: () => import('../views/events/event_show/EventShow.vue'),
+            children: [
+                {
+                    path: ':state',
+                    name: 'event-edit',
+                    component: () =>
+                        import('../views/events/event_show/EventShow.vue'),
+                },
+            ],
         },
         {
             path: '/types',
@@ -103,9 +116,9 @@ router.beforeEach(async (to, from, next) => {
                           response.data.user.roles[0].name,
                       )
                     : null
-                useLocalStorageStore().setTimeZone(
-                    Intl.DateTimeFormat().resolvedOptions().timeZone,
-                )
+                // useLocalStorageStore().setTimeZone(
+                //     Intl.DateTimeFormat().resolvedOptions().timeZone,
+                // )
                 useLocalStorageStore().localStorageInit()
                 useLoaderStore().closeLoaderFullPage()
             }),

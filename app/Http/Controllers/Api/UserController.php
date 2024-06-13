@@ -4,18 +4,15 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Auth;
-use Closure;
 use App\Models\User;
 use App\Models\SocialAccount;
 use App\Models\Event;
 use App\Models\Sight;
-use App\Models\Email;
-use Carbon\Carbon;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 use Illuminate\Pipeline\Pipeline;
+use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\Users\UsersEmail;
 use App\Filters\Users\UsersName;
 use App\Filters\Users\UsersId;
@@ -29,7 +26,6 @@ use App\Filters\Organization\OrganizationId;
 use App\Filters\Organization\OrganizationName;
 use App\Http\Requests\Organisation\CreateOrganisation;
 use App\Http\Requests\User\UpdateRequest;
-use App\Http\Requests\UserRequest;
 use App\Models\Organization;
 use App\Models\UserAgreement;
 use Exception;
@@ -648,6 +644,7 @@ class UserController extends Controller
             ->send($users)
             ->via('apply')
             ->through([
+                EventOrderByDateCreate::class,
                 UsersId::class,
                 UsersName::class,
                 UsersEmail::class,

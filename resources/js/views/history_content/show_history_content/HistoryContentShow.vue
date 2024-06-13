@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/attribute-hyphenation -->
 <template lang="">
     <!-- Кнопка назад -->
     <div
@@ -42,6 +43,7 @@
             <EventShow
                 v-if="event.id"
                 class="rounded-lg"
+                :frameState="false"
                 :event_="event"
                 :connect-state="eventSettings"
             />
@@ -66,6 +68,7 @@
             <EventShow
                 v-if="event.id"
                 class="rounded-lg"
+                :frameState="false"
                 :event_="historyContent"
                 :changed-fields="changedFields"
                 :changed-place-ids="changedPlaceIds"
@@ -358,7 +361,7 @@
                     })
             },
             getEvent(id) {
-                this.getEventForIds(id)
+                this.getEventForIds(id, { withPlacesFull: true })
                     .pipe(
                         map((data) => {
                             this.event = data.data
@@ -527,6 +530,7 @@
                 })
 
                 // Собираем id плейсов и сеансов у события
+                console.log(this.event)
                 this.event.places_full.forEach((place) => {
                     eventPlaceIds.push(place.id)
                     let seanceIds = []

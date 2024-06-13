@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Models;
-
-use App\Events\Event\EventCreated;
 use App\Models\Place;
 use App\Models\Price;
 use App\Models\User;
@@ -20,6 +18,8 @@ class Event extends Model
 {
     use HasFactory;
 
+    protected $primaryKey = 'id';
+
     protected $fillable = [
         'name',
         'sponsor',
@@ -32,9 +32,11 @@ class Event extends Model
         'date_end',
         'user_id',
         'vk_post_id',
-        'cult_id'
+        'cult_id',
+        'creates_at',
+        'updated_at'
     ];
-    
+
 
     // protected static function booted()
     // {
@@ -85,7 +87,7 @@ class Event extends Model
         return $this->hasMany(EventFile::class)->with('file_types');
     }
 
-    
+
 
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {

@@ -1,10 +1,17 @@
 <template lang="">
     <HistoryContentFilter class="m-1" />
     <HistoryContentTable
+        v-if="contents.length"
         :contents="contents"
         class="m-1"
         @on-click="toHistoryContent"
     />
+    <label
+        v-if="!contents.length"
+        class="h-[100%] w-[100%] text-center"
+    >
+        <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+    </label>
     <div
         v-if="nextPage || backPage"
         class="flex justify-center m-1"
@@ -56,7 +63,7 @@
         },
         data() {
             return {
-                contents: null,
+                contents: [],
                 total: 0,
                 nextPage: null,
                 backPage: null,
@@ -71,9 +78,13 @@
                 'contentStatuses',
                 'contentStatusLast',
                 'contentUser',
+                'contentLocation',
             ]),
         },
         watch: {
+            contentLocation() {
+                this.getAllContents()
+            },
             contentName() {
                 this.getAllContents()
             },
@@ -136,7 +147,7 @@
                                 this.backPage =
                                     response.data.historyContents.prev_cursor
                             } else {
-                                this.contents = null
+                                this.contents = []
                                 this.showToast(
                                     MessageContents.info_content,
                                     'info',

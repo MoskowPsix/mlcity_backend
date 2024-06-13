@@ -7,4 +7,8 @@ export default {
         let data = moment.tz(time, timeZone)
         return data.clone().tz(moment.tz.guess()).format('YYYY-MM-DD HH:mm:ss')
     },
+    getCurrentFormate(time) {
+        let data = moment(time)
+        return data.clone().format('YYYY-MM-DD HH:mm:ss')
+    },
 }

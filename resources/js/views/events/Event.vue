@@ -1,10 +1,18 @@
 <template lang="">
     <EventFilter class="m-1" />
     <EventTable
+        v-if="events.length"
         :events="events"
         class="m-1"
+        @history-content="clickHistoryContent"
         @event="clickEvent"
     />
+    <label
+        v-if="!events.length"
+        class="h-[100%] w-[100%] text-center"
+    >
+        <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+    </label>
     <div
         v-if="nextPage || backPage"
         class="flex justify-center m-1"
@@ -64,6 +72,7 @@
                 'eventStatuses',
                 'eventStatusLast',
                 'eventUser',
+                'eventLocation',
             ]),
         },
         watch: {
@@ -86,6 +95,9 @@
                 this.getAllEvent()
             },
             eventUser() {
+                this.getAllEvent()
+            },
+            eventLocation() {
                 this.getAllEvent()
             },
         },
@@ -111,7 +123,9 @@
                             this.closeLoaderFullPage()
                             if (response.data.events.data.length) {
                                 this.events = response.data.events.data
+                                console.log(response.data.events.data)
                             } else {
+                                this.events = []
                                 this.showToast(
                                     MessageEvents.info_events,
                                     'info',
@@ -150,6 +164,9 @@
             clickEvent(event) {
                 router.push({ path: `/event/${event.id}` })
                 console.log(this.event)
+            },
+            clickHistoryContent(id) {
+                router.push({ path: `edit/${id}` })
             },
             viewBackPage() {
                 this.setPageEventForPageEvents(this.backPage)

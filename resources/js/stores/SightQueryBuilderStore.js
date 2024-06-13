@@ -20,7 +20,8 @@ export const useSightQueryBuilderStore = defineStore('useSightQueryBuilder', {
                 (this.searchText = useSightFilterStore().getSightText()),
                 (this.statuses = useSightFilterStore().getSightStatuses()),
                 (this.statusLast = useSightFilterStore().getSightStatusLast()),
-                (this.user = useSightFilterStore().getSightUser())
+                (this.user = useSightFilterStore().getSightUser()),
+                (this.locationId = useSightFilterStore().getSightLocation())
         },
         sightsForPageSights() {
             this.queryParams = {
@@ -31,6 +32,8 @@ export const useSightQueryBuilderStore = defineStore('useSightQueryBuilder', {
                 statusesLast: this.statusLast,
                 user: this.user,
                 page: this.pageSightsForPageSights,
+                locationId: this.locationId,
+                order: 'created_at,updated_at',
             }
         },
         setPageSightsForPageSights(page) {
@@ -45,6 +48,7 @@ export const useSightQueryBuilderStore = defineStore('useSightQueryBuilder', {
         statuses: null,
         statusLast: null,
         user: null,
+        locationId: null,
         pageSightsForPageSights: null,
     }),
 })

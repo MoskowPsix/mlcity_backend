@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\Sight\SightLocation;
 use App\Filters\Place\PlaceAddress;
+use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventFavoritesUserExists;
@@ -13,6 +14,7 @@ use App\Filters\Event\EventRegion;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
+use App\Filters\HistoryContent\HistoryContentLast;
 use App\Filters\Sight\SightTypes;
 use App\Filters\Sight\SightAuthor;
 use App\Filters\Sight\SightByIds;
@@ -26,6 +28,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileType;
+use App\Models\HistoryContent;
 
 class SightController extends Controller
 {
@@ -172,6 +175,7 @@ class SightController extends Controller
                 ->send($sights)
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
+                    EventOrderByDateCreate::class,
                     EventLikedUserExists::class,
                     EventName::class,
                     EventSponsor::class,
@@ -846,6 +850,35 @@ class SightController extends Controller
         ];
 
         return response()->json($jsonData);
+    }
+    public function getHistoryContent(Request $request, $id)
+    {
+        $pagination = $request->pagination;
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+
+        $historyContent = HistoryContent::query()->where("history_contentable_id", $id)->where("history_contentable_type", "App\Models\Sight");
+
+        $response =
+        app(Pipeline::class)
+        ->send($historyContent)
+        ->through([
+            HistoryContentLast::class
+        ])
+        ->via("apply")
+        ->then(function($historyContent) use ($pagination , $page, $limit) {
+
+            if(request()->get("last") == true)
+            {
+                $res = $historyContent->get()->first();
+            }
+            else {
+                $res = $historyContent->cursorPaginate($limit, ['*'], 'page' , $page);
+            }
+            return $res;
+        });
+
+        return response()->json(["status"=>"success", "history_content" => $response]);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

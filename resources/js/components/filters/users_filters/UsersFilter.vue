@@ -4,7 +4,7 @@
     >
         <input
             id="name"
-            v-model="userName"
+            v-model.lazy="userName"
             type="text"
             name="name"
             placeholder="Имя пользователя"
@@ -12,7 +12,7 @@
         />
         <input
             id="name"
-            v-model="userEmail"
+            v-model.lazy="userEmail"
             type="text"
             name="name"
             placeholder="Почта пользователя"
@@ -30,7 +30,7 @@
             placeholder="Дата создания"
         />
         <VueDatePicker
-            v-model="userUpdated"
+            v-model.lazy="userUpdated"
             range
             model-type="yyyy-MM-dd HH:mm:ss"
             :class="

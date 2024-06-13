@@ -49,7 +49,13 @@
                         scope="col"
                         class="px-6 py-3"
                     >
-                        Создано | Изменено
+                        Изменено
+                    </th>
+                    <th
+                        scope="col"
+                        class="px-6 py-3"
+                    >
+                        Создано
                     </th>
                 </tr>
             </thead>
@@ -96,7 +102,10 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        {{ sight.statuses[0].name }}
+                        <p v-if="sight.statuses.length">{{
+                            sight.statuses[0].name
+                        }}</p>
+                        <p v-else>Неизвестен</p>
                     </td>
                     <td class="px-6 py-4">
                         {{ sight.name }}
@@ -113,8 +122,10 @@
                         {{ sight.address }}
                     </td>
                     <td class="px-6 py-4">
-                        {{ sight.created_at.slice(0, 19).replace('T', '  ') }} |
-                        {{ sight.updated_at.slice(0, 19).replace('T', '  ') }}
+                        {{ getCurrentTime(sight.updated_at) }}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{ getCurrentTime(sight.created_at) }}
                     </td>
                 </tr>
             </tbody>
@@ -122,6 +133,9 @@
     </div>
 </template>
 <script>
+    import { mapActions } from 'pinia'
+    import { useLoaderStore } from '../../../stores/LoaderStore'
+    import { useSightStore } from '../../../stores/SightStore'
     export default {
         name: 'SightTable',
         props: {
@@ -132,10 +146,43 @@
                 },
             },
         },
-        emits: ['sight'],
+        emits: ['sight', 'history-content'],
         methods: {
+            ...mapActions(useSightStore, ['getSightHistoryContent']),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
             emitEvent(sight) {
-                this.$emit('sight', sight)
+                if (this.checkArrayOfObjHaveAttr(sight.statuses, "name", "Изменено") && this.checkStatusIsLast(sight.statuses)) {
+                    this.goToHistoryContentOrSight(sight)
+                } else {
+                    this.$emit('sight', sight)
+                }
+            },
+            goToHistoryContentOrSight(sight) {
+                this.openLoaderFullPage()
+                this.getSightHistoryContent(sight.id, { last: true })
+                    .pipe()
+                    .subscribe((response) => {
+                        if (response.data.history_content.id != null) {
+                            this.$emit(
+                                'history-content',
+                                response.data.history_content.id,
+                            )
+                        } else {
+                            this.$emit('sight', sight)
+                        }
+                })
+            },
+            checkArrayOfObjHaveAttr(array, key, value) {
+                return array.find((obj) => obj[key] == value)
+            },
+            checkStatusIsLast(array) {
+                return array.find((obj) => obj.pivot.last == true)
+            },
+            getCurrentTime(time) {
+                return this.$helpers.DateHelp.getCurrentFormate(time)
             },
         },
     }

@@ -29,6 +29,7 @@ class EventServiceProvider extends ServiceProvider
             \SocialiteProviders\VKontakte\VKontakteExtendSocialite::class.'@handle',
             \SocialiteProviders\Telegram\TelegramExtendSocialite::class.'@handle',
             \SocialiteProviders\Apple\AppleExtendSocialite::class.'@handle',
+            \SocialiteProviders\Yandex\YandexExtendSocialite::class.'@handle',
         ],
 
         EventCreated::class => [
@@ -39,7 +40,7 @@ class EventServiceProvider extends ServiceProvider
             SightCreateHistoryContent::class
         ]
 
-        
+
     ];
 
     /**

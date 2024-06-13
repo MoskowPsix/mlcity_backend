@@ -666,7 +666,7 @@
             ...mapActions(useSightStore, [
                 'getSightForIds',
                 'saveSightHistory',
-                'changeStatus'
+                'changeStatus',
             ]),
             ...mapActions(useToastStore, ['showToast']),
             ...mapActions(useLoaderStore, [
@@ -876,7 +876,12 @@
                             }
                         })
 
-                        coin ? null : this.filesDel.push({ file_id: file.id })
+                        coin
+                            ? null
+                            : this.filesDel.push({
+                                  file_id: file.id,
+                                  on_delete: true,
+                              })
                         this.sight.files.splice(index, 1)
                         return true
                     }

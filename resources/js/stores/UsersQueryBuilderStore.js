@@ -57,6 +57,7 @@ export const useUsersQueryBuilderStore = defineStore('useUsersQueryBuilder', {
                 updatedDateStart: updatedDate[0],
                 updatedDateEnd: updatedDate[1],
                 page: this.pageUsersForPageUsers,
+                order: 'created_at,updated_at',
             }
         },
         setPageUsersForPageUsers(page) {

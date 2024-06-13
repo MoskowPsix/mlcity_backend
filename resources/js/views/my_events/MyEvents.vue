@@ -1,10 +1,22 @@
 <template lang="">
     <div>
-        <EventTable
+        <!-- <EventTable
+            v-if="events.length"
             :events="events"
             class="m-1"
             @event="clickEvent"
-        />
+        /> -->
+        <MyEventsGrid
+            v-if="events.length"
+            class="m-1"
+            :events="events"
+        ></MyEventsGrid>
+        <label
+            v-if="!events.length"
+            class="h-[100%] w-[100%] text-center"
+        >
+            <h1 class="mt-64 text-5xl text-gray-500/50">Ничего не найдено</h1>
+        </label>
         <div
             v-if="nextPage || backPage"
             class="flex justify-center m-1"
@@ -20,28 +32,26 @@
     </div>
 </template>
 <script>
-    import { mapActions, mapState } from 'pinia'
+    import { mapActions } from 'pinia'
     import { useToastStore } from '../../stores/ToastStore'
     import { MessageEvents } from '../../enums/events_messages'
     import { useEventStore } from '../../stores/EventStore'
     import { useLoaderStore } from '../../stores/LoaderStore'
-    import {
-        catchError,
-        tap,
-        map,
-        retry,
-        delay,
-        takeUntil,
-    } from 'rxjs/operators'
+    import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
 
     import router from '../../routes'
     import PaginateBar from '../../components/paginate_bar/PaginateBar.vue'
-    import EventTable from '../../components/tables/event_table/EventTable.vue'
-    import EventFilter from '../../components/filters/events_filter/EventFilter.vue'
+    // import EventTable from '../../components/tables/event_table/EventTable.vue'
+    import MyEventsGrid from '../../components/my_events_grid/MyEventsGrid.vue'
 
     export default {
         name: 'MyEvents',
+        components: {
+            PaginateBar,
+            // EventTable,
+            MyEventsGrid,
+        },
         setup() {
             const destroy$ = new Subject()
             return {
@@ -55,6 +65,9 @@
                 backPage: null,
             }
         },
+        mounted() {
+            this.getAllEventForAuthor()
+        },
         methods: {
             ...mapActions(useToastStore, ['showToast']),
             ...mapActions(useLoaderStore, [
@@ -64,7 +77,7 @@
             ...mapActions(useEventStore, ['getEventsForAuthor']),
             getAllEventForAuthor(page) {
                 this.openLoaderFullPage()
-                this.getEventsForAuthor({ page: page })
+                this.getEventsForAuthor({ page: page, limit: 8 })
                     .pipe(
                         map((response) => {
                             this.closeLoaderFullPage()
@@ -116,13 +129,6 @@
             viewNextPage() {
                 this.getAllEventForAuthor(this.nextPage)
             },
-        },
-        components: {
-            PaginateBar,
-            EventTable,
-        },
-        mounted() {
-            this.getAllEventForAuthor()
         },
     }
 </script>

@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 
 export const useEventFilterStore = defineStore('useEventFilter', {
     state: () => ({
+        filterChange: new BehaviorSubject(false),
         eventName: new BehaviorSubject(
             localStorage.getItem('eventNameFilter') || '',
         ),
@@ -24,8 +25,18 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         eventUser: new BehaviorSubject(
             localStorage.getItem('eventUserFilter') || '',
         ),
+        eventLocation: new BehaviorSubject(
+            localStorage.getItem('eventLocationFilter') || '',
+        ),
     }),
     actions: {
+        setEventLocation(location) {
+            localStorage.setItem('eventLocationFilter', location)
+            this.eventLocation = location
+        },
+        getEventLocation() {
+            return localStorage.getItem('eventLocationFilter')
+        },
         setEventName(name) {
             localStorage.setItem('eventNameFilter', name)
             this.eventName = name

@@ -25,15 +25,15 @@
         name: 'PaginateBar',
         props: {
             nextPage: {
-                type: Object,
+                type: String,
                 default() {
-                    return {}
+                    return
                 },
             },
             backPage: {
-                type: Object,
+                type: String,
                 default() {
-                    return {}
+                    return
                 },
             },
         },
