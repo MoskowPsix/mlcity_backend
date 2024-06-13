@@ -18,6 +18,7 @@ jobs:
             cd ${{ secrets.DIR }};
             git checkout main;
             git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
+            composer install;
             npm install;
             npm run build;
             php artisan migrate --force;
