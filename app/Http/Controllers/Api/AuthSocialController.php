@@ -15,10 +15,16 @@ class AuthSocialController extends Controller
 {
     public function index($provider): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse
     {
-        return Socialite::driver($provider)
+        if ($provider == 'apple') {
+            return Socialite::driver($provider)
+            ->stateless()
+            ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        } else {
+            return Socialite::driver($provider)
             ->stateless()
             ->scopes(['offline', 'groups', 'stats', 'wall'])
             ->redirect(); // $driver - какая соц. сеть. подробнее https://socialiteproviders.com/
+        }
     }
 
     public function callbackApple() {
