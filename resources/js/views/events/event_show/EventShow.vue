@@ -869,7 +869,7 @@
                 priceId: 0,
                 statusNow: '',
                 loaderPlaces: false,
-                frontkUrl: import.meta.env.VITE_APP_FRONT,
+                frontkUrl: import.meta.env.VITE_FRONT_APP_URL,
             }
         },
         computed: {
