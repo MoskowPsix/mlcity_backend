@@ -1,7 +1,7 @@
 Hello!!!
-<p>This is message for recovery password at site MLCity.ru!</p>
+<p>Это сообщения пришло с сайта vokrug.city для восстановления пароля профиля, который привязан к этой почте!</p>
 <div>
-    <p><a href="&nbsp;{{ $url }}">To change your password, follow the url</a></p>
+    <p><a href="&nbsp;{{ $url }}">Для смены пароля перейдите по этой ссылке</a></p>
 </div>
-Thank You!!!
+&nbsp;{{ $url }}
 <br />
