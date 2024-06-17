@@ -1,7 +1,6 @@
-Hello!!!
-<p>This is message for verification your email at site MLCity.ru!</p>
+Здравствуйте!!!
+<p>Это сообщение пришло с сайта vokrug.city для подтверждения вашей почты!</p>
 <div>
-<p><b>Your code :</b>&nbsp;{{ $code }}</p>
+    <p><b>Ваш код:</b>&nbsp;{{ $code }}</p>
 </div>
-Thank You!!!
-<br/>
+<br />
