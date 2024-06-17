@@ -22,7 +22,7 @@ class PasswordRecoveryController extends Controller
         }
         $user = User::where('email', $email)->first();
         $code = encrypt($date . ',' . $email . ',' . $user->id);
-        $url = env('FRONT_APP_URL') . '/api/recovery/password?code=' . $code;
+        $url = env('FRONT_APP_URL') . '/recovery/' . $code;
         try {
             $this->sendMail($email, $url);
         } catch (\Illuminate\Database\QueryException $ex) {
@@ -33,6 +33,7 @@ class PasswordRecoveryController extends Controller
     }
     public function recoveryPasswordByCode(RecoveryPasswordByCode $request) {
         $data = explode(',', decrypt($request->code));
+        info($data);
         $pass = $request->password;
         $date_now = Carbon::now();
         $date_code = Carbon::parse($data[0])->addDays(1);
