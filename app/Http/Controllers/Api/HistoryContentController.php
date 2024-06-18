@@ -84,7 +84,9 @@ class HistoryContentController extends Controller
     {
         // info();
         #получаем данные для статуса и дальнейших манипуляций
-        $this->checkAccessToCreateHistoryContent();
+        if ($this->checkAccessToCreateHistoryContent()) {
+            return response()->json(["status"=>"error", "message" => "access denied" ],403);
+        }
         $data = $request->toArray();
 
         $data['history_content']["user_id"] = auth("api")->user()->id;
@@ -132,17 +134,32 @@ class HistoryContentController extends Controller
     }
 
     private function checkAccessToCreateHistoryContent(){
+        info('fun: ' . (!($this->checkRoleExists() || (Event::find(request('id'))->user_id == auth('api')->user()->id))));
+
         if(request("type") == "Event")
         {
-            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Event::find(request('id'))->author->id == auth('api')->user()->id))) {
-                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            if(!($this->checkRoleExists() || (Event::find(request('id'))->user_id == auth('api')->user()->id))) {
+                return true;
+            } else {
+                return false;
             }
         }
         else
          {
-            if(!((auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin") || (Sight::find(request('id'))->author->id == auth('api')->user()->id))) {
-                return response()->json(["status"=>"error", "message" => "access denied" ],403);
+            if(!$this->checkRoleExists() || (Sight::find(request('id'))->author->id == auth('api')->user()->id)) {
+                return true;
+            } else {
+                return false;
             }
         }
+    }
+
+    private function checkRoleExists(){
+        if (count(auth('api')->user()->role) !== 0) {
+            return (auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin");
+        } else { 
+            return false;
+        }
+        
     }
 }

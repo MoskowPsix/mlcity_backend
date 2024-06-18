@@ -935,7 +935,8 @@
                             break
                         case `event-${this.event.id}-sponsor-input`:
                             if (item[1].value != this.event.sponsor) {
-                                historyEvent.sponsor = item[1]
+                                historyEvent.sponsor = item[1].value
+                                console.log(historyEvent.sponsor)
                             }
                             break
                         case `event-${this.event.id}-description-input`:
@@ -1046,6 +1047,7 @@
                     type: 'Event',
                     history_content: { ...historyEvent },
                 }
+                console.log(params)
                 this.openLoaderFullPage()
                 this.saveHistory(params)
                     .pipe(
