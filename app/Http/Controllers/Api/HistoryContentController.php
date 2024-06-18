@@ -82,10 +82,13 @@ class HistoryContentController extends Controller
 
     public function createHistoryContent(Request $request)
     {
-        // info();
-        #получаем данные для статуса и дальнейших манипуляций
+        #Проверяем права пользователя на эту запись
         if ($this->checkAccessToCreateHistoryContent()) {
             return response()->json(["status"=>"error", "message" => "access denied" ],403);
+        }
+        #Проверяем не находится ли запись уже на редактуре
+        if ($this->checkStatuses()) {
+            return response()->json(["status"=>"error", "message" => "Your record is already being modified" ],403);
         }
         $data = $request->toArray();
 
@@ -132,10 +135,29 @@ class HistoryContentController extends Controller
             Mail::to($emails[$i])->send(new HistoryContentChanged($data));
         }
     }
+    private function checkStatuses(){
+        $status_id = Status::where('name', 'Изменено')->first()->id;
+        if(request("type") == "Event"){
+            if (Event::find(request('id'))->whereHas('statuses', function($q) use ($status_id){
+                $q->where('status_id', $status_id)->where('last', true);
+            })->exists()) {
+                return true;
+            } else { 
+                return false;
+            }
+        }
+        else {
+            if (Sight::find(request('id'))->whereHas('statuses', function($q) use ($status_id){
+                $q->where('status_id', $status_id)->where('last', true);
+            })->exists()) {
+                return true;
+            } else { 
+                return false;
+            }
+        }
+    }
 
     private function checkAccessToCreateHistoryContent(){
-        info('fun: ' . (!($this->checkRoleExists() || (Event::find(request('id'))->user_id == auth('api')->user()->id))));
-
         if(request("type") == "Event")
         {
             if(!($this->checkRoleExists() || (Event::find(request('id'))->user_id == auth('api')->user()->id))) {
@@ -146,7 +168,7 @@ class HistoryContentController extends Controller
         }
         else
          {
-            if(!$this->checkRoleExists() || (Sight::find(request('id'))->author->id == auth('api')->user()->id)) {
+            if(!$this->checkRoleExists() || (Sight::find(request('id'))->user_id == auth('api')->user()->id)) {
                 return true;
             } else {
                 return false;

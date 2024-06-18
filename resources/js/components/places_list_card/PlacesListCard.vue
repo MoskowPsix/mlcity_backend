@@ -395,11 +395,11 @@
                     id: 0,
                     // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString()
                     // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript
-                    date_start: this.$helpers.OutputCurentTime.outputCurentTime(
+                    date_start: this.$helpers.DateHelp.outputCurentTime(
                         new Date(),
                         this.place.location.time_zone,
                     ),
-                    date_end: this.$helpers.OutputCurentTime.outputCurentTime(
+                    date_end: this.$helpers.DateHelp.outputCurentTime(
                         new Date(),
                         this.place.location.time_zone,
                     ),

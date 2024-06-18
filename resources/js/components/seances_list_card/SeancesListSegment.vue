@@ -284,17 +284,15 @@
         },
         mounted() {
             // eslint-disable-next-line vue/no-mutating-props
-            this.seance.date_start =
-                this.$helpers.OutputCurentTime.outputCurentTime(
-                    this.$props.seance.date_start,
-                    this.$props.location.time_zone,
-                )
+            this.seance.date_start = this.$helpers.DateHelp.outputCurentTime(
+                this.$props.seance.date_start,
+                this.$props.location.time_zone,
+            )
             // eslint-disable-next-line vue/no-mutating-props
-            this.seance.date_end =
-                this.$helpers.OutputCurentTime.outputCurentTime(
-                    this.$props.seance.date_end,
-                    this.$props.location.time_zone,
-                )
+            this.seance.date_end = this.$helpers.DateHelp.outputCurentTime(
+                this.$props.seance.date_end,
+                this.$props.location.time_zone,
+            )
             this.seanceTime = [
                 JSON.parse(JSON.stringify(this.$props.seance.date_start)),
                 JSON.parse(JSON.stringify(this.$props.seance.date_end)),
