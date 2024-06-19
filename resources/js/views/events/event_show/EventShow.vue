@@ -1265,6 +1265,13 @@
                         .pipe(
                             map((response) => {
                                 this.event = response.data
+                                response.data.statuses.find((status) => {
+                                    if (status.last) {
+                                        console.log(status.name)
+                                        this.statusNow = status.name
+                                        return true
+                                    }
+                                })
                                 this.statusNow = response.data.statuses[0].name
                                 this.getPlacesForEvent()
                                 // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
