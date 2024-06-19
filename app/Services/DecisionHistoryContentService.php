@@ -137,6 +137,7 @@ class DecisionHistoryContentService {
         } else {
             $historyTypes = $this->historyContent->historyEventTypes;
         }
+        info($historyTypes);
         foreach($historyTypes as $historyType){
             $typeId = $historyType["pivot"]["history_contentable_id"];
             if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
@@ -199,7 +200,7 @@ class DecisionHistoryContentService {
     }
 
     public function deleteEntityIfNeed($parent, $historyPlace) {
-        if($historyPlace["on_delete"] == true) {
+        if(isset($historyPlace['on_delete']) && $historyPlace['on_delete'] == true) {
             $parent->delete();
         }
     }
