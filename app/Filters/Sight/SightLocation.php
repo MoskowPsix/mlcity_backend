@@ -17,7 +17,7 @@ class SightLocation implements Pipe {
             } else if (!is_numeric(request()->get('locationId'))) {
                 $content->where(function($query) {
                     $query->whereHas('locations', function($query) {
-                        $query->where('name', 'LIKE' ,request()->get('locationId'));
+                        $query->where('name', 'ilike' ,request()->get('locationId'));
                     });
                 });
             }

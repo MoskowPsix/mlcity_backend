@@ -19,7 +19,7 @@ class EventPlaceLocation implements Pipe {
             } else if (!is_numeric(request()->get('locationId'))) {
                 $content->whereHas('places', function($query) {
                     $query->whereHas('location', function($query) {
-                        $query->where('name', 'LIKE' ,request()->get('locationId'));
+                        $query->where('name', 'ilike' ,request()->get('locationId'));
                     });
                 });
             }

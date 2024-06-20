@@ -11,7 +11,7 @@ class EventCity implements Pipe {
     {
         if(request()->has('city')){
             $content->where(function($query) {
-                $query->orWhere('city', 'LIKE', '%'.request()->get('city').'%');
+                $query->orWhere('city', 'ilike', '%'.request()->get('city').'%');
             });
         }
 
