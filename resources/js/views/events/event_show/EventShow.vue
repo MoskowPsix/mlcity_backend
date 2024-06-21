@@ -1516,6 +1516,7 @@
                                                 }
                                             },
                                         )
+                                        console.log(sean)
                                         if (sean && sean != 0) {
                                             this.placeUpd[getIndex].seances[
                                                 sean
@@ -1555,6 +1556,7 @@
                             mergePlaceUpd,
                         )
                     } else {
+                        console.log('ok')
                         // Если нету в массиве, то добавляем
                         let seanceOnUpd = Object.keys(place).find((key) => {
                             if (key == 'seances') {
@@ -1582,6 +1584,19 @@
                                     event.places_full[place.index].seances[
                                         item.index
                                     ].on_delete = true
+                                    event.places_full[index].seances[
+                                        item.index
+                                    ] = JSON.parse(
+                                        JSON.stringify(
+                                            event.places_full[place.index]
+                                                .seances[item.index],
+                                        ),
+                                    )
+                                } else {
+                                    console.log('del')
+                                    event.places_full[index].seances[
+                                        item.index
+                                    ] = JSON.parse(JSON.stringify(item))
                                 }
                             })
                         }
@@ -1589,6 +1604,8 @@
                     }
                 }
                 this.event = event
+                console.log(this.placeUpd)
+                console.log(this.event)
             },
             addNewPlace() {
                 this.event.places_full.push({
