@@ -5,6 +5,7 @@
         >
             <input
                 id="name"
+                ref="name"
                 v-model.lazy="eventName"
                 type="text"
                 name="name"
@@ -13,6 +14,7 @@
             />
             <input
                 id="sponsor"
+                ref="sponsor"
                 v-model.lazy="eventSponsor"
                 type="text"
                 name="sponsor"
@@ -21,6 +23,7 @@
             />
             <input
                 id="text"
+                ref="text"
                 v-model.lazy="eventText"
                 type="text"
                 name="text"
@@ -29,12 +32,14 @@
             />
             <input
                 id="user"
+                ref="user"
                 v-model.lazy="eventUser"
-                type="text"
+                type="user"
                 name="user"
                 placeholder="Имя или почта автора"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
+            <ClearButton @click="clearInput" />
             <div
                 class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
@@ -56,6 +61,7 @@
                 </div>
             </div>
             <VueDatePicker
+                ref="date"
                 v-model="eventDate"
                 range
                 model-type="yyyy-MM-dd HH:mm:ss"
@@ -69,6 +75,7 @@
             <div class="">
                 <input
                     id="location"
+                    ref="location"
                     v-model="locationText"
                     type="text"
                     name="location"
@@ -114,6 +121,7 @@
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
+    import ClearButton from '../../../components/clear_button/ClearButton.vue'
     import VueDatePicker from '@vuepic/vue-datepicker'
     import '@vuepic/vue-datepicker/dist/main.css'
     import { useDark } from '@vueuse/core'
@@ -122,6 +130,7 @@
         name: 'EventFilter',
         components: {
             VueDatePicker,
+            ClearButton,
         },
         away() {
             this.modalSearchLocation = false
@@ -262,6 +271,13 @@
                             this.modalSearchLocation = false
                         })
                 }
+            },
+            clearInput() {
+                this.$refs.name.value = ''
+                this.$refs.sponsor.value = ''
+                this.$refs.text.value = ''
+                this.$refs.user.value = ''
+                this.$refs.location.value = ''
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true

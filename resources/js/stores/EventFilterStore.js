@@ -30,6 +30,26 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         ),
     }),
     actions: {
+        clearFilters() {
+            console.log('clearing filters')
+            localStorage.removeItem('eventNameFilter')
+            localStorage.removeItem('eventDateFilter')
+            localStorage.removeItem('eventSponsorFilter')
+            localStorage.removeItem('eventTextFilter')
+            localStorage.removeItem('eventStatusesFilter')
+            localStorage.removeItem('eventStatusLastFilter')
+            localStorage.removeItem('eventUserFilter')
+            localStorage.removeItem('eventLocationFilter')
+            this.eventName = ''
+            this.eventDate = ''
+            this.eventSponsor = ''
+            this.eventSearchText = ''
+            this.eventStatuses = ''
+            this.eventStatusLast = ''
+            this.eventUser = ''
+            this.eventLocation = ''
+            this.filterChange.next(true)
+        },
         setEventLocation(location) {
             localStorage.setItem('eventLocationFilter', location)
             this.eventLocation = location

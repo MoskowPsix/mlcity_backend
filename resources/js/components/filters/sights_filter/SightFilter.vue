@@ -5,6 +5,7 @@
         >
             <input
                 id="name"
+                ref="name"
                 v-model.lazy="sightName"
                 type="text"
                 name="name"
@@ -13,6 +14,7 @@
             />
             <input
                 id="sponsor"
+                ref="sponsor"
                 v-model.lazy="sightSponsor"
                 type="text"
                 name="sponsor"
@@ -21,6 +23,7 @@
             />
             <input
                 id="text"
+                ref="text"
                 v-model.lazy="sightText"
                 type="text"
                 name="text"
@@ -48,12 +51,14 @@
             </div> -->
             <input
                 id="user"
+                ref="user"
                 v-model.lazy="sightUser"
                 type="text"
                 name="user"
                 placeholder="Имя или почта автора"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
+            <ClearButton @click="clearInput" />
             <div
                 class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
@@ -77,6 +82,7 @@
             <div class="">
                 <input
                     id="location"
+                    ref="location"
                     v-model="locationText"
                     type="text"
                     name="location"
@@ -122,9 +128,13 @@
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
+    import ClearButton from '../../../components/clear_button/ClearButton.vue'
 
     export default {
         name: 'SightFilter',
+        components: {
+            ClearButton,
+        },
         setup() {
             const destroy$ = new Subject()
             return {
@@ -240,6 +250,13 @@
                             this.modalSearchLocation = false
                         })
                 }
+            },
+            clearInput() {
+                this.$refs.name.value = ''
+                this.$refs.sponsor.value = ''
+                this.$refs.text.value = ''
+                this.$refs.user.value = ''
+                this.$refs.location.value = ''
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true
