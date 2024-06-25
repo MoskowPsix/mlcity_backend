@@ -165,7 +165,8 @@
                 this.getSightHistoryContent(sight.id, { last: true })
                     .pipe()
                     .subscribe((response) => {
-                        if (response.data.history_content.id != null) {
+                        console.log(response)
+                        if (sight.statuses[0].name == 'Изменено') {
                             this.$emit(
                                 'history-content',
                                 response.data.history_content.id,
