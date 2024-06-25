@@ -34,7 +34,8 @@ class Event extends Model
         'vk_post_id',
         'cult_id',
         'creates_at',
-        'updated_at'
+        'updated_at',
+        'afisha_id',
     ];
 
 
