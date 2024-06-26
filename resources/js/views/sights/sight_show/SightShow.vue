@@ -47,7 +47,7 @@
                                             $props.changedFields &&
                                             $props.changedFields.name,
                                     }"
-                                    class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] dark:border-gray-700/50 h-10 rounded-lg mt-1 font-[Montserrat-Regular]"
+                                    class="transition flex justify-center items-center duration-1000 text-center p-2 w-[100%] border-2 border-[#EDEDED] dark:border-gray-700/50 h-10 rounded-lg mt-20 font-[Montserrat-Regular]"
                                 >
                                     <p
                                         v-if="!state && connectState.NameLine"
