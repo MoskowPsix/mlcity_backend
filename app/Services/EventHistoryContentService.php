@@ -88,10 +88,14 @@ class EventHistoryContentService{
     private function storeHistoryTypes($historyContent){
         if($this->historyTypes){
             foreach($this->historyTypes as $type){
-                if(isset($type->on_delete)){
-                    $this->historyContentService->createEventHistoryType($historyContent, $type, $type->on_delete);
+                info($type);
+                if(is_array($type) && isset($type['on_delete'])){
+                    info('delete');
+                    $type['on_delete'] = true;
+                    $this->historyContentService->createEventHistoryType($historyContent, $type, true);
                 }
                 else{
+                    info('create');
                     $this->historyContentService->createEventHistoryType($historyContent, $type);
                 }
             }

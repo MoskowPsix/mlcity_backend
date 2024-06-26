@@ -13,7 +13,7 @@ class EventAuthorName implements Pipe {
             $user = '%'.request()->get('user_name').'%';
 
             $content->whereHas('author', function($q) use ($user){
-                $q->where('name', 'LIKE', $user);
+                $q->where('name', 'ilike', $user);
             });
         }
 

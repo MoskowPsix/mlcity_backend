@@ -254,7 +254,7 @@
                 default: null,
             },
         },
-        emits: ['onUpdSeance', 'onClickSeance'],
+        emits: ['on-upd-seance', 'on-click-seance'],
         // getDate(date) {
         //     return date[0] + '~' + date[1]
         // },
@@ -300,15 +300,17 @@
         },
         methods: {
             handleDate(modelData) {
-                this.$emit('onUpdSeance', {
+                console.log(this.index)
+                this.$emit('on-upd-seance', {
                     index: this.index,
                     id: this.seance.id,
+                    on_delete: false,
                     date_start: JSON.parse(JSON.stringify(modelData[0])),
                     date_end: JSON.parse(JSON.stringify(modelData[1])),
                 })
             },
             clickElement() {
-                this.$emit('onClickSeance', {
+                this.$emit('on-click-seance', {
                     id: this.seance.id,
                 })
             },
@@ -316,7 +318,7 @@
                 let seance = JSON.parse(JSON.stringify({ ...this.seance }))
                 seance.on_delete = true
                 seance.index = this.index
-                this.$emit('onUpdSeance', seance)
+                this.$emit('on-upd-seance', seance)
             },
         },
     }

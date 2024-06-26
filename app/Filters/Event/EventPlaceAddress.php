@@ -11,7 +11,7 @@ class EventPlaceAddress implements Pipe {
     {
         if(request()->has('address')){
             $content->whereHas('places', function($query) {
-                $query->where('address', 'LIKE', '%'.request()->get('address').'%');
+                $query->where('address', 'ilike', '%'.request()->get('address').'%');
             });
         }
 

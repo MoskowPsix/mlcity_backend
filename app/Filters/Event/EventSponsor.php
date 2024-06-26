@@ -11,7 +11,7 @@ class EventSponsor implements Pipe {
     {
         if(request()->has('sponsor')){
             $content->where(function($query) {
-                $query->orWhere('sponsor', 'LIKE', '%'.request()->get('sponsor').'%');
+                $query->orWhere('sponsor', 'ilike', '%'.request()->get('sponsor').'%');
             });
         }
 

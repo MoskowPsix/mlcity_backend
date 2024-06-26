@@ -885,13 +885,14 @@ class UserController extends Controller
     }
 
     public function checkAgreement(Request $reqeust, $agreement_id){
-        $user = auth("api")->user();
+        // На фронте возникают баги, по этому пока нужно убрать
+        // $user = auth("api")->user();
 
-        $agreement = $user->userAgreements()->where("user_agreement_id",$agreement_id)->first();
-        info($agreement);
-        if($agreement){
-            return response()->json(["message"=>"success", "data"=>$agreement]);
-        }
-        return response()->json(["message" => "user dont accept this agreement"],200);
+        // $agreement = $user->userAgreements()->where("user_agreement_id",$agreement_id)->first();
+        // info($agreement);
+        // if($agreement){
+        //     return response()->json(["message"=>"success", "data"=>$agreement]);
+        // }
+        return response()->json(["message" => "true"],200);
     }
 }

@@ -13,7 +13,7 @@ class SightAuthor implements Pipe {
             $user = '%'.request()->get('user').'%';
 
             $content->whereHas('author', function($q) use ($user){
-                $q->where('name', 'LIKE', $user)->orWhere('email', 'LIKE', $user);
+                $q->where('name', 'ilike', $user)->orWhere('email', 'LIKE', $user);
             });
         }
 
