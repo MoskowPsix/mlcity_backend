@@ -593,6 +593,7 @@ class EventController extends Controller
             // 'latitude'      => $latitude,
             // 'longitude'     => $longitude,
             'description'   => $request->description,
+            
             'price'         => $request->price,
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,

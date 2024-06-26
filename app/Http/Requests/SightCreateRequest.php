@@ -27,7 +27,7 @@ class SightCreateRequest extends FormRequest
             'name'         => 'required|min:3',
             'sponsor'      => 'required|min:3',
             'coords'       => 'required|min:2',
-            'description'  => 'required|min:10',
+            'description'  => 'nullable|string',
             'type'         => 'required',
             'status'       => 'required',
         ];
