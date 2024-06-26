@@ -261,7 +261,7 @@
                                 MessageContents.success_upd_status_content,
                                 'success',
                             )
-                            this.getHistoryContent()
+                            router.go(-1)
                             this.closeLoaderFullPage()
                         }),
                         catchError((err) => {

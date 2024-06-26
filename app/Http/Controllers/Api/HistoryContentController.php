@@ -137,21 +137,22 @@ class HistoryContentController extends Controller
     }
     private function checkStatuses(){
         $status_id = Status::where('name', 'Изменено')->first()->id;
+        info($status_id);
         if(request("type") == "Event"){
-            if (Event::find(request('id'))->whereHas('statuses', function($q) use ($status_id){
+            if (Event::where('id', request('id'))->whereHas('statuses', function($q) use ($status_id){
                 $q->where('status_id', $status_id)->where('last', true);
             })->exists()) {
                 return true;
-            } else { 
+            } else {
                 return false;
             }
         }
-        else {
+        else if (request("type") == "Sight") {
             if (Sight::find(request('id'))->whereHas('statuses', function($q) use ($status_id){
                 $q->where('status_id', $status_id)->where('last', true);
             })->exists()) {
                 return true;
-            } else { 
+            } else {
                 return false;
             }
         }
@@ -168,7 +169,7 @@ class HistoryContentController extends Controller
         }
         else
          {
-            if(!$this->checkRoleExists() || (Sight::find(request('id'))->user_id == auth('api')->user()->id)) {
+            if(!($this->checkRoleExists() || (Sight::find(request('id'))->user_id == auth('api')->user()->id))) {
                 return true;
             } else {
                 return false;
@@ -179,9 +180,9 @@ class HistoryContentController extends Controller
     private function checkRoleExists(){
         if (count(auth('api')->user()->role) !== 0) {
             return (auth('api')->user()->role[0]->name == "root" || auth('api')->user()->role[0]->name == "Admin");
-        } else { 
+        } else {
             return false;
         }
-        
+
     }
 }
