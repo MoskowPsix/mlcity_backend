@@ -30,7 +30,6 @@
         },
         methods: {
             ...mapActions(useEventFilterStore, ['clearFilters']),
-            ...mapActions(useSightFilterStore, ['clearFilters']),
             // eslint-disable-next-line vue/return-in-computed-property
             clearTextInput() {
                 // eslint-disable-next-line vue/no-side-effects-in-computed-properties

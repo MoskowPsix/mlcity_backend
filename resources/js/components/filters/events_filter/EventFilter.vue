@@ -117,7 +117,7 @@
     import { useLocationStore } from '../../../stores/LocationStore'
     import { useEventFilterStore } from '../../../stores/EventFilterStore'
     import { useStatusStore } from '../../../stores/StatusStore'
-    import { mapActions } from 'pinia'
+    import { mapActions, mapState } from 'pinia'
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
@@ -169,12 +169,17 @@
                 locations: [],
             }
         },
+        computed: {
+            ...mapState(useEventFilterStore, ['filterEventChange']),
+        },
         watch: {
             locationText(value) {
                 if (value.length >= 3) {
                     this.getLocation(value)
+                    this.filterEventChange.next(true)
                 } else if (value.length) {
                     this.setEventLocation('')
+                    this.filterEventChange.next(true)
                     this.modalSearchLocation = false
                     this.locations = []
                 }
@@ -182,42 +187,54 @@
             eventName(name) {
                 if (name.length > 3) {
                     this.setEventName(name)
+                    this.filterEventChange.next(true)
                 } else if (name == 0) {
                     this.setEventName(name)
+                    this.filterEventChange.next(true)
                 }
             },
             eventSponsor(sponsor) {
                 if (sponsor.length > 3) {
                     this.setEventSponsor(sponsor)
+                    this.filterEventChange.next(true)
                 } else if (sponsor == 0) {
                     this.setEventSponsor(sponsor)
+                    this.filterEventChange.next(true)
                 }
             },
             eventDate(date) {
                 if (date) {
                     this.setEventDate([date[0] + '~' + date[1]])
+                    this.filterEventChange.next(true)
                 } else {
                     this.setEventDate(['~'])
+                    this.filterEventChange.next(true)
                 }
             },
             eventText(text) {
                 if (text.length > 3) {
                     this.setEventText(text)
+                    this.filterEventChange.next(true)
                 } else if (text == 0) {
                     this.setEventText(text)
+                    this.filterEventChange.next(true)
                 }
             },
             eventStatuses(status) {
                 this.setEventStatuses(status)
+                this.filterEventChange.next(true)
             },
             eventStatusLast(status) {
                 this.setEventStatusLast(status)
+                this.filterEventChange.next(true)
             },
             eventUser(user) {
                 if (user.length > 3) {
                     this.setEventUser(user)
+                    this.filterEventChange.next(true)
                 } else if (user == 0) {
                     this.setEventUser(user)
+                    this.filterEventChange.next(true)
                 }
             },
         },

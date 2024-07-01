@@ -128,7 +128,7 @@
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
-    import ClearButton from '../../../components/clear_button/ClearButton.vue'
+    import ClearButton from '../../components/clear_button/ClearButton.vue'
 
     export default {
         name: 'SightFilter',

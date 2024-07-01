@@ -30,7 +30,6 @@ export const useSightFilterStore = defineStore('useSightFilter', {
         clearFilters() {
             console.log('clearing filters')
             localStorage.removeItem('sightNameFilter')
-            localStorage.removeItem('sightDateFilter')
             localStorage.removeItem('sightSponsorFilter')
             localStorage.removeItem('sightTextFilter')
             localStorage.removeItem('sightStatusesFilter')
@@ -38,7 +37,6 @@ export const useSightFilterStore = defineStore('useSightFilter', {
             localStorage.removeItem('sightUserFilter')
             localStorage.removeItem('sightLocationFilter')
             this.sightName = ''
-            this.sightDate = ''
             this.sightSponsor = ''
             this.sightSearchText = ''
             this.sightStatuses = ''

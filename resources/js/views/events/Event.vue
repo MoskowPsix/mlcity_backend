@@ -64,45 +64,15 @@
         },
 
         computed: {
-            ...mapState(useEventFilterStore, [
-                'eventName',
-                'eventDate',
-                'eventSponsor',
-                'eventSearchText',
-                'eventStatuses',
-                'eventStatusLast',
-                'eventUser',
-                'eventLocation',
-            ]),
-        },
-        watch: {
-            eventName() {
-                this.getAllEvent()
-            },
-            eventDate() {
-                this.getAllEvent()
-            },
-            eventSponsor() {
-                this.getAllEvent()
-            },
-            eventSearchText() {
-                this.getAllEvent()
-            },
-            eventStatuses() {
-                this.getAllEvent()
-            },
-            eventStatusLast() {
-                this.getAllEvent()
-            },
-            eventUser() {
-                this.getAllEvent()
-            },
-            eventLocation() {
-                this.getAllEvent()
-            },
+            ...mapState(useEventFilterStore, ['filterEventChange']),
         },
         mounted() {
             this.getAllEvent()
+            this.filterEventChange
+                .pipe(takeUntil(this.destroy$))
+                .subscribe(() => {
+                    this.getAllEvent()
+                })
         },
         methods: {
             ...mapActions(useToastStore, ['showToast']),

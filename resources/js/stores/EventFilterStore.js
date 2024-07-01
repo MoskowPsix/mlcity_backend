@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 
 export const useEventFilterStore = defineStore('useEventFilter', {
     state: () => ({
-        filterChange: new BehaviorSubject(false),
+        filterEventChange: new BehaviorSubject(false),
         eventName: new BehaviorSubject(
             localStorage.getItem('eventNameFilter') || '',
         ),
@@ -31,24 +31,23 @@ export const useEventFilterStore = defineStore('useEventFilter', {
     }),
     actions: {
         clearFilters() {
-            console.log('clearing filters')
+            localStorage.setItem('eventDateFilter', '~')
             localStorage.removeItem('eventNameFilter')
-            localStorage.removeItem('eventDateFilter')
             localStorage.removeItem('eventSponsorFilter')
             localStorage.removeItem('eventTextFilter')
             localStorage.removeItem('eventStatusesFilter')
             localStorage.removeItem('eventStatusLastFilter')
             localStorage.removeItem('eventUserFilter')
             localStorage.removeItem('eventLocationFilter')
-            this.eventName = ''
-            this.eventDate = ''
-            this.eventSponsor = ''
-            this.eventSearchText = ''
-            this.eventStatuses = ''
-            this.eventStatusLast = ''
-            this.eventUser = ''
-            this.eventLocation = ''
-            this.filterChange.next(true)
+            this.eventDate.next('~')
+            this.eventName.next('')
+            this.eventSponsor.next('')
+            this.eventSearchText.next('')
+            this.eventStatuses.next('')
+            this.eventStatusLast.next('')
+            this.eventUser.next('')
+            this.eventLocation.next('')
+            this.filterEventChange.next(true)
         },
         setEventLocation(location) {
             localStorage.setItem('eventLocationFilter', location)
@@ -59,14 +58,14 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         },
         setEventName(name) {
             localStorage.setItem('eventNameFilter', name)
-            this.eventName = name
+            this.eventName.next(name)
         },
         getEventName() {
             return localStorage.getItem('eventNameFilter')
         },
         setEventDate(date) {
             localStorage.setItem('eventDateFilter', date)
-            this.eventDate = date
+            this.eventDate.next(date)
         },
         getEventDate() {
             return (
@@ -76,35 +75,35 @@ export const useEventFilterStore = defineStore('useEventFilter', {
         },
         setEventSponsor(sponsor) {
             localStorage.setItem('eventSponsorFilter', sponsor)
-            this.eventSponsor = sponsor
+            this.eventSponsor.next(sponsor)
         },
         getEventSponsor() {
             return localStorage.getItem('eventSponsorFilter')
         },
         setEventText(text) {
             localStorage.setItem('eventTextFilter', text)
-            this.eventSearchText = text
+            this.eventSearchText.next(text)
         },
         getEventText() {
             return localStorage.getItem('eventTextFilter')
         },
         setEventStatuses(status) {
             localStorage.setItem('eventStatusesFilter', status)
-            this.eventStatuses = status
+            this.eventStatuses.next(status)
         },
         getEventStatuses() {
             return localStorage.getItem('eventStatusesFilter')
         },
         setEventStatusLast(status) {
             localStorage.setItem('eventStatusLastFilter', status)
-            this.eventStatusLast = status
+            this.eventStatusLast.next(status)
         },
         getEventStatusLast() {
             return localStorage.getItem('eventStatusLastFilter')
         },
         setEventUser(user) {
             localStorage.setItem('eventUserFilter', user)
-            this.eventUser = user
+            this.eventUser.next(user)
         },
         getEventUser() {
             return localStorage.getItem('eventUserFilter')
