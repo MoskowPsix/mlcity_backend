@@ -230,6 +230,7 @@
                 'getSightStatusLast',
                 'setSightUser',
                 'getSightUser',
+                'clearFilters',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
             ...mapActions(useLocationStore, [
@@ -252,11 +253,12 @@
                 }
             },
             clearInput() {
-                this.$refs.name.value = ''
-                this.$refs.sponsor.value = ''
-                this.$refs.text.value = ''
-                this.$refs.user.value = ''
-                this.$refs.location.value = ''
+                this.sightName = ''
+                this.sightSponsor = ''
+                this.sightText = ''
+                this.sightUser = ''
+                this.locationText = ''
+                this.clearFilters()
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true
