@@ -16,17 +16,17 @@ class TimezoneSeeder extends Seeder
     public function run()
     {
         $timezones = [
-            ['name' => "Europe/Kaliningrad", 'UTC' => "UTC +2"],
-            ['name' => "Europe/Moscow", 'UTC' => "UTC +3"],
-            ['name' => "Europe/Samara", 'UTC' => "UTC +4"],
-            ['name' => "Asia/Yekaterinburg", 'UTC' => "UTC +5"],
-            ['name' => "Asia/Omsk", 'UTC' => "UTC +6"],
-            ['name' => "Asia/Krasnoyarsk", 'UTC' => "UTC +7"],
-            ['name' => "Asia/Irkutsk", 'UTC' => "UTC +8"],
-            ['name' => "Asia/Yakutsk", 'UTC' => "UTC +9"],
-            ['name' => "Asia/Vladivostok", 'UTC' => "UTC +10"],
-            ['name' => "Asia/Magadan", 'UTC' => "UTC +11"],
-            ['name' => "Asia/Kamchatka", 'UTC' => "UTC +12"]
+            ['name' => "Europe/Kaliningrad", 'UTC' => "UTC+2"],
+            ['name' => "Europe/Moscow", 'UTC' => "UTC+3"],
+            ['name' => "Europe/Samara", 'UTC' => "UTC+4"],
+            ['name' => "Asia/Yekaterinburg", 'UTC' => "UTC+5"],
+            ['name' => "Asia/Omsk", 'UTC' => "UTC+6"],
+            ['name' => "Asia/Krasnoyarsk", 'UTC' => "UTC+7"],
+            ['name' => "Asia/Irkutsk", 'UTC' => "UTC+8"],
+            ['name' => "Asia/Yakutsk", 'UTC' => "UTC+9"],
+            ['name' => "Asia/Vladivostok", 'UTC' => "UTC+10"],
+            ['name' => "Asia/Magadan", 'UTC' => "UTC+11"],
+            ['name' => "Asia/Kamchatka", 'UTC' => "UTC+12"]
         ];
 
         foreach($timezones as $timezone){
