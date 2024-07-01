@@ -171,7 +171,7 @@ class IntegrationAfisha7 extends Command
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                     }
                 }
-                info( ' | ' .$progress . ' / ' . count($this->locations) . ' | ' );
+                info( ' | ' .$progress . ' / ' . count($this->locations) . ' | ' ); 
             }
         }
     }
@@ -190,7 +190,7 @@ class IntegrationAfisha7 extends Command
                 {
                     if ($total >= 0) {
                         $process = new Process(['php', 'artisan', 'int', $type, $location_id, $offset, $typeS]); 
-                        info('php artisan int ' . $type . ' ' . $location_id . ' ' .$offset . ' ' .$typeS);
+                        // info('php artisan int ' . $type . ' ' . $location_id . ' ' .$offset . ' ' .$typeS); // проверка вводимой команды
                         $process->setTimeout(0);
                         $process->disableOutput();
                         $process->start();
@@ -367,8 +367,6 @@ class IntegrationAfisha7 extends Command
                     $this->setStatusEvent($event_cr);
                 }
             }
-        } else {
-            info('нет ивентов ' . $this->location);
         }
     }
     /**
@@ -465,7 +463,7 @@ class IntegrationAfisha7 extends Command
         $type_index = array_search($cat_id,array_column($this->types, 'id'));
         $type_name = $this->types[$type_index]->name;
         $type = EventType::where('name', $type_name);
-        $type->exists() ? $event_create->types()->attach($type->first()->id) : info('тип не найден: ' . $cat_id);
+        $type->exists() ? $event_create->types()->attach($type->first()->id) : null; // решить проблему с типами
     }
      /**
      *
@@ -679,42 +677,43 @@ class IntegrationAfisha7 extends Command
      */
     private function setSeances(Object $event, Object $sight, Place $place_create): void
     {
-        $seances = $this->getSeances($event->id, $sight->afisha7_id, $event->loc_id);
-        // info($seances);
-        info('event_id: '.$event->id.' place_id: '.$sight->afisha7_id.' location_id: '.$event->loc_id);
-        if(isset($seances->seances)) {
-            foreach ($seances->seances as $seance) {
-                $place_create->seances()->create([
-                    'date_start' => gmdate("Y-m-d\TH:i:s\Z", $seance->date_start),
-                    'date_end' => gmdate("Y-m-d\TH:i:s\Z", $seance->date_end),
-                ]);
+        $seances_types = $this->getSeances($event->id, $event->loc_id);
+        foreach ($seances_types as $seances) {
+            foreach($seances as $seance) {
+                if(isset($seances) && !isset($seances->errors)) {
+                    $place_create->seances()->create([
+                        'date_start' => gmdate("Y-m-d\TH:i:s\Z", $seance->date_start),
+                        'date_end' => gmdate("Y-m-d\TH:i:s\Z", $seance->date_end),
+                    ]);
+                }
             }
-        } else {
-            info('сеансов нет');
         }
     }
      /**
      *
-     * @return object
+     * @return array
      */
-    private function getSeances(Int $event_id, Int $place_id, Int $location_id): object
+    private function getSeances(Int $event_id, Int $location_id): array
     {
         try {
+            $seances_full = [];
+            $types = ['af', 'mk', 'ya', 'rb', 'rf'];
             $client = new Client();
             $url = 'https://api.afisha7.ru/v3.1/seances/';
-            
-            $params = [
-                "form_params" => [
-                    "token" => $this->token,
-                    "ev_id" => $event_id,
-                    'ev_locale_id' => $location_id,
-                    'ev_place_id' => $place_id,
-                ]
-            ];
-
-            $response = $client->request('POST', $url, $params);
-            $seances = json_decode($response->getBody()->getContents());
-            return $seances;
+            foreach($types as $type) {
+                $params = [
+                    "form_params" => [
+                        "token" => $this->token,
+                        "id" => $event_id,
+                        'loc_id' => $location_id,
+                        'type' => $type,
+                    ]
+                ];    
+                $response = $client->request('POST', $url, $params);
+                $seances = json_decode($response->getBody()->getContents());
+                $seances_full[] = $seances;
+            }
+            return $seances_full;
         } catch (Exception $e) {
             Log::error('Ошибка при получении мест');
             return json_decode('');
