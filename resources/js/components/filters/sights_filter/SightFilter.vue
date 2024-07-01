@@ -128,7 +128,7 @@
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
-    import ClearButton from '../../components/clear_button/ClearButton.vue'
+    import ClearButton from '../../../components/clear_button/ClearButton.vue'
 
     export default {
         name: 'SightFilter',
@@ -230,6 +230,7 @@
                 'getSightStatusLast',
                 'setSightUser',
                 'getSightUser',
+                'clearFilters',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
             ...mapActions(useLocationStore, [
@@ -252,11 +253,12 @@
                 }
             },
             clearInput() {
-                this.$refs.name.value = ''
-                this.$refs.sponsor.value = ''
-                this.$refs.text.value = ''
-                this.$refs.user.value = ''
-                this.$refs.location.value = ''
+                this.sightName = ''
+                this.sightSponsor = ''
+                this.sightText = ''
+                this.sightUser = ''
+                this.locationText = ''
+                this.clearFilters()
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true

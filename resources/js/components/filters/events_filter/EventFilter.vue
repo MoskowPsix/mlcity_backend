@@ -268,6 +268,7 @@
                 'getEventUser',
                 'setEventLocation',
                 'getEventLocation',
+                'clearFilters',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
             ...mapActions(useLocationStore, [
@@ -290,11 +291,12 @@
                 }
             },
             clearInput() {
-                this.$refs.name.value = ''
-                this.$refs.sponsor.value = ''
-                this.$refs.text.value = ''
-                this.$refs.user.value = ''
-                this.$refs.location.value = ''
+                this.eventName = ''
+                this.eventSponsor = ''
+                this.eventText = ''
+                this.eventUser = ''
+                this.locationText = ''
+                this.clearFilters()
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true

@@ -36,13 +36,14 @@ export const useSightFilterStore = defineStore('useSightFilter', {
             localStorage.removeItem('sightStatusLastFilter')
             localStorage.removeItem('sightUserFilter')
             localStorage.removeItem('sightLocationFilter')
-            this.sightName = ''
-            this.sightSponsor = ''
-            this.sightSearchText = ''
-            this.sightStatuses = ''
-            this.sightStatusLast = ''
-            this.sightUser = ''
-            this.sightLocation = ''
+            this.sightDate.next('~')
+            this.sightName.next('')
+            this.sightSponsor.next('')
+            this.sightSearchText.next('')
+            this.sightStatuses.next('')
+            this.sightStatusLast.next('')
+            this.sightUser.next('')
+            this.sightLocation.next('')
             this.filterChange.next(true)
         },
         setSightLocation(location) {
