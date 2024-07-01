@@ -41,7 +41,8 @@ class StatusController extends Controller
                 if(count(auth('api')->user()->roles)>0){
                     switch (auth('api')->user()->roles[0]->name) {
                         case "root":
-                            $statuses = Status::all();
+                            $statuses = Status::all()->toArray();
+                            usort($statuses, [$this, "sortStatuses"]);
                         break;
                         case "Admin":
                             $statuses = Status::all();
@@ -220,5 +221,15 @@ class StatusController extends Controller
                 'sight' => $request->sight_id,
                 'descriptions' => $request->descriptions,
             ], 200);
+    }
+
+    private function sortStatuses($a, $b)
+    {
+        $order = array("Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ");
+        info($a);
+        $pos1 = array_search($a['name'], $order);
+        $pos2 = array_search($b['name'], $order);
+
+        return $pos1 - $pos2;
     }
 }
