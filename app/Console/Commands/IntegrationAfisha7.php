@@ -56,6 +56,11 @@ class IntegrationAfisha7 extends Command
      * @var array
      */
     private $locations = [];
+
+    /**
+     * @var array
+     */
+    private $locations_level_3 = [];
     /**
      * @var integer
      */
@@ -113,7 +118,7 @@ class IntegrationAfisha7 extends Command
         $this->setLocations();
         $this->setTypes();
 
-        foreach ($this->locations as $location) {
+        foreach ($this->locations_level_3 as $location) {
             $progress++;
             if ($location->level == 3) {
                 foreach($this->types as $type) {
@@ -126,7 +131,7 @@ class IntegrationAfisha7 extends Command
                 if (isset($events['total'])){
                     $this->startCommand((int)$events['total'], $location->id, 'event', $type->id);
                 }
-                info( ' | ' .$progress . ' / ' . count($this->locations) . ' | ' );
+                info( ' | ' .$progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->url . '| ' );
             }
         }
     }
@@ -272,6 +277,7 @@ class IntegrationAfisha7 extends Command
             foreach ($locations->level as $level) {
                 foreach($level as $location) {
                     $this->locations[] = $location;
+                    $location->level == 3 ? $this->locations_level_3[] = $location : null;
                 }
             }
         } catch (Exception $e) {
@@ -318,7 +324,7 @@ class IntegrationAfisha7 extends Command
                     "loc_id" => $location_id,
                     "limit" => $limit,
                     "offset" => $offset,
-                    "date_end" => date("Y-m-d H:i:s")
+                    "date_start" => date("Y-m-d H:i:s")
                 ]
             ];
             $response = $client->request('POST', $url, $params);
@@ -610,19 +616,20 @@ class IntegrationAfisha7 extends Command
         foreach ($event->places as $place) {
             $sight_search_name = Sight::where('name', $place->name);
             $sight = $sight_search_name->first();
+            if (isset($sight->latitude) && isset($sight->longitude)) {
+                $location = $this->searchLocationByCoords($sight->latitude,$sight->longitude, $sight->address);
+                $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
 
-            $location = $this->searchLocationByCoords($sight->latitude,$sight->longitude, $sight->address);
-            $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
-
-            $place_create = $event_create->places()->create([
-                'timezone_id' => $timezone_id,
-                'address' => $sight->address,
-                'location_id' => $sight->location_id,
-                'latitude' => $sight->latitude,
-                'longitude' => $sight->longitude,
-                'sight_id' => $sight->id,
-            ]);
-            $this->setSeances($event, $sight, $place_create);
+                $place_create = $event_create->places()->create([
+                    'timezone_id' => $timezone_id,
+                    'address' => $sight->address,
+                    'location_id' => $sight->location_id,
+                    'latitude' => $sight->latitude,
+                    'longitude' => $sight->longitude,
+                    'sight_id' => $sight->id,
+                ]);
+                $this->setSeances($event, $sight, $place_create);
+            }
         }
     }
      /**
