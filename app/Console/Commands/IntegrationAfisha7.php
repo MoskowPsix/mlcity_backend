@@ -120,18 +120,22 @@ class IntegrationAfisha7 extends Command
 
         foreach ($this->locations_level_3 as $location) {
             $progress++;
+            $sights = [];
+            $events = [];
             if ($location->level == 3) {
                 foreach($this->types as $type) {
                     $sights = get_object_vars($this->getSights($location->url, 1, 0, $type->id));
                     if (isset($sights['total'])){
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
+                        info('sights: ' . $sights['total']);
                     }
                 }
                 $events = get_object_vars($this->getEvents($location->id));
                 if (isset($events['total'])){
                     $this->startCommand((int)$events['total'], $location->id, 'event', $type->id);
+                    info('events: ' . $events['total']);
                 }
-                info( ' | ' .$progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->url . '| ' );
+                info( ' | ' .$progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->url . '|' );
             }
         }
     }
@@ -195,7 +199,13 @@ class IntegrationAfisha7 extends Command
         try
         {
             while ($total >= 0) {
-                $numberOfProcess = 10;
+                if ($total < $this->limit) {
+                    $numberOfProcess = 1;
+                } else if($total < $this->limit * 100) {
+                    $numberOfProcess = intval($total / 100);
+                } else {
+                    $numberOfProcess = 100;
+                }
                 for ($i = 0; $i < $numberOfProcess; $i++) // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
                 {
                     if ($total >= 0) {

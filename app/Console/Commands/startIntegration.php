@@ -42,17 +42,17 @@ class startIntegration extends Command
         if (($this->argument('type') == 'event') && $this->argument('page')) {
             // event задаём page и total если пришли аргументы
             $page_event = $this->argument('page');
-            $total_event = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_event.'&limit='.$limit.'&statuses=published', true))->pagination->total;
+            $total_event = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_event.'&limit='.$limit, true))->pagination->total;
         } else if (($this->argument('type') == 'sight') && $this->argument('page')) {
             // sight задаём page и total если пришли аргументы
             $page_sight = $this->argument('page');
-            $total_sight = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_sight.'&limit='.$limit . '&statuses=published', true))->pagination->total;
+            $total_sight = json_decode(file_get_contents('https://www.culture.ru/api-next/institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
         } else {
             // Если не пришли аргументы то устанавливаем стартовые значения для всех
             $page_event = 1;
             $page_sight = 1;
-            $total_event = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_event.'&limit='.$limit.'&statuses=published', true))->pagination->total;
-            $total_sight = json_decode(file_get_contents('https://www.culture.ru/api/institutes?page='.$page_sight.'&limit='.$limit . '&statuses=published', true))->pagination->total;
+            $total_event = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_event.'&limit='.$limit, true))->pagination->total;
+            $total_sight = json_decode(file_get_contents('https://www.culture.ru/api-next/institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
         }
         $this->getMessage('Setting the settings end');
 
