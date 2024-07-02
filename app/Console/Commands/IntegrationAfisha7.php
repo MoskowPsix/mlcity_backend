@@ -77,7 +77,7 @@ class IntegrationAfisha7 extends Command
      */
     public function handle(): int
     {
-        // $this->setTokenEnv();
+        $this->setToken();
         // Переопределяем переменные если пришли аргументы
         $this->argument('offset') ? $this->offset = (int)$this->argument('offset') : null;
         $this->argument('type')? $this->type = $this->argument('type') : $this->type = 'events';
@@ -91,6 +91,9 @@ class IntegrationAfisha7 extends Command
                 break;
             case 'sight':
                 $this->integrationSightsForLocation();
+                break;
+            case 'token':
+                $this->setTokenEnv();
                 break;
             default:
                 $this->failed('Argument not found');
@@ -107,8 +110,6 @@ class IntegrationAfisha7 extends Command
     {
         info( 'Start all' );
         $progress = 0;
-        $this->setTokenEnv();
-        $this->setToken();
         $this->setLocations();
         $this->setTypes();
 
@@ -137,7 +138,6 @@ class IntegrationAfisha7 extends Command
     {
         info( 'Start event' );
         $progress = 0;
-        $this->setToken(); 
         $this->setLocations();
 
         foreach ($this->locations as $location) {
@@ -160,7 +160,6 @@ class IntegrationAfisha7 extends Command
     {
         info( 'Start sight' );
         $progress = 0;
-        $this->setToken(); 
         $this->setLocations();
         $this->setTypes();
 
@@ -365,7 +364,6 @@ class IntegrationAfisha7 extends Command
     {
         $this->argument('location') ? $this->location = $this->argument('location') : $this->failed('not valid argument location');
 
-        $this->setToken();
         $this->setTypes();
         $events = $this->getEvents($this->location, $this->limit, $this->offset);
         if(isset($events->events)) {
@@ -390,7 +388,6 @@ class IntegrationAfisha7 extends Command
     {
         $this->argument('location') ? $this->location = $this->argument('location') : $this->failed('not valid argument location');
         $this->argument('types') ? $types_id = $this->argument('types') : $this->failed('not valid argument location');
-        $this->setToken();
         $this->setTypes();
         $sights = $this->getSights($this->location, $this->limit, $this->offset, $types_id);
         if(isset($sights->places)) {
