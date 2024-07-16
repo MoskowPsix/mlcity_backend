@@ -36,7 +36,11 @@ class IntegrationAfisha7 extends Command
      * @var string
      */
     protected $description = 'Command description';
+     /**
+     * @var int
+     */
 
+    private int $location_start = 0;
      /**
      * @var array
      */
@@ -101,7 +105,13 @@ class IntegrationAfisha7 extends Command
                 $this->setTokenEnv();
                 break;
             default:
-                $this->failed('Argument not found');
+                $number = (int)$this->argument('type');
+                if($number){
+                    $this->location_start = $number;
+                    $this->integrationEventsAndSights();
+                }else{
+                    $this->failed('Argument not found');
+                }
                 break;
         }
 
@@ -117,6 +127,11 @@ class IntegrationAfisha7 extends Command
         $progress = 0;
         $this->setLocations();
         $this->setTypes();
+
+        if($this->location_start){
+            $this->locations = array_splice($this->locations_level_3, 0, $this->location_start*2-$this->location_start);
+            $progress = $this->location_start;
+        }
 
         foreach ($this->locations_level_3 as $location) {
             $progress++;
@@ -177,7 +192,7 @@ class IntegrationAfisha7 extends Command
             if ($location->level == 3) {
                 foreach($this->types as $type) {
                     $sights = get_object_vars($this->getSights($location->url, 1, 0, $type->id));
-                    if (isset($sights['total'])){
+                    if (isset($sights) && isset($sights['total'])){
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                     }
                 }
