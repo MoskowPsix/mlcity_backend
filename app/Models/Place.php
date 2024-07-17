@@ -23,7 +23,8 @@ class Place extends Model
         'latitude',
         'longitude',
         'address',
-        'timezone_id'
+        'timezone_id',
+        'cult_id'
     ];
 
     protected static function booted(){

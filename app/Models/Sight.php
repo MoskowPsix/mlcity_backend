@@ -28,7 +28,8 @@ class Sight extends Model
         'materials',
         'user_id',
         'cult_id',
-        'work_time'
+        'work_time',
+        'afisha7_id',
     ];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
