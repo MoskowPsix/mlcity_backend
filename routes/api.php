@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\OrganizationInviteController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
+use App\Http\Controllers\Api\AppVersionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +54,10 @@ use Illuminate\Support\Facades\Route;
 //     return back()->with('message', 'Verification link sent!');
 // })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
+Route::controller(AppVersionController::class)->group(function () {
+    Route::post('app/{platform}/{number}', 'setVersion')->middleware('root');
+    Route::get('app', 'getVersion');
+});
 Route::controller(AuthController::class)->group(function() {
     Route::post('register', 'register');
     Route::post('login', 'login');
@@ -110,7 +114,7 @@ Route::controller(AuthSocialController::class)->group(function() {
     Route::get('social-auth/yandex/redirect','yandexRedirect')->name('yandexRedirect');
 
     Route::post('social-auth/apple', 'callbackApple')->name('auth.social');
-    
+
     Route::get('social-auth/{provider}', 'index')->name('auth.social');
     Route::get('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
     Route::post('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');

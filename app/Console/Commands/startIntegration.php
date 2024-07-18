@@ -32,7 +32,7 @@ class startIntegration extends Command
      */
     public function handle()
     {
-        $limit = 10; // Задаём лимит записей на странице
+        $limit = 1; // Задаём лимит записей на странице
 
         $this->getMessage('Setting the settings start');
         $timezone_command = new Process(['php', 'artisan', 'add_timezone']);

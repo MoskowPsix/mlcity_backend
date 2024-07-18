@@ -33,5 +33,6 @@ class DatabaseSeeder extends Seeder
         $this->call(AgreementSeeder::class);
         $this->call(FavoriteCitySeeader::class);
         $this->call(TimezoneSeeder::class);
+        $this->call(AppVersionSeeder::class);
     }
 }
