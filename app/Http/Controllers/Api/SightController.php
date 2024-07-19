@@ -32,136 +32,7 @@ use App\Models\HistoryContent;
 
 class SightController extends Controller
 {
-             /**
-     * @OA\Get(
-     *     path="/sights",
-     *     tags={"Sight"},
-     *     summary="Get all sights by filters",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         description="Sight name",
-     *         name="name",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="statuses",
-     *         description="Statuses sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="statusLast",
-     *         description="True = last statuses event. False = search by all statuses sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="bool"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sightTypes",
-     *         description="Type sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="searchText",
-     *         description="Search text by name event, sponsor event and description event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="user",
-     *         description="Email and name user author",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="region",
-     *         description="Region sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="latitude",
-     *         description="Latitude sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="longitude",
-     *         description="Longitude sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getSights(Request $request): \Illuminate\Http\JsonResponse
     {
         $pagination = $request->pagination;
@@ -240,71 +111,12 @@ class SightController extends Controller
 
         return response()->json($sight, 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/sights/update-vk-likes",
-     *     tags={"Sight"},
-     *     summary="Update vk likes sight",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="sight_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="likes_count",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function updateVkLikes(Request $request){
         $sight = Sight::find($request->sight_id);
         $sight->likes()->update(['vk_count' => $request->likes_count]);
     }
-     /**
-     * @OA\Post(
-     *     path="/sights/set-sight-user-liked",
-     *     tags={"Sight"},
-     *     summary="Set sight user liked",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="sight_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Создаем отношение - юзер лайкнул место
     public function setSightUserLiked(Request $request): \Illuminate\Http\JsonResponse{
         $sight = Sight::find($request->sight_id);
@@ -317,33 +129,7 @@ class SightController extends Controller
 
         return response()->json(['likedUser' => $likedUser], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/sights/{id}/check-user-liked",
-     *     tags={"Sight"},
-     *     summary="Check user liked",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Проверяем лайкал ли авторизованный юзер этот место
     public function checkLiked($id): \Illuminate\Http\JsonResponse
     {
@@ -353,33 +139,7 @@ class SightController extends Controller
 
         return  response()->json($liked, 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/sights/{id}/check-user-favorite",
-     *     tags={"Sight"},
-     *     summary="Check user favorite",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Проверяем добавил ли авторизованный юзер этот место в избранное
     public function checkFavorite($id): \Illuminate\Http\JsonResponse
     {
@@ -389,33 +149,6 @@ class SightController extends Controller
 
         return  response()->json($favorite, 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/sights/{id}",
-     *     tags={"Sight"},
-     *     summary="Get sight by id",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
@@ -446,106 +179,7 @@ class SightController extends Controller
 
         return response()->json(["message" => "Sight not found"], 404);
     }
-    /**
-     * @OA\Post(
-     *     path="/sights/create",
-     *     tags={"Sight"},
-     *     summary="Create new sight",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="name",
-     *         description="Name sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="coords",
-     *         description="Coords sight <lat, long>",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="description",
-     *         description="Description sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="price",
-     *         description="Price sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="materials",
-     *         in="query",
-     *         description="Materials sight",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="vkGroupId",
-     *         description="id group vk sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="vkPostId",
-     *         description="id post vk sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         $coords = explode(',',$request->coords);
@@ -610,40 +244,7 @@ class SightController extends Controller
 
         return response()->json(['status' => 'success', 'sight' => $sight], 201);
     }
-    /**
-     * @OA\Get(
-     *     path="/sights/{id}/liked-users",
-     *     tags={"Sight"},
-     *     summary="Get users like sight",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getSightUserLikedIds($id, Request $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Sight::findOrFail($id)->likedUsers;
@@ -666,40 +267,7 @@ class SightController extends Controller
                                 ->withPath($request->url())
        ], 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/sights/{id}/favorites-users",
-     *     tags={"Sight"},
-     *     summary="Get users like sight",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getSightUserFavoritesIds($id, Request $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Sight::findOrFail($id)->favoritesUsers;
@@ -722,106 +290,7 @@ class SightController extends Controller
                                 ->withPath($request->url())
        ], 200);
     }
-    /**
-     * @OA\Put(
-     *     path="/sights/updateSight/{id}",
-     *     tags={"Sight"},
-     *     summary="Update sight by id",
-     *     security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *         name="id",
-     *         description="id sight",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="name",
-     *         description="Name sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="latitude",
-     *         description="Latitude sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="longitude",
-     *         description="Longitude sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="description",
-     *         description="Description sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="price",
-     *         description="Price sight",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="materials",
-     *         in="query",
-     *         description="Materials sight",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function updateSight(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $data = $request->all();

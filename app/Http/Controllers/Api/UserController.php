@@ -34,35 +34,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class UserController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/users/{id}",
-     *     tags={"User"},
-     *     summary="Get user by id",
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         required=true,
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=404,
-     *         description="not found"
-     *     ),
-     * )
-     */
-
 
     // Получить юзера по ИД
     public function getUser(): \Illuminate\Http\JsonResponse
@@ -76,33 +47,7 @@ class UserController extends Controller
             'user_id'       => auth('api')->user()->id
         ], 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/users/{id}/social-account",
-     *     tags={"User"},
-     *     summary="Get social account user",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Получить социальный аккаунт по ид юзера
     public function getSocialAccountByUserId($user_id){
         return SocialAccount::where('user_id', $user_id)->firstOrFail();
@@ -112,33 +57,7 @@ class UserController extends Controller
     {
         return User::findOrFail(Auth::user()->id)->favoriteEvents;
     }
-    /**
-     * @OA\Get(
-     *     path="/users/{id}/favorite-events",
-     *     tags={"User"},
-     *     summary="Get favorites events user",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Получаем массив с ид ивентов, которые юзер добавил в избранное
    public function getUserFavoriteEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
@@ -170,33 +89,7 @@ class UserController extends Controller
     {
         return User::findOrFail(Auth::user()->id)->likedEvents;
     }
-    /**
-     * @OA\Get(
-     *     path="/users/{id}/liked-events",
-     *     tags={"User"},
-     *     summary="Get liked events user",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Получаем массив с ид ивентов, которые юзер лайкнул
    public function getUserLikedEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
@@ -221,33 +114,7 @@ class UserController extends Controller
                                 ->withPath($request->url())
        ], 200);
    }
-   /**
-     * @OA\Get(
-     *     path="/users/{id}/favorite-sights",
-     *     tags={"User"},
-     *     summary="Get favorites sights user",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
    public function getUserFavoriteSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
     $page = $request->page;
@@ -272,33 +139,6 @@ class UserController extends Controller
        'result' => $response,
     ], 200);
    }
-    /**
-     * @OA\Get(
-     *     path="/users/{id}/liked-sights",
-     *     tags={"User"},
-     *     summary="Get liked sights user",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
 
     public function chekUserName($name) {
         if (strlen($name) >= 3) {
@@ -384,33 +224,7 @@ class UserController extends Controller
                                 ->withPath($request->url())
         ], 200);
    }
-    /**
-     * @OA\Post(
-     *     path="/users/like-event-toggle",
-     *     tags={"User"},
-     *     summary="Add event in like",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="event_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Добавляем убираем лайк
     public function toggleLikedEvent(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -430,33 +244,7 @@ class UserController extends Controller
             'status'  => 'success',
         ], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/users/like-sight-toggle",
-     *     tags={"User"},
-     *     summary="Add sight in like",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="sight_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function toggleLikedSight(Request $request): \Illuminate\Http\JsonResponse
     {
         Auth::user()->likedSights()->toggle($request->sight_id); // верно
@@ -475,33 +263,7 @@ class UserController extends Controller
             'status'  => 'success',
         ], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/users/favorite-event-toggle",
-     *     tags={"User"},
-     *     summary="Add event in favorite",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="event_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Добавляем убираем из избранного
     public function toggleFavoriteEvent(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -511,33 +273,7 @@ class UserController extends Controller
             'status'  => 'success',
         ], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/users/favorite-sight-toggle",
-     *     tags={"User"},
-     *     summary="Add sight in favorite",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="sight_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function toggleFavoriteSight(Request $request): \Illuminate\Http\JsonResponse
     {
         Auth::user()->favoriteSights()->toggle($request->sight_id);
@@ -548,89 +284,7 @@ class UserController extends Controller
     }
 
     //Методы для Админ панели
-    /**
-     * @OA\Get(
-     *     path="/listUsers",
-     *     tags={"User"},
-     *     summary="Get all users by filters, method for AdminPanel",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="name",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="email",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="createdDateStart",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="createdDateEnd",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="updatedDateStart",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="updatedDateEnd",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="region",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Получить всех юзеров через фильтры
     public function listUsers(Request $request)
     {
@@ -659,75 +313,7 @@ class UserController extends Controller
             return response()->json(['status' => 'success', 'users' => $response], 200);
     }
 
-    /**
-     * @OA\Put(
-     *     path="/updateUsers/{id}",
-     *     tags={"User"},
-     *     summary="Update user by id, method for AdminPanel",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="name",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="email",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="region",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function updateUsers(Request $request, $id)
     {
 
@@ -742,33 +328,6 @@ class UserController extends Controller
         ], 200);
     }
 
-    /**
-     * @OA\Delete(
-     *     path="/deleteUsers/{id}",
-     *     tags={"User"},
-     *     summary="Delete soft user by id, method for AdminPanel",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
     public function deleteUsers($id): \Illuminate\Http\JsonResponse
     {
         User::find($id)->delete();

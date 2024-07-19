@@ -33,86 +33,7 @@ class AuthController extends Controller
      * @var bool
      */
     protected $stopOnFirstFailure = true;
-    /**
-     * @OA\Post(
-     ** path="/register",
-     *   tags={"Auth"},
-     *   summary="Register",
-     *   operationId="register",
-     *
-     *  @OA\Parameter(
-     *      name="name",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *  @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="city",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="region",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *      @OA\Parameter(
-     *      name="password_confirmation",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=201,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
+
     public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
     {
         try {
@@ -136,9 +57,9 @@ class AuthController extends Controller
                         // 'number' => $input['number'],
                     ]);
                 }
-                
+
                 // try{
-                    $this->createCodeEmail($user); 
+                    $this->createCodeEmail($user);
                 // } catch (Exception $e) {
                 //     return response()->json([
                 //         'status'        => 'error',
@@ -177,7 +98,7 @@ class AuthController extends Controller
 
     }
 
-    
+
 
     public function verificationCodeEmail(VerficationCodeRequest $request)
     {
@@ -205,8 +126,8 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
-    
-    public function resetEmail(RequestResetEmailVerificationCode $request) 
+
+    public function resetEmail(RequestResetEmailVerificationCode $request)
     {
         //$user = auth('api')->user();
         $user = User::find(auth('api')->user()->id);
@@ -232,7 +153,7 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
-    public function verificationPhone() 
+    public function verificationPhone()
     {
         $user = auth('api')->user();
         $result = $this->createCodePhone($user);
@@ -267,57 +188,8 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
         }
     }
-    
-      /**
-     * @OA\Post(
-     ** path="/login",
-     *   tags={"Auth"},
-     *   summary="Login",
-     *   operationId="login",
-     *
-     *   @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
      public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
-    {   
+    {
         // if (!Auth::attempt($request->only('email', 'password'))) {
         //     return response()->json([
         //         'status' => 'error',
@@ -332,11 +204,11 @@ class AuthController extends Controller
                 'cr' => $credentials,
             ], 401);
         }
-        
+
         if (isset($credentials['name'])) {
             $user = User::where('name', $credentials['name'])->with('socialAccount', 'roles')->firstOrFail();
         } elseif (isset($credentials['email'])) {
-            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail(); 
+            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail();
         }
 
         $token = $this->getAccessToken($user);
@@ -350,55 +222,6 @@ class AuthController extends Controller
             'user'          => $user
         ], 200)->withCookie($cookie);
     }
-
-     /**
-     * @OA\Put(
-     ** path="/reset_password",
-     *   tags={"Auth"},
-     *   summary="reset password",
-     *   operationId="reset_password",
-     *
-     *   @OA\Parameter(
-     *      name="new_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="retry_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
     public function resetPasswordTokens(Request $request) {
         // if (!Auth::attempt($request->only('password', 'password_retry'))) {
         //     return response()->json([
@@ -451,61 +274,6 @@ class AuthController extends Controller
         }
 
     }
-    /**
-     * @OA\Put(
-     ** path="/reset_password_user",
-     *   tags={"Auth"},
-     *   summary="reset password user",
-     *   operationId="reset_password_user",
-     *   @OA\Parameter(
-     *      name="user_id",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="integer"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="new_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="retry_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
     public function resetPasswordForAdmin(Request $request) {
         if ($request->new_password === $request->retry_password) {
             User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);
@@ -614,7 +382,7 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
         }
     }
-    public function verificationEmail() 
+    public function verificationEmail()
     {
         $user = auth('api')->user();
         $result = $this->createCodeEmail($user);
