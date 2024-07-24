@@ -25,56 +25,21 @@ use App\Http\Controllers\Api\AppVersionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-// Route::get('/email/verify', function () {
-//     return view('auth.verify-email');
-// })->middleware('auth')->name('verification.notice');
-
-// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-//     $request->fulfill();
-//     return redirect('/home');
-// })->middleware(['auth', 'signed'])->name('verification.verify');
-
-// Route::post('/email/verification-notification', function (Request $request) {
-//     $request->user()->sendEmailVerificationNotification();
-//     return back()->with('message', 'Verification link sent!');
-// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
 Route::controller(AppVersionController::class)->group(function () {
     Route::post('app/{platform}/{number}', 'setVersion')->middleware('root');
     Route::get('app', 'getVersion');
 });
 Route::controller(AuthController::class)->group(function() {
-    Route::post('register', 'register');
+    Route::post('register', 'register'); // Регистрация
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
-    Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
-    Route::post('set_password', 'resetPasswordTokens')->middleware('auth:sanctum');
 
     // Методы манипуляций с почтой
-    Route::post('verificationEmail', 'verificationCodeEmail')->middleware('auth:sanctum');
-    Route::get('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
-    Route::put('resetEmail','resetEmail')->middleware('auth:sanctum');
-
-    // Методы манипуляций с телефоном
-    Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
-    Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
-    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum');
+    Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum');
+    Route::get('verificationUserEmail','verificationEmailForCode')->middleware('auth:sanctum');
+    Route::put('resetEmail','resetEmailForCode')->middleware('auth:sanctum');
+    Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
 });
 
 

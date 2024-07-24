@@ -25,7 +25,7 @@ class RequestResetPhoneVerificationCode extends FormRequest
     {
         return [
                 'code'                   => 'required|min:4|max:4',
-                'number'                  => 'required|min:10|max:10|unique:phones'
+                'number'                  => 'required|min:10|max:10|unique:users'
         ];
     }
 }

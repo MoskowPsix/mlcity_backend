@@ -33,7 +33,6 @@ class PasswordRecoveryController extends Controller
     }
     public function recoveryPasswordByCode(RecoveryPasswordByCode $request) {
         $data = explode(',', decrypt($request->code));
-        info($data);
         $pass = $request->password;
         $date_now = Carbon::now();
         $date_code = Carbon::parse($data[0])->addDays(1);
