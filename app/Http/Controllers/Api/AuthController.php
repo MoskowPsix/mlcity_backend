@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Js;
 
 class AuthController extends Controller
@@ -82,6 +83,7 @@ class AuthController extends Controller
                 return $trans;
             }
         } catch(Exception $e) {
+            Log::error($e);
             return response()->json([
                 'status'        => 'error',
                 'message'       => 'Извините, при регистрации произошла критическая ошибка',
