@@ -6,8 +6,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Models\User;
+use Knuckles\Scribe\Attributes\Group;
 
-
+#[Group(name: 'Role', description: 'Методы для правления ролями пользователей')]
 class RoleController extends Controller
 {
     public function allRole()

@@ -30,8 +30,10 @@ use App\Models\Organization;
 use App\Models\UserAgreement;
 use Exception;
 use Illuminate\Support\Facades\Log;
+use Knuckles\Scribe\Attributes\Group;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
+#[Group(name: 'AuthSocial', description: 'Методы для управлония пользователями')]
 class UserController extends Controller
 {
 

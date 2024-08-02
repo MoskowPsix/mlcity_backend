@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
-use App\Http\Controllers\Api\LogApiController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\SeanceController;
 use App\Http\Controllers\Api\UserController;
@@ -12,10 +11,7 @@ use App\Http\Controllers\Api\SightController;
 use App\Http\Controllers\Api\StatusController;
 use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
-use App\Http\Controllers\Api\CommentController;
-use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\HistoryContentController;
-use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
@@ -91,7 +87,7 @@ Route::controller(EventController::class)->group(function() {
     Route::get('events-for-author', 'getEventsForAuthor'); // Запрос ивентa для автора
     Route::post('events/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
-    Route::get('events/{id}', 'show');
+    Route::get('events/{id}', 'show')->where('id', '[0-9]+');
 
     Route::get("events/{id}/history-contents", "getHistoryContent");
 
@@ -133,15 +129,6 @@ Route::controller(SightController::class)->group(function() {
     Route::get('sights/{id}/history-contents', "getHistoryContent");
 });
 
-Route::controller(CommentController::class)->group(function() {
-    Route::get('events/{id}/comments','getCommentsForEventIds');
-    Route::get('sights/{id}/comments','getCommentsForSightIds');
-    Route::get('comment/{id}', 'showCommentId');
-    Route::put('comment/{id}', 'update')->middleware('auth:sanctum');
-    Route::post('comment', 'create')->middleware('auth:sanctum');
-    Route::delete('comment/{id}', 'delete')->middleware('auth:sanctum');
-});
-
 Route::controller(EventTypeController::class)->group(function() {
     Route::get('event-types', 'getTypes');
     Route::get('event-types/{id}', 'getTypesId');
@@ -180,10 +167,6 @@ Route::controller(RoleController::class)->group(function() {
     Route::delete('users/role/{user_id}/{role_id}', 'deleteRoleUser')->middleware('root');
 });
 
-Route::controller(ViewController::class)->group(function() {
-    Route::post('view','addView')->middleware('auth:sanctum');
-});
-
 Route::controller(LocationController::class)->group(function() {
     Route::get('location/{id}','getLocationsIds');
     Route::get('location/name/{name}','getLocationsName');
@@ -191,10 +174,6 @@ Route::controller(LocationController::class)->group(function() {
     Route::get('locationWithRegion','getLocationsAndRegion');
     Route::get('locations/search/coords' , 'searchLocationByCoords');
     Route::get('locations/favorities', "getFavoriteCities");
-});
-
-Route::controller(LogApiController::class)->group(function() {
-    Route::get('logs', 'getLogs')->middleware('root');
 });
 
 Route::controller(HistoryContentController::class)->group(function() {
@@ -228,10 +207,6 @@ Route::controller(PermissionController::class)->group(function (){
     Route::get("permissions/", "index")->middleware('auth:sanctum');;
     Route::patch("permissions/", "update")->middleware('root');
     Route::delete("permissions/{id}", "delete")->middleware('root');
-});
-
-Route::controller(FeedbackController::class)->group(function (){
-    Route::post("feedback/user", "sendUserFeedback");
 });
 
 Route::controller(PasswordRecoveryController::class)->group(function (){

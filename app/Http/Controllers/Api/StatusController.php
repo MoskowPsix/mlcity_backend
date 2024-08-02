@@ -10,7 +10,9 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 use App\Models\Status;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'Status', description: 'Методы дляуправлениями статусов')]
 class StatusController extends Controller
 {
     public function getStatuses(): \Illuminate\Http\JsonResponse

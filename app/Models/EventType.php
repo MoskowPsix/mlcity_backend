@@ -20,7 +20,8 @@ class EventType extends Model
         'etype_id'
     ];
 
-    public function historyContents(){
+    public function historyContents(): \Illuminate\Database\Eloquent\Relations\MorphToMany
+    {
         return $this->morphToMany(HistoryContent::class, "history_contentable");
     }
 

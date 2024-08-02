@@ -10,6 +10,9 @@ use App\Http\Requests\RecoveryPassword\SendRecoveryPassword;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
+use Knuckles\Scribe\Attributes\Group;
+
+#[Group(name: 'PasswordRecovery', description: 'Методы востановления паролей пользователей')]
 
 class PasswordRecoveryController extends Controller
 {

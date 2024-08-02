@@ -29,7 +29,9 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileType;
 use App\Models\HistoryContent;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'Sight', description: 'Методы для управления местами')]
 class SightController extends Controller
 {
 
@@ -100,14 +102,14 @@ class SightController extends Controller
     public function getSightsForAuthor(Request $request) {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers');
         $total = $sights->count();
         $response = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'sights' => $response, 'total' => $total], 200);
     }
     public function showForCard($id): \Illuminate\Http\JsonResponse
     {
-        $sight = Sight::where('id', $id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+        $sight = Sight::where('id', $id)->with('files', 'author')->withCount('likedUsers', 'favoritesUsers')->firstOrFail();
 
         return response()->json($sight, 200);
     }

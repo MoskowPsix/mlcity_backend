@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Organization;
 use App\Models\OrganizationInvite;
 use Illuminate\Http\Request;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'OrganisationInvite', description: 'Методы для управления пользователями в организации')]
 class OrganizationInviteController extends Controller
 {
     public function acceptInvite(Request $request){

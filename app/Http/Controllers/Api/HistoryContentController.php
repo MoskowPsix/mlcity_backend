@@ -2,31 +2,33 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\HistoryContent\HistoryContentAuthor;
-use App\Filters\HistoryContent\HistoryContentStatuses;
-use App\Filters\HistoryContent\HistoryContentStatusesLast;
-use App\Filters\HistoryContent\HistoryContentGeoPositionAreaHistoryPlace;
 use App\Filters\Event\EventDate;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventSearchText;
 use App\Filters\Event\EventSponsor;
+use App\Filters\HistoryContent\HistoryContentAuthor;
 use App\Filters\HistoryContent\HistoryContentEventTypes;
+use App\Filters\HistoryContent\HistoryContentGeoPositionAreaHistoryPlace;
 use App\Filters\HistoryContent\HistoryContentSightTypes;
+use App\Filters\HistoryContent\HistoryContentStatuses;
+use App\Filters\HistoryContent\HistoryContentStatusesLast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\HistoryContent\GetHistoryContentRequest;
 use App\Http\Requests\HistoryContent\GetLimitPageRequest;
+use App\Http\Services\DecisionHistoryContentService;
+use App\Http\Services\EventHistoryContentService;
+use App\Http\Services\SightHistoryContentService;
 use App\Mail\HistoryContentChanged;
 use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Models\Sight;
 use App\Models\Status;
-use App\Services\DecisionHistoryContentService;
-use App\Services\EventHistoryContentService;
-use App\Services\SightHistoryContentService;
-use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
+use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Mail;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'HistoryContent', description: 'Методы системы контроля версий')]
 class HistoryContentController extends Controller
 {
     public function getHistoryContent(GetHistoryContentRequest $request){

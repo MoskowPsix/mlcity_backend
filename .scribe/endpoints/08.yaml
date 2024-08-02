@@ -1,0 +1,195 @@
+name: EventType
+description: 'Методы для типов событий'
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/event-types
+    metadata:
+      groupName: EventType
+      groupDescription: 'Методы для типов событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","types":[{"id":1,"name":"\u042d\u043a\u0441\u043a\u0443\u0440\u0441\u0438\u0438","ico":"\/storage\/icons\/geo.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":116,"etype_id":null,"etypes":[]},{"id":2,"name":"\u041a\u0438\u043d\u043e","ico":"\/storage\/icons\/film.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":66,"etype_id":null,"etypes":[]},{"id":3,"name":"\u041f\u0440\u0430\u0437\u0434\u043d\u0438\u043a\u0438","ico":"\/storage\/icons\/events.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":50,"etype_id":null,"etypes":[]},{"id":4,"name":"\u0421\u043f\u043e\u0440\u0442","ico":"\/storage\/icons\/ball.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":null,"etype_id":null,"etypes":[]},{"id":5,"name":"\u0422\u0435\u0430\u0442\u0440","ico":"\/storage\/icons\/mask.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":37,"etype_id":null,"etypes":[]},{"id":6,"name":"\u041e\u0431\u0443\u0447\u0435\u043d\u0438\u0435","ico":"\/storage\/icons\/student.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":36,"etype_id":null,"etypes":[]},{"id":7,"name":"\u0412\u044b\u0441\u0442\u0443\u043f\u043b\u0435\u043d\u0438\u044f","ico":"\/storage\/icons\/theaters.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":35,"etype_id":null,"etypes":[]},{"id":8,"name":"\u0412\u044b\u0441\u0442\u0430\u0432\u043a\u0438","ico":"\/storage\/icons\/exposition.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":34,"etype_id":null,"etypes":[]},{"id":9,"name":"\u0412\u0441\u0442\u0440\u0435\u0447\u0438","ico":"\/storage\/icons\/initiative.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":33,"etype_id":null,"etypes":[]}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '478'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/event-types/{id}'
+    metadata:
+      groupName: EventType
+      groupDescription: 'Методы для типов событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event type.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","types":{"id":1,"name":"\u042d\u043a\u0441\u043a\u0443\u0440\u0441\u0438\u0438","ico":"\/storage\/icons\/geo.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","cult_id":116,"etype_id":null}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '477'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/event-types/{event_id}/{type_id}'
+    metadata:
+      groupName: EventType
+      groupDescription: 'Методы для типов событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      event_id:
+        name: event_id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type_id:
+        name: type_id
+        description: 'The ID of the type.'
+        required: true
+        example: nisi
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      event_id: 1
+      type_id: nisi
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/event-types/{event_id}/{type_id}'
+    metadata:
+      groupName: EventType
+      groupDescription: 'Методы для типов событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      event_id:
+        name: event_id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type_id:
+        name: type_id
+        description: 'The ID of the type.'
+        required: true
+        example: tenetur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      event_id: 1
+      type_id: tenetur
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

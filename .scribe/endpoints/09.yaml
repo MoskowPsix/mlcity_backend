@@ -1,0 +1,195 @@
+name: SightType
+description: 'Методы для управления типами мест'
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/sight-types
+    metadata:
+      groupName: SightType
+      groupDescription: 'Методы для управления типами мест'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","types":[{"id":2,"name":"\u0410\u0440\u0445\u0438\u0442\u0435\u043a\u0442\u0443\u0440\u043d\u044b\u0435","ico":"\/storage\/icons\/architecture.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":419,"cult_path":"architecture","stypes":[]},{"id":1,"name":"\u041a\u0438\u043d\u043e\u0442\u0435\u0430\u0442\u0440\u044b","ico":"\/storage\/icons\/film.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":2,"cult_path":"cinema","stypes":[]},{"id":5,"name":"\u041a\u0443\u043b\u044c\u0442\u0443\u0440\u0430","ico":"\/storage\/icons\/mask.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":561,"cult_path":"traditions","stypes":[]},{"id":3,"name":"\u041c\u0443\u0437\u0435\u0438","ico":"\/storage\/icons\/exposition.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":1,"cult_path":"museums","stypes":[]},{"id":4,"name":"\u041e\u0431\u0440\u0430\u0437\u043e\u0432\u0430\u043d\u0438\u0435","ico":"\/storage\/icons\/student.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":4,"cult_path":"lectures","stypes":[]},{"id":7,"name":"\u0420\u0430\u0437\u0432\u043b\u0435\u0447\u0435\u043d\u0438\u044f","ico":"\/storage\/icons\/entertainment.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":null,"cult_path":null,"stypes":[]},{"id":8,"name":"\u0420\u0435\u0441\u0442\u043e\u0440\u0430\u043d\u044b","ico":"\/storage\/icons\/restaurant.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":null,"cult_path":null,"stypes":[]},{"id":9,"name":"\u0421\u043f\u043e\u0440\u0442","ico":"\/storage\/icons\/bike.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":null,"cult_path":null,"stypes":[]},{"id":6,"name":"\u0422\u043e\u0440\u0433\u043e\u0432\u044b\u0435 \u0446\u0435\u043d\u0442\u0440\u044b","ico":"\/storage\/icons\/supermarket.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":null,"cult_path":null,"stypes":[]}]}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '476'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sight-types/{id}'
+    metadata:
+      groupName: SightType
+      groupDescription: 'Методы для управления типами мест'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight type.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","types":{"id":1,"name":"\u041a\u0438\u043d\u043e\u0442\u0435\u0430\u0442\u0440\u044b","ico":"\/storage\/icons\/film.svg","created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","stype_id":null,"cult_id":2,"cult_path":"cinema"}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '475'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/sight-types/{sight_id}/{type_id}'
+    metadata:
+      groupName: SightType
+      groupDescription: 'Методы для управления типами мест'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      sight_id:
+        name: sight_id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type_id:
+        name: type_id
+        description: 'The ID of the type.'
+        required: true
+        example: est
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      sight_id: 1
+      type_id: est
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: 'api/sight-types/{sight_id}/{type_id}'
+    metadata:
+      groupName: SightType
+      groupDescription: 'Методы для управления типами мест'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      sight_id:
+        name: sight_id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type_id:
+        name: type_id
+        description: 'The ID of the type.'
+        required: true
+        example: quam
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      sight_id: 1
+      type_id: quam
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

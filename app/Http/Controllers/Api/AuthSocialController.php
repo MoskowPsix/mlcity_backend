@@ -7,10 +7,11 @@ use App\Http\Services\SocialService;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Knuckles\Scribe\Attributes\Group;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Str;
 
-
+#[Group(name: 'AuthSocial', description: 'Методы для авторизации через стороние сервисы пользователей')]
 class AuthSocialController extends Controller
 {
     public function index($provider): \Symfony\Component\HttpFoundation\RedirectResponse|\Illuminate\Http\RedirectResponse

@@ -25,6 +25,9 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
+use Knuckles\Scribe\Attributes\Group;
+
+#[Group(name: 'Organisation', description: 'Методы для управления организациями пользователей')]
 class OrganizationController extends Controller
 {
     public function index(Request $request) {

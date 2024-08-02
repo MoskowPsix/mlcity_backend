@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\EventType;
 use App\Models\Event;
+use Knuckles\Scribe\Attributes\Group;
+
+#[Group(name: 'EventType', description: 'Методы для типов событий')]
 
 class EventTypeController extends Controller
 {

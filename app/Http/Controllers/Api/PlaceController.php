@@ -18,7 +18,9 @@ use App\Models\Place;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'Place', description: 'Методы для правления местами проведения событий')]
 class PlaceController extends Controller
 {
     public function getPlaces (Request $request): \Illuminate\Http\JsonResponse

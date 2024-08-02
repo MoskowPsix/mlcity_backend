@@ -79,15 +79,6 @@ class Sight extends Model
     {
         return $this->hasOne(SightLike::class);
     }
-
-    public function comments(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(Comment::class)->where('comment_id')->with('user', 'comments');
-    }
-    public function viewsUsers(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(View::class);
-    }
     public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Location::class, 'location_id');
@@ -103,7 +94,7 @@ class Sight extends Model
         return $this->hasMany(Price::class);
     }
 
-    public function events()
+    public function events(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Event::class, "places", "sight_id", "event_id")->with("files");
     }

@@ -10,7 +10,9 @@ use App\Models\Location;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Query\Builder as QueryBuilder;
 use Illuminate\Pipeline\Pipeline;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'Location', description: 'Методы для получения городов')]
 class LocationController extends Controller
 {
     public function getLocationsIds($id) {
@@ -43,7 +45,7 @@ class LocationController extends Controller
         $longitude = $request->longitude;
         $radius = 5;
         $location = null;
-        while(empty($location) == true) {
+        while(!(!(empty($location) == true) || !($radius <= 1000))) {
             $location = Location::with('locationParent')->whereRaw('(
                 6371 *
                 acos(cos(radians(?)) *

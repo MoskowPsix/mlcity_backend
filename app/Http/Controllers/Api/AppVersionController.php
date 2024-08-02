@@ -11,8 +11,9 @@ use Exception;
 use Google_Client;
 use Google_Service_AndroidPublisher;
 use Illuminate\Support\Facades\Http;
+use Knuckles\Scribe\Attributes\Group;
 
-
+#[Group(name: 'AppVersion', description: 'Методы для поддержания актуальной версии приложения пользователей')]
 class AppVersionController extends Controller
 {
     public function setVersion(string $platform, string $number): JsonResponse

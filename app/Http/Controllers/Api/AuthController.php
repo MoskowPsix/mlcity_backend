@@ -27,6 +27,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
 use Illuminate\Support\Js;
+use Knuckles\Scribe\Attributes\Group;
+
+#[Group(name: 'Auth', description: 'Методы для вторизации пользователей')]
 
 class AuthController extends Controller
 {

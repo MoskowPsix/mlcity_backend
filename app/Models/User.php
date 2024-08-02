@@ -10,6 +10,7 @@ use App\Traits\HasRolesTrait;
 use \Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -51,32 +52,13 @@ class User extends Authenticatable
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    // protected $casts = [
-    //     'email_verified_at' => 'datetime',
-    // ];
-
     protected $dates = ['deleted_at'];
 
-//    protected $with = ['socialAccount'];
-
-    /**
-     * Summary of pcode
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function pcode(): \Illuminate\Database\Eloquent\Relations\HasMany
-    {
-        return $this->hasMany(PhoneCode::class);
-    }
     /**
      * Summary of ecode
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function ecode(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function ecode(): HasMany
     {
         return $this->hasMany(EmailCode::class);
     }
@@ -92,29 +74,29 @@ class User extends Authenticatable
     //избранные события юзера
     /**
      * Summary of favoriteEvents
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function favoriteEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favoriteEvents(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_favorite', 'user_id','event_id')->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        return $this->belongsToMany(Event::class,'event_user_favorite', 'user_id','event_id')->with('types', 'files','statuses', 'author')->withCount('likedUsers', 'favoritesUsers');
     }
 
     //избранные достопримечательности юзера
     /**
      * Summary of favoriteSights
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function favoriteSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function favoriteSights(): BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_favorite', 'user_id','sight_id')->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        return $this->belongsToMany(Sight::class,'sight_user_favorite', 'user_id','sight_id')->with('types', 'files','statuses', 'author')->withCount('likedUsers', 'favoritesUsers');
     }
 
     //События созданные юзером
     /**
      * Summary of events
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function events(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function events(): HasMany
     {
         return $this->hasMany(Event::class);
     }
@@ -122,9 +104,9 @@ class User extends Authenticatable
     //Достопримечательности созданные юзером
     /**
      * Summary of sights
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return HasMany
      */
-    public function sights(): \Illuminate\Database\Eloquent\Relations\HasMany
+    public function sights(): HasMany
     {
         return $this->hasMany(Sight::class);
     }
@@ -132,50 +114,49 @@ class User extends Authenticatable
     /// события юзера которы лайкнул
     /**
      * Summary of likedEvents
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function likedEvents(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function likedEvents(): BelongsToMany
     {
-        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        return $this->belongsToMany(Event::class,'event_user_liked')->withTimestamps()->with('types', 'files','statuses', 'author')->withCount('likedUsers', 'favoritesUsers');
     }
 
     // достопримечательности юзера, которые лайкнул
     /**
      * Summary of likedSights
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function likedSights(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function likedSights(): BelongsToMany
     {
-        return $this->belongsToMany(Sight::class,'sight_user_liked')->withTimestamps()->with('types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        return $this->belongsToMany(Sight::class, 'sight_user_liked')->withTimestamps()->with('types', 'files', 'statuses', 'author')->withCount('likedUsers', 'favoritesUsers');
     }
-
-//    public function roles(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(Role::class);
-//    }
     /**
      * Summary of locations
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @return BelongsToMany
      */
-    public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class);
     }
 
-    public function role(){
+    public function role(): BelongsToMany
+    {
         return $this->belongsToMany(Role::class, $table="users_roles");
     }
 
 
-    public function permissionsInOrganization(){
+    public function permissionsInOrganization(): BelongsToMany
+    {
         return $this->belongsToMany(Permission::class, "organization_permission_user", "user_id", "permission_id")->withPivot("organization_id");
     }
 
-    public function organizations(){
+    public function organizations(): BelongsToMany
+    {
         return $this->belongsToMany(Organization::class, "organization_permission_user", "user_id","organization_id");
     }
 
-    public function userAgreements(){
+    public function userAgreements(): BelongsToMany
+    {
         return $this->belongsToMany(UserAgreement::class);
     }
 

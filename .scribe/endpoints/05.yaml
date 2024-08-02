@@ -1,0 +1,679 @@
+name: Place
+description: 'Методы для правления местами проведения событий'
+endpoints:
+  -
+    httpMethods:
+      - GET
+    uri: api/places
+    metadata:
+      groupName: Place
+      groupDescription: 'Методы для правления местами проведения событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 400
+        content: '{"status":"error arguments"}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '489'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/places/{id}'
+    metadata:
+      groupName: Place
+      groupDescription: 'Методы для правления местами проведения событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the place.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: |-
+          {
+              "message": "Call to undefined relationship [eventWithLikes] on model [App\\Models\\Place].",
+              "exception": "Illuminate\\Database\\Eloquent\\RelationNotFoundException",
+              "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\RelationNotFoundException.php",
+              "line": 35,
+              "trace": [
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 777,
+                      "function": "make",
+                      "class": "Illuminate\\Database\\Eloquent\\RelationNotFoundException",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Relations\\Relation.php",
+                      "line": 104,
+                      "function": "Illuminate\\Database\\Eloquent\\{closure}",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 773,
+                      "function": "noConstraints",
+                      "class": "Illuminate\\Database\\Eloquent\\Relations\\Relation",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 747,
+                      "function": "getRelation",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 727,
+                      "function": "eagerLoadRelation",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 695,
+                      "function": "eagerLoadRelations",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Concerns\\BuildsQueries.php",
+                      "line": 296,
+                      "function": "get",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php",
+                      "line": 594,
+                      "function": "first",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\app\\Http\\Controllers\\Api\\PlaceController.php",
+                      "line": 67,
+                      "function": "firstOrFail",
+                      "class": "Illuminate\\Database\\Eloquent\\Builder",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
+                      "line": 54,
+                      "function": "getPlacesIds",
+                      "class": "App\\Http\\Controllers\\Api\\PlaceController",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
+                      "line": 43,
+                      "function": "callAction",
+                      "class": "Illuminate\\Routing\\Controller",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+                      "line": 259,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\ControllerDispatcher",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
+                      "line": 205,
+                      "function": "runController",
+                      "class": "Illuminate\\Routing\\Route",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 798,
+                      "function": "run",
+                      "class": "Illuminate\\Routing\\Route",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 141,
+                      "function": "Illuminate\\Routing\\{closure}",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
+                      "line": 50,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+                      "line": 126,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
+                      "line": 57,
+                      "function": "handleRequest",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
+                      "line": 25,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 141,
+                      "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
+                      "line": 24,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 797,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 776,
+                      "function": "runRouteWithinStack",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 740,
+                      "function": "runRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
+                      "line": 729,
+                      "function": "dispatchToRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 190,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 141,
+                      "function": "Illuminate\\Foundation\\Http\\{closure}",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php",
+                      "line": 31,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php",
+                      "line": 40,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
+                      "line": 27,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php",
+                      "line": 86,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php",
+                      "line": 62,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Http\\Middleware\\HandleCors",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php",
+                      "line": 39,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 165,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
+                      "line": 134,
+                      "function": "sendRequestThroughRouter",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 300,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 288,
+                      "function": "callLaravelOrLumenRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 91,
+                      "function": "makeApiCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 44,
+                      "function": "makeResponseCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
+                      "line": 35,
+                      "function": "makeResponseCallIfConditionsPass",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 236,
+                      "function": "__invoke",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 163,
+                      "function": "iterateThroughStrategies",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
+                      "line": 95,
+                      "function": "fetchResponses",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 125,
+                      "function": "processRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 72,
+                      "function": "extractEndpointsInfoFromLaravelApp",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
+                      "line": 50,
+                      "function": "extractEndpointsInfoAndWriteToDisk",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Commands\\GenerateDocumentation.php",
+                      "line": 53,
+                      "function": "get",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 36,
+                      "function": "handle",
+                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php",
+                      "line": 41,
+                      "function": "Illuminate\\Container\\{closure}",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 93,
+                      "function": "unwrapIfClosure",
+                      "class": "Illuminate\\Container\\Util",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
+                      "line": 35,
+                      "function": "callBoundMethod",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
+                      "line": 661,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+                      "line": 183,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\Container",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\symfony\\console\\Command\\Command.php",
+                      "line": 326,
+                      "function": "execute",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
+                      "line": 152,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Command\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 1063,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 320,
+                      "function": "doRunCommand",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
+                      "line": 174,
+                      "function": "doRun",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Application.php",
+                      "line": 102,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
+                      "line": 155,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "D:\\AL\\vsb\\mlcity_backend\\artisan",
+                      "line": 35,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Console\\Kernel",
+                      "type": "->"
+                  }
+              ]
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '488'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/places'
+    metadata:
+      groupName: Place
+      groupDescription: 'Методы для правления местами проведения событий'
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","places":{"data":[{"id":1,"event_id":1,"sight_id":5,"location_id":95,"latitude":"52.64600587032800","longitude":"90.08733272552500","address":"\u0425\u0430\u043a\u0430\u0441\u0438\u044f \u0420\u0435\u0441\u043f, \u0433. \u0410\u0431\u0430\u0437\u0430, \u0443\u043b. \u041d\u0430\u0431\u0435\u0440\u0435\u0436\u043d\u0430\u044f, 24","created_at":"2024-08-02T06:12:01.000000Z","updated_at":"2024-08-02T06:12:01.000000Z","timezone_id":6,"cult_id":null,"seances":[{"id":1,"place_id":1,"date_start":"2024-06-14 07:00:00","date_end":"2024-06-14 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":2,"place_id":1,"date_start":"2024-06-19 07:00:00","date_end":"2024-06-19 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":3,"place_id":1,"date_start":"2024-06-21 07:00:00","date_end":"2024-06-21 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":4,"place_id":1,"date_start":"2024-06-26 07:00:00","date_end":"2024-06-26 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":5,"place_id":1,"date_start":"2024-06-28 07:00:00","date_end":"2024-06-28 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":6,"place_id":1,"date_start":"2024-07-03 07:00:00","date_end":"2024-07-03 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":7,"place_id":1,"date_start":"2024-07-05 07:00:00","date_end":"2024-07-05 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":8,"place_id":1,"date_start":"2024-07-10 07:00:00","date_end":"2024-07-10 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":9,"place_id":1,"date_start":"2024-07-12 07:00:00","date_end":"2024-07-12 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":10,"place_id":1,"date_start":"2024-07-17 07:00:00","date_end":"2024-07-17 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":11,"place_id":1,"date_start":"2024-07-19 07:00:00","date_end":"2024-07-19 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":12,"place_id":1,"date_start":"2024-07-24 07:00:00","date_end":"2024-07-24 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":13,"place_id":1,"date_start":"2024-07-26 07:00:00","date_end":"2024-07-26 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":14,"place_id":1,"date_start":"2024-07-31 07:00:00","date_end":"2024-07-31 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":15,"place_id":1,"date_start":"2024-08-02 07:00:00","date_end":"2024-08-02 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":16,"place_id":1,"date_start":"2024-08-07 07:00:00","date_end":"2024-08-07 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":17,"place_id":1,"date_start":"2024-08-09 07:00:00","date_end":"2024-08-09 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":18,"place_id":1,"date_start":"2024-08-14 07:00:00","date_end":"2024-08-14 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":19,"place_id":1,"date_start":"2024-08-16 07:00:00","date_end":"2024-08-16 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":20,"place_id":1,"date_start":"2024-08-21 07:00:00","date_end":"2024-08-21 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":21,"place_id":1,"date_start":"2024-08-23 07:00:00","date_end":"2024-08-23 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":22,"place_id":1,"date_start":"2024-08-28 07:00:00","date_end":"2024-08-28 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":23,"place_id":1,"date_start":"2024-08-30 07:00:00","date_end":"2024-08-30 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":24,"place_id":1,"date_start":"2024-09-04 07:00:00","date_end":"2024-09-04 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":25,"place_id":1,"date_start":"2024-09-06 07:00:00","date_end":"2024-09-06 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":26,"place_id":1,"date_start":"2024-09-11 07:00:00","date_end":"2024-09-11 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":27,"place_id":1,"date_start":"2024-09-13 07:00:00","date_end":"2024-09-13 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":28,"place_id":1,"date_start":"2024-09-18 07:00:00","date_end":"2024-09-18 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":29,"place_id":1,"date_start":"2024-09-20 07:00:00","date_end":"2024-09-20 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":30,"place_id":1,"date_start":"2024-09-25 07:00:00","date_end":"2024-09-25 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":31,"place_id":1,"date_start":"2024-09-27 07:00:00","date_end":"2024-09-27 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":32,"place_id":1,"date_start":"2024-10-02 07:00:00","date_end":"2024-10-02 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":33,"place_id":1,"date_start":"2024-10-04 07:00:00","date_end":"2024-10-04 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":34,"place_id":1,"date_start":"2024-10-09 07:00:00","date_end":"2024-10-09 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":35,"place_id":1,"date_start":"2024-10-11 07:00:00","date_end":"2024-10-11 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":36,"place_id":1,"date_start":"2024-10-16 07:00:00","date_end":"2024-10-16 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":37,"place_id":1,"date_start":"2024-10-18 07:00:00","date_end":"2024-10-18 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":38,"place_id":1,"date_start":"2024-10-23 07:00:00","date_end":"2024-10-23 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":39,"place_id":1,"date_start":"2024-10-25 07:00:00","date_end":"2024-10-25 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":40,"place_id":1,"date_start":"2024-10-30 07:00:00","date_end":"2024-10-30 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":41,"place_id":1,"date_start":"2024-11-01 07:00:00","date_end":"2024-11-01 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":42,"place_id":1,"date_start":"2024-11-06 07:00:00","date_end":"2024-11-06 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":43,"place_id":1,"date_start":"2024-11-08 07:00:00","date_end":"2024-11-08 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":44,"place_id":1,"date_start":"2024-11-13 07:00:00","date_end":"2024-11-13 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":45,"place_id":1,"date_start":"2024-11-15 07:00:00","date_end":"2024-11-15 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":46,"place_id":1,"date_start":"2024-11-20 07:00:00","date_end":"2024-11-20 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":47,"place_id":1,"date_start":"2024-11-22 07:00:00","date_end":"2024-11-22 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":48,"place_id":1,"date_start":"2024-11-27 07:00:00","date_end":"2024-11-27 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":49,"place_id":1,"date_start":"2024-11-29 07:00:00","date_end":"2024-11-29 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":50,"place_id":1,"date_start":"2024-12-04 07:00:00","date_end":"2024-12-04 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":51,"place_id":1,"date_start":"2024-12-06 07:00:00","date_end":"2024-12-06 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":52,"place_id":1,"date_start":"2024-12-11 07:00:00","date_end":"2024-12-11 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":53,"place_id":1,"date_start":"2024-12-13 07:00:00","date_end":"2024-12-13 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":54,"place_id":1,"date_start":"2024-12-18 07:00:00","date_end":"2024-12-18 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":55,"place_id":1,"date_start":"2024-12-20 07:00:00","date_end":"2024-12-20 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":56,"place_id":1,"date_start":"2024-12-25 07:00:00","date_end":"2024-12-25 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"},{"id":57,"place_id":1,"date_start":"2024-12-27 07:00:00","date_end":"2024-12-27 15:00:00","created_at":"2024-08-02T06:12:03.000000Z","updated_at":"2024-08-02T06:12:03.000000Z"}],"location":{"id":95,"name":"\u0410\u0431\u0430\u0437\u0430","time_zone":"Asia\/Krasnoyarsk","location_id":66,"cult_id":841,"created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","latitude":"52.65166470000000","longitude":"90.08856860000000","info_dadata":"{\"source\":\"\\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f \\u0410\\u0431\\u0430\\u0437\\u0430\",\"result\":\"\\u0420\\u0435\\u0441\\u043f \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f, \\u0433 \\u0410\\u0431\\u0430\\u0437\\u0430\",\"postal_code\":\"655750\",\"country\":\"\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\",\"country_iso_code\":\"RU\",\"federal_district\":\"\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\",\"region_fias_id\":\"8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7\",\"region_kladr_id\":\"1900000000000\",\"region_iso_code\":\"RU-KK\",\"region_with_type\":\"\\u0420\\u0435\\u0441\\u043f \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"region_type\":\"\\u0420\\u0435\\u0441\\u043f\",\"region_type_full\":\"\\u0440\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\",\"region\":\"\\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"area_fias_id\":null,\"area_kladr_id\":null,\"area_with_type\":null,\"area_type\":null,\"area_type_full\":null,\"area\":null,\"city_fias_id\":\"a369b520-09b4-49b2-b28c-61c9146153e6\",\"city_kladr_id\":\"1900000400000\",\"city_with_type\":\"\\u0433 \\u0410\\u0431\\u0430\\u0437\\u0430\",\"city_type\":\"\\u0433\",\"city_type_full\":\"\\u0433\\u043e\\u0440\\u043e\\u0434\",\"city\":\"\\u0410\\u0431\\u0430\\u0437\\u0430\",\"city_area\":null,\"city_district_fias_id\":null,\"city_district_kladr_id\":null,\"city_district_with_type\":null,\"city_district_type\":null,\"city_district_type_full\":null,\"city_district\":null,\"settlement_fias_id\":null,\"settlement_kladr_id\":null,\"settlement_with_type\":null,\"settlement_type\":null,\"settlement_type_full\":null,\"settlement\":null,\"street_fias_id\":null,\"street_kladr_id\":null,\"street_with_type\":null,\"street_type\":null,\"street_type_full\":null,\"street\":null,\"stead_fias_id\":null,\"stead_kladr_id\":null,\"stead_cadnum\":null,\"stead_type\":null,\"stead_type_full\":null,\"stead\":null,\"house_fias_id\":null,\"house_kladr_id\":null,\"house_cadnum\":null,\"house_type\":null,\"house_type_full\":null,\"house\":null,\"block_type\":null,\"block_type_full\":null,\"block\":null,\"entrance\":null,\"floor\":null,\"flat_fias_id\":null,\"flat_cadnum\":null,\"flat_type\":null,\"flat_type_full\":null,\"flat\":null,\"flat_area\":null,\"square_meter_price\":null,\"flat_price\":null,\"postal_box\":null,\"fias_id\":\"a369b520-09b4-49b2-b28c-61c9146153e6\",\"fias_code\":\"19000004000000000000000\",\"fias_level\":\"4\",\"fias_actuality_state\":\"0\",\"kladr_id\":\"1900000400000\",\"capital_marker\":\"0\",\"okato\":\"95402000000\",\"oktmo\":\"95702000001\",\"tax_office\":\"1900\",\"tax_office_legal\":\"1900\",\"timezone\":\"UTC+7\",\"geo_lat\":\"52.6516647\",\"geo_lon\":\"90.0885686\",\"beltway_hit\":null,\"beltway_distance\":null,\"qc_geo\":4,\"qc_complete\":3,\"qc_house\":10,\"qc\":0,\"unparsed_parts\":null,\"metro\":null}","time_zone_utc":"UTC+7","display":false,"location_parent":{"id":66,"name":"\u0420\u0435\u0441\u043f\u0443\u0431\u043b\u0438\u043a\u0430 \u0425\u0430\u043a\u0430\u0441\u0438\u044f","time_zone":"Asia\/Krasnoyarsk","location_id":1,"cult_id":214,"created_at":"2024-08-02T05:42:57.000000Z","updated_at":"2024-08-02T05:42:57.000000Z","latitude":"89.89707800000000","longitude":"53.38636300000000","info_dadata":"{\"source\":\"\\u0420\\u0424 \\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"result\":\"\\u0420\\u0435\\u0441\\u043f \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"postal_code\":null,\"country\":\"\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\",\"country_iso_code\":\"RU\",\"federal_district\":\"\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\",\"region_fias_id\":\"8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7\",\"region_kladr_id\":\"1900000000000\",\"region_iso_code\":\"RU-KK\",\"region_with_type\":\"\\u0420\\u0435\\u0441\\u043f \\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"region_type\":\"\\u0420\\u0435\\u0441\\u043f\",\"region_type_full\":\"\\u0440\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\",\"region\":\"\\u0425\\u0430\\u043a\\u0430\\u0441\\u0438\\u044f\",\"area_fias_id\":null,\"area_kladr_id\":null,\"area_with_type\":null,\"area_type\":null,\"area_type_full\":null,\"area\":null,\"city_fias_id\":null,\"city_kladr_id\":null,\"city_with_type\":null,\"city_type\":null,\"city_type_full\":null,\"city\":null,\"city_area\":null,\"city_district_fias_id\":null,\"city_district_kladr_id\":null,\"city_district_with_type\":null,\"city_district_type\":null,\"city_district_type_full\":null,\"city_district\":null,\"settlement_fias_id\":null,\"settlement_kladr_id\":null,\"settlement_with_type\":null,\"settlement_type\":null,\"settlement_type_full\":null,\"settlement\":null,\"street_fias_id\":null,\"street_kladr_id\":null,\"street_with_type\":null,\"street_type\":null,\"street_type_full\":null,\"street\":null,\"stead_fias_id\":null,\"stead_kladr_id\":null,\"stead_cadnum\":null,\"stead_type\":null,\"stead_type_full\":null,\"stead\":null,\"house_fias_id\":null,\"house_kladr_id\":null,\"house_cadnum\":null,\"house_type\":null,\"house_type_full\":null,\"house\":null,\"block_type\":null,\"block_type_full\":null,\"block\":null,\"entrance\":null,\"floor\":null,\"flat_fias_id\":null,\"flat_cadnum\":null,\"flat_type\":null,\"flat_type_full\":null,\"flat\":null,\"flat_area\":null,\"square_meter_price\":null,\"flat_price\":null,\"postal_box\":null,\"fias_id\":\"8d3f1d35-f0f4-41b5-b5b7-e7cadf3e7bd7\",\"fias_code\":\"19000000000000000000000\",\"fias_level\":\"1\",\"fias_actuality_state\":\"0\",\"kladr_id\":\"1900000000000\",\"capital_marker\":\"0\",\"okato\":\"95000000000\",\"oktmo\":\"95000000\",\"tax_office\":\"1900\",\"tax_office_legal\":\"1900\",\"timezone\":\"UTC+7\",\"geo_lat\":null,\"geo_lon\":null,\"beltway_hit\":null,\"beltway_distance\":null,\"qc_geo\":5,\"qc_complete\":2,\"qc_house\":10,\"qc\":0,\"unparsed_parts\":null,\"metro\":null}","time_zone_utc":"UTC+7","display":false}}}],"path":"http:\/\/localhost:8000\/api\/events\/1\/places","per_page":5,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '487'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []

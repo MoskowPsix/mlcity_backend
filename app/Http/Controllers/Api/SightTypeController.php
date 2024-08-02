@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Models\SightType;
 use App\Models\Sight;
 use Illuminate\Pipeline\Pipeline;
+use Knuckles\Scribe\Attributes\Group;
 
+#[Group(name: 'SightType', description: 'Методы для управления типами мест')]
 class SightTypeController extends Controller
 {
 
