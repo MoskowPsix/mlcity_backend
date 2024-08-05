@@ -15,17 +15,17 @@ use Laravel\Telescope\Http\Middleware\Authorize;
 |
 */
 
-// Route::get('/', function () {
-//     return view('welcome');
-// })->name('');
+Route::get('/', function () {
+    return view('welcome');
+})->name('');
 
 // Route::get('/{any}', function () {
 //      return view('app');
 // })->where('any', '.*');
 
-Route::get('/{any}', function () {
-     return view('app');
-})->where('any', '.*');
+// Route::get('/{any}', function () {
+//      return view('app');
+// })->where('any', '.*');
 
 // Route::get('/test', function () {
 //      return view('test');
