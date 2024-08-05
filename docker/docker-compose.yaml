@@ -20,7 +20,8 @@ services:
         - backend
         - db
     volumes:
-        - ../:/var/www/MLCity_backend
+        - ../:/var/www/
+        - ../storage/app/public:/var/www/html/public/storage
         - ./nginx/conf.d/:/etc/nginx/conf.d
 
   backend:
@@ -29,7 +30,7 @@ services:
       context: ./php
       dockerfile: dockerfile
     volumes:
-      - "../:/var/www/MLCity_backend"
+      - "../:/var/www/"
     environment:
       - DB_HOST=db
       - DB_PORT=5432
