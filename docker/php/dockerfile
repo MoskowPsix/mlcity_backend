@@ -7,6 +7,8 @@ RUN cd /tmp \
 
 RUN apt-get update
 
+COPY php.ini /usr/local/etc/php/conf.d/
+
 RUN apt-get -y install --fix-missing \
     apt-utils \
     build-essential \
