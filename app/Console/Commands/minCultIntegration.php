@@ -49,7 +49,7 @@ class minCultIntegration extends Command
      */
     public function handle()
     {
-        if(empty($this->argument('offset'))) {
+        if($this->argument('offset') == 'all') {
             $this->startInt();
         } else {
             $this->setEvents();
