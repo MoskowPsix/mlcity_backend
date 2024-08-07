@@ -44,17 +44,17 @@ class IntegrationAfisha7 extends Command
      /**
      * @var array
      */
-    private $types = []; 
+    private $types = [];
 
      /**
      * @var string
      */
-    private $type = ""; 
+    private $type = "";
 
     /**
      * @var string
      */
-    private $token = ""; 
+    private $token = "";
 
     /**
      * @var array
@@ -129,10 +129,9 @@ class IntegrationAfisha7 extends Command
         $this->setTypes();
 
         if($this->location_start){
-            $this->locations = array_splice($this->locations_level_3, 0, $this->location_start*2-$this->location_start);
+            $this->locations_level_3 = array_splice($this->locations_level_3, $this->location_start, count($this->locations_level_3) - $this->location_start);
             $progress = $this->location_start;
         }
-
         foreach ($this->locations_level_3 as $location) {
             $progress++;
             $sights = [];
@@ -196,7 +195,7 @@ class IntegrationAfisha7 extends Command
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                     }
                 }
-                info( ' | ' .$progress . ' / ' . count($this->locations) . ' | ' ); 
+                info( ' | ' .$progress . ' / ' . count($this->locations) . ' | ' );
             }
         }
     }
@@ -206,7 +205,7 @@ class IntegrationAfisha7 extends Command
     * @param mixed $location_id
     * @param string $type
     * @param int $typeS
-    * @return void 
+    * @return void
     */
     private function startCommand(int $total, mixed $location_id, string $type, int $typeS): void
     {
@@ -224,22 +223,22 @@ class IntegrationAfisha7 extends Command
                 for ($i = 0; $i < $numberOfProcess; $i++) // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
                 {
                     if ($total >= 0) {
-                        $process = new Process(['php', 'artisan', 'int', $type, $location_id, $offset, $typeS]); 
+                        $process = new Process(['php', 'artisan', 'int', $type, $location_id, $offset, $typeS]);
                         // info('php artisan int ' . $type . ' ' . $location_id . ' ' .$offset . ' ' .$typeS); // проверка вводимой команды
                         $process->setTimeout(0);
                         $process->disableOutput();
                         $process->start();
-                        $processes[] = $process;   
+                        $processes[] = $process;
                         $total = $total - $this->limit;
                         $offset = $offset + $this->limit;
                     }
                 }
-                while (count($processes)) {  
-                    foreach ($processes as $i => $runningProcess) {    
+                while (count($processes)) {
+                    foreach ($processes as $i => $runningProcess) {
                         // этот процесс завершен, поэтому удаляем его
-                        if (!$runningProcess->isRunning()) {      
-                            unset($processes[$i]);    
-                        }   
+                        if (!$runningProcess->isRunning()) {
+                            unset($processes[$i]);
+                        }
                         // sleep(1); // Тормозит процесс
                     }
                 }
@@ -255,12 +254,12 @@ class IntegrationAfisha7 extends Command
      *
      * @return void
      */
-    private function setTokenEnv(): void 
+    private function setTokenEnv(): void
     {
         try {
             $client = new Client();
             $url = 'https://api.afisha7.ru/v3.1/gettoken/';
-            
+
             $params = [
                 "form_params" => [
                     "APIKey" => env('AFISHA_7_API_KEY'),
@@ -273,7 +272,7 @@ class IntegrationAfisha7 extends Command
             $this->setNewEnv('AFISHA_7_TOKEN', $token->token);
         } catch (Exception $e) {
             $this->failed('Ошибка при получении токена');
-        }   
+        }
     }
     /**
      *
@@ -307,13 +306,13 @@ class IntegrationAfisha7 extends Command
             }
         } catch (Exception $e) {
             $this->failed('Ошибка при получении городов');
-        }   
+        }
     }
     /**
      *
      * @return void
      */
-    private function setTypes(): void 
+    private function setTypes(): void
     {
         try {
             $client = new Client();
@@ -328,21 +327,21 @@ class IntegrationAfisha7 extends Command
             $this->types = $types->categories;
         } catch (Exception $e) {
             $this->failed('Ошибка при получении типов');
-        }   
+        }
     }
     /**
     *
     * @param  int $location_id
     * @param  int $limit
     * @param  int $offset
-    * @return  object 
+    * @return  object
     */
-    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object 
+    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object
     {
         try {
             $client = new Client();
             $url = 'https://api.afisha7.ru/v3.1/evs/';
-            
+
             $params = [
                 "form_params" => [
                     "token" => $this->token,
@@ -358,7 +357,7 @@ class IntegrationAfisha7 extends Command
         } catch (Exception $e) {
             Log::error('Ошибка при получении событий');
             return json_decode('');
-        }  
+        }
     }
     /**
     *
@@ -366,7 +365,7 @@ class IntegrationAfisha7 extends Command
     * @param  int $limit
     * @param  int $offset
     * @param  int $types_id
-    * @return  object 
+    * @return  object
     */
     private function getSights(string $location_url, int $limit = 1, int $offset = 0, int $types_id):  object
     {
@@ -385,7 +384,7 @@ class IntegrationAfisha7 extends Command
         } catch (Exception $e) {
             Log::error('Ошибка при получении событий');
             return json_decode('');
-        }  
+        }
     }
     /**
      *
@@ -438,13 +437,13 @@ class IntegrationAfisha7 extends Command
      * @param int $location_id
      * @return object
      */
-    
-    private function getEvent(int $event_id,int $location_id): object 
+
+    private function getEvent(int $event_id,int $location_id): object
     {
         try {
             $client = new Client();
             $url = 'https://api.afisha7.ru/v3.1/events/';
-            
+
             $params = [
                 "form_params" => [
                     "token" => $this->token,
@@ -460,23 +459,29 @@ class IntegrationAfisha7 extends Command
         } catch (Exception $e) {
             Log::error('Ошибка при получении события: event_id' . $event_id . ', location_id'. $location_id);
             return json_decode('');
-        }     
+        }
     }
     /**
      *
      * @param object $event
      * @return Event
      */
-    private function saveEvent(object $event): Event
+    private function saveEvent(object $event): Event | null
     {
-        return Event::create([
-            'name'        => $event->name,
-            'sponsor'     => "afisha7.ru",
-            'description' => $event->description,
-            'date_start'  => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
-            'date_end'    => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
-            'user_id'     => 1,
-        ]);
+        try {
+            return Event::create([
+                'name' => $event->name,
+                'sponsor' => "afisha7.ru",
+                'description' => $event->description,
+                'date_start' => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
+                'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
+                'user_id' => 1,
+            ]);
+        }
+        catch(Exception $e){
+            print_r($event);
+            return null;
+        }
     }
     /**
      *
@@ -644,7 +649,9 @@ class IntegrationAfisha7 extends Command
             if (isset($sight->latitude) && isset($sight->longitude)) {
                 $location = $this->searchLocationByCoords($sight->latitude,$sight->longitude, $sight->address);
                 $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
-
+                if(!isset($timezone_id)){
+                    info($timezone_id);
+                }
                 $place_create = $event_create->places()->create([
                     'timezone_id' => $timezone_id,
                     'address' => $sight->address,
@@ -662,13 +669,13 @@ class IntegrationAfisha7 extends Command
      * @param Sight $sight
      * @return void
      */
-    private function setStatusSight(Sight $sight): void 
+    private function setStatusSight(Sight $sight): void
     {
         $status= Status::where('name', 'Опубликовано')->firstOrFail();
         $sight->statuses()->updateExistingPivot( $status, ['last' => false]);
         $sight->statuses()->attach($status, ['last' => true]);
     }
-    private function setStatusEvent(Event $event): void 
+    private function setStatusEvent(Event $event): void
     {
         $status= Status::where('name', 'Опубликовано')->firstOrFail();
         $event->statuses()->updateExistingPivot( $status, ['last' => false]);
@@ -683,7 +690,7 @@ class IntegrationAfisha7 extends Command
     //     try {
     //         $client = new Client();
     //         $url = 'https://api.afisha7.ru/v3.1/places/';
-            
+
     //         $params = [
     //             "form_params" => [
     //                 "token" => $this->token,
@@ -742,7 +749,7 @@ class IntegrationAfisha7 extends Command
                         'loc_id' => $location_id,
                         'type' => $type,
                     ]
-                ];    
+                ];
                 $response = $client->request('POST', $url, $params);
                 $seances = json_decode($response->getBody()->getContents());
                 $seances_full[] = $seances;
