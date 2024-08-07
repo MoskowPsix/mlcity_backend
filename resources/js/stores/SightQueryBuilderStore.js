@@ -29,7 +29,7 @@ export const useSightQueryBuilderStore = defineStore('useSightQueryBuilder', {
                 sponsor: this.sponsor,
                 searchText: this.searchText,
                 statuses: this.statuses,
-                statusesLast: this.statusLast,
+                statusLast: true,
                 user: this.user,
                 page: this.pageSightsForPageSights,
                 locationId: this.locationId,

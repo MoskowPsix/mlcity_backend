@@ -54,7 +54,7 @@ class addEvents extends Command
             {
                 $type = FileType::where('name', 'image')->firstOrFail();
                 $status= Status::where('name', 'Опубликовано')->firstOrFail();
-                $events = json_decode(file_get_contents('https://www.culture.ru/api/events?page='.$page_events.'&limit='.$limit_events.'&statuses=published', true));
+                $events = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_events.'&limit='.$limit_events, true));
                 foreach ($events->items as $event) {
                     if (!Event::where('cult_id', $event->_id)->first() && checkTypeInCurrentTypes($event->genres)) {
                         if (str_contains($event->text,'[HTML]')) {
@@ -64,7 +64,7 @@ class addEvents extends Command
                         }
                         $event_cr = new Event;
                         $event_cr->name = $event->title;
-                        $event_cr->sponsor = $event->organizations[0]->name;
+                        $event_cr->sponsor = 'culture.ru';
                         $event_cr->description = $descriptions;
                         $event_cr->materials = $event->saleLink;
                         $event_cr->date_start = $event->startDate;
@@ -124,6 +124,7 @@ class addEvents extends Command
 
                                 $place_cr =  new Place;
                                 $place_cr->event_id = $event_cr->id;
+                                $place_cr->cult_id = $place->_id;
                                 $place_cr->address = $place->address;
                                 $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
                                 $place_cr->latitude = $place->location->coordinates[1];
@@ -131,15 +132,26 @@ class addEvents extends Command
                                 $place_cr->sight_id = $sight_id;
                                 $place_cr->timezone_id = $timezone;
                                 $place_cr->save();
-                                foreach ($place->seances as $seance) {
-                                    Seance::create([
-                                        'place_id'  => $place_cr->id,
-                                        'date_start' => $seance->startDate,
-                                        'date_end' => $seance->endDate
-                                    ]);
-                                }
+                                // foreach ($place->seances as $seance) {
+                                //     Seance::create([
+                                //         'place_id'  => $place_cr->id,
+                                //         'date_start' => $seance->startDate,
+                                //         'date_end' => $seance->endDate
+                                //     ]);
+                                // }
                             }
                         }
+                        
+                        foreach ($event->seances as $seance){
+                            $place_s = Place::where('cult_id', $seance->placeId)->first();
+                            if (isset($place_s)) {
+                                $place_s->seances()->create([
+                                    'date_start' => $seance->startDate,
+                                    'date_end' => $seance->endDate
+                                ]);
+                            }
+                        }
+
                         foreach ($event->genres as $genre) {
                             $types_id = EventType::where('cult_id', $genre->_id);
                             if($types_id->exists()){

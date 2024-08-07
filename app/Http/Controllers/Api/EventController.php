@@ -19,6 +19,8 @@ use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
 use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventOrderByDateCreate;
+use App\Filters\HistoryContent\HistoryContentLast;
+use App\Filters\Event\EventWithPlaceFull;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
@@ -27,188 +29,20 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\FileType;
+use App\Models\HistoryContent;
 use App\Models\Location;
 use App\Models\Timezone;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
 {
-     /**
-     * @OA\Get(
-     *     path="/events",
-     *     tags={"Event"},
-     *     summary="Get all events by filters",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="pagination",
-     *         description="Pagination on then true",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="bool"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="page",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         description="Event name",
-     *         name="name",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="statuses",
-     *         description="Statuses event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="statusLast",
-     *         description="True = last statuses event. False = search by all statuses event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="bool"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateStart",
-     *         description="Date start event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateEnd",
-     *         description="Date end event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="eventTypes",
-     *         description="Type event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="searchText",
-     *         description="Search text by name event, sponsor event and description event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="user_name",
-     *         description="Name user author",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="user_email",
-     *         description="Email user author",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="user",
-     *         description="Email and name user author",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="region",
-     *         description="Region event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="latitude",
-     *         description="Latitude event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="longitude",
-     *         description="Longitude event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
         $total = 0;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         $response =
             app(Pipeline::class)
@@ -263,72 +97,13 @@ class EventController extends Controller
 //             'events' => $events
 //         ], 200);
 //    }
-    /**
-     * @OA\Post(
-     *     path="/events/update-vk-likes",
-     *     tags={"Event"},
-     *     summary="Update vk likes event",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="event_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="likes_count",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function updateVkLikes(Request $request){
         // $request = $request->validated();
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
-    /**
-     * @OA\Post(
-     *     path="/events/set-event-user-liked",
-     *     tags={"Event"},
-     *     summary="Set event user liked",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="event_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Создаем отношение - юзер лайкнул ивент
     public function setEvenUserLiked(SetEventUserLikedRequest $request): \Illuminate\Http\JsonResponse{
         $event = Event::find($request->event_id);
@@ -341,33 +116,7 @@ class EventController extends Controller
 
         return response()->json(['likedUser' => $likedUser], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/events/{id}/check-user-liked",
-     *     tags={"Event"},
-     *     summary="Check user liked",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Проверяем лайкал ли авторизованный юзер этот ивент
     public function checkLiked($id): \Illuminate\Http\JsonResponse
     {
@@ -377,33 +126,7 @@ class EventController extends Controller
 
         return  response()->json($liked, 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/events/{id}/check-user-favorite",
-     *     tags={"Event"},
-     *     summary="Check user favorite",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     //Проверяем добавил ли авторизованный юзер этот ивент в избранное
     public function checkFavorite($id): \Illuminate\Http\JsonResponse
     {
@@ -413,38 +136,21 @@ class EventController extends Controller
 
         return  response()->json($favorite, 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/events/{id}",
-     *     tags={"Event"},
-     *     summary="Get event by id",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
-
-        return response()->json($event, 200);
+        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $response =
+        app(Pipeline::class)
+        ->send($event)
+        ->through([
+            EventWithPlaceFull::class
+        ])
+        ->via("apply")
+        ->then(function($event){
+            return $event->firstOrFail();
+        });
+        return response()->json($response, 200);
     }
     public function showForMap($id): \Illuminate\Http\JsonResponse
     {
@@ -452,122 +158,7 @@ class EventController extends Controller
 
         return response()->json($event, 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/events/create",
-     *     tags={"Event"},
-     *     summary="Create new event",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="name",
-     *         description="Name event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="coords",
-     *         description="Coords event <lat, long>",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="description",
-     *         description="Description event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="price",
-     *         description="Price event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="materials",
-     *         in="query",
-     *         description="Materials event",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateStart",
-     *         description="Date start event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateEnd",
-     *         description="Date end event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="vkGroupId",
-     *         description="id group vk event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="vkPostId",
-     *         description="id post vk event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
         // $coords = explode(',',$request->coords);
@@ -581,6 +172,7 @@ class EventController extends Controller
             // 'latitude'      => $latitude,
             // 'longitude'     => $longitude,
             'description'   => $request->description,
+
             'price'         => $request->price,
             'materials'     => $request->materials,
             'date_start'    => $request->dateStart,
@@ -658,40 +250,7 @@ class EventController extends Controller
 
         return response()->json(['status' => 'success',], 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/events/{id}/liked-users",
-     *     tags={"Event"},
-     *     summary="Get users like event",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getEventUserLikedIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->likedUsers;
@@ -714,40 +273,7 @@ class EventController extends Controller
                                 ->withPath($request->url())
        ], 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/events/{id}/favorites-users",
-     *     tags={"Event"},
-     *     summary="Get users like event",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *      @OA\Parameter(
-     *         name="limit",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
     {
         $likedUsers = Event::findOrFail($id)->favoritesUsers;
@@ -770,122 +296,7 @@ class EventController extends Controller
                                 ->withPath($request->url())
        ], 200);
     }
-    /**
-     * @OA\Put(
-     *     path="/updateEvent/{id}",
-     *     tags={"Event"},
-     *     summary="Update event by id",
-     *     security={ {"sanctum": {} }},
-     *      @OA\Parameter(
-     *         name="id",
-     *         description="id event",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="name",
-     *         description="Name event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sponsor",
-     *         description="Sponsor event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="city",
-     *         description="City event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="address",
-     *         description="Address event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="latitude",
-     *         description="Latitude event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="longitude",
-     *         description="Longitude event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="description",
-     *         description="Description event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="price",
-     *         description="Price event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="materials",
-     *         in="query",
-     *         description="Materials event",
-     *         @OA\Schema(
-     *             type="string"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateStart",
-     *         description="Date start event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="dateEnd",
-     *         description="Date end event",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="date"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     public function updateEvent(Request $request, $id): \Illuminate\Http\JsonResponse
     {
         $data = $request->all();
@@ -913,6 +324,36 @@ class EventController extends Controller
         ];
 
         return response()->json($jsonData);
+    }
+
+    public function getHistoryContent(Request $request, $id)
+    {
+        $pagination = $request->pagination;
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+
+        $historyContent = HistoryContent::query()->where("history_contentable_id", $id)->where("history_contentable_type", "App\Models\Event");
+
+        $response =
+        app(Pipeline::class)
+        ->send($historyContent)
+        ->through([
+            HistoryContentLast::class
+        ])
+        ->via("apply")
+        ->then(function($historyContent) use ($pagination , $page, $limit) {
+
+            if(request()->get("last") == true)
+            {
+                $res = $historyContent->get()->first();
+            }
+            else {
+                $res = $historyContent->cursorPaginate($limit, ['*'], 'page' , $page);
+            }
+            return $res;
+        });
+
+        return response()->json(["status"=>"success", "history_content" => $response]);
     }
 
     public function delete($id): \Illuminate\Http\JsonResponse

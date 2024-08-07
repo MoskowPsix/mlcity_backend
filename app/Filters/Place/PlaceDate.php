@@ -18,7 +18,7 @@ class PlaceDate implements Pipe {
             //     ->whereDate('date_end', '>=', $dateStart);
             // });
 
-            $content->whereHas('event', function($query) use ($dateStart, $dateEnd) {
+            $content->whereHas('seances', function($query) use ($dateStart, $dateEnd) {
                 $query->whereDate('date_start', '<=', $dateEnd)
                     ->whereDate('date_end', '>=', $dateStart);
             });

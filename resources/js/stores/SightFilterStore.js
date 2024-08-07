@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 
 export const useSightFilterStore = defineStore('useSightFilter', {
     state: () => ({
+        filterChange: new BehaviorSubject(false),
         sightLocation: new BehaviorSubject(
             localStorage.getItem('sightLocationFilter') || '',
         ),
@@ -26,6 +27,25 @@ export const useSightFilterStore = defineStore('useSightFilter', {
         ),
     }),
     actions: {
+        clearFilters() {
+            console.log('clearing filters')
+            localStorage.removeItem('sightNameFilter')
+            localStorage.removeItem('sightSponsorFilter')
+            localStorage.removeItem('sightTextFilter')
+            localStorage.removeItem('sightStatusesFilter')
+            localStorage.removeItem('sightStatusLastFilter')
+            localStorage.removeItem('sightUserFilter')
+            localStorage.removeItem('sightLocationFilter')
+            this.sightDate.next('~')
+            this.sightName.next('')
+            this.sightSponsor.next('')
+            this.sightSearchText.next('')
+            this.sightStatuses.next('')
+            this.sightStatusLast.next('')
+            this.sightUser.next('')
+            this.sightLocation.next('')
+            this.filterChange.next(true)
+        },
         setSightLocation(location) {
             localStorage.setItem('sightLocationFilter', location)
             this.sightLocation = location

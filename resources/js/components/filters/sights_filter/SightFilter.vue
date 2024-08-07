@@ -5,6 +5,7 @@
         >
             <input
                 id="name"
+                ref="name"
                 v-model.lazy="sightName"
                 type="text"
                 name="name"
@@ -13,6 +14,7 @@
             />
             <input
                 id="sponsor"
+                ref="sponsor"
                 v-model.lazy="sightSponsor"
                 type="text"
                 name="sponsor"
@@ -21,32 +23,15 @@
             />
             <input
                 id="text"
+                ref="text"
                 v-model.lazy="sightText"
                 type="text"
                 name="text"
                 placeholder="Поиск по тексту"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
-            <div
-                class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
-            >
-                <div>
-                    <select
-                        v-model="sightStatuses"
-                        class="h-6"
-                        data-te-select-init
-                    >
-                        <option
-                            v-for="status in statuses"
-                            :key="status.id"
-                            :value="status.name"
-                            >{{ status.name }}</option
-                        >
-                    </select>
-                    <label data-te-select-label-ref>статусы</label>
-                </div>
-            </div>
-            <div
+
+            <!-- <div
                 class="mb-[0.125rem] block min-h-[1.5rem] pl-7 border rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
                 <input
@@ -63,18 +48,41 @@
                 >
                     Последний статус
                 </label>
-            </div>
+            </div> -->
             <input
                 id="user"
+                ref="user"
                 v-model.lazy="sightUser"
                 type="text"
                 name="user"
                 placeholder="Имя или почта автора"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
+            <ClearButton @click="clearInput" />
+            <div
+                class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+            >
+                <div>
+                    <select
+                        v-model="sightStatuses"
+                        class="h-6"
+                        data-te-select-init
+                    >
+                        <option
+                            v-for="status in statuses"
+                            :key="status.id"
+                            :value="status.name"
+                            >{{ status.name }}</option
+                        >
+                        <option :value="'Все'"> Все </option>
+                    </select>
+                    <label data-te-select-label-ref>статусы</label>
+                </div>
+            </div>
             <div class="">
                 <input
                     id="location"
+                    ref="location"
                     v-model="locationText"
                     type="text"
                     name="location"
@@ -120,9 +128,13 @@
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
+    import ClearButton from '../../../components/clear_button/ClearButton.vue'
 
     export default {
         name: 'SightFilter',
+        components: {
+            ClearButton,
+        },
         setup() {
             const destroy$ = new Subject()
             return {
@@ -218,6 +230,7 @@
                 'getSightStatusLast',
                 'setSightUser',
                 'getSightUser',
+                'clearFilters',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
             ...mapActions(useLocationStore, [
@@ -238,6 +251,14 @@
                             this.modalSearchLocation = false
                         })
                 }
+            },
+            clearInput() {
+                this.sightName = ''
+                this.sightSponsor = ''
+                this.sightText = ''
+                this.sightUser = ''
+                this.locationText = ''
+                this.clearFilters()
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true

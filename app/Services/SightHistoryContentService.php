@@ -39,8 +39,20 @@ class SightHistoryContentService{
         $this->storeHistoryPrices();
         $this->storeHistoryTypes();
         $this->storeHistoryFiles();
-        info($this->historyContent);
+        $this->resetOldStatuses($this->historyContent);
+        $this->historyContent->historyContentable->statuses()->attach($status_id, ["last"=>true]);
+
         return $this->historyContent;
+    }
+
+    private function resetOldStatuses($historyContent) {
+        $statuses = $historyContent->historyContentable->statuses;
+
+        foreach($statuses as $status) {
+            $historyContent->historyContentable->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
     }
 
     private function storeHistoryPrices(){
@@ -54,8 +66,8 @@ class SightHistoryContentService{
     private function storeHistoryTypes(){
         if($this->historyTypes){
             foreach($this->historyTypes as $type){
-                if(isset($type["on_delete"])){
-                    $this->historyContentService->createSightHistoryType($this->historyContent, $type, $type["on_delete"]);
+                if(isset($type->on_delete)){
+                    $this->historyContentService->createSightHistoryType($this->historyContent, $type, $type->on_delete);
                 }
                 else{
                     $this->historyContentService->createSightHistoryType($this->historyContent, $type);
@@ -67,7 +79,7 @@ class SightHistoryContentService{
     private function storeHistoryFiles(){
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
-                if(isset($file["on_delete"]) && $file["on_delete"] == true){
+                if(is_array($file) && isset($file['on_delete']) && $file['on_delete'] == true){
                     $this->historyContent->historyFiles()->create($file);
                 }
                 else{

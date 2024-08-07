@@ -155,7 +155,7 @@
                 >
                     <div v-if="place.seances.length && place.seances">
                         <div
-                            v-for="seance in place.seances"
+                            v-for="(seance, i) in place.seances"
                             :key="seance.id"
                         >
                             <SeancesListSegment
@@ -170,7 +170,7 @@
                                 "
                                 :changed-seance-ids="$props.changedSeanceIds"
                                 :location="place.location"
-                                :index="index"
+                                :index="i"
                                 :seance="seance"
                                 :state="stateUpd"
                                 @on-upd-seance="setSeance"
@@ -259,7 +259,7 @@
                 default: null,
             },
         },
-        emits: ['onClickPlaceSeance', 'onUpdPlace'],
+        emits: ['onClickPlaceSeance', 'on-upd-place'],
         setup() {
             const destroy$ = new Subject()
 
@@ -292,20 +292,23 @@
             clickSeance(seance) {
                 this.$emit('onClickPlaceSeance', {
                     seance_id: seance.id,
+                    on_delete: false,
                     place_id: this.place.id,
                 })
             },
             setAddress(address) {
-                this.$emit('onUpdPlace', {
+                this.$emit('on-upd-place', {
                     index: this.index,
                     id: this.place.id,
+                    on_delete: false,
                     address: address,
                 })
             },
             setLocation(location) {
-                this.$emit('onUpdPlace', {
+                this.$emit('on-upd-place', {
                     index: this.index,
                     id: this.place.id,
+                    on_delete: false,
                     latitude: location.latitude,
                     longitude: location.longitude,
                     location: location,
@@ -315,9 +318,10 @@
                 this.getLocationByCoords(coords)
                     .pipe(
                         map((response) => {
-                            this.$emit('onUpdPlace', {
+                            this.$emit('on-upd-place', {
                                 index: this.index,
                                 id: this.place.id,
+                                on_delete: false,
                                 latitude: coords[0],
                                 longitude: coords[1],
                                 location: response.data.location,
@@ -332,18 +336,21 @@
                     .subscribe()
             },
             setSight(sight) {
-                this.$emit('onUpdPlace', {
+                this.$emit('on-upd-place', {
                     index: this.index,
                     id: this.place.id,
+                    on_delete: false,
                     latitude: sight.latitude,
                     longitude: sight.longitude,
                     sight_id: sight.id,
                 })
             },
             setSeance(seance) {
-                this.$emit('onUpdPlace', {
+                // console.log(seance)
+                this.$emit('on-upd-place', {
                     index: this.index,
                     id: this.place.id,
+                    on_delete: false,
                     seances: [seance],
                 })
             },
@@ -351,7 +358,7 @@
                 let place = this.place
                 place.on_delete = true
                 place.index = this.index
-                this.$emit('onUpdPlace', place)
+                this.$emit('on-upd-place', place)
             },
             onSearchLocation(event) {
                 let text = event.target.value
@@ -395,11 +402,11 @@
                     id: 0,
                     // Здесь можно будет просто по идеи можно будет подогнать дату к нужному формату через toLocaleDateString()
                     // подробнее https://stackoverflow.com/questions/3552461/how-do-i-format-a-date-in-javascript
-                    date_start: this.$helpers.OutputCurentTime.outputCurentTime(
+                    date_start: this.$helpers.DateHelp.outputCurentTime(
                         new Date(),
                         this.place.location.time_zone,
                     ),
-                    date_end: this.$helpers.OutputCurentTime.outputCurentTime(
+                    date_end: this.$helpers.DateHelp.outputCurentTime(
                         new Date(),
                         this.place.location.time_zone,
                     ),
@@ -410,9 +417,10 @@
                 // console.log(this.place.location.time_zone)
                 // this.place.seances.push({ ...newSeance })
                 // const seancesCopy = newSeance;
-                this.$emit('onUpdPlace', {
+                this.$emit('on-upd-place', {
                     index: JSON.parse(JSON.stringify(this.index)),
                     id: JSON.parse(JSON.stringify(this.place.id)),
+                    on_delete: false,
                     seances: [JSON.parse(JSON.stringify(newSeance))],
                 })
             },

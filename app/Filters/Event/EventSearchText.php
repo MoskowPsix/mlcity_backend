@@ -11,9 +11,9 @@ class EventSearchText implements Pipe {
     {
         if(request()->has('searchText')){
             $content->where(function($query) {
-                $query->orWhere('name', 'LIKE', '%'.request()->get('searchText').'%')
-                    ->orWhere('sponsor', 'LIKE', '%'.request()->get('searchText').'%')
-                    ->orWhere('description', 'LIKE', '%'.request()->get('searchText').'%');
+                $query->orWhere('name', 'ilike', '%'.request()->get('searchText').'%')
+                    ->orWhere('sponsor', 'ilike', '%'.request()->get('searchText').'%')
+                    ->orWhere('description', 'ilike', '%'.request()->get('searchText').'%');
             });
         }
 

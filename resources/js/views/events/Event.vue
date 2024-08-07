@@ -4,6 +4,7 @@
         v-if="events.length"
         :events="events"
         class="m-1"
+        @history-content="clickHistoryContent"
         @event="clickEvent"
     />
     <label
@@ -63,45 +64,15 @@
         },
 
         computed: {
-            ...mapState(useEventFilterStore, [
-                'eventName',
-                'eventDate',
-                'eventSponsor',
-                'eventSearchText',
-                'eventStatuses',
-                'eventStatusLast',
-                'eventUser',
-                'eventLocation',
-            ]),
-        },
-        watch: {
-            eventName() {
-                this.getAllEvent()
-            },
-            eventDate() {
-                this.getAllEvent()
-            },
-            eventSponsor() {
-                this.getAllEvent()
-            },
-            eventSearchText() {
-                this.getAllEvent()
-            },
-            eventStatuses() {
-                this.getAllEvent()
-            },
-            eventStatusLast() {
-                this.getAllEvent()
-            },
-            eventUser() {
-                this.getAllEvent()
-            },
-            eventLocation() {
-                this.getAllEvent()
-            },
+            ...mapState(useEventFilterStore, ['filterEventChange']),
         },
         mounted() {
             this.getAllEvent()
+            this.filterEventChange
+                .pipe(takeUntil(this.destroy$))
+                .subscribe(() => {
+                    this.getAllEvent()
+                })
         },
         methods: {
             ...mapActions(useToastStore, ['showToast']),
@@ -122,6 +93,7 @@
                             this.closeLoaderFullPage()
                             if (response.data.events.data.length) {
                                 this.events = response.data.events.data
+                                console.log(response.data.events.data)
                             } else {
                                 this.events = []
                                 this.showToast(
@@ -162,6 +134,9 @@
             clickEvent(event) {
                 router.push({ path: `/event/${event.id}` })
                 console.log(this.event)
+            },
+            clickHistoryContent(id) {
+                router.push({ path: `edit/${id}` })
             },
             viewBackPage() {
                 this.setPageEventForPageEvents(this.backPage)

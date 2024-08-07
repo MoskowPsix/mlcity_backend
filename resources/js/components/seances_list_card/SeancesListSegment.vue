@@ -254,7 +254,7 @@
                 default: null,
             },
         },
-        emits: ['onUpdSeance', 'onClickSeance'],
+        emits: ['on-upd-seance', 'on-click-seance'],
         // getDate(date) {
         //     return date[0] + '~' + date[1]
         // },
@@ -284,17 +284,15 @@
         },
         mounted() {
             // eslint-disable-next-line vue/no-mutating-props
-            this.seance.date_start =
-                this.$helpers.OutputCurentTime.outputCurentTime(
-                    this.$props.seance.date_start,
-                    this.$props.location.time_zone,
-                )
+            this.seance.date_start = this.$helpers.DateHelp.outputCurentTime(
+                this.$props.seance.date_start,
+                this.$props.location.time_zone,
+            )
             // eslint-disable-next-line vue/no-mutating-props
-            this.seance.date_end =
-                this.$helpers.OutputCurentTime.outputCurentTime(
-                    this.$props.seance.date_end,
-                    this.$props.location.time_zone,
-                )
+            this.seance.date_end = this.$helpers.DateHelp.outputCurentTime(
+                this.$props.seance.date_end,
+                this.$props.location.time_zone,
+            )
             this.seanceTime = [
                 JSON.parse(JSON.stringify(this.$props.seance.date_start)),
                 JSON.parse(JSON.stringify(this.$props.seance.date_end)),
@@ -302,15 +300,17 @@
         },
         methods: {
             handleDate(modelData) {
-                this.$emit('onUpdSeance', {
+                console.log(this.index)
+                this.$emit('on-upd-seance', {
                     index: this.index,
                     id: this.seance.id,
+                    on_delete: false,
                     date_start: JSON.parse(JSON.stringify(modelData[0])),
                     date_end: JSON.parse(JSON.stringify(modelData[1])),
                 })
             },
             clickElement() {
-                this.$emit('onClickSeance', {
+                this.$emit('on-click-seance', {
                     id: this.seance.id,
                 })
             },
@@ -318,7 +318,7 @@
                 let seance = JSON.parse(JSON.stringify({ ...this.seance }))
                 seance.on_delete = true
                 seance.index = this.index
-                this.$emit('onUpdSeance', seance)
+                this.$emit('on-upd-seance', seance)
             },
         },
     }

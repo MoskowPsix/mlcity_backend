@@ -63,7 +63,7 @@ class addCoordsAtFiasId extends Command
     }
     public function getCoordsByAddress($address) {
         $format = 'json';
-        $key = 'cc16faa8-6cc7-4e6d-b21e-76a0a39f7fe5';
+        $key =  env('YANDEX_MAP_API_KEY_SUBGEKT');
         try {
             print_r($address);
             $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey='.$key.'&format='.$format.'&geocode=' . urlencode($address));

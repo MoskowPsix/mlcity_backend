@@ -5,6 +5,7 @@
         >
             <input
                 id="name"
+                ref="name"
                 v-model.lazy="eventName"
                 type="text"
                 name="name"
@@ -13,6 +14,7 @@
             />
             <input
                 id="sponsor"
+                ref="sponsor"
                 v-model.lazy="eventSponsor"
                 type="text"
                 name="sponsor"
@@ -21,12 +23,23 @@
             />
             <input
                 id="text"
+                ref="text"
                 v-model.lazy="eventText"
                 type="text"
                 name="text"
                 placeholder="Поиск по тексту"
                 class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             />
+            <input
+                id="user"
+                ref="user"
+                v-model.lazy="eventUser"
+                type="user"
+                name="user"
+                placeholder="Имя или почта автора"
+                class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
+            />
+            <ClearButton @click="clearInput" />
             <div
                 class="flex border p-1 rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
             >
@@ -42,37 +55,13 @@
                             :value="status.name"
                             >{{ status.name }}</option
                         >
+                        <option :value="'Все'"> Все </option>
                     </select>
                     <label data-te-select-label-ref>статусы</label>
                 </div>
             </div>
-            <div
-                class="mb-[0.125rem] block min-h-[1.5rem] pl-7 border rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
-            >
-                <input
-                    id="checkboxDefault"
-                    v-model="eventStatusLast"
-                    :true-value="1"
-                    :false-value="0"
-                    class="relative float-left -ml-[0.5rem] mr-[6px] mt-[0.5rem] h-[1.125rem] w-[1.125rem] appearance-none rounded-[0.25rem] border-[0.125rem] border-solid border-neutral-300 outline-none before:pointer-events-none before:absolute before:h-[0.875rem] before:w-[0.875rem] before:scale-0 before:rounded-full before:bg-transparent before:opacity-0 before:shadow-[0px_0px_0px_13px_transparent] before:content-[''] checked:border-primary checked:bg-primary checked:before:opacity-[0.16] checked:after:absolute checked:after:-mt-px checked:after:ml-[0.25rem] checked:after:block checked:after:h-[0.8125rem] checked:after:w-[0.375rem] checked:after:rotate-45 checked:after:border-[0.125rem] checked:after:border-l-0 checked:after:border-t-0 checked:after:border-solid checked:after:border-white checked:after:bg-transparent checked:after:content-[''] hover:cursor-pointer hover:before:opacity-[0.04] hover:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:shadow-none focus:transition-[border-color_0.2s] focus:before:scale-100 focus:before:opacity-[0.12] focus:before:shadow-[0px_0px_0px_13px_rgba(0,0,0,0.6)] focus:before:transition-[box-shadow_0.2s,transform_0.2s] focus:after:absolute focus:after:z-[1] focus:after:block focus:after:h-[0.875rem] focus:after:w-[0.875rem] focus:after:rounded-[0.125rem] focus:after:content-[''] checked:focus:before:scale-100 checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca] checked:focus:before:transition-[box-shadow_0.2s,transform_0.2s] checked:focus:after:-mt-px checked:focus:after:ml-[0.25rem] checked:focus:after:h-[0.8125rem] checked:focus:after:w-[0.375rem] checked:focus:after:rotate-45 checked:focus:after:rounded-none checked:focus:after:border-[0.125rem] checked:focus:after:border-l-0 checked:focus:after:border-t-0 checked:focus:after:border-solid checked:focus:after:border-white checked:focus:after:bg-transparent dark:border-neutral-600 dark:checked:border-primary dark:checked:bg-primary dark:focus:before:shadow-[0px_0px_0px_13px_rgba(255,255,255,0.4)] dark:checked:focus:before:shadow-[0px_0px_0px_13px_#3b71ca]"
-                    type="checkbox"
-                />
-                <label
-                    class="inline-block pl-[0.15rem] mt-[0.4rem] hover:cursor-pointer"
-                    for="checkboxDefault"
-                >
-                    Последний статус
-                </label>
-            </div>
-            <input
-                id="user"
-                v-model.lazy="eventUser"
-                type="text"
-                name="user"
-                placeholder="Имя или почта автора"
-                class="rounded-lg dark:bg-gray-800 dark:border-gray-700 border-gray-400/50"
-            />
             <VueDatePicker
+                ref="date"
                 v-model="eventDate"
                 range
                 model-type="yyyy-MM-dd HH:mm:ss"
@@ -86,6 +75,7 @@
             <div class="">
                 <input
                     id="location"
+                    ref="location"
                     v-model="locationText"
                     type="text"
                     name="location"
@@ -127,10 +117,11 @@
     import { useLocationStore } from '../../../stores/LocationStore'
     import { useEventFilterStore } from '../../../stores/EventFilterStore'
     import { useStatusStore } from '../../../stores/StatusStore'
-    import { mapActions } from 'pinia'
+    import { mapActions, mapState } from 'pinia'
     import { catchError, map, takeUntil } from 'rxjs/operators'
     import { of, EMPTY, Subject } from 'rxjs'
     import { Select, initTE } from 'tw-elements'
+    import ClearButton from '../../../components/clear_button/ClearButton.vue'
     import VueDatePicker from '@vuepic/vue-datepicker'
     import '@vuepic/vue-datepicker/dist/main.css'
     import { useDark } from '@vueuse/core'
@@ -139,6 +130,7 @@
         name: 'EventFilter',
         components: {
             VueDatePicker,
+            ClearButton,
         },
         away() {
             this.modalSearchLocation = false
@@ -177,13 +169,17 @@
                 locations: [],
             }
         },
-
+        computed: {
+            ...mapState(useEventFilterStore, ['filterEventChange']),
+        },
         watch: {
             locationText(value) {
                 if (value.length >= 3) {
                     this.getLocation(value)
+                    this.filterEventChange.next(true)
                 } else if (value.length) {
                     this.setEventLocation('')
+                    this.filterEventChange.next(true)
                     this.modalSearchLocation = false
                     this.locations = []
                 }
@@ -191,42 +187,54 @@
             eventName(name) {
                 if (name.length > 3) {
                     this.setEventName(name)
+                    this.filterEventChange.next(true)
                 } else if (name == 0) {
                     this.setEventName(name)
+                    this.filterEventChange.next(true)
                 }
             },
             eventSponsor(sponsor) {
                 if (sponsor.length > 3) {
                     this.setEventSponsor(sponsor)
+                    this.filterEventChange.next(true)
                 } else if (sponsor == 0) {
                     this.setEventSponsor(sponsor)
+                    this.filterEventChange.next(true)
                 }
             },
             eventDate(date) {
                 if (date) {
                     this.setEventDate([date[0] + '~' + date[1]])
+                    this.filterEventChange.next(true)
                 } else {
                     this.setEventDate(['~'])
+                    this.filterEventChange.next(true)
                 }
             },
             eventText(text) {
                 if (text.length > 3) {
                     this.setEventText(text)
+                    this.filterEventChange.next(true)
                 } else if (text == 0) {
                     this.setEventText(text)
+                    this.filterEventChange.next(true)
                 }
             },
             eventStatuses(status) {
                 this.setEventStatuses(status)
+                this.filterEventChange.next(true)
             },
             eventStatusLast(status) {
                 this.setEventStatusLast(status)
+                this.filterEventChange.next(true)
             },
             eventUser(user) {
                 if (user.length > 3) {
                     this.setEventUser(user)
+                    this.filterEventChange.next(true)
                 } else if (user == 0) {
                     this.setEventUser(user)
+                    this.filterEventChange.next(true)
                 }
             },
         },
@@ -260,6 +268,7 @@
                 'getEventUser',
                 'setEventLocation',
                 'getEventLocation',
+                'clearFilters',
             ]),
             ...mapActions(useStatusStore, ['getStatuses']),
             ...mapActions(useLocationStore, [
@@ -280,6 +289,14 @@
                             this.modalSearchLocation = false
                         })
                 }
+            },
+            clearInput() {
+                this.eventName = ''
+                this.eventSponsor = ''
+                this.eventText = ''
+                this.eventUser = ''
+                this.locationText = ''
+                this.clearFilters()
             },
             getLocation(name) {
                 this.loaderModalSearchLocation = true
@@ -309,6 +326,7 @@
                 this.getStatuses()
                     .pipe(
                         map((response) => {
+                            console.log(response)
                             if (response.data.statuses.length) {
                                 this.statuses = response.data.statuses
                             } else {

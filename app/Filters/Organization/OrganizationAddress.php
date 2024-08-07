@@ -10,7 +10,7 @@ use App\Filters\Pipe;
     public function apply($content, Closure $next)
     {
         if(request()->has('address')){
-            $content->where('address','LIKE', '%'.request()->get('address').'%');
+            $content->where('address','ilike', '%'.request()->get('address').'%');
         }
 
         return $next($content);

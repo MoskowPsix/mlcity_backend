@@ -14,7 +14,7 @@ export const useLocalStorageStore = defineStore('LocalStorage', {
             if (localStorage.getItem('token')) {
                 this.token = localStorage.getItem('token')
                 this.role = localStorage.getItem('role')
-                this.user = localStorage.getItem('user')
+                this.user = JSON.parse(localStorage.getItem('user'))
                 this.auth = true
             } else {
                 this.token = ''

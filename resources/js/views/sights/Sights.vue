@@ -5,6 +5,7 @@
         :sights="sights"
         class="m-1"
         @sight="clickSight"
+        @history-content="clickHistoryContent"
     />
     <label
         v-if="!sights.length"
@@ -142,6 +143,9 @@
             },
             clickSight(sight) {
                 router.push({ path: `/sight/${sight.id}` })
+            },
+            clickHistoryContent(id) {
+                router.push({ path: `edit/${id}` })
             },
         },
     }

@@ -74,7 +74,7 @@ class PlaceController extends Controller
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
 
-        $places = Event::find($id)->places();
+        $places = Event::find($id)->places()->with('seances');
 
         $response =
                 app(Pipeline::class)

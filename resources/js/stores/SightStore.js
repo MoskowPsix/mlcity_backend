@@ -13,7 +13,9 @@ export const useSightStore = defineStore('useSight', {
         getSightForIds(id) {
             return from(axios.get(`sights/${id}`))
         },
-
+        getSightHistoryContent(id, params) {
+            return from(axios.get(`sights/${id}/history-contents`, { params }))
+        },
         saveSightHistory(data) {
             return from(
                 axios.post('history-content', data, {
@@ -23,14 +25,14 @@ export const useSightStore = defineStore('useSight', {
                 }),
             )
         },
-        changeStatus(statusName, sigthId, description = " "){
+        changeStatus(statusName, sigthId, description = ' ') {
             const params = {
                 status: statusName,
                 sight_id: sigthId,
-                description: description
+                description: description,
             }
             console.log(params)
-            return from(axios.post("sights/statuses", params))
-        }
+            return from(axios.post('sights/statuses', params))
+        },
     },
 })

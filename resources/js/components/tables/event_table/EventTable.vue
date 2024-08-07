@@ -108,11 +108,14 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
-                        <p v-if="event.statuses.length">{{
-                            event.statuses[0].name
-                        }}</p
-                        ><p> </p
-                    ></td>
+                        <p v-if="event.statuses.length">
+                            <p v-for="status in event.statuses" :key="status.id">
+                                <p v-if="status.pivot.last == true">{{ status.name }}</p>
+                            </p>
+                        </p>
+
+                        <p v-else>Неизвестен</p>
+                    </td>
                     <td class="px-6 py-4">
                         {{ event.name }}
                     </td>
@@ -142,6 +145,11 @@
     </div>
 </template>
 <script>
+import { useEventStore } from '../../../stores/EventStore'
+import { useLoaderStore } from '../../../stores/LoaderStore'
+import { mapActions } from 'pinia'
+
+
     export default {
         name: 'EventTable',
         props: {
@@ -152,10 +160,39 @@
                 },
             },
         },
-        emits: ['event'],
+        emits: ['event', 'history-content'],
         methods: {
+            ...mapActions(useEventStore, ['getEventHistoryContent']),
+            ...mapActions(useLoaderStore, [
+                'openLoaderFullPage',
+                'closeLoaderFullPage',
+            ]),
             emitEvent(event) {
-                this.$emit('event', event)
+                if(this.checkArrayOfObjHaveAttr(event.statuses, "name", "Изменено") && this.checkStatusIsLast(event.statuses)) {
+                    this.goToHistoryContentOrEvent(event)
+                } else {
+                    this.$emit('event', event)
+                }
+            },
+
+            goToHistoryContentOrEvent(event) {
+                this.openLoaderFullPage()
+                this.getEventHistoryContent(event.id, {last: true}).pipe().subscribe((response) => {
+                    console.log(response)
+                    if(event.statuses[0].name == "Изменено") {
+                        this.$emit("history-content", response.data.history_content.id)
+                    }
+                    else {
+                        this.$emit('event', event)
+                    }
+                })
+            },
+
+            checkArrayOfObjHaveAttr(array, key, value) {
+                    return array.find(obj => obj[key] == value)
+            },
+            checkStatusIsLast(array) {
+                return array.find(obj => obj.pivot.last == true)
             },
             getCurrentTime(time) {
                 return this.$helpers.DateHelp.getCurrentFormate(time)

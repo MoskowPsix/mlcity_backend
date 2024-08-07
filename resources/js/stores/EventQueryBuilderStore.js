@@ -31,12 +31,13 @@ export const useEventQueryBuilderStore = defineStore('useEventQueryBuilder', {
             }
             this.queryParams = {
                 name: this.name,
+                limit: 20,
                 dateStart: date[0],
                 dateEnd: date[1],
                 sponsor: this.sponsor,
                 searchText: this.searchText,
                 statuses: this.statuses,
-                statusesLast: this.statusLast,
+                statusLast: true,
                 user: this.user,
                 page: this.pageEventsForPageEvent,
                 locationId: this.locationId,

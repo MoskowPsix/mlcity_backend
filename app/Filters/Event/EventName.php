@@ -11,7 +11,7 @@ use App\Filters\Pipe;
     {
         if(request()->has('name')){
             $content->where(function($query) {
-                $query->orWhere('name', 'LIKE', '%'.request()->get('name').'%');
+                $query->orWhere('name', 'ilike', '%'.request()->get('name').'%');
             });
         }
 

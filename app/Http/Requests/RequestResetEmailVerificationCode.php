@@ -25,7 +25,7 @@ class RequestResetEmailVerificationCode extends FormRequest
     {
         return [
             'code'                   => 'required|min:4|max:4',
-            'email'                  => 'required|email|unique:emails'
+            'email'                  => 'required|email|unique:users'
         ];
     }
 }

@@ -20,56 +20,26 @@ use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\OrganizationInviteController;
+use App\Http\Controllers\Api\PasswordRecoveryController;
+use App\Http\Controllers\Api\AppVersionController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
-
-//Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
-// Route::get('/email/verify', function () {
-//     return view('auth.verify-email');
-// })->middleware('auth')->name('verification.notice');
-
-// Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {
-//     $request->fulfill();
-//     return redirect('/home');
-// })->middleware(['auth', 'signed'])->name('verification.verify');
-
-// Route::post('/email/verification-notification', function (Request $request) {
-//     $request->user()->sendEmailVerificationNotification();
-//     return back()->with('message', 'Verification link sent!');
-// })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
-
-
+Route::controller(AppVersionController::class)->group(function () {
+    Route::post('app/{platform}/{number}', 'setVersion')->middleware('root');
+    Route::get('app', 'getVersion');
+});
 Route::controller(AuthController::class)->group(function() {
-    Route::post('register', 'register');
+    Route::post('register', 'register'); // Регистрация
     Route::post('login', 'login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
-    Route::put('reset_password', 'resetPassword')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
-    Route::post('set_password', 'resetPasswordTokens')->middleware('auth:sanctum');
 
     // Методы манипуляций с почтой
-    Route::post('verificationEmail', 'verificationCodeEmail')->middleware('auth:sanctum');
-    Route::get('verificationUserEmail','verificationEmail')->middleware('auth:sanctum');
-    Route::put('resetEmail','resetEmail')->middleware('auth:sanctum');
-
-    // Методы манипуляций с телефоном
-    Route::post('verificationPhone/{code}', 'verificationCodePhone')->middleware('auth:sanctum');
-    Route::post('verificationUserPhone','verificationPhone')->middleware('auth:sanctum');
-    Route::put('resetPhone','resetPhone')->middleware('auth:sanctum');
+    Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum');
+    Route::get('verificationUserEmail','verificationEmailForCode')->middleware('auth:sanctum');
+    Route::put('resetEmail','resetEmailForCode')->middleware('auth:sanctum');
+    Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
 });
 
 
@@ -105,8 +75,12 @@ Route::controller(UserController::class)->group(function() {
 });
 
 Route::controller(AuthSocialController::class)->group(function() {
-    Route::get('social-auth/{provider}', 'index')->name('auth.social');
+    Route::get('social-auth/yandex', 'yandex')->name("yandex");
+    Route::get('social-auth/yandex/redirect','yandexRedirect')->name('yandexRedirect');
+
     Route::post('social-auth/apple', 'callbackApple')->name('auth.social');
+
+    Route::get('social-auth/{provider}', 'index')->name('auth.social');
     Route::get('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
     Route::post('social-auth/{provider}/callback', 'callback')->name('auth.social.callback');
 });
@@ -118,6 +92,8 @@ Route::controller(EventController::class)->group(function() {
     Route::post('events/update-vk-likes', 'updateVkLikes');//для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum');//для страницы мероприятия
     Route::get('events/{id}', 'show');
+
+    Route::get("events/{id}/history-contents", "getHistoryContent");
 
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum');// Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum');// Проверяем добавил ли юзер в избранное
@@ -154,6 +130,7 @@ Route::controller(SightController::class)->group(function() {
     Route::post('sights/create', 'create')->middleware('auth:sanctum');
     Route::get('sights/{id}/liked-users', 'getSightUserLikedIds')->middleware('auth:sanctum');
     Route::get('sights/{id}/favorites-users', 'getSightUserFavoritesIds')->middleware('auth:sanctum');
+    Route::get('sights/{id}/history-contents', "getHistoryContent");
 });
 
 Route::controller(CommentController::class)->group(function() {
@@ -255,6 +232,11 @@ Route::controller(PermissionController::class)->group(function (){
 
 Route::controller(FeedbackController::class)->group(function (){
     Route::post("feedback/user", "sendUserFeedback");
+});
+
+Route::controller(PasswordRecoveryController::class)->group(function (){
+    Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
+    Route::post("recovery/password", "recoveryPasswordByCode");
 });
 
 

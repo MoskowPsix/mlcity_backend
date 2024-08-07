@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\RequestEditEmailNotVerification;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\LoginRequest;
 //use Illuminate\Http\Request;
@@ -16,6 +17,7 @@ use App\Mail\OrderCode;
 use App\Models\Email;
 use App\Models\Phone;
 use App\Models\PhoneCode;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use \Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
@@ -24,6 +26,8 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Js;
 
 class AuthController extends Controller
 {
@@ -33,87 +37,13 @@ class AuthController extends Controller
      * @var bool
      */
     protected $stopOnFirstFailure = true;
+
     /**
-     * @OA\Post(
-     ** path="/register",
-     *   tags={"Auth"},
-     *   summary="Register",
-     *   operationId="register",
-     *
-     *  @OA\Parameter(
-     *      name="name",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *  @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="city",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="region",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *      @OA\Parameter(
-     *      name="password_confirmation",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=201,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
-    public function register(RegisterRequest $request): \Illuminate\Http\JsonResponse
+     * @param RegisterRequest $request
+     * @return JsonResponse
+     * Ркгистрация нового пользователя с отправкой кода на почту для её верификации
+     */
+    public function register(RegisterRequest $request): JsonResponse
     {
         try {
             $trans = DB::transaction(function() use($request) {
@@ -136,24 +66,8 @@ class AuthController extends Controller
                         // 'number' => $input['number'],
                     ]);
                 }
-                
-                // try{
-                    $this->createCodeEmail($user); 
-                // } catch (Exception $e) {
-                //     return response()->json([
-                //         'status'        => 'error',
-                //         'message'       => 'email error',
-                //     ], 422);
-                // }
+
                 $this->createCodeEmail($user);
-
-                // $this->createCodePhone($user);
-
-                    // User::findI($user->id)->delete();
-                    // return response()->json([
-                    //     'status'        => 'error',
-                    //     'message'       => 'email error',
-                    // ], 422);
 
                 $token = $this->getAccessToken($user);
 
@@ -169,19 +83,21 @@ class AuthController extends Controller
                 return $trans;
             }
         } catch(Exception $e) {
+            Log::error($e);
             return response()->json([
                 'status'        => 'error',
                 'message'       => 'Извините, при регистрации произошла критическая ошибка',
             ], 500);
         }
-
     }
 
-    
-
-    public function verificationCodeEmail(VerficationCodeRequest $request)
+    /**
+     * @param VerficationCodeRequest $request
+     * @return JsonResponse
+     * Верификация почты с кодом подтверждения
+     */
+    public function verificationEmailForCode(VerficationCodeRequest $request)
     {
-        $code=$request->validated();
         $code = $request->code;
         // info($code);
         $user = User::find(auth('api')->user()->id);
@@ -205,8 +121,36 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
-    
-    public function resetEmail(RequestResetEmailVerificationCode $request) 
+    /**
+     * @param RequestEditEmailNotVerification $request
+     * @return JsonResponse
+     * Изменение не верифицированной почты
+     */
+    public function editEmailNotVerification(RequestEditEmailNotVerification $request): JsonResponse
+    {
+        $user = User::find(auth('api')->user()->id);
+        if (isset($user->email_verified_at)){
+            return response()->json([
+                'status'   => 'error',
+                'message'  => 'Не удалось поменять почту, она уже подтверждена',
+            ], 403);
+        }
+
+        User::where('id', $user->id)->update([
+            'email' => $request->email,
+        ]);
+
+        return response()->json([
+            'status'   => 'success',
+            'message'  => 'Почта '.$request->email.' успешно изменена'
+        ], 201);
+    }
+    /**
+     * @param RequestResetEmailVerificationCode $request
+     * @return JsonResponse
+     * Смена верифицированной почты с кодом подтверждения
+     */
+    public function resetEmailForCode(RequestResetEmailVerificationCode $request)
     {
         //$user = auth('api')->user();
         $user = User::find(auth('api')->user()->id);
@@ -232,98 +176,13 @@ class AuthController extends Controller
             return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
         }
     }
-    public function verificationPhone() 
+    /**
+     * @param LoginRequest $request
+     * @return JsonResponse
+     * Вход пользователя с созданием токена
+     */
+    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
     {
-        $user = auth('api')->user();
-        $result = $this->createCodePhone($user);
-        if ($result === 'success') {
-            return response()->json(['status'=> 'success'],200);
-        } else {
-            return response()->json(['status'=> 'error','approximate_time' => $result],200);
-        }
-    }
-
-    public function resetPhone(VerficationCodeRequest $request)
-    {
-        $user = User::find(auth('api')->user())->orderBy('created_at', 'desc')->first();
-        $pcode = $user->pcode()->where('last', true)->orderBy('created_at', 'desc')->first();
-        if (!empty($user) && !empty($ecode)) {
-            if ($pcode->code === $request->code) {
-                if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
-                    $user->pcode()->where(['last' => true])->update(['last' => false]);
-                    $user->naumber = $request->number;
-                    $user->naumber_verified_at = null;
-                    $user->save();
-                    $this->createCodePhone($user);
-                    return response()->json(['status'=> 'success','new_email'=> $user->number],200);
-                } else {
-                    $pcode->update(['last' => false]);
-                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
-                }
-            } else {
-                return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-            }
-        } else {
-            return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-        }
-    }
-    
-      /**
-     * @OA\Post(
-     ** path="/login",
-     *   tags={"Auth"},
-     *   summary="Login",
-     *   operationId="login",
-     *
-     *   @OA\Parameter(
-     *      name="email",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
-     public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
-    {   
-        // if (!Auth::attempt($request->only('email', 'password'))) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => __('messages.login.error')
-        //     ], 401);
-        // }
         $credentials = $request->getCredentials();
         if (!Auth::attempt($credentials)) {
             return response()->json([
@@ -332,11 +191,11 @@ class AuthController extends Controller
                 'cr' => $credentials,
             ], 401);
         }
-        
+
         if (isset($credentials['name'])) {
             $user = User::where('name', $credentials['name'])->with('socialAccount', 'roles')->firstOrFail();
         } elseif (isset($credentials['email'])) {
-            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail(); 
+            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail();
         }
 
         $token = $this->getAccessToken($user);
@@ -350,162 +209,11 @@ class AuthController extends Controller
             'user'          => $user
         ], 200)->withCookie($cookie);
     }
-
-     /**
-     * @OA\Put(
-     ** path="/reset_password",
-     *   tags={"Auth"},
-     *   summary="reset password",
-     *   operationId="reset_password",
-     *
-     *   @OA\Parameter(
-     *      name="new_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="retry_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
-    public function resetPasswordTokens(Request $request) {
-        // if (!Auth::attempt($request->only('password', 'password_retry'))) {
-        //     return response()->json([
-        //         'status' => 'error',
-        //         'message' => __('messages.login.error')
-        //     ], 401);
-        // }
-        $validated = $request->validate([
-            'password'        => 'required|min:8|max:255',
-            'password_retry'  => 'required|min:8|max:255',
-        ]);
-        if ($request->password === $request->password_retry) {
-            $user = User::where('id', auth('api')->user()->id)->with('socialAccount')->firstOrFail();
-            $user->update(['password' => bcrypt($request->password)]);
-
-            return response()->json([
-                'status'        => 'success',
-                'message'       => 'Password set',
-                'user'          => $user
-            ], 200);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'The new password does not match!'
-            ], 403);
-        }
-    }
-     public function resetPassword(Request $request)
-    {
-        if (password_verify($request->old_password, auth('api')->user()->password)) {
-            if ($request->new_password === $request->retry_password) {
-                $user = User::where('id', auth('')->user()->id)->firstOrFail();
-                User::where('id', auth('api')->user()->id)->update(['password' => bcrypt($request->new_password)]);
-                return response()->json([
-                    'status'        => 'success',
-                    'message'       => __('messages.login.success'),
-                    'user'          => $user
-                ], 200);
-            } else {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'The new password does not match!'
-                ], 403);
-            }
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'The old password is incorrect!'
-            ], 403);
-        }
-
-    }
     /**
-     * @OA\Put(
-     ** path="/reset_password_user",
-     *   tags={"Auth"},
-     *   summary="reset password user",
-     *   operationId="reset_password_user",
-     *   @OA\Parameter(
-     *      name="user_id",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="integer"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="new_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *           type="string"
-     *      )
-     *   ),
-     *   @OA\Parameter(
-     *      name="retry_password",
-     *      in="query",
-     *      required=true,
-     *      @OA\Schema(
-     *          type="string"
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=200,
-     *       description="Success",
-     *      @OA\MediaType(
-     *           mediaType="application/json",
-     *      )
-     *   ),
-     *   @OA\Response(
-     *      response=401,
-     *       description="Unauthenticated"
-     *   ),
-     *   @OA\Response(
-     *      response=400,
-     *      description="Bad Request"
-     *   ),
-     *   @OA\Response(
-     *      response=404,
-     *      description="not found"
-     *   ),
-     *      @OA\Response(
-     *          response=403,
-     *          description="Forbidden"
-     *      )
-     *)
-     **/
+     * @param Request $request
+     * @return JsonResponse
+     * Смена пароля любого пользователя только для админа
+     */
     public function resetPasswordForAdmin(Request $request) {
         if ($request->new_password === $request->retry_password) {
             User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);
@@ -520,8 +228,11 @@ class AuthController extends Controller
             ], 403);
         }
     }
-
-    public function logout(): \Illuminate\Http\JsonResponse
+    /**
+     * @return JsonResponse
+     * Выход пользователя с удалением токена
+     */
+    public function logout(): JsonResponse
     {
         try {
             $cookie = Cookie::forget('Bearer_token');
@@ -543,29 +254,12 @@ class AuthController extends Controller
     public function getAccessToken($user){
         return $user->createToken('auth_token')->plainTextToken;
     }
-
-    private function createCodePhone($user)
-    {
-        $user =  User::where('id', $user->id)->first();
-        if(!empty($user->pcode()->first())) {
-            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120)  < time()) {
-                $code = rand(1000, 9999);
-                $user->pcode()->create([
-                    'code'=> $code,
-                ]);
-                return 'success';
-            } else {
-                return strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
-            }
-        } else {
-            $code = rand(1000, 9999);
-            $user->pcode()->create([
-                'code'=> $code,
-            ]);
-            return 'success';
-        }
-    }
-    private function createCodeEmail($user)
+    /**
+     * @param User $user
+     * @return string
+     * Создание одноразового кода подтверждения и отправка его на почту пользователя
+     */
+    private function createCodeEmail(User $user): string
     {
         $user = User::where('id', $user->id)->first();
         if (!empty($user->ecode()->first())) {
@@ -588,33 +282,11 @@ class AuthController extends Controller
                 return 'success';
         }
     }
-    public function verificationCodePhone($code)
-    {
-        if (999 <= $code && $code <= 10000) {
-            $user = User::where('id', auth('api')->user()->id)->first();
-            $pcode = $user->pcode()->orderBy('created_at', 'desc')->first();
-            if (!empty($email) && !empty($pcode)) {
-                if ((strtotime($pcode->created_at) < time()) && (time() < (strtotime($pcode->created_at) + (60*30)))) {
-                    if ($pcode->code === $code) {
-                        $pcode->update(['last' => false]);
-                        $user->number_verified_at = date("Y-m-d H:i:s", strtotime('now'));
-                        $user->save();
-                        return response()->json(['status'=> 'success', 'phone_verification' => $user->phone], 200);
-                    } else {
-                        return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-                    }
-                } else {
-                    $pcode->update(['last' => false]);
-                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
-                }
-            } else {
-                return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
-            }
-        } else {
-            return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
-        }
-    }
-    public function verificationEmail() 
+    /**
+     * @return JsonResponse
+     * Создания одноразого кода для почты по маршруту
+     */
+    public function generateCodeForEmail(): JsonResponse
     {
         $user = auth('api')->user();
         $result = $this->createCodeEmail($user);

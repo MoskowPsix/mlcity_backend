@@ -13,26 +13,6 @@ use App\Models\Status;
 
 class StatusController extends Controller
 {
-    /**
-     * @OA\Get(
-     *     path="/statuses",
-     *     tags={"Statuses"},
-     *     summary="Get all statuses",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
     public function getStatuses(): \Illuminate\Http\JsonResponse
     {
         $statuses = [];
@@ -41,7 +21,8 @@ class StatusController extends Controller
                 if(count(auth('api')->user()->roles)>0){
                     switch (auth('api')->user()->roles[0]->name) {
                         case "root":
-                            $statuses = Status::all();
+                            $statuses = Status::all()->toArray();
+                            usort($statuses, [$this, "sortStatuses"]);
                         break;
                         case "Admin":
                             $statuses = Status::all();
@@ -52,13 +33,13 @@ class StatusController extends Controller
                     }
                 }
                 else{
-                    $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
+                    $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
                 }
             } else {
-                $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
+                $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
             }
         } else {
-            $statuses = Status::where('name', 'Черновик')->orWhere('name', 'На модерации')->get();
+            $statuses = Status::where('name', 'Черновик')->orWhere('name', 'Новое')->get();
         }
 
         return response()->json([
@@ -66,33 +47,6 @@ class StatusController extends Controller
             'statuses'   => $statuses,
         ], 200);
     }
-    /**
-     * @OA\Get(
-     *     path="/getStatusId/{id}",
-     *     tags={"Statuses"},
-     *     summary="Get statuses by id",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="id",
-     *         in="path",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
     public function getStatusId($id): \Illuminate\Http\JsonResponse
     {
         $status = Status::where('id', $id)->firstOrFail();
@@ -102,40 +56,6 @@ class StatusController extends Controller
             'statuses'          => $status
         ], 200);
     }
-     /**
-     * @OA\Post(
-     *     path="/events/addStatusEvent",
-     *     tags={"Statuses"},
-     *     summary="Add statuses for event",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="status_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="event_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
     // Для событий
     public function addStatusEvent(Request $request)
     {
@@ -168,40 +88,7 @@ class StatusController extends Controller
                 // 'vk_group_id' => getenv('VK_OWNER_ID')
         ], 200);
     }
-    /**
-     * @OA\Post(
-     *     path="/sights/addStatusEvent",
-     *     tags={"Statuses"},
-     *     summary="Add statuses for sight",
-     *     security={ {"sanctum": {} }},
-     *     @OA\Parameter(
-     *         name="status_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Parameter(
-     *         name="sight_id",
-     *         in="query",
-     *         @OA\Schema(
-     *             type="integer"
-     *         ),
-     *     ),
-     *     @OA\Response(
-     *         response="200",
-     *         description="Success"
-     *     ),
-     *     @OA\Response(
-     *         response=400,
-     *         description="Bad Request"
-     *     ),
-     *     @OA\Response(
-     *         response=500,
-     *         description="not authentication"
-     *     ),
-     * )
-     */
+
     // Для достопримечательностей
     public function addStatusSight(Request $request)
     {
@@ -220,5 +107,15 @@ class StatusController extends Controller
                 'sight' => $request->sight_id,
                 'descriptions' => $request->descriptions,
             ], 200);
+    }
+
+    private function sortStatuses($a, $b)
+    {
+        $order = array("Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ");
+        info($a);
+        $pos1 = array_search($a['name'], $order);
+        $pos2 = array_search($b['name'], $order);
+
+        return $pos1 - $pos2;
     }
 }

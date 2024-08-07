@@ -72,6 +72,27 @@
                 </div>
             </a>
 
+            <div
+                class="flex items-center mb-5 dark:bg-gray-900/50 p-2 rounded-lg border dark:border-gray-900"
+            >
+                <img
+                    v-if="local_user.avatar"
+                    :src="local_user.avatar"
+                    class="h-6 sm:h-7"
+                    alt="Flowbite Logo"
+                />
+                <span
+                    v-if="local_user.name"
+                    class="self-center text-xl font-semibold whitespace-nowrap text-gray-700 dark:text-gray-300"
+                    >{{ local_user.name
+                    }}<p
+                        v-if="local_user.email"
+                        class="text-xs items-center text-gray-500"
+                        >{{ local_user.email }}</p
+                    ></span
+                >
+            </div>
+
             <a
                 v-if="local_user.length"
                 class="flex items-center pl-2.5 mb-5 border rounded-lg dark:border-gray-500/50 p-2"
@@ -194,7 +215,7 @@
                         > -->
                     </RouterLink>
                 </li>
-                <li
+                <!-- <li
                     v-if="
                         role == 'Moderator' || role == 'Admin' || role == 'root'
                     "
@@ -220,12 +241,12 @@
                         <span class="flex-1 ml-3 whitespace-nowrap"
                             >На редактуре</span
                         >
-                        <!-- <span
+                        <span
                             class="inline-flex items-center justify-center w-3 h-3 p-3 ml-3 text-sm font-medium text-blue-800 bg-blue-100 rounded-full dark:bg-blue-900 dark:text-blue-300"
                             >1</span
-                        > -->
+                        >
                     </RouterLink>
-                </li>
+                </li> -->
                 <!-- <li>
             <RouterLink :to="{name: 'role'}" exact-active-class="bg-gray-400 hover:bg-gray-400 dark:bg-gray-900 dark:hover:bg-gray-900" class="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700">
                <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" fill="currentColor" viewBox="0 0 21 21" xmlns="http://www.w3.org/2000/svg">
