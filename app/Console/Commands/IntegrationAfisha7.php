@@ -367,7 +367,7 @@ class IntegrationAfisha7 extends Command
     * @param  int $types_id
     * @return  object
     */
-    private function getSights(string $location_url, int $limit = 1, int $offset = 0, int $types_id):  object
+    private function getSights(string $location_url, int $types_id, int $limit = 1, int $offset = 0):  object
     {
         try {
             $client = new Client();

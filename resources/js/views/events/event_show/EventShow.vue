@@ -57,11 +57,7 @@
                         >Отмена</button
                     >
                     <button
-                        v-if="
-                            !state &&
-                            (role == 'root' ||
-                                JSON.parse(user).id == event.user_id)
-                        "
+                        v-if="!state && role == 'root'"
                         class="rounded-lg text-cyan-50 font-[Montserrat-Regular] bg-[#4C81F7] hover:bg-[#6393FF] m-5 p-2 cursor-pointer"
                         @click="editUpd()"
                         >Редактировать</button
@@ -112,9 +108,7 @@
         >
         </iframe>
         <div
-            v-if="
-                connectState.AuthorCard && JSON.parse(user).id != event.user_id
-            "
+            v-if="connectState.AuthorCard"
             class="max-w-[25rem] hidden lg:block m-8"
         >
             <AuthorMiniCard
@@ -154,10 +148,7 @@
                         @status-changed="statusChange"
                     />
                     <div
-                        v-if="
-                            connectState.AuthorCard &&
-                            JSON.parse(user).id != event.user_id
-                        "
+                        v-if="connectState.AuthorCard"
                         class=""
                     >
                         <AuthorMiniCard
