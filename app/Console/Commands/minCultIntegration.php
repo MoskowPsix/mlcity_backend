@@ -49,12 +49,12 @@ class minCultIntegration extends Command
      */
     public function handle()
     {
-        if($this->argument('type') == 'all') {
+        if ($this->argument('type') == 'all') {
             if ($this->argument('offset')) {
-//                print('offset');
+                //                print('offset');
                 $this->setEvents();
             } else {
-//                print('not offset');
+                //                print('not offset');
                 $this->startInt();
             }
         } else {
@@ -67,7 +67,7 @@ class minCultIntegration extends Command
     {
         $progress = 0;
         $total =  json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"2024-06-06"}}&l=1', true, $this->getHeader()))->total;
-        while($total >= 1) {
+        while ($total >= 1) {
             $start_timer = microtime(true);
             $this->startCommands();
             $total = $total - $this->limit * $this->numberOfProcess;
@@ -100,17 +100,18 @@ class minCultIntegration extends Command
         $offset = $this->argument('offset');
         $response = json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"2024-06-06"}}&l=' . $this->limit . '&s=' . $offset, true, $this->getHeader()));
         $events = $response->data;
-        foreach($events as $event) {
+        foreach ($events as $event) {
             $this->saveEvent($event);
         }
     }
 
-    private function getHeader() {
+    private function getHeader()
+    {
         // Create a stream
         $opts = [
             "http" => [
                 "method" => "GET",
-                "header" => "X-API-KEY: ".env('API_KEY_MIN_CULT')."\r\n"
+                "header" => "X-API-KEY: " . env('API_KEY_MIN_CULT') . "\r\n"
             ]
         ];
         return stream_context_create($opts);
@@ -118,7 +119,7 @@ class minCultIntegration extends Command
 
     private function saveEvent($event): void
     {
-        if (!Event::where('min_cult_id', $event->data->general->id)->exists()){
+        if (!Event::where('min_cult_id', $event->data->general->id)->exists()) {
             $event_cr = Event::create([
                 'name' => $event->nativeName,
                 'sponsor' => $event->data->general->organization->name,
@@ -136,13 +137,13 @@ class minCultIntegration extends Command
             isset($event->maxPrice) ? $this->savePrice($event->maxPrice, $event_cr) : null;
 
             isset($event->image) ? $this->saveFiles($event->image, $event_cr) : null;
-            if(isset($event->gallery)){
-                foreach($event->gallery as $file) {
+            if (isset($event->gallery)) {
+                foreach ($event->gallery as $file) {
                     $this->saveFiles($file, $event_cr);
                 }
             }
 
-            foreach($event->places as $place) {
+            foreach ($event->places as $place) {
                 $this->savePlace($event->seances, $place, $event_cr);
             }
             $this->setStatus($event_cr);
@@ -151,20 +152,20 @@ class minCultIntegration extends Command
 
     private function savePlace(array $seances, object $place, Event $event): void
     {
-            $location = $this->searchLocation($place->address->mapPosition->coordinates);
-            $sight = $this->searchSight($place->address->mapPosition->coordinates, $place->address->fullAddress);
-            $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
-            $place_cr =  $event->places()->create([
-                'address' => $place->address->fullAddress,
-                'location_id' => $location->id,
-                'latitude' => $place->address->mapPosition->coordinates[0],
-                'longitude' => $place->address->mapPosition->coordinates[1],
-                'timezone_id' => $timezone_id,
-            ]);
-            !empty($sight) ? $place_cr->sight()->save($sight) : null;
-            foreach($seances as $seance){
-                $this->saveSeance($seance, $place_cr);
-            }
+        $location = $this->searchLocation($place->address->mapPosition->coordinates);
+        $sight = $this->searchSight($place->address->mapPosition->coordinates, $place->address->fullAddress);
+        $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
+        $place_cr =  $event->places()->create([
+            'address' => $place->address->fullAddress,
+            'location_id' => $location->id,
+            'latitude' => $place->address->mapPosition->coordinates[0],
+            'longitude' => $place->address->mapPosition->coordinates[1],
+            'timezone_id' => $timezone_id,
+        ]);
+        !empty($sight) ? $place_cr->sight()->save($sight) : null;
+        foreach ($seances as $seance) {
+            $this->saveSeance($seance, $place_cr);
+        }
     }
     private function saveSeance(Object $seance, Place $place): void
     {
@@ -183,10 +184,10 @@ class minCultIntegration extends Command
             !array_search($type->name, $this->error_types) ? print($type->name) : null;
         }
     }
-    private function setStatus(Event $event):void
+    private function setStatus(Event $event): void
     {
         $status = Status::where('name', 'Опубликовано')->first();
-        $event->statuses()->updateExistingPivot( $status, ['last' => false]);
+        $event->statuses()->updateExistingPivot($status, ['last' => false]);
         $event->statuses()->attach($status->id,  ['last' => true]);
     }
     private function savePrice(int $price, Event $event): void
@@ -195,13 +196,13 @@ class minCultIntegration extends Command
             'cost_rub' => $price
         ]);
     }
-    private function saveFiles(Object $file, Event $event):void
+    private function saveFiles(Object $file, Event $event): void
     {
         $file_type = FileType::where('name', 'image')->first();
         $event->files()->create([
             'name' => uniqid('img_'),
             'link' => $file->url,
-            'local'=> 0,
+            'local' => 0,
         ])->file_types()->attach($file_type->id);
     }
     private function searchLocation(array $coords): Location
@@ -211,7 +212,7 @@ class minCultIntegration extends Command
         $radius = 5;
         $searchForCoord = '(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude ))) ) <= ? ';
 
-        while(empty($location) == true){
+        while (empty($location) == true) {
             $location = Location::with('locationParent')->whereRaw($searchForCoord,  [$latitude, $longitude,  $latitude,  $radius])->first();
             $radius = $radius + 5;
         }
@@ -219,7 +220,7 @@ class minCultIntegration extends Command
     }
     private function searchSight(array $coords, string $address): Sight | null
     {
-        $sight_address = Sight::where('address','ILIKE', '%'.$address.'%')->first();
+        $sight_address = Sight::where('address', 'ILIKE', '%' . $address . '%')->first();
         $sight_coords = Sight::where('latitude', $coords[0])->where('longitude', $coords[1])->first();
 
         isset($sight_address) ? $sight = $sight_address : $sight = null;

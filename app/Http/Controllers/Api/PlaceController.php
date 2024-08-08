@@ -21,7 +21,7 @@ use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
-    public function getPlaces (Request $request): \Illuminate\Http\JsonResponse
+    public function getPlaces(Request $request): \Illuminate\Http\JsonResponse
     {
         if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
 
@@ -43,8 +43,8 @@ class PlaceController extends Controller
                 ->then(function ($places) {
                     $places = $places->get();
 
-                    foreach($places as $key=>$place){
-                        $places[$key]->ico = $place->event->types[0]->ico;
+                    foreach ($places as $key => $place) {
+                        $places[$key]->ico = count($place->event->types) ?  $place->event->types[0]->ico : null;
                         unset($places[$key]->event);
                     }
                     // foreach($places as $key=>$place){
@@ -61,7 +61,8 @@ class PlaceController extends Controller
         }
     }
 
-    public function getPlacesIds($id) {
+    public function getPlacesIds($id)
+    {
         $place = Place::where('id', $id)->with('eventWithLikes')->firstOrFail();
 
         $place->event = $place["eventWithLikes"];
@@ -70,25 +71,26 @@ class PlaceController extends Controller
 
         return response()->json(['status' => 'success', 'places' => $place], 200);
     }
-    public function getPlacesAtEventIds($id,Request $request) {
+    public function getPlacesAtEventIds($id, Request $request)
+    {
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
 
         $places = Event::find($id)->places()->with('seances');
 
         $response =
-                app(Pipeline::class)
-                ->send($places)
-                ->through([
-                    PlaceLocation::class,
-                ])
-                ->via('apply')
-                ->then(function ($places) use($limit, $page) {
-                    $places = $places->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-                    return $places;
-                });
+            app(Pipeline::class)
+            ->send($places)
+            ->through([
+                PlaceLocation::class,
+            ])
+            ->via('apply')
+            ->then(function ($places) use ($limit, $page) {
+                $places = $places->with('location')->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
+                return $places;
+            });
 
         // $place = Event::where('id', $id)->first()->places()->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-        return response()->json(['status'=> 'success','places'=> $response], 200);
+        return response()->json(['status' => 'success', 'places' => $response], 200);
     }
 }
