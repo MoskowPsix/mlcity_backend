@@ -45,28 +45,28 @@ class AuthController extends Controller
     public function register(RegisterRequest $request): JsonResponse
     {
         try {
-            $trans = DB::transaction(function() use($request) {
+            $trans = DB::transaction(function () use ($request) {
                 $input = $request->all();
                 $pass  =  bcrypt($input['password']);
                 if ($input['avatar']) {
                     $user  =  User::create([
-                        'name'=> $input['name'],
-                        'password'=> $pass,
-                        'avatar'=> $input['avatar'],
+                        'name' => $input['name'],
+                        'password' => $pass,
+                        'avatar' => $input['avatar'],
                         'email' => $input['email'],
                         // 'number' => $input['number'],
                     ]);
                 } else {
                     $user  =  User::create([
-                        'name'=> $input['name'],
-                        'password'=> $pass,
-                        'avatar'=> 'https://api.dicebear.com/7.x/pixel-art/svg?seed='. bcrypt($input['email'] . $input['name']),
+                        'name' => $input['name'],
+                        'password' => $pass,
+                        'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt($input['email'] . $input['name']),
                         'email' => $input['email'],
                         // 'number' => $input['number'],
                     ]);
                 }
 
-                $this->createCodeEmail($user);
+                // $this->createCodeEmail($user);
 
                 $token = $this->getAccessToken($user);
 
@@ -81,7 +81,7 @@ class AuthController extends Controller
             if ($trans) {
                 return $trans;
             }
-        } catch(Exception $e) {
+        } catch (Exception $e) {
             return response()->json([
                 'status'        => 'error',
                 'message'       => 'Извините, при регистрации произошла критическая ошибка',
@@ -97,26 +97,24 @@ class AuthController extends Controller
     public function verificationEmailForCode(VerficationCodeRequest $request)
     {
         $code = $request->code;
-        // info($code);
         $user = User::find(auth('api')->user()->id);
         $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
-        // info($user);
         if (!empty($user) && !empty($ecode)) {
-            if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
+            if ((strtotime($ecode->created_at) < time())) {
                 if ($ecode->code == $code) {
                     $ecode->update(['last' => false]);
                     $user->email_verified_at = date("Y-m-d H:i:s", strtotime('now'));
                     $user->save();
-                    return response()->json(['status'=> 'success', 'email_verification' => $user->email], 200);
+                    return response()->json(['status' => 'success', 'email_verification' => $user->email], 200);
                 } else {
-                    return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
+                    return response()->json(['status' => 'error', 'message' => 'code does not fit'], 403);
                 }
             } else {
                 $ecode->update(['last' => false]);
-                return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
+                return response()->json(['status' => 'error', 'message' => 'code has expired'], 403);
             }
         } else {
-            return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
+            return response()->json(['status' => 'error', 'message' => 'code has not exist'], 403);
         }
     }
     /**
@@ -127,7 +125,7 @@ class AuthController extends Controller
     public function editEmailNotVerification(RequestEditEmailNotVerification $request): JsonResponse
     {
         $user = User::find(auth('api')->user()->id);
-        if (isset($user->email_verified_at)){
+        if (isset($user->email_verified_at)) {
             return response()->json([
                 'status'   => 'error',
                 'message'  => 'Не удалось поменять почту, она уже подтверждена',
@@ -140,7 +138,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status'   => 'success',
-            'message'  => 'Почта '.$request->email.' успешно изменена'
+            'message'  => 'Почта ' . $request->email . ' успешно изменена'
         ], 201);
     }
     /**
@@ -150,28 +148,27 @@ class AuthController extends Controller
      */
     public function resetEmailForCode(RequestResetEmailVerificationCode $request)
     {
-        //$user = auth('api')->user();
         $user = User::find(auth('api')->user()->id);
         $ecode = $user->ecode()->where('last', true)->first();
         if (!empty($user) && !empty($ecode)) {
             if ($ecode->code === $request->code) {
-                if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60*30)))) {
+                if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60 * 30)))) {
                     $user->ecode()->where(['last' => true])->update(['last' => false]);
                     $user->email = $request->email;
                     $user->email_verification = null;
                     $user->save();
                     $this->createCodeEmail($user);
                     $user->ecode()->update(['last' => false]);
-                    return response()->json(['status'=> 'success','new_email'=> $user->email],200);
+                    return response()->json(['status' => 'success', 'new_email' => $user->email], 200);
                 } else {
                     $ecode->update(['last' => false]);
-                    return response()->json(['status'=> 'error','message'=> 'code has expired'],403);
+                    return response()->json(['status' => 'error', 'message' => 'code has expired'], 403);
                 }
             } else {
-                return response()->json(['status'=> 'error', 'message' => 'code does not fit'], 403);
+                return response()->json(['status' => 'error', 'message' => 'code does not fit'], 403);
             }
         } else {
-            return response()->json(['status'=> 'error','message'=> 'code has not exist'],403);
+            return response()->json(['status' => 'error', 'message' => 'code has not exist'], 403);
         }
     }
     /**
@@ -212,7 +209,8 @@ class AuthController extends Controller
      * @return JsonResponse
      * Смена пароля любого пользователя только для админа
      */
-    public function resetPasswordForAdmin(Request $request) {
+    public function resetPasswordForAdmin(Request $request)
+    {
         if ($request->new_password === $request->retry_password) {
             User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);
             return response()->json([
@@ -249,7 +247,8 @@ class AuthController extends Controller
         }
     }
 
-    public function getAccessToken($user){
+    public function getAccessToken($user)
+    {
         return $user->createToken('auth_token')->plainTextToken;
     }
     /**
@@ -261,23 +260,23 @@ class AuthController extends Controller
     {
         $user = User::where('id', $user->id)->first();
         if (!empty($user->ecode()->first())) {
-            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 120) <= time()) {
+            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 30) <= time()) {
                 $code = rand(1000, 9999);
                 $user->ecode()->create([
-                    'code'=> $code,
+                    'code' => $code,
                 ]);
                 Mail::to($user->email)->send(new OrderCode($code));
                 return 'success';
             } else {
-                return 'approximate time: '.strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at)+120-time();
+                return 'approximate time: ' . strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 30 - time();
             }
         } else {
             $code = rand(1000, 9999);
-                $user->ecode()->create([
-                    'code'=> $code,
-                ]);
-                Mail::to($user->email)->send(new OrderCode($code));
-                return 'success';
+            $user->ecode()->create([
+                'code' => $code,
+            ]);
+            Mail::to($user->email)->send(new OrderCode($code));
+            return 'success';
         }
     }
     /**
@@ -289,10 +288,9 @@ class AuthController extends Controller
         $user = auth('api')->user();
         $result = $this->createCodeEmail($user);
         if ($result === 'success') {
-            return response()->json(['status'=> 'success'],200);
+            return response()->json(['status' => 'success'], 200);
         } else {
-            return response()->json(['status'=> 'error','message' => $result],200);
+            return response()->json(['status' => 'error', 'message' => $result], 400);
         }
     }
 }
-
