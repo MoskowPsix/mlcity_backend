@@ -17,7 +17,7 @@ use Exception;
 
 
 # 21.35
-# 
+#
 class minCultIntegration extends Command
 {
     /**
@@ -25,7 +25,7 @@ class minCultIntegration extends Command
      *
      * @var string
      */
-    protected $signature = 'integration:min-cult {offset?}';
+    protected $signature = 'integration:min-cult {type?} {offset?}';
 
     /**
      * The console command description.
@@ -36,9 +36,9 @@ class minCultIntegration extends Command
 
     private array $error_types = [];
 
-    private int $limit = 100;
+    private int $limit = 10;
 
-    private int $offset = 0;
+    private int $offset = 1;
 
     private int $numberOfProcess = 10;
 
@@ -49,10 +49,16 @@ class minCultIntegration extends Command
      */
     public function handle()
     {
-        if($this->argument('offset') == 'all') {
-            $this->startInt();
+        if($this->argument('type') == 'all') {
+            if ($this->argument('offset')) {
+//                print('offset');
+                $this->setEvents();
+            } else {
+//                print('not offset');
+                $this->startInt();
+            }
         } else {
-            $this->setEvents();
+            print('argument not found');
         }
         return Command::SUCCESS;
     }
@@ -66,30 +72,30 @@ class minCultIntegration extends Command
             $this->startCommands();
             $total = $total - $this->limit * $this->numberOfProcess;
             $progress = $progress + $this->limit * $this->numberOfProcess;
-            $end_time = (microtime(true) - $start_timer)  * ($total / 10);
+            $end_time = ((microtime(true) - $start_timer) / 60)  * ($total / 10);
             info($progress . ' | ' . $total . ' | ' . (int)$end_time . 'min' . "\n");
-        } 
+        }
     }
     private function startCommands(): void
     {
         for ($i = 0; $i < $this->numberOfProcess; $i++) { // Запускаем команды по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
-            $process = new Process(['php', 'artisan', 'integration:min-cult', $this->offset]);
+            $process = new Process(['php', 'artisan', 'integration:min-cult', $this->argument('type'), $this->offset]);
             $process->setTimeout(0);
             $process->disableOutput();
             $process->start();
             $processes[] = $process;
             $this->offset = $this->offset + $this->limit;
         }
-        while (count($processes)) {  
-            foreach ($processes as $i => $runningProcess) {    
+        while (count($processes)) {
+            foreach ($processes as $i => $runningProcess) {
                 // этот процесс завершен, поэтому удаляем его
-                if (!$runningProcess->isRunning()) {      
-                    unset($processes[$i]);    
-                }   
+                if (!$runningProcess->isRunning()) {
+                    unset($processes[$i]);
+                }
             }
         }
     }
-    public function setEvents(): void 
+    public function setEvents(): void
     {
         $offset = $this->argument('offset');
         $response = json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"2024-06-06"}}&l=' . $this->limit . '&s=' . $offset, true, $this->getHeader()));
