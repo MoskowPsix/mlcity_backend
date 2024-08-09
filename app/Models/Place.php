@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 
 class Place extends Model
@@ -65,5 +66,9 @@ class Place extends Model
 
     public function historyPlaces(){
         return $this->hasMany(HistoryPlace::class);
+    }
+    public function sight(): HasOne
+    {
+        return $this->hasOne(Sight::class);
     }
 }

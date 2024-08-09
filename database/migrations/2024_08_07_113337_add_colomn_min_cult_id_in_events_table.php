@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->bigInteger('afisha7_id')->nullable();
+            $table->integer('min_cult_id')->nullable();
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('events', function (Blueprint $table) {
-            $table->dropColumn('afisha7_id');
+            $table->dropColumn('min_cult_id');
         });
     }
 };

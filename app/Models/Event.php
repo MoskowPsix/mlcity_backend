@@ -12,6 +12,7 @@ use App\Models\EventFile;
 use App\Models\EventLike;
 use App\Models\Comment;
 use App\Models\View;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Event extends Model
@@ -36,6 +37,7 @@ class Event extends Model
         'creates_at',
         'updated_at',
         'afisha7_id',
+        'min_cult_id'
     ];
 
 
@@ -87,8 +89,6 @@ class Event extends Model
     {
         return $this->hasMany(EventFile::class)->with('file_types');
     }
-
-
 
     public function likes(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
