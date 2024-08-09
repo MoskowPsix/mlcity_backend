@@ -138,7 +138,7 @@ class IntegrationAfisha7 extends Command
             $events = [];
             if ($location->level == 3) {
                 foreach($this->types as $type) {
-                    $sights = get_object_vars($this->getSights($location->url, 1, 0, $type->id));
+                    $sights = get_object_vars($this->getSights($location->url, $type->id, 0, 0));
                     if (isset($sights['total'])){
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                         info('sights: ' . $sights['total']);
@@ -190,7 +190,7 @@ class IntegrationAfisha7 extends Command
             $progress++;
             if ($location->level == 3) {
                 foreach($this->types as $type) {
-                    $sights = get_object_vars($this->getSights($location->url, 1, 0, $type->id));
+                    $sights = get_object_vars($this->getSights($location->url, $type->id, 0, 0));
                     if (isset($sights) && isset($sights['total'])){
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                     }
@@ -239,7 +239,6 @@ class IntegrationAfisha7 extends Command
                         if (!$runningProcess->isRunning()) {
                             unset($processes[$i]);
                         }
-                        // sleep(1); // Тормозит процесс
                     }
                 }
             }
@@ -334,9 +333,9 @@ class IntegrationAfisha7 extends Command
     * @param  int $location_id
     * @param  int $limit
     * @param  int $offset
-    * @return  object
+    * @return  object | null
     */
-    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object
+    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object | null
     {
         try {
             $client = new Client();
@@ -356,7 +355,8 @@ class IntegrationAfisha7 extends Command
             return $events;
         } catch (Exception $e) {
             Log::error('Ошибка при получении событий');
-            return json_decode('');
+            sleep(1);
+            return $this->getEvents($location_id, $limit,$offset);
         }
     }
     /**
@@ -364,10 +364,10 @@ class IntegrationAfisha7 extends Command
     * @param  string $location_url
     * @param  int $limit
     * @param  int $offset
-    * @param  int $types_id
+    * @param  int $type_id
     * @return  object
     */
-    private function getSights(string $location_url, int $types_id, int $limit = 1, int $offset = 0):  object
+    private function getSights(string $location_url, int $type_id, int $limit = 1, int $offset = 0):  object | null
     {
         try {
             $client = new Client();
@@ -375,7 +375,7 @@ class IntegrationAfisha7 extends Command
                 'form_params' => [
                     'token' => $this->token,
                     'loc_url' => $location_url,
-                    "cat_id" => $types_id,
+                    "cat_id" => $type_id,
                     'limit' => $limit,
                     'offset' => $offset
                 ]
@@ -383,7 +383,8 @@ class IntegrationAfisha7 extends Command
             return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
             Log::error('Ошибка при получении событий');
-            return json_decode('');
+            sleep(1);
+            return $this->getSights($location_url, $type_id, $limit, $offset);
         }
     }
     /**
@@ -401,7 +402,7 @@ class IntegrationAfisha7 extends Command
                 if (!Event::where('afisha7_id', $event->id)->exists()){
                     $event = $this->getEvent($event->id, $this->location);
                     $event_cr = $this->saveEvent($event);
-                    $this->setTypesEvent($event->cat_id, $event_cr);
+                    isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
                     $this->setPrices($event, $event_cr);
                     $this->saveFilesEvent($event->logo, $event_cr);
                     $this->setPlaces($event, $event_cr);
@@ -419,7 +420,7 @@ class IntegrationAfisha7 extends Command
         $this->argument('location') ? $this->location = $this->argument('location') : $this->failed('not valid argument location');
         $this->argument('types') ? $types_id = $this->argument('types') : $this->failed('not valid argument location');
         $this->setTypes();
-        $sights = $this->getSights($this->location, $this->limit, $this->offset, $types_id);
+        $sights = $this->getSights($this->location, $types_id, $this->limit, $this->offset);
         if(isset($sights->places)) {
             foreach ($sights->places as $sight) {
                 if (!Sight::where('afisha7_id', $sight->id)->exists()){
@@ -458,7 +459,7 @@ class IntegrationAfisha7 extends Command
             return $event;
         } catch (Exception $e) {
             Log::error('Ошибка при получении события: event_id' . $event_id . ', location_id'. $location_id);
-            return json_decode('');
+            return $this->getEvent($event_id,$location_id);
         }
     }
     /**
@@ -476,6 +477,7 @@ class IntegrationAfisha7 extends Command
                 'date_start' => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
                 'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
                 'user_id' => 1,
+                'afisha7_id' => $event->id,
             ]);
         }
         catch(Exception $e){
@@ -490,18 +492,18 @@ class IntegrationAfisha7 extends Command
      */
     private function saveSight(object $sight): Sight
     {
-        $location = $this->searchLocationByCoords($sight->latitude,$sight->longitude, $sight->address);
-        return Sight::create([
-            'name' => $sight->name,
-            'sponsor' => 'afisha7.ru',
-            'latitude' => $sight->latitude,
-            'longitude' => $sight->longitude,
-            'location_id' => $location->id,
-            'address' => $sight->address,
-            'description' => $sight->name,
-            'user_id' => 1,
-            'afisha7_id' => $sight->id,
-        ]);
+            $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
+            return Sight::create([
+                'name' => $sight->name,
+                'sponsor' => 'afisha7.ru',
+                'latitude' => $sight->latitude,
+                'longitude' => $sight->longitude,
+                'location_id' => $location->id,
+                'address' => $sight->address,
+                'description' => $sight->name,
+                'user_id' => 1,
+                'afisha7_id' => $sight->id,
+            ]);
     }
      /**
      *
@@ -683,32 +685,6 @@ class IntegrationAfisha7 extends Command
     }
     /**
      *
-     * @return object
-     */
-    // private function getPlaces(int $event_id, int $location_id): object
-    // {
-    //     try {
-    //         $client = new Client();
-    //         $url = 'https://api.afisha7.ru/v3.1/places/';
-
-    //         $params = [
-    //             "form_params" => [
-    //                 "token" => $this->token,
-    //                 "loc_url" => $this->location,
-    //             ]
-    //         ];
-
-    //         $response = $client->request('POST', $url, $params);
-    //         $places = json_decode($response->getBody()->getContents());
-
-    //         return $places;
-    //     } catch (Exception $e) {
-    //         Log::error('Ошибка при получении мест');
-    //         return json_decode('');
-    //     }
-    // }
-    /**
-     *
      * @param object $event
      * @param object $sight
      * @param Place $place
@@ -757,7 +733,7 @@ class IntegrationAfisha7 extends Command
             return $seances_full;
         } catch (Exception $e) {
             Log::error('Ошибка при получении мест');
-            return json_decode('');
+            return [];
         }
     }
     /**
