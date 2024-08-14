@@ -4,7 +4,7 @@ namespace App\Http\Requests\Organization;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CreateOrganisation extends FormRequest
+class CreateOrganizationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -13,7 +13,7 @@ class CreateOrganisation extends FormRequest
      */
     public function authorize()
     {
-        return true ;
+        return true;
     }
 
     /**
@@ -25,13 +25,11 @@ class CreateOrganisation extends FormRequest
     {
         return [
             "name" => "required|string|min:3",
-            "inn" => "required|string|min:9|max:10",
-            "ogrn" => "required|string|min:12|max:13",
-            "kpp" => "required|string|min:8|max:9",
-            "user_id" => "required|integer",
-            "address" => "required|string",
-            "number" => "required|string|min:9|max:10",
-            "description" => "required|string"
+            "inn" => "nullable|string|min:9|max:10|unique:organizations",
+            "ogrn" => "nullable|string|min:12|max:13|unique:organizations",
+            "kpp" => "nullable|string|min:8|max:9|unique:organizations",
+            "number" => "nullable|string|min:9|max:10|unique:organizations",
+            "description" => "nullable|string"
         ];
     }
 }

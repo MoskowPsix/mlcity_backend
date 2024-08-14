@@ -13,7 +13,10 @@ use App\Filters\Organization\OrganizationOgrn;
 use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\Organization\CreateOrganisation;
+use App\Http\Requests\Organization\CreateOrganizationRequest;
+use App\Http\Resources\Organization\Store\StoreOrganizationSuccessResource;
+use App\Http\Resources\Organization\OrganizationResource;
+use App\Http\Resources\Organization\Show\ShowOrganizationSuccessResource;
 use App\Mail\OrganizationInvite as MailOrganizationInvite;
 use App\Models\Organization;
 use App\Models\OrganizationInvite;
@@ -25,12 +28,14 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\URL;
+
 class OrganizationController extends Controller
 {
-    public function index(Request $request) {
-        $total = 0;
-        $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 5;
+    public function index(Request $request)
+    {
+        // $total = 0;
+        // $page = $request->page;
+        // $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
 
         $organizations = Organization::query();
 
@@ -49,24 +54,27 @@ class OrganizationController extends Controller
                 OrganizationUser::class
             ])
             ->via("apply")
-            ->then(function ($organizations){
+            ->then(function ($organizations) {
                 $organizations = $organizations->get();
                 return $organizations;
             });
 
-            return response()->json(["organizations"=>["data"=>$response]],200);
+        return response()->json(["organizations" => ["data" => $response]], 200);
     }
-    public function show($id) {
+    public function show($id)
+    {
         $organization = Organization::find($id);
 
-        return response()->json(["organizations"=>["data"=>$organization]],200);
+        return new ShowOrganizationSuccessResource($organization);
     }
 
-    public function store(CreateOrganisation $request) {
+    public function store(CreateOrganizationRequest $request)
+    {
         $data = $request->validated();
+        $data['user_id'] = auth('api')->user()->id;
         $organization = Organization::create($data);
 
-        return response()->json(["organization"=>$organization, "message"=>"success"], $status=201);
+        return new StoreOrganizationSuccessResource($organization);
     }
     // public function organizationAddUserPermission ($organization_id, $permission_id, $user_id)
     // {
@@ -90,35 +98,35 @@ class OrganizationController extends Controller
 
     //     return response()->json(["organization"=>$per, "message"=>"success"], 200);
     // }
-    public function delete($id) {
+    public function delete($id) {}
 
+    public function getUsersOfOrganization($organizationId)
+    {
+        $organizationWithUsers = Organization::where("id", $organizationId)->with("users")->get();
+
+        return response()->json([["organizations" => ["data" => $organizationWithUsers], "message" => "success"], 200]);
     }
 
-    public function getUsersOfOrganization($organizationId){
-        $organizationWithUsers = Organization::where("id",$organizationId)->with("users")->get();
-
-        return response()->json([["organizations"=>["data"=>$organizationWithUsers], "message"=>"success"], 200]);
-    }
 
 
-
-    public function addUserToOrganization($organizationId, $userId, Request $request){
+    public function addUserToOrganization($organizationId, $userId, Request $request)
+    {
         $invitedUser = User::find($userId);
         $authUser = auth("api")->user();
-        $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
+        $authUserPermissions = $authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
         $organization = Organization::find($organizationId);
 
-        if(!$invitedUser){
-            return response()->json(["message"=>"User is not found"], 404);
+        if (!$invitedUser) {
+            return response()->json(["message" => "User is not found"], 404);
         }
-        if(!$organization){
-            return response()->json(["message"=>"Organization is not found"], 404);
+        if (!$organization) {
+            return response()->json(["message" => "Organization is not found"], 404);
         }
 
         $res = $organization->users()->where("user_id", $invitedUser->id)->exists();
 
-        if($res){
-            return response()->json(["message"=>"User alredy in organization"], 409);
+        if ($res) {
+            return response()->json(["message" => "User alredy in organization"], 409);
         }
 
         $invitedUserEmail = $invitedUser->email;
@@ -126,9 +134,8 @@ class OrganizationController extends Controller
         do {
             $token = Str::random(40);
             $token = bcrypt($token);
-            $url = URL::temporarySignedRoute("organizationInvite.accept", now()->addDays(3),["token"=>$token]);
-        }
-        while (OrganizationInvite::where("url", $token)->first());
+            $url = URL::temporarySignedRoute("organizationInvite.accept", now()->addDays(3), ["token" => $token]);
+        } while (OrganizationInvite::where("url", $token)->first());
 
         $invite = OrganizationInvite::create([
             "email" => $invitedUserEmail,
@@ -138,7 +145,7 @@ class OrganizationController extends Controller
             "token" => $token,
         ]);
 
-        foreach($permissions as $permission){
+        foreach ($permissions as $permission) {
             $invite->userPermissions()->attach($permission, [
                 "user_id" => $userId,
                 "organization_invite_id" => $invite->id
@@ -146,28 +153,28 @@ class OrganizationController extends Controller
         }
 
         // Обернуть в try catch
-        try{
+        try {
             Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
-        }
-        catch (Exception $e){
+        } catch (Exception $e) {
             Log::error("Произошла ошибка при отправке приглашения " . $e);
-            return response()->json(["message"=>"failed to send an invitation"]);
+            return response()->json(["message" => "failed to send an invitation"]);
         }
 
 
-        return response()->json(["message"=>"success"],200);
+        return response()->json(["message" => "success"], 200);
     }
 
-    public function addOrDeletePermissionToUser($organizationId, $userId, $permId){
+    public function addOrDeletePermissionToUser($organizationId, $userId, $permId)
+    {
         $user = User::find($userId);
 
         $organization = Organization::find($organizationId);
 
-        if(!$user){
-            return response()->json(["message"=>"User is not found"], 404);
+        if (!$user) {
+            return response()->json(["message" => "User is not found"], 404);
         }
-        if(!$organization){
-            return response()->json(["message"=>"Organization is not found"], 404);
+        if (!$organization) {
+            return response()->json(["message" => "Organization is not found"], 404);
         }
 
         $user->permissionsInOrganization()->where("organization_id", $organizationId)->toggle([$permId => ["organization_id" => $organizationId]]);
@@ -175,10 +182,11 @@ class OrganizationController extends Controller
         return response()->json(["message" => "permission was changed"], 200);
     }
 
-    public function getPermissionsOfUser($organizationId, $userId){
+    public function getPermissionsOfUser($organizationId, $userId)
+    {
         $user = User::find($userId);
-        $permissions = $user->permissionsInOrganization()->where("organization_id",$organizationId)->get();
-        return response()->json(["data"=>["permissions"=>$permissions]]);
+        $permissions = $user->permissionsInOrganization()->where("organization_id", $organizationId)->get();
+        return response()->json(["data" => ["permissions" => $permissions]]);
     }
 
     // Compleate this func or move his to middleware
