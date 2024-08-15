@@ -37,20 +37,20 @@ Route::controller(AuthController::class)->group(function () {
 
     // Методы манипуляций с почтой
     Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum');
-    Route::get('verificationUserEmail','verificationEmailForCode')->middleware('auth:sanctum');
-    Route::put('resetEmail','resetEmailForCode')->middleware('auth:sanctum');
+    Route::get('verificationUserEmail', 'verificationEmailForCode')->middleware('auth:sanctum');
+    Route::put('resetEmail', 'resetEmailForCode')->middleware('auth:sanctum');
     Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
 });
 
 
-Route::controller(UserController::class)->group(function() {
+Route::controller(UserController::class)->group(function () {
     Route::get('admin/users/', 'listUsers')->middleware('admin'); // Для админ панели(поиск юзера по фильтрам)
     Route::put('admin/users/{id}/', 'updateUsers')->middleware('admin'); // Для админ панели(изменить инфу о юзере)
     Route::delete('admin/users/{id}', 'deleteUsers')->middleware('admin'); //  Для админ панели(удалить юзера)
 
     Route::get('users', 'getUser')->middleware('auth:sanctum');
     Route::get('users/{id}/social-account', 'getSocialAccountByUserId')->middleware('auth:sanctum');
-    Route::post('profile/users','updateUser')->middleware('auth:sanctum');
+    Route::post('profile/users', 'updateUser')->middleware('auth:sanctum');
     Route::delete('users', 'deleteForUsers')->middleware('auth:sanctum');
 
     Route::get('users/{id}/favorite-events', 'getUserFavoriteEventsIds')->middleware('auth:sanctum');
@@ -207,7 +207,7 @@ Route::controller(HistoryContentController::class)->group(function () {
 Route::controller(OrganizationController::class)->group(function () {
     Route::post("organizations", "store");
     Route::post("organizations/{organizationId}/users/{userId}/", "addUserToOrganization")->middleware("orgPerm:add_user");
-
+    Route::get("organizations/users/organizations/", "userOrganizations")->middleware('auth:sanctum');
     Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser");
     Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser")->middleware("orgPerm:update_permissions");
 
@@ -216,8 +216,8 @@ Route::controller(OrganizationController::class)->group(function () {
     Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
 });
 
-Route::controller(OrganizationInviteController::class)->group(function (){
-    Route::get("organizations/invite/accept","acceptInvite")->name("organizationInvite.accept");
+Route::controller(OrganizationInviteController::class)->group(function () {
+    Route::get("organizations/invite/accept", "acceptInvite")->name("organizationInvite.accept");
     // Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
 });
 
@@ -237,5 +237,3 @@ Route::controller(PasswordRecoveryController::class)->group(function () {
     Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
     Route::post("recovery/password", "recoveryPasswordByCode");
 });
-
-

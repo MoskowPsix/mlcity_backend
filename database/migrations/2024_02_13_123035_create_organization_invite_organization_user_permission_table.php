@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_invite_organization_user_permission');
+        Schema::dropIfExists('organization_invite_permission_user');
     }
 };

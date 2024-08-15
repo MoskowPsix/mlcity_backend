@@ -33,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sights_users');
+        Schema::dropIfExists('sight_user_favorite');
     }
 };

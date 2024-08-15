@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('history_file_types');
+        Schema::dropIfExists('history_file_type');
     }
 };

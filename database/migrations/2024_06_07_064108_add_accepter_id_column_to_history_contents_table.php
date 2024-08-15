@@ -26,7 +26,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('history_content', function (Blueprint $table) {
+        Schema::table('history_contents', function (Blueprint $table) {
             $table->dropColumn("accepter_id");
         });
     }

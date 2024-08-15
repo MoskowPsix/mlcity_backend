@@ -16,14 +16,16 @@ class OrganizationResource extends JsonResource
     {
         // dd($this->whenLoaded('user'));
         $response = [
-            'id'            => $this->id,
-            'name'          => $this->name,
-            'inn'           => $this->inn,
-            'ogrn'          => $this->ogrn,
-            'number'        => $this->number,
-            'description'   => $this->description,
-            'user'          => $this->whenLoaded('user'),
-            'users'         => $this->whenLoaded('users')
+            'id'                => $this->id,
+            'name'              => $this->name,
+            'avatar'            => $this->avatar,
+            'description'       => $this->description,
+            'user'              => $this->whenLoaded('user'),
+            'users'             => $this->whenLoaded('users'),
+            'permissions'       => $this->whenLoaded('permissions'),
+            'users_permissions' => $this->whenLoaded('usersPermissions'),
+            'types'             => $this->whenLoaded('stypes'),
+            'location'          => $this->whenLoaded('usersPermissions'),
         ];
         return $response;
     }

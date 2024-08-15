@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Organization extends Model
 {
@@ -14,11 +15,8 @@ class Organization extends Model
 
     protected $fillable = [
         'name',
-        'inn',
-        'ogrn',
-        'kpp',
+        'avatar',
         'user_id',
-        'number',
         'description'
     ];
 
@@ -38,5 +36,15 @@ class Organization extends Model
     public function usersPermissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Permission::class)->withPivot('user_id');
+    }
+
+    public function location(): BelongsToMany
+    {
+        return $this->belongsToMany(Location::class,  'organization_location', 'organization_id', 'location_id');
+    }
+
+    public function stypes(): BelongsToMany
+    {
+        return $this->belongsToMany(SightType::class, 'organization_stype', 'organization_id', 'stype_id');
     }
 }

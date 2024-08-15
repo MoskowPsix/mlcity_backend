@@ -24,12 +24,11 @@ class CreateOrganizationRequest extends FormRequest
     public function rules()
     {
         return [
-            "name" => "required|string|min:3",
-            "inn" => "nullable|string|min:9|max:10|unique:organizations",
-            "ogrn" => "nullable|string|min:12|max:13|unique:organizations",
-            "kpp" => "nullable|string|min:8|max:9|unique:organizations",
-            "number" => "nullable|string|min:9|max:10|unique:organizations",
-            "description" => "nullable|string"
+            "name"          => "required|string|min:3|unique:organizations,name",
+            "avatar"        => "nullable|file|image|mimes:jpeg,png,jpg|",
+            "typeId"        => "required|int|exists:stypes,id",
+            "locationId"    => "required|int|exists:locations,id",
+            "description"   => "nullable|string"
         ];
     }
 }

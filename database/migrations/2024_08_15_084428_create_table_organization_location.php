@@ -13,13 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('locations', function (Blueprint $table) {
+        Schema::create('organization_location', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('time_zone')->nullable();
-            $table->integer('location_id')->nullable();
-            $table->foreign('location_id')->references('id')->on('locations')->onDelete('cascade')->nullable();
-            $table->integer('cult_id')->nullable();
+            $table->foreignId("location_id")->constrained("locations")->cascadeOnDelete();
+            $table->foreignId("organization_id")->constrained("organizations")->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('locations');
+        Schema::dropIfExists('organization_location');
     }
 };

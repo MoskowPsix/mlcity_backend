@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ftype_files');
+        Schema::dropIfExists('event_file_types');
     }
 };

@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create("history_contentables", function(Blueprint $table){
+        Schema::create("history_contentables", function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger("history_content_id");
             $table->unsignedBigInteger("history_contentable_id");
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        //
+        Schema::dropIfExists('history_contentables');
     }
 };

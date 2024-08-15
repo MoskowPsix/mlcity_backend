@@ -14,15 +14,20 @@ use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\CreateOrganizationRequest;
+use App\Http\Requests\Organization\IndexOrganizationRequest;
+use App\Http\Resources\Organization\getUserOrganizations\GetUserOrganizationsOrganizationSuccessResource;
 use App\Http\Resources\Organization\Store\StoreOrganizationSuccessResource;
 use App\Http\Resources\Organization\OrganizationResource;
 use App\Http\Resources\Organization\Show\ShowOrganizationSuccessResource;
+use App\Http\Resources\Organization\Index\IndexOrganizationResource;
+use App\Http\Resources\Organization\Store\StoreOrganizationNoAuthResource;
 use App\Mail\OrganizationInvite as MailOrganizationInvite;
 use App\Models\Organization;
 use App\Models\OrganizationInvite;
 use App\Models\User;
 use App\Models\Permission;
 use Exception;
+use Illuminate\Http\File;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -31,14 +36,12 @@ use Illuminate\Support\Facades\URL;
 
 class OrganizationController extends Controller
 {
-    public function index(Request $request)
+    public function index(IndexOrganizationRequest $request): IndexOrganizationResource
     {
         // $total = 0;
         // $page = $request->page;
         // $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
-
         $organizations = Organization::query();
-
         $response =
             app(Pipeline::class)
             ->send($organizations)
@@ -48,31 +51,42 @@ class OrganizationController extends Controller
                 OrganizationInn::class,
                 OrganizationKpp::class,
                 OrganizationOgrn::class,
-                OrganizationAddress::class,
                 OrganizationDescription::class,
                 OrganizationNumber::class,
                 OrganizationUser::class
             ])
             ->via("apply")
             ->then(function ($organizations) {
-                $organizations = $organizations->get();
-                return $organizations;
+                return $organizations->orderBy('created_at', 'desc')->get();
             });
 
-        return response()->json(["organizations" => ["data" => $response]], 200);
+        return new IndexOrganizationResource($response);
+    }
+    public function userOrganizations(): GetUserOrganizationsOrganizationSuccessResource
+    {
+        $orgs = Organization::where('user_id', auth('api')->user()->id)->orderBy('updated_at', 'desc')->get();
+        return new GetUserOrganizationsOrganizationSuccessResource($orgs);
     }
     public function show($id)
     {
         $organization = Organization::find($id);
-
         return new ShowOrganizationSuccessResource($organization);
     }
 
     public function store(CreateOrganizationRequest $request)
     {
         $data = $request->validated();
-        $data['user_id'] = auth('api')->user()->id;
+        $user = auth('api')->user();
+        if (!isset($user)) {
+            return new StoreOrganizationNoAuthResource([]);
+        }
+        $data['user_id'] = $user->id;
         $organization = Organization::create($data);
+        $organization->stypes()->attach($data['typeId']);
+        $organization->location()->attach($data['locationId']);
+        if (isset($data['avatar'])) {
+            $this->saveLocalAvatar($organization, $data['avatar']);
+        }
 
         return new StoreOrganizationSuccessResource($organization);
     }
@@ -200,4 +214,10 @@ class OrganizationController extends Controller
     //         return response()->json(["message"=>"You don't have permission to change it"], 403);
     //     }
     // }
+
+    private function saveLocalAvatar(Organization $org, $file): void
+    {
+        $path = $file->store('organization/avatar/' . $org->id, 'public');
+        $org->update(['avatar' => '/storage/' . $path]);
+    }
 }

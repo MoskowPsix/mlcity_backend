@@ -14,12 +14,11 @@ return new class extends Migration
     public function up()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->string("inn", 10)->nullable(true)->unique()->change();
-            $table->string("ogrn", 13)->nullable(true)->unique()->change();
-            $table->string("kpp", 9)->nullable(true)->unique()->change();
-            $table->dropColumn("address");
-            $table->string("number", 10)->unique()->nullable(true)->change();
-            $table->text("description")->nullable(true)->change();
+            $table->dropColumn("inn");
+            $table->dropColumn("ogrn");
+            $table->dropColumn("kpp");
+            $table->dropColumn("number");
+            $table->text("avatar")->nullable(true);
         });
     }
 
@@ -31,7 +30,11 @@ return new class extends Migration
     public function down()
     {
         Schema::table('organizations', function (Blueprint $table) {
-            $table->string("address")->nullable(true);
+            $table->dropColumn("avatar");
+            $table->string("inn", 10)->nullable(true)->unique();
+            $table->string("ogrn", 13)->nullable(true)->unique();
+            $table->string("kpp", 9)->nullable(true)->unique();
+            $table->string("number", 10)->unique()->nullable(true);
         });
     }
 };

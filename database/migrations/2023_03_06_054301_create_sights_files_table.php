@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('sight_files', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('link',5000);
+            $table->string('link', 5000);
             $table->integer('local')->default(0);
             $table->integer('sight_id');
             $table->foreign('sight_id')->references('id')->on('sights')->onDelete('cascade');
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sights_files');
+        Schema::dropIfExists('sight_files');
     }
 };
