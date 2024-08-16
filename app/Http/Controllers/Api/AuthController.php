@@ -195,7 +195,7 @@ class AuthController extends Controller
         }
 
         $token = $this->getAccessToken($user);
-        $cookie = Cookie::forever('Bearer_token', $token);
+        $cookie = cookie()->forever('Bearer_token', $token);
 
         return response()->json([
             'status'        => 'success',

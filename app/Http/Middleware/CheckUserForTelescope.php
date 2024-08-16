@@ -4,6 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
+
 
 class CheckUserForTelescope
 {
@@ -22,7 +24,9 @@ class CheckUserForTelescope
                 'message' => 'Not token'
             ], 403);
         }
-        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($request->cookie('Bearer_token'));
+        $token_crypt = Crypt::decryptString($request->cookie('Bearer_token'));
+        $token_encrypt = substr(strstr($token_crypt, '|'), 1, strlen($token_crypt));
+        $token = \Laravel\Sanctum\PersonalAccessToken::findToken($token_encrypt);
         if (!isset($token)) {
             return response()->json([
                 'status' => 'error',
