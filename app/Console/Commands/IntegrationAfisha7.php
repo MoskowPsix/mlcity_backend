@@ -540,14 +540,14 @@ class IntegrationAfisha7 extends Command
      */
     private function setPrices(object $event, Event $event_create): void
     {
-        $event_create->price()->create([
+        !empty($event->min_price) ? $event_create->price()->create([
             'cost_rub' => $event->min_price,
             'descriptions' => 'Минимальная цена'
-        ]);
-        $event_create->price()->create([
+        ]) : null;
+        !empty($event->min_price) ? $event_create->price()->create([
             'cost_rub' => $event->min_price,
             'descriptions' => 'Максимальная цена'
-        ]);
+        ]) : null;
     }
     /**
      *
