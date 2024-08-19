@@ -274,11 +274,6 @@
                 sightsList: [],
             }
         },
-        watch: {
-            // place(data) {
-            //     console.log('place')
-            // }
-        },
         mounted() {},
         methods: {
             ...mapActions(useLocationStore, [

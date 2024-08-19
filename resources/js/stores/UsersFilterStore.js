@@ -20,21 +20,21 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
     actions: {
         setName(name) {
             localStorage.setItem('userNameFilter', name)
-            this.name = name
+            this.name.next(name)
         },
         getName() {
             return localStorage.getItem('userNameFilter')
         },
         setEmail(email) {
             localStorage.setItem('userEmailFilter', email)
-            this.email = email
+            this.email.next(email)
         },
         getEmail() {
             return localStorage.getItem('userEmailFilter')
         },
         setCreatedDate(date) {
             localStorage.setItem('userCreatedDateFilter', date)
-            this.createdDate = date
+            this.createdDate.next(date)
         },
         getCreatedDate() {
             let date =
@@ -44,7 +44,7 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
         },
         setUpdatedDate(date) {
             localStorage.setItem('userUpdatedDateFilter', date)
-            this.updatedDate = date
+            this.updatedDate.next(date)
         },
         getUpdatedDate() {
             let date =
@@ -54,7 +54,7 @@ export const useUsersFilterStore = defineStore('useUsersFilter', {
         },
         setLocation(locationId) {
             localStorage.setItem('userLocationIdFilter', locationId)
-            this.locationId = locationId
+            this.locationId.next(locationId)
         },
         getLocation() {
             return localStorage.getItem('userLocationIdFilter')

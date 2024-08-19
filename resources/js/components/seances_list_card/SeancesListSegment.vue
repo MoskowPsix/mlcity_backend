@@ -300,7 +300,6 @@
         },
         methods: {
             handleDate(modelData) {
-                console.log(this.index)
                 this.$emit('on-upd-seance', {
                     index: this.index,
                     id: this.seance.id,

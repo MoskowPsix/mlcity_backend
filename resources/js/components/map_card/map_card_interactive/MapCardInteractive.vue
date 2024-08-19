@@ -98,8 +98,6 @@
                 })
                 this.sub.events.add('select', () => {
                     this.ForwardGeocoder()
-                    let wrapper = document.getElementById('result')
-                    console.log(wrapper)
                 })
             },
             // Достаём событие клика по карте

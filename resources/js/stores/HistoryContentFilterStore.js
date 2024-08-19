@@ -33,21 +33,21 @@ export const useHistoryContentsFilterStore = defineStore(
         actions: {
             setContentLocation(location) {
                 localStorage.setItem('contentLocationFilter', location)
-                this.contentLocation = location
+                this.contentLocation.next(location)
             },
             getContentLocation() {
                 return localStorage.getItem('contentLocationFilter')
             },
             setContentName(name) {
                 localStorage.setItem('contentNameFilter', name)
-                this.contentName = name
+                this.contentName.next(name)
             },
             getContentName() {
                 return localStorage.getItem('contentNameFilter')
             },
             setContentDate(date) {
                 localStorage.setItem('contentDateFilter', date)
-                this.contentDate = date
+                this.contentDate.next(date)
             },
             getContentDate() {
                 return (
@@ -57,21 +57,21 @@ export const useHistoryContentsFilterStore = defineStore(
             },
             setContentSponsor(sponsor) {
                 localStorage.setItem('contentSponsorFilter', sponsor)
-                this.contentSponsor = sponsor
+                this.contentSponsor.next(sponsor)
             },
             getContentSponsor() {
                 return localStorage.getItem('contentSponsorFilter')
             },
             setContentText(text) {
                 localStorage.setItem('contentTextFilter', text)
-                this.contentSearchText = text
+                this.contentSearchText.next(text)
             },
             getContentText() {
                 return localStorage.getItem('contentTextFilter')
             },
             setContentStatuses(status) {
                 localStorage.setItem('contentStatusesFilter', status)
-                this.contentStatuses = status
+                this.contentStatuses.next(status)
             },
             getContentStatuses() {
                 let status = localStorage.getItem('contentStatusesFilter')
@@ -79,14 +79,14 @@ export const useHistoryContentsFilterStore = defineStore(
             },
             setContentStatusLast(status) {
                 localStorage.setItem('contentStatusLastFilter', status)
-                this.contentStatusLast = status
+                this.contentStatusLast.next(status)
             },
             getContentStatusLast() {
                 return localStorage.getItem('contentStatusLastFilter')
             },
             setContentUser(user) {
                 localStorage.setItem('contentUserFilter', user)
-                this.contentUser = user
+                this.contentUser.next(user)
             },
             getContentUser() {
                 return localStorage.getItem('contentUserFilter')

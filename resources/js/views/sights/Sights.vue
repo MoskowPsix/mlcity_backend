@@ -71,32 +71,13 @@
                 'sightStatusLast',
                 'sightUser',
                 'sightLocation',
+                'filterChange',
             ]),
         },
-        watch: {
-            sightLocation() {
-                this.getAllSights()
-            },
-            sightName() {
-                this.getAllSights()
-            },
-            sightSponsor() {
-                this.getAllSights()
-            },
-            sightSearchText() {
-                this.getAllSights()
-            },
-            sightStatuses() {
-                this.getAllSights()
-            },
-            sightStatusLast() {
-                this.getAllSights()
-            },
-            sightUser() {
-                this.getAllSights()
-            },
-        },
         mounted() {
+            this.filterChange.pipe(takeUntil(this.destroy$)).subscribe(() => {
+                this.getAllSights()
+            })
             this.getAllSights()
         },
         methods: {

@@ -93,7 +93,6 @@
                             this.closeLoaderFullPage()
                             if (response.data.events.data.length) {
                                 this.events = response.data.events.data
-                                console.log(response.data.events.data)
                             } else {
                                 this.events = []
                                 this.showToast(
@@ -133,7 +132,6 @@
             },
             clickEvent(event) {
                 router.push({ path: `/event/${event.id}` })
-                console.log(this.event)
             },
             clickHistoryContent(id) {
                 router.push({ path: `edit/${id}` })

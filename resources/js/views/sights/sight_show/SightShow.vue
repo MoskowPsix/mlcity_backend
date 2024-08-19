@@ -920,7 +920,6 @@
 
             statusChange(status) {
                 this.openLoaderFullPage()
-                console.log(status, this.sight.id)
                 this.changeStatus(status, this.sight.id)
                     .pipe(
                         map(() => {

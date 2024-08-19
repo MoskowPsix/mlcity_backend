@@ -326,7 +326,6 @@
                 this.getStatuses()
                     .pipe(
                         map((response) => {
-                            console.log(response)
                             if (response.data.statuses.length) {
                                 this.statuses = response.data.statuses
                             } else {

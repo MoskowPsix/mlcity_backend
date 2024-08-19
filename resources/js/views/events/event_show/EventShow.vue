@@ -1258,7 +1258,6 @@
                                 this.event = response.data
                                 response.data.statuses.find((status) => {
                                     if (status.last) {
-                                        console.log(status.name)
                                         this.statusNow = status.name
                                         return true
                                     }
@@ -1507,7 +1506,6 @@
                                                 }
                                             },
                                         )
-                                        console.log(sean)
                                         if (sean && sean != 0) {
                                             this.placeUpd[getIndex].seances[
                                                 sean
@@ -1547,7 +1545,6 @@
                             mergePlaceUpd,
                         )
                     } else {
-                        console.log('ok')
                         // Если нету в массиве, то добавляем
                         let seanceOnUpd = Object.keys(place).find((key) => {
                             if (key == 'seances') {
@@ -1584,7 +1581,6 @@
                                         ),
                                     )
                                 } else {
-                                    console.log('del')
                                     event.places_full[index].seances[
                                         item.index
                                     ] = JSON.parse(JSON.stringify(item))
@@ -1595,8 +1591,6 @@
                     }
                 }
                 this.event = event
-                console.log(this.placeUpd)
-                console.log(this.event)
             },
             addNewPlace() {
                 this.event.places_full.push({

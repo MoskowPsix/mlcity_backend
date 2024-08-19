@@ -75,7 +75,7 @@
                             console.log(error)
                         }),
                     )
-                    .subscribe((response) => console.log(response.data))
+                    .subscribe()
                 // this.getTypes().subscribe(response => console.log(response))
             },
         },

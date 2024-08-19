@@ -154,7 +154,14 @@
                 'closeLoaderFullPage',
             ]),
             emitEvent(sight) {
-                if (this.checkArrayOfObjHaveAttr(sight.statuses, "name", "Изменено") && this.checkStatusIsLast(sight.statuses)) {
+                if (
+                    this.checkArrayOfObjHaveAttr(
+                        sight.statuses,
+                        'name',
+                        'Изменено',
+                    ) &&
+                    this.checkStatusIsLast(sight.statuses)
+                ) {
                     this.goToHistoryContentOrSight(sight)
                 } else {
                     this.$emit('sight', sight)
@@ -165,7 +172,6 @@
                 this.getSightHistoryContent(sight.id, { last: true })
                     .pipe()
                     .subscribe((response) => {
-                        console.log(response)
                         if (sight.statuses[0].name == 'Изменено') {
                             this.$emit(
                                 'history-content',
@@ -174,7 +180,7 @@
                         } else {
                             this.$emit('sight', sight)
                         }
-                })
+                    })
             },
             checkArrayOfObjHaveAttr(array, key, value) {
                 return array.find((obj) => obj[key] == value)

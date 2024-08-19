@@ -48,7 +48,6 @@
         methods: {
             openDataMenu() {
                 this.openModal = !this.openModal
-                console.log('1')
             },
         },
     }

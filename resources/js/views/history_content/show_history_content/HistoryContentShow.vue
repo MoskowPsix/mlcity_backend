@@ -182,7 +182,6 @@
         },
         mounted() {
             this.getHistoryContent()
-
         },
         methods: {
             ...mapActions(useLoaderStore, [
@@ -339,7 +338,6 @@
                             }
                             this.closeLoaderFullPage()
                             this.getHistoryList()
-                            console.log(this.historyContent)
                         }),
                         catchError((err) => {
                             console.log(err)
@@ -531,7 +529,6 @@
                 })
 
                 // Собираем id плейсов и сеансов у события
-                console.log(this.event)
                 this.event.places_full.forEach((place) => {
                     eventPlaceIds.push(place.id)
                     let seanceIds = []
@@ -708,7 +705,6 @@
                     }
                 })
                 // Ищем сеансы или плейсы на удаление
-                console.log(forDeletePlaceIds)
                 changedEvent.places_full.forEach((place) => {
                     if (forDeletePlaceIds.includes(place.id)) {
                         place.delete = true

@@ -178,7 +178,6 @@ import { mapActions } from 'pinia'
             goToHistoryContentOrEvent(event) {
                 this.openLoaderFullPage()
                 this.getEventHistoryContent(event.id, {last: true}).pipe().subscribe((response) => {
-                    console.log(response)
                     if(event.statuses[0].name == "Изменено") {
                         this.$emit("history-content", response.data.history_content.id)
                     }

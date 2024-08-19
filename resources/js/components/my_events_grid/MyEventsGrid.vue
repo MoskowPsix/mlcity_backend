@@ -26,8 +26,17 @@
             </router-link>
 
             <div class="info-wrapper">
-                <div class="info-header">
+                <div
+                    v-if="event.price.length"
+                    class="info-header"
+                >
                     <div class="price"> {{ event.price[0].cost_rub }} ₽ </div>
+                </div>
+                <div
+                    v-if="!event.price.length"
+                    class="info-header"
+                >
+                    <div class="price"> Нет цены </div>
                 </div>
                 <div class="info-footer">
                     <div class="info-text-container">
@@ -115,15 +124,12 @@
         },
         methods: {
             firstLog() {
-                setTimeout(() => {
-                    console.log(this.events[0])
-                }, 5000)
+                setTimeout(() => {}, 5000)
             },
 
             formatDate(date) {
                 date = moment(date)
                 date.locale('ru')
-                // console.log(date.locale())
                 return date.format('D MMM')
             },
         },
