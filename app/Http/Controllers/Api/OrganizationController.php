@@ -47,12 +47,12 @@ class OrganizationController extends Controller
             ->send($organizations)
             ->through([
                 OrganizationName::class,
-                OrganizationId::class,
-                OrganizationInn::class,
-                OrganizationKpp::class,
-                OrganizationOgrn::class,
-                OrganizationDescription::class,
-                OrganizationNumber::class,
+                // OrganizationId::class,
+                // OrganizationInn::class,
+                // OrganizationKpp::class,
+                // OrganizationOgrn::class,
+                // OrganizationDescription::class,
+                // OrganizationNumber::class,
                 OrganizationUser::class
             ])
             ->via("apply")
@@ -82,7 +82,7 @@ class OrganizationController extends Controller
         }
         $data['user_id'] = $user->id;
         $organization = Organization::create($data);
-        $organization->stypes()->attach($data['typeId']);
+        $organization->types()->attach($data['typeId']);
         $organization->location()->attach($data['locationId']);
         if (isset($data['avatar'])) {
             $this->saveLocalAvatar($organization, $data['avatar']);

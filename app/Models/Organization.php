@@ -43,7 +43,7 @@ class Organization extends Model
         return $this->belongsToMany(Location::class,  'organization_location', 'organization_id', 'location_id');
     }
 
-    public function stypes(): BelongsToMany
+    public function types(): BelongsToMany
     {
         return $this->belongsToMany(SightType::class, 'organization_stype', 'organization_id', 'stype_id');
     }
