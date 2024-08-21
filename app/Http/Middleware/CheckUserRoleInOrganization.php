@@ -19,6 +19,9 @@ class CheckUserRoleInOrganization
     {
         $authUser = auth("api")->user();
         $organizationId = $request->route("organizationId");
+        if (!$organizationId) {
+            $organizationId = $request->organization_id;
+        }
         $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
         $organization = Organization::find($organizationId);
