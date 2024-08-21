@@ -168,11 +168,11 @@ class User extends Authenticatable
 
 
     public function permissionsInOrganization(){
-        return $this->belongsToMany(Permission::class, "organization_permission_user", "user_id", "permission_id")->withPivot("organization_id");
+        return $this->belongsToMany(Permission::class, "user_organization", "user_id", "permission_id")->withPivot("organization_id");
     }
 
     public function organizations(){
-        return $this->belongsToMany(Organization::class, "organization_permission_user", "user_id","organization_id");
+        return $this->belongsToMany(Organization::class, "user_organization", "user_id","organization_id");
     }
 
     public function userAgreements(){

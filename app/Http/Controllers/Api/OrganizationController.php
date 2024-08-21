@@ -194,18 +194,6 @@ class OrganizationController extends Controller
         return response()->json(["data" => ["permissions" => $permissions]]);
     }
 
-    // Compleate this func or move his to middleware
-    // public function checkPermissionInOrganization($organizationId){
-    //     $authUser = auth("api")->user();
-    //     $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
-
-    //     $organization = Organization::find($organizationId);
-
-    //     if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name","add_user")){
-    //         return response()->json(["message"=>"You don't have permission to change it"], 403);
-    //     }
-    // }
-
     private function saveLocalAvatar(Organization $org, $file): void
     {
         $path = $file->store('organization/avatar/' . $org->id, 'public');
