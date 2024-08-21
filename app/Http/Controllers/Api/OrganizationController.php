@@ -2,14 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\Organization\OrganizationAddress;
 use App\Filters\Organization\OrganizationDescription;
-use App\Filters\Organization\OrganizationId;
-use App\Filters\Organization\OrganizationInn;
-use App\Filters\Organization\OrganizationKpp;
 use App\Filters\Organization\OrganizationName;
-use App\Filters\Organization\OrganizationNumber;
-use App\Filters\Organization\OrganizationOgrn;
 use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -17,7 +11,6 @@ use App\Http\Requests\Organization\CreateOrganizationRequest;
 use App\Http\Requests\Organization\IndexOrganizationRequest;
 use App\Http\Resources\Organization\getUserOrganizations\GetUserOrganizationsOrganizationSuccessResource;
 use App\Http\Resources\Organization\Store\StoreOrganizationSuccessResource;
-use App\Http\Resources\Organization\OrganizationResource;
 use App\Http\Resources\Organization\Show\ShowOrganizationSuccessResource;
 use App\Http\Resources\Organization\Index\IndexOrganizationResource;
 use App\Http\Resources\Organization\Store\StoreOrganizationNoAuthResource;
@@ -25,9 +18,7 @@ use App\Mail\OrganizationInvite as MailOrganizationInvite;
 use App\Models\Organization;
 use App\Models\OrganizationInvite;
 use App\Models\User;
-use App\Models\Permission;
 use Exception;
-use Illuminate\Http\File;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -51,7 +42,7 @@ class OrganizationController extends Controller
                 // OrganizationInn::class,
                 // OrganizationKpp::class,
                 // OrganizationOgrn::class,
-                // OrganizationDescription::class,
+                OrganizationDescription::class,
                 // OrganizationNumber::class,
                 OrganizationUser::class
             ])
