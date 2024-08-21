@@ -18,7 +18,6 @@ class CheckUserRoleInOrganization
     public function handle(Request $request, Closure $next, $role)
     {
         $authUser = auth("api")->user();
-        info($authUser);
         $organizationId = $request->route("organizationId");
         $authUserPermissions =$authUser->permissionsInOrganization()->where("organization_id", $organizationId)->get();
 
