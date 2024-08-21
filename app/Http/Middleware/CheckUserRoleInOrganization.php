@@ -24,7 +24,7 @@ class CheckUserRoleInOrganization
         $organization = Organization::find($organizationId);
 
         if($authUser->id != $organization->user_id || !$authUserPermissions->contains("name",$role)){
-            return response()->json(["message"=>"You don't have permission to change it"], 403);
+            return response()->json(["message"=>"You don't have a permission for this action"], 403);
         }
         return $next($request);
     }
