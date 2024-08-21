@@ -28,14 +28,17 @@ use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
-use App\Models\FileType;
 use App\Models\HistoryContent;
-use App\Models\Location;
-use App\Models\Timezone;
+use App\Contracts\Services\EventService\EventServiceInterface;
+use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 
 class EventController extends Controller
 {
+    public function __construct(private readonly EventServiceInterface $eventService)
+    {
+
+    }
 
     public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
@@ -161,94 +164,13 @@ class EventController extends Controller
 
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
-        // $coords = explode(',',$request->coords);
-        // $latitude   = $coords[0]; // широта
-        // $longitude  = $coords[1]; // долгота
+        try {
+            $this->eventService->store($request);
+            return response()->json(['status' => 'success',], 200);
 
-        $event = Event::create([
-            'name'          => $request->name,
-            'sponsor'       => $request->sponsor,
-            // 'address'       => $request->address,
-            // 'latitude'      => $latitude,
-            // 'longitude'     => $longitude,
-            'description'   => $request->description,
-
-            'price'         => $request->price,
-            'materials'     => $request->materials,
-            'date_start'    => $request->dateStart,
-            'date_end'      => $request->dateEnd,
-            // 'location_id'   => $request->locationId,
-            'user_id'       => Auth::user()->id,
-            'vk_group_id'   => $request->vkGroupId,
-            'vk_post_id'    => $request->vkPostId,
-        ]);
-        // Устанавливаем цену
-        foreach ($request->prices as $price){
-            if($price["cost_rub"] == ""){
-                $event->price()->create([
-                    'cost_rub' => 0,
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
-            else{
-                $event->price()->create([
-                    'cost_rub' => $price['cost_rub'],
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
+        } catch(Exception $e) {
+            return response()->json(['status' => 'error',], 500);
         }
-        // Устанавливаем марки
-        foreach ($request->places as $place){
-            $coords = explode(',',$place['coords']);
-            $latitude   = $coords[0]; // широта
-            $longitude  = $coords[1]; // долгота
-            $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
-            $place_cr = $event->places()->create([
-                'sight_id' => $place['sightId'],
-                'location_id' => $place['locationId'],
-                'latitude' => $latitude,
-                'longitude' => $longitude,
-                'address' => $place['address'],
-                'timezone_id' => $timezone_id
-            ]);
-            // Устанавливаем сеансы марок
-
-            foreach($place['seances'] as $seance) {
-                info($seance);
-                $sean_cr = $place_cr->seances()->create([
-                    'date_start' => $seance['dateStart'],
-                    'date_end' => $seance['dateEnd']
-                ]);
-
-            }
-        }
-
-        $types = explode(",",$request->type[0]);
-        // info($types);
-        $event->types()->sync($types);
-        $event->statuses()->attach($request->status, ['last' => true]);
-        $event->likes()->create();
-//        $event->likes()->create([
-//            "vk_count" => $request->vkLikesCount ? $request->vkLikesCount : 0,
-//        ]);
-
-
-        if ($request->vkFilesImg){
-            $this->saveVkFilesImg($event, $request->vkFilesImg);
-        }
-
-        if ($request->vkFilesVideo){
-            $this->saveVkFilesVideo($event, $request->vkFilesVideo);
-        }
-        if ($request->vkFilesLink){
-            $this->saveVkFilesLink($event, $request->vkFilesLink);
-        }
-
-        if ($request->localFilesImg){
-            $this->saveLocalFilesImg($event, $request->localFilesImg);
-        }
-
-        return response()->json(['status' => 'success',], 200);
     }
 
     public function getEventUserLikedIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
@@ -361,51 +283,6 @@ class EventController extends Controller
         dd('delete');
     }
 
-    private function saveVkFilesImg($event, $files){
-        $type = FileType::where('name', 'image')->get();
-        foreach ($files as $file) {
-            $event->files()->create([
-                "name" => uniqid('img_'),
-                "link" => $file,
-            ])->file_types()->attach($type[0]->id);
-        }
-    }
-    private function saveVkFilesVideo($event, $files){
-        $type = FileType::where('name', 'video')->get();
-        foreach ($files as $file) {
-            $event->files()->create([
-                "name" => uniqid('video_'),
-                "link" => $file,
-            ])->file_types()->sync($type[0]->id);
-        }
-    }
-    private function saveVkFilesLink($event, $files){
-        $type = FileType::where('name', 'link')->get();
-        foreach ($files as $file) {
-            $event->files()->create([
-                "name" => uniqid('link_'),
-                "link" => $file,
-            ])->file_types()->sync($type[0]->id);
-        }
-    }
-    private function saveLocalFilesImg($event, $files){
-
-        foreach ($files as $file) {
-            $filename = uniqid('img_');
-
-            $path = $file->store('events/'.$event->id, 'public');
-
-            $type = FileType::where('name', 'image')->get();
-
-            $event->files()->create([
-                'name'  => $filename,
-                'link'  => '/storage/'.$path,
-                'local' => 1
-            ])->file_types()->sync($type[0]->id);
-
-        }
-
-    }
 }
 
 
