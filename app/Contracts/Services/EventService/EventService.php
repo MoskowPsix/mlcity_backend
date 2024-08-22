@@ -6,8 +6,10 @@ use App\Models\Event;
 use App\Models\Location;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
+use App\Models\Organization;
 use DragonCode\Contracts\Cashier\Auth\Auth;
 use Exception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class EventService implements EventServiceInterface
@@ -19,21 +21,33 @@ class EventService implements EventServiceInterface
 
     public function store($data): Event
     {
+        DB::beginTransaction();
+        $user = auth('api')->user();
         try {
+            if (!$this->checkUserHaveOrganization()) {
+                $organizationId = Organization::create([
+                    "name" => $user->name,
+                    "user_id" => $user->id,
+                    "descriptions" => ""
+                ])->id;
+            }
+
+            if (!isset($data->organization_id)) {
+                $organizationId = Organization::where('user_id', $user->id)->get()->first()->id;
+            }
+
+            info($organizationId);
+
             $event = Event::create([
                 'name'          => $data->name,
                 'sponsor'       => $data->sponsor,
-                // 'address'       => $data->address,
-                // 'latitude'      => $latitude,
-                // 'longitude'     => $longitude,
                 'description'   => $data->description,
-
                 'price'         => $data->price,
                 'materials'     => $data->materials,
                 'date_start'    => $data->dateStart,
                 'date_end'      => $data->dateEnd,
-                // 'location_id'   => $data->locationId,
-                'user_id'       => Auth::user()->id,
+                'user_id'       => $user->id,
+                'organization_id' => $organizationId,
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
             ]);
@@ -59,7 +73,7 @@ class EventService implements EventServiceInterface
                 $longitude  = $coords[1]; // долгота
                 $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
                 $place_cr = $event->places()->create([
-                    'sight_id' => $place['sightId'],
+                    'sight_id' => "asdasdsa",
                     'location_id' => $place['locationId'],
                     'latitude' => $latitude,
                     'longitude' => $longitude,
@@ -69,8 +83,7 @@ class EventService implements EventServiceInterface
                 // Устанавливаем сеансы марок
 
                 foreach($place['seances'] as $seance) {
-                    info($seance);
-                    $sean_cr = $place_cr->seances()->create([
+                   $place_cr->seances()->create([
                         'date_start' => $seance['dateStart'],
                         'date_end' => $seance['dateEnd']
                     ]);
@@ -79,13 +92,9 @@ class EventService implements EventServiceInterface
             }
 
             $types = explode(",",$data->type[0]);
-            // info($types);
             $event->types()->sync($types);
             $event->statuses()->attach($data->status, ['last' => true]);
             $event->likes()->create();
-    //        $event->likes()->create([
-    //            "vk_count" => $data->vkLikesCount ? $data->vkLikesCount : 0,
-    //        ]);
 
 
             if ($data->vkFilesImg){
@@ -103,10 +112,23 @@ class EventService implements EventServiceInterface
                 $this->fileService->saveLocalFilesImg($event, $data->localFilesImg);
             }
 
+            DB::commit();
+
             return $event;
+
     } catch(Exception $e) {
+        DB::rollBack();
         Log::error($e);
         throw $e;
     }
+    }
+
+    public function checkUserHaveOrganization(): bool {
+        $org = Organization::where("user_id", auth('api')->user()->id)->get();
+        if (count($org) == 0) {
+            return false;
+        }
+
+        return true;
     }
 }

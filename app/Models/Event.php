@@ -37,7 +37,8 @@ class Event extends Model
         'creates_at',
         'updated_at',
         'afisha7_id',
-        'min_cult_id'
+        'min_cult_id',
+        'organization_id'
     ];
 
 

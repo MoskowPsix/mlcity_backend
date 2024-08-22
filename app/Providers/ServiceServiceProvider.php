@@ -4,7 +4,7 @@ namespace App\Providers;
 
 use App\Contracts\Services\EventService\EventService;
 use App\Contracts\Services\EventService\EventServiceInterface;
-use App\Contracts\Services\FileService;
+use App\Contracts\Services\FileService\FileService;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider

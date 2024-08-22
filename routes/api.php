@@ -68,7 +68,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('users/number/check/{number}', 'checkUserNumber');
 
     Route::post("users/{usr_id}/organizations", "addOrganization")->middleware('auth:sanctum');
-    Route::get("users/{usr_id}/organizations", "getOrganizations")->middleware("auth:sanctum");
+    Route::get("users/{usr_id}/organizations", "getOrganizations");
 
     Route::post("users/agreements/accept", "acceptAgreement");
     Route::get("users/agreements/{agreement_id}/check", "checkAgreement");
@@ -98,7 +98,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum'); // Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum'); // Проверяем добавил ли юзер в избранное
 
-    Route::post('events/create', 'create')->middleware(['auth:sanctum', 'orgPerm:create_content']);
+    Route::post('events/create', 'create')->middleware(['auth:sanctum']);
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('moderator');
 
     Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
