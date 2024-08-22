@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Contracts\Services;
 
 use App\Mail\HistoryContentCanceled;
 use App\Models\HistoryContent;
