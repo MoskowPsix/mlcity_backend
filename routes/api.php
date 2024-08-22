@@ -68,7 +68,7 @@ Route::controller(UserController::class)->group(function () {
     Route::get('users/number/check/{number}', 'checkUserNumber');
 
     Route::post("users/{usr_id}/organizations", "addOrganization")->middleware('auth:sanctum');
-    Route::get("users/{usr_id}/organizations", "getOrganizations");
+    Route::get("users/{usr_id}/organizations", "getOrganizations")->middleware('auth:sanctum');
 
     Route::post("users/agreements/accept", "acceptAgreement");
     Route::get("users/agreements/{agreement_id}/check", "checkAgreement");

@@ -34,9 +34,13 @@ class EventService implements EventServiceInterface
 
             if (!isset($data->organization_id)) {
                 $organizationId = Organization::where('user_id', $user->id)->get()->first()->id;
+            } else {
+                $organizationId = $data->organization_id;
             }
 
-            info($organizationId);
+            if (!$this->isUserOrganization($user->id, $organizationId)) {
+                throw new Exception("Is not user organization");
+            }
 
             $event = Event::create([
                 'name'          => $data->name,
@@ -125,6 +129,16 @@ class EventService implements EventServiceInterface
 
     public function checkUserHaveOrganization(): bool {
         $org = Organization::where("user_id", auth('api')->user()->id)->get();
+        if (count($org) == 0) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function isUserOrganization(int $userId, $organizationId): bool {
+        $org = Organization::where("user_id", $userId, "id", $organizationId)->isExists();
+
         if (count($org) == 0) {
             return false;
         }
