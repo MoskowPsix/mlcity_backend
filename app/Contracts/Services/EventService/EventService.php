@@ -137,12 +137,6 @@ class EventService implements EventServiceInterface
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {
-        $org = Organization::where("user_id", $userId, "id", $organizationId)->isExists();
-
-        if (count($org) == 0) {
-            return false;
-        }
-
-        return true;
+        return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
     }
 }
