@@ -501,6 +501,7 @@ class IntegrationAfisha7 extends Command
                 'description' => $sight->name,
                 'user_id' => 1,
                 'afisha7_id' => $sight->id,
+                'organization_id' => 1,
             ]);
         } else {
             return null;
