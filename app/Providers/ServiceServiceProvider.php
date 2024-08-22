@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contracts\Services\EventService\EventService;
 use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Contracts\Services\FileService\FileService;
+use App\Contracts\Services\OrganizationService\OrganizationService;
 use Illuminate\Support\ServiceProvider;
 
 class ServiceServiceProvider extends ServiceProvider
@@ -33,6 +34,10 @@ class ServiceServiceProvider extends ServiceProvider
 
         $this->app->bind(
             FileService::class
+        );
+
+        $this->app->bind(
+            OrganizationService::class
         );
     }
 }

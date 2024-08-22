@@ -214,6 +214,8 @@ Route::controller(OrganizationController::class)->group(function () {
     Route::get("organizations/{id}", "show");
     Route::get("organizations/", "index");
     Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
+
+    Route::get("organizations/{organizationId}/events", "getEvents");
 });
 
 Route::controller(OrganizationInviteController::class)->group(function () {

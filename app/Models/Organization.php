@@ -33,6 +33,11 @@ class Organization extends Model
         return $this->belongsToMany(User::class, "user_organization", "organization_id", "user_id")->distinct();
     }
 
+    public function events()
+    {
+        return $this->belongsTo(Event::class, "organization_id", "id");
+    }
+
     public function usersPermissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Permission::class)->withPivot('user_id');
