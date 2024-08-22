@@ -73,7 +73,7 @@ class EventService implements EventServiceInterface
                 $longitude  = $coords[1]; // долгота
                 $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
                 $place_cr = $event->places()->create([
-                    'sight_id' => "asdasdsa",
+                    'sight_id' => $place['sightId'],
                     'location_id' => $place['locationId'],
                     'latitude' => $latitude,
                     'longitude' => $longitude,
