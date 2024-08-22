@@ -98,7 +98,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum'); // Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum'); // Проверяем добавил ли юзер в избранное
 
-    Route::post('events/create', 'create')->middleware(['auth:sanctum', 'orgPerm:create_content']);
+    Route::post('events/create', 'create')->middleware(['auth:sanctum']);
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('moderator');
 
     Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
