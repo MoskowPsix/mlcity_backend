@@ -52,11 +52,6 @@ class OrganizationController extends Controller
 
         return new IndexOrganizationResource($response);
     }
-    public function userOrganizations(): GetUserOrganizationsOrganizationSuccessResource
-    {
-        $orgs = Organization::where('user_id', auth('api')->user()->id)->orderBy('updated_at', 'desc')->get();
-        return new GetUserOrganizationsOrganizationSuccessResource($orgs);
-    }
     public function show($id)
     {
         $organization = Organization::find($id);
