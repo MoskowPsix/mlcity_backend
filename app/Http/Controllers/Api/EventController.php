@@ -2,31 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Filters\Event\EventByIds;
-use App\Filters\Event\EventName;
-use App\Filters\Event\EventAuthorEmail;
-use App\Filters\Event\EventAuthorName;
-use App\Filters\Sight\SightAuthor;
-use App\Filters\Event\EventSponsor;
-use App\Filters\Event\EventPlaceAddress;
-use App\Filters\Event\EventPlaceLocation;
-use App\Filters\Event\EventDate;
-use App\Filters\Event\EventFavoritesUserExists;
-use App\Filters\Event\EventPlaceGeoPositionInArea;
-use App\Filters\Event\EventLikedUserExists;
-use App\Filters\Event\EventSearchText;
-use App\Filters\Event\EventStatuses;
-use App\Filters\Event\EventStatusesLast;
-use App\Filters\Event\EventTypes;
-use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\HistoryContent\HistoryContentLast;
-use App\Filters\Event\EventWithPlaceFull;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
@@ -42,64 +23,14 @@ class EventController extends Controller
 
     public function getEvents(Request $request): \Illuminate\Http\JsonResponse
     {
-        $total = 0;
-        $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
-
-        $response =
-            app(Pipeline::class)
-            ->send($events)
-            ->through([
-                // EventTotal::class,
-                EventOrderByDateCreate::class,
-                EventName::class,
-                EventByIds::class,
-                EventLikedUserExists::class,
-                EventFavoritesUserExists::class,
-                EventStatuses::class,
-                EventStatusesLast::class,
-                EventPlaceLocation::class,
-                EventDate::class,
-                EventTypes::class,
-                EventPlaceGeoPositionInArea::class,
-                EventSearchText::class,
-                EventPlaceAddress::class,
-                EventSponsor::class,
-                EventAuthorName::class,
-                EventAuthorEmail::class,
-                SightAuthor::class,
-            ])
-            ->via('apply')
-            ->then(function ($events) use ($page, $limit, $request){
-                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-
-                return $events;
-            });
-            // $event['events'] = ['total' => $total ];
+        $response = $this->eventService->get($request);
         return response()->json(['status' => 'success', 'events' => $response], 200);
     }
 
     public function getEventsForAuthor(Request $request) {
-        isset($request->page) ?  $page = $request->page :  $page = 1;
-        isset($request->limit) ?  $limit = $request->limit : $limit =  6;
-        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
-        $total = $events->count();
-        $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-        return response()->json(['status' => 'success', 'events' => $response, 'total' => $total], 200);
+        $response = $this->eventService->getUserEvents($request);
+        return response()->json(['status' => 'success', 'events' => $response], 200);
     }
-
-
-    //Проверить этот метод
-   // public function getUserEvents(Request $request): \Illuminate\Http\JsonResponse
-//    {
-//        $events = Auth::user()->events()->with('types', 'files', 'statuses')->paginate(10, ['*'], 'page' , $request->page);
-//
-//        return response()->json([
-//             'status' => 'success',
-//             'events' => $events
-//         ], 200);
-//    }
 
     public function updateVkLikes(Request $request){
         // $request = $request->validated();
@@ -112,8 +43,8 @@ class EventController extends Controller
         $event = Event::find($request->event_id);
         $likedUser = false;
 
-        if (!$event->likedUsers()->where('user_id',Auth::user()->id)->exists()){
-            $event->likedUsers()->sync(Auth::user()->id);
+        if (!$event->likedUsers()->where('user_id',auth('api')->user()->id)->exists()){
+            $event->likedUsers()->sync(auth('api')->user()->id);
             $likedUser = true;
         }
 
@@ -125,7 +56,7 @@ class EventController extends Controller
     {
         $event =  Event::where('id', $id)->firstOrFail();
 
-        $liked = $event->likedUsers()->where('user_id', Auth::user()->id)->exists();
+        $liked = $event->likedUsers()->where('user_id', auth('api')->user()->id)->exists();
 
         return  response()->json($liked, 200);
     }
@@ -135,24 +66,14 @@ class EventController extends Controller
     {
         $event =  Event::where('id', $id)->firstOrFail();
 
-        $favorite = $event->favoritesUsers()->where('user_id', Auth::user()->id)->exists();
+        $favorite = $event->favoritesUsers()->where('user_id', auth('api')->user()->id)->exists();
 
         return  response()->json($favorite, 200);
     }
 
     public function show($id): \Illuminate\Http\JsonResponse
     {
-        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
-        $response =
-        app(Pipeline::class)
-        ->send($event)
-        ->through([
-            EventWithPlaceFull::class
-        ])
-        ->via("apply")
-        ->then(function($event){
-            return $event->firstOrFail();
-        });
+        $response = $this->eventService->getById($id);
         return response()->json($response, 200);
     }
     public function showForMap($id): \Illuminate\Http\JsonResponse
@@ -231,21 +152,7 @@ class EventController extends Controller
 
         $jsonData = [
             'status' => 'SUCCESS',
-            'event' => [
-                'id' => $event->id,
-                'name' => $event->name,
-                'sponsor' => $event->sponsor,
-                'location_id' => $event->location_id,
-                'address' => $event->address,
-                'description' => $event->description,
-                'latitude' => $event->latitude,
-                'longitude' => $event->longitude,
-                'price' => $event->price,
-                'materials' => $event->materials,
-                'date_start' => $event->date_start,
-                'date_end' => $event->date_end,
-
-            ]
+            'event' => $event
         ];
 
         return response()->json($jsonData);
@@ -280,12 +187,6 @@ class EventController extends Controller
 
         return response()->json(["status"=>"success", "history_content" => $response]);
     }
-
-    public function delete($id): \Illuminate\Http\JsonResponse
-    {
-        dd('delete');
-    }
-
 }
 
 

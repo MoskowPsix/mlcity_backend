@@ -34,7 +34,7 @@ class CreateEventTest extends TestCase
     {
         $user = User::first();
 
-        $data = EventObjectFactory::createEvent();
+        $data = EventObjectFactory::createFullEventObjectForRequest();
 
         $response = $this->actingAs($user)->post('api/events/create', $data);
 
@@ -44,7 +44,7 @@ class CreateEventTest extends TestCase
 
     public function testCreateEventWithoutUser()
     {
-        $data = EventObjectFactory::createEvent();
+        $data = EventObjectFactory::createFullEventObjectForRequest();
 
         $response = $this->post('api/events/create', $data);
 

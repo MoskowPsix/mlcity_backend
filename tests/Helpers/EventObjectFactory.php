@@ -12,7 +12,7 @@ use App\Models\User;
 
 class EventObjectFactory {
 
-    public static function createEvent(): array {
+    public static function createFullEventObjectForRequest(): array {
         $event = Event::factory()
         ->make([
             "dateStart" => fake()->date(),
