@@ -15,7 +15,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::check()) {
+        if (!auth('api')->check()) {
             return abort(403);
         }
 
