@@ -7,7 +7,6 @@ use App\Models\Location;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
 use App\Models\Organization;
-use DragonCode\Contracts\Cashier\Auth\Auth;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;

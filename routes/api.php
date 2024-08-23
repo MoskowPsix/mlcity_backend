@@ -31,7 +31,7 @@ Route::controller(AppVersionController::class)->group(function () {
 });
 Route::controller(AuthController::class)->group(function () {
     Route::post('register', 'register'); // Регистрация
-    Route::post('login', 'login');
+    Route::post('login', 'login')->name('login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
 
@@ -98,7 +98,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('events/{id}/check-user-liked', 'checkLiked')->middleware('auth:sanctum'); // Проверяем лайкал ли юзер ивент
     Route::get('events/{id}/check-user-favorite', 'checkFavorite')->middleware('auth:sanctum'); // Проверяем добавил ли юзер в избранное
 
-    Route::post('events/create', 'create')->middleware(['auth:sanctum']);
+    Route::post('events/create', 'create')->middleware('auth:sanctum');
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('moderator');
 
     Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');

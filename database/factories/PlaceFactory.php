@@ -2,7 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\Event;
 use App\Models\Location;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -18,10 +20,10 @@ class PlaceFactory extends Factory
     public function definition()
     {
         return [
-            "latitude" => $this->faker->latitude(),
-            "longitude" => $this->faker->longitude(),
-            "location_id" => Location::inRandomOrder()->first()->id,
-            "address" => $this->faker->address()
+            'location_id'   => Location::inRandomOrder()->first()->id,
+            'latitude'      => fake()->latitude(),
+            'longitude'     => fake()->longitude(),
+            'address'       => fake()->address(),
         ];
     }
 }

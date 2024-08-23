@@ -2,12 +2,11 @@
 
 namespace Database\Factories;
 
-use App\Models\Sight;
-use App\Models\User;
+use App\Models\Event;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Price>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Model>
  */
 class PriceFactory extends Factory
 {
@@ -19,11 +18,8 @@ class PriceFactory extends Factory
     public function definition()
     {
         return [
-           "sight_id" => function () {
-            return Sight::factory()->create()->id;
-           },
-           "cost_rub" => $this->faker->numberBetween(0,10000),
-           "descriptions" => $this->faker->text()
+            "cost_rub"      => fake()->numberBetween(0,10000),
+            "descriptions"  => fake()->text()
         ];
     }
 }
