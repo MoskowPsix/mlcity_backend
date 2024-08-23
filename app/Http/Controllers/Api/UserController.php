@@ -391,7 +391,7 @@ class UserController extends Controller
     }
 
     public function getOrganizations($usr_id, Request $request){
-        $user_id = auth()->user()->id;
+        $user_id = auth('api')->user()->id;
 
         if ($user_id == $usr_id){
             $organizations = Organization::query()->where("user_id",$user_id);
