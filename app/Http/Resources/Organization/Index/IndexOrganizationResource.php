@@ -18,7 +18,7 @@ class IndexOrganizationResource extends JsonResource
         return [
             'status'        => 'success',
             'message'       => __('messages.organization.index.success'),
-            'organizations' => OrganizationResource::collection($this->resource)
+            'organizations' => $this->resource
         ];
     }
 }
