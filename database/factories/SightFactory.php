@@ -20,16 +20,16 @@ class SightFactory extends Factory
     public function definition()
     {
         return [
-            'name'              => faker()->sentence(),
-            'sponsor'           => faker()->name(),
-            'latitude'          => faker()->latitude(),
-            'longitude'         => faker()->longitude(),
+            'name'              => fake()->sentence(),
+            'sponsor'           => fake()->name(),
+            'latitude'          => fake()->latitude(),
+            'longitude'         => fake()->longitude(),
             'location_id'       => Location::inRandomOrder()->first()->id,
-            'address'           => faker()->addres(),
-            'description'       => faker()->text(),
-            'materials'         => faker()->text(),
-            'user_id'           => faker()->User::inRandomOrder()->first()->id,
-            'work_time'         => faker()->text(),
+            'address'           => fake()->address(),
+            'description'       => fake()->text(),
+            'materials'         => fake()->text(),
+            'user_id'           => User::inRandomOrder()->first()->id,
+            'work_time'         => fake()->text(),
             'organization_id'   => Organization::inRandomOrder()->first()->id,
         ];
     }

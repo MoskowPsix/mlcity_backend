@@ -20,12 +20,10 @@ class PlaceFactory extends Factory
     public function definition()
     {
         return [
-            'event_id'      => Event::inRandomOrder()->first()->id,
-            'sight_id'      => Sight::inRandomOrder()->first()->id,
             'location_id'   => Location::inRandomOrder()->first()->id,
-            'latitude'      => faker()->latitude(),
-            'longitude'     => faker()->longitude(),
-            'address'       => faker()->$this->faker->address(),
+            'latitude'      => fake()->latitude(),
+            'longitude'     => fake()->longitude(),
+            'address'       => fake()->address(),
         ];
     }
 }

@@ -19,14 +19,14 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            'name'              => faker()->sentence(),
-            'sponsor'           => faker()->name(),
-            'description'       => faker()->text(),
-            'materials'         => faker()->text(),
-            'date_start'        => faker()->dateTimeBetween(startDate: '-7 days', endDate: '+7 days')->format('Y-m-d H:i:s'),
-            'date_end'          => faker()->dateTimeBetween(startDate: '+8 days', endDate: '+15 days')->format('Y-m-d H:i:s'),
+            'name'              => fake()->sentence(),
+            'sponsor'           => fake()->name(),
+            'description'       => fake()->text(),
+            'materials'         => fake()->text(),
+            'date_start'        => fake()->dateTimeBetween(startDate: '-7 days', endDate: '+7 days')->format('Y-m-d H:i:s'),
+            'date_end'          => fake()->dateTimeBetween(startDate: '+8 days', endDate: '+15 days')->format('Y-m-d H:i:s'),
             'user_id'           => User::inRandomOrder()->first()->id,
-            'vk_post_id'        => faker()->numberBetween(100000, 999999),
+            'vk_post_id'        => fake()->numberBetween(100000, 999999),
             'organization_id'   => Organization::inRandomOrder()->first()->id,
         ];
     }
