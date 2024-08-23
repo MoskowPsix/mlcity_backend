@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\EventService\EventService;
+use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Organization\getUserOrganizations\GetUserOrganizationsOrganizationSuccessResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -20,21 +21,23 @@ use App\Filters\Users\UsersId;
 use App\Filters\Users\UsersCreated;
 use App\Filters\Users\UsersUpdated;
 use App\Filters\Users\UsersLocation;
-use App\Filters\Users\UsersRegion;
 use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventFavoritesUserExists;
-use App\Filters\Organization\OrganizationId;
 use App\Filters\Organization\OrganizationName;
 use App\Http\Requests\Organisation\CreateOrganisation;
 use App\Http\Requests\User\UpdateRequest;
 use App\Models\Organization;
 use App\Models\UserAgreement;
 use Exception;
-use Illuminate\Support\Facades\Log;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 
 class UserController extends Controller
 {
+
+    public function __construct(private readonly EventService $eventService)
+    {
+
+    }
 
     // Получить юзера по ИД
     public function getUser(): \Illuminate\Http\JsonResponse
@@ -446,5 +449,9 @@ class UserController extends Controller
         //     return response()->json(["message"=>"success", "data"=>$agreement]);
         // }
         return response()->json(["message" => "true"],200);
+    }
+
+    public function checkUserHaveOrganizations(Request $request) {
+        return response()->json(["status" => $this->eventService->checkUserHaveOrganization()]);
     }
 }

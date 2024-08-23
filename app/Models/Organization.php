@@ -43,7 +43,7 @@ class Organization extends Model
         return $this->belongsToMany(Permission::class)->withPivot('user_id');
     }
 
-    public function location(): BelongsToMany
+    public function locations(): BelongsToMany
     {
         return $this->belongsToMany(Location::class,  'organization_location', 'organization_id', 'location_id');
     }

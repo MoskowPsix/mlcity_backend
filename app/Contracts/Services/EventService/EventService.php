@@ -6,10 +6,30 @@ use App\Models\Event;
 use App\Models\Location;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
+use App\Filters\Event\EventAuthorEmail;
+use App\Filters\Event\EventAuthorName;
+use App\Filters\Event\EventByIds;
+use App\Filters\Event\EventDate;
+use App\Filters\Event\EventFavoritesUserExists;
+use App\Filters\Event\EventLikedUserExists;
+use App\Filters\Event\EventName;
+use App\Filters\Event\EventOrderByDateCreate;
+use App\Filters\Event\EventPlaceAddress;
+use App\Filters\Event\EventPlaceGeoPositionInArea;
+use App\Filters\Event\EventPlaceLocation;
+use App\Filters\Event\EventSearchText;
+use App\Filters\Event\EventSponsor;
+use App\Filters\Event\EventStatuses;
+use App\Filters\Event\EventStatusesLast;
+use App\Filters\Event\EventTypes;
+use App\Filters\Event\EventWithPlaceFull;
+use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
 use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Pipeline\Pipeline;
+
 
 class EventService implements EventServiceInterface
 {
@@ -18,17 +38,84 @@ class EventService implements EventServiceInterface
 
     }
 
+    public function getById(int $id): Event
+    {
+        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $response =
+        app(Pipeline::class)
+        ->send($event)
+        ->through([
+            EventWithPlaceFull::class
+        ])
+        ->via("apply")
+        ->then(function($event){
+            return $event->firstOrFail();
+        });
+
+        return $response;
+    }
+
+    public function get($data)
+    {
+        $total = 0;
+        $page = $data->page;
+        $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
+        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
+
+        $response =
+            app(Pipeline::class)
+            ->send($events)
+            ->through([
+                // EventTotal::class,
+                EventOrderByDateCreate::class,
+                EventName::class,
+                EventByIds::class,
+                EventLikedUserExists::class,
+                EventFavoritesUserExists::class,
+                EventStatuses::class,
+                EventStatusesLast::class,
+                EventPlaceLocation::class,
+                EventDate::class,
+                EventTypes::class,
+                EventPlaceGeoPositionInArea::class,
+                EventSearchText::class,
+                EventPlaceAddress::class,
+                EventSponsor::class,
+                EventAuthorName::class,
+                EventAuthorEmail::class,
+                SightAuthor::class,
+            ])
+            ->via('apply')
+            ->then(function ($events) use ($page, $limit, $data){
+                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+
+                return $events;
+            });
+
+        return $response;
+    }
+
+    public function getUserEvents($data)
+    {
+        isset($data->page) ?  $page = $data->page :  $page = 1;
+        isset($data->limit) ?  $limit = $data->limit : $limit =  6;
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        return $response;
+    }
+
     public function store($data): Event
     {
         DB::beginTransaction();
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
-                $organizationId = Organization::create([
+                $organization = Organization::create([
                     "name" => $user->name,
                     "user_id" => $user->id,
                     "descriptions" => ""
-                ])->id;
+                ]);
+                $organization->locations()->attach($data->places[0]["locationId"]);
             }
 
             if (!isset($data->organization_id)) {
@@ -127,7 +214,13 @@ class EventService implements EventServiceInterface
     }
 
     public function checkUserHaveOrganization(): bool {
-        $org = Organization::where("user_id", auth('api')->user()->id)->get();
+        $user = auth('api')->user();
+        if ($user) {
+            $org = Organization::where("user_id", $user->id)->get();
+        } else {
+            return false;
+        }
+        
         if (count($org) == 0) {
             return false;
         }
