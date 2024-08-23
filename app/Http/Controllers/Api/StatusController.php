@@ -61,7 +61,6 @@ class StatusController extends Controller
     {
         // $vk_post['response']['post_id'] = '';
         $event = Event::where('id', $request->event_id)->firstOrFail();
-        info($event);
         $statuses_all = Status::all();
         $status = Status::where('name', $request->status)->firstOrFail();
         $event->statuses()->updateExistingPivot($statuses_all, ['last' => false]);
@@ -93,7 +92,6 @@ class StatusController extends Controller
     public function addStatusSight(Request $request)
     {
         $vk_post['response']['post_id'] = '';
-        info($request);
         $sight = Sight::where('id', $request->sight_id)->firstOrFail();
         $statuses_all = Status::all();
         $status = Status::where('name',$request->get("status"))->firstOrFail();
@@ -112,7 +110,6 @@ class StatusController extends Controller
     private function sortStatuses($a, $b)
     {
         $order = array("Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ");
-        info($a);
         $pos1 = array_search($a['name'], $order);
         $pos2 = array_search($b['name'], $order);
 
