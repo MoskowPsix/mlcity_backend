@@ -391,7 +391,7 @@ class UserController extends Controller
         return response()->json(["message" => "created", "data"=>["organization"=>$organization]], 201);
     }
 
-    public function getOrganizations(Request $request): GetUserOrganizationsOrganizationSuccessResource
+    public function getOrganizations(Request $request)
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
@@ -407,7 +407,7 @@ class UserController extends Controller
             ->then(function ($organizations) use($limit, $page) {
                 return $organizations->orderBy('updated_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
             });
-        return new GetUserOrganizationsOrganizationSuccessResource($response);
+        return response()->json($response);
     }
 
     public function acceptAgreement(Request $reqeust){
