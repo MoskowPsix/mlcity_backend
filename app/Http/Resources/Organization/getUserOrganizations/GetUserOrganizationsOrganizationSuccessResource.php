@@ -18,7 +18,7 @@ class GetUserOrganizationsOrganizationSuccessResource extends JsonResource
         return [
             'status'        => 'success',
             'message'       => __('messages.organization.get_user_organizations.success'),
-            'organization'  => OrganizationResource::collection($this->resource),
+            'organizations'  => OrganizationResource::collection($this->resource),
         ];
     }
 }
