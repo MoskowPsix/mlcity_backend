@@ -17,10 +17,10 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker()->name(),
-            'avatar' => $this->faker()->avatar(),
-            'user_id' => User::inRandomOrder()->first()->id,
-            'description' => $this->faker()->text(),
+            'name'          => faker()->name(),
+            'avatar'        => faker()->avatar(),
+            'user_id'       => User::inRandomOrder()->first()->id,
+            'description'   => faker()->text(),
         ];
     }
 }

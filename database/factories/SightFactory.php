@@ -20,17 +20,17 @@ class SightFactory extends Factory
     public function definition()
     {
         return [
-            'name' => $this->faker()->sentence(),
-            'sponsor' => $this->faker()->name(),
-            'latitude' => $this->faker()->latitude(),
-            'longitude' => $this->faker()->longitude(),
-            'location_id' => Location::inRandomOrder()->first()->id,
-            'address' => $this->faker()->addres(),
-            'description' => $this->faker()->text(),
-            'materials' => $this->faker()->text(),
-            'user_id' => $this->faker()->User::inRandomOrder()->first()->id,
-            'work_time' => $this->faker()->text(),
-            'organization_id' => Organization::inRandomOrder()->first()->id,
+            'name'              => faker()->sentence(),
+            'sponsor'           => faker()->name(),
+            'latitude'          => faker()->latitude(),
+            'longitude'         => faker()->longitude(),
+            'location_id'       => Location::inRandomOrder()->first()->id,
+            'address'           => faker()->addres(),
+            'description'       => faker()->text(),
+            'materials'         => faker()->text(),
+            'user_id'           => faker()->User::inRandomOrder()->first()->id,
+            'work_time'         => faker()->text(),
+            'organization_id'   => Organization::inRandomOrder()->first()->id,
         ];
     }
 }

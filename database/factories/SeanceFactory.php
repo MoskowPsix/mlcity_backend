@@ -19,8 +19,8 @@ class SeanceFactory extends Factory
     {
         return [
             "event_id"      => Place::inRandomOrder()->first()->id,
-            "date_start"    => $this->faker()->dateTimeBetween(startDate: '-7 days', endDate: '+7 days')->format('Y-m-d H:i:s'),
-            "date_end"      => $this->faker()->dateTimeBetween(startDate: '+8 days', endDate: '+15 days')->format('Y-m-d H:i:s'),
+            "date_start"    => faker()->dateTimeBetween(startDate: '-7 days', endDate: '+7 days')->format('Y-m-d H:i:s'),
+            "date_end"      => faker()->dateTimeBetween(startDate: '+8 days', endDate: '+15 days')->format('Y-m-d H:i:s'),
         ];
     }
 }

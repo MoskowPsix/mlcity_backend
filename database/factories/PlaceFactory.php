@@ -23,9 +23,9 @@ class PlaceFactory extends Factory
             'event_id'      => Event::inRandomOrder()->first()->id,
             'sight_id'      => Sight::inRandomOrder()->first()->id,
             'location_id'   => Location::inRandomOrder()->first()->id,
-            'latitude'      => $this->faker()->latitude(),
-            'longitude'     => $this->faker()->longitude(),
-            'address'       => $this->faker()->$this->faker->address(),
+            'latitude'      => faker()->latitude(),
+            'longitude'     => faker()->longitude(),
+            'address'       => faker()->$this->faker->address(),
         ];
     }
 }

@@ -19,8 +19,8 @@ class SightPriceFactory extends Factory
     {
         return [
             'sight_id'      => Sight::inRandomOrder()->first()->id,
-            "cost_rub"      => $this->faker->numberBetween(0,10000),
-            "descriptions"  => $this->faker->text()
+            "cost_rub"      => faker()->numberBetween(0,10000),
+            "descriptions"  => faker()->text()
         ];
     }
 }
