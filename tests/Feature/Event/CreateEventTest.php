@@ -11,6 +11,7 @@ use App\Models\Sight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Tests\Helpers\EventObjectFactory;
 use Tests\TestCase;
 
 class CreateEventTest extends TestCase
@@ -32,37 +33,8 @@ class CreateEventTest extends TestCase
     public function testCreateEvent()
     {
         $user = User::first();
-        $event = Event::factory()
-        ->make([
-            "dateStart" => fake()->date(),
-            "dateEnd" => fake()->date()
-        ]);
 
-        $location = Location::inRandomOrder()->first();
-        $sight = Sight::factory()->create();
-
-        $prices = Price::factory()->count(3)->make();
-        $places = Place::factory()->count(2)->make([
-            "coords" => fake()->longitude() . "," . fake()->latitude(),
-            "locationId" => $location->id,
-            "sightId" => $sight->id
-        ])->toArray();
-
-
-        foreach ($places as $place) {
-            $seance = Seance::factory()->count(3)->make()->toArray();
-
-            $place['seances'] = $seance;
-            dd($place);
-        }
-
-        $data = [
-            ...$event->toArray(),
-            "prices" => $prices->toArray(),
-            "places" => $places
-        ];
-
-        dd($data);
+        $data = EventObjectFactory::createEvent();
 
         $response = $this->actingAs($user)->post('api/events/create', $data);
 
