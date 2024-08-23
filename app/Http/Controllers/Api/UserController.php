@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\CustomResourceCollection;
 use App\Http\Resources\Organization\getUserOrganizations\GetUserOrganizationsOrganizationSuccessResource;
+use App\Http\Resources\Organization\OrganizationResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -391,7 +393,7 @@ class UserController extends Controller
         return response()->json(["message" => "created", "data"=>["organization"=>$organization]], 201);
     }
 
-    public function getOrganizations(Request $request): GetUserOrganizationsOrganizationSuccessResource
+    public function getOrganizations(Request $request): mixed
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
@@ -406,8 +408,10 @@ class UserController extends Controller
             ->via("apply")
             ->then(function ($organizations) use($limit, $page) {
                 return $organizations->orderBy('updated_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+//                return $organizations->orderBy('updated_at', 'desc')->paginate(10);
+
             });
-        return new GetUserOrganizationsOrganizationSuccessResource($response);
+        return response()->json(new GetUserOrganizationsOrganizationSuccessResource($response));
     }
 
     public function acceptAgreement(Request $reqeust){

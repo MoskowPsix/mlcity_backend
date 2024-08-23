@@ -21,5 +21,9 @@ class OrganizationSeeder extends Seeder
             "name" => "Начальное сообщество",
             "user_id" => $user->id
         ]);
+        $org = Organization::create([
+            "name" => "Начальное1 сообщество",
+            "user_id" => $user->id
+        ]);
     }
 }

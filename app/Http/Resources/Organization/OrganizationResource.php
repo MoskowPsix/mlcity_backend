@@ -3,6 +3,9 @@
 namespace App\Http\Resources\Organization;
 
 use App\Http\Resources\BaseResource;
+use App\Http\Resources\CustomResourceCollection;
+use DragonCode\Support\Facades\Helpers\Arr;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class OrganizationResource extends BaseResource
@@ -16,7 +19,7 @@ class OrganizationResource extends BaseResource
     public function toArray($request)
     {
         // dd($this->whenLoaded('user'));
-        $response = [
+        return [
             'id'                => $this->id,
             'name'              => $this->name,
             'avatar'            => $this->avatar,
@@ -28,6 +31,5 @@ class OrganizationResource extends BaseResource
             'types'             => $this->whenLoaded('stypes'),
             'location'          => $this->whenLoaded('usersPermissions'),
         ];
-        return $response;
     }
 }
