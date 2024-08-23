@@ -98,6 +98,7 @@ class EventController extends Controller
         $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'events' => $response, 'total' => $total], 200);
     }
+
     #[NoReturn]
     #[Endpoint(title: 'updateVkLikes', description: 'Обновляет лайки, подтягивая их с вк. Ничего не возвращает')]
     public function updateVkLikes(Request $request): void
@@ -105,6 +106,7 @@ class EventController extends Controller
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
+
     #[Authenticated]
     #[ResponseFromApiResource(SetEventUserLikedResource::class)]
     #[Endpoint(title: 'setEvenUserLiked', description: 'Создаем отношение - юзер лайкнул ивент')]
@@ -120,6 +122,7 @@ class EventController extends Controller
 
         return new SetEventUserLikedResource($likedUser);
     }
+
     #[Authenticated]
     #[ResponseFromApiResource(CheckLikedAndFavoriteResource::class)]
     #[Endpoint(title: 'checkLikedEventForUser', description: 'Проверка лайкал ли авторизованный юзер этот ивент')]
@@ -130,6 +133,7 @@ class EventController extends Controller
 
         return  new CheckLikedAndFavoriteResource($liked);
     }
+
     #[Authenticated]
     #[ResponseFromApiResource(CheckLikedAndFavoriteResource::class)]
     #[Endpoint(title: 'checkFavoriteEventForUser', description: 'Проверка добавил ли авторизованный юзер этот ивент в избранное')]
@@ -140,6 +144,7 @@ class EventController extends Controller
 
         return  new CheckLikedAndFavoriteResource($favorite);
     }
+
     #[ResponseFromApiResource(EventResource::class, Event::class)]
     #[Endpoint(title: 'getEvent', description: 'Достать события по id')]
     public function show(int $id): EventResource
@@ -157,6 +162,7 @@ class EventController extends Controller
         });
         return new EventResource($response);
     }
+    
     #[ResponseFromApiResource(EventResource::class)]
     #[Endpoint(title: 'getEventForMap', description: 'Достать событие по id для карты')]
     public function showForMap($id): EventResource
