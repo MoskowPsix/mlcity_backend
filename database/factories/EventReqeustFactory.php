@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
  */
-class EventFactory extends Factory
+class EventRequestFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -21,8 +21,8 @@ class EventFactory extends Factory
             "sponsor" => $this->faker->name(),
             "description" => $this->faker->text(),
             "materials" => $this->faker->text(),
-            "date_start" => $this->faker->date(),
-            "date_end" => $this->faker->date()
+            "dateStart" => $this->faker->date(),
+            "dateEnd" => $this->faker->date()
         ];
     }
 }

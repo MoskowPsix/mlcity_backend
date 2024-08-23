@@ -5,9 +5,9 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Event>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Seance>
  */
-class EventFactory extends Factory
+class SeanceFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,10 +17,6 @@ class EventFactory extends Factory
     public function definition()
     {
         return [
-            "name" => $this->faker->sentence(),
-            "sponsor" => $this->faker->name(),
-            "description" => $this->faker->text(),
-            "materials" => $this->faker->text(),
             "date_start" => $this->faker->date(),
             "date_end" => $this->faker->date()
         ];

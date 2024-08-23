@@ -21,6 +21,7 @@ class EventService implements EventServiceInterface
 
     public function store($data): Event
     {
+        info($data);
         DB::beginTransaction();
         $user = auth('api')->user();
         try {

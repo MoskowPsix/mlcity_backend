@@ -19,9 +19,6 @@ class PriceFactory extends Factory
     public function definition()
     {
         return [
-           "sight_id" => function () {
-            return Sight::factory()->create()->id;
-           },
            "cost_rub" => $this->faker->numberBetween(0,10000),
            "descriptions" => $this->faker->text()
         ];

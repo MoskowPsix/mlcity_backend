@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -25,6 +26,7 @@ class SightFactory extends Factory
             "longitude" => $this->faker->longitude(),
             "description" => $this->faker->text(),
             "user_id" => User::first()->id,
+            "organization_id" => Organization::first()->id,
             "work_time" => $this->faker->text()
         ];
     }
