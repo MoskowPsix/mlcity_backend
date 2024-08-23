@@ -28,6 +28,8 @@ class IndexOrganizationRequest extends FormRequest
             'organization_id'   => 'nullable|integer|exists:organizations,id',
             'description'       => 'nullable|string',
             'user'              => 'boolean',
+            'page'              => 'nullable|string',
+            'limit'             => 'nullable|integer',
         ];
     }
 }
