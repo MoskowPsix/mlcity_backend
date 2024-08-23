@@ -7,18 +7,19 @@ use App\Models\Permission;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use JetBrains\PhpStorm\NoReturn;
 use Tests\TestCase;
 
 class CreateEventTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected function setUp(): void
+    protected function setUp():void
     {
         parent::setUp();
         $this->seed();
         $user = User::first();
-        $organization = Organization::create([
+        Organization::create([
             "name" => "Alex Studio",
             "description" => "test",
             "user_id" => $user->id
@@ -30,7 +31,7 @@ class CreateEventTest extends TestCase
      *
      * @return void
      */
-    public function test_create_event_without_permission()
+    public function test_create_event_without_permission():void
     {
         $user = User::first();
         $organization = Organization::first();
@@ -40,7 +41,7 @@ class CreateEventTest extends TestCase
         $response->assertStatus(403);
     }
 
-    public function test_create_event_with_permission()
+    public function test_create_event_with_permission():void
     {
         $user = User::first();
         $organization = Organization::first();
