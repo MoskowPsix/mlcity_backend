@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\Services\OrganizationService\OrganizationService;
 use App\Filters\Organization\OrganizationDescription;
+use App\Filters\Organization\OrganizationLocationFilter;
 use App\Filters\Organization\OrganizationName;
 use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
@@ -29,31 +30,24 @@ use Illuminate\Support\Facades\URL;
 class OrganizationController extends Controller
 {
     public function __construct(private readonly OrganizationService $organizationService)
-    {
-
-    }
+    {}
     public function index(IndexOrganizationRequest $request): IndexOrganizationResource
     {
-        // $total = 0;
-        // $page = $request->page;
-        // $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
         $organizations = Organization::query();
         $response =
             app(Pipeline::class)
             ->send($organizations)
             ->through([
                 OrganizationName::class,
-                // OrganizationId::class,
-                // OrganizationInn::class,
-                // OrganizationKpp::class,
-                // OrganizationOgrn::class,
                 OrganizationDescription::class,
-                // OrganizationNumber::class,
-                OrganizationUser::class
+                OrganizationUser::class,
+                OrganizationLocationFilter::class,
             ])
             ->via("apply")
-            ->then(function ($organizations) {
-                return $organizations->orderBy('created_at', 'desc')->get();
+            ->then(function ($organizations) use($page, $limit) {
+                return $organizations->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
             });
 
         return new IndexOrganizationResource($response);

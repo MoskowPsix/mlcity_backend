@@ -26,11 +26,7 @@ class IndexOrganizationRequest extends FormRequest
         return [
             'name'              => 'nullable|string|min:3',
             'organization_id'   => 'nullable|integer|exists:organizations,id',
-            // 'inn'               => 'nullable|string|min:9|max:10',
-            // 'kpp'               => 'nullable|string|min:8|max:9',
-            // 'ogrn'              => 'nullable|string|min:12|max:13',
             'description'       => 'nullable|string',
-            // 'number'            => 'nullable|string|min:9|max:10',
             'user'              => 'boolean',
         ];
     }
