@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Organization\getUserOrganizations\GetUserOrganizationsOrganizationSuccessResource;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
@@ -390,31 +391,23 @@ class UserController extends Controller
         return response()->json(["message" => "created", "data"=>["organization"=>$organization]], 201);
     }
 
-    public function getOrganizations($usr_id, Request $request){
+    public function getOrganizations(Request $request): GetUserOrganizationsOrganizationSuccessResource
+    {
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
         $user_id = auth('api')->user()->id;
-
-        if ($user_id == $usr_id){
-            $organizations = Organization::query()->where("user_id",$user_id);
-            $response =
-                app(Pipeline::class)
-                ->send($organizations)
-                ->through([
-                    OrganizationId::class,
-                    OrganizationName::class,
-                ])
-                ->via("apply")
-                ->then(function ($organizations) use($usr_id){
-                    $organizations = $organizations->get();
-                    return $organizations;
-                });
-
-
-            return response()->json(["message"=>"success", "user_id"=>$usr_id, "data"=>["organizations"=>$response]], 200);
-
-
-        }
-
-        return response()->json(["message"=>"Access denied"],403);
+        $organizations = Organization::where("user_id", $user_id);
+        $response =
+        app(Pipeline::class)
+            ->send($organizations)
+            ->through([
+                OrganizationName::class,
+            ])
+            ->via("apply")
+            ->then(function ($organizations) use($limit, $page) {
+                return $organizations->orderBy('updated_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+            });
+        return new GetUserOrganizationsOrganizationSuccessResource($response);
     }
 
     public function acceptAgreement(Request $reqeust){
