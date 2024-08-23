@@ -41,4 +41,13 @@ class CreateEventTest extends TestCase
         $response->assertStatus(200);
 
     }
+
+    public function testCreateEventWithoutUser()
+    {
+        $data = EventObjectFactory::createEvent();
+
+        $response = $this->post('api/events/create', $data);
+
+        $response->assertStatus(403);
+    }
 }
