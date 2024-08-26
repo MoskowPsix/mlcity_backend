@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('organization_invite_permission_user', function (Blueprint $table) {
+        Schema::create('sight_invite_permission_user', function (Blueprint $table) {
             $table->id();
             $table->foreignId("permission_id")->constrained("permissions")->cascadeOnDelete();
             $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
-            $table->foreignId("organization_invite_id")->constrained("organization_invites")->cascadeOnDelete();
+            $table->foreignId("sight_invite_id")->constrained("sight_invites")->cascadeOnDelete();
             $table->timestamps();
         });
     }
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_invite_permission_user');
+        Schema::dropIfExists('sight_invite_permission_user');
     }
 };

@@ -16,7 +16,6 @@ return new class extends Migration
         Schema::create('sights', function (Blueprint $table) {
             $table->id();
             $table->text('name');
-            $table->string('sponsor');
             $table->string('city')->nullable();
             $table->string('address');
             $table->decimal('latitude', 17, 14);

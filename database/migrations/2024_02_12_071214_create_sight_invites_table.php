@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('organization_permission_user', function (Blueprint $table) {
+        Schema::create('sight_invites', function (Blueprint $table) {
             $table->id();
-            $table->foreignId("organization_id")->constrained("organizations")->cascadeOnDelete();
-            $table->foreignId("permission_id")->constrained("permissions")->cascadeOnDelete();
-            $table->foreignId("user_id")->constrained("users")->cascadeOnDelete();
+            $table->string("email");
+            $table->text("token");
+            $table->string("url")->unique();
+            $table->foreignId("user_id")->constrained("users");
+            $table->foreignId("sight_id")->constrained("sights");
             $table->timestamps();
         });
     }
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('organization_permission_user');
+        Schema::dropIfExists('sight_invites');
     }
 };

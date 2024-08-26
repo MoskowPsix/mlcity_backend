@@ -13,7 +13,7 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('user_organization', function (Blueprint $table) {
+        Schema::table('user_sight', function (Blueprint $table) {
             $table->foreignId('permission_id')->constrained('permissions')->cascadeOnDelete();
         });
     }
@@ -25,7 +25,7 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('user_organization', function (Blueprint $table) {
+        Schema::table('user_sight', function (Blueprint $table) {
             $table->dropColumn('permission_id');
         });
     }
