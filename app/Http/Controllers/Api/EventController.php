@@ -22,6 +22,7 @@ use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
+use App\Http\Requests\Events\GetEventRequest;
 use Exception;
 
 #[Group(name: 'Events', description: 'События')]
