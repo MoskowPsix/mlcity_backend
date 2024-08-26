@@ -2,6 +2,9 @@
 
 namespace App\Contracts\Services\EventService;
 
+use App\Http\Requests\Events\EventCreateRequest;
+use App\Http\Requests\Events\SetEventUserLikedRequest;
+use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
 use App\Models\Location;
 use App\Models\Timezone;
@@ -26,6 +29,7 @@ use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pipeline\Pipeline;
@@ -104,7 +108,7 @@ class EventService implements EventServiceInterface
         return $response;
     }
 
-    public function store($data): Event
+    public function store(EventCreateRequest $data): Event
     {
         DB::beginTransaction();
         $user = auth('api')->user();
@@ -220,7 +224,7 @@ class EventService implements EventServiceInterface
         } else {
             return false;
         }
-        
+
         if (count($org) == 0) {
             return false;
         }
@@ -230,5 +234,74 @@ class EventService implements EventServiceInterface
 
     public function isUserOrganization(int $userId, $organizationId): bool {
         return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
+    }
+
+    public function setEvenUserLiked(SetEventUserLikedRequest $request): bool
+    {
+        $event = Event::find($request->event_id);
+        $likedUser = false;
+
+        if (!$event->likedUsers()->where('user_id',auth('api')->user()->id)->exists()){
+            $event->likedUsers()->sync(auth('api')->user()->id);
+            $likedUser = true;
+        }
+        return $likedUser;
+    }
+
+    public function checkLiked(int $id): bool
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+        return $event->likedUsers()->where('user_id', auth('api')->user()->id)->exists();
+    }
+
+    public function checkFavorite(int $id): bool
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+        return $event->favoritesUsers()->where('user_id', auth('api')->user()->id)->exists();
+    }
+
+    public function showForMap(int $id): Event
+    {
+        return Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+    }
+
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object
+    {
+        $likedUsers = Event::findOrFail($id)->likedUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return  $paginator->setCollection(
+                $items->forPage($page, $limit)
+            )->appends(request()->except(['page']))
+                ->withPath($request->url());
+    }
+
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object
+    {
+        $likedUsers = Event::findOrFail($id)->favoritesUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return $paginator->setCollection(
+                $items->forPage($page, $limit)
+            )->appends(request()->except(['page']))
+                ->withPath($request->url());
     }
 }
