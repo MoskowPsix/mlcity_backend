@@ -43,7 +43,7 @@ class LocationController extends Controller
         $longitude = $request->longitude;
         $radius = 5;
         $location = null;
-        while(empty($location) == true) {
+        while(!(!(empty($location) == true) || !($radius <= 1000))) {
             $location = Location::with('locationParent')->whereRaw('(
                 6371 *
                 acos(cos(radians(?)) *
@@ -53,7 +53,7 @@ class LocationController extends Controller
                 sin(radians(?)) *
                 sin(radians(latitude )))
             ) <= ? ',
-            [$latitude, $longitude,  $latitude,  $radius])->first();
+                [$latitude, $longitude,  $latitude,  $radius])->first();
             $radius = $radius + 5;
         }
         return response()->json(['status' => 'success', 'location' => $location], 200);
