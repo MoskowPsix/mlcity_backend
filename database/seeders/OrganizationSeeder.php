@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Location;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -22,7 +23,6 @@ class OrganizationSeeder extends Seeder
             "user_id" => $user->id
         ]);
         $location = Location::where("name", "Москва")->get()->first();
-        info($location);
         $org->locations()->attach($location->id);
     }
 }

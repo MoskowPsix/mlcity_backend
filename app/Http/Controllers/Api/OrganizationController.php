@@ -66,12 +66,7 @@ class OrganizationController extends Controller
             return new StoreOrganizationNoAuthResource([]);
         }
         $data['user_id'] = $user->id;
-        $organization = Organization::create($data);
-        $organization->types()->attach($data['typeId']);
-        $organization->location()->attach($data['locationId']);
-        if (isset($data['avatar'])) {
-            $this->saveLocalAvatar($organization, $data['avatar']);
-        }
+        $organization = $this->organizationService->store($data);
 
         return new StoreOrganizationSuccessResource($organization);
     }
@@ -169,11 +164,5 @@ class OrganizationController extends Controller
         $events = $this->organizationService->getEvents($organizationId);
 
         return response()->json(["events" => $events]);
-    }
-
-    private function saveLocalAvatar(Organization $org, $file): void
-    {
-        $path = $file->store('organization/avatar/' . $org->id, 'public');
-        $org->update(['avatar' => '/storage/' . $path]);
     }
 }

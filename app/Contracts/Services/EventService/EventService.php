@@ -6,6 +6,7 @@ use App\Models\Event;
 use App\Models\Location;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
+use App\Contracts\Services\OrganizationService\OrganizationService;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
 use App\Filters\Event\EventByIds;
@@ -33,7 +34,10 @@ use Illuminate\Pipeline\Pipeline;
 
 class EventService implements EventServiceInterface
 {
-    public function __construct(private readonly FileService $fileService)
+    public function __construct(
+        private readonly FileService $fileService,
+        private readonly OrganizationService $organizationService
+        )
     {
 
     }
@@ -110,16 +114,19 @@ class EventService implements EventServiceInterface
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
-                $organization = Organization::create([
+                $organizationData = [
                     "name" => $user->name,
                     "user_id" => $user->id,
-                    "descriptions" => ""
-                ]);
-                $organization->locations()->attach($data->places[0]["locationId"]);
+                    "descriptions" => "",
+                    "locationId" => $data->places[0]["locationId"]
+                ];
+
+                $this->organizationService->store($organizationData);
             }
 
             if (!isset($data->organization_id)) {
-                $organizationId = Organization::where('user_id', $user->id)->get()->first()->id;
+                $organization = Organization::where('user_id', $user->id)->get()->first();
+                $organizationId = $organization->id;
             } else {
                 $organizationId = $data->organization_id;
             }
@@ -220,7 +227,7 @@ class EventService implements EventServiceInterface
         } else {
             return false;
         }
-        
+
         if (count($org) == 0) {
             return false;
         }
@@ -229,6 +236,8 @@ class EventService implements EventServiceInterface
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {
+        // info([$userId, $organizationId]);
+        // info([Organization::all()->toArray()]);
         return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
     }
 }

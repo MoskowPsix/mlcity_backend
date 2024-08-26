@@ -1,16 +1,8 @@
 <?php
 
 namespace Tests\Feature\Event;
-
-use App\Models\Event;
-use App\Models\Location;
-use App\Models\Place;
-use App\Models\Price;
-use App\Models\Seance;
-use App\Models\Sight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Foundation\Testing\WithFaker;
 use Tests\Helpers\EventObjectFactory;
 use Tests\TestCase;
 
@@ -19,17 +11,26 @@ class CreateEventTest extends TestCase
 
     use RefreshDatabase;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->seed();
-    }
+    protected $seed = true;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+
+    public function testCreateFirstUserEvent()
+    {
+        $user = User::factory()->create();
+
+        $data = EventObjectFactory::createFullEventObjectForRequest();
+        $data["organization_id"] = null;
+
+
+        $response = $this->actingAs($user)->post('api/events/create', $data);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas("organizations", [
+            "user_id" => $user->id,
+            "name" => $user->name
+        ]);
+
+    }
     public function testCreateEvent()
     {
         $user = User::first();
