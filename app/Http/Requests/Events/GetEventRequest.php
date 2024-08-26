@@ -36,14 +36,14 @@ class GetEventRequest extends FormRequest
             "likedUser" => "nullable|string",
             "favoriteUser" => "nullable|string",
             "statuses" => "nullable|string",
-            "statusLast" => "nullable|string", 
+            "statusLast" => "nullable|string",
             "locationId" => "nullable|string",
             "dateStart" => "nullable|date",
             "dateEnd" => "nullable|date|after:dateStart",
             "eventTypes" => "nullable|integer",
             "radius" => "nullable|integer|max:25",
-            "latitude" => "nullable|integer",
-            "longitude" => "nullable|integer",
+            "latitude" => "nullable|string",
+            "longitude" => "nullable|string",
             "searchText" => "nullable|string|min:3",
             "user" => "nullable|string|min:3"
 
@@ -53,7 +53,7 @@ class GetEventRequest extends FormRequest
     public function messages()
     {
         return [
-            
+
         ];
     }
 }
