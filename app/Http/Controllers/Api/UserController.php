@@ -401,8 +401,10 @@ class UserController extends Controller
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
-        $user_id = auth('api')->user()->id;
-        $organizations = Organization::where("user_id", $user_id);
+        $userId = auth('api')->user()->id;
+        $organizations = Organization::whereHas("sight",  function($query) use ($userId) {
+            $query->where("user_id", $userId);
+        });
         $response =
         app(Pipeline::class)
             ->send($organizations)
