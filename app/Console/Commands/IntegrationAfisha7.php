@@ -490,7 +490,7 @@ class IntegrationAfisha7 extends Command
     {
         if (!empty($sight->latitude) && !empty($sight->longitude) && !empty($sight->address)) {
             $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
-            return Sight::create([
+            $createdSight = Sight::create([
                 'name' => $sight->name,
                 'sponsor' => 'afisha7.ru',
                 'latitude' => $location[1]['latitude'],
@@ -501,6 +501,8 @@ class IntegrationAfisha7 extends Command
                 'user_id' => 1,
                 'afisha7_id' => $sight->id,
             ]);
+            $createdSight->organization()->create();
+            return $createdSight;
         } else {
             return null;
         }
