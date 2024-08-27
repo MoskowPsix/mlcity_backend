@@ -402,7 +402,7 @@ class UserController extends Controller
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
         $userId = auth('api')->user()->id;
-        $sightsWithOrgs = Sight::where("user_id", $userId)->with("organization");
+        $sightsWithOrgs = Sight::where("user_id", $userId)->with("organization", "files", "types");
         $response =
         app(Pipeline::class)
             ->send($sightsWithOrgs)
