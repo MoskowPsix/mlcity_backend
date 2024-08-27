@@ -203,6 +203,8 @@ class SightController extends Controller
             // 'work_time'     => $request->workTime,
         ]);
 
+        $sight->organization()->create();
+
         foreach ($request->price as $price){
             if($price["cost_rub"] == ""){
                 $sight->prices()->create([

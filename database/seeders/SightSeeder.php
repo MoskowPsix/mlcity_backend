@@ -9,7 +9,7 @@ use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class OrganizationSeeder extends Seeder
+class SightSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,10 +18,6 @@ class OrganizationSeeder extends Seeder
      */
     public function run()
     {
-        $sight = Sight::first();
-        $org = Organization::create([
-            "sight_id" => $sight->id
-        ]);
-        $location = Location::where("name", "Москва")->get()->first();
+        $sight = Sight::factory()->create();
     }
 }

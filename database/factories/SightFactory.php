@@ -3,7 +3,6 @@
 namespace Database\Factories;
 
 use App\Models\Location;
-use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -21,16 +20,14 @@ class SightFactory extends Factory
     {
         return [
             'name'              => fake()->sentence(),
-            'sponsor'           => fake()->name(),
             'latitude'          => fake()->latitude(),
             'longitude'         => fake()->longitude(),
             'location_id'       => Location::inRandomOrder()->first()->id,
             'address'           => fake()->address(),
             'description'       => fake()->text(),
             'materials'         => fake()->text(),
-            'user_id'           => User::inRandomOrder()->first()->id,
+            'user_id'           => User::first()->id,
             'work_time'         => fake()->text(),
-            'organization_id'   => Organization::inRandomOrder()->first()->id,
         ];
     }
 }

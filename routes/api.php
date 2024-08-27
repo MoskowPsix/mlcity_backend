@@ -22,7 +22,6 @@ use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\OrganizationInviteController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\AppVersionController;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AppVersionController::class)->group(function () {

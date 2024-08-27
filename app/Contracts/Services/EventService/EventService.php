@@ -29,6 +29,7 @@ use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
+use App\Models\Sight;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -118,19 +119,18 @@ class EventService implements EventServiceInterface
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
-                $organizationData = [
+                $sight = Sight::create([
                     "name" => $user->name,
+                    "address" => "",
+                    "description" => "",
                     "user_id" => $user->id,
-                    "descriptions" => "",
-                    "locationId" => $data->places[0]["locationId"]
-                ];
-
-                $this->organizationService->store($organizationData);
+                ]);
+                $sight->organization()->create();
             }
 
             if (!isset($data->organization_id)) {
-                $organization = Organization::where('user_id', $user->id)->get()->first();
-                $organizationId = $organization->id;
+                $sight = Sight::where('user_id', $user->id)->get()->first();
+                $organizationId = Organization::where("sight_id", $sight->id)->get()->first()->id;
             } else {
                 $organizationId = $data->organization_id;
             }
@@ -148,7 +148,6 @@ class EventService implements EventServiceInterface
                 'date_start'    => $data->dateStart,
                 'date_end'      => $data->dateEnd,
                 'user_id'       => $user->id,
-                'organization_id' => $organizationId,
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
             ]);
@@ -227,12 +226,13 @@ class EventService implements EventServiceInterface
     public function checkUserHaveOrganization(): bool {
         $user = auth('api')->user();
         if ($user) {
-            $org = Organization::where("user_id", $user->id)->get();
+            $sight = Sight::where("user_id", $user->id)->get();
+
         } else {
             return false;
         }
 
-        if (count($org) == 0) {
+        if (count($sight) == 0) {
             return false;
         }
 
@@ -240,9 +240,11 @@ class EventService implements EventServiceInterface
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {
-        // info([$userId, $organizationId]);
-        // info([Organization::all()->toArray()]);
-        return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
+        $res = Sight::where("user_id", $userId)->whereHas("organization", function ($query) use($organizationId) {
+            $query->where("organizations.id", $organizationId);
+        })->exists();
+
+        return $res;
     }
 
     public function setEvenUserLiked(SetEventUserLikedRequest $request): bool

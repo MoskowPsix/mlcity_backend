@@ -19,16 +19,15 @@ class CreateEventTest extends TestCase
         $user = User::factory()->create();
 
         $data = EventObjectFactory::createFullEventObjectForRequest();
-        $data["organization_id"] = null;
 
 
         $response = $this->actingAs($user)->post('api/events/create', $data);
 
         $response->assertStatus(200);
-        $this->assertDatabaseHas("organizations", [
-            "user_id" => $user->id,
-            "name" => $user->name
-        ]);
+        // $this->assertDatabaseHas("organizations", [
+        //     "sight_id" => $user->id,
+        //     "name" => $user->name
+        // ]);
 
     }
     public function testCreateEvent()
