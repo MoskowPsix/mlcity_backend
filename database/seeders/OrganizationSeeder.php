@@ -20,10 +20,8 @@ class OrganizationSeeder extends Seeder
     {
         $sight = Sight::first();
         $org = Organization::create([
-            "name" => "Начальное сообщество",
             "sight_id" => $sight->id
         ]);
         $location = Location::where("name", "Москва")->get()->first();
-        $org->locations()->attach($location->id);
     }
 }

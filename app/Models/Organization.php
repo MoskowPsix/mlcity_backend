@@ -49,4 +49,9 @@ class Organization extends Model
     {
         return $this->belongsToMany(SightType::class, 'organization_stype', 'organization_id', 'stype_id');
     }
+
+    public function sight()
+    {
+        return $this->belongsTo(Sight::class);
+    }
 }

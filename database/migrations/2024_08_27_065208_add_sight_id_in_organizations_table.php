@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::table('organizations', function (Blueprint $table) {
             $table->foreignId("sight_id")->constrained("sights")->cascadeOnDelete();
-            $table->dropColumn("user_id");
         });
     }
 
@@ -28,7 +27,6 @@ return new class extends Migration
     {
         Schema::table('organizations', function (Blueprint $table) {
             $table->dropColumn("sight_id");
-            $table->foreignId("user_id")->constrained("users");
         });
     }
 };

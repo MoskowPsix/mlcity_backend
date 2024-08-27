@@ -119,6 +119,7 @@ class EventService implements EventServiceInterface
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
+                info("work");
                 $sight = Sight::create([
                     "name" => $user->name,
                     "address" => "",
@@ -134,7 +135,7 @@ class EventService implements EventServiceInterface
             }
 
             if (!isset($data->organization_id)) {
-                $organization = Organization::where('user_id', $user->id)->get()->first();
+                $organization = Sight::where('user_id', $user->id)->get()->first();
                 $organizationId = $organization->id;
             } else {
                 $organizationId = $data->organization_id;
@@ -153,7 +154,6 @@ class EventService implements EventServiceInterface
                 'date_start'    => $data->dateStart,
                 'date_end'      => $data->dateEnd,
                 'user_id'       => $user->id,
-                'organization_id' => $organizationId,
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
             ]);
@@ -246,9 +246,9 @@ class EventService implements EventServiceInterface
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {
-        // info([$userId, $organizationId]);
-        // info([Organization::all()->toArray()]);
-        return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
+        return Sight::where("user_id", $userId)->whereHas("organization", function ($query) use($organizationId) {
+            $query->where("organizations.id", $organizationId);
+        })->exists();
     }
 
     public function setEvenUserLiked(SetEventUserLikedRequest $request): bool
