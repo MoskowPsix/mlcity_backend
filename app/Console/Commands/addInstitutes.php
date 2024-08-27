@@ -85,6 +85,7 @@ class addInstitutes extends Command
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
                             ]);
+                            $sight_cr->organization()->create();
                         } else {
                             $sight_cr = Sight::create([
                                 'name'          => $sight->title,
@@ -97,6 +98,7 @@ class addInstitutes extends Command
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
                             ]);
+                            $sight_cr->organization()->create();
                         }
                     } else {
                         if( str_contains($sight->text,'[HTML]') ) {
@@ -111,6 +113,7 @@ class addInstitutes extends Command
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
                             ]);
+                            $sight_cr->organization()->create();
                         } else {
                             $sight_cr = Sight::create([
                                 'name'          => $sight->title,
@@ -123,6 +126,7 @@ class addInstitutes extends Command
                                 'cult_id'       => $sight->_id,
                                 'work_time'     => $sight->workTime,
                             ]);
+                            $sight_cr->organization()->create();
                         }
 
                     }
