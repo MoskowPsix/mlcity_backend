@@ -125,13 +125,11 @@ class EventService implements EventServiceInterface
                     "description" => "",
                     "user_id" => $user->id,
                 ]);
-                $organization = $sight->organization()->create();
-                info($organization->toArray(), ["CREATE_ORG"]);
+                $sight->organization()->create();
             }
 
             if (!isset($data->organization_id)) {
                 $sight = Sight::where('user_id', $user->id)->get()->first();
-                info($sight, ["SIGHT"]);
                 $organizationId = Organization::where("sight_id", $sight->id)->get()->first()->id;
             } else {
                 $organizationId = $data->organization_id;
