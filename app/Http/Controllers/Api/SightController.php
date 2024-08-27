@@ -199,7 +199,6 @@ class SightController extends Controller
             'user_id'       => Auth::user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
-            'organization_id' => 1,
             // 'work_time'     => $request->workTime,
         ]);
 
