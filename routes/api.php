@@ -19,9 +19,9 @@ use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
-use App\Http\Controllers\Api\OrganizationInviteController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\AppVersionController;
+use App\Http\Controllers\Api\SightInviteController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -219,8 +219,8 @@ Route::controller(OrganizationController::class)->group(function () {
     Route::get("organizations/{organizationId}/events", "getEvents");
 });
 
-Route::controller(OrganizationInviteController::class)->group(function () {
-    Route::get("organizations/invite/accept", "acceptInvite")->name("organizationInvite.accept");
+Route::controller(SightInviteController::class)->group(function () {
+    Route::get("sights/invite/accept", "acceptInvite")->name("organizationInvite.accept");
     // Route::post("organizations/{organization_id}/permissions/{permission_id}/users/{user_id}", "organizationAddUserPermission");
 });
 

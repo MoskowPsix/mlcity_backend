@@ -3,7 +3,7 @@
 namespace App\Mail;
 
 use App\Models\Organization;
-use App\Models\SightInvite as ModelsOrganizationInvite;
+use App\Models\SightInvite as ModelsSightInvite;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
@@ -15,7 +15,7 @@ class SightInvite extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public ModelsOrganizationInvite $organizationInvite;
+    public ModelsSightInvite $organizationInvite;
     public $organizationName;
 
     /**
@@ -23,7 +23,7 @@ class SightInvite extends Mailable
      *
      * @return void
      */
-    public function __construct(ModelsOrganizationInvite $invite)
+    public function __construct(ModelsSightInvite $invite)
     {
         $this->organizationInvite = $invite;
         $this->organizationName = Organization::find($invite->sight_id)->name;
