@@ -122,8 +122,6 @@ class minCultIntegration extends Command
         if (!Event::where('min_cult_id', $event->data->general->id)->exists()) {
             $event_cr = Event::create([
                 'name' => $event->nativeName,
-                'organization_id' => 1,
-                'sponsor' => $event->data->general->organization->name,
                 'description' => $event->data->general->description,
                 'materials' => isset($event->data->general->saleLink) ? $event->data->general->saleLink : null,
                 'date_start' => $event->data->general->start,

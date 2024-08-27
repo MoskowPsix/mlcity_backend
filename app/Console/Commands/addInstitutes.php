@@ -74,7 +74,6 @@ class addInstitutes extends Command
                     if (isset($sight->locale)) {
                         if( str_contains($sight->text,'[HTML]') ) {
                             $sight_cr = Sight::create([
-                                'organization_id' => 1,
                                 'name'          => $sight->title,
                                 'sponsor'       => $sight->passport->organization,
                                 'location_id'   => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
@@ -88,9 +87,7 @@ class addInstitutes extends Command
                             ]);
                         } else {
                             $sight_cr = Sight::create([
-                                'organization_id' => 1,
                                 'name'          => $sight->title,
-                                'sponsor'       => $sight->passport->organization,
                                 'location_id'   => Location::where('cult_id', $sight->locale->_id)->firstOrFail()->id,
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],
@@ -104,9 +101,7 @@ class addInstitutes extends Command
                     } else {
                         if( str_contains($sight->text,'[HTML]') ) {
                             $sight_cr = Sight::create([
-                                'organization_id' => 1,
                                 'name'          => $sight->title,
-                                'sponsor'       => $sight->passport->organization,
                                 'location_id'   => 1,
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],
@@ -118,9 +113,7 @@ class addInstitutes extends Command
                             ]);
                         } else {
                             $sight_cr = Sight::create([
-                                'organization_id' => 1,
                                 'name'          => $sight->title,
-                                'sponsor'       => $sight->passport->organization,
                                 'location_id'   => 1,
                                 'address'       => $sight->address,
                                 'latitude'      => $sight->location->coordinates[1],

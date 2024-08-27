@@ -474,7 +474,6 @@ class IntegrationAfisha7 extends Command
                 'date_start' => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
                 'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
                 'user_id' => 1,
-                'organization_id' => 1,
                 'afisha7_id' => $event->id,
             ]);
         } catch (Exception $e) {
@@ -501,7 +500,6 @@ class IntegrationAfisha7 extends Command
                 'description' => $sight->name,
                 'user_id' => 1,
                 'afisha7_id' => $sight->id,
-                'organization_id' => 1,
             ]);
         } else {
             return null;
