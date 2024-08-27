@@ -30,7 +30,6 @@ class Sight extends Model
         'cult_id',
         'work_time',
         'afisha7_id',
-        'organization_id'
     ];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -107,5 +106,10 @@ class Sight extends Model
     public function events()
     {
         return $this->belongsToMany(Event::class, "places", "sight_id", "event_id")->with("files");
+    }
+
+    public function  organization()
+    {
+        return $this->belongsTo(Organization::class);
     }
 }

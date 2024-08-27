@@ -29,6 +29,7 @@ use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
+use App\Models\Sight;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -118,12 +119,16 @@ class EventService implements EventServiceInterface
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
-                $organizationData = [
+                $sight = Sight::create([
                     "name" => $user->name,
+                    "address" => "",
+                    "description" => "",
                     "user_id" => $user->id,
-                    "descriptions" => "",
-                    "locationId" => $data->places[0]["locationId"]
+                ]);
+                $organizationData = [
+                    "sight_id" => $sight->id
                 ];
+
 
                 $this->organizationService->store($organizationData);
             }
@@ -227,16 +232,17 @@ class EventService implements EventServiceInterface
     public function checkUserHaveOrganization(): bool {
         $user = auth('api')->user();
         if ($user) {
-            $org = Organization::where("user_id", $user->id)->get();
+            $sight = Sight::where("user_id", $user->id)->get();
+
         } else {
             return false;
         }
 
-        if (count($org) == 0) {
+        if (count($sight) == 0) {
             return false;
         }
 
-        return true;
+        return false;
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {

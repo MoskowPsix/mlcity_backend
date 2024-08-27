@@ -39,6 +39,7 @@ class EventController extends Controller
         return new SuccessGetEventsResource($response);
     }
 
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventForAuthorResource::class)]
     #[Endpoint(title: 'getEventsForAuthor', description: 'Возвращает события пользователя')]
@@ -47,6 +48,8 @@ class EventController extends Controller
         $response = $this->eventService->getUserEvents($request);
         return new SuccessGetEventForAuthorResource($response);
     }
+
+
     #[NoReturn]
     #[Endpoint(title: 'updateVkLikes', description: 'Обновляет лайки, подтягивая их с вк. Ничего не возвращает')]
     public function updateVkLikes(Request $request): void
@@ -54,33 +57,37 @@ class EventController extends Controller
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
+
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessSetEventUserLikedResource::class)]
     #[Endpoint(title: 'setEvenUserLiked', description: 'Создаем отношение - юзер лайкнул ивент')]
-    //Создаем отношение - юзер лайкнул ивент
     public function setEvenUserLiked(SetEventUserLikedRequest $request): SuccessSetEventUserLikedResource
     {
         $likedUser = $this->eventService->setEvenUserLiked($request);
         return new SuccessSetEventUserLikedResource($likedUser);
     }
+
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessCheckLikedEventLikedResource::class)]
     #[Endpoint(title: 'checkLikedEventForUser', description: 'Проверка лайкал ли авторизованный юзер этот ивент')]
-    //Проверяем лайкал ли авторизованный юзер этот ивент
     public function checkLiked(int $id): SuccessCheckLikedEventLikedResource
     {
         $liked = $this->eventService->checkLiked($id);
         return  new SuccessCheckLikedEventLikedResource($liked);
     }
+
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessCheckFavoriteEventLikedResource::class)]
     #[Endpoint(title: 'checkFavoriteEventForUser', description: 'Проверка добавил ли авторизованный юзер этот ивент в избранное')]
-    //Проверяем добавил ли авторизованный юзер этот ивент в избранное
     public function checkFavorite($id): SuccessCheckFavoriteEventLikedResource
     {
         $favorite = $liked = $this->eventService->checkFavorite($id);
         return  new SuccessCheckFavoriteEventLikedResource($favorite);
     }
+
 
     #[ResponseFromApiResource(SuccessShowEventResource::class, Event::class)]
     #[Endpoint(title: 'getEvent', description: 'Достать события по id')]
@@ -90,6 +97,7 @@ class EventController extends Controller
         return new SuccessShowEventResource($response);
     }
 
+
     #[ResponseFromApiResource(SuccessShowForMapEventResource::class)]
     #[Endpoint(title: 'getEventForMap', description: 'Достать событие по id для карты')]
     public function showForMap(int $id): SuccessShowForMapEventResource
@@ -97,6 +105,7 @@ class EventController extends Controller
         $response = $this->eventService->showForMap($id);
         return new SuccessShowForMapEventResource($response);
     }
+
 
     #[Authenticated]
     #[ResponseFromApiResource(SuccessCreateEventResource::class)]
@@ -107,15 +116,17 @@ class EventController extends Controller
     {
         try {
             $this->eventService->store($request);
-            return new SuccessCreateEventResource();
+            return new SuccessCreateEventResource([]);
 
         } catch(Exception $e) {
             if ($e->getMessage() == "Is not user organization") {
-                return new ErrorAuthCreateEventResource();
+                return new ErrorAuthCreateEventResource([]);
             }
-            return new ErrorCreateEventResource();
+            return new ErrorCreateEventResource([]);
         }
     }
+
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventUserLikedIdsResource::class)]
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
@@ -125,6 +136,7 @@ class EventController extends Controller
         return new SuccessGetEventUserLikedIdsResource($events);
     }
 
+
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class)]
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
@@ -133,6 +145,7 @@ class EventController extends Controller
         $events = $this->eventService->getEventUserLiked($request);
         return new SuccessGetEventUserFavoritesIdsResource($events);
     }
+
 
     #[Authenticated]
     #[Endpoint(title: 'getHistoryContent', description: 'Получить объект истории. Метод доступен только модерам.')]

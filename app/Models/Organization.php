@@ -14,10 +14,7 @@ class Organization extends Model
     protected $table = 'organizations';
 
     protected $fillable = [
-        'name',
-        'avatar',
-        'user_id',
-        'description'
+        'sight_id',
     ];
 
     public function user()

@@ -28,7 +28,7 @@ class EventCreateRequest extends FormRequest
             'sponsor'      => 'required|min:3',
             'description'  => 'required|min:10',
             'dateStart'    => 'required|date',
-            'dateEnd'      => 'required|date|after:date_start',
+            'dateEnd'      => 'required|date|after:dateStart',
             'type'         => 'required',
             'status'       => 'required',
             'places'       => 'nullable|array',

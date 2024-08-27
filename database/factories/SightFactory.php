@@ -20,7 +20,6 @@ class SightFactory extends Factory
     {
         return [
             'name'              => fake()->sentence(),
-            'sponsor'           => fake()->name(),
             'latitude'          => fake()->latitude(),
             'longitude'         => fake()->longitude(),
             'location_id'       => Location::inRandomOrder()->first()->id,
