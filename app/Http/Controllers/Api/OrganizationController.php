@@ -16,9 +16,9 @@ use App\Http\Resources\Organization\Store\StoreOrganizationSuccessResource;
 use App\Http\Resources\Organization\Show\ShowOrganizationSuccessResource;
 use App\Http\Resources\Organization\Index\IndexOrganizationResource;
 use App\Http\Resources\Organization\Store\StoreOrganizationNoAuthResource;
-use App\Mail\OrganizationInvite as MailOrganizationInvite;
+use App\Mail\SightInvite as MailSightInvite;
 use App\Models\Organization;
-use App\Models\OrganizationInvite;
+use App\Models\SightInvite;
 use App\Models\User;
 use Exception;
 use Illuminate\Pipeline\Pipeline;
@@ -106,13 +106,13 @@ class OrganizationController extends Controller
             $token = Str::random(40);
             $token = bcrypt($token);
             $url = URL::temporarySignedRoute("organizationInvite.accept", now()->addDays(3), ["token" => $token]);
-        } while (OrganizationInvite::where("url", $token)->first());
+        } while (SightInvite::where("url", $token)->first());
 
-        $invite = OrganizationInvite::create([
+        $invite = SightInvite::create([
             "email" => $invitedUserEmail,
             "url" => $url,
             "user_id" => $userId,
-            "organization_id" => $organizationId,
+            "sight_id" => $organizationId,
             "token" => $token,
         ]);
 
@@ -125,7 +125,7 @@ class OrganizationController extends Controller
 
         // Обернуть в try catch
         try {
-            Mail::to($invitedUserEmail)->send(new MailOrganizationInvite($invite));
+            Mail::to($invitedUserEmail)->send(new MailSightInvite($invite));
         } catch (Exception $e) {
             Log::error("Произошла ошибка при отправке приглашения " . $e);
             return response()->json(["message" => "failed to send an invitation"]);
