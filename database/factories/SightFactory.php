@@ -26,7 +26,7 @@ class SightFactory extends Factory
             'address'           => fake()->address(),
             'description'       => fake()->text(),
             'materials'         => fake()->text(),
-            'user_id'           => User::inRandomOrder()->first()->id,
+            'user_id'           => User::first()->id,
             'work_time'         => fake()->text(),
         ];
     }

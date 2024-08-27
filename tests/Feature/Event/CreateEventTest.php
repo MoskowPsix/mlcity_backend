@@ -19,7 +19,6 @@ class CreateEventTest extends TestCase
         $user = User::factory()->create();
 
         $data = EventObjectFactory::createFullEventObjectForRequest();
-        $data["organization_id"] = null;
 
 
         $response = $this->actingAs($user)->post('api/events/create', $data);
