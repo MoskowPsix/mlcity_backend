@@ -1255,14 +1255,15 @@
                     this.getEventForIds(id)
                         .pipe(
                             map((response) => {
-                                this.event = response.data
-                                response.data.statuses.find((status) => {
+                                this.event = response.data.event
+                                console.log(response)
+                                this.event.statuses.find((status) => {
                                     if (status.last) {
                                         this.statusNow = status.name
                                         return true
                                     }
                                 })
-                                this.statusNow = response.data.statuses[0].name
+                                this.statusNow = this.event.statuses[0].name
                                 this.getPlacesForEvent()
                                 // this.event.date_start = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_start)
                                 // this.event.date_end = this.$helpers.OutputCurentTime.outputCurentTime(response.data.date_end)

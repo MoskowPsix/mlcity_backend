@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\EventStatusChanged;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Sight;
@@ -10,6 +11,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Http;
 
 use App\Models\Status;
+use Illuminate\Support\Facades\Mail;
 
 class StatusController extends Controller
 {
@@ -64,6 +66,8 @@ class StatusController extends Controller
         $statuses_all = Status::all();
         $status = Status::where('name', $request->status)->firstOrFail();
         $event->statuses()->updateExistingPivot($statuses_all, ['last' => false]);
+        $user = User::findOrFail($event->user_id);
+        Mail::to($user->email)->send(new EventStatusChanged($status->name, $event->name));
         $event->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
 
         // $status_post = Status::where('id', $request->status_id)->firstOrFail();
