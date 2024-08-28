@@ -23,6 +23,8 @@ use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Http\Requests\Events\GetEventRequest;
+use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
+use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
 use Exception;
 
 #[Group(name: 'Events', description: 'События')]
