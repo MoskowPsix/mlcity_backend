@@ -33,7 +33,7 @@ class OrderCode extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Order Code',
+            subject: 'Код подтверждения vokrug.city',
         );
     }
 
