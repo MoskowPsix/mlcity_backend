@@ -36,7 +36,7 @@ Route::controller(AuthController::class)->group(function () {
 
     // Методы манипуляций с почтой
     Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum');
-    Route::get('verificationUserEmail', 'verificationEmailForCode')->middleware('auth:sanctum');
+    Route::post('verificationUserEmail', 'verificationEmailForCode')->middleware('auth:sanctum');
     Route::put('resetEmail', 'resetEmailForCode')->middleware('auth:sanctum');
     Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
 });
