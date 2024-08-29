@@ -56,7 +56,6 @@ class addEvents extends Command
                 $status= Status::where('name', 'Опубликовано')->firstOrFail();
                 $events = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_events.'&limit='.$limit_events, true));
                 foreach ($events->items as $event) {
-                    dd($event);
                     if (!Event::where('cult_id', $event->_id)->first() && checkTypeInCurrentTypes($event->genres)) {
                         if (str_contains($event->text,'[HTML]')) {
                             $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));

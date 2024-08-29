@@ -466,7 +466,6 @@ class IntegrationAfisha7 extends Command
      */
     private function saveEvent(object $event): Event | null
     {
-        dd($event);
         try {
             return Event::create([
                 'name' => $event->name,
