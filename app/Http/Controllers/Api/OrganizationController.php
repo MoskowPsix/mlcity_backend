@@ -161,7 +161,7 @@ class OrganizationController extends Controller
     }
 
     public function getEvents(Request $request, $organizationId) {
-        $events = $this->organizationService->getEvents($organizationId);
+        $events = $this->organizationService->getEvents($organizationId, $request);
 
         return response()->json(["events" => $events]);
     }
