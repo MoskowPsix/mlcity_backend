@@ -2,6 +2,8 @@
 
 namespace App\Contracts\Services\OrganizationService;
 
+use App\Filters\Event\EventFiles;
+use App\Filters\Event\EventPrices;
 use App\Models\Event;
 use App\Models\Organization;
 use Illuminate\Pipeline\Pipeline;
@@ -21,6 +23,8 @@ class OrganizationService {
         app(Pipeline::class)
         ->send($events)
         ->through([
+            EventPrices::class,
+            EventFiles::class
         ])
         ->via("apply")
         ->then(function($event) use($page, $limit){
