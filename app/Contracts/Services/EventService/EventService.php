@@ -143,7 +143,6 @@ class EventService implements EventServiceInterface
                 'name'          => $data->name,
                 'sponsor'       => $data->sponsor,
                 'description'   => $data->description,
-                'price'         => $data->price,
                 'materials'     => $data->materials,
                 'date_start'    => $data->dateStart,
                 'date_end'      => $data->dateEnd,

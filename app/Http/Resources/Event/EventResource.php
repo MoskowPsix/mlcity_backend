@@ -32,6 +32,7 @@ class EventResource extends JsonResource
             'likedUsers'        => $this->whenLoaded('likedUsers'),
             'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
             'places'            => $this->whenLoaded('places'),
+            'places_full' => $this->whenLoaded('placesFull'),
         ];
     }
 }

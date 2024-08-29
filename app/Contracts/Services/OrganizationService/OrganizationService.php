@@ -4,7 +4,7 @@ namespace App\Contracts\Services\OrganizationService;
 
 use App\Models\Event;
 use App\Models\Organization;
-
+use Illuminate\Pipeline\Pipeline;
 
 class OrganizationService {
     public function addUserToOrganization(int $userId, int $organizationId): void
@@ -12,11 +12,22 @@ class OrganizationService {
 
     }
 
-    public function getEvents(int $organizationId)
+    public function getEvents(int $organizationId, $data)
     {
-        $events = Event::where("organization_id", $organizationId)->get();
+        $events = Event::query()->where("organization_id", $organizationId);
+        $page = $data->page;
+        $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
+        $response =
+        app(Pipeline::class)
+        ->send($events)
+        ->through([
+        ])
+        ->via("apply")
+        ->then(function($event) use($page, $limit){
+            return $event->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        });
 
-        return $events;
+        return $response;
     }
 
     public function store($data): Organization
