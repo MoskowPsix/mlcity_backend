@@ -466,6 +466,7 @@ class IntegrationAfisha7 extends Command
      */
     private function saveEvent(object $event): Event | null
     {
+        dd($event);
         try {
             return Event::create([
                 'name' => $event->name,
@@ -475,6 +476,7 @@ class IntegrationAfisha7 extends Command
                 'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
                 'user_id' => 1,
                 'afisha7_id' => $event->id,
+                'age_limit' => $event->age,
             ]);
         } catch (Exception $e) {
             print_r($event);

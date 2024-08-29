@@ -56,6 +56,7 @@ class addEvents extends Command
                 $status= Status::where('name', 'Опубликовано')->firstOrFail();
                 $events = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_events.'&limit='.$limit_events, true));
                 foreach ($events->items as $event) {
+                    dd($event);
                     if (!Event::where('cult_id', $event->_id)->first() && checkTypeInCurrentTypes($event->genres)) {
                         if (str_contains($event->text,'[HTML]')) {
                             $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
@@ -71,6 +72,7 @@ class addEvents extends Command
                         $event_cr->date_end = $event->endDate;
                         $event_cr->user_id = 1;
                         $event_cr->cult_id = $event->_id;
+                        $event_cr->age_limit = isset($event->ageRestriction) ? $event->ageRestriction : '';
                         $event_cr->save();
 
                         if (isset($event->price)){
@@ -113,7 +115,7 @@ class addEvents extends Command
                                 $price->save();
                             }
                         }
-                        
+
                         foreach ($event->places as $place) {
 
                             $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
@@ -141,7 +143,7 @@ class addEvents extends Command
                                 // }
                             }
                         }
-                        
+
                         foreach ($event->seances as $seance){
                             $place_s = Place::where('cult_id', $seance->placeId)->first();
                             if (isset($place_s)) {

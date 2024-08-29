@@ -33,6 +33,7 @@ class EventCreateRequest extends FormRequest
             'status'       => 'required',
             'places'       => 'nullable|array',
             'prices'       => 'nullable|array',
+            'ageLimit'     => 'nullable|integer|min:0|max:18',
         ];
     }
 
