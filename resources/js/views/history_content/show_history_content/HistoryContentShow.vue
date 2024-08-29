@@ -363,7 +363,8 @@
                 this.getEventForIds(id, { withPlacesFull: true })
                     .pipe(
                         map((data) => {
-                            this.event = data.data
+                            data = data.data.event
+                            this.event = data
                         }),
                     )
                     .subscribe(() => {
