@@ -150,6 +150,7 @@ class EventService implements EventServiceInterface
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
                 'age_limit'     => $data->ageLimit,
+                'organization_id' => $organizationId
             ]);
             // Устанавливаем цену
             foreach ($data->prices as $price){
