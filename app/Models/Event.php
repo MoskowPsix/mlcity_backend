@@ -24,8 +24,6 @@ class Event extends Model
     protected $fillable = [
         'name',
         'sponsor',
-        // 'location_id',
-        // 'address',
         'description',
         'price',
         'materials',
@@ -38,7 +36,8 @@ class Event extends Model
         'updated_at',
         'afisha7_id',
         'min_cult_id',
-        'organization_id'
+        'organization_id',
+        'age_limit',
     ];
 
 
