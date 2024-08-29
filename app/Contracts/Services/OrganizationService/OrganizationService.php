@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\OrganizationService;
 
+use App\Filters\Event\EventExpired;
 use App\Filters\Event\EventFiles;
 use App\Filters\Event\EventPrices;
 use App\Models\Event;
@@ -25,7 +26,8 @@ class OrganizationService {
         ->through([
             EventPrices::class,
             EventFiles::class,
-            
+            EventExpired::class
+
         ])
         ->via("apply")
         ->then(function($event) use($page, $limit){
