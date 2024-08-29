@@ -25,6 +25,7 @@ use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Http\Requests\Events\GetEventRequest;
 use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
 use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
+use App\Http\Resources\Event\ShowForMapEvent\SuccessShowForMapEventResource;
 use Exception;
 
 #[Group(name: 'Events', description: 'События')]
@@ -134,7 +135,7 @@ class EventController extends Controller
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserLikedIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($request);
+        $events = $this->eventService->getEventUserLiked($id, $request);
         return new SuccessGetEventUserLikedIdsResource($events);
     }
 
@@ -144,7 +145,7 @@ class EventController extends Controller
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($request);
+        $events = $this->eventService->getEventUserLiked($id, $request);
         return new SuccessGetEventUserFavoritesIdsResource($events);
     }
 

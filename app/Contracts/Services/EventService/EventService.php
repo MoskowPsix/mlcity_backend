@@ -49,7 +49,7 @@ class EventService implements EventServiceInterface
 
     public function getById(int $id): Event
     {
-        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $event = Event::query()->where('id', $id)->with('price', 'types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $response =
         app(Pipeline::class)
         ->send($event)
