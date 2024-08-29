@@ -24,7 +24,8 @@ class OrganizationService {
         ->send($events)
         ->through([
             EventPrices::class,
-            EventFiles::class
+            EventFiles::class,
+            
         ])
         ->via("apply")
         ->then(function($event) use($page, $limit){
