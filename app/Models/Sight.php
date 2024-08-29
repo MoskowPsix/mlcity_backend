@@ -32,6 +32,8 @@ class Sight extends Model
         'afisha7_id',
     ];
 
+    protected $with = ['proganization'];
+
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(SightType::class,'sights_stypes','sight_id','stype_id');
