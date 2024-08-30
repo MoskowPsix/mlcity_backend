@@ -181,6 +181,13 @@ class EventController extends Controller
 
         return response()->json(["status"=>"success", "history_content" => $response]);
     }
+
+    public function getOrganizationOfEvent($id)
+    {
+        $organization = $this->eventService->getOrganizationOfEvent($id);
+
+        return response()->json(["status"=>"success", "organization" => $organization]);
+    }
 }
 
 

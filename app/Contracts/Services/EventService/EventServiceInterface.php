@@ -6,6 +6,8 @@ use App\Http\Requests\Events\EventCreateRequest;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
+use App\Models\Organization;
+use App\Models\Sight;
 
 interface EventServiceInterface
 {
@@ -19,5 +21,6 @@ interface EventServiceInterface
     public function showForMap(int $id): Event;
     public function getEventUserLiked(int $id, PageANDLimitRequest $request): object;
     public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object;
+    public function getOrganizationOfEvent($id);
 
 }

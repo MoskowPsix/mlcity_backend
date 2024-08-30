@@ -130,4 +130,9 @@ class Event extends Model
     public function historyContents(): MorphMany{
         return $this->morphMany(HistoryContent::class, "history_contentable");
     }
+
+    public function organization()
+    {
+        return $this->belongsTo(Organization::class);
+    }
 }

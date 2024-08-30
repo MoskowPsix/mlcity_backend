@@ -316,4 +316,13 @@ class EventService implements EventServiceInterface
             )->appends(request()->except(['page']))
                 ->withPath($request->url());
     }
+
+    public function getOrganizationOfEvent($id): Sight
+    {
+        $event = Event::findOrFail($id);
+        $organization = $event->organization->sight;
+        $organization->load('files');
+
+        return $organization;
+    }
 }
