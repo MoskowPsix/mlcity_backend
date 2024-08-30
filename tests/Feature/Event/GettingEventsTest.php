@@ -14,11 +14,6 @@ class GettingEventsTest extends TestCase
 
     protected $seed = true;
 
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
     public function test_get_event_for_feed()
     {
         EventObjectFactory::createEventInDB(100, true);
@@ -74,4 +69,19 @@ class GettingEventsTest extends TestCase
         ]);
     }
 
+    public function test_get_event_by_non_existent_id()
+    {
+        EventObjectFactory::createEventInDB(1);
+
+        $event = Event::first();
+        $response = $this->get('/api/events/190912123'.$event->id);
+
+        $response->assertStatus(404);
+    }
+
+    public function test_get_event_by_broken_string_id()
+    {
+        $response = $this->get('/api/events/buka_baka');
+        $response->assertStatus(302);
+    }
 }
