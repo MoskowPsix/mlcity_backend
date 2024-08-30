@@ -58,11 +58,15 @@ class EventObjectFactory {
         return $data;
     }
 
-    public static function createEventInDB(int $count, bool $withPlaces)
+    public static function createEventInDB(int $count, bool $withPlaces = false)
     {
         if ($withPlaces)
         {
-            Event::factory()->hasPlaces(3)->count($count)->create();
+            Event::factory()->hasPlaces(3, function() {
+                return [
+                    'timezone_id' => 1
+                ];
+            })->count($count)->create();
         } else {
             Event::factory()->count($count)->create();
 
