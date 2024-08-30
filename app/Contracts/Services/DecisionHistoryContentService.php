@@ -137,7 +137,6 @@ class DecisionHistoryContentService {
         } else {
             $historyTypes = $this->historyContent->historyEventTypes;
         }
-        info($historyTypes);
         foreach($historyTypes as $historyType){
             $typeId = $historyType["pivot"]["history_contentable_id"];
             if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
@@ -155,7 +154,6 @@ class DecisionHistoryContentService {
         if(!$this->dataIsEmpty($historyFiles)) {
             foreach($historyFiles as $historyFile) {
                 if(isset($historyFile['on_delete']) && $historyFile['on_delete']==true){
-                    info($this->historyParent->files()->where('id',$historyFile['file_id'])->get());
                     $this->historyParent->files()->where('id',$historyFile['file_id'])->delete();
                 }
                 else{

@@ -71,7 +71,6 @@ class AuthSocialController extends Controller
     }
 
     public function yandex() {
-        info("redirect");
         return Socialite::driver('yandex')
             ->stateless()
             ->redirect();
