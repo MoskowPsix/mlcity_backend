@@ -355,7 +355,7 @@ class SightController extends Controller
 
     public function delete($id): \Illuminate\Http\JsonResponse
     {
-        dd('delete');
+
     }
 
     private function saveVkFilesImg($sight, $files){

@@ -24,7 +24,6 @@ class EventObjectFactory {
             "status" => $status,
         ]);
 
-        // dd([$date1, $date2]);
 
         $location = Location::inRandomOrder()->first();
         $sight = Sight::factory()->create();

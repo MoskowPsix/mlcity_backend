@@ -757,7 +757,6 @@ class IntegrationAfisha7 extends Command
     public function failed(string $message): void
     {
         $this->error($message);
-        dd();
     }
     /**
      *

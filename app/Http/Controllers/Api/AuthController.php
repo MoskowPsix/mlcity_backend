@@ -67,7 +67,6 @@ class AuthController extends Controller
                     ]);
                 }
 
-                // $this->createCodeEmail($user);
 
                 $token = $this->getAccessToken($user);
 
