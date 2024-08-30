@@ -49,7 +49,7 @@ class AuthController extends Controller
             $trans = DB::transaction(function () use ($request) {
                 $input = $request->all();
                 $pass  =  bcrypt($input['password']);
-                if ($input['avatar']) {
+                if ($request->filled('avatar')) {
                     $user  =  User::create([
                         'name' => $input['name'],
                         'password' => $pass,
@@ -83,6 +83,7 @@ class AuthController extends Controller
                 return $trans;
             }
         } catch (Exception $e) {
+            Log::error($e, ["LOGIN"]);
             return response()->json([
                 'status'        => 'error',
                 'message'       => 'Извините, при регистрации произошла критическая ошибка',

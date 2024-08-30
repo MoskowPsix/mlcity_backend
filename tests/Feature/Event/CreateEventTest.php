@@ -48,6 +48,6 @@ class CreateEventTest extends TestCase
 
         $response = $this->post('api/events/create', $data);
 
-        $response->assertStatus(403);
+        $response->assertStatus(401);
     }
 }
