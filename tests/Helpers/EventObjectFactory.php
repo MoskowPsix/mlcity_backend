@@ -57,4 +57,15 @@ class EventObjectFactory {
 
         return $data;
     }
+
+    public static function createEventInDB(int $count, bool $withPlaces)
+    {
+        if ($withPlaces)
+        {
+            Event::factory()->hasPlaces(3)->count($count)->create();
+        } else {
+            Event::factory()->count($count)->create();
+
+        }
+    }
 }

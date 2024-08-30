@@ -10,6 +10,10 @@ use Tests\TestCase;
 
 class Register extends TestCase
 {
+    use RefreshDatabase;
+
+    protected $seed = true;
+    
     /**
      * A basic feature test example.
      *
