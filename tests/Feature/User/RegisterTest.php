@@ -13,7 +13,7 @@ class Register extends TestCase
     use RefreshDatabase;
 
     protected $seed = true;
-    
+
     /**
      * A basic feature test example.
      *
@@ -21,8 +21,6 @@ class Register extends TestCase
      */
     public function test_basic_user_register()
     {
-        Mail::fake();
-
         $testUser = User::factory()->make();
 
         $response = $this->postJson('/api/register', [
@@ -69,6 +67,31 @@ class Register extends TestCase
     public function test_user_register_with_empty_data()
     {
         $response = $this->postJson('/api/register', []);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_basic_user_register_without_passwords()
+    {
+        $testUser = User::factory()->make();
+
+        $response = $this->postJson('/api/register', [
+            "name" => $testUser->name,
+            "email" => $testUser->email,
+        ]);
+
+        $response->assertStatus(422);
+    }
+
+    public function test_register_user_with_exist_email()
+    {
+        $user = User::first();
+
+        $response = $this->postJson('/api/register', [
+            "email" => $user->email,
+            "password" => "verysecretpassiamrealysure",
+            "password_confirmation" => "verysecretpassiamrealysure"
+        ]);
 
         $response->assertStatus(422);
     }
