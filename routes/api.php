@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
-use App\Http\Controllers\Api\LogApiController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\SeanceController;
 use App\Http\Controllers\Api\UserController;
@@ -15,7 +14,6 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\HistoryContentController;
-use App\Http\Controllers\Api\ViewController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
 use App\Http\Controllers\Api\PermissionController;
@@ -180,10 +178,6 @@ Route::controller(RoleController::class)->group(function () {
     Route::delete('users/role/{user_id}/{role_id}', 'deleteRoleUser')->middleware('root');
 });
 
-Route::controller(ViewController::class)->group(function () {
-    Route::post('view', 'addView')->middleware('auth:sanctum');
-});
-
 Route::controller(LocationController::class)->group(function () {
     Route::get('location/{id}', 'getLocationsIds');
     Route::get('location/name/{name}', 'getLocationsName');
@@ -191,10 +185,6 @@ Route::controller(LocationController::class)->group(function () {
     Route::get('locationWithRegion', 'getLocationsAndRegion');
     Route::get('locations/search/coords', 'searchLocationByCoords');
     Route::get('locations/favorities', "getFavoriteCities");
-});
-
-Route::controller(LogApiController::class)->group(function () {
-    Route::get('logs', 'getLogs')->middleware('root');
 });
 
 Route::controller(HistoryContentController::class)->group(function () {
