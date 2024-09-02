@@ -2,11 +2,15 @@
 
 namespace App\Contracts\Services\EventService;
 
+use App\Http\Requests\Events\EventCreateRequest;
+use App\Http\Requests\Events\SetEventUserLikedRequest;
+use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
+use App\Contracts\Services\OrganizationService\OrganizationService;
 use App\Filters\Event\EventAuthorEmail;
 use App\Filters\Event\EventAuthorName;
 use App\Filters\Event\EventByIds;
@@ -26,7 +30,9 @@ use App\Filters\Event\EventTypes;
 use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
+use App\Models\Sight;
 use Exception;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pipeline\Pipeline;
@@ -34,14 +40,17 @@ use Illuminate\Pipeline\Pipeline;
 
 class EventService implements EventServiceInterface
 {
-    public function __construct(private readonly FileService $fileService)
+    public function __construct(
+        private readonly FileService $fileService,
+        private readonly OrganizationService $organizationService
+        )
     {
 
     }
 
     public function getById(int $id): Event
     {
-        $event = Event::query()->where('id', $id)->with('types', 'files','statuses', 'author', 'comments', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $event = Event::query()->where('id', $id)->with('price', 'types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
         $response =
         app(Pipeline::class)
         ->send($event)
@@ -105,22 +114,24 @@ class EventService implements EventServiceInterface
         return $response;
     }
 
-    public function store($data): Event
+    public function store(EventCreateRequest $data): Event
     {
         DB::beginTransaction();
         $user = auth('api')->user();
         try {
             if (!$this->checkUserHaveOrganization()) {
-                $organization = Organization::create([
+                $sight = Sight::create([
                     "name" => $user->name,
+                    "address" => "",
+                    "description" => "",
                     "user_id" => $user->id,
-                    "descriptions" => ""
                 ]);
-                $organization->locations()->attach($data->places[0]["locationId"]);
+                $sight->organization()->create();
             }
 
             if (!isset($data->organization_id)) {
-                $organizationId = Organization::where('user_id', $user->id)->get()->first()->id;
+                $sight = Sight::where('user_id', $user->id)->get()->first();
+                $organizationId = Organization::where("sight_id", $sight->id)->get()->first()->id;
             } else {
                 $organizationId = $data->organization_id;
             }
@@ -133,14 +144,14 @@ class EventService implements EventServiceInterface
                 'name'          => $data->name,
                 'sponsor'       => $data->sponsor,
                 'description'   => $data->description,
-                'price'         => $data->price,
                 'materials'     => $data->materials,
                 'date_start'    => $data->dateStart,
                 'date_end'      => $data->dateEnd,
                 'user_id'       => $user->id,
-                'organization_id' => $organizationId,
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
+                'age_limit'     => $data->ageLimit,
+                'organization_id' => $organizationId
             ]);
             // Устанавливаем цену
             foreach ($data->prices as $price){
@@ -217,12 +228,13 @@ class EventService implements EventServiceInterface
     public function checkUserHaveOrganization(): bool {
         $user = auth('api')->user();
         if ($user) {
-            $org = Organization::where("user_id", $user->id)->get();
+            $sight = Sight::where("user_id", $user->id)->get();
+
         } else {
             return false;
         }
 
-        if (count($org) == 0) {
+        if (count($sight) == 0) {
             return false;
         }
 
@@ -230,6 +242,88 @@ class EventService implements EventServiceInterface
     }
 
     public function isUserOrganization(int $userId, $organizationId): bool {
-        return Organization::where("user_id", $userId)->where("id", $organizationId)->exists();
+        $res = Sight::where("user_id", $userId)->whereHas("organization", function ($query) use($organizationId) {
+            $query->where("organizations.id", $organizationId);
+        })->exists();
+
+        return $res;
+    }
+
+    public function setEvenUserLiked(SetEventUserLikedRequest $request): bool
+    {
+        $event = Event::find($request->event_id);
+        $likedUser = false;
+
+        if (!$event->likedUsers()->where('user_id',auth('api')->user()->id)->exists()){
+            $event->likedUsers()->sync(auth('api')->user()->id);
+            $likedUser = true;
+        }
+        return $likedUser;
+    }
+
+    public function checkLiked(int $id): bool
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+        return $event->likedUsers()->where('user_id', auth('api')->user()->id)->exists();
+    }
+
+    public function checkFavorite(int $id): bool
+    {
+        $event =  Event::where('id', $id)->firstOrFail();
+        return $event->favoritesUsers()->where('user_id', auth('api')->user()->id)->exists();
+    }
+
+    public function showForMap(int $id): Event
+    {
+        return Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+    }
+
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object
+    {
+        $likedUsers = Event::findOrFail($id)->likedUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return  $paginator->setCollection(
+                $items->forPage($page, $limit)
+            )->appends(request()->except(['page']))
+                ->withPath($request->url());
+    }
+
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object
+    {
+        $likedUsers = Event::findOrFail($id)->favoritesUsers;
+        $likedUsersIds = [];
+
+        foreach ($likedUsers as $user){
+            $likedUsersIds[] = $user;
+        }
+        $page = $request->page;
+        $limit = $request->limit ? $request->limit : 6;
+
+        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+        $items = $paginator->getCollection();
+
+        return $paginator->setCollection(
+                $items->forPage($page, $limit)
+            )->appends(request()->except(['page']))
+                ->withPath($request->url());
+    }
+
+    public function getOrganizationOfEvent($id): Sight
+    {
+        $event = Event::findOrFail($id);
+        $organization = $event->organization->sight;
+        $organization->load('files');
+
+        return $organization;
     }
 }

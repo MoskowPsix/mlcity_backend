@@ -15,8 +15,8 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!auth('api')->check()) {
-            return abort(403);
+        if (!Auth::guard("sanctum")->check()) {
+            return response()->json(['message' => 'Unauthorized'], 401);
         }
 
         return $next($request);

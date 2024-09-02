@@ -21,4 +21,9 @@ class Price extends Model
     public function historyPrices(){
         return $this->hasMany(HistoryPrice::class);
     }
+
+    public function event()
+    {
+        return $this->belongsTo(Event::class);
+    }
 }

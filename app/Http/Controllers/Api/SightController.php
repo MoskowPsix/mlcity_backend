@@ -196,12 +196,14 @@ class SightController extends Controller
             'description'   => $request->description,
             // 'price'         => $request->price,
             'materials'     => $request->materials,
-            'user_id'       => Auth::user()->id,
+            'user_id'       => auth("api")->user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
             'organization_id' => 1,
             // 'work_time'     => $request->workTime,
         ]);
+
+        $sight->organization()->create();
 
         foreach ($request->price as $price){
             if($price["cost_rub"] == ""){

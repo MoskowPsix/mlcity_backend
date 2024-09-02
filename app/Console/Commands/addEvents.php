@@ -71,6 +71,7 @@ class addEvents extends Command
                         $event_cr->date_end = $event->endDate;
                         $event_cr->user_id = 1;
                         $event_cr->cult_id = $event->_id;
+                        $event_cr->age_limit = isset($event->ageRestriction) ? $event->ageRestriction : '';
                         $event_cr->save();
 
                         if (isset($event->price)){
@@ -113,7 +114,7 @@ class addEvents extends Command
                                 $price->save();
                             }
                         }
-                        
+
                         foreach ($event->places as $place) {
 
                             $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
@@ -141,7 +142,7 @@ class addEvents extends Command
                                 // }
                             }
                         }
-                        
+
                         foreach ($event->seances as $seance){
                             $place_s = Place::where('cult_id', $seance->placeId)->first();
                             if (isset($place_s)) {

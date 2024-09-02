@@ -62,7 +62,7 @@ class UserController extends Controller
     //Получаем избранные ивенты у юзера
     private function getUserFavoriteEvents()
     {
-        return User::findOrFail(Auth::user()->id)->favoriteEvents;
+        return User::findOrFail(auth("api")->user()->id)->favoriteEvents;
     }
 
     //Получаем массив с ид ивентов, которые юзер добавил в избранное
@@ -94,7 +94,7 @@ class UserController extends Controller
     // Получаем ивенты, которые юзер айкнул
     private function getUserLikedEvents()
     {
-        return User::findOrFail(Auth::user()->id)->likedEvents;
+        return User::findOrFail(auth("api")->user()->id)->likedEvents;
     }
 
     //Получаем массив с ид ивентов, которые юзер лайкнул
@@ -235,10 +235,10 @@ class UserController extends Controller
     //Добавляем убираем лайк
     public function toggleLikedEvent(Request $request): \Illuminate\Http\JsonResponse
     {
-        User::findOrFail(Auth::user()->id)->likedEvents()->toggle($request->event_id); // верно
+        User::findOrFail(auth("api")->user()->id)->likedEvents()->toggle($request->event_id); // верно
         $event =  Event::find($request->event_id); // верно
 
-        if (User::findOrFail(Auth::user()->id)->likedEvents()->where('event_id',$request->event_id)->exists()){
+        if (User::findOrFail(auth("api")->user()->id)->likedEvents()->where('event_id',$request->event_id)->exists()){
             $event->likes()->where('event_id',$request->event_id)->exists()
                 ? $event->likes->increment('local_count')
                 : $event->likes()->create(["local_count" => 1]);
@@ -254,10 +254,10 @@ class UserController extends Controller
 
     public function toggleLikedSight(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->likedSights()->toggle($request->sight_id); // верно
+        auth("api")->user()->likedSights()->toggle($request->sight_id); // верно
         $sight =  Sight::find($request->sight_id); // верно
 
-        if (Auth::user()->likedSights()->where('sight_id',$request->sight_id)->exists()){
+        if (auth("api")->user()->likedSights()->where('sight_id',$request->sight_id)->exists()){
             $sight->likes()->where('sight_id',$request->sight_id)->exists()
                 ? $sight->likes->increment('local_count')
                 : $sight->likes()->create(["local_count" => 1]);
@@ -274,7 +274,7 @@ class UserController extends Controller
     //Добавляем убираем из избранного
     public function toggleFavoriteEvent(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->favoriteEvents()->toggle($request->event_id);
+        auth("api")->user()->favoriteEvents()->toggle($request->event_id);
 
         return response()->json([
             'status'  => 'success',
@@ -283,7 +283,7 @@ class UserController extends Controller
 
     public function toggleFavoriteSight(Request $request): \Illuminate\Http\JsonResponse
     {
-        Auth::user()->favoriteSights()->toggle($request->sight_id);
+        $request->user()->favoriteSights()->toggle($request->sight_id);
 
         return response()->json([
             'status'  => 'success',
@@ -401,11 +401,11 @@ class UserController extends Controller
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 5;
-        $user_id = auth('api')->user()->id;
-        $organizations = Organization::where("user_id", $user_id);
+        $userId = auth('api')->user()->id;
+        $sightsWithOrgs = Sight::where("user_id", $userId)->with("organization", "files", "types");
         $response =
         app(Pipeline::class)
-            ->send($organizations)
+            ->send($sightsWithOrgs)
             ->through([
                 OrganizationName::class,
             ])

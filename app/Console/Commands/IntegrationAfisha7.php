@@ -474,8 +474,9 @@ class IntegrationAfisha7 extends Command
                 'date_start' => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
                 'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
                 'user_id' => 1,
-                'organization_id' => 1,
+
                 'afisha7_id' => $event->id,
+                'age_limit' => $event->age,
             ]);
         } catch (Exception $e) {
             print_r($event);
@@ -491,7 +492,7 @@ class IntegrationAfisha7 extends Command
     {
         if (!empty($sight->latitude) && !empty($sight->longitude) && !empty($sight->address)) {
             $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
-            return Sight::create([
+            $createdSight = Sight::create([
                 'name' => $sight->name,
                 'sponsor' => 'afisha7.ru',
                 'latitude' => $location[1]['latitude'],
@@ -501,8 +502,9 @@ class IntegrationAfisha7 extends Command
                 'description' => $sight->name,
                 'user_id' => 1,
                 'afisha7_id' => $sight->id,
-                'organization_id' => 1,
             ]);
+            $createdSight->organization()->create();
+            return $createdSight;
         } else {
             return null;
         }
@@ -661,6 +663,10 @@ class IntegrationAfisha7 extends Command
                 if (!isset($timezone_id)) {
                     info($timezone_id);
                 }
+                $organization = $sight->organization;
+                $event_create->update([
+                    "organization_id" => $organization->id
+                ]);
                 $place_create = $event_create->places()->create([
                     'timezone_id' => $timezone_id,
                     'address' => $sight->address,

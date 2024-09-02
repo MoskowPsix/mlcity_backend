@@ -14,10 +14,7 @@ class Organization extends Model
     protected $table = 'organizations';
 
     protected $fillable = [
-        'name',
-        'avatar',
-        'user_id',
-        'description'
+        'sight_id',
     ];
 
     public function user()
@@ -51,5 +48,10 @@ class Organization extends Model
     public function types(): BelongsToMany
     {
         return $this->belongsToMany(SightType::class, 'organization_stype', 'organization_id', 'stype_id');
+    }
+
+    public function sight()
+    {
+        return $this->belongsTo(Sight::class);
     }
 }

@@ -13,11 +13,18 @@ use App\Models\User;
 class EventObjectFactory {
 
     public static function createFullEventObjectForRequest(): array {
+        $date1 = fake()->dateTimeBetween('-1 year', 'now');
+        $date2 = fake()->dateTimeBetween($date1->format('Y-m-d H:i:s'), 'now')->format('Y-m-d H:i:s');
+        $status = 2;
+
         $event = Event::factory()
         ->make([
-            "dateStart" => fake()->date(),
-            "dateEnd" => fake()->date()
+            "dateStart" => $date1->format('Y-m-d H:i:s'),
+            "dateEnd" => $date2,
+            "status" => $status,
         ]);
+
+        // dd([$date1, $date2]);
 
         $location = Location::inRandomOrder()->first();
         $sight = Sight::factory()->create();

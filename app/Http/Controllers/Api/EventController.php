@@ -4,160 +4,154 @@ namespace App\Http\Controllers\Api;
 
 use App\Filters\HistoryContent\HistoryContentLast;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Events\EventCreateRequest;
+use App\Http\Requests\Events\EventForAuthorReqeust;
 use App\Http\Requests\Events\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Resources\Event\CreateEvent\ErrorAuthCreateEventResource;
+use App\Http\Resources\Event\CreateEvent\ErrorCreateEventResource;
+use App\Http\Resources\Event\CreateEvent\SuccessCreateEventResource;
+use App\Http\Resources\Event\GetEventForAuthor\SuccessGetEventForAuthorResource;
+use App\Http\Resources\Event\GetEvents\SuccessGetEventsResource;
+use App\Http\Resources\Event\GetEventUserFavoritesIds\SuccessGetEventUserFavoritesIdsResource;
+use App\Http\Resources\Event\GetEventUserLikedIds\SuccessGetEventUserLikedIdsResource;
+use App\Http\Resources\Event\SetEventUserLiked\SuccessSetEventUserLikedResource;
+use App\Http\Resources\Event\ShowEvent\SuccessShowEventResource;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
+use App\Http\Requests\Events\GetEventRequest;
+use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
+use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
+use App\Http\Resources\Event\ShowForMapEvent\SuccessShowForMapEventResource;
 use Exception;
-use Illuminate\Pagination\LengthAwarePaginator;
 
+#[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
 {
     public function __construct(private readonly EventServiceInterface $eventService)
-    {
+    {}
 
-    }
-
-    public function getEvents(Request $request): \Illuminate\Http\JsonResponse
+    #[ResponseFromApiResource(SuccessGetEventsResource::class)]
+    #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
+    public function getEvents(GetEventRequest $request): SuccessGetEventsResource
     {
         $response = $this->eventService->get($request);
-        return response()->json(['status' => 'success', 'events' => $response], 200);
+        return new SuccessGetEventsResource($response);
     }
 
-    public function getEventsForAuthor(Request $request) {
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessGetEventForAuthorResource::class)]
+    #[Endpoint(title: 'getEventsForAuthor', description: 'Возвращает события пользователя')]
+    public function getEventsForAuthor(EventForAuthorReqeust $request): SuccessGetEventForAuthorResource
+    {
         $response = $this->eventService->getUserEvents($request);
-        return response()->json(['status' => 'success', 'events' => $response], 200);
+        return new SuccessGetEventForAuthorResource($response);
     }
 
-    public function updateVkLikes(Request $request){
-        // $request = $request->validated();
+
+    #[NoReturn]
+    #[Endpoint(title: 'updateVkLikes', description: 'Обновляет лайки, подтягивая их с вк. Ничего не возвращает')]
+    public function updateVkLikes(Request $request): void
+    {
         $event = Event::find($request->event_id);
         $event->likes()->update(['vk_count' => $request->likes_count]);
     }
 
-    //Создаем отношение - юзер лайкнул ивент
-    public function setEvenUserLiked(SetEventUserLikedRequest $request): \Illuminate\Http\JsonResponse{
-        $event = Event::find($request->event_id);
-        $likedUser = false;
 
-        if (!$event->likedUsers()->where('user_id',auth('api')->user()->id)->exists()){
-            $event->likedUsers()->sync(auth('api')->user()->id);
-            $likedUser = true;
-        }
-
-        return response()->json(['likedUser' => $likedUser], 200);
-    }
-
-    //Проверяем лайкал ли авторизованный юзер этот ивент
-    public function checkLiked($id): \Illuminate\Http\JsonResponse
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessSetEventUserLikedResource::class)]
+    #[Endpoint(title: 'setEvenUserLiked', description: 'Создаем отношение - юзер лайкнул ивент')]
+    public function setEvenUserLiked(SetEventUserLikedRequest $request): SuccessSetEventUserLikedResource
     {
-        $event =  Event::where('id', $id)->firstOrFail();
-
-        $liked = $event->likedUsers()->where('user_id', auth('api')->user()->id)->exists();
-
-        return  response()->json($liked, 200);
+        $likedUser = $this->eventService->setEvenUserLiked($request);
+        return new SuccessSetEventUserLikedResource($likedUser);
     }
 
-    //Проверяем добавил ли авторизованный юзер этот ивент в избранное
-    public function checkFavorite($id): \Illuminate\Http\JsonResponse
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessCheckLikedEventLikedResource::class)]
+    #[Endpoint(title: 'checkLikedEventForUser', description: 'Проверка лайкал ли авторизованный юзер этот ивент')]
+    public function checkLiked(int $id): SuccessCheckLikedEventLikedResource
     {
-        $event =  Event::where('id', $id)->firstOrFail();
-
-        $favorite = $event->favoritesUsers()->where('user_id', auth('api')->user()->id)->exists();
-
-        return  response()->json($favorite, 200);
+        $liked = $this->eventService->checkLiked($id);
+        return  new SuccessCheckLikedEventLikedResource($liked);
     }
 
-    public function show($id): \Illuminate\Http\JsonResponse
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessCheckFavoriteEventLikedResource::class)]
+    #[Endpoint(title: 'checkFavoriteEventForUser', description: 'Проверка добавил ли авторизованный юзер этот ивент в избранное')]
+    public function checkFavorite($id): SuccessCheckFavoriteEventLikedResource
+    {
+        $favorite = $liked = $this->eventService->checkFavorite($id);
+        return  new SuccessCheckFavoriteEventLikedResource($favorite);
+    }
+
+
+    #[ResponseFromApiResource(SuccessShowEventResource::class, Event::class)]
+    #[Endpoint(title: 'getEvent', description: 'Достать события по id')]
+    public function show(int $id): SuccessShowEventResource
     {
         $response = $this->eventService->getById($id);
-        return response()->json($response, 200);
+        return new SuccessShowEventResource($response);
     }
-    public function showForMap($id): \Illuminate\Http\JsonResponse
+
+
+    #[ResponseFromApiResource(SuccessShowForMapEventResource::class)]
+    #[Endpoint(title: 'getEventForMap', description: 'Достать событие по id для карты')]
+    public function showForMap(int $id): SuccessShowForMapEventResource
     {
-        $event = Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
-
-        return response()->json($event, 200);
+        $response = $this->eventService->showForMap($id);
+        return new SuccessShowForMapEventResource($response);
     }
 
-    public function create(Request $request): \Illuminate\Http\JsonResponse
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessCreateEventResource::class)]
+    #[ResponseFromApiResource(ErrorCreateEventResource::class, null, 500)]
+    #[ResponseFromApiResource(ErrorAuthCreateEventResource::class, null, 403)]
+    #[Endpoint(title: 'createEvent', description: 'Создание события')]
+    public function create(EventCreateRequest $request): SuccessCreateEventResource | ErrorCreateEventResource | ErrorAuthCreateEventResource
     {
         try {
             $this->eventService->store($request);
-            return response()->json(['status' => 'success',], 200);
+            return new SuccessCreateEventResource([]);
 
         } catch(Exception $e) {
             if ($e->getMessage() == "Is not user organization") {
-                return response()->json(['status' => 'error', 'message' => 'Is not user organization'], 403);
+                return new ErrorAuthCreateEventResource([]);
             }
-            return response()->json(['status' => 'error',], 500);
+            return new ErrorCreateEventResource([]);
         }
     }
 
-    public function getEventUserLikedIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessGetEventUserLikedIdsResource::class)]
+    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
+    public function getEventUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserLikedIdsResource
     {
-        $likedUsers = Event::findOrFail($id)->likedUsers;
-        $likedUsersIds = [];
-
-        foreach ($likedUsers as $user){
-            $likedUsersIds[] = $user;
-        }
-        $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-
-        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
-        $items = $paginator->getCollection();
-
-        return response()->json([
-            'status' => 'success',
-            'result' => $paginator->setCollection(
-                                $items->forPage($page, $limit)
-                                )->appends(request()->except(['page']))
-                                ->withPath($request->url())
-       ], 200);
+        $events = $this->eventService->getEventUserLiked($id, $request);
+        return new SuccessGetEventUserLikedIdsResource($events);
     }
 
-    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): \Illuminate\Http\JsonResponse
+
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class)]
+    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
+    public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
-        $likedUsers = Event::findOrFail($id)->favoritesUsers;
-        $likedUsersIds = [];
-
-        foreach ($likedUsers as $user){
-            $likedUsersIds[] = $user;
-        }
-        $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-
-        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
-        $items = $paginator->getCollection();
-
-        return response()->json([
-            'status' => 'success',
-            'result' => $paginator->setCollection(
-                                $items->forPage($page, $limit)
-                                )->appends(request()->except(['page']))
-                                ->withPath($request->url())
-       ], 200);
+        $events = $this->eventService->getEventUserLiked($id, $request);
+        return new SuccessGetEventUserFavoritesIdsResource($events);
     }
 
-    public function updateEvent(Request $request, $id): \Illuminate\Http\JsonResponse
-    {
-        $data = $request->all();
-        $event = Event::where('id', $id)->firstOrFail();
-        $event->fill($data);
-        $event->save();
 
-        $jsonData = [
-            'status' => 'SUCCESS',
-            'event' => $event
-        ];
-
-        return response()->json($jsonData);
-    }
-
+    #[Authenticated]
+    #[Endpoint(title: 'getHistoryContent', description: 'Получить объект истории. Метод доступен только модерам.')]
     public function getHistoryContent(Request $request, $id)
     {
         $pagination = $request->pagination;
@@ -186,6 +180,13 @@ class EventController extends Controller
         });
 
         return response()->json(["status"=>"success", "history_content" => $response]);
+    }
+
+    public function getOrganizationOfEvent($id)
+    {
+        $organization = $this->eventService->getOrganizationOfEvent($id);
+
+        return response()->json(["status"=>"success", "organization" => $organization]);
     }
 }
 
