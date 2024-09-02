@@ -99,10 +99,22 @@ class HistoryContentController extends Controller
         if($data["type"] == "Event") {
             $eventHistoryContentService = new EventHistoryContentService($data["history_content"]);
             $historyContent = $eventHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
+
+            # TODO: Убрать когда надо будет
+            # Временное решение для принятия измнений сразу!!!
+            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+            $decisionHistoryContentService->publishAcceptedHistoryContent();
+
         }
         else if($data["type"] == "Sight"){
             $sightHistoryContentService = new SightHistoryContentService($data["history_content"]);
             $historyContent = $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
+
+
+            # TODO: Убрать когда надо будет
+            # Временное решение для принятия измнений сразу!!!
+            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+            $decisionHistoryContentService->publishAcceptedHistoryContent();
         }
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent],201);
