@@ -240,10 +240,10 @@ class AuthController extends Controller
                 'status'        => 'success',
                 'message'       => __('messages.logout.success'),
             ], 200)->withCookie($cookie);
-        } catch (\Illuminate\Database\QueryException $ex) {
+        } catch (Exception $ex) {
             return response()->json([
                 'status' => 'error',
-                'message' => $ex->getMessage()
+                'message' => 'some went wrong'
             ], 401);
         }
     }

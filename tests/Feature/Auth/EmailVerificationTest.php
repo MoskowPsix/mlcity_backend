@@ -33,5 +33,18 @@ class EmailVerificationTest extends TestCase
         });
     }
 
+    public function test_create_сode_email_cooldown()
+    {
+        Mail::fake();
+        $user = User::factory()->create();
 
+        $response = $this->actingAs($user)->post('/api/verificationEmail');
+        $response = $this->actingAs($user)->post('/api/verificationEmail');
+
+
+        $response->assertStatus(400);
+        $response->assertJsonFragment([
+            "status" => "error"
+        ]);
+    }
 }

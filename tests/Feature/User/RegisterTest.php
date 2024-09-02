@@ -39,6 +39,27 @@ class Register extends TestCase
         ]);
     }
 
+    public function test_basic_user_register_with_avatar()
+    {
+        $testUser = User::factory()->make();
+
+        $response = $this->postJson('/api/register', [
+            "name" => $testUser->name,
+            "email" => $testUser->email,
+            "avatar" => "https://avatars.mds.yandex.net/i?id=b9f61175e689c320cd0ca6a78f09bd6bd7820393-12714516-images-thumbs&n=13",
+            "password" => "verysecretpassiamrealysure",
+            "password_confirmation" => "verysecretpassiamrealysure"
+        ]);
+
+        $response->assertStatus(200);
+
+        $this->assertDatabaseHas("users", [
+            "name" => $testUser->name,
+            "email" => $testUser->email,
+            'email_verified_at' => null
+        ]);
+    }
+
     public function test_user_register_without_email()
     {
         $testUser = User::factory()->make();
