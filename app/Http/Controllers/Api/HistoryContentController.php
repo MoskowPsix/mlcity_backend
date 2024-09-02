@@ -136,7 +136,7 @@ class HistoryContentController extends Controller
         }
     }
     private function checkStatuses(){
-        $status_id = Status::where('name', 'Изменено')->first()->id;
+        $status_id = Status::where('name', 'Изменено')->get()->first()->id;
         info($status_id);
         if(request("type") == "Event"){
             if (Event::where('id', request('id'))->whereHas('statuses', function($q) use ($status_id){
