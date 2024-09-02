@@ -29,6 +29,7 @@ use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\Facades\Auth;
 use App\Models\FileType;
 use App\Models\HistoryContent;
+use App\Models\Status;
 
 class SightController extends Controller
 {
@@ -182,6 +183,7 @@ class SightController extends Controller
 
     public function create(Request $request): \Illuminate\Http\JsonResponse
     {
+        $status = Status::where("name", "Опубликовано")->get()->first();
         $coords = explode(',',$request->coords);
         $latitude   = $coords[0]; // широта
         $longitude  = $coords[1]; // долгота
@@ -223,7 +225,7 @@ class SightController extends Controller
         $types = explode(",",$request->type[0]);
         // info($types);
         $sight->types()->sync($types);
-        $sight->statuses()->attach($request->status, ['last' => true]);
+        $sight->statuses()->attach($status->id, ['last' => true]);
         $sight->likes()->create();
 //        $sight->likes()->create([
 //            "vk_count" => $request->vkLikesCount ? $request->vkLikesCount : 0,
