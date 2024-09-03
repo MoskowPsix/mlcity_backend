@@ -11,13 +11,10 @@ use Exception;
 use Illuminate\Support\Facades\Log;
 use App\Models\Event;
 use App\Models\Place;
-use App\Models\Seance;
 use App\Models\Sight;
-use App\Models\Price;
 use App\Models\EventType;
 use App\Models\SightType;
 use App\Models\FileType;
-use App\Models\Organization;
 use App\Models\Status;
 use App\Models\Timezone;
 use Carbon\Carbon;
@@ -486,6 +483,7 @@ class IntegrationAfisha7 extends Command
      */
     private function saveSight(object $sight): Sight | null
     {
+        dd($sight);
         if (!empty($sight->latitude) && !empty($sight->longitude) && !empty($sight->address)) {
             $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
             $createdSight = Sight::create([

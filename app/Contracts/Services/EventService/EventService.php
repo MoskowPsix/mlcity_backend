@@ -2,8 +2,8 @@
 
 namespace App\Contracts\Services\EventService;
 
-use App\Http\Requests\Events\EventCreateRequest;
-use App\Http\Requests\Events\SetEventUserLikedRequest;
+use App\Http\Requests\Event\EventCreateRequest;
+use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
 use App\Models\Location;
