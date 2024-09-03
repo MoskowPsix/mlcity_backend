@@ -25,27 +25,27 @@ class GetEventRequest extends FormRequest
     public function rules()
     {
         return [
-            "address" => "nullable|string|min:3",
-            "sponsor" => "nullable|string|min:3",
-            "user_name" => "nullable|string|min:3",
-            "user_email" => "nullable|string|min:3",
-            "page" => "nullable|string",
-            "limit" => "nullable|integer|min:1|max:50",
-            "name" => "nullable|string|min:3",
-            "userId" => "nullable|integer",
-            "likedUser" => "nullable|string",
-            "favoriteUser" => "nullable|string",
-            "statuses" => "nullable|string",
-            "statusLast" => "nullable|string",
-            "locationId" => "nullable|string",
-            "dateStart" => "nullable|date",
-            "dateEnd" => "nullable|date|after:dateStart",
-            "eventTypes" => "nullable|integer",
-            "radius" => "nullable|integer|max:25",
-            "latitude" => "nullable|string",
-            "longitude" => "nullable|string",
-            "searchText" => "nullable|string|min:3",
-            "user" => "nullable|string|min:3"
+            "address"       => "nullable|string|min:3",
+            "sponsor"       => "nullable|string|min:3",
+            "user_name"     => "nullable|string|min:3",
+            "user_email"    => "nullable|string|min:3",
+            "page"          => "nullable|string",
+            "limit"         => "nullable|integer|min:1|max:50",
+            "name"          => "nullable|string|min:3",
+            "userId"        => "nullable|integer",
+            "likedUser"     => "nullable|string",
+            "favoriteUser"  => "nullable|string",
+            "statuses"      => "nullable|string",
+            "statusLast"    => "nullable|string",
+            "locationId"    => "nullable|string",
+            "dateStart"     => "nullable|string",
+            "dateEnd"       => "nullable|string",
+            "eventTypes"    => "nullable|string",
+            "radius"        => "nullable|integer|max:25",
+            "latitude"      => "nullable|string",
+            "longitude"     => "nullable|string",
+            "searchText"    => "nullable|string|min:3",
+            "user"          => "nullable|string|min:3"
 
         ];
     }
