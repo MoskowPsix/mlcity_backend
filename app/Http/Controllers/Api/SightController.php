@@ -23,6 +23,7 @@ use App\Models\HistoryContent;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pipeline\Pipeline;
 use Knuckles\Scribe\Attributes\Authenticated;
+use App\Models\Status;
 
 #[Group(name: 'Sights', description: 'Места')]
 class SightController extends Controller

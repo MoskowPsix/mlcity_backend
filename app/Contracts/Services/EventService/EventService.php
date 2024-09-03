@@ -7,6 +7,7 @@ use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
 use App\Models\Location;
+use App\Models\Status;
 use App\Models\Timezone;
 use App\Contracts\Services\FileService\FileService;
 use App\Contracts\Services\OrganizationService\OrganizationService;
@@ -191,10 +192,10 @@ class EventService implements EventServiceInterface
 
                 }
             }
-
+            $status = Status::where('name', 'Опубликовано')->first();
             $types = explode(",",$data->type[0]);
             $event->types()->sync($types);
-            $event->statuses()->attach($data->status, ['last' => true]);
+            $event->statuses()->attach($status->id, ['last' => true]);
             $event->likes()->create();
 
 
