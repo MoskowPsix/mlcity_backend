@@ -135,8 +135,6 @@ class IntegrationAfisha7 extends Command
         }
         foreach ($this->locations_level_3 as $location) {
             $progress++;
-            $sights = [];
-            $events = [];
             if ($location->level == 3) {
                 foreach ($this->types as $type) {
                     $sights = get_object_vars($this->getSights($location->url, $type->id, 0, 0));
@@ -148,10 +146,111 @@ class IntegrationAfisha7 extends Command
                 if (isset($events['total'])) {
                     $this->startCommand((int)$events['total'], $location->id, 'event', $type->id);
                 }
-                info(' | ' . $progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->url . '|');
+                info(' | ' . $progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->name . '|');
             }
         }
     }
+
+    /**
+     *
+     * @param int $total
+     * @param mixed $location_id
+     * @param string $type
+     * @param int $typeS
+     * @return void
+     */
+    private function startCommand(int $total, mixed $location_id, string $typeIntegration, int $typeId): void
+    {
+        $offset = 0;
+        try {
+            while ($total >= 0) {
+                if ($total < $this->limit) {
+                    $numberOfProcess = 1;
+                } else if ($total < $this->limit * 100) {
+                    $numberOfProcess = intval($total / 100);
+                } else {
+                    $numberOfProcess = 100;
+                }
+                for ($i = 0; $i < $numberOfProcess; $i++) // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
+                {
+                    if ($total >= 0) {
+                        $process = new Process(['php', 'artisan', 'int', $typeIntegration, $location_id, $offset, $typeId]);
+                        $process->setTimeout(0);
+                        $process->disableOutput();
+                        $process->start();
+                        $processes[] = $process;
+                        $total = $total - $this->limit;
+                        $offset = $offset + $this->limit;
+                    }
+                }
+            }
+        } catch (Throwable $e) {
+            Log::error('Ошибка при выполнении функции старта команды');
+        }
+    }
+
+
+    /**
+     *
+     * @param  int $location_id
+     * @param  int $limit
+     * @param  int $offset
+     * @return  object | null
+     */
+    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object | null
+    {
+        try {
+            $client = new Client();
+            $url = 'https://api.afisha7.ru/v3.1/evs/';
+
+            $params = [
+                "form_params" => [
+                    "token" => $this->token,
+                    "loc_id" => $location_id,
+                    "limit" => $limit,
+                    "offset" => $offset,
+                    "date_start" => date("Y-m-d H:i:s")
+                ]
+            ];
+            $response = $client->request('POST', $url, $params);
+            $events = json_decode($response->getBody()->getContents());
+            return $events;
+        } catch (Exception $e) {
+            Log::error('Ошибка при получении событий');
+            sleep(1);
+            return $this->getEvents($location_id, $limit, $offset);
+        }
+    }
+
+    /**
+     *
+     * @param  string $location_url
+     * @param  int $limit
+     * @param  int $offset
+     * @param  int $type_id
+     * @return  object
+     */
+    private function getSights(string $location_url, int $type_id, int $limit = 1, int $offset = 0): object | null
+    {
+        try {
+            $client = new Client();
+            $response = $client->request('POST', 'https://api.afisha7.ru/v3.1/places/', [
+                'form_params' => [
+                    'token' => $this->token,
+                    'loc_url' => $location_url,
+                    "cat_id" => $type_id,
+                    'limit' => $limit,
+                    'offset' => $offset
+                ]
+            ]);
+            return json_decode($response->getBody()->getContents());
+        } catch (Exception $e) {
+            Log::error('Ошибка при получении событий');
+            sleep(1);
+            return $this->getSights($location_url, $type_id, $limit, $offset);
+        }
+    }
+
     /**
      *
      * @return void
@@ -196,51 +295,6 @@ class IntegrationAfisha7 extends Command
                 }
                 info(' | ' . $progress . ' / ' . count($this->locations) . ' | ');
             }
-        }
-    }
-    /**
-     *
-     * @param int $total
-     * @param mixed $location_id
-     * @param string $type
-     * @param int $typeS
-     * @return void
-     */
-    private function startCommand(int $total, mixed $location_id, string $type, int $typeS): void
-    {
-        $offset = 0;
-        try {
-            while ($total >= 0) {
-                if ($total < $this->limit) {
-                    $numberOfProcess = 1;
-                } else if ($total < $this->limit * 100) {
-                    $numberOfProcess = intval($total / 100);
-                } else {
-                    $numberOfProcess = 100;
-                }
-                for ($i = 0; $i < $numberOfProcess; $i++) // Запускаем 10 команд по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
-                {
-                    if ($total >= 0) {
-                        $process = new Process(['php', 'artisan', 'int', $type, $location_id, $offset, $typeS]);
-                        $process->setTimeout(0);
-                        $process->disableOutput();
-                        $process->start();
-                        $processes[] = $process;
-                        $total = $total - $this->limit;
-                        $offset = $offset + $this->limit;
-                    }
-                }
-                while (count($processes)) {
-                    foreach ($processes as $i => $runningProcess) {
-                        // этот процесс завершен, поэтому удаляем его
-                        if (!$runningProcess->isRunning()) {
-                            unset($processes[$i]);
-                        }
-                    }
-                }
-            }
-        } catch (Throwable $e) {
-            Log::error('Ошибка при выполнении функции старта команды');
         }
     }
 
@@ -323,65 +377,7 @@ class IntegrationAfisha7 extends Command
             $this->failed('Ошибка при получении типов');
         }
     }
-    /**
-     *
-     * @param  int $location_id
-     * @param  int $limit
-     * @param  int $offset
-     * @return  object | null
-     */
-    private function getEvents(int $location_id, int $limit = 1, int $offset = 0): object | null
-    {
-        try {
-            $client = new Client();
-            $url = 'https://api.afisha7.ru/v3.1/evs/';
 
-            $params = [
-                "form_params" => [
-                    "token" => $this->token,
-                    "loc_id" => $location_id,
-                    "limit" => $limit,
-                    "offset" => $offset,
-                    "date_start" => date("Y-m-d H:i:s")
-                ]
-            ];
-            $response = $client->request('POST', $url, $params);
-            $events = json_decode($response->getBody()->getContents());
-            return $events;
-        } catch (Exception $e) {
-            Log::error('Ошибка при получении событий');
-            sleep(1);
-            return $this->getEvents($location_id, $limit, $offset);
-        }
-    }
-    /**
-     *
-     * @param  string $location_url
-     * @param  int $limit
-     * @param  int $offset
-     * @param  int $type_id
-     * @return  object
-     */
-    private function getSights(string $location_url, int $type_id, int $limit = 1, int $offset = 0): object | null
-    {
-        try {
-            $client = new Client();
-            $response = $client->request('POST', 'https://api.afisha7.ru/v3.1/places/', [
-                'form_params' => [
-                    'token' => $this->token,
-                    'loc_url' => $location_url,
-                    "cat_id" => $type_id,
-                    'limit' => $limit,
-                    'offset' => $offset
-                ]
-            ]);
-            return json_decode($response->getBody()->getContents());
-        } catch (Exception $e) {
-            Log::error('Ошибка при получении событий');
-            sleep(1);
-            return $this->getSights($location_url, $type_id, $limit, $offset);
-        }
-    }
     /**
      *
      * @return void
