@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Location;
+use Illuminate\Support\Facades\DB;
 use Throwable;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Command;
@@ -84,6 +85,7 @@ class IntegrationAfisha7 extends Command
      */
     public function handle(): int
     {
+        DB::reconnect('pgsql');
         $this->setToken();
         // Переопределяем переменные если пришли аргументы
         $this->argument('offset') ? $this->offset = (int)$this->argument('offset') : null;

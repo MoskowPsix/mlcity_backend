@@ -10,15 +10,15 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
+     * @param Schedule $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
         // $schedule->command('inspire')->hourly();
-        $schedule->command('addView')->twiceDaily(1, 13);
+//        $schedule->command('addView')->twiceDaily(1, 13);
         // $schedule->command('institutes_save')->weekly();
-        $schedule->command('clear-log')->weeklyOn(7, '3:00');;
+//        $schedule->command('clear-log')->weeklyOn(7, '3:00');;
 	    $schedule->command('backup_db')->weeklyOn(6, '3:00');
         $schedule->command('telescope:prune --hours=48')->daily();
     }
