@@ -51,6 +51,7 @@ class GettingEventsTest extends TestCase
 
         $response->assertJsonStructure([
             'status',
+            'message',
             'event' => [
                 'id',
                 'name',

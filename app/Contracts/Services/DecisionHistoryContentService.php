@@ -192,7 +192,7 @@ class DecisionHistoryContentService {
                 $parent->prices()->create($historyData);
             }
             else {
-                $parent->price()->create($historyData);
+                $parent->prices()->create($historyData);
             }
         }
     }

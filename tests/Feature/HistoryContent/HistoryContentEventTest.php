@@ -16,6 +16,8 @@ use Tests\TestCase;
 class HistoryContentEventTest extends TestCase
 {
     use RefreshDatabase;
+    protected $seed = true;
+
     /**
      * A basic unit test example.
      *

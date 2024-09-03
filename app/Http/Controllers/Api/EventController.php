@@ -24,7 +24,7 @@ use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Http\Requests\Event\AddStatusRequest;
 use App\Http\Requests\Event\GetEventRequest;
-use App\Http\Requests\Events\ShowEventRequest;
+use App\Http\Requests\Event\ShowEventRequest;
 use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
 use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
 use App\Http\Resources\Event\ShowForMapEvent\SuccessShowForMapEventResource;
