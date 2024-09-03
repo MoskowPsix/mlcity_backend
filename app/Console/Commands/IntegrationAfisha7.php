@@ -530,7 +530,12 @@ class IntegrationAfisha7 extends Command
         $type_index = array_search($types_id, array_column($this->types, 'id'));
         $type_name = $this->types[$type_index]->name;
         $type = SightType::where('name', $type_name);
-        $type->exists() ? $sight_create->types()->attach($type->first()->id) : null;  // Распределить типы (Типы мест отличаются от наших)
+        if($type->exists()) {
+            $sight_create->types()->attach($type->first()->id);
+        } else {
+            $sight_type = SightType::create(['name' => $this->types[$type_index]->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
+            $sight_create->types()->attach($sight_type->id);
+        }
     }
     /**
      *
