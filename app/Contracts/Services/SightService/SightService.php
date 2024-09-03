@@ -33,7 +33,7 @@ class SightService implements SightServiceInterface
 {
     public function show(int $id): Sight
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices');
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices', 'organization');
             return app(Pipeline::class)
                 ->send($sight)
                 ->through([

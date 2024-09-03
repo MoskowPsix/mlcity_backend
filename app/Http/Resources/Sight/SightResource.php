@@ -49,7 +49,7 @@ class SightResource extends JsonResource
             'historyContents'   => $this->whenLoaded('historyContents'),
             'prices'            => $this->whenLoaded('prices'),
             'events'           => $this->whenLoaded('events'),
-            'organizations'    => $this->whenLoaded('organizations')
+            'organization'    => $this->whenLoaded('organization')
             ];
     }
 }
