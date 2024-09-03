@@ -330,11 +330,13 @@ class EventService implements EventServiceInterface
     public function addStatus($eventId) {
         $user = auth('api')->user();
         $statusId = request()->get("status_id");
-        
-        $event = Event::find($eventId);
-        $this->resetExistedStatusesToLast($event);
-        $event->statuses()->attach($statusId, ["last" => True]);
-
+        if (EventService::isUserEvent($eventId, $user->id)) {
+            $event = Event::find($eventId);
+            $this->resetExistedStatusesToLast($event);
+            $event->statuses()->attach($statusId, ["last" => True]);
+        } else {
+            abort(403, "You dont have a permission for this action");
+        }
     }
 
     private function resetExistedStatusesToLast($event) {
@@ -347,7 +349,7 @@ class EventService implements EventServiceInterface
     }
 
     public static function isUserEvent($eventId, $userId) {
-        $res = Event::where("id", $userId)->where("user_id", $userId)->exists();
-        return $res;
+        $res = Event::where("id", $userId)->where("user_id", $userId)->get();
+        return count($res) > 0;
     }
 }
