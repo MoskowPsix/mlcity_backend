@@ -188,6 +188,10 @@ class EventController extends Controller
 
         return response()->json(["status"=>"success", "organization" => $organization]);
     }
+
+    public function addStatusToEvent(Request $request, $id) {
+        $this->eventService->addStatus($id);
+    }
 }
 
 
