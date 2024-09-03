@@ -24,7 +24,7 @@ class ChangeEventStatusTest extends TestCase
         ]);
 
 
-        $response = $this->actingAs($user)->post('/api/events/' . $event->id . '/statuses', [
+        $response = $this->actingAs($user)->postJson('/api/events/' . $event->id . '/statuses', [
             "status_id" => 2
         ]);
 
@@ -34,18 +34,21 @@ class ChangeEventStatusTest extends TestCase
     public function test_add_status_to_event_by_other_user()
     {
         $user = User::factory()->create();
+        $user2 = User::factory()->create();
 
-        $event = Event::factory()->create();
+        $event = Event::factory()->create([
+            "user_id" => $user2->id
+        ]);
 
 
-        $response = $this->actingAs($user)->post('/api/events/' . $event->id . '/statuses', [
+        $response = $this->actingAs($user)->postJson('/api/events/' . $event->id . '/statuses', [
             "status_id" => 2
         ]);
 
         $response->assertStatus(403);
     }
 
-    public function test_add_nont_existed_status()
+    public function test_add_not_existed_status()
     {
         $user = User::first();
 
@@ -54,10 +57,10 @@ class ChangeEventStatusTest extends TestCase
         ]);
 
 
-        $response = $this->actingAs($user)->post('/api/events/' . $event->id . '/statuses', [
-            "status_id" => 2
+        $response = $this->actingAs($user)->postJson('/api/events/' . $event->id . '/statuses', [
+            "status_id" => 123
         ]);
 
-        $response->assertStatus(200);
+        $response->assertStatus(422);
     }
 }

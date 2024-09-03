@@ -349,7 +349,7 @@ class EventService implements EventServiceInterface
     }
 
     public static function isUserEvent($eventId, $userId) {
-        $res = Event::where("id", $userId)->where("user_id", $userId)->get();
+        $res = Event::where("id", $eventId)->where("user_id", $userId)->get();
         return count($res) > 0;
     }
 }

@@ -485,7 +485,6 @@ class IntegrationAfisha7 extends Command
      */
     private function saveSight(object $sight): Sight | null
     {
-        dd($sight);
         if (!empty($sight->latitude) && !empty($sight->longitude) && !empty($sight->address)) {
             $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
             $createdSight = Sight::create([

@@ -22,6 +22,7 @@ use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
 use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
+use App\Http\Requests\Event\AddStatusRequest;
 use App\Http\Requests\Event\GetEventRequest;
 use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
 use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
@@ -189,7 +190,7 @@ class EventController extends Controller
         return response()->json(["status"=>"success", "organization" => $organization]);
     }
 
-    public function addStatusToEvent(Request $request, $id) {
+    public function addStatusToEvent(AddStatusRequest $request, $id) {
         $this->eventService->addStatus($id);
     }
 }
