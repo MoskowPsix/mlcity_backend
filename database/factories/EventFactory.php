@@ -27,6 +27,7 @@ class EventFactory extends Factory
             'date_end'          => fake()->dateTimeBetween(startDate: '+8 days', endDate: '+15 days')->format('Y-m-d H:i:s'),
             'user_id'           => User::inRandomOrder()->first()->id,
             'vk_post_id'        => fake()->numberBetween(100000, 999999),
+            'age_limit'         => fake()->numberBetween(0, 24),
         ];
     }
 }

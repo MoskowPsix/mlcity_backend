@@ -14,7 +14,6 @@ class OrganizationInviteController extends Controller
         $organization = Organization::find($invite->organization_id);
 
         $permissions = $invite->userPermissions;
-        info($permissions->toArray());
         foreach($permissions as $permission){
             $organization->users()->attach($invite->user_id, [
                 "permission_id" => $permission->id

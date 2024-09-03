@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\Event;
 use App\Models\EventType;
@@ -272,7 +272,6 @@ class HistoryContentEventTest extends TestCase
 
         $historyContent = $this->event->historyContents()->create(["user_id" => $this->user->id]);
         foreach($types as $type) {
-            info($type);
             $this->event->types()->attach($type);
         }
 

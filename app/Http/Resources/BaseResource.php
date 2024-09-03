@@ -14,8 +14,7 @@ class BaseResource extends JsonResource
             if (property_exists(static::class, 'preserveKeys')) {
                 $collection->preserveKeys = (new static([]))->preserveKeys === true;
             }
-        });
-//        dd($res);
+        });;
         return $res;
     }
 }

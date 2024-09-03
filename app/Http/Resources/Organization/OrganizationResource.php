@@ -18,7 +18,6 @@ class OrganizationResource extends BaseResource
      */
     public function toArray($request)
     {
-        // dd($this->whenLoaded('user'));
         return [
             'id'                => $this->id,
             'name'              => $this->name,

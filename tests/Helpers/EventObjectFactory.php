@@ -24,7 +24,6 @@ class EventObjectFactory {
             "status" => $status,
         ]);
 
-        // dd([$date1, $date2]);
 
         $location = Location::inRandomOrder()->first();
         $sight = Sight::factory()->create();
@@ -56,5 +55,20 @@ class EventObjectFactory {
         ];
 
         return $data;
+    }
+
+    public static function createEventInDB(int $count, bool $withPlaces = false)
+    {
+        if ($withPlaces)
+        {
+            Event::factory()->hasPlaces(3, function() {
+                return [
+                    'timezone_id' => 1
+                ];
+            })->count($count)->create();
+        } else {
+            Event::factory()->count($count)->create();
+
+        }
     }
 }

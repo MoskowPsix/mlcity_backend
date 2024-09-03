@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\Event;
 use App\Models\Price;
@@ -46,6 +46,8 @@ class HistoryContentSightTest extends TestCase
 
         $response->assertStatus(201)
         ->assertJsonFragment($data['history_content']);
+
+        dd($response->getContent());
     }
 
     public function test_create_history_content_for_sight_with_new_prices(){

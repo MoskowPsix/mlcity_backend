@@ -24,6 +24,7 @@ use App\Models\HistoryContent;
 use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Http\Requests\Event\AddStatusRequest;
 use App\Http\Requests\Event\GetEventRequest;
+use App\Http\Requests\Events\ShowEventRequest;
 use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedResource;
 use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
 use App\Http\Resources\Event\ShowForMapEvent\SuccessShowForMapEventResource;
@@ -95,7 +96,7 @@ class EventController extends Controller
 
     #[ResponseFromApiResource(SuccessShowEventResource::class, Event::class)]
     #[Endpoint(title: 'getEvent', description: 'Достать события по id')]
-    public function show(int $id): SuccessShowEventResource
+    public function show(ShowEventRequest $request, int $id): SuccessShowEventResource
     {
         $response = $this->eventService->getById($id);
         return new SuccessShowEventResource($response);
