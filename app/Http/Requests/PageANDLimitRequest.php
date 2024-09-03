@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property int $limit
+ * @property string $page
+ */
 class PageANDLimitRequest extends FormRequest
 {
     /**
@@ -34,6 +38,6 @@ class PageANDLimitRequest extends FormRequest
         return[
             "limit.max" => "A limit must be less 50"
         ];
-        
+
     }
 }

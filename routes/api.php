@@ -119,7 +119,7 @@ Route::controller(SightController::class)->group(function () {
     Route::get('sights-for-map', 'getSightsForMap'); // Запрос достопримечательностей с фильтрами для карты
     Route::get('sights-for-card/{id}', 'showForCard'); // Запрос достопримечательностей по id для карты
     Route::get('sights-for-author', 'getSightsForAuthor'); // Запрос места для автора
-    Route::post('sights/update-vk-likes', 'updateVkLikes'); //для страницы мероприятия
+//    Route::post('sights/update-vk-likes', 'updateVkLikes'); //для страницы мероприятия
     Route::put('sights/updateSight/{id}', 'updateSight')->middleware('moderator');
     Route::post('sights/set-sight-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum'); //для страницы мероприятия
     Route::get('sights/{id}', 'show');
