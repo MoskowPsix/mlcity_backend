@@ -36,7 +36,7 @@ use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Pipeline\Pipeline;
-
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class EventService implements EventServiceInterface
 {
@@ -325,5 +325,29 @@ class EventService implements EventServiceInterface
         $organization->load('files');
 
         return $organization;
+    }
+
+    public function addStatus($eventId) {
+        $user = auth('api')->user();
+        $statusId = request()->get("status_id");
+        
+        $event = Event::find($eventId);
+        $this->resetExistedStatusesToLast($event);
+        $event->statuses()->attach($statusId, ["last" => True]);
+
+    }
+
+    private function resetExistedStatusesToLast($event) {
+        $statuses = $event->statuses;
+        foreach($statuses as $status) {
+            $event->statuses()->updateExistingPivot($status["id"], [
+                "last" => false
+            ]);
+        }
+    }
+
+    public static function isUserEvent($eventId, $userId) {
+        $res = Event::where("id", $userId)->where("user_id", $userId)->exists();
+        return $res;
     }
 }
