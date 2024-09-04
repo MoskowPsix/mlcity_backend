@@ -16,7 +16,7 @@ class SuccessCheckFavoriteEventLikedResource extends JsonResource
     {
         return [
             'status'    => 'success',
-            'is_favorite'  => $this->resource ? 'true' : 'false',
+            'is_favorite'  => $this->resource ? true : false,
         ];
     }
 }

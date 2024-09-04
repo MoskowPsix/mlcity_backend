@@ -18,7 +18,7 @@ class SuccessCheckLickedSightResource extends JsonResource
         return [
             'status' => 'success',
             'message' => $this->resource ? __('messages.sight.check_liked.liked') : __('messages.sight.check_liked.not_liked'),
-            'is_liked' => $this->resource ? 'true' : 'false',
+            'is_liked' => $this->resource ? true : false,
         ];
     }
 }
