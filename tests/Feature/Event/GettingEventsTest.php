@@ -85,4 +85,21 @@ class GettingEventsTest extends TestCase
         $response = $this->get('/api/events/buka_baka');
         $response->assertStatus(302);
     }
+
+    public function test_get_expired_events()
+    {
+        $events = Event::factory()->count(10)->create()->map(function () {
+            $dateStart = fake()->dateTimeBetween('-3 day', 'now');
+            $dateEnd = fake()->dateTimeBetween($dateStart, '+10 day'); // Дата окончания не раньше даты начала
+            info([$dateStart, $dateEnd]);
+            return [
+                "date_start" => $dateStart,
+                "date_end" => $dateEnd,
+            ];
+        });;
+
+        $response = $this->getJson("/api/events?expired=false");
+
+        dd($response->getContent());
+    }
 }

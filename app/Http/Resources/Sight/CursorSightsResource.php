@@ -17,8 +17,8 @@ class CursorSightsResource extends JsonResource
     {
         return [
             'data'          => method_exists($this->resource, 'items') ? SightResource::collection($this->items()) : [new SightResource($this->resource)],
-            'next_cursor'   => method_exists($this->resource, 'nextCursor') ? $this->nextCursor()->encode(): null,
-            'prev_cursor'   => method_exists($this->resource, 'previousCursor') ? $this->previousCursor()->encode() : null,
+            'next_cursor'   => method_exists($this->resource, 'nextCursor') ? $this->nextCursor() ? $this->nextCursor()->encode() : null : null,
+            'prev_cursor'   => method_exists($this->resource, 'previousCursor') ? $this->previousCursor() ? $this->previousCursor()->encode() : null : null,
         ];
     }
 }
