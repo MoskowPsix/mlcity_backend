@@ -28,7 +28,7 @@ class EventCreateRequest extends FormRequest
             'description'  => 'nullable|min:10',
             'dateStart'    => 'required|date',
             'dateEnd'      => 'required|date|after:dateStart',
-            'type'         => 'required',
+            'type'         => 'required|string',
             'status'       => 'required',
             'places'       => 'nullable|array',
             'prices'       => 'nullable|array',

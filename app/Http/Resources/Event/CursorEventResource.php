@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class CursorEventResource extends JsonResource
@@ -9,15 +10,15 @@ class CursorEventResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
     public function toArray($request)
     {
         return [
-            'data' => EventResource::collection($this->items()),
-            'next_cursor' => !empty($this->nextCursor()) ? $this->nextCursor()->encode(): "",
-            'prev_cursor' => !empty($this->previousCursor()) ? $this->previousCursor()->encode() : "",
+            'data'          => method_exists($this, 'items') ? EventResource::collection($this->items()) : new EventResource($this->resource),
+            'next_cursor'   => method_exists($this, 'nextCursor') ? $this->nextCursor()->encode(): null,
+            'prev_cursor'   => method_exists($this, 'previousCursor') ? $this->previousCursor()->encode() : null,
         ];
     }
 }

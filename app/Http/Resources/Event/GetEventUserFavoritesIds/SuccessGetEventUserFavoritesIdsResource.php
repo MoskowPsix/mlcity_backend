@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Event\GetEventUserFavoritesIds;
 
+use App\Http\Resources\Event\CursorEventResource;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SuccessGetEventUserFavoritesIdsResource extends JsonResource
@@ -9,15 +11,15 @@ class SuccessGetEventUserFavoritesIdsResource extends JsonResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
     public function toArray($request)
     {
         return [
             'status'    => 'success',
             'message'   => __('messages.event.event_user_favorites_ids.success'),
-            'events'    => $this->resource,
+            'events'    => new CursorEventResource($this->resource),
         ];
     }
 }

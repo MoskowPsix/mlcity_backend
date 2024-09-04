@@ -3,31 +3,25 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\LoginRequest;
+use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\RequestEditEmailNotVerification;
-use App\Http\Requests\RegisterRequest;
-use App\Http\Requests\LoginRequest;
-//use Illuminate\Http\Request;
-use Exception;
-
-
-use App\Http\Requests\RequestResetEmailVerificationCode;
-use App\Http\Requests\RequestResetPhoneVerificationCode;
 use App\Http\Requests\Auth\VerficationCodeRequest;
+use App\Http\Requests\RequestResetEmailVerificationCode;
 use App\Mail\OrderCode;
 use App\Models\Email;
-use App\Models\Phone;
-use App\Models\PhoneCode;
+use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use \Illuminate\Http\Request;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Session;
 
-use App\Models\User;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Js;
+//use Illuminate\Http\Request;
+
 
 class AuthController extends Controller
 {

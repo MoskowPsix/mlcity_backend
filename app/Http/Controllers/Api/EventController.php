@@ -15,8 +15,12 @@ use App\Http\Resources\Event\GetEventForAuthor\SuccessGetEventForAuthorResource;
 use App\Http\Resources\Event\GetEvents\SuccessGetEventsResource;
 use App\Http\Resources\Event\GetEventUserFavoritesIds\SuccessGetEventUserFavoritesIdsResource;
 use App\Http\Resources\Event\GetEventUserLikedIds\SuccessGetEventUserLikedIdsResource;
+use App\Http\Resources\Event\GetOrganizatonOfEvent\SeccessGetOrganizationOfEventResource;
+use App\Http\Resources\Event\GetOrganizatonOfEvent\SuccessGetOrganizationOfEventResource;
 use App\Http\Resources\Event\SetEventUserLiked\SuccessSetEventUserLikedResource;
 use App\Http\Resources\Event\ShowEvent\SuccessShowEventResource;
+use App\Models\Organization;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
@@ -27,6 +31,11 @@ use App\Http\Resources\Event\CheckFavoriteEvent\SuccessCheckFavoriteEventLikedRe
 use App\Http\Resources\Event\CheckLikedEvent\SuccessCheckLikedEventLikedResource;
 use App\Http\Resources\Event\ShowForMapEvent\SuccessShowForMapEventResource;
 use Exception;
+use JetBrains\PhpStorm\NoReturn;
+use Knuckles\Scribe\Attributes\Authenticated;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 
 #[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
@@ -34,7 +43,7 @@ class EventController extends Controller
     public function __construct(private readonly EventServiceInterface $eventService)
     {}
 
-    #[ResponseFromApiResource(SuccessGetEventsResource::class)]
+    #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
     #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
     public function getEvents(GetEventRequest $request): SuccessGetEventsResource
     {
@@ -44,7 +53,7 @@ class EventController extends Controller
 
 
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessGetEventForAuthorResource::class)]
+    #[ResponseFromApiResource(SuccessGetEventForAuthorResource::class, Event::class)]
     #[Endpoint(title: 'getEventsForAuthor', description: 'Возвращает события пользователя')]
     public function getEventsForAuthor(EventForAuthorReqeust $request): SuccessGetEventForAuthorResource
     {
@@ -63,7 +72,7 @@ class EventController extends Controller
 
 
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessSetEventUserLikedResource::class)]
+    #[ResponseFromApiResource(SuccessSetEventUserLikedResource::class, User::class)]
     #[Endpoint(title: 'setEvenUserLiked', description: 'Создаем отношение - юзер лайкнул ивент')]
     public function setEvenUserLiked(SetEventUserLikedRequest $request): SuccessSetEventUserLikedResource
     {
@@ -101,7 +110,7 @@ class EventController extends Controller
     }
 
 
-    #[ResponseFromApiResource(SuccessShowForMapEventResource::class)]
+    #[ResponseFromApiResource(SuccessShowForMapEventResource::class, Event::class)]
     #[Endpoint(title: 'getEventForMap', description: 'Достать событие по id для карты')]
     public function showForMap(int $id): SuccessShowForMapEventResource
     {
@@ -111,7 +120,7 @@ class EventController extends Controller
 
 
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessCreateEventResource::class)]
+    #[ResponseFromApiResource(SuccessCreateEventResource::class, Event::class)]
     #[ResponseFromApiResource(ErrorCreateEventResource::class, null, 500)]
     #[ResponseFromApiResource(ErrorAuthCreateEventResource::class, null, 403)]
     #[Endpoint(title: 'createEvent', description: 'Создание события')]
@@ -131,7 +140,7 @@ class EventController extends Controller
 
 
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessGetEventUserLikedIdsResource::class)]
+    #[ResponseFromApiResource(SuccessGetEventUserLikedIdsResource::class, Event::class)]
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserLikedIdsResource
     {
@@ -141,7 +150,7 @@ class EventController extends Controller
 
 
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class)]
+    #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class, User::class)]
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
@@ -181,15 +190,20 @@ class EventController extends Controller
 
         return response()->json(["status"=>"success", "history_content" => $response]);
     }
-
-    public function getOrganizationOfEvent($id)
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessGetOrganizationOfEventResource::class, Organization::class)]
+    #[Endpoint(title: 'getOrganizationOfEvent', description: 'Получить Организацию мероприятия.')]
+    public function getOrganizationOfEvent($id): SuccessGetOrganizationOfEventResource
     {
         $organization = $this->eventService->getOrganizationOfEvent($id);
 
-        return response()->json(["status"=>"success", "organization" => $organization]);
+        return new SuccessGetOrganizationOfEventResource($organization);
     }
-
-    public function addStatusToEvent(Request $request, $id) {
+    #[Authenticated]
+    #[NoReturn]
+    #[Endpoint(title: 'addStatusToEvent', description: 'Смена статуса мероприяия.')]
+    public function addStatusToEvent(Request $request, $id): void
+    {
         $this->eventService->addStatus($id);
     }
 }

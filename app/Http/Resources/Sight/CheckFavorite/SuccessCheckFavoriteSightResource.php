@@ -18,7 +18,7 @@ class SuccessCheckFavoriteSightResource extends JsonResource
         return [
             'status' => 'success',
             'message' => $this->resource ? __('messages.sight.check_favorite.favorite') : __('messages.sight.check_favorite.not_favorite'),
-            'is_favorite' => $this->resource,
+            'is_favorite' => $this->resource ? 'true' : 'false',
         ];
     }
 }

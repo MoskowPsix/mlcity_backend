@@ -50,7 +50,10 @@ return [
         ],
         'event_user_favorites_ids' => [
             'success' => 'Избранные события пользователю получены',
-        ]
+        ],
+        'get_organization_of_event' => [
+            'success' => 'Организация мероприятия успешно получена',
+        ],
     ],
     'sight' => [
         'show' => [

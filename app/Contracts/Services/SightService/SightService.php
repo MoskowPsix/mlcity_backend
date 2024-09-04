@@ -31,10 +31,13 @@ use Illuminate\Support\Facades\Auth;
 
 class SightService implements SightServiceInterface
 {
+    /**
+     * @throws \Exception
+     */
     public function show(int $id): Sight
     {
         $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices', 'organization');
-            return app(Pipeline::class)
+            $response = app(Pipeline::class)
                 ->send($sight)
                 ->through([
                     SightEvents::class
@@ -43,6 +46,8 @@ class SightService implements SightServiceInterface
                 ->then(function ($sight){
                     return $sight->first();
                 });
+            empty($response) ? throw new \Exception('Sight not found') : null;
+            return $response;
     }
     public function getSights(GetSightsRequest $request): object
     {

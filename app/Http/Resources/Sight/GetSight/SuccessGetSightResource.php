@@ -5,6 +5,7 @@ namespace App\Http\Resources\Sight\GetSight;
 use App\Http\Resources\BaseResource;
 use App\Http\Resources\Sight\CursorSightsResource;
 use App\Http\Resources\Sight\SightResource;
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SuccessGetSightResource extends BaseResource
@@ -12,10 +13,10 @@ class SuccessGetSightResource extends BaseResource
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'status'    => 'success',

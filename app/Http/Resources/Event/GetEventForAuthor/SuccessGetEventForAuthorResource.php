@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event\GetEventForAuthor;
 
+use App\Http\Resources\Event\CursorEventResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SuccessGetEventForAuthorResource extends JsonResource
@@ -17,7 +18,7 @@ class SuccessGetEventForAuthorResource extends JsonResource
         return [
             'status'    => 'success',
             'message'   => __('messages.event.get_events_for_author.success'),
-            'events'    => $this->resource,
+            'events'    => new CursorEventResource($this->resource),
         ];
     }
 }

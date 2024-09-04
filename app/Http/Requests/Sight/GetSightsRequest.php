@@ -39,7 +39,7 @@ class GetSightsRequest extends FormRequest
             'address'           => 'nullable|string|min:3|max:255',
             'sightTypes'        => 'nullable|string',
             'user'              => 'nullable|string|min:3|max:255',
-            'radius'            => 'nullable|integer|min:1|max:100',
+            'radius'            => 'nullable|integer|min:1|max:25',
             'latitude'          => 'nullable|numeric|between:-90,90',
             'longitude'         => 'nullable|numeric|between:-180,180',
             'searchText'        => 'nullable|string|min:3',

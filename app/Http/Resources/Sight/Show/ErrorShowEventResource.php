@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Resources\Sight\CheckLiked;
+namespace App\Http\Resources\Sight\Show;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SuccessCheckLickedSightResource extends JsonResource
+class ErrorShowEventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,8 +18,11 @@ class SuccessCheckLickedSightResource extends JsonResource
     {
         return [
             'status' => 'success',
-            'message' => $this->resource ? __('messages.sight.check_liked.liked') : __('messages.sight.check_liked.not_liked'),
-            'is_liked' => $this->resource ? 'true' : 'false',
+            'message'   => __('sight.show.error'),
         ];
+    }
+    public function withResponse($request, $response)
+    {
+        $response->setStatusCode(404);
     }
 }

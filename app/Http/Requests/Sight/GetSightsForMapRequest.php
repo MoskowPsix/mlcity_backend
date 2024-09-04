@@ -30,8 +30,8 @@ class GetSightsForMapRequest extends FormRequest
             'address'           => 'nullable|string|min:3|max:255',
             'sightTypes'        => 'nullable|string',
             'radius'            => 'required|integer|min:1|max:25',
-            'latitude'          => 'required|string',
-            'longitude'         => 'required|string',
+            'latitude'          => 'nullable|numeric|between:-87,89',
+            'longitude'         => 'nullable|numeric|between:-180,180',
         ];
     }
 }

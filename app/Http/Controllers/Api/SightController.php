@@ -17,19 +17,51 @@ use App\Http\Resources\Sight\GetEventsInSight\SuccessGetEventsInSightsResource;
 use App\Http\Resources\Sight\GetSight\SuccessGetSightResource;
 use App\Http\Resources\Sight\GetSightForAuthor\SuccessGetSightForAuthorResource;
 use App\Http\Resources\Sight\GetSightForMap\SuccessGetSightsForMapResource;
+use App\Http\Resources\Sight\GetSightUserLikedAndFavoriteIds\SuccessGetSightUserLikedAndFavoriteResource;
+use App\Http\Resources\Sight\Show\ErrorShowEventResource;
 use App\Http\Resources\Sight\Show\SuccessShowSightResource;
 use App\Http\Resources\Sight\ShowForCard\SuccessShowForCardResource;
+use App\Models\Event;
 use App\Models\HistoryContent;
+use App\Models\Sight;
+use App\Models\User;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Pipeline\Pipeline;
 use Knuckles\Scribe\Attributes\Authenticated;
-use App\Models\Status;
+use Knuckles\Scribe\Attributes\BodyParam;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\QueryParam;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
+use Knuckles\Scribe\Attributes\UrlParam;
 
-#[Group(name: 'Sights', description: 'Места')]
+
+#[Group(name: 'Sight', description: 'Места')]
 class SightController extends Controller
 {
     public function __construct(private readonly SightService $sightService) {}
-    #[ResponseFromApiResource(SuccessGetSightResource::class)]
+    #[BodyParam("pagination", "boolean", "On and off paginate.", required: false, example: true)]
+    #[BodyParam("page", "string", required: false, example: 'No-example')]
+    #[BodyParam("limit", "integer", required: false, example: 'No-example')]
+    #[BodyParam("userId", "integer", required: false, example: 'No-example')]
+    #[BodyParam("order", "string", required: false, example: 'No-example')]
+    #[BodyParam("order", "boolean", required: false, example: 'No-example')]
+    #[BodyParam("name", "string", required: false, example: 'No-example')]
+    #[BodyParam("sponsor", "string", required: false, example: 'No-example')]
+    #[BodyParam("favoriteUser", "boolean", required: false, example: 'No-example')]
+    #[BodyParam("statusLast", "boolean", required: false, example: 'No-example')]
+    #[BodyParam("statuses", "atring", required: false, example: 'No-example')]
+    #[BodyParam("locationId", "integer", required: false, example: 'No-example')]
+    #[BodyParam("address", "string", required: false, example: 'No-example')]
+    #[BodyParam("sightTypes", "string", required: false, example: 'No-example')]
+    #[BodyParam("user", "string", required: false, example: 'No-example')]
+    #[BodyParam("radius", "integer", required: false, example: 'No-example')]
+    #[BodyParam("latitude", "integer", required: false, example: 'No-example')]
+    #[BodyParam("longitude", "integer", required: false, example: 'No-example')]
+    #[BodyParam("searchText", "string", required: false, example: 'No-example')]
+    #[BodyParam("sightIds", "string", required: false, example: 'No-example')]
+    #[BodyParam("likedUser", "boolean", required: false, example: 'No-example')]
+    #[ResponseFromApiResource(SuccessGetSightResource::class, Sight::class, collection: false)]
     #[Endpoint(title: 'getSights', description: 'Возвращает все места по фильтрам')]
     public function getSights(GetSightsRequest $request): SuccessGetSightResource
     {
@@ -44,7 +76,7 @@ class SightController extends Controller
         return new SuccessGetSightsForMapResource($response);
     }
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessGetSightForAuthorResource::class)]
+    #[ResponseFromApiResource(SuccessGetSightForAuthorResource::class, Sight::class)]
     #[Endpoint(title: 'getSightsForAuthor', description: 'Возвращает все места по фильтрам для автора')]
     public function getSightsForAuthor(PageANDLimitRequest $request): SuccessGetSightForAuthorResource
     {
@@ -93,14 +125,20 @@ class SightController extends Controller
         $favorite = $this->sightService->checkFavorite($id);
         return  new SuccessCheckFavoriteSightResource($favorite);
     }
-    #[ResponseFromApiResource(SuccessShowSightResource::class)]
+    #[UrlParam('id', 'integer', description: 'id места', required: true, example: 1)]
+    #[ResponseFromApiResource(SuccessShowSightResource::class, Sight::class, 200)]
+    #[ResponseFromApiResource(ErrorShowEventResource::class, null, 404)]
     #[Endpoint(title: 'show', description: 'Получение место по id')]
-    public function show(int $id): SuccessShowSightResource
+    public function show(int $id): SuccessShowSightResource | ErrorShowEventResource
     {
-        $response = $this->sightService->show($id);
-        return new SuccessShowSightResource($response);
+        try {
+            $response = $this->sightService->show($id);
+            return new SuccessShowSightResource($response);
+        } catch (\Exception $e) {
+            return new ErrorShowEventResource([]);
+        }
     }
-    #[ResponseFromApiResource(SuccessGetEventsInSightsResource::class)]
+    #[ResponseFromApiResource(SuccessGetEventsInSightsResource::class, Event::class, collection: false)]
     #[Endpoint(title: 'getEventsInSight', description: 'Получение событий в месте по id')]
     public function getEventsInSight(PageANDLimitRequest $request, int $id): SuccessGetEventsInSightsResource
     {
@@ -109,21 +147,21 @@ class SightController extends Controller
 
     }
     #[Authenticated]
-    #[ResponseFromApiResource(SuccessCreateSightResource::class)]
+    #[ResponseFromApiResource(SuccessCreateSightResource::class, Sight::class, 201)]
     #[Endpoint(title: 'create', description: 'Создание мест')]
     public function create(CreateSightRequest $request): SuccessCreateSightResource
     {
         $response = $this->sightService->create($request);
         return new SuccessCreateSightResource($response);
     }
-    #[ResponseFromApiResource(SuccessGetSightUserLikedAndFavoriteResource::class)]
+    #[ResponseFromApiResource(SuccessGetSightUserLikedAndFavoriteResource::class, User::class)]
     #[Endpoint(title: 'getSightUserLikedIds', description: 'Получение пользователей которые лайкнули место')]
     public function getSightUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetSightUserLikedAndFavoriteResource
     {
         $response = $this->sightService->getSightUserLikedIds($id, $request);
         return new SuccessGetSightUserLikedAndFavoriteResource($response);
     }
-    #[ResponseFromApiResource(SuccessGetSightUserLikedAndFavoriteResource::class)]
+    #[ResponseFromApiResource(SuccessGetSightUserLikedAndFavoriteResource::class, User::class)]
     #[Endpoint(title: 'getSightUserFavoritesIds', description: 'Получение пользователей которые добавили в избранное место')]
     public function getSightUserFavoritesIds($id, PageANDLimitRequest $request): SuccessGetSightUserLikedAndFavoriteResource
     {
