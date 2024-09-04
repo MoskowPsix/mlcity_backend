@@ -2,17 +2,32 @@
 
 namespace App\Http\Resources\Event;
 
+use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property int $id
+ * @property string $name
+ * @property string $sponsor
+ * @property string $date_start
+ * @property string $date_end
+ * @property string $description
+ * @property string $materials
+ * @property int $user_id
+ * @property int $vk_post_id
+ * @property string $created_at
+ * @property string $updated_at
+ * @property int $age_limit
+ */
 class EventResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
+     * @param  Request  $request
+     * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id'                => $this->id,

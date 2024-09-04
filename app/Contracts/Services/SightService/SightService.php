@@ -51,7 +51,7 @@ class SightService implements SightServiceInterface
     }
     public function getSights(GetSightsRequest $request): object
     {
-        $pagination = $request->pagination;
+//        $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
         $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers', 'comments');
@@ -76,7 +76,7 @@ class SightService implements SightServiceInterface
                     SightByIds::class
                 ])
                 ->via('apply')
-                ->then(function ($sights) use ($pagination , $page, $limit){
+                ->then(function ($sights) use ( $page, $limit){
                     $sights = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
                     return $sights;
                 });

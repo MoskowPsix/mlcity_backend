@@ -72,37 +72,32 @@ class EventService implements EventServiceInterface
         $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
         $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
 
-        $response =
-            app(Pipeline::class)
-            ->send($events)
-            ->through([
-                // EventTotal::class,
-                EventOrderByDateCreate::class,
-                EventName::class,
-                EventByIds::class,
-                EventLikedUserExists::class,
-                EventFavoritesUserExists::class,
-                EventStatuses::class,
-                EventStatusesLast::class,
-                EventPlaceLocation::class,
-                EventDate::class,
-                EventTypes::class,
-                EventPlaceGeoPositionInArea::class,
-                EventSearchText::class,
-                EventPlaceAddress::class,
-                EventSponsor::class,
-                EventAuthorName::class,
-                EventAuthorEmail::class,
-                SightAuthor::class,
-            ])
-            ->via('apply')
-            ->then(function ($events) use ($page, $limit, $data){
-                $events = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-
-                return $events;
-            });
-
-        return $response;
+        return app(Pipeline::class)
+        ->send($events)
+        ->through([
+            // EventTotal::class,
+            EventOrderByDateCreate::class,
+            EventName::class,
+            EventByIds::class,
+            EventLikedUserExists::class,
+            EventFavoritesUserExists::class,
+            EventStatuses::class,
+            EventStatusesLast::class,
+            EventPlaceLocation::class,
+            EventDate::class,
+            EventTypes::class,
+            EventPlaceGeoPositionInArea::class,
+            EventSearchText::class,
+            EventPlaceAddress::class,
+            EventSponsor::class,
+            EventAuthorName::class,
+            EventAuthorEmail::class,
+            SightAuthor::class,
+        ])
+        ->via('apply')
+        ->then(function ($events) use ($page, $limit, $data){
+            return $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        });
     }
 
     public function getUserEvents($data)
