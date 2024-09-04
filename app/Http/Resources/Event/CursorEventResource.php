@@ -16,7 +16,7 @@ class CursorEventResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'data'          => method_exists($this, 'items') ? EventResource::collection($this->items()) : new EventResource($this->resource),
+            'data'          => EventResource::collection($this->items()),
             'next_cursor'   => method_exists($this, 'nextCursor') ? $this->nextCursor()->encode(): null,
             'prev_cursor'   => method_exists($this, 'previousCursor') ? $this->previousCursor()->encode() : null,
         ];
