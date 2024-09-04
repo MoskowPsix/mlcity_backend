@@ -21,6 +21,7 @@
         "socialiteproviders/yandex": "^4.1"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.9.1",
         "jeroenzwart/laravel-csv-seeder": "^1.6",
         "knuckleswtf/scribe": "^4.31",

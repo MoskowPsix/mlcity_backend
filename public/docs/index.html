@@ -209,14 +209,14 @@ You can switch the language used with the tabs at the top right (or from the nav
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/places" \
+    --get "http://localhost:8000/api/events/170/places" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/places"
+    "http://localhost:8000/api/events/170/places"
 );
 
 const headers = {
@@ -242,15 +242,67 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 498
+x-ratelimit-remaining: 495
 vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;places&quot;: {
-        &quot;data&quot;: [],
-        &quot;path&quot;: &quot;http://localhost:8000/api/events/1/places&quot;,
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 322,
+                &quot;event_id&quot;: 170,
+                &quot;sight_id&quot;: 139,
+                &quot;location_id&quot;: 991,
+                &quot;latitude&quot;: &quot;56.97247300000000&quot;,
+                &quot;longitude&quot;: &quot;96.99488300000000&quot;,
+                &quot;address&quot;: &quot;Красноярский край, р-н.Абанский, с. Вознесенка, ул. Центральная, 30в&quot;,
+                &quot;created_at&quot;: &quot;2024-09-04T11:31:35.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-04T11:31:35.000000Z&quot;,
+                &quot;timezone_id&quot;: 6,
+                &quot;cult_id&quot;: null,
+                &quot;seances&quot;: [
+                    {
+                        &quot;id&quot;: 668,
+                        &quot;place_id&quot;: 322,
+                        &quot;date_start&quot;: &quot;2024-09-07 11:00:00&quot;,
+                        &quot;date_end&quot;: &quot;2024-09-07 12:20:00&quot;,
+                        &quot;created_at&quot;: &quot;2024-09-04T11:31:36.000000Z&quot;,
+                        &quot;updated_at&quot;: &quot;2024-09-04T11:31:36.000000Z&quot;
+                    }
+                ],
+                &quot;location&quot;: {
+                    &quot;id&quot;: 991,
+                    &quot;name&quot;: &quot;Канск&quot;,
+                    &quot;time_zone&quot;: &quot;Asia/Krasnoyarsk&quot;,
+                    &quot;location_id&quot;: 27,
+                    &quot;cult_id&quot;: 652,
+                    &quot;created_at&quot;: &quot;2024-09-04T10:38:18.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2024-09-04T10:38:18.000000Z&quot;,
+                    &quot;latitude&quot;: &quot;56.20512820000000&quot;,
+                    &quot;longitude&quot;: &quot;95.70510960000000&quot;,
+                    &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439 \\u041a\\u0430\\u043d\\u0441\\u043a\&quot;,\&quot;result\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439, \\u0433 \\u041a\\u0430\\u043d\\u0441\\u043a\&quot;,\&quot;postal_code\&quot;:\&quot;663600\&quot;,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:\&quot;\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;region_fias_id\&quot;:\&quot;db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1\&quot;,\&quot;region_kladr_id\&quot;:\&quot;2400000000000\&quot;,\&quot;region_iso_code\&quot;:\&quot;RU-KYA\&quot;,\&quot;region_with_type\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region_type\&quot;:\&quot;\\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region_type_full\&quot;:\&quot;\\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:\&quot;75917770-c4cb-44d8-afcc-8a6d395c3bc2\&quot;,\&quot;city_kladr_id\&quot;:\&quot;2400001600000\&quot;,\&quot;city_with_type\&quot;:\&quot;\\u0433 \\u041a\\u0430\\u043d\\u0441\\u043a\&quot;,\&quot;city_type\&quot;:\&quot;\\u0433\&quot;,\&quot;city_type_full\&quot;:\&quot;\\u0433\\u043e\\u0440\\u043e\\u0434\&quot;,\&quot;city\&quot;:\&quot;\\u041a\\u0430\\u043d\\u0441\\u043a\&quot;,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:\&quot;75917770-c4cb-44d8-afcc-8a6d395c3bc2\&quot;,\&quot;fias_code\&quot;:\&quot;24000016000000000000000\&quot;,\&quot;fias_level\&quot;:\&quot;4\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:\&quot;2400001600000\&quot;,\&quot;capital_marker\&quot;:\&quot;0\&quot;,\&quot;okato\&quot;:\&quot;04420000000\&quot;,\&quot;oktmo\&quot;:\&quot;04720000001\&quot;,\&quot;tax_office\&quot;:\&quot;2450\&quot;,\&quot;tax_office_legal\&quot;:\&quot;2450\&quot;,\&quot;timezone\&quot;:\&quot;UTC+7\&quot;,\&quot;geo_lat\&quot;:\&quot;56.2051282\&quot;,\&quot;geo_lon\&quot;:\&quot;95.7051096\&quot;,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:4,\&quot;qc_complete\&quot;:3,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
+                    &quot;time_zone_utc&quot;: &quot;UTC+7&quot;,
+                    &quot;display&quot;: false,
+                    &quot;location_parent&quot;: {
+                        &quot;id&quot;: 27,
+                        &quot;name&quot;: &quot;Красноярский край&quot;,
+                        &quot;time_zone&quot;: &quot;Asia/Krasnoyarsk&quot;,
+                        &quot;location_id&quot;: 1,
+                        &quot;cult_id&quot;: 215,
+                        &quot;created_at&quot;: &quot;2024-09-04T10:38:18.000000Z&quot;,
+                        &quot;updated_at&quot;: &quot;2024-09-04T10:38:18.000000Z&quot;,
+                        &quot;latitude&quot;: &quot;95.96848600000000&quot;,
+                        &quot;longitude&quot;: &quot;67.23678300000000&quot;,
+                        &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u0420\\u0424 \\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;result\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;postal_code\&quot;:null,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:\&quot;\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;region_fias_id\&quot;:\&quot;db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1\&quot;,\&quot;region_kladr_id\&quot;:\&quot;2400000000000\&quot;,\&quot;region_iso_code\&quot;:\&quot;RU-KYA\&quot;,\&quot;region_with_type\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439 \\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region_type\&quot;:\&quot;\\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region_type_full\&quot;:\&quot;\\u043a\\u0440\\u0430\\u0439\&quot;,\&quot;region\&quot;:\&quot;\\u041a\\u0440\\u0430\\u0441\\u043d\\u043e\\u044f\\u0440\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:null,\&quot;city_kladr_id\&quot;:null,\&quot;city_with_type\&quot;:null,\&quot;city_type\&quot;:null,\&quot;city_type_full\&quot;:null,\&quot;city\&quot;:null,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:\&quot;db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1\&quot;,\&quot;fias_code\&quot;:\&quot;24000000000000000000000\&quot;,\&quot;fias_level\&quot;:\&quot;1\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:\&quot;2400000000000\&quot;,\&quot;capital_marker\&quot;:\&quot;0\&quot;,\&quot;okato\&quot;:\&quot;04000000000\&quot;,\&quot;oktmo\&quot;:\&quot;04000000\&quot;,\&quot;tax_office\&quot;:\&quot;2400\&quot;,\&quot;tax_office_legal\&quot;:\&quot;2400\&quot;,\&quot;timezone\&quot;:\&quot;UTC+7\&quot;,\&quot;geo_lat\&quot;:null,\&quot;geo_lon\&quot;:null,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:5,\&quot;qc_complete\&quot;:2,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
+                        &quot;time_zone_utc&quot;: &quot;UTC+7&quot;,
+                        &quot;display&quot;: false
+                    }
+                }
+            }
+        ],
+        &quot;path&quot;: &quot;http://localhost:8000/api/events/170/places&quot;,
         &quot;per_page&quot;: 5,
         &quot;next_cursor&quot;: null,
         &quot;next_page_url&quot;: null,
@@ -336,10 +388,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--places"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -356,14 +408,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/comments" \
+    --get "http://localhost:8000/api/events/170/comments" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/comments"
+    "http://localhost:8000/api/events/170/comments"
 );
 
 const headers = {
@@ -389,7 +441,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 496
+x-ratelimit-remaining: 492
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -475,10 +527,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--comments"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -528,7 +580,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 495
+x-ratelimit-remaining: 491
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -858,27 +910,27 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"address\": \"dvrvqfoyccgavqnsnwhsewexmhpzrjmroeynzccxmgslstyhgxybpcmjjicibpssylfxnl\",
-    \"sponsor\": \"ucffhwztiphtujcgxvhmoyhxuwjbueenqebjczjr\",
-    \"user_name\": \"juudq\",
-    \"user_email\": \"catalina.wiegand@example.net\",
-    \"page\": \"aut\",
-    \"limit\": 18,
-    \"name\": \"nnrampuvgwyce\",
-    \"userId\": 16,
-    \"likedUser\": \"velit\",
-    \"favoriteUser\": \"delectus\",
-    \"statuses\": \"sit\",
+    \"address\": \"yqbpy\",
+    \"sponsor\": \"aixrsjsaeuwbxiwgzshqlwmvrtgsybwuiyglngpmrsbayzhhqmmhsrywecdprfauy\",
+    \"user_name\": \"evn\",
+    \"user_email\": \"kattie96@example.com\",
+    \"page\": \"necessitatibus\",
+    \"limit\": 19,
+    \"name\": \"gynshphhc\",
+    \"userId\": 6,
+    \"likedUser\": \"quia\",
+    \"favoriteUser\": \"consequuntur\",
+    \"statuses\": \"et\",
     \"statusLast\": \"ut\",
-    \"locationId\": \"distinctio\",
-    \"dateStart\": \"laudantium\",
-    \"dateEnd\": \"aliquid\",
-    \"eventTypes\": \"laborum\",
-    \"radius\": 13,
-    \"latitude\": \"ut\",
-    \"longitude\": \"eum\",
-    \"searchText\": \"ggutvokdhwahsgvjgkuvyvnsashbqjshnfevbjldiclsaaccmuepqhjgpomgahrdrgwu\",
-    \"user\": \"tgtijvookbgtr\"
+    \"locationId\": \"dolorem\",
+    \"dateStart\": \"quo\",
+    \"dateEnd\": \"aperiam\",
+    \"eventTypes\": \"porro\",
+    \"radius\": 17,
+    \"latitude\": \"quasi\",
+    \"longitude\": \"et\",
+    \"searchText\": \"zkqmguqvgopngcytfdbdsfyjbtczzlkzglqyuliouohwizvcbzacxnpuutmsih\",
+    \"user\": \"uxnsykmygkdxrvhlujjweonqxulzuwegzkvpibpwimhlwatrhozfdwxojngxqzbstklvrgaeg\"
 }"
 </code></pre></div>
 
@@ -894,27 +946,27 @@ const headers = {
 };
 
 let body = {
-    "address": "dvrvqfoyccgavqnsnwhsewexmhpzrjmroeynzccxmgslstyhgxybpcmjjicibpssylfxnl",
-    "sponsor": "ucffhwztiphtujcgxvhmoyhxuwjbueenqebjczjr",
-    "user_name": "juudq",
-    "user_email": "catalina.wiegand@example.net",
-    "page": "aut",
-    "limit": 18,
-    "name": "nnrampuvgwyce",
-    "userId": 16,
-    "likedUser": "velit",
-    "favoriteUser": "delectus",
-    "statuses": "sit",
+    "address": "yqbpy",
+    "sponsor": "aixrsjsaeuwbxiwgzshqlwmvrtgsybwuiyglngpmrsbayzhhqmmhsrywecdprfauy",
+    "user_name": "evn",
+    "user_email": "kattie96@example.com",
+    "page": "necessitatibus",
+    "limit": 19,
+    "name": "gynshphhc",
+    "userId": 6,
+    "likedUser": "quia",
+    "favoriteUser": "consequuntur",
+    "statuses": "et",
     "statusLast": "ut",
-    "locationId": "distinctio",
-    "dateStart": "laudantium",
-    "dateEnd": "aliquid",
-    "eventTypes": "laborum",
-    "radius": 13,
-    "latitude": "ut",
-    "longitude": "eum",
-    "searchText": "ggutvokdhwahsgvjgkuvyvnsashbqjshnfevbjldiclsaaccmuepqhjgpomgahrdrgwu",
-    "user": "tgtijvookbgtr"
+    "locationId": "dolorem",
+    "dateStart": "quo",
+    "dateEnd": "aperiam",
+    "eventTypes": "porro",
+    "radius": 17,
+    "latitude": "quasi",
+    "longitude": "et",
+    "searchText": "zkqmguqvgopngcytfdbdsfyjbtczzlkzglqyuliouohwizvcbzacxnpuutmsih",
+    "user": "uxnsykmygkdxrvhlujjweonqxulzuwegzkvpibpwimhlwatrhozfdwxojngxqzbstklvrgaeg"
 };
 
 fetch(url, {
@@ -935,19 +987,22 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Мероприятия успешно получены&quot;,
     &quot;events&quot;: {
-        &quot;data&quot;: {
-            &quot;id&quot;: 3328,
-            &quot;name&quot;: &quot;Eos ipsa veritatis nisi et veritatis sequi rerum.&quot;,
-            &quot;sponsor&quot;: &quot;Кондратьева Нестор Алексеевич&quot;,
-            &quot;date_start&quot;: &quot;2024-08-31 15:18:54&quot;,
-            &quot;date_end&quot;: &quot;2024-09-12 19:30:44&quot;,
-            &quot;description&quot;: &quot;Ex explicabo illo eligendi optio occaecati ut. Est tempora dolores debitis et nesciunt. In non provident ut ea quod. Voluptatibus deleniti est a ut blanditiis.&quot;,
-            &quot;materials&quot;: &quot;Officiis nobis unde labore ad molestias voluptas. Fuga ex culpa ea ut et. Dignissimos voluptatem autem error dolorem ducimus est eum.&quot;,
-            &quot;user_id&quot;: 1,
-            &quot;vk_post_id&quot;: &quot;490726&quot;,
-            &quot;created_at&quot;: &quot;2024-09-04T08:21:57.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2024-09-04T08:21:57.000000Z&quot;
-        },
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1360,
+                &quot;name&quot;: &quot;Inventore voluptates voluptas reiciendis natus.&quot;,
+                &quot;sponsor&quot;: &quot;Петроваа Ольга Андреевна&quot;,
+                &quot;date_start&quot;: &quot;2024-09-01 08:43:05&quot;,
+                &quot;date_end&quot;: &quot;2024-09-16 03:22:02&quot;,
+                &quot;description&quot;: &quot;Et necessitatibus suscipit harum sunt. Perspiciatis distinctio eos qui accusantium voluptatum nobis quod. Vero perspiciatis minus rerum exercitationem qui. Ad facilis non harum fugit iste.&quot;,
+                &quot;materials&quot;: &quot;Odio harum nostrum ut sunt autem et. Facilis qui optio voluptas delectus nihil. Ab eius pariatur rem id temporibus ipsam omnis. Sit enim assumenda illum labore nisi dolores autem.&quot;,
+                &quot;user_id&quot;: 1,
+                &quot;vk_post_id&quot;: &quot;467528&quot;,
+                &quot;created_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;9&quot;
+            }
+        ],
         &quot;next_cursor&quot;: null,
         &quot;prev_cursor&quot;: null
     }
@@ -1030,10 +1085,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="address"                data-endpoint="GETapi-events"
-               value="dvrvqfoyccgavqnsnwhsewexmhpzrjmroeynzccxmgslstyhgxybpcmjjicibpssylfxnl"
+               value="yqbpy"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>dvrvqfoyccgavqnsnwhsewexmhpzrjmroeynzccxmgslstyhgxybpcmjjicibpssylfxnl</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>yqbpy</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sponsor</code></b>&nbsp;&nbsp;
@@ -1041,10 +1096,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sponsor"                data-endpoint="GETapi-events"
-               value="ucffhwztiphtujcgxvhmoyhxuwjbueenqebjczjr"
+               value="aixrsjsaeuwbxiwgzshqlwmvrtgsybwuiyglngpmrsbayzhhqmmhsrywecdprfauy"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ucffhwztiphtujcgxvhmoyhxuwjbueenqebjczjr</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>aixrsjsaeuwbxiwgzshqlwmvrtgsybwuiyglngpmrsbayzhhqmmhsrywecdprfauy</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user_name</code></b>&nbsp;&nbsp;
@@ -1052,10 +1107,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user_name"                data-endpoint="GETapi-events"
-               value="juudq"
+               value="evn"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>juudq</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>evn</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user_email</code></b>&nbsp;&nbsp;
@@ -1063,10 +1118,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user_email"                data-endpoint="GETapi-events"
-               value="catalina.wiegand@example.net"
+               value="kattie96@example.com"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>catalina.wiegand@example.net</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>kattie96@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
@@ -1074,10 +1129,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="page"                data-endpoint="GETapi-events"
-               value="aut"
+               value="necessitatibus"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>necessitatibus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
@@ -1085,10 +1140,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-events"
-               value="18"
+               value="19"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50. Example: <code>18</code></p>
+<p>Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50. Example: <code>19</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -1096,10 +1151,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="GETapi-events"
-               value="nnrampuvgwyce"
+               value="gynshphhc"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>nnrampuvgwyce</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>gynshphhc</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>userId</code></b>&nbsp;&nbsp;
@@ -1107,10 +1162,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="userId"                data-endpoint="GETapi-events"
-               value="16"
+               value="6"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Example: <code>6</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>likedUser</code></b>&nbsp;&nbsp;
@@ -1118,10 +1173,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="likedUser"                data-endpoint="GETapi-events"
-               value="velit"
+               value="quia"
                data-component="body">
     <br>
-<p>Example: <code>velit</code></p>
+<p>Example: <code>quia</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>favoriteUser</code></b>&nbsp;&nbsp;
@@ -1129,10 +1184,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="favoriteUser"                data-endpoint="GETapi-events"
-               value="delectus"
+               value="consequuntur"
                data-component="body">
     <br>
-<p>Example: <code>delectus</code></p>
+<p>Example: <code>consequuntur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>statuses</code></b>&nbsp;&nbsp;
@@ -1140,10 +1195,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="statuses"                data-endpoint="GETapi-events"
-               value="sit"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>sit</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>statusLast</code></b>&nbsp;&nbsp;
@@ -1162,10 +1217,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="locationId"                data-endpoint="GETapi-events"
-               value="distinctio"
+               value="dolorem"
                data-component="body">
     <br>
-<p>Example: <code>distinctio</code></p>
+<p>Example: <code>dolorem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateStart</code></b>&nbsp;&nbsp;
@@ -1173,10 +1228,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dateStart"                data-endpoint="GETapi-events"
-               value="laudantium"
+               value="quo"
                data-component="body">
     <br>
-<p>Example: <code>laudantium</code></p>
+<p>Example: <code>quo</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateEnd</code></b>&nbsp;&nbsp;
@@ -1184,10 +1239,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dateEnd"                data-endpoint="GETapi-events"
-               value="aliquid"
+               value="aperiam"
                data-component="body">
     <br>
-<p>Example: <code>aliquid</code></p>
+<p>Example: <code>aperiam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>eventTypes</code></b>&nbsp;&nbsp;
@@ -1195,10 +1250,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="eventTypes"                data-endpoint="GETapi-events"
-               value="laborum"
+               value="porro"
                data-component="body">
     <br>
-<p>Example: <code>laborum</code></p>
+<p>Example: <code>porro</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>radius</code></b>&nbsp;&nbsp;
@@ -1206,10 +1261,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="radius"                data-endpoint="GETapi-events"
-               value="13"
+               value="17"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 25. Example: <code>13</code></p>
+<p>Значение поля value не может быть больше 25. Example: <code>17</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>latitude</code></b>&nbsp;&nbsp;
@@ -1217,10 +1272,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="latitude"                data-endpoint="GETapi-events"
-               value="ut"
+               value="quasi"
                data-component="body">
     <br>
-<p>Example: <code>ut</code></p>
+<p>Example: <code>quasi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>longitude</code></b>&nbsp;&nbsp;
@@ -1228,10 +1283,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="longitude"                data-endpoint="GETapi-events"
-               value="eum"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>eum</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>searchText</code></b>&nbsp;&nbsp;
@@ -1239,10 +1294,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="searchText"                data-endpoint="GETapi-events"
-               value="ggutvokdhwahsgvjgkuvyvnsashbqjshnfevbjldiclsaaccmuepqhjgpomgahrdrgwu"
+               value="zkqmguqvgopngcytfdbdsfyjbtczzlkzglqyuliouohwizvcbzacxnpuutmsih"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ggutvokdhwahsgvjgkuvyvnsashbqjshnfevbjldiclsaaccmuepqhjgpomgahrdrgwu</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>zkqmguqvgopngcytfdbdsfyjbtczzlkzglqyuliouohwizvcbzacxnpuutmsih</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
@@ -1250,10 +1305,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user"                data-endpoint="GETapi-events"
-               value="tgtijvookbgtr"
+               value="uxnsykmygkdxrvhlujjweonqxulzuwegzkvpibpwimhlwatrhozfdwxojngxqzbstklvrgaeg"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>tgtijvookbgtr</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>uxnsykmygkdxrvhlujjweonqxulzuwegzkvpibpwimhlwatrhozfdwxojngxqzbstklvrgaeg</code></p>
         </div>
         </form>
 
@@ -1383,7 +1438,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"event_id\": 76
+    \"event_id\": 63
 }"
 </code></pre></div>
 
@@ -1399,7 +1454,7 @@ const headers = {
 };
 
 let body = {
-    "event_id": 76
+    "event_id": 63
 };
 
 fetch(url, {
@@ -1419,12 +1474,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;likedUser&quot;: {
-        &quot;id&quot;: 18,
-        &quot;name&quot;: &quot;Блинова Ирина Александровна&quot;,
-        &quot;email&quot;: &quot;mlikacev@example.net&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-09-04 08:21:57&quot;,
-        &quot;created_at&quot;: &quot;2024-09-04T08:21:57.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-09-04T08:21:57.000000Z&quot;,
+        &quot;id&quot;: 98,
+        &quot;name&quot;: &quot;Горбунова Георгий Борисович&quot;,
+        &quot;email&quot;: &quot;nestor.pakomov@example.net&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-09-04 11:45:37&quot;,
+        &quot;created_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -1511,10 +1566,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="event_id"                data-endpoint="POSTapi-events-set-event-user-liked"
-               value="76"
+               value="63"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 1. Example: <code>76</code></p>
+<p>Значение поля value должно быть не меньше 1. Example: <code>63</code></p>
         </div>
         </form>
 
@@ -1531,14 +1586,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1" \
+    --get "http://localhost:8000/api/events/170" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"id\": 18
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1"
+    "http://localhost:8000/api/events/170"
 );
 
 const headers = {
@@ -1546,9 +1605,14 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "id": 18
+};
+
 fetch(url, {
     method: "GET",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -1563,17 +1627,18 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Мероприятие успешно получено&quot;,
     &quot;event&quot;: {
-        &quot;id&quot;: 3329,
-        &quot;name&quot;: &quot;Tempora sed voluptatum est sed voluptas.&quot;,
-        &quot;sponsor&quot;: &quot;Гурьева Никодим Борисович&quot;,
-        &quot;date_start&quot;: &quot;2024-09-09 11:35:01&quot;,
-        &quot;date_end&quot;: &quot;2024-09-14 20:29:29&quot;,
-        &quot;description&quot;: &quot;Aut nemo mollitia doloremque at quod. Quidem repellendus quaerat delectus magni sunt consequatur quaerat. Voluptas repellat maxime tempora ullam sit veniam.&quot;,
-        &quot;materials&quot;: &quot;Maxime vitae maxime distinctio voluptate praesentium rerum. Nihil doloribus quod dolores ipsa aut. Et sed facere dolores beatae facere nihil expedita. Earum dolorum cum dolorem corrupti ab.&quot;,
+        &quot;id&quot;: 1361,
+        &quot;name&quot;: &quot;Cum debitis quia doloribus amet voluptatum et.&quot;,
+        &quot;sponsor&quot;: &quot;Алла Евгеньевна Рыбакова&quot;,
+        &quot;date_start&quot;: &quot;2024-09-06 06:49:15&quot;,
+        &quot;date_end&quot;: &quot;2024-09-14 19:26:53&quot;,
+        &quot;description&quot;: &quot;Voluptas voluptatem fuga sed necessitatibus consequatur officia et. Officiis assumenda quis autem et dolor voluptas aperiam. Sapiente corporis beatae amet minima architecto et.&quot;,
+        &quot;materials&quot;: &quot;Qui consequatur et enim nesciunt. Eos consectetur nihil magnam corporis non temporibus. Impedit dignissimos exercitationem veritatis maxime cupiditate et dolore qui.&quot;,
         &quot;user_id&quot;: 1,
-        &quot;vk_post_id&quot;: &quot;786208&quot;,
-        &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;
+        &quot;vk_post_id&quot;: &quot;808651&quot;,
+        &quot;created_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-09-04T11:45:37.000000Z&quot;,
+        &quot;age_limit&quot;: &quot;13&quot;
     }
 }</code>
  </pre>
@@ -1654,12 +1719,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id-"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="id"                data-endpoint="GETapi-events--id-"
+               value="18"
+               data-component="body">
+    <br>
+<p>Example: <code>18</code></p>
+        </div>
+        </form>
 
                     <h2 id="events-GETapi-events--id--history-contents">getHistoryContent</h2>
 
@@ -1675,14 +1752,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/history-contents" \
+    --get "http://localhost:8000/api/events/170/history-contents" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/history-contents"
+    "http://localhost:8000/api/events/170/history-contents"
 );
 
 const headers = {
@@ -1708,7 +1785,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 499
+x-ratelimit-remaining: 496
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -1716,7 +1793,7 @@ vary: Origin
     &quot;status&quot;: &quot;success&quot;,
     &quot;history_content&quot;: {
         &quot;data&quot;: [],
-        &quot;path&quot;: &quot;http://localhost:8000/api/events/1/history-contents&quot;,
+        &quot;path&quot;: &quot;http://localhost:8000/api/events/170/history-contents&quot;,
         &quot;per_page&quot;: 6,
         &quot;next_cursor&quot;: null,
         &quot;next_page_url&quot;: null,
@@ -1802,10 +1879,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--history-contents"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -1823,14 +1900,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/organization" \
+    --get "http://localhost:8000/api/events/170/organization" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/organization"
+    "http://localhost:8000/api/events/170/organization"
 );
 
 const headers = {
@@ -1939,10 +2016,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--organization"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -1960,14 +2037,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/check-user-liked" \
+    --get "http://localhost:8000/api/events/170/check-user-liked" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/check-user-liked"
+    "http://localhost:8000/api/events/170/check-user-liked"
 );
 
 const headers = {
@@ -2070,10 +2147,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--check-user-liked"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -2091,14 +2168,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/check-user-favorite" \
+    --get "http://localhost:8000/api/events/170/check-user-favorite" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/check-user-favorite"
+    "http://localhost:8000/api/events/170/check-user-favorite"
 );
 
 const headers = {
@@ -2201,10 +2278,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--check-user-favorite"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                     </form>
 
@@ -2226,13 +2303,13 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"ufckogykomwsictcuoulvybspballkdxtqgucnwidkgpdqnjddxhxjzkvhzeuvpzwsimcmtelqrqzvenfaiexj\",
-    \"description\": \"Possimus voluptatem nemo quia sit quam.\",
-    \"dateStart\": \"2024-09-04T08:21:58\",
-    \"dateEnd\": \"2040-01-08\",
-    \"type\": \"minima\",
-    \"status\": \"aut\",
-    \"ageLimit\": 5
+    \"name\": \"jgdunfybhsirkyrgnuonx\",
+    \"description\": \"Perferendis ipsa officiis amet et.\",
+    \"dateStart\": \"2024-09-04T11:45:38\",
+    \"dateEnd\": \"2110-10-26\",
+    \"type\": \"quo\",
+    \"status\": \"quia\",
+    \"ageLimit\": 13
 }"
 </code></pre></div>
 
@@ -2248,13 +2325,13 @@ const headers = {
 };
 
 let body = {
-    "name": "ufckogykomwsictcuoulvybspballkdxtqgucnwidkgpdqnjddxhxjzkvhzeuvpzwsimcmtelqrqzvenfaiexj",
-    "description": "Possimus voluptatem nemo quia sit quam.",
-    "dateStart": "2024-09-04T08:21:58",
-    "dateEnd": "2040-01-08",
-    "type": "minima",
-    "status": "aut",
-    "ageLimit": 5
+    "name": "jgdunfybhsirkyrgnuonx",
+    "description": "Perferendis ipsa officiis amet et.",
+    "dateStart": "2024-09-04T11:45:38",
+    "dateEnd": "2110-10-26",
+    "type": "quo",
+    "status": "quia",
+    "ageLimit": 13
 };
 
 fetch(url, {
@@ -2373,10 +2450,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-events-create"
-               value="ufckogykomwsictcuoulvybspballkdxtqgucnwidkgpdqnjddxhxjzkvhzeuvpzwsimcmtelqrqzvenfaiexj"
+               value="jgdunfybhsirkyrgnuonx"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ufckogykomwsictcuoulvybspballkdxtqgucnwidkgpdqnjddxhxjzkvhzeuvpzwsimcmtelqrqzvenfaiexj</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>jgdunfybhsirkyrgnuonx</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -2384,10 +2461,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="POSTapi-events-create"
-               value="Possimus voluptatem nemo quia sit quam."
+               value="Perferendis ipsa officiis amet et."
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 10. Example: <code>Possimus voluptatem nemo quia sit quam.</code></p>
+<p>Количество символов в поле value должно быть не меньше 10. Example: <code>Perferendis ipsa officiis amet et.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateStart</code></b>&nbsp;&nbsp;
@@ -2395,10 +2472,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="dateStart"                data-endpoint="POSTapi-events-create"
-               value="2024-09-04T08:21:58"
+               value="2024-09-04T11:45:38"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Example: <code>2024-09-04T08:21:58</code></p>
+<p>Значение поля value не является датой. Example: <code>2024-09-04T11:45:38</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateEnd</code></b>&nbsp;&nbsp;
@@ -2406,10 +2483,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="dateEnd"                data-endpoint="POSTapi-events-create"
-               value="2040-01-08"
+               value="2110-10-26"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Значение поля value должно быть датой после <code>dateStart</code>. Example: <code>2040-01-08</code></p>
+<p>Значение поля value не является датой. Значение поля value должно быть датой после <code>dateStart</code>. Example: <code>2110-10-26</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>type</code></b>&nbsp;&nbsp;
@@ -2417,10 +2494,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-events-create"
-               value="minima"
+               value="quo"
                data-component="body">
     <br>
-<p>Example: <code>minima</code></p>
+<p>Example: <code>quo</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
@@ -2428,10 +2505,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-events-create"
-               value="aut"
+               value="quia"
                data-component="body">
     <br>
-<p>Example: <code>aut</code></p>
+<p>Example: <code>quia</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>places</code></b>&nbsp;&nbsp;
@@ -2461,10 +2538,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="ageLimit"                data-endpoint="POSTapi-events-create"
-               value="5"
+               value="13"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18. Example: <code>5</code></p>
+<p>Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18. Example: <code>13</code></p>
         </div>
         </form>
 
@@ -2482,7 +2559,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/liked-users" \
+    --get "http://localhost:8000/api/events/170/liked-users" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
@@ -2493,7 +2570,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/liked-users"
+    "http://localhost:8000/api/events/170/liked-users"
 );
 
 const headers = {
@@ -2523,19 +2600,22 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;События понравившиеся пользователю получены&quot;,
     &quot;events&quot;: {
-        &quot;data&quot;: {
-            &quot;id&quot;: 3331,
-            &quot;name&quot;: &quot;Tempora earum incidunt qui illum est et.&quot;,
-            &quot;sponsor&quot;: &quot;Иосиф Андреевич Галкина&quot;,
-            &quot;date_start&quot;: &quot;2024-08-29 08:57:35&quot;,
-            &quot;date_end&quot;: &quot;2024-09-14 22:26:30&quot;,
-            &quot;description&quot;: &quot;Itaque sed et minus quos. Ullam porro nesciunt esse. Cupiditate eum quo consequatur et aliquam et.&quot;,
-            &quot;materials&quot;: &quot;Ipsum omnis neque non quaerat. Illum totam perferendis nam laudantium.&quot;,
-            &quot;user_id&quot;: 1,
-            &quot;vk_post_id&quot;: &quot;129030&quot;,
-            &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;
-        },
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1363,
+                &quot;name&quot;: &quot;Facere vitae illum iure sed ipsa sunt.&quot;,
+                &quot;sponsor&quot;: &quot;Флорентина Евгеньевна Игнатьева&quot;,
+                &quot;date_start&quot;: &quot;2024-08-30 15:58:59&quot;,
+                &quot;date_end&quot;: &quot;2024-09-13 15:51:26&quot;,
+                &quot;description&quot;: &quot;Consequuntur velit deleniti vel nobis maiores. Ea beatae quia consequatur. Consequatur porro odio saepe sit. Doloribus qui vel ea ut tempore enim et. Ullam repellendus voluptatem ab unde.&quot;,
+                &quot;materials&quot;: &quot;Molestiae aliquam saepe non reiciendis tempore natus. Animi est consectetur ea eius quas. Officia et pariatur error quos perferendis. Voluptate occaecati et ut vel.&quot;,
+                &quot;user_id&quot;: 2,
+                &quot;vk_post_id&quot;: &quot;141576&quot;,
+                &quot;created_at&quot;: &quot;2024-09-04T11:45:38.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-04T11:45:38.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;15&quot;
+            }
+        ],
         &quot;next_cursor&quot;: null,
         &quot;prev_cursor&quot;: null
     }
@@ -2618,10 +2698,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--liked-users"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2662,18 +2742,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/favorites-users" \
+    --get "http://localhost:8000/api/events/170/favorites-users" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 18
+    \"limit\": 6
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/favorites-users"
+    "http://localhost:8000/api/events/170/favorites-users"
 );
 
 const headers = {
@@ -2682,7 +2762,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 18
+    "limit": 6
 };
 
 fetch(url, {
@@ -2703,19 +2783,22 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Избранные события пользователю получены&quot;,
     &quot;events&quot;: {
-        &quot;data&quot;: {
-            &quot;id&quot;: 19,
-            &quot;name&quot;: &quot;Савинаа Александра Романовна&quot;,
-            &quot;sponsor&quot;: null,
-            &quot;date_start&quot;: null,
-            &quot;date_end&quot;: null,
-            &quot;description&quot;: null,
-            &quot;materials&quot;: null,
-            &quot;user_id&quot;: null,
-            &quot;vk_post_id&quot;: null,
-            &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;
-        },
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 99,
+                &quot;name&quot;: &quot;Диана Ивановна Титова&quot;,
+                &quot;sponsor&quot;: null,
+                &quot;date_start&quot;: null,
+                &quot;date_end&quot;: null,
+                &quot;description&quot;: null,
+                &quot;materials&quot;: null,
+                &quot;user_id&quot;: null,
+                &quot;vk_post_id&quot;: null,
+                &quot;created_at&quot;: &quot;2024-09-04T11:45:38.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-04T11:45:38.000000Z&quot;,
+                &quot;age_limit&quot;: null
+            }
+        ],
         &quot;next_cursor&quot;: null,
         &quot;prev_cursor&quot;: null
     }
@@ -2798,10 +2881,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--favorites-users"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -2821,10 +2904,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-events--id--favorites-users"
-               value="18"
+               value="6"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>18</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>6</code></p>
         </div>
         </form>
 
@@ -2842,14 +2925,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/events/1/statuses" \
+    "http://localhost:8000/api/events/170/statuses" \
     --header "Content-Type: application/json" \
-    --header "Accept: application/json"</code></pre></div>
+    --header "Accept: application/json" \
+    --data "{
+    \"status_id\": 7
+}"
+</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/statuses"
+    "http://localhost:8000/api/events/170/statuses"
 );
 
 const headers = {
@@ -2857,9 +2944,14 @@ const headers = {
     "Accept": "application/json",
 };
 
+let body = {
+    "status_id": 7
+};
+
 fetch(url, {
     method: "POST",
     headers,
+    body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
@@ -2942,12 +3034,24 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-events--id--statuses"
-               value="1"
+               value="170"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>170</code></p>
             </div>
-                    </form>
+                            <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
+        <div style=" padding-left: 28px;  clear: unset;">
+            <b style="line-height: 2;"><code>status_id</code></b>&nbsp;&nbsp;
+<small>integer</small>&nbsp;
+ &nbsp;
+                <input type="number" style="display: none"
+               step="any"               name="status_id"                data-endpoint="POSTapi-events--id--statuses"
+               value="7"
+               data-component="body">
+    <br>
+<p>Example: <code>7</code></p>
+        </div>
+        </form>
 
                 <h1 id="sight">Sight</h1>
 
@@ -3001,15 +3105,15 @@ fetch(url, {
     &quot;sights&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 682,
-                &quot;name&quot;: &quot;Ullam quo autem sed est nobis.&quot;,
+                &quot;id&quot;: 3609,
+                &quot;name&quot;: &quot;In cum ut nemo iure eveniet quia.&quot;,
                 &quot;sponsor&quot;: null,
-                &quot;latitude&quot;: &quot;-77.92152100000000&quot;,
-                &quot;longitude&quot;: &quot;-56.91081800000000&quot;,
-                &quot;location_id&quot;: 2547,
-                &quot;address&quot;: &quot;319011, Ленинградская область, город Луховицы, шоссе Домодедовская, 68&quot;,
-                &quot;description&quot;: &quot;Fugiat aut omnis porro ullam. Quia eos quae ipsum nihil. Provident nemo soluta neque laudantium aut quidem.&quot;,
-                &quot;materials&quot;: &quot;Quo aut earum qui id optio sint aperiam accusantium. Et iusto est vel aut. Accusantium id nisi soluta fuga. Iusto et adipisci maxime quo sint.&quot;,
+                &quot;latitude&quot;: &quot;-20.01678200000000&quot;,
+                &quot;longitude&quot;: &quot;69.03872100000000&quot;,
+                &quot;location_id&quot;: 2045,
+                &quot;address&quot;: &quot;561692, Иркутская область, город Орехово-Зуево, бульвар Ломоносова, 75&quot;,
+                &quot;description&quot;: &quot;Quibusdam mollitia eum aut delectus a sequi qui. Neque pariatur ut aut unde. Officiis itaque tenetur qui commodi neque incidunt.&quot;,
+                &quot;materials&quot;: &quot;Corrupti nobis ut dolor velit eveniet et. Omnis blanditiis id voluptatem natus. Expedita necessitatibus aliquam amet distinctio autem.&quot;,
                 &quot;user_id&quot;: 1
             }
         ],
@@ -3406,15 +3510,15 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;sight.show.success&quot;,
     &quot;sight&quot;: {
-        &quot;id&quot;: 683,
-        &quot;name&quot;: &quot;Accusantium qui iste maiores debitis facere velit unde.&quot;,
+        &quot;id&quot;: 3610,
+        &quot;name&quot;: &quot;Repellat cumque quos sit sed dolores ratione maiores.&quot;,
         &quot;sponsor&quot;: null,
-        &quot;latitude&quot;: &quot;47.59716000000000&quot;,
-        &quot;longitude&quot;: &quot;136.24808700000000&quot;,
-        &quot;location_id&quot;: 2760,
-        &quot;address&quot;: &quot;984563, Владимирская область, город Щёлково, пл. Бухарестская, 38&quot;,
-        &quot;description&quot;: &quot;Voluptate doloremque ut ut cum itaque odit tempore. Eveniet dolor quae similique in excepturi quisquam. Officia animi cumque esse perspiciatis qui enim est.&quot;,
-        &quot;materials&quot;: &quot;Necessitatibus nihil esse consequatur facere et praesentium quis nulla. Est harum exercitationem ut omnis et. Nostrum deleniti aperiam est. Minus facilis consectetur porro quidem eveniet recusandae.&quot;,
+        &quot;latitude&quot;: &quot;-23.38738000000000&quot;,
+        &quot;longitude&quot;: &quot;-90.84349100000000&quot;,
+        &quot;location_id&quot;: 2111,
+        &quot;address&quot;: &quot;758322, Саратовская область, город Шатура, ул. Косиора, 85&quot;,
+        &quot;description&quot;: &quot;Ex deserunt dolor dolorem enim eum. Rerum ea quisquam doloremque explicabo. Fuga odit odit debitis accusamus consectetur autem.&quot;,
+        &quot;materials&quot;: &quot;Perspiciatis quae cum quia ducimus. Quae doloribus dolorem iste amet error laudantium maiores. Quia commodi et eum error eum in omnis. Iure fugiat velit iste exercitationem ut.&quot;,
         &quot;user_id&quot;: 1
     }
 }</code>
@@ -3530,7 +3634,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 13
+    \"limit\": 16
 }"
 </code></pre></div>
 
@@ -3546,7 +3650,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 13
+    "limit": 16
 };
 
 fetch(url, {
@@ -3567,19 +3671,22 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;sight.get_events_in_sight.success&quot;,
     &quot;events&quot;: {
-        &quot;data&quot;: {
-            &quot;id&quot;: 3332,
-            &quot;name&quot;: &quot;Eveniet non in qui non magnam ducimus odio.&quot;,
-            &quot;sponsor&quot;: &quot;Виктория Алексеевна Тихонова&quot;,
-            &quot;date_start&quot;: &quot;2024-09-08 03:16:37&quot;,
-            &quot;date_end&quot;: &quot;2024-09-13 14:22:42&quot;,
-            &quot;description&quot;: &quot;Iure delectus tempora deleniti eius vero aliquid. Facere perspiciatis rerum aut dicta. Sapiente nulla accusamus in harum.&quot;,
-            &quot;materials&quot;: &quot;Voluptas dicta vel itaque saepe distinctio nisi. Alias dignissimos et ratione natus. Sapiente ex fugiat sed repellendus deleniti adipisci porro.&quot;,
-            &quot;user_id&quot;: 2,
-            &quot;vk_post_id&quot;: &quot;983863&quot;,
-            &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-            &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;
-        },
+        &quot;data&quot;: [
+            {
+                &quot;id&quot;: 1364,
+                &quot;name&quot;: &quot;Nihil est fugiat ipsa ducimus quasi.&quot;,
+                &quot;sponsor&quot;: &quot;Ершова Мария Владимировна&quot;,
+                &quot;date_start&quot;: &quot;2024-08-31 04:55:30&quot;,
+                &quot;date_end&quot;: &quot;2024-09-18 02:00:10&quot;,
+                &quot;description&quot;: &quot;Qui ut enim nulla dolorum quas nisi et. Earum voluptatem est est ut et repellat. Eum repellendus omnis veritatis voluptatem.&quot;,
+                &quot;materials&quot;: &quot;Cupiditate aut nihil quidem natus error corrupti aut excepturi. Consequuntur et ratione eaque et. Quam voluptatem aut est dolor.&quot;,
+                &quot;user_id&quot;: 1,
+                &quot;vk_post_id&quot;: &quot;483989&quot;,
+                &quot;created_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;8&quot;
+            }
+        ],
         &quot;next_cursor&quot;: null,
         &quot;prev_cursor&quot;: null
     }
@@ -3685,10 +3792,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--events"
-               value="13"
+               value="16"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>13</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>16</code></p>
         </div>
         </form>
 
@@ -3974,17 +4081,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"gywbbhgxdvygxojsdfkqatcadollwmalkwfizpbicniduzbacoukrfsguvqnrcuqfdnrcykczr\",
-    \"sponsor\": \"pzkfyndmcnnhnjinutsuodviabandbmpqjvuyulvhcfhybndriporuucuhnuqyiwnstzzncclqwrfabhzjwscxuipn\",
-    \"coords\": \"dsnitivpdkjbhrv\",
-    \"description\": \"Et magnam necessitatibus consequatur eveniet.\",
-    \"type\": \"porro\",
-    \"status\": \"aperiam\",
-    \"locationId\": \"voluptates\",
-    \"vkGroupId\": \"corporis\",
-    \"vkPostId\": \"suscipit\",
+    \"name\": \"kmasiogsxjtasudwumkuuuovrnvhpctaoiociksidzbjmnwrvhubpdcbfphwxumynwabfubabhioiflebyv\",
+    \"sponsor\": \"svdsctlieckfiwirkhesm\",
+    \"coords\": \"amompkeyhfuvjscmpsbsmmmbgvmbvznibcjhyairexkafil\",
+    \"description\": \"Saepe ut eius sint et.\",
+    \"type\": \"sed\",
+    \"status\": \"ut\",
+    \"locationId\": \"optio\",
+    \"vkGroupId\": \"veniam\",
+    \"vkPostId\": \"et\",
     \"price\": [
-        \"accusantium\"
+        \"aut\"
     ]
 }"
 </code></pre></div>
@@ -4001,17 +4108,17 @@ const headers = {
 };
 
 let body = {
-    "name": "gywbbhgxdvygxojsdfkqatcadollwmalkwfizpbicniduzbacoukrfsguvqnrcuqfdnrcykczr",
-    "sponsor": "pzkfyndmcnnhnjinutsuodviabandbmpqjvuyulvhcfhybndriporuucuhnuqyiwnstzzncclqwrfabhzjwscxuipn",
-    "coords": "dsnitivpdkjbhrv",
-    "description": "Et magnam necessitatibus consequatur eveniet.",
-    "type": "porro",
-    "status": "aperiam",
-    "locationId": "voluptates",
-    "vkGroupId": "corporis",
-    "vkPostId": "suscipit",
+    "name": "kmasiogsxjtasudwumkuuuovrnvhpctaoiociksidzbjmnwrvhubpdcbfphwxumynwabfubabhioiflebyv",
+    "sponsor": "svdsctlieckfiwirkhesm",
+    "coords": "amompkeyhfuvjscmpsbsmmmbgvmbvznibcjhyairexkafil",
+    "description": "Saepe ut eius sint et.",
+    "type": "sed",
+    "status": "ut",
+    "locationId": "optio",
+    "vkGroupId": "veniam",
+    "vkPostId": "et",
     "price": [
-        "accusantium"
+        "aut"
     ]
 };
 
@@ -4033,15 +4140,15 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Событие успешно создано&quot;,
     &quot;sight&quot;: {
-        &quot;id&quot;: 684,
-        &quot;name&quot;: &quot;Adipisci error pariatur eius at.&quot;,
+        &quot;id&quot;: 3611,
+        &quot;name&quot;: &quot;Non consequatur saepe aspernatur odio sit aut.&quot;,
         &quot;sponsor&quot;: null,
-        &quot;latitude&quot;: &quot;46.51504000000000&quot;,
-        &quot;longitude&quot;: &quot;-81.05432200000000&quot;,
-        &quot;location_id&quot;: 1830,
-        &quot;address&quot;: &quot;955688, Магаданская область, город Воскресенск, пр. Бухарестская, 10&quot;,
-        &quot;description&quot;: &quot;Quibusdam qui impedit odit qui accusantium sit. Placeat corporis quia aut impedit dolores. Omnis et recusandae soluta dolores.&quot;,
-        &quot;materials&quot;: &quot;Eum voluptatum aspernatur sunt. Occaecati consequatur provident incidunt omnis ipsa et magnam. Sed error reiciendis quis. Eos rem consequuntur dolorum accusamus blanditiis.&quot;,
+        &quot;latitude&quot;: &quot;79.14689000000000&quot;,
+        &quot;longitude&quot;: &quot;-70.34360600000000&quot;,
+        &quot;location_id&quot;: 2241,
+        &quot;address&quot;: &quot;863686, Оренбургская область, город Клин, бульвар Будапештсткая, 39&quot;,
+        &quot;description&quot;: &quot;Voluptatibus at deserunt qui soluta perferendis sapiente autem qui. Excepturi porro assumenda libero magnam sequi excepturi. Eveniet ipsa omnis blanditiis quidem quia dicta quo. Adipisci quo rem et.&quot;,
+        &quot;materials&quot;: &quot;Rerum minima totam aliquam nihil sed. Est sunt perspiciatis nesciunt impedit ex quam ipsa. Est et aut soluta aut.&quot;,
         &quot;user_id&quot;: 1
     }
 }</code>
@@ -4123,10 +4230,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-sights-create"
-               value="gywbbhgxdvygxojsdfkqatcadollwmalkwfizpbicniduzbacoukrfsguvqnrcuqfdnrcykczr"
+               value="kmasiogsxjtasudwumkuuuovrnvhpctaoiociksidzbjmnwrvhubpdcbfphwxumynwabfubabhioiflebyv"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>gywbbhgxdvygxojsdfkqatcadollwmalkwfizpbicniduzbacoukrfsguvqnrcuqfdnrcykczr</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>kmasiogsxjtasudwumkuuuovrnvhpctaoiociksidzbjmnwrvhubpdcbfphwxumynwabfubabhioiflebyv</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sponsor</code></b>&nbsp;&nbsp;
@@ -4134,10 +4241,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="sponsor"                data-endpoint="POSTapi-sights-create"
-               value="pzkfyndmcnnhnjinutsuodviabandbmpqjvuyulvhcfhybndriporuucuhnuqyiwnstzzncclqwrfabhzjwscxuipn"
+               value="svdsctlieckfiwirkhesm"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>pzkfyndmcnnhnjinutsuodviabandbmpqjvuyulvhcfhybndriporuucuhnuqyiwnstzzncclqwrfabhzjwscxuipn</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>svdsctlieckfiwirkhesm</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>coords</code></b>&nbsp;&nbsp;
@@ -4145,10 +4252,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="coords"                data-endpoint="POSTapi-sights-create"
-               value="dsnitivpdkjbhrv"
+               value="amompkeyhfuvjscmpsbsmmmbgvmbvznibcjhyairexkafil"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 2. Example: <code>dsnitivpdkjbhrv</code></p>
+<p>Количество символов в поле value должно быть не меньше 2. Example: <code>amompkeyhfuvjscmpsbsmmmbgvmbvznibcjhyairexkafil</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -4156,10 +4263,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="POSTapi-sights-create"
-               value="Et magnam necessitatibus consequatur eveniet."
+               value="Saepe ut eius sint et."
                data-component="body">
     <br>
-<p>Example: <code>Et magnam necessitatibus consequatur eveniet.</code></p>
+<p>Example: <code>Saepe ut eius sint et.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>type</code></b>&nbsp;&nbsp;
@@ -4167,10 +4274,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-sights-create"
-               value="porro"
+               value="sed"
                data-component="body">
     <br>
-<p>Example: <code>porro</code></p>
+<p>Example: <code>sed</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
@@ -4178,10 +4285,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-sights-create"
-               value="aperiam"
+               value="ut"
                data-component="body">
     <br>
-<p>Example: <code>aperiam</code></p>
+<p>Example: <code>ut</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>locationId</code></b>&nbsp;&nbsp;
@@ -4189,10 +4296,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="locationId"                data-endpoint="POSTapi-sights-create"
-               value="voluptates"
+               value="optio"
                data-component="body">
     <br>
-<p>Example: <code>voluptates</code></p>
+<p>Example: <code>optio</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkGroupId</code></b>&nbsp;&nbsp;
@@ -4200,10 +4307,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="vkGroupId"                data-endpoint="POSTapi-sights-create"
-               value="corporis"
+               value="veniam"
                data-component="body">
     <br>
-<p>Example: <code>corporis</code></p>
+<p>Example: <code>veniam</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkPostId</code></b>&nbsp;&nbsp;
@@ -4211,10 +4318,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="vkPostId"                data-endpoint="POSTapi-sights-create"
-               value="suscipit"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>suscipit</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
         <details>
@@ -4231,10 +4338,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="price.0.cost_rub"                data-endpoint="POSTapi-sights-create"
-               value="1"
+               value="12"
                data-component="body">
     <br>
-<p>Example: <code>1</code></p>
+<p>Example: <code>12</code></p>
                     </div>
                                                                 <div style="margin-left: 14px; clear: unset;">
                         <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -4242,10 +4349,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="price.0.description"                data-endpoint="POSTapi-sights-create"
-               value="16"
+               value="2"
                data-component="body">
     <br>
-<p>Example: <code>16</code></p>
+<p>Example: <code>2</code></p>
                     </div>
                                     </details>
         </div>
@@ -4281,7 +4388,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 7
+    \"limit\": 24
 }"
 </code></pre></div>
 
@@ -4297,7 +4404,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 7
+    "limit": 24
 };
 
 fetch(url, {
@@ -4317,12 +4424,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;result&quot;: {
-        &quot;id&quot;: 20,
-        &quot;name&quot;: &quot;Дина Андреевна Черноваа&quot;,
-        &quot;email&quot;: &quot;valerii13@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-09-04 08:21:58&quot;,
-        &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
+        &quot;id&quot;: 100,
+        &quot;name&quot;: &quot;Олеся Ивановна Веселоваа&quot;,
+        &quot;email&quot;: &quot;rpanov@example.org&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-09-04 11:45:39&quot;,
+        &quot;created_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -4432,10 +4539,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--liked-users"
-               value="7"
+               value="24"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>7</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>24</code></p>
         </div>
         </form>
 
@@ -4456,7 +4563,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 18
+    \"limit\": 4
 }"
 </code></pre></div>
 
@@ -4472,7 +4579,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 18
+    "limit": 4
 };
 
 fetch(url, {
@@ -4492,12 +4599,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;result&quot;: {
-        &quot;id&quot;: 21,
-        &quot;name&quot;: &quot;Фомина Варвара Сергеевна&quot;,
-        &quot;email&quot;: &quot;wvorobeva@example.org&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-09-04 08:21:58&quot;,
-        &quot;created_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-09-04T08:21:58.000000Z&quot;,
+        &quot;id&quot;: 101,
+        &quot;name&quot;: &quot;Стрелкова Нестор Борисович&quot;,
+        &quot;email&quot;: &quot;yna52@example.net&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-09-04 11:45:39&quot;,
+        &quot;created_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-09-04T11:45:39.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -4607,10 +4714,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--favorites-users"
-               value="18"
+               value="4"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>18</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>4</code></p>
         </div>
         </form>
 
@@ -4631,7 +4738,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 2
+    \"limit\": 22
 }"
 </code></pre></div>
 
@@ -4647,7 +4754,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 2
+    "limit": 22
 };
 
 fetch(url, {
@@ -4669,7 +4776,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 497
+x-ratelimit-remaining: 493
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -4838,6 +4945,20 @@ vary: Origin
             &quot;line&quot;: 141,
             &quot;function&quot;: &quot;Illuminate\\Foundation\\Http\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php&quot;,
+            &quot;line&quot;: 59,
+            &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
+            &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
+            &quot;type&quot;: &quot;-&gt;&quot;
+        },
+        {
+            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;line&quot;: 180,
+            &quot;function&quot;: &quot;handle&quot;,
+            &quot;class&quot;: &quot;Barryvdh\\Debugbar\\Middleware\\InjectDebugbar&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
@@ -5244,10 +5365,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--history-contents"
-               value="2"
+               value="22"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>2</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>22</code></p>
         </div>
         </form>
 

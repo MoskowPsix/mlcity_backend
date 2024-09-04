@@ -23,8 +23,54 @@ paths:
                 example:
                   status: success
                   places:
-                    data: []
-                    path: 'http://localhost:8000/api/events/1/places'
+                    data:
+                      -
+                        id: 322
+                        event_id: 170
+                        sight_id: 139
+                        location_id: 991
+                        latitude: '56.97247300000000'
+                        longitude: '96.99488300000000'
+                        address: 'Красноярский край, р-н.Абанский, с. Вознесенка, ул. Центральная, 30в'
+                        created_at: '2024-09-04T11:31:35.000000Z'
+                        updated_at: '2024-09-04T11:31:35.000000Z'
+                        timezone_id: 6
+                        cult_id: null
+                        seances:
+                          -
+                            id: 668
+                            place_id: 322
+                            date_start: '2024-09-07 11:00:00'
+                            date_end: '2024-09-07 12:20:00'
+                            created_at: '2024-09-04T11:31:36.000000Z'
+                            updated_at: '2024-09-04T11:31:36.000000Z'
+                        location:
+                          id: 991
+                          name: Канск
+                          time_zone: Asia/Krasnoyarsk
+                          location_id: 27
+                          cult_id: 652
+                          created_at: '2024-09-04T10:38:18.000000Z'
+                          updated_at: '2024-09-04T10:38:18.000000Z'
+                          latitude: '56.20512820000000'
+                          longitude: '95.70510960000000'
+                          info_dadata: '{"source":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439 \u041a\u0430\u043d\u0441\u043a","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439, \u0433 \u041a\u0430\u043d\u0441\u043a","postal_code":"663600","country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","city_kladr_id":"2400001600000","city_with_type":"\u0433 \u041a\u0430\u043d\u0441\u043a","city_type":"\u0433","city_type_full":"\u0433\u043e\u0440\u043e\u0434","city":"\u041a\u0430\u043d\u0441\u043a","city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","fias_code":"24000016000000000000000","fias_level":"4","fias_actuality_state":"0","kladr_id":"2400001600000","capital_marker":"0","okato":"04420000000","oktmo":"04720000001","tax_office":"2450","tax_office_legal":"2450","timezone":"UTC+7","geo_lat":"56.2051282","geo_lon":"95.7051096","beltway_hit":null,"beltway_distance":null,"qc_geo":4,"qc_complete":3,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                          time_zone_utc: UTC+7
+                          display: false
+                          location_parent:
+                            id: 27
+                            name: 'Красноярский край'
+                            time_zone: Asia/Krasnoyarsk
+                            location_id: 1
+                            cult_id: 215
+                            created_at: '2024-09-04T10:38:18.000000Z'
+                            updated_at: '2024-09-04T10:38:18.000000Z'
+                            latitude: '95.96848600000000'
+                            longitude: '67.23678300000000'
+                            info_dadata: '{"source":"\u0420\u0424 \u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","postal_code":null,"country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":null,"city_kladr_id":null,"city_with_type":null,"city_type":null,"city_type_full":null,"city":null,"city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","fias_code":"24000000000000000000000","fias_level":"1","fias_actuality_state":"0","kladr_id":"2400000000000","capital_marker":"0","okato":"04000000000","oktmo":"04000000","tax_office":"2400","tax_office_legal":"2400","timezone":"UTC+7","geo_lat":null,"geo_lon":null,"beltway_hit":null,"beltway_distance":null,"qc_geo":5,"qc_complete":2,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                            time_zone_utc: UTC+7
+                            display: false
+                    path: 'http://localhost:8000/api/events/170/places'
                     per_page: 5
                     next_cursor: null
                     next_page_url: null
@@ -39,10 +85,201 @@ paths:
                     properties:
                       data:
                         type: array
-                        example: []
+                        example:
+                          -
+                            id: 322
+                            event_id: 170
+                            sight_id: 139
+                            location_id: 991
+                            latitude: '56.97247300000000'
+                            longitude: '96.99488300000000'
+                            address: 'Красноярский край, р-н.Абанский, с. Вознесенка, ул. Центральная, 30в'
+                            created_at: '2024-09-04T11:31:35.000000Z'
+                            updated_at: '2024-09-04T11:31:35.000000Z'
+                            timezone_id: 6
+                            cult_id: null
+                            seances:
+                              -
+                                id: 668
+                                place_id: 322
+                                date_start: '2024-09-07 11:00:00'
+                                date_end: '2024-09-07 12:20:00'
+                                created_at: '2024-09-04T11:31:36.000000Z'
+                                updated_at: '2024-09-04T11:31:36.000000Z'
+                            location:
+                              id: 991
+                              name: Канск
+                              time_zone: Asia/Krasnoyarsk
+                              location_id: 27
+                              cult_id: 652
+                              created_at: '2024-09-04T10:38:18.000000Z'
+                              updated_at: '2024-09-04T10:38:18.000000Z'
+                              latitude: '56.20512820000000'
+                              longitude: '95.70510960000000'
+                              info_dadata: '{"source":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439 \u041a\u0430\u043d\u0441\u043a","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439, \u0433 \u041a\u0430\u043d\u0441\u043a","postal_code":"663600","country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","city_kladr_id":"2400001600000","city_with_type":"\u0433 \u041a\u0430\u043d\u0441\u043a","city_type":"\u0433","city_type_full":"\u0433\u043e\u0440\u043e\u0434","city":"\u041a\u0430\u043d\u0441\u043a","city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","fias_code":"24000016000000000000000","fias_level":"4","fias_actuality_state":"0","kladr_id":"2400001600000","capital_marker":"0","okato":"04420000000","oktmo":"04720000001","tax_office":"2450","tax_office_legal":"2450","timezone":"UTC+7","geo_lat":"56.2051282","geo_lon":"95.7051096","beltway_hit":null,"beltway_distance":null,"qc_geo":4,"qc_complete":3,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                              time_zone_utc: UTC+7
+                              display: false
+                              location_parent:
+                                id: 27
+                                name: 'Красноярский край'
+                                time_zone: Asia/Krasnoyarsk
+                                location_id: 1
+                                cult_id: 215
+                                created_at: '2024-09-04T10:38:18.000000Z'
+                                updated_at: '2024-09-04T10:38:18.000000Z'
+                                latitude: '95.96848600000000'
+                                longitude: '67.23678300000000'
+                                info_dadata: '{"source":"\u0420\u0424 \u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","postal_code":null,"country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":null,"city_kladr_id":null,"city_with_type":null,"city_type":null,"city_type_full":null,"city":null,"city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","fias_code":"24000000000000000000000","fias_level":"1","fias_actuality_state":"0","kladr_id":"2400000000000","capital_marker":"0","okato":"04000000000","oktmo":"04000000","tax_office":"2400","tax_office_legal":"2400","timezone":"UTC+7","geo_lat":null,"geo_lon":null,"beltway_hit":null,"beltway_distance":null,"qc_geo":5,"qc_complete":2,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                                time_zone_utc: UTC+7
+                                display: false
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 322
+                            event_id:
+                              type: integer
+                              example: 170
+                            sight_id:
+                              type: integer
+                              example: 139
+                            location_id:
+                              type: integer
+                              example: 991
+                            latitude:
+                              type: string
+                              example: '56.97247300000000'
+                            longitude:
+                              type: string
+                              example: '96.99488300000000'
+                            address:
+                              type: string
+                              example: 'Красноярский край, р-н.Абанский, с. Вознесенка, ул. Центральная, 30в'
+                            created_at:
+                              type: string
+                              example: '2024-09-04T11:31:35.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2024-09-04T11:31:35.000000Z'
+                            timezone_id:
+                              type: integer
+                              example: 6
+                            cult_id:
+                              type: string
+                              example: null
+                            seances:
+                              type: array
+                              example:
+                                -
+                                  id: 668
+                                  place_id: 322
+                                  date_start: '2024-09-07 11:00:00'
+                                  date_end: '2024-09-07 12:20:00'
+                                  created_at: '2024-09-04T11:31:36.000000Z'
+                                  updated_at: '2024-09-04T11:31:36.000000Z'
+                              items:
+                                type: object
+                                properties:
+                                  id:
+                                    type: integer
+                                    example: 668
+                                  place_id:
+                                    type: integer
+                                    example: 322
+                                  date_start:
+                                    type: string
+                                    example: '2024-09-07 11:00:00'
+                                  date_end:
+                                    type: string
+                                    example: '2024-09-07 12:20:00'
+                                  created_at:
+                                    type: string
+                                    example: '2024-09-04T11:31:36.000000Z'
+                                  updated_at:
+                                    type: string
+                                    example: '2024-09-04T11:31:36.000000Z'
+                            location:
+                              type: object
+                              properties:
+                                id:
+                                  type: integer
+                                  example: 991
+                                name:
+                                  type: string
+                                  example: Канск
+                                time_zone:
+                                  type: string
+                                  example: Asia/Krasnoyarsk
+                                location_id:
+                                  type: integer
+                                  example: 27
+                                cult_id:
+                                  type: integer
+                                  example: 652
+                                created_at:
+                                  type: string
+                                  example: '2024-09-04T10:38:18.000000Z'
+                                updated_at:
+                                  type: string
+                                  example: '2024-09-04T10:38:18.000000Z'
+                                latitude:
+                                  type: string
+                                  example: '56.20512820000000'
+                                longitude:
+                                  type: string
+                                  example: '95.70510960000000'
+                                info_dadata:
+                                  type: string
+                                  example: '{"source":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439 \u041a\u0430\u043d\u0441\u043a","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439, \u0433 \u041a\u0430\u043d\u0441\u043a","postal_code":"663600","country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","city_kladr_id":"2400001600000","city_with_type":"\u0433 \u041a\u0430\u043d\u0441\u043a","city_type":"\u0433","city_type_full":"\u0433\u043e\u0440\u043e\u0434","city":"\u041a\u0430\u043d\u0441\u043a","city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"75917770-c4cb-44d8-afcc-8a6d395c3bc2","fias_code":"24000016000000000000000","fias_level":"4","fias_actuality_state":"0","kladr_id":"2400001600000","capital_marker":"0","okato":"04420000000","oktmo":"04720000001","tax_office":"2450","tax_office_legal":"2450","timezone":"UTC+7","geo_lat":"56.2051282","geo_lon":"95.7051096","beltway_hit":null,"beltway_distance":null,"qc_geo":4,"qc_complete":3,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                                time_zone_utc:
+                                  type: string
+                                  example: UTC+7
+                                display:
+                                  type: boolean
+                                  example: false
+                                location_parent:
+                                  type: object
+                                  properties:
+                                    id:
+                                      type: integer
+                                      example: 27
+                                    name:
+                                      type: string
+                                      example: 'Красноярский край'
+                                    time_zone:
+                                      type: string
+                                      example: Asia/Krasnoyarsk
+                                    location_id:
+                                      type: integer
+                                      example: 1
+                                    cult_id:
+                                      type: integer
+                                      example: 215
+                                    created_at:
+                                      type: string
+                                      example: '2024-09-04T10:38:18.000000Z'
+                                    updated_at:
+                                      type: string
+                                      example: '2024-09-04T10:38:18.000000Z'
+                                    latitude:
+                                      type: string
+                                      example: '95.96848600000000'
+                                    longitude:
+                                      type: string
+                                      example: '67.23678300000000'
+                                    info_dadata:
+                                      type: string
+                                      example: '{"source":"\u0420\u0424 \u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","result":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","postal_code":null,"country":"\u0420\u043e\u0441\u0441\u0438\u044f","country_iso_code":"RU","federal_district":"\u0421\u0438\u0431\u0438\u0440\u0441\u043a\u0438\u0439","region_fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","region_kladr_id":"2400000000000","region_iso_code":"RU-KYA","region_with_type":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439 \u043a\u0440\u0430\u0439","region_type":"\u043a\u0440\u0430\u0439","region_type_full":"\u043a\u0440\u0430\u0439","region":"\u041a\u0440\u0430\u0441\u043d\u043e\u044f\u0440\u0441\u043a\u0438\u0439","area_fias_id":null,"area_kladr_id":null,"area_with_type":null,"area_type":null,"area_type_full":null,"area":null,"city_fias_id":null,"city_kladr_id":null,"city_with_type":null,"city_type":null,"city_type_full":null,"city":null,"city_area":null,"city_district_fias_id":null,"city_district_kladr_id":null,"city_district_with_type":null,"city_district_type":null,"city_district_type_full":null,"city_district":null,"settlement_fias_id":null,"settlement_kladr_id":null,"settlement_with_type":null,"settlement_type":null,"settlement_type_full":null,"settlement":null,"street_fias_id":null,"street_kladr_id":null,"street_with_type":null,"street_type":null,"street_type_full":null,"street":null,"stead_fias_id":null,"stead_kladr_id":null,"stead_cadnum":null,"stead_type":null,"stead_type_full":null,"stead":null,"house_fias_id":null,"house_kladr_id":null,"house_cadnum":null,"house_type":null,"house_type_full":null,"house":null,"block_type":null,"block_type_full":null,"block":null,"entrance":null,"floor":null,"flat_fias_id":null,"flat_cadnum":null,"flat_type":null,"flat_type_full":null,"flat":null,"flat_area":null,"square_meter_price":null,"flat_price":null,"postal_box":null,"fias_id":"db9c4f8b-b706-40e2-b2b4-d31b98dcd3d1","fias_code":"24000000000000000000000","fias_level":"1","fias_actuality_state":"0","kladr_id":"2400000000000","capital_marker":"0","okato":"04000000000","oktmo":"04000000","tax_office":"2400","tax_office_legal":"2400","timezone":"UTC+7","geo_lat":null,"geo_lon":null,"beltway_hit":null,"beltway_distance":null,"qc_geo":5,"qc_complete":2,"qc_house":10,"qc":0,"unparsed_parts":null,"metro":null}'
+                                    time_zone_utc:
+                                      type: string
+                                      example: UTC+7
+                                    display:
+                                      type: boolean
+                                      example: false
                       path:
                         type: string
-                        example: 'http://localhost:8000/api/events/1/places'
+                        example: 'http://localhost:8000/api/events/170/places'
                       per_page:
                         type: integer
                         example: 5
@@ -66,7 +303,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -101,7 +338,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -178,17 +415,19 @@ paths:
                   message: 'Мероприятия успешно получены'
                   events:
                     data:
-                      id: 3328
-                      name: 'Eos ipsa veritatis nisi et veritatis sequi rerum.'
-                      sponsor: 'Кондратьева Нестор Алексеевич'
-                      date_start: '2024-08-31 15:18:54'
-                      date_end: '2024-09-12 19:30:44'
-                      description: 'Ex explicabo illo eligendi optio occaecati ut. Est tempora dolores debitis et nesciunt. In non provident ut ea quod. Voluptatibus deleniti est a ut blanditiis.'
-                      materials: 'Officiis nobis unde labore ad molestias voluptas. Fuga ex culpa ea ut et. Dignissimos voluptatem autem error dolorem ducimus est eum.'
-                      user_id: 1
-                      vk_post_id: '490726'
-                      created_at: '2024-09-04T08:21:57.000000Z'
-                      updated_at: '2024-09-04T08:21:57.000000Z'
+                      -
+                        id: 1360
+                        name: 'Inventore voluptates voluptas reiciendis natus.'
+                        sponsor: 'Петроваа Ольга Андреевна'
+                        date_start: '2024-09-01 08:43:05'
+                        date_end: '2024-09-16 03:22:02'
+                        description: 'Et necessitatibus suscipit harum sunt. Perspiciatis distinctio eos qui accusantium voluptatum nobis quod. Vero perspiciatis minus rerum exercitationem qui. Ad facilis non harum fugit iste.'
+                        materials: 'Odio harum nostrum ut sunt autem et. Facilis qui optio voluptas delectus nihil. Ab eius pariatur rem id temporibus ipsam omnis. Sit enim assumenda illum labore nisi dolores autem.'
+                        user_id: 1
+                        vk_post_id: '467528'
+                        created_at: '2024-09-04T11:45:37.000000Z'
+                        updated_at: '2024-09-04T11:45:37.000000Z'
+                        age_limit: '9'
                     next_cursor: null
                     prev_cursor: null
                 properties:
@@ -202,41 +441,60 @@ paths:
                     type: object
                     properties:
                       data:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 3328
-                          name:
-                            type: string
-                            example: 'Eos ipsa veritatis nisi et veritatis sequi rerum.'
-                          sponsor:
-                            type: string
-                            example: 'Кондратьева Нестор Алексеевич'
-                          date_start:
-                            type: string
-                            example: '2024-08-31 15:18:54'
-                          date_end:
-                            type: string
-                            example: '2024-09-12 19:30:44'
-                          description:
-                            type: string
-                            example: 'Ex explicabo illo eligendi optio occaecati ut. Est tempora dolores debitis et nesciunt. In non provident ut ea quod. Voluptatibus deleniti est a ut blanditiis.'
-                          materials:
-                            type: string
-                            example: 'Officiis nobis unde labore ad molestias voluptas. Fuga ex culpa ea ut et. Dignissimos voluptatem autem error dolorem ducimus est eum.'
-                          user_id:
-                            type: integer
-                            example: 1
-                          vk_post_id:
-                            type: string
-                            example: '490726'
-                          created_at:
-                            type: string
-                            example: '2024-09-04T08:21:57.000000Z'
-                          updated_at:
-                            type: string
-                            example: '2024-09-04T08:21:57.000000Z'
+                        type: array
+                        example:
+                          -
+                            id: 1360
+                            name: 'Inventore voluptates voluptas reiciendis natus.'
+                            sponsor: 'Петроваа Ольга Андреевна'
+                            date_start: '2024-09-01 08:43:05'
+                            date_end: '2024-09-16 03:22:02'
+                            description: 'Et necessitatibus suscipit harum sunt. Perspiciatis distinctio eos qui accusantium voluptatum nobis quod. Vero perspiciatis minus rerum exercitationem qui. Ad facilis non harum fugit iste.'
+                            materials: 'Odio harum nostrum ut sunt autem et. Facilis qui optio voluptas delectus nihil. Ab eius pariatur rem id temporibus ipsam omnis. Sit enim assumenda illum labore nisi dolores autem.'
+                            user_id: 1
+                            vk_post_id: '467528'
+                            created_at: '2024-09-04T11:45:37.000000Z'
+                            updated_at: '2024-09-04T11:45:37.000000Z'
+                            age_limit: '9'
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1360
+                            name:
+                              type: string
+                              example: 'Inventore voluptates voluptas reiciendis natus.'
+                            sponsor:
+                              type: string
+                              example: 'Петроваа Ольга Андреевна'
+                            date_start:
+                              type: string
+                              example: '2024-09-01 08:43:05'
+                            date_end:
+                              type: string
+                              example: '2024-09-16 03:22:02'
+                            description:
+                              type: string
+                              example: 'Et necessitatibus suscipit harum sunt. Perspiciatis distinctio eos qui accusantium voluptatum nobis quod. Vero perspiciatis minus rerum exercitationem qui. Ad facilis non harum fugit iste.'
+                            materials:
+                              type: string
+                              example: 'Odio harum nostrum ut sunt autem et. Facilis qui optio voluptas delectus nihil. Ab eius pariatur rem id temporibus ipsam omnis. Sit enim assumenda illum labore nisi dolores autem.'
+                            user_id:
+                              type: integer
+                              example: 1
+                            vk_post_id:
+                              type: string
+                              example: '467528'
+                            created_at:
+                              type: string
+                              example: '2024-09-04T11:45:37.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2024-09-04T11:45:37.000000Z'
+                            age_limit:
+                              type: string
+                              example: '9'
                       next_cursor:
                         type: string
                         example: null
@@ -255,47 +513,47 @@ paths:
                 address:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: dvrvqfoyccgavqnsnwhsewexmhpzrjmroeynzccxmgslstyhgxybpcmjjicibpssylfxnl
+                  example: yqbpy
                 sponsor:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: ucffhwztiphtujcgxvhmoyhxuwjbueenqebjczjr
+                  example: aixrsjsaeuwbxiwgzshqlwmvrtgsybwuiyglngpmrsbayzhhqmmhsrywecdprfauy
                 user_name:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: juudq
+                  example: evn
                 user_email:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: catalina.wiegand@example.net
+                  example: kattie96@example.com
                 page:
                   type: string
                   description: ''
-                  example: aut
+                  example: necessitatibus
                 limit:
                   type: integer
                   description: 'Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50.'
-                  example: 18
+                  example: 19
                 name:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: nnrampuvgwyce
+                  example: gynshphhc
                 userId:
                   type: integer
                   description: ''
-                  example: 16
+                  example: 6
                 likedUser:
                   type: string
                   description: ''
-                  example: velit
+                  example: quia
                 favoriteUser:
                   type: string
                   description: ''
-                  example: delectus
+                  example: consequuntur
                 statuses:
                   type: string
                   description: ''
-                  example: sit
+                  example: et
                 statusLast:
                   type: string
                   description: ''
@@ -303,39 +561,39 @@ paths:
                 locationId:
                   type: string
                   description: ''
-                  example: distinctio
+                  example: dolorem
                 dateStart:
                   type: string
                   description: ''
-                  example: laudantium
+                  example: quo
                 dateEnd:
                   type: string
                   description: ''
-                  example: aliquid
+                  example: aperiam
                 eventTypes:
                   type: string
                   description: ''
-                  example: laborum
+                  example: porro
                 radius:
                   type: integer
                   description: 'Значение поля value не может быть больше 25.'
-                  example: 13
+                  example: 17
                 latitude:
                   type: string
                   description: ''
-                  example: ut
+                  example: quasi
                 longitude:
                   type: string
                   description: ''
-                  example: eum
+                  example: et
                 searchText:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: ggutvokdhwahsgvjgkuvyvnsashbqjshnfevbjldiclsaaccmuepqhjgpomgahrdrgwu
+                  example: zkqmguqvgopngcytfdbdsfyjbtczzlkzglqyuliouohwizvcbzacxnpuutmsih
                 user:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: tgtijvookbgtr
+                  example: uxnsykmygkdxrvhlujjweonqxulzuwegzkvpibpwimhlwatrhozfdwxojngxqzbstklvrgaeg
       security: []
   /api/events/update-vk-likes:
     post:
@@ -363,12 +621,12 @@ paths:
                 example:
                   status: success
                   likedUser:
-                    id: 18
-                    name: 'Блинова Ирина Александровна'
-                    email: mlikacev@example.net
-                    email_verified_at: '2024-09-04 08:21:57'
-                    created_at: '2024-09-04T08:21:57.000000Z'
-                    updated_at: '2024-09-04T08:21:57.000000Z'
+                    id: 98
+                    name: 'Горбунова Георгий Борисович'
+                    email: nestor.pakomov@example.net
+                    email_verified_at: '2024-09-04 11:45:37'
+                    created_at: '2024-09-04T11:45:37.000000Z'
+                    updated_at: '2024-09-04T11:45:37.000000Z'
                     avatar: null
                     deleted_at: null
                     number: null
@@ -384,22 +642,22 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 18
+                        example: 98
                       name:
                         type: string
-                        example: 'Блинова Ирина Александровна'
+                        example: 'Горбунова Георгий Борисович'
                       email:
                         type: string
-                        example: mlikacev@example.net
+                        example: nestor.pakomov@example.net
                       email_verified_at:
                         type: string
-                        example: '2024-09-04 08:21:57'
+                        example: '2024-09-04 11:45:37'
                       created_at:
                         type: string
-                        example: '2024-09-04T08:21:57.000000Z'
+                        example: '2024-09-04T11:45:37.000000Z'
                       updated_at:
                         type: string
-                        example: '2024-09-04T08:21:57.000000Z'
+                        example: '2024-09-04T11:45:37.000000Z'
                       avatar:
                         type: string
                         example: null
@@ -430,7 +688,7 @@ paths:
                 event_id:
                   type: integer
                   description: 'Значение поля value должно быть не меньше 1.'
-                  example: 76
+                  example: 63
               required:
                 - event_id
   '/api/events/{id}':
@@ -450,17 +708,18 @@ paths:
                   status: success
                   message: 'Мероприятие успешно получено'
                   event:
-                    id: 3329
-                    name: 'Tempora sed voluptatum est sed voluptas.'
-                    sponsor: 'Гурьева Никодим Борисович'
-                    date_start: '2024-09-09 11:35:01'
-                    date_end: '2024-09-14 20:29:29'
-                    description: 'Aut nemo mollitia doloremque at quod. Quidem repellendus quaerat delectus magni sunt consequatur quaerat. Voluptas repellat maxime tempora ullam sit veniam.'
-                    materials: 'Maxime vitae maxime distinctio voluptate praesentium rerum. Nihil doloribus quod dolores ipsa aut. Et sed facere dolores beatae facere nihil expedita. Earum dolorum cum dolorem corrupti ab.'
+                    id: 1361
+                    name: 'Cum debitis quia doloribus amet voluptatum et.'
+                    sponsor: 'Алла Евгеньевна Рыбакова'
+                    date_start: '2024-09-06 06:49:15'
+                    date_end: '2024-09-14 19:26:53'
+                    description: 'Voluptas voluptatem fuga sed necessitatibus consequatur officia et. Officiis assumenda quis autem et dolor voluptas aperiam. Sapiente corporis beatae amet minima architecto et.'
+                    materials: 'Qui consequatur et enim nesciunt. Eos consectetur nihil magnam corporis non temporibus. Impedit dignissimos exercitationem veritatis maxime cupiditate et dolore qui.'
                     user_id: 1
-                    vk_post_id: '786208'
-                    created_at: '2024-09-04T08:21:58.000000Z'
-                    updated_at: '2024-09-04T08:21:58.000000Z'
+                    vk_post_id: '808651'
+                    created_at: '2024-09-04T11:45:37.000000Z'
+                    updated_at: '2024-09-04T11:45:37.000000Z'
+                    age_limit: '13'
                 properties:
                   status:
                     type: string
@@ -473,46 +732,62 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 3329
+                        example: 1361
                       name:
                         type: string
-                        example: 'Tempora sed voluptatum est sed voluptas.'
+                        example: 'Cum debitis quia doloribus amet voluptatum et.'
                       sponsor:
                         type: string
-                        example: 'Гурьева Никодим Борисович'
+                        example: 'Алла Евгеньевна Рыбакова'
                       date_start:
                         type: string
-                        example: '2024-09-09 11:35:01'
+                        example: '2024-09-06 06:49:15'
                       date_end:
                         type: string
-                        example: '2024-09-14 20:29:29'
+                        example: '2024-09-14 19:26:53'
                       description:
                         type: string
-                        example: 'Aut nemo mollitia doloremque at quod. Quidem repellendus quaerat delectus magni sunt consequatur quaerat. Voluptas repellat maxime tempora ullam sit veniam.'
+                        example: 'Voluptas voluptatem fuga sed necessitatibus consequatur officia et. Officiis assumenda quis autem et dolor voluptas aperiam. Sapiente corporis beatae amet minima architecto et.'
                       materials:
                         type: string
-                        example: 'Maxime vitae maxime distinctio voluptate praesentium rerum. Nihil doloribus quod dolores ipsa aut. Et sed facere dolores beatae facere nihil expedita. Earum dolorum cum dolorem corrupti ab.'
+                        example: 'Qui consequatur et enim nesciunt. Eos consectetur nihil magnam corporis non temporibus. Impedit dignissimos exercitationem veritatis maxime cupiditate et dolore qui.'
                       user_id:
                         type: integer
                         example: 1
                       vk_post_id:
                         type: string
-                        example: '786208'
+                        example: '808651'
                       created_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:37.000000Z'
                       updated_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:37.000000Z'
+                      age_limit:
+                        type: string
+                        example: '13'
       tags:
         - Events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: integer
+                  description: ''
+                  example: 18
+              required:
+                - id
       security: []
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -533,7 +808,7 @@ paths:
                   status: success
                   history_content:
                     data: []
-                    path: 'http://localhost:8000/api/events/1/history-contents'
+                    path: 'http://localhost:8000/api/events/170/history-contents'
                     per_page: 6
                     next_cursor: null
                     next_page_url: null
@@ -551,7 +826,7 @@ paths:
                         example: []
                       path:
                         type: string
-                        example: 'http://localhost:8000/api/events/1/history-contents'
+                        example: 'http://localhost:8000/api/events/170/history-contents'
                       per_page:
                         type: integer
                         example: 6
@@ -574,7 +849,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -628,7 +903,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -662,7 +937,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -696,7 +971,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -767,27 +1042,27 @@ paths:
                 name:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: ufckogykomwsictcuoulvybspballkdxtqgucnwidkgpdqnjddxhxjzkvhzeuvpzwsimcmtelqrqzvenfaiexj
+                  example: jgdunfybhsirkyrgnuonx
                 description:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 10.'
-                  example: 'Possimus voluptatem nemo quia sit quam.'
+                  example: 'Perferendis ipsa officiis amet et.'
                 dateStart:
                   type: string
                   description: 'Значение поля value не является датой.'
-                  example: '2024-09-04T08:21:58'
+                  example: '2024-09-04T11:45:38'
                 dateEnd:
                   type: string
                   description: 'Значение поля value не является датой. Значение поля value должно быть датой после <code>dateStart</code>.'
-                  example: '2040-01-08'
+                  example: '2110-10-26'
                 type:
                   type: string
                   description: ''
-                  example: minima
+                  example: quo
                 status:
                   type: string
                   description: ''
-                  example: aut
+                  example: quia
                 places:
                   type: object
                   description: ''
@@ -801,7 +1076,7 @@ paths:
                 ageLimit:
                   type: integer
                   description: 'Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18.'
-                  example: 5
+                  example: 13
               required:
                 - name
                 - dateStart
@@ -826,17 +1101,19 @@ paths:
                   message: 'События понравившиеся пользователю получены'
                   events:
                     data:
-                      id: 3331
-                      name: 'Tempora earum incidunt qui illum est et.'
-                      sponsor: 'Иосиф Андреевич Галкина'
-                      date_start: '2024-08-29 08:57:35'
-                      date_end: '2024-09-14 22:26:30'
-                      description: 'Itaque sed et minus quos. Ullam porro nesciunt esse. Cupiditate eum quo consequatur et aliquam et.'
-                      materials: 'Ipsum omnis neque non quaerat. Illum totam perferendis nam laudantium.'
-                      user_id: 1
-                      vk_post_id: '129030'
-                      created_at: '2024-09-04T08:21:58.000000Z'
-                      updated_at: '2024-09-04T08:21:58.000000Z'
+                      -
+                        id: 1363
+                        name: 'Facere vitae illum iure sed ipsa sunt.'
+                        sponsor: 'Флорентина Евгеньевна Игнатьева'
+                        date_start: '2024-08-30 15:58:59'
+                        date_end: '2024-09-13 15:51:26'
+                        description: 'Consequuntur velit deleniti vel nobis maiores. Ea beatae quia consequatur. Consequatur porro odio saepe sit. Doloribus qui vel ea ut tempore enim et. Ullam repellendus voluptatem ab unde.'
+                        materials: 'Molestiae aliquam saepe non reiciendis tempore natus. Animi est consectetur ea eius quas. Officia et pariatur error quos perferendis. Voluptate occaecati et ut vel.'
+                        user_id: 2
+                        vk_post_id: '141576'
+                        created_at: '2024-09-04T11:45:38.000000Z'
+                        updated_at: '2024-09-04T11:45:38.000000Z'
+                        age_limit: '15'
                     next_cursor: null
                     prev_cursor: null
                 properties:
@@ -850,41 +1127,60 @@ paths:
                     type: object
                     properties:
                       data:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 3331
-                          name:
-                            type: string
-                            example: 'Tempora earum incidunt qui illum est et.'
-                          sponsor:
-                            type: string
-                            example: 'Иосиф Андреевич Галкина'
-                          date_start:
-                            type: string
-                            example: '2024-08-29 08:57:35'
-                          date_end:
-                            type: string
-                            example: '2024-09-14 22:26:30'
-                          description:
-                            type: string
-                            example: 'Itaque sed et minus quos. Ullam porro nesciunt esse. Cupiditate eum quo consequatur et aliquam et.'
-                          materials:
-                            type: string
-                            example: 'Ipsum omnis neque non quaerat. Illum totam perferendis nam laudantium.'
-                          user_id:
-                            type: integer
-                            example: 1
-                          vk_post_id:
-                            type: string
-                            example: '129030'
-                          created_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
-                          updated_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
+                        type: array
+                        example:
+                          -
+                            id: 1363
+                            name: 'Facere vitae illum iure sed ipsa sunt.'
+                            sponsor: 'Флорентина Евгеньевна Игнатьева'
+                            date_start: '2024-08-30 15:58:59'
+                            date_end: '2024-09-13 15:51:26'
+                            description: 'Consequuntur velit deleniti vel nobis maiores. Ea beatae quia consequatur. Consequatur porro odio saepe sit. Doloribus qui vel ea ut tempore enim et. Ullam repellendus voluptatem ab unde.'
+                            materials: 'Molestiae aliquam saepe non reiciendis tempore natus. Animi est consectetur ea eius quas. Officia et pariatur error quos perferendis. Voluptate occaecati et ut vel.'
+                            user_id: 2
+                            vk_post_id: '141576'
+                            created_at: '2024-09-04T11:45:38.000000Z'
+                            updated_at: '2024-09-04T11:45:38.000000Z'
+                            age_limit: '15'
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1363
+                            name:
+                              type: string
+                              example: 'Facere vitae illum iure sed ipsa sunt.'
+                            sponsor:
+                              type: string
+                              example: 'Флорентина Евгеньевна Игнатьева'
+                            date_start:
+                              type: string
+                              example: '2024-08-30 15:58:59'
+                            date_end:
+                              type: string
+                              example: '2024-09-13 15:51:26'
+                            description:
+                              type: string
+                              example: 'Consequuntur velit deleniti vel nobis maiores. Ea beatae quia consequatur. Consequatur porro odio saepe sit. Doloribus qui vel ea ut tempore enim et. Ullam repellendus voluptatem ab unde.'
+                            materials:
+                              type: string
+                              example: 'Molestiae aliquam saepe non reiciendis tempore natus. Animi est consectetur ea eius quas. Officia et pariatur error quos perferendis. Voluptate occaecati et ut vel.'
+                            user_id:
+                              type: integer
+                              example: 2
+                            vk_post_id:
+                              type: string
+                              example: '141576'
+                            created_at:
+                              type: string
+                              example: '2024-09-04T11:45:38.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2024-09-04T11:45:38.000000Z'
+                            age_limit:
+                              type: string
+                              example: '15'
                       next_cursor:
                         type: string
                         example: null
@@ -913,7 +1209,7 @@ paths:
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -935,17 +1231,19 @@ paths:
                   message: 'Избранные события пользователю получены'
                   events:
                     data:
-                      id: 19
-                      name: 'Савинаа Александра Романовна'
-                      sponsor: null
-                      date_start: null
-                      date_end: null
-                      description: null
-                      materials: null
-                      user_id: null
-                      vk_post_id: null
-                      created_at: '2024-09-04T08:21:58.000000Z'
-                      updated_at: '2024-09-04T08:21:58.000000Z'
+                      -
+                        id: 99
+                        name: 'Диана Ивановна Титова'
+                        sponsor: null
+                        date_start: null
+                        date_end: null
+                        description: null
+                        materials: null
+                        user_id: null
+                        vk_post_id: null
+                        created_at: '2024-09-04T11:45:38.000000Z'
+                        updated_at: '2024-09-04T11:45:38.000000Z'
+                        age_limit: null
                     next_cursor: null
                     prev_cursor: null
                 properties:
@@ -959,41 +1257,60 @@ paths:
                     type: object
                     properties:
                       data:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 19
-                          name:
-                            type: string
-                            example: 'Савинаа Александра Романовна'
-                          sponsor:
-                            type: string
-                            example: null
-                          date_start:
-                            type: string
-                            example: null
-                          date_end:
-                            type: string
-                            example: null
-                          description:
-                            type: string
-                            example: null
-                          materials:
-                            type: string
-                            example: null
-                          user_id:
-                            type: string
-                            example: null
-                          vk_post_id:
-                            type: string
-                            example: null
-                          created_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
-                          updated_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
+                        type: array
+                        example:
+                          -
+                            id: 99
+                            name: 'Диана Ивановна Титова'
+                            sponsor: null
+                            date_start: null
+                            date_end: null
+                            description: null
+                            materials: null
+                            user_id: null
+                            vk_post_id: null
+                            created_at: '2024-09-04T11:45:38.000000Z'
+                            updated_at: '2024-09-04T11:45:38.000000Z'
+                            age_limit: null
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 99
+                            name:
+                              type: string
+                              example: 'Диана Ивановна Титова'
+                            sponsor:
+                              type: string
+                              example: null
+                            date_start:
+                              type: string
+                              example: null
+                            date_end:
+                              type: string
+                              example: null
+                            description:
+                              type: string
+                              example: null
+                            materials:
+                              type: string
+                              example: null
+                            user_id:
+                              type: string
+                              example: null
+                            vk_post_id:
+                              type: string
+                              example: null
+                            created_at:
+                              type: string
+                              example: '2024-09-04T11:45:38.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2024-09-04T11:45:38.000000Z'
+                            age_limit:
+                              type: string
+                              example: null
                       next_cursor:
                         type: string
                         example: null
@@ -1016,13 +1333,13 @@ paths:
                 limit:
                   type: integer
                   description: 'Значение поля value не может быть больше 50.'
-                  example: 18
+                  example: 6
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -1035,12 +1352,25 @@ paths:
       responses: {  }
       tags:
         - Events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status_id:
+                  type: integer
+                  description: ''
+                  example: 7
+              required:
+                - status_id
     parameters:
       -
         in: path
         name: id
         description: 'The ID of the event.'
-        example: 1
+        example: 170
         required: true
         schema:
           type: integer
@@ -1063,15 +1393,15 @@ paths:
                   sights:
                     data:
                       -
-                        id: 682
-                        name: 'Ullam quo autem sed est nobis.'
+                        id: 3609
+                        name: 'In cum ut nemo iure eveniet quia.'
                         sponsor: null
-                        latitude: '-77.92152100000000'
-                        longitude: '-56.91081800000000'
-                        location_id: 2547
-                        address: '319011, Ленинградская область, город Луховицы, шоссе Домодедовская, 68'
-                        description: 'Fugiat aut omnis porro ullam. Quia eos quae ipsum nihil. Provident nemo soluta neque laudantium aut quidem.'
-                        materials: 'Quo aut earum qui id optio sint aperiam accusantium. Et iusto est vel aut. Accusantium id nisi soluta fuga. Iusto et adipisci maxime quo sint.'
+                        latitude: '-20.01678200000000'
+                        longitude: '69.03872100000000'
+                        location_id: 2045
+                        address: '561692, Иркутская область, город Орехово-Зуево, бульвар Ломоносова, 75'
+                        description: 'Quibusdam mollitia eum aut delectus a sequi qui. Neque pariatur ut aut unde. Officiis itaque tenetur qui commodi neque incidunt.'
+                        materials: 'Corrupti nobis ut dolor velit eveniet et. Omnis blanditiis id voluptatem natus. Expedita necessitatibus aliquam amet distinctio autem.'
                         user_id: 1
                     next_cursor: null
                     prev_cursor: null
@@ -1089,46 +1419,46 @@ paths:
                         type: array
                         example:
                           -
-                            id: 682
-                            name: 'Ullam quo autem sed est nobis.'
+                            id: 3609
+                            name: 'In cum ut nemo iure eveniet quia.'
                             sponsor: null
-                            latitude: '-77.92152100000000'
-                            longitude: '-56.91081800000000'
-                            location_id: 2547
-                            address: '319011, Ленинградская область, город Луховицы, шоссе Домодедовская, 68'
-                            description: 'Fugiat aut omnis porro ullam. Quia eos quae ipsum nihil. Provident nemo soluta neque laudantium aut quidem.'
-                            materials: 'Quo aut earum qui id optio sint aperiam accusantium. Et iusto est vel aut. Accusantium id nisi soluta fuga. Iusto et adipisci maxime quo sint.'
+                            latitude: '-20.01678200000000'
+                            longitude: '69.03872100000000'
+                            location_id: 2045
+                            address: '561692, Иркутская область, город Орехово-Зуево, бульвар Ломоносова, 75'
+                            description: 'Quibusdam mollitia eum aut delectus a sequi qui. Neque pariatur ut aut unde. Officiis itaque tenetur qui commodi neque incidunt.'
+                            materials: 'Corrupti nobis ut dolor velit eveniet et. Omnis blanditiis id voluptatem natus. Expedita necessitatibus aliquam amet distinctio autem.'
                             user_id: 1
                         items:
                           type: object
                           properties:
                             id:
                               type: integer
-                              example: 682
+                              example: 3609
                             name:
                               type: string
-                              example: 'Ullam quo autem sed est nobis.'
+                              example: 'In cum ut nemo iure eveniet quia.'
                             sponsor:
                               type: string
                               example: null
                             latitude:
                               type: string
-                              example: '-77.92152100000000'
+                              example: '-20.01678200000000'
                             longitude:
                               type: string
-                              example: '-56.91081800000000'
+                              example: '69.03872100000000'
                             location_id:
                               type: integer
-                              example: 2547
+                              example: 2045
                             address:
                               type: string
-                              example: '319011, Ленинградская область, город Луховицы, шоссе Домодедовская, 68'
+                              example: '561692, Иркутская область, город Орехово-Зуево, бульвар Ломоносова, 75'
                             description:
                               type: string
-                              example: 'Fugiat aut omnis porro ullam. Quia eos quae ipsum nihil. Provident nemo soluta neque laudantium aut quidem.'
+                              example: 'Quibusdam mollitia eum aut delectus a sequi qui. Neque pariatur ut aut unde. Officiis itaque tenetur qui commodi neque incidunt.'
                             materials:
                               type: string
-                              example: 'Quo aut earum qui id optio sint aperiam accusantium. Et iusto est vel aut. Accusantium id nisi soluta fuga. Iusto et adipisci maxime quo sint.'
+                              example: 'Corrupti nobis ut dolor velit eveniet et. Omnis blanditiis id voluptatem natus. Expedita necessitatibus aliquam amet distinctio autem.'
                             user_id:
                               type: integer
                               example: 1
@@ -1245,15 +1575,15 @@ paths:
                   status: success
                   message: sight.show.success
                   sight:
-                    id: 683
-                    name: 'Accusantium qui iste maiores debitis facere velit unde.'
+                    id: 3610
+                    name: 'Repellat cumque quos sit sed dolores ratione maiores.'
                     sponsor: null
-                    latitude: '47.59716000000000'
-                    longitude: '136.24808700000000'
-                    location_id: 2760
-                    address: '984563, Владимирская область, город Щёлково, пл. Бухарестская, 38'
-                    description: 'Voluptate doloremque ut ut cum itaque odit tempore. Eveniet dolor quae similique in excepturi quisquam. Officia animi cumque esse perspiciatis qui enim est.'
-                    materials: 'Necessitatibus nihil esse consequatur facere et praesentium quis nulla. Est harum exercitationem ut omnis et. Nostrum deleniti aperiam est. Minus facilis consectetur porro quidem eveniet recusandae.'
+                    latitude: '-23.38738000000000'
+                    longitude: '-90.84349100000000'
+                    location_id: 2111
+                    address: '758322, Саратовская область, город Шатура, ул. Косиора, 85'
+                    description: 'Ex deserunt dolor dolorem enim eum. Rerum ea quisquam doloremque explicabo. Fuga odit odit debitis accusamus consectetur autem.'
+                    materials: 'Perspiciatis quae cum quia ducimus. Quae doloribus dolorem iste amet error laudantium maiores. Quia commodi et eum error eum in omnis. Iure fugiat velit iste exercitationem ut.'
                     user_id: 1
                 properties:
                   status:
@@ -1267,31 +1597,31 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 683
+                        example: 3610
                       name:
                         type: string
-                        example: 'Accusantium qui iste maiores debitis facere velit unde.'
+                        example: 'Repellat cumque quos sit sed dolores ratione maiores.'
                       sponsor:
                         type: string
                         example: null
                       latitude:
                         type: string
-                        example: '47.59716000000000'
+                        example: '-23.38738000000000'
                       longitude:
                         type: string
-                        example: '136.24808700000000'
+                        example: '-90.84349100000000'
                       location_id:
                         type: integer
-                        example: 2760
+                        example: 2111
                       address:
                         type: string
-                        example: '984563, Владимирская область, город Щёлково, пл. Бухарестская, 38'
+                        example: '758322, Саратовская область, город Шатура, ул. Косиора, 85'
                       description:
                         type: string
-                        example: 'Voluptate doloremque ut ut cum itaque odit tempore. Eveniet dolor quae similique in excepturi quisquam. Officia animi cumque esse perspiciatis qui enim est.'
+                        example: 'Ex deserunt dolor dolorem enim eum. Rerum ea quisquam doloremque explicabo. Fuga odit odit debitis accusamus consectetur autem.'
                       materials:
                         type: string
-                        example: 'Necessitatibus nihil esse consequatur facere et praesentium quis nulla. Est harum exercitationem ut omnis et. Nostrum deleniti aperiam est. Minus facilis consectetur porro quidem eveniet recusandae.'
+                        example: 'Perspiciatis quae cum quia ducimus. Quae doloribus dolorem iste amet error laudantium maiores. Quia commodi et eum error eum in omnis. Iure fugiat velit iste exercitationem ut.'
                       user_id:
                         type: integer
                         example: 1
@@ -1341,17 +1671,19 @@ paths:
                   message: sight.get_events_in_sight.success
                   events:
                     data:
-                      id: 3332
-                      name: 'Eveniet non in qui non magnam ducimus odio.'
-                      sponsor: 'Виктория Алексеевна Тихонова'
-                      date_start: '2024-09-08 03:16:37'
-                      date_end: '2024-09-13 14:22:42'
-                      description: 'Iure delectus tempora deleniti eius vero aliquid. Facere perspiciatis rerum aut dicta. Sapiente nulla accusamus in harum.'
-                      materials: 'Voluptas dicta vel itaque saepe distinctio nisi. Alias dignissimos et ratione natus. Sapiente ex fugiat sed repellendus deleniti adipisci porro.'
-                      user_id: 2
-                      vk_post_id: '983863'
-                      created_at: '2024-09-04T08:21:58.000000Z'
-                      updated_at: '2024-09-04T08:21:58.000000Z'
+                      -
+                        id: 1364
+                        name: 'Nihil est fugiat ipsa ducimus quasi.'
+                        sponsor: 'Ершова Мария Владимировна'
+                        date_start: '2024-08-31 04:55:30'
+                        date_end: '2024-09-18 02:00:10'
+                        description: 'Qui ut enim nulla dolorum quas nisi et. Earum voluptatem est est ut et repellat. Eum repellendus omnis veritatis voluptatem.'
+                        materials: 'Cupiditate aut nihil quidem natus error corrupti aut excepturi. Consequuntur et ratione eaque et. Quam voluptatem aut est dolor.'
+                        user_id: 1
+                        vk_post_id: '483989'
+                        created_at: '2024-09-04T11:45:39.000000Z'
+                        updated_at: '2024-09-04T11:45:39.000000Z'
+                        age_limit: '8'
                     next_cursor: null
                     prev_cursor: null
                 properties:
@@ -1365,41 +1697,60 @@ paths:
                     type: object
                     properties:
                       data:
-                        type: object
-                        properties:
-                          id:
-                            type: integer
-                            example: 3332
-                          name:
-                            type: string
-                            example: 'Eveniet non in qui non magnam ducimus odio.'
-                          sponsor:
-                            type: string
-                            example: 'Виктория Алексеевна Тихонова'
-                          date_start:
-                            type: string
-                            example: '2024-09-08 03:16:37'
-                          date_end:
-                            type: string
-                            example: '2024-09-13 14:22:42'
-                          description:
-                            type: string
-                            example: 'Iure delectus tempora deleniti eius vero aliquid. Facere perspiciatis rerum aut dicta. Sapiente nulla accusamus in harum.'
-                          materials:
-                            type: string
-                            example: 'Voluptas dicta vel itaque saepe distinctio nisi. Alias dignissimos et ratione natus. Sapiente ex fugiat sed repellendus deleniti adipisci porro.'
-                          user_id:
-                            type: integer
-                            example: 2
-                          vk_post_id:
-                            type: string
-                            example: '983863'
-                          created_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
-                          updated_at:
-                            type: string
-                            example: '2024-09-04T08:21:58.000000Z'
+                        type: array
+                        example:
+                          -
+                            id: 1364
+                            name: 'Nihil est fugiat ipsa ducimus quasi.'
+                            sponsor: 'Ершова Мария Владимировна'
+                            date_start: '2024-08-31 04:55:30'
+                            date_end: '2024-09-18 02:00:10'
+                            description: 'Qui ut enim nulla dolorum quas nisi et. Earum voluptatem est est ut et repellat. Eum repellendus omnis veritatis voluptatem.'
+                            materials: 'Cupiditate aut nihil quidem natus error corrupti aut excepturi. Consequuntur et ratione eaque et. Quam voluptatem aut est dolor.'
+                            user_id: 1
+                            vk_post_id: '483989'
+                            created_at: '2024-09-04T11:45:39.000000Z'
+                            updated_at: '2024-09-04T11:45:39.000000Z'
+                            age_limit: '8'
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              type: integer
+                              example: 1364
+                            name:
+                              type: string
+                              example: 'Nihil est fugiat ipsa ducimus quasi.'
+                            sponsor:
+                              type: string
+                              example: 'Ершова Мария Владимировна'
+                            date_start:
+                              type: string
+                              example: '2024-08-31 04:55:30'
+                            date_end:
+                              type: string
+                              example: '2024-09-18 02:00:10'
+                            description:
+                              type: string
+                              example: 'Qui ut enim nulla dolorum quas nisi et. Earum voluptatem est est ut et repellat. Eum repellendus omnis veritatis voluptatem.'
+                            materials:
+                              type: string
+                              example: 'Cupiditate aut nihil quidem natus error corrupti aut excepturi. Consequuntur et ratione eaque et. Quam voluptatem aut est dolor.'
+                            user_id:
+                              type: integer
+                              example: 1
+                            vk_post_id:
+                              type: string
+                              example: '483989'
+                            created_at:
+                              type: string
+                              example: '2024-09-04T11:45:39.000000Z'
+                            updated_at:
+                              type: string
+                              example: '2024-09-04T11:45:39.000000Z'
+                            age_limit:
+                              type: string
+                              example: '8'
                       next_cursor:
                         type: string
                         example: null
@@ -1422,7 +1773,7 @@ paths:
                 limit:
                   type: integer
                   description: 'Значение поля value не может быть больше 50.'
-                  example: 13
+                  example: 16
       security: []
     parameters:
       -
@@ -1526,15 +1877,15 @@ paths:
                   status: success
                   message: 'Событие успешно создано'
                   sight:
-                    id: 684
-                    name: 'Adipisci error pariatur eius at.'
+                    id: 3611
+                    name: 'Non consequatur saepe aspernatur odio sit aut.'
                     sponsor: null
-                    latitude: '46.51504000000000'
-                    longitude: '-81.05432200000000'
-                    location_id: 1830
-                    address: '955688, Магаданская область, город Воскресенск, пр. Бухарестская, 10'
-                    description: 'Quibusdam qui impedit odit qui accusantium sit. Placeat corporis quia aut impedit dolores. Omnis et recusandae soluta dolores.'
-                    materials: 'Eum voluptatum aspernatur sunt. Occaecati consequatur provident incidunt omnis ipsa et magnam. Sed error reiciendis quis. Eos rem consequuntur dolorum accusamus blanditiis.'
+                    latitude: '79.14689000000000'
+                    longitude: '-70.34360600000000'
+                    location_id: 2241
+                    address: '863686, Оренбургская область, город Клин, бульвар Будапештсткая, 39'
+                    description: 'Voluptatibus at deserunt qui soluta perferendis sapiente autem qui. Excepturi porro assumenda libero magnam sequi excepturi. Eveniet ipsa omnis blanditiis quidem quia dicta quo. Adipisci quo rem et.'
+                    materials: 'Rerum minima totam aliquam nihil sed. Est sunt perspiciatis nesciunt impedit ex quam ipsa. Est et aut soluta aut.'
                     user_id: 1
                 properties:
                   status:
@@ -1548,31 +1899,31 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 684
+                        example: 3611
                       name:
                         type: string
-                        example: 'Adipisci error pariatur eius at.'
+                        example: 'Non consequatur saepe aspernatur odio sit aut.'
                       sponsor:
                         type: string
                         example: null
                       latitude:
                         type: string
-                        example: '46.51504000000000'
+                        example: '79.14689000000000'
                       longitude:
                         type: string
-                        example: '-81.05432200000000'
+                        example: '-70.34360600000000'
                       location_id:
                         type: integer
-                        example: 1830
+                        example: 2241
                       address:
                         type: string
-                        example: '955688, Магаданская область, город Воскресенск, пр. Бухарестская, 10'
+                        example: '863686, Оренбургская область, город Клин, бульвар Будапештсткая, 39'
                       description:
                         type: string
-                        example: 'Quibusdam qui impedit odit qui accusantium sit. Placeat corporis quia aut impedit dolores. Omnis et recusandae soluta dolores.'
+                        example: 'Voluptatibus at deserunt qui soluta perferendis sapiente autem qui. Excepturi porro assumenda libero magnam sequi excepturi. Eveniet ipsa omnis blanditiis quidem quia dicta quo. Adipisci quo rem et.'
                       materials:
                         type: string
-                        example: 'Eum voluptatum aspernatur sunt. Occaecati consequatur provident incidunt omnis ipsa et magnam. Sed error reiciendis quis. Eos rem consequuntur dolorum accusamus blanditiis.'
+                        example: 'Rerum minima totam aliquam nihil sed. Est sunt perspiciatis nesciunt impedit ex quam ipsa. Est et aut soluta aut.'
                       user_id:
                         type: integer
                         example: 1
@@ -1588,44 +1939,44 @@ paths:
                 name:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: gywbbhgxdvygxojsdfkqatcadollwmalkwfizpbicniduzbacoukrfsguvqnrcuqfdnrcykczr
+                  example: kmasiogsxjtasudwumkuuuovrnvhpctaoiociksidzbjmnwrvhubpdcbfphwxumynwabfubabhioiflebyv
                 sponsor:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 3.'
-                  example: pzkfyndmcnnhnjinutsuodviabandbmpqjvuyulvhcfhybndriporuucuhnuqyiwnstzzncclqwrfabhzjwscxuipn
+                  example: svdsctlieckfiwirkhesm
                 coords:
                   type: string
                   description: 'Количество символов в поле value должно быть не меньше 2.'
-                  example: dsnitivpdkjbhrv
+                  example: amompkeyhfuvjscmpsbsmmmbgvmbvznibcjhyairexkafil
                 description:
                   type: string
                   description: ''
-                  example: 'Et magnam necessitatibus consequatur eveniet.'
+                  example: 'Saepe ut eius sint et.'
                 type:
                   type: string
                   description: ''
-                  example: porro
+                  example: sed
                 status:
                   type: string
                   description: ''
-                  example: aperiam
+                  example: ut
                 locationId:
                   type: string
                   description: ''
-                  example: voluptates
+                  example: optio
                 vkGroupId:
                   type: string
                   description: ''
-                  example: corporis
+                  example: veniam
                 vkPostId:
                   type: string
                   description: ''
-                  example: suscipit
+                  example: et
                 price:
                   type: array
                   description: ''
                   example:
-                    - accusantium
+                    - aut
                   items:
                     type: integer
                 localFilesImg:
@@ -1658,12 +2009,12 @@ paths:
                 example:
                   status: success
                   result:
-                    id: 20
-                    name: 'Дина Андреевна Черноваа'
-                    email: valerii13@example.com
-                    email_verified_at: '2024-09-04 08:21:58'
-                    created_at: '2024-09-04T08:21:58.000000Z'
-                    updated_at: '2024-09-04T08:21:58.000000Z'
+                    id: 100
+                    name: 'Олеся Ивановна Веселоваа'
+                    email: rpanov@example.org
+                    email_verified_at: '2024-09-04 11:45:39'
+                    created_at: '2024-09-04T11:45:39.000000Z'
+                    updated_at: '2024-09-04T11:45:39.000000Z'
                     avatar: null
                     deleted_at: null
                     number: null
@@ -1679,22 +2030,22 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 20
+                        example: 100
                       name:
                         type: string
-                        example: 'Дина Андреевна Черноваа'
+                        example: 'Олеся Ивановна Веселоваа'
                       email:
                         type: string
-                        example: valerii13@example.com
+                        example: rpanov@example.org
                       email_verified_at:
                         type: string
-                        example: '2024-09-04 08:21:58'
+                        example: '2024-09-04 11:45:39'
                       created_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:39.000000Z'
                       updated_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:39.000000Z'
                       avatar:
                         type: string
                         example: null
@@ -1729,7 +2080,7 @@ paths:
                 limit:
                   type: integer
                   description: 'Значение поля value не может быть больше 50.'
-                  example: 7
+                  example: 24
       security: []
     parameters:
       -
@@ -1756,12 +2107,12 @@ paths:
                 example:
                   status: success
                   result:
-                    id: 21
-                    name: 'Фомина Варвара Сергеевна'
-                    email: wvorobeva@example.org
-                    email_verified_at: '2024-09-04 08:21:58'
-                    created_at: '2024-09-04T08:21:58.000000Z'
-                    updated_at: '2024-09-04T08:21:58.000000Z'
+                    id: 101
+                    name: 'Стрелкова Нестор Борисович'
+                    email: yna52@example.net
+                    email_verified_at: '2024-09-04 11:45:39'
+                    created_at: '2024-09-04T11:45:39.000000Z'
+                    updated_at: '2024-09-04T11:45:39.000000Z'
                     avatar: null
                     deleted_at: null
                     number: null
@@ -1777,22 +2128,22 @@ paths:
                     properties:
                       id:
                         type: integer
-                        example: 21
+                        example: 101
                       name:
                         type: string
-                        example: 'Фомина Варвара Сергеевна'
+                        example: 'Стрелкова Нестор Борисович'
                       email:
                         type: string
-                        example: wvorobeva@example.org
+                        example: yna52@example.net
                       email_verified_at:
                         type: string
-                        example: '2024-09-04 08:21:58'
+                        example: '2024-09-04 11:45:39'
                       created_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:39.000000Z'
                       updated_at:
                         type: string
-                        example: '2024-09-04T08:21:58.000000Z'
+                        example: '2024-09-04T11:45:39.000000Z'
                       avatar:
                         type: string
                         example: null
@@ -1827,7 +2178,7 @@ paths:
                 limit:
                   type: integer
                   description: 'Значение поля value не может быть больше 50.'
-                  example: 18
+                  example: 4
       security: []
     parameters:
       -
@@ -1994,6 +2345,18 @@ paths:
                       line: 141
                       function: 'Illuminate\Foundation\Http\{closure}'
                       class: Illuminate\Foundation\Http\Kernel
+                      type: '->'
+                    -
+                      file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php
+                      line: 59
+                      function: 'Illuminate\Pipeline\{closure}'
+                      class: Illuminate\Pipeline\Pipeline
+                      type: '->'
+                    -
+                      file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                      line: 180
+                      function: handle
+                      class: Barryvdh\Debugbar\Middleware\InjectDebugbar
                       type: '->'
                     -
                       file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php
@@ -2408,6 +2771,18 @@ paths:
                         class: Illuminate\Foundation\Http\Kernel
                         type: '->'
                       -
+                        file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php
+                        line: 59
+                        function: 'Illuminate\Pipeline\{closure}'
+                        class: Illuminate\Pipeline\Pipeline
+                        type: '->'
+                      -
+                        file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php
+                        line: 180
+                        function: handle
+                        class: Barryvdh\Debugbar\Middleware\InjectDebugbar
+                        type: '->'
+                      -
                         file: /home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php
                         line: 21
                         function: 'Illuminate\Pipeline\{closure}'
@@ -2699,7 +3074,7 @@ paths:
                 limit:
                   type: integer
                   description: 'Значение поля value не может быть больше 50.'
-                  example: 2
+                  example: 22
       security: []
     parameters:
       -

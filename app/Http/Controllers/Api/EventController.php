@@ -22,6 +22,7 @@ use App\Http\Resources\Event\ShowEvent\SuccessShowEventResource;
 use App\Models\Organization;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\CursorPaginator;
 use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
 use App\Models\HistoryContent;
