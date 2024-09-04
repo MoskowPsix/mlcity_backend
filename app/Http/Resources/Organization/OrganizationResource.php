@@ -29,6 +29,7 @@ class OrganizationResource extends BaseResource
             'users_permissions' => $this->whenLoaded('usersPermissions'),
             'types'             => $this->whenLoaded('stypes'),
             'location'          => $this->whenLoaded('usersPermissions'),
+            'files' => $this->whenLoaded('files'),
         ];
     }
 }

@@ -10,8 +10,12 @@ class EventExpired implements Pipe {
 
     public function apply($content, Closure $next)
     {
-        if (request()->filled('expired') && request()->get('expired')){
-            $content->where('date_end', '<', Carbon::now());
+        if (request()->filled('expired')){
+            if(request()->get('expired')) {
+                $content->where('date_end', '<', Carbon::now());
+            } else {
+                $content->where('date_start', '>', Carbon::now());
+            }
         }
         return $next($content);
     }
