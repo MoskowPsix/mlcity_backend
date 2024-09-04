@@ -105,6 +105,10 @@ class EventHistoryContentService{
                 if(is_array($file) && isset($file['on_delete']) && $file['on_delete'] == true){
                     $file['on_delete'] = true;
                     unset($file['file_types']);
+                    $file["file_id"] = $file["id"];
+                    unset($file["id"]);
+                    unset($file["event_id"]);
+                    unset($file["name"]);
                     $historyFile = $historyContent->historyFiles()->create($file);
                 }
                 else{
