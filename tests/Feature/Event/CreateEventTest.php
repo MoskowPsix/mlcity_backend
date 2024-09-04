@@ -21,7 +21,7 @@ class CreateEventTest extends TestCase
         $data = EventObjectFactory::createFullEventObjectForRequest();
 
 
-        $response = $this->actingAs($user)->post('api/events/create', $data);
+        $response = $this->actingAs($user)->postJson('api/events/create', $data);
 
         $response->assertStatus(200);
         // $this->assertDatabaseHas("organizations", [
@@ -36,7 +36,7 @@ class CreateEventTest extends TestCase
 
         $data = EventObjectFactory::createFullEventObjectForRequest();
 
-        $response = $this->actingAs($user)->post('api/events/create', $data);
+        $response = $this->actingAs($user)->postJson('api/events/create', $data);
 
         $response->assertStatus(200);
 
@@ -46,8 +46,8 @@ class CreateEventTest extends TestCase
     {
         $data = EventObjectFactory::createFullEventObjectForRequest();
 
-        $response = $this->post('api/events/create', $data);
+        $response = $this->postJson('api/events/create', $data);
 
-        $response->assertStatus(403);
+        $response->assertStatus(401);
     }
 }

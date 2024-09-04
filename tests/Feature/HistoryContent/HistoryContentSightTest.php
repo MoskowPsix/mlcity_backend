@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Feature;
 
 use App\Models\Event;
 use App\Models\Price;
@@ -14,6 +14,8 @@ use Tests\TestCase;
 class HistoryContentSightTest extends TestCase
 {
     use RefreshDatabase;
+    protected $seed = true;
+
     /**
      * A basic unit test example.
      *
@@ -46,6 +48,7 @@ class HistoryContentSightTest extends TestCase
 
         $response->assertStatus(201)
         ->assertJsonFragment($data['history_content']);
+
     }
 
     public function test_create_history_content_for_sight_with_new_prices(){

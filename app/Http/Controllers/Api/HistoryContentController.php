@@ -148,18 +148,24 @@ class HistoryContentController extends Controller
         }
     }
     private function checkStatuses(){
-        $status_id = Status::where('name', 'Изменено')->get()->first()->id;
+        $status_id = Status::where('name', 'Изменено')->first()->id;
         if(request("type") == "Event"){
-            return Event::where('id', request('id'))->whereHas('statuses', function($q) use ($status_id){
+            if (Event::where('id', request('id'))->whereHas('statuses', function($q) use ($status_id){
                 $q->where('status_id', $status_id)->where('last', true);
-            })->get();
+            })->exists()) {
+                return true;
+            } else {
+                return false;
+            }
         }
         else if (request("type") == "Sight") {
-            $res =  Sight::where("id", request('id'))->whereHas('statuses', function($q) use ($status_id){
+            if (Sight::find(request('id'))->whereHas('statuses', function($q) use ($status_id){
                 $q->where('status_id', $status_id)->where('last', true);
-            })->get();
-
-            return count($res) > 0;
+            })->exists()) {
+                return true;
+            } else {
+                return false;
+            }
         }
     }
 

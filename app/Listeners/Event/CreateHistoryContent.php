@@ -38,19 +38,18 @@ class CreateHistoryContent
             "descriptions" => "Оригинальный экземпляр"
         ]);
         $places = $event->places;
-        // info(count($places->toArray()));
-        
-        
+
+
         foreach($places as $place)
-        {   
+        {
             $data = $this->preparePlaceData($place);
            $historyPlace = $historyContent->historyPlaces()->create($data);
-           
+
            foreach($place->seances as $seance)
            {
             $data = $this->prepareSeanseData($seance);
             $historySeanse = $historyPlace->historySeances()->create($data);
-           }  
+           }
         }
 
         foreach($event->price as $price){
@@ -65,7 +64,7 @@ class CreateHistoryContent
             foreach($file->file_types as $fileType){
                 $data = $fileType->toArray();
                 $fileTypeId = $data["pivot"]['type_id'];
-                
+
                 unset($data["pivot"]);
 
                 $historyFile->historyFileType()->attach($fileTypeId);
@@ -74,9 +73,9 @@ class CreateHistoryContent
 
         foreach($event->types as $type){
             $historyContent->historyEventTypes()->attach($type->id);
-            
+
         }
-        
+
     }
 
     public function preparePlaceData($place){
@@ -92,7 +91,7 @@ class CreateHistoryContent
     }
 
     public function prepareSeanseData($seance){
-        
+
         $data = $seance->toArray();
         $data["seance_id"] = $data["id"];
         $data["date_start"] = $data["date_start"];
@@ -117,7 +116,7 @@ class CreateHistoryContent
         unset($data["id"]);
 
         return $data;
-        
+
     }
 
     public function prepareFileData($file){

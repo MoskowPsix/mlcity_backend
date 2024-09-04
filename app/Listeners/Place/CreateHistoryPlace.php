@@ -29,7 +29,6 @@ class CreateHistoryPlace
         $place = $event->model;
         $historyContent = $place->event->historyContents->first();
         // $historyPlace = $historyContent->historyPlaces()->create($place->toArray());
-        info($place->toArray());
-        
+
     }
 }

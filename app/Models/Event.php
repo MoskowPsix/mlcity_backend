@@ -127,6 +127,11 @@ class Event extends Model
         return $this->hasMany(Price::class);
     }
 
+    public function prices(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Price::class);
+    }
+
     public function historyContents(): MorphMany{
         return $this->morphMany(HistoryContent::class, "history_contentable");
     }

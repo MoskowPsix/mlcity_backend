@@ -26,6 +26,7 @@ class EventResource extends JsonResource
             'vk_post_id'        => $this->vk_post_id,
             'created_at'        => $this->created_at,
             'updated_at'        => $this->updated_at,
+            'age_limit'         => $this->age_limit,
             'statuses'          => $this->whenLoaded('statuses'),
             'files'             => $this->whenLoaded('files'),
             'author'            => $this->whenLoaded('author'),
