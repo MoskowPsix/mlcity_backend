@@ -462,12 +462,13 @@ class IntegrationAfisha7 extends Command
     private function saveEvent(object $event): Event | null
     {
         try {
+
             return Event::create([
                 'name' => $event->name,
                 'sponsor' => "afisha7.ru",
                 'description' => $event->description,
-                'date_start' => gmdate("Y-m-d\TH:i:s\Z", $event->date_start),
-                'date_end' => gmdate("Y-m-d\TH:i:s\Z", $event->date_end),
+                'date_start' => Carbon::createFromTimestamp($event->date_start)->addHours(3),
+                'date_end' => Carbon::createFromTimestamp($event->date_end)->addHours(3),
                 'user_id' => 1,
 
                 'afisha7_id' => $event->id,
@@ -709,9 +710,14 @@ class IntegrationAfisha7 extends Command
         foreach ($seances_types as $seances) {
             foreach ($seances as $seance) {
                 if (isset($seances) && !isset($seances->errors) && isset($seance->date_start) && isset($seance->date_end)) {
+
+                    $date_start = (int)$seance->date_start / 1000;
+                    $date_end = (int)$seance->date_end / 1000;
+
+
                     $place_create->seances()->create([
-                        'date_start' => Carbon::parse(intval((int)$seance->date_start / 1000)),
-                        'date_end' => Carbon::parse(intval((int)$seance->date_end / 1000)),
+                        'date_start' => Carbon::createFromTimestamp($date_start)->addHours(3),
+                        'date_end' => Carbon::createFromTimestamp($date_end)->addHours(3),
                     ]);
                 }
             }
