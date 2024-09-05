@@ -129,6 +129,13 @@ class minCultIntegration extends Command
                 'user_id' => 1,
                 'min_cult_id' => $event->data->general->id,
             ]);
+            $sight = Sight::create([
+                "name" => $event->nativeName,
+                "address" => "",
+                "description" => "",
+                "user_id" => 1,
+            ]);
+            $sight->organization()->create();
             $event = $event->data->general;
             $this->saveType($event->category, $event_cr);
 
