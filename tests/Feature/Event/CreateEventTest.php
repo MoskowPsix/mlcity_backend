@@ -1,6 +1,8 @@
 <?php
 
 namespace Tests\Feature\Event;
+
+use App\Models\Sight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\Helpers\EventObjectFactory;
@@ -39,7 +41,26 @@ class CreateEventTest extends TestCase
         $response = $this->actingAs($user)->postJson('api/events/create', $data);
 
         $response->assertStatus(200);
+    }
 
+    public function testCreateEventWithNotUserOrganization()
+    {
+        $user = User::first();
+
+        $sight = Sight::factory()->create([
+            "user_id" => $user->id,
+        ]);
+
+        $organization = $sight->organization()->create();
+
+        $user2 = User::factory()->create();
+
+        $data = EventObjectFactory::createFullEventObjectForRequest();
+        $data["organization_id"] = $organization->id;
+
+        $response = $this->actingAs($user2)->postJson('api/events/create', $data);
+
+        $response->assertStatus(403);
     }
 
     public function testCreateEventWithoutUser()

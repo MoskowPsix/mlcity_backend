@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,10 +18,7 @@ class OrganizationFactory extends Factory
     public function definition()
     {
         return [
-            'name'          => fake()->name(),
-            'avatar'        => fake()->avatar(),
-            'user_id'       => User::inRandomOrder()->first()->id,
-            'description'   => fake()->text(),
+            'sight_id'       => Sight::inRandomOrder()->first()->id,
         ];
     }
 }

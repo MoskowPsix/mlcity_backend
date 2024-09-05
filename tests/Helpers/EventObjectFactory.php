@@ -51,7 +51,7 @@ class EventObjectFactory {
             ...$event->toArray(),
             "prices" => $prices->toArray(),
             "places" => $places,
-            "type"  => [$types]
+            "type"  => $types
         ];
 
         return $data;
