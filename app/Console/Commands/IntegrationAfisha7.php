@@ -132,7 +132,7 @@ class IntegrationAfisha7 extends Command
             $this->locations_level_3 = array_splice($this->locations_level_3, $this->location_start, count($this->locations_level_3) - $this->location_start);
             $progress = $this->location_start;
         }
-        foreach ($this->locations_level_3 as $location) {
+        foreach ($this->locations_level_3 as $key => $location) {
             $progress++;
             if ($location->level == 3) {
                 foreach ($this->types as $type) {
@@ -145,7 +145,7 @@ class IntegrationAfisha7 extends Command
                 if (isset($events['total'])) {
                     $this->startCommand((int)$events['total'], $location->id, 'event', $type->id);
                 }
-                info(' | ' . $progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->name . '|');
+                $key % 10 === 0 ?  info(' | ' . $progress . ' / ' . count($this->locations_level_3) . ' | ' . $location->name . '|') : null;
             }
         }
     }
