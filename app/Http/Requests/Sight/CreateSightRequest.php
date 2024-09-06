@@ -25,7 +25,6 @@ class CreateSightRequest extends FormRequest
     {
         return [
             'name'          => 'required|min:3',
-            'sponsor'       => 'required|min:3',
             'coords'        => 'required|min:2',
             'description'   => 'nullable|string',
             'type'          => 'required',
@@ -36,9 +35,6 @@ class CreateSightRequest extends FormRequest
             'phone_number'  => 'nullable|string',
             'email'         => 'nullable|email',
             'site'          => 'nullable|string',
-            'price'         => 'required|array',
-            'price.*.cost_rub'        => 'nullable|integer',
-            'price.*.description'        => 'nullable|integer',
             'localFilesImg' => 'nullable',
             'localFilesImg.*' => 'nullable|mimes:jpeg,jpg,png',
         ];

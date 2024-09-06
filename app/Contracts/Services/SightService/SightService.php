@@ -149,21 +149,7 @@ class SightService implements SightServiceInterface
 
         $sight->organization()->create();
 
-        foreach ($request->price as $price){
-            if($price["cost_rub"] == ""){
-                $sight->prices()->create([
-                    'cost_rub' => 0,
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
-            else{
-                $sight->prices()->create([
-                    'cost_rub' => $price['cost_rub'],
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
 
-        }
         $types = explode(",",$request->type[0]);
         $sight->types()->sync($types);
         $sight->statuses()->attach($request->status, ['last' => true]);
