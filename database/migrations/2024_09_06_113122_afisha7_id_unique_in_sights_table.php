@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('sights', function (Blueprint $table) {
-            $table->bigInteger("afisha7_id")->uniqid()->change();
+            $table->unique('afisha7_id', 'idx_unique');
         });
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('sights', function (Blueprint $table) {
-            $table->bigInteger("afisha7_id")->change();
+            $table->dropUnique('idx_unique');
         });
     }
 };

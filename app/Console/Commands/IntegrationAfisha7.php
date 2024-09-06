@@ -511,11 +511,10 @@ class IntegrationAfisha7 extends Command
                         'user_id' => 1,
                         'afisha7_id' => $sight->id,
                     ]);
+                    $createdSight->organization()->create();
+                    return $createdSight;
             } catch (Exception $e) {
                 return null;
-            } finally {
-                $createdSight->organization()->create();
-                return $createdSight;
             }
         } else {
             return null;
