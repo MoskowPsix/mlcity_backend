@@ -168,7 +168,6 @@ class IntegrationAfisha7 extends Command
                     $numberOfProcess = 1;
                 } else if ($total < $this->limit * 100) {
                     $numberOfProcess = intval($total / 100);
-                    dump(100);
                 } else {
                     $numberOfProcess = 100;
                 }
