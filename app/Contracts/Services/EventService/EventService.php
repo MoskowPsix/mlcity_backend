@@ -96,7 +96,7 @@ class EventService implements EventServiceInterface
         ])
         ->via('apply')
         ->then(function ($events) use ($page, $limit, $data){
-            return $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+            return $events->cursorPaginate($limit, ['*'], 'page' , $page);
         });
     }
 
