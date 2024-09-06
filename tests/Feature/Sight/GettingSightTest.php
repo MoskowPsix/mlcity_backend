@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Sight;
 
+use App\Models\Event;
 use App\Models\Sight;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -35,5 +36,19 @@ class GettingSightTest extends TestCase
             "id" => $sight->id,
             "files" => $sight->files
         ]);
+    }
+
+    public function test_get_sgiht_by_non_existent_id()
+    {
+        Sight::factory()->create();
+        $response = $this->getJson('/api/sights/190912123');
+
+        $response->assertStatus(404);
+    }
+
+    public function test_get_sight_by_broken_string_id()
+    {
+        $response = $this->getJson('/api/sights/buka_baka');
+        $response->assertStatus(422);
     }
 }

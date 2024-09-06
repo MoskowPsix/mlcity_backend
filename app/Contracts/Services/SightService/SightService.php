@@ -141,26 +141,15 @@ class SightService implements SightServiceInterface
             'user_id'       => auth("api")->user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
+            'phone_number'  => $request->get('phone_number'),
+            'email'         => $request->get('email'),
+            'site'          => $request->get('site'),
             'organization_id' => 1,
         ]);
 
         $sight->organization()->create();
 
-        foreach ($request->price as $price){
-            if($price["cost_rub"] == ""){
-                $sight->prices()->create([
-                    'cost_rub' => 0,
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
-            else{
-                $sight->prices()->create([
-                    'cost_rub' => $price['cost_rub'],
-                    'descriptions' => $price['descriptions']
-                ]);
-            }
 
-        }
         $types = explode(",",$request->type[0]);
         $sight->types()->sync($types);
         $sight->statuses()->attach($request->status, ['last' => true]);

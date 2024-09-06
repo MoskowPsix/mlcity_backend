@@ -10,6 +10,7 @@ use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Requests\Sight\CreateSightRequest;
 use App\Http\Requests\Sight\GetSightsForMapRequest;
 use App\Http\Requests\Sight\GetSightsRequest;
+use App\Http\Requests\Sight\ShowSightRequest;
 use App\Http\Resources\Sight\CheckFavorite\SuccessCheckFavoriteSightResource;
 use App\Http\Resources\Sight\CheckLiked\SuccessCheckLickedSightResource;
 use App\Http\Resources\Sight\CreateSight\SuccessCreateSightResource;
@@ -129,7 +130,7 @@ class SightController extends Controller
     #[ResponseFromApiResource(SuccessShowSightResource::class, Sight::class, 200)]
     #[ResponseFromApiResource(ErrorShowEventResource::class, null, 404)]
     #[Endpoint(title: 'show', description: 'Получение место по id')]
-    public function show(int $id): SuccessShowSightResource | ErrorShowEventResource
+    public function show(ShowSightRequest $request ,int $id): SuccessShowSightResource | ErrorShowEventResource
     {
         try {
             $response = $this->sightService->show($id);

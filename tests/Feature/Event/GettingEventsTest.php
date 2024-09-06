@@ -77,16 +77,15 @@ class GettingEventsTest extends TestCase
     {
         EventObjectFactory::createEventInDB(1);
 
-        $event = Event::first();
-        $response = $this->get('/api/events/190912123'.$event->id);
+        $response = $this->get('/api/events/190912123');
 
         $response->assertStatus(404);
     }
 
     public function test_get_event_by_broken_string_id()
     {
-        $response = $this->get('/api/events/buka_baka');
-        $response->assertStatus(302);
+        $response = $this->getJson('/api/events/buka_baka');
+        $response->assertStatus(422);
     }
 
     public function test_get_author_events()

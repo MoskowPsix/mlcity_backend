@@ -28,6 +28,8 @@ class SightFactory extends Factory
             'materials'         => fake()->text(),
             'user_id'           => User::first()->id,
             'work_time'         => fake()->text(),
+            'phone_number'      => fake()->phoneNumber(),
+            'email'             => fake()->email(),
         ];
     }
 }

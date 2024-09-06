@@ -25,7 +25,6 @@ class CreateSightRequest extends FormRequest
     {
         return [
             'name'          => 'required|min:3',
-            'sponsor'       => 'required|min:3',
             'coords'        => 'required|min:2',
             'description'   => 'nullable|string',
             'type'          => 'required',
@@ -33,9 +32,9 @@ class CreateSightRequest extends FormRequest
             'locationId'    => 'required|exists:locations,id',
             'vkGroupId'     => 'nullable|string',
             'vkPostId'      => 'nullable|string',
-            'price'         => 'required|array',
-            'price.*.cost_rub'        => 'nullable|integer',
-            'price.*.description'        => 'nullable|integer',
+            'phone_number'  => 'nullable|string',
+            'email'         => 'nullable|email',
+            'site'          => 'nullable|string',
             'localFilesImg' => 'nullable',
             'localFilesImg.*' => 'nullable|mimes:jpeg,jpg,png',
         ];

@@ -15,7 +15,7 @@ class FeedbackController extends Controller
         try{
             $data = $request->validated();
 
-            Mail::to("mega.kefi36@gmail.com")->send(new UserFeedback($data));
+            Mail::to("support@mlcity.ru")->send(new UserFeedback($data));
             return response()->json(["message"=>"success"], 200);
         }
         catch (Exception $e){
