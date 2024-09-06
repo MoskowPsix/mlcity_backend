@@ -141,6 +141,9 @@ class SightService implements SightServiceInterface
             'user_id'       => auth("api")->user()->id,
             'vk_group_id'   => $request->vkGroupId,
             'vk_post_id'    => $request->vkPostId,
+            'phone_number'  => $request->get('phone_number'),
+            'email'         => $request->get('email'),
+            'site'          => $request->get('site'),
             'organization_id' => 1,
         ]);
 
