@@ -54,7 +54,7 @@ class SightService implements SightServiceInterface
 //        $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments');
         $response =
             app(Pipeline::class)
                 ->send($sights)
@@ -95,7 +95,7 @@ class SightService implements SightServiceInterface
                 PlaceAddress::class,
                 SightTypes::class,
                 PlaceGeoPositionInArea::class,
-                SightIco::class
+                // SightIco::class
             ])
             ->via('apply')
             ->then(function ($sights) {
