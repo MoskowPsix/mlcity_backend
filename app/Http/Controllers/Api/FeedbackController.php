@@ -22,8 +22,5 @@ class FeedbackController extends Controller
             info($e);
             return response()->json(["message"=>"mail server error"], 400);
         }
-
-        return response()->json(["message"=>"unhandled error"], 400);
-
     }
 }
