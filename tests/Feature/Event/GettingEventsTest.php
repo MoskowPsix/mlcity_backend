@@ -15,7 +15,7 @@ class GettingEventsTest extends TestCase
 {
     use RefreshDatabase;
 
-    protected $seed = true;
+    protected bool $seed = true;
 
     public function test_get_event_for_feed()
     {

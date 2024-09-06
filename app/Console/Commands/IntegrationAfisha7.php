@@ -161,12 +161,14 @@ class IntegrationAfisha7 extends Command
     private function startCommand(int $total, mixed $location_id, string $typeIntegration, int $typeId): void
     {
         $offset = 0;
+        $processes = [];
         try {
             while ($total >= 0) {
                 if ($total < $this->limit) {
                     $numberOfProcess = 1;
                 } else if ($total < $this->limit * 100) {
                     $numberOfProcess = intval($total / 100);
+                    dump(100);
                 } else {
                     $numberOfProcess = 100;
                 }
@@ -180,6 +182,16 @@ class IntegrationAfisha7 extends Command
                         $processes[] = $process;
                         $total = $total - $this->limit;
                         $offset = $offset + $this->limit;
+                    }
+                }
+                if ($numberOfProcess === 100) {
+                    while (count($processes)) {
+                        foreach ($processes as $i => $runningProcess) {
+                            // этот процесс завершен, поэтому удаляем его
+                            if (!$runningProcess->isRunning()) {
+                                unset($processes[$i]);
+                            }
+                        }
                     }
                 }
             }
