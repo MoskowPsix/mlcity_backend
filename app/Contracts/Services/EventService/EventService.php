@@ -137,7 +137,7 @@ class EventService implements EventServiceInterface
 
             $event = Event::create([
                 'name'          => $data->name,
-//                'sponsor'       => $data->sponsor,
+                'sponsor'       => $data->sponsor,
                 'description'   => $data->description,
                 'materials'     => $data->materials,
                 'date_start'    => $data->dateStart,
