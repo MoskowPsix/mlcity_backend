@@ -41,8 +41,7 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 #[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
 {
-    public function __construct(private readonly EventServiceInterface $eventService)
-    {}
+    public function __construct(private readonly EventServiceInterface $eventService) {}
 
     #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
     #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
@@ -128,10 +127,9 @@ class EventController extends Controller
     public function create(EventCreateRequest $request): SuccessCreateEventResource | ErrorCreateEventResource | ErrorAuthCreateEventResource
     {
         try {
-            $this->eventService->store($request);
-            return new SuccessCreateEventResource([]);
-
-        } catch(Exception $e) {
+            $event = $this->eventService->store($request);
+            return new SuccessCreateEventResource($event);
+        } catch (Exception $e) {
             if ($e->getMessage() == "Is not user organization") {
                 return new ErrorAuthCreateEventResource([]);
             }
@@ -166,30 +164,28 @@ class EventController extends Controller
     {
         $pagination = $request->pagination;
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 6;
 
         $historyContent = HistoryContent::query()->where("history_contentable_id", $id)->where("history_contentable_type", "App\Models\Event");
 
         $response =
-        app(Pipeline::class)
-        ->send($historyContent)
-        ->through([
-            HistoryContentLast::class
-        ])
-        ->via("apply")
-        ->then(function($historyContent) use ($pagination , $page, $limit) {
+            app(Pipeline::class)
+            ->send($historyContent)
+            ->through([
+                HistoryContentLast::class
+            ])
+            ->via("apply")
+            ->then(function ($historyContent) use ($pagination, $page, $limit) {
 
-            if(request()->get("last") == true)
-            {
-                $res = $historyContent->get()->first();
-            }
-            else {
-                $res = $historyContent->cursorPaginate($limit, ['*'], 'page' , $page);
-            }
-            return $res;
-        });
+                if (request()->get("last") == true) {
+                    $res = $historyContent->get()->first();
+                } else {
+                    $res = $historyContent->cursorPaginate($limit, ['*'], 'page', $page);
+                }
+                return $res;
+            });
 
-        return response()->json(["status"=>"success", "history_content" => $response]);
+        return response()->json(["status" => "success", "history_content" => $response]);
     }
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetOrganizationOfEventResource::class, Organization::class)]
@@ -203,9 +199,8 @@ class EventController extends Controller
     #[Authenticated]
     #[NoReturn]
     #[Endpoint(title: 'addStatusToEvent', description: 'Смена статуса мероприяия.')]
-    public function addStatusToEvent(AddStatusRequest $request, $id) {
+    public function addStatusToEvent(AddStatusRequest $request, $id)
+    {
         $this->eventService->addStatus($id);
     }
 }
-
-
