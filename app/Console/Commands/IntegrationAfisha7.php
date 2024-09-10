@@ -183,7 +183,8 @@ class IntegrationAfisha7 extends Command
                         $offset = $offset + $this->limit;
                     }
                 }
-                if ($numberOfProcess === 100) {
+                usleep(200);
+                if ($numberOfProcess >= 100) {
                     while (count($processes)) {
                         foreach ($processes as $i => $runningProcess) {
                             // этот процесс завершен, поэтому удаляем его
