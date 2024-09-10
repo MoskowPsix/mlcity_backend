@@ -20,6 +20,4 @@ export default defineConfig({
                 'resources/js/app.js'
             ],
         }),
-    ],
-    base: process.env.VITE_APP_URL,
 });
