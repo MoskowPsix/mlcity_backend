@@ -24,15 +24,19 @@ class EventCreateRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'         => 'required|min:3',
-            'description'  => 'nullable|min:10',
-            'dateStart'    => 'required|date',
-            'dateEnd'      => 'required|date|after:dateStart',
-            'type'         => 'required|string',
-            'status'       => 'required',
-            'places'       => 'nullable|array',
-            'prices'       => 'nullable|array',
-            'ageLimit'     => 'nullable|integer|min:0|max:18',
+            'name'                          => 'required|min:3',
+            'sponsor'                       => 'required|string',
+            'description'                   => 'nullable|min:10',
+            'dateStart'                     => 'required|date',
+            'dateEnd'                       => 'required|date|after_or_equal:dateStart',
+            'type'                          => 'required|string',
+            'status'                        => 'required',
+            'places'                        => 'nullable|array',
+            'prices'                        => 'nullable|array',
+            'ageLimit'                      => 'nullable|integer|min:0|max:18',
+            'places.*.seances.*.dateStart'  =>  'required|date',
+            'places.*.seances.*.dateEnd'    =>  'required|date',
+
         ];
     }
 
