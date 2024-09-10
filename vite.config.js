@@ -1,7 +1,6 @@
-import { defineConfig } from 'vite';
-import laravel from 'laravel-vite-plugin';
+import { defineConfig } from 'vite'
+import laravel from 'laravel-vite-plugin'
 import vue from '@vitejs/plugin-vue'
-
 
 export default defineConfig({
     configureWebpack: {
@@ -9,16 +8,18 @@ export default defineConfig({
             splitChunks: {
                 minSize: 10000,
                 maxSize: 250000,
-            }
-        }
+            },
+        },
     },
     plugins: [
-        vue(),
+        vue({
+            publicPath:
+                process.env.NODE_ENV === 'production'
+                    ? 'https://api-dev.vokrug.city/'
+                    : '/',
+        }),
         laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/app.js'
-            ],
+            input: ['resources/css/app.css', 'resources/js/app.js'],
         }),
     ],
-});
+})
