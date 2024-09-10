@@ -21,4 +21,5 @@ export default defineConfig({
             ],
         }),
     ],
+    base: process.env.VITE_APP_URL
 });
