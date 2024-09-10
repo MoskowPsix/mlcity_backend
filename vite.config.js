@@ -14,7 +14,7 @@ export default defineConfig({
     plugins: [
         vue({
             publicPath:
-                process.env.NODE_ENV === 'production'
+                process.env.APP_URL === 'production'
                     ? 'https://api-dev.vokrug.city/'
                     : '/',
         }),
