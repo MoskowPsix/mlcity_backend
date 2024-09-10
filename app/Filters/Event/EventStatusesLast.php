@@ -19,6 +19,7 @@ class EventStatusesLast implements Pipe {
             // Клиент присылает id статуса
             if((is_numeric($statuses[0]))) {
                 $status_id = Status::find($statuses[0])->id;
+
             }
             // Админ присылает название статуса
             else {

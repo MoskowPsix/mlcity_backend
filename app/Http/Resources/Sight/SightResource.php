@@ -38,6 +38,7 @@ class SightResource extends JsonResource
             'description'       => $this->description,
             'materials'         => $this->materials,
             'user_id'           => $this->user_id,
+            'afisha7_id'        => $this->afisha7_id,
             'types'             => $this->whenLoaded('types'),
             'statuses'          => $this->whenLoaded('statuses'),
             'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),

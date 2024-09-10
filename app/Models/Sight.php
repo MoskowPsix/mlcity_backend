@@ -32,7 +32,7 @@ class Sight extends Model
         'afisha7_id',
     ];
 
-    protected $with = ['organization'];
+    // protected $with = ['organization'];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

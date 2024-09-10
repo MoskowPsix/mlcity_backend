@@ -28,7 +28,7 @@ endpoints:
         name: address
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: qtsyhzhdyfmuqnkfpemkqtprirlmwrswqyecplcghtptznqkkqnkzwwxetzygutnehftedrocsweqktobxkpyzbqx
+        example: mncoqqssnddwmpofmmnhyqoowodgahyabveygxyeruhamqudwwylwjburatacmpicetp
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -37,7 +37,7 @@ endpoints:
         name: sponsor
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: swlbgtngpfpygopbdrthrqxhqocckvgbmamhbqnzyltruuhmbyvhfrdnxqmykqvgksvjjhdtfrigr
+        example: ywofdodbkihqqlhqdekcyqrtezbyokddtrxrtwvbrpqrzvzpzokevculrrdbbeftzbjmfucvyvqmhwto
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -46,7 +46,7 @@ endpoints:
         name: user_name
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: fbvsmtopzdzjofsflrgvkdbspdkhuqtbcejuyhpsyqpaipynrppqdgpvzdopqgm
+        example: boksliruqwyzvgygmpfimersfz
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -55,7 +55,7 @@ endpoints:
         name: user_email
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: wiza.lindsey@example.org
+        example: kristofer.wolff@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -64,7 +64,7 @@ endpoints:
         name: page
         description: ''
         required: false
-        example: incidunt
+        example: nobis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -73,7 +73,7 @@ endpoints:
         name: limit
         description: 'Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50.'
         required: false
-        example: 22
+        example: 11
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -82,7 +82,7 @@ endpoints:
         name: name
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: uwwwtibxhoxueuaut
+        example: lysjvppzofmxvenmvxswnblsrauzslfrsrwfpdcxotmbxwtkwlqagxanejydkdjsvwuxuvugelihygwqqqhlhwfkz
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -91,7 +91,7 @@ endpoints:
         name: userId
         description: ''
         required: false
-        example: 17
+        example: 11
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -100,7 +100,7 @@ endpoints:
         name: likedUser
         description: ''
         required: false
-        example: eveniet
+        example: consequatur
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -109,7 +109,7 @@ endpoints:
         name: favoriteUser
         description: ''
         required: false
-        example: dolorum
+        example: fugit
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -118,7 +118,7 @@ endpoints:
         name: statuses
         description: ''
         required: false
-        example: incidunt
+        example: quae
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -127,7 +127,7 @@ endpoints:
         name: statusLast
         description: ''
         required: false
-        example: repudiandae
+        example: fugiat
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -136,7 +136,7 @@ endpoints:
         name: locationId
         description: ''
         required: false
-        example: quidem
+        example: dolor
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -145,7 +145,7 @@ endpoints:
         name: dateStart
         description: ''
         required: false
-        example: excepturi
+        example: blanditiis
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -154,7 +154,7 @@ endpoints:
         name: dateEnd
         description: ''
         required: false
-        example: quis
+        example: at
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -163,7 +163,7 @@ endpoints:
         name: eventTypes
         description: ''
         required: false
-        example: quidem
+        example: non
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -172,7 +172,7 @@ endpoints:
         name: radius
         description: 'Значение поля value не может быть больше 25.'
         required: false
-        example: 17
+        example: 23
         type: integer
         enumValues: []
         exampleWasSpecified: false
@@ -181,7 +181,7 @@ endpoints:
         name: latitude
         description: ''
         required: false
-        example: est
+        example: quo
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -190,7 +190,7 @@ endpoints:
         name: longitude
         description: ''
         required: false
-        example: omnis
+        example: magni
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -199,7 +199,7 @@ endpoints:
         name: searchText
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: nbilxsnsxceruetpjxydbcykok
+        example: tqmzlcsojzjqptuumbpqqqpyixtqilklyedjpbhondffjmhyuygzslxsnfbmkjbvvnhfnfkmojkeghlqwvgcluhc
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -208,38 +208,38 @@ endpoints:
         name: user
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: false
-        example: ixojxebnvcq
+        example: ednyapokhxubkmvrlhxyiczllew
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      address: qtsyhzhdyfmuqnkfpemkqtprirlmwrswqyecplcghtptznqkkqnkzwwxetzygutnehftedrocsweqktobxkpyzbqx
-      sponsor: swlbgtngpfpygopbdrthrqxhqocckvgbmamhbqnzyltruuhmbyvhfrdnxqmykqvgksvjjhdtfrigr
-      user_name: fbvsmtopzdzjofsflrgvkdbspdkhuqtbcejuyhpsyqpaipynrppqdgpvzdopqgm
-      user_email: wiza.lindsey@example.org
-      page: incidunt
-      limit: 22
-      name: uwwwtibxhoxueuaut
-      userId: 17
-      likedUser: eveniet
-      favoriteUser: dolorum
-      statuses: incidunt
-      statusLast: repudiandae
-      locationId: quidem
-      dateStart: excepturi
-      dateEnd: quis
-      eventTypes: quidem
-      radius: 17
-      latitude: est
-      longitude: omnis
-      searchText: nbilxsnsxceruetpjxydbcykok
-      user: ixojxebnvcq
+      address: mncoqqssnddwmpofmmnhyqoowodgahyabveygxyeruhamqudwwylwjburatacmpicetp
+      sponsor: ywofdodbkihqqlhqdekcyqrtezbyokddtrxrtwvbrpqrzvzpzokevculrrdbbeftzbjmfucvyvqmhwto
+      user_name: boksliruqwyzvgygmpfimersfz
+      user_email: kristofer.wolff@example.org
+      page: nobis
+      limit: 11
+      name: lysjvppzofmxvenmvxswnblsrauzslfrsrwfpdcxotmbxwtkwlqagxanejydkdjsvwuxuvugelihygwqqqhlhwfkz
+      userId: 11
+      likedUser: consequatur
+      favoriteUser: fugit
+      statuses: quae
+      statusLast: fugiat
+      locationId: dolor
+      dateStart: blanditiis
+      dateEnd: at
+      eventTypes: non
+      radius: 23
+      latitude: quo
+      longitude: magni
+      searchText: tqmzlcsojzjqptuumbpqqqpyixtqilklyedjpbhondffjmhyuygzslxsnfbmkjbvvnhfnfkmojkeghlqwvgcluhc
+      user: ednyapokhxubkmvrlhxyiczllew
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":106,"name":"Aut ab beatae et facilis architecto aut sint qui.","sponsor":"\u0410\u0440\u0445\u0438\u043f\u043e\u0432\u0430 \u0421\u0435\u0440\u0433\u0435\u0439 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u0438\u0447","date_start":"2024-09-05 01:01:54","date_end":"2024-09-13 15:21:48","description":"Id minima ut aut molestiae similique voluptas dolor totam. Vel dolorem dolore blanditiis illo ipsam. Dolorem perferendis et perferendis eum est qui. Dolorem repellat nisi ut nostrum non dolore.","materials":"Quam et expedita iusto ut atque doloremque. Ut sit est recusandae pariatur ducimus quis numquam. Eaque esse repudiandae pariatur sunt dolorem soluta voluptatem. Ipsum quaerat et aut possimus atque.","user_id":1,"vk_post_id":"220353","created_at":"2024-09-04T12:24:58.000000Z","updated_at":"2024-09-04T12:24:58.000000Z","age_limit":"1"}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":139,"name":"Eius delectus quasi occaecati ex.","sponsor":"\u0428\u0443\u0431\u0438\u043d\u0430\u0430 \u041f\u043e\u043b\u0438\u043d\u0430 \u0418\u0432\u0430\u043d\u043e\u0432\u043d\u0430","date_start":"2024-09-13 07:53:31","date_end":"2024-09-24 04:29:22","description":"Ipsa officiis ullam autem sed quisquam. Aut aliquid soluta ipsa. Aspernatur veritatis perferendis eveniet eos amet. Ipsam quo voluptatum sed sed aspernatur architecto.","materials":"Minima eveniet est quis sapiente in autem ut. Consequatur itaque nesciunt sequi laboriosam. Voluptate corrupti delectus illum. Expedita maiores atque atque.","user_id":2,"vk_post_id":"943963","created_at":"2024-09-09T09:56:39.000000Z","updated_at":"2024-09-09T09:56:39.000000Z","age_limit":"15","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -304,18 +304,18 @@ endpoints:
         name: event_id
         description: 'Значение поля value должно быть не меньше 1.'
         required: true
-        example: 80
+        example: 89
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      event_id: 80
+      event_id: 89
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","likedUser":{"id":34,"name":"\u0418\u0432\u0430\u043d\u043e\u0432 \u0412\u0430\u043b\u0435\u0440\u0438\u0430\u043d \u0410\u043b\u0435\u043a\u0441\u0435\u0435\u0432\u0438\u0447","email":"yrii02@example.com","email_verified_at":"2024-09-04 12:24:59","created_at":"2024-09-04T12:24:59.000000Z","updated_at":"2024-09-04T12:24:59.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
+        content: '{"status":"success","likedUser":{"id":13,"name":"\u0418\u0433\u043d\u0430\u0442 \u041c\u0430\u043a\u0441\u0438\u043c\u043e\u0432\u0438\u0447 \u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0430","email":"dan.lebedev@example.net","email_verified_at":"2024-09-09 09:56:39","created_at":"2024-09-09T09:56:39.000000Z","updated_at":"2024-09-09T09:56:39.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
         headers: []
         description: ''
         custom: []
@@ -360,18 +360,18 @@ endpoints:
         name: id
         description: ''
         required: true
-        example: 3
+        example: 6
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      id: 3
+      id: 6
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u043e","event":{"id":107,"name":"Blanditiis repellat corrupti dolore molestiae sed.","sponsor":"\u0422\u0438\u0442\u043e\u0432\u0430 \u0410\u043d\u0430\u043d\u0438\u0439 \u0411\u043e\u0440\u0438\u0441\u043e\u0432\u0438\u0447","date_start":"2024-08-29 20:11:25","date_end":"2024-09-19 00:00:23","description":"Possimus nisi omnis odio ut. Voluptatibus reprehenderit et consequuntur quae sint cum rerum. Quia exercitationem non aut omnis. Explicabo autem laboriosam qui autem.","materials":"Vero et accusamus repudiandae distinctio. Nihil repellendus voluptas voluptas reiciendis et aut. Voluptatem ut omnis officia rem.","user_id":1,"vk_post_id":"374541","created_at":"2024-09-04T12:24:59.000000Z","updated_at":"2024-09-04T12:24:59.000000Z","age_limit":"14"}}'
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u043e","event":{"id":140,"name":"Eaque sit qui et molestias dolorem laudantium assumenda nemo.","sponsor":"\u0410\u043d\u0438\u0441\u0438\u043c\u043e\u0432\u0430\u0430 \u0424\u0430\u0438\u043d\u0430 \u0418\u0432\u0430\u043d\u043e\u0432\u043d\u0430","date_start":"2024-09-04 08:32:40","date_end":"2024-09-22 09:49:48","description":"Officia debitis ut et optio illo fugiat dolores. In ea saepe ut molestias. Ipsam tempora qui et quia sit id autem. Doloremque voluptatem commodi iusto est eveniet est.","materials":"Reprehenderit et consequatur veniam velit. Earum odit debitis dolor illo. Velit vero in unde quasi mollitia. Est iure magnam vel suscipit. Corporis repellendus qui enim voluptatem.","user_id":2,"vk_post_id":"514467","created_at":"2024-09-09T09:56:39.000000Z","updated_at":"2024-09-09T09:56:39.000000Z","age_limit":"20","afisha7_id":null}}'
         headers: []
         description: ''
         custom: []
@@ -402,13 +402,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 2
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 2
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -417,12 +417,12 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","history_content":{"data":[],"path":"http:\/\/localhost:8000\/api\/events\/2\/history-contents","per_page":6,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
+        content: '{"status":"success","history_content":{"data":[],"path":"http:\/\/localhost:8000\/api\/events\/16\/history-contents","per_page":6,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
         headers:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '499'
+          x-ratelimit-remaining: '489'
           vary: Origin
         description: null
         custom: []
@@ -453,13 +453,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 7
+        example: 17
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 17
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -468,7 +468,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0430","organization":{"id":1,"name":null,"avatar":null,"description":null}}'
+        content: '{"status":"success","message":"\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0430","organization":{"id":6,"name":null,"avatar":null,"description":null}}'
         headers: []
         description: ''
         custom: []
@@ -499,13 +499,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 20
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 20
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -545,13 +545,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 8
+        example: 4
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 8
+      id: 4
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -595,7 +595,7 @@ endpoints:
         name: name
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: xlrnhpopmlzzkaohogajieyks
+        example: flzavotjbmuqgalvuccxafxfcjnzlwvfk
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -604,7 +604,7 @@ endpoints:
         name: description
         description: 'Количество символов в поле value должно быть не меньше 10.'
         required: false
-        example: 'Nulla debitis dolorem ullam impedit sint ab.'
+        example: 'Deleniti et autem illo hic.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -613,16 +613,16 @@ endpoints:
         name: dateStart
         description: 'Значение поля value не является датой.'
         required: true
-        example: '2024-09-04T12:24:59'
+        example: '2024-09-09T09:56:42'
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       dateEnd:
         name: dateEnd
-        description: 'Значение поля value не является датой. Значение поля value должно быть датой после <code>dateStart</code>.'
+        description: 'Значение поля value не является датой. Значение поля value должно быть датой после или равной <code>dateStart</code>.'
         required: true
-        example: '2054-12-18'
+        example: '2031-09-26'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -631,7 +631,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: ut
+        example: laudantium
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -640,7 +640,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: eligendi
+        example: alias
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -667,19 +667,19 @@ endpoints:
         name: ageLimit
         description: 'Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18.'
         required: false
-        example: 9
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: xlrnhpopmlzzkaohogajieyks
-      description: 'Nulla debitis dolorem ullam impedit sint ab.'
-      dateStart: '2024-09-04T12:24:59'
-      dateEnd: '2054-12-18'
-      type: ut
-      status: eligendi
-      ageLimit: 9
+      name: flzavotjbmuqgalvuccxafxfcjnzlwvfk
+      description: 'Deleniti et autem illo hic.'
+      dateStart: '2024-09-09T09:56:42'
+      dateEnd: '2031-09-26'
+      type: laudantium
+      status: alias
+      ageLimit: 16
     fileParameters: []
     responses:
       -
@@ -727,13 +727,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 7
+        example: 16
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 7
+      id: 16
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -750,18 +750,18 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 21
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 21
+      limit: 20
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043d\u0440\u0430\u0432\u0438\u0432\u0448\u0438\u0435\u0441\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":109,"name":"Alias aut dicta omnis minus excepturi qui.","sponsor":"\u0413\u0430\u0432\u0440\u0438\u043b\u043e\u0432 \u0415\u0433\u043e\u0440 \u0424\u0451\u0434\u043e\u0440\u043e\u0432\u0438\u0447","date_start":"2024-09-02 00:49:04","date_end":"2024-09-13 14:55:18","description":"Delectus rerum molestias consequatur qui et. Voluptas neque facilis culpa voluptas tempora nulla. Enim quibusdam explicabo quibusdam repellat.","materials":"Et est fugit adipisci recusandae culpa rerum. Ut et corrupti nulla a inventore modi enim. Molestiae aliquam ut doloremque incidunt ipsa.","user_id":2,"vk_post_id":"420607","created_at":"2024-09-04T12:24:59.000000Z","updated_at":"2024-09-04T12:24:59.000000Z","age_limit":"3"}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043d\u0440\u0430\u0432\u0438\u0432\u0448\u0438\u0435\u0441\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":142,"name":"Est quidem eum ut.","sponsor":"\u041a\u0430\u0437\u0430\u043a\u043e\u0432 \u0410\u0431\u0440\u0430\u043c \u0410\u043b\u0435\u043a\u0441\u0435\u0435\u0432\u0438\u0447","date_start":"2024-09-04 17:53:00","date_end":"2024-09-21 03:00:30","description":"Id atque quam aut quidem voluptatem. Quasi alias voluptas consequatur nam iusto.","materials":"Voluptatem aperiam fugit et. Sint dicta quo adipisci non quasi architecto esse. Voluptates animi quod laudantium laborum iusto qui. Provident totam sed ad nobis id veritatis autem.","user_id":1,"vk_post_id":"492120","created_at":"2024-09-09T09:56:42.000000Z","updated_at":"2024-09-09T09:56:42.000000Z","age_limit":"13","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -792,13 +792,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 18
+        example: 7
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 18
+      id: 7
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -815,18 +815,18 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 16
+        example: 24
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 16
+      limit: 24
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":35,"name":"\u041c\u044f\u0441\u043d\u0438\u043a\u043e\u0432\u0430 \u0414\u0438\u043d\u0430 \u0420\u043e\u043c\u0430\u043d\u043e\u0432\u043d\u0430","sponsor":null,"date_start":null,"date_end":null,"description":null,"materials":null,"user_id":null,"vk_post_id":null,"created_at":"2024-09-04T12:24:59.000000Z","updated_at":"2024-09-04T12:24:59.000000Z","age_limit":null}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":18,"name":"\u0411\u043e\u0440\u0438\u0441\u043e\u0432\u0430 \u041f\u0430\u0432\u0435\u043b \u0424\u0451\u0434\u043e\u0440\u043e\u0432\u0438\u0447","sponsor":null,"date_start":null,"date_end":null,"description":null,"materials":null,"user_id":null,"vk_post_id":null,"created_at":"2024-09-09T09:56:42.000000Z","updated_at":"2024-09-09T09:56:42.000000Z","age_limit":null,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -857,13 +857,13 @@ endpoints:
         name: id
         description: 'The ID of the event.'
         required: true
-        example: 5
+        example: 14
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanUrlParameters:
-      id: 5
+      id: 14
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
@@ -871,13 +871,13 @@ endpoints:
         name: status_id
         description: ''
         required: true
-        example: 15
+        example: 2
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      status_id: 15
+      status_id: 2
     fileParameters: []
     responses: []
     responseFields: []

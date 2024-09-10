@@ -498,20 +498,24 @@ class IntegrationAfisha7 extends Command
     private function saveSight(object $sight): Sight | null
     {
         if (!empty($sight->latitude) && !empty($sight->longitude) && !empty($sight->address)) {
-            $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
-            $createdSight = Sight::create([
-                'name' => $sight->name,
-                'sponsor' => 'afisha7.ru',
-                'latitude' => $location[1]['latitude'],
-                'longitude' => $location[1]['longitude'],
-                'location_id' => $location[0]->id,
-                'address' => $sight->address,
-                'description' => $sight->name,
-                'user_id' => 1,
-                'afisha7_id' => $sight->id,
-            ]);
-            $createdSight->organization()->create();
-            return $createdSight;
+            try {
+                    $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
+                    $createdSight = Sight::create([
+                        'name' => $sight->name,
+                        'sponsor' => 'afisha7.ru',
+                        'latitude' => $location[1]['latitude'],
+                        'longitude' => $location[1]['longitude'],
+                        'location_id' => $location[0]->id,
+                        'address' => $sight->address,
+                        'description' => $sight->name,
+                        'user_id' => 1,
+                        'afisha7_id' => $sight->id,
+                    ]);
+                    $createdSight->organization()->create();
+                    return $createdSight;
+            } catch (Exception $e) {
+                return null;
+            }
         } else {
             return null;
         }

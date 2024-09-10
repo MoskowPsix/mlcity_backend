@@ -18,7 +18,7 @@ class LocationController extends Controller
         return response()->json(['status' => 'success', 'location' => $locations], 200);
     }
     public function getLocationsName($name) {
-        $locations = Location::query()->orWhere('name', 'ilike', '%'.$name.'%')
+        $locations = Location::query()->orWhere('name', 'ilike', $name.'%')
         ->whereHas('locationParent', function($q)use($name){
             $q->orWhere('name', 'ilike', '%'.$name.'%');
         })

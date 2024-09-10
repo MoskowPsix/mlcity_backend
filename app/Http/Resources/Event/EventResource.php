@@ -42,6 +42,7 @@ class EventResource extends JsonResource
             'created_at'        => $this->created_at,
             'updated_at'        => $this->updated_at,
             'age_limit'         => $this->age_limit,
+            'afisha7_id'        => $this->afisha7_id,
             'statuses'          => $this->whenLoaded('statuses'),
             'files'             => $this->whenLoaded('files'),
             'author'            => $this->whenLoaded('author'),
