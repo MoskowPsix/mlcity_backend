@@ -13,8 +13,8 @@ class EventExpired implements Pipe {
         if (request()->filled('expired')){
             if(request()->get('expired') === 'true') {
                 $now = Carbon::now();
-                $content->whereDoesntHas("places.seances", function($q) use ($now){
-                    $q->whereDate('date_start', '=>', $now);
+                $content->whereDoesntHave("places.seances", function($q) use ($now){
+                    $q->whereDate('date_start', '>=', $now);
                 });
             } else if (request()->get('expired') === 'false'){
                 $now = Carbon::now();
