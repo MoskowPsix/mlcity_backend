@@ -227,9 +227,9 @@ class IntegrationAfisha7 extends Command
             $events = json_decode($response->getBody()->getContents());
             return $events;
         } catch (Exception $e) {
-            Log::error('Ошибка при получении событий');
-            sleep(1);
-            return $this->getEvents($location_id, $limit, $offset);
+//            Log::error('Ошибка при получении событий');
+//            sleep(1);
+            return null;
         }
     }
 
