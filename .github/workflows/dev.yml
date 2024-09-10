@@ -13,12 +13,13 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.DEV_USER }}
           key: ${{ secrets.DEV_SSH }}
+          port: ${{ secrets.DEV_SSH_PORT }}
 
           script: |
             cd ${{ secrets.DEV_DIR }};
-            sudo git checkout develop;
-            sudo git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
-            sudo docker compose down
-            sudo docker builder prune -f
-            sudo docker-compose up --build -d --force-recreate --renew-anon-volumes
+            git checkout develop;
+            git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
+            docker compose down
+            docker builder prune -f
+            docker compose up --build -d --force-recreate --renew-anon-volumes
 
