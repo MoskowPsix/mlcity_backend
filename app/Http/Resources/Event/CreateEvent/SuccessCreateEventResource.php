@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event\CreateEvent;
 
+use App\Http\Resources\Event\EventResource;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class SuccessCreateEventResource extends JsonResource
@@ -17,6 +18,7 @@ class SuccessCreateEventResource extends JsonResource
         return [
             'status'    => 'success',
             'message'   => __('messages.event.create.success'),
+            'event'      => new EventResource($this->resource)
         ];
     }
 }
