@@ -12,12 +12,7 @@ export default defineConfig({
         },
     },
     plugins: [
-        vue({
-            publicPath:
-                process.env.APP_URL === 'production'
-                    ? 'https://api-dev.vokrug.city/'
-                    : '/',
-        }),
+        vue(),
         laravel({
             input: ['resources/css/app.css', 'resources/js/app.js'],
         }),
