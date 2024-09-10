@@ -20,4 +20,5 @@ export default defineConfig({
                 'resources/js/app.js'
             ],
         }),
+    ],
 });
