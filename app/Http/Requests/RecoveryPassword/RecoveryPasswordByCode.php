@@ -4,6 +4,10 @@ namespace App\Http\Requests\RecoveryPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string $code
+ * @property string $password
+ */
 class RecoveryPasswordByCode extends FormRequest
 {
     /**
@@ -24,9 +28,9 @@ class RecoveryPasswordByCode extends FormRequest
     public function rules()
     {
         return [
-            'code'  => 'required|string',
-            'password'               => 'required|min:8',
-            'password_confirmation'  => 'required|same:password',
+            'code'                      => 'required|string',
+            'password'                  => 'required|min:8',
+            'password_confirmation'     => 'required|same:password',
         ];
     }
 }

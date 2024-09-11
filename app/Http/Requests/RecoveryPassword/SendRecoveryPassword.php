@@ -4,6 +4,9 @@ namespace App\Http\Requests\RecoveryPassword;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+/**
+ * @property string $email
+ */
 class SendRecoveryPassword extends FormRequest
 {
     /**
