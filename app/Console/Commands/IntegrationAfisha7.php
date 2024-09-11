@@ -136,7 +136,8 @@ class IntegrationAfisha7 extends Command
             $progress++;
             if ($location->level == 3) {
                 foreach ($this->types as $type) {
-                    $sights = get_object_vars($this->getSights($location->url, $type->id, 0, 0));
+                    $res =$this->getSights($location->url, $type->id, 0, 0);
+                    isset($res) ? $sights = get_object_vars($res) : null;
                     if (isset($sights['total'])) {
                         $this->startCommand((int)$sights['total'], $location->url, 'sight', $type->id);
                     }
@@ -256,9 +257,9 @@ class IntegrationAfisha7 extends Command
             ]);
             return json_decode($response->getBody()->getContents());
         } catch (Exception $e) {
-            Log::error('Ошибка при получении событий');
-            sleep(1);
-            return $this->getSights($location_url, $type_id, $limit, $offset);
+            // Log::error('Ошибка при получении событий');
+            // sleep(1);
+            return null;
         }
     }
 
