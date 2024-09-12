@@ -136,6 +136,7 @@ class HistoryContentController extends Controller
 
         else if ($status == "Отказ")
         {
+            // в случае отказа отправляем письмо на почту
             $decisionHistoryContentService->declineHistoryContent($request->get("description"));
             return response()->json(["status"=>"success"], 200);
         }

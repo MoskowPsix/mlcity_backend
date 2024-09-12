@@ -30,6 +30,7 @@ class HistoryContentService {
         return $dataForHistoryContent;
     }
 
+
     public function createHistoryPlace(HistoryContent $historyContent, $place): HistoryPlace {
         $place = $this->prepareHistoryPlaceData($place);
         $historyPlace = $historyContent->historyPlaces()->create($place);

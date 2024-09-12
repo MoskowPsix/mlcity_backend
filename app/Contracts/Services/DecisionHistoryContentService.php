@@ -5,6 +5,8 @@ namespace App\Contracts\Services;
 use App\Mail\HistoryContentCanceled;
 use App\Models\HistoryContent;
 use App\Models\Location;
+use App\Models\Place;
+use App\Models\Seance;
 use App\Models\Status;
 use App\Models\Timezone;
 use App\Models\User;
@@ -22,13 +24,28 @@ class DecisionHistoryContentService {
 
     public function publishAcceptedHistoryContent() {
         $publishedStatusId = Status::where("name", "Опубликовано")->get()->first()->id;
+        // Изменение основных полей.
         $this->changeHistoryContent();
+
+        // Измнение мест и сеансов.
         $this->changeHistoryContentPlacesAndSeances();
+
+        // Измнение цен.
         $this->changeHistoryContentPrices();
+
+        // Измнение типов.
         $this->changeHistoryContentTypes();
+
+        // Измнение файлов.
         $this->changeHistoryFiles();
+
+        // Установка того кто принял эту редактуру.
         $this->setAccepter();
+
+        // Сброс значения last=true у старых статусов.
         $this->resetOldStatuses();
+
+        // Установка нового статуса.
         $this->historyContent->historyContentable->statuses()->attach($publishedStatusId, ["last"=>true]);
         $this->historyContent->historyContentStatuses()->create([
             "status_id" => Status::where("name", "Опубликовано")->get()[0]->id
@@ -36,6 +53,9 @@ class DecisionHistoryContentService {
 
     }
 
+    /**
+     * Функция которая сбрасывает значение last у родителя истории.
+     */
     private function resetOldStatuses() {
         $statuses = $this->historyContent->historyContentable->statuses;
 
@@ -46,6 +66,10 @@ class DecisionHistoryContentService {
         }
     }
 
+    /**
+     * Функция отмены, выставляет статус у истории в отменено и отправляет оповещение пользователю.
+     * @param string $description сообщение почему изменения были отклонены.
+     */
     public function declineHistoryContent($description) {
         $description = $description;
             $this->historyContent->historyContentStatuses()->create([
@@ -58,6 +82,9 @@ class DecisionHistoryContentService {
             Mail::to($user->email)->send(new HistoryContentCanceled($data));
     }
 
+    /**
+     * Изменение или удаление родителя истории.
+     */
     public function changeHistoryContent(){
         $historyData = $this->unsetUnusableHistoryContentData($this->historyContent->toArray());
         $notNullHistoryData = $this->getNotNullData($historyData);
@@ -73,6 +100,9 @@ class DecisionHistoryContentService {
         }
     }
 
+    /**
+     * Измнение оригинальных мест и сеансов.
+     */
     public function changeHistoryContentPlacesAndSeances(){
         $historyPlaces = $this->historyContent->historyPlaces;
 
@@ -85,6 +115,7 @@ class DecisionHistoryContentService {
                     $this->deleteEntityIfNeed($parentOfHistoryPlace, $historyPlace);
                     $this->updateEntityIfNeed($parentOfHistoryPlace, $historyData);
                 } else {
+                    // Если родителя не существовало значит запись идет на создание.
                     $parentOfHistoryPlace = $this->createPlaceIfNeed($this->historyParent, $historyPlace, $historyData);
                 }
                 $this->changeHistoryContentSeances($historyPlace, $parentOfHistoryPlace);
@@ -92,6 +123,10 @@ class DecisionHistoryContentService {
         }
     }
 
+
+    /**
+     * Изменение оригинальных сеансов.
+     */
     public function changeHistoryContentSeances($historyPlace, $parentOfHistoryPlace) {
         $historySeances = $historyPlace->historySeances;
 
@@ -105,12 +140,16 @@ class DecisionHistoryContentService {
                     $this->deleteEntityIfNeed($historySeanceParent, $historyData);
                     $this->updateEntityIfNeed($historySeanceParent, $historyData);
                 } else{
+                    // Если родителя не существовало значит запись идет на создание.
                     $this->createSeanceIfNeed($parentOfHistoryPlace, $historySeance, $historyData);
                 }
             }
         }
     }
 
+    /**
+     * Изменение оригинальных цен.
+     */
     public function changeHistoryContentPrices() {
         $historyPrices = $this->historyContent->historyPrices;
 
@@ -129,6 +168,9 @@ class DecisionHistoryContentService {
         }
     }
 
+    /**
+     * Изменение оригинальных типов.
+     */
     public function changeHistoryContentTypes() {
         $historyTypes = "";
 
@@ -147,8 +189,10 @@ class DecisionHistoryContentService {
             }
         }
     }
-    //check
 
+    /**
+     * Изменение оригинальных файлов, либо удаление, либо добавление новых.
+     */
     public function changeHistoryFiles() {
         $historyFiles = $this->historyContent->historyFiles;
         if(!$this->dataIsEmpty($historyFiles)) {
@@ -170,7 +214,7 @@ class DecisionHistoryContentService {
         }
     }
 
-    public function createPlaceIfNeed($parent,$historyPlace, $historyData) {
+    public function createPlaceIfNeed($parent,$historyPlace, $historyData): Place {
         if(!isset($histroyPlace["place_id"])){
             $location = Location::find($historyPlace["location_id"]);
 
@@ -197,18 +241,29 @@ class DecisionHistoryContentService {
         }
     }
 
-    public function deleteEntityIfNeed($parent, $historyPlace) {
-        if(isset($historyPlace['on_delete']) && $historyPlace['on_delete'] == true) {
+    /**
+     * Функция удаляет любую сущность если 2-ым аргументом в массиве есть истинное свойство **on_delete**.
+    */
+    public function deleteEntityIfNeed($parent, $data) {
+        if(isset($data['on_delete']) && $data['on_delete'] == true) {
             $parent->delete();
         }
     }
+
+    /**
+     * Функция обновления любой сущности.
+     * @param array $historyData данные которые будут обновлены.
+     */
     public function updateEntityIfNeed($parent, $historyData) {
         if(!$this->dataIsEmpty($historyData)){
             $parent->update($historyData);
         }
     }
 
-    private function unsetUnusableHistoryContentData($historyRawData){
+    /**
+     * Функция удаляет из массива данные которые не должны попасть в массив при обновлении родителя.
+     */
+    private function unsetUnusableHistoryContentData(array $historyRawData){
         $data = $historyRawData;
         unset($data['created_at']);
         unset($data['updated_at']);
@@ -220,7 +275,10 @@ class DecisionHistoryContentService {
         return $data;
     }
 
-    private function unsetUnusableHistoryPlaceData($historyRawData){
+    /**
+     * Функция удаляет из массива данные которые не должны попасть в массив при обновлении родителя места.
+     */
+    private function unsetUnusableHistoryPlaceData(array $historyRawData){
         $data = $historyRawData;
         unset($data['created_at']);
         unset($data['updated_at']);
@@ -232,7 +290,10 @@ class DecisionHistoryContentService {
         return $data;
     }
 
-    public function unsetUnusableHistoryPriceData($historyRawData){
+    /**
+     * Функция удаляет из массива данные которые не должны попасть в массив при обновлении родителя цены.
+     */
+    public function unsetUnusableHistoryPriceData(array $historyRawData){
         $data = $historyRawData;
         unset($data['created_at']);
         unset($data['updated_at']);
@@ -243,6 +304,9 @@ class DecisionHistoryContentService {
         return $data;
     }
 
+    /**
+     * Функция удаляет из массива данные которые не должны попасть в массив при обновлении сеанса.
+     */
     public function unsetUnusableHistorySeanceData($historyRawData){
         $data = $historyRawData;
         unset($data['created_at']);
@@ -255,13 +319,19 @@ class DecisionHistoryContentService {
         return $data;
     }
 
+    /**
+     * Функция которая уставливает кто принял эти изменения.
+     */
     private function setAccepter() {
         $this->historyContent->update([
             "accepter_id" => auth('api')->user()->id
         ]);
     }
 
-    private function getNotNullData($data){
+    /**
+     * Функция которая извлекает из массива данные которые не являются _null_.
+     */
+    private function getNotNullData(array $data){
         $historyData = [];
 
         foreach($data as $key=>$data){
