@@ -6,7 +6,7 @@ WORKDIR /etc/nginx/certs
 RUN apk add openssl
 
 # Генерируем ключ и сертификат
-RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/CN=api-dev.vokrug.city"
+RUN openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/CN=localhost"
 
 # Копируем конфигурационный файл Nginx
 COPY conf.d/* /etc/nginx/conf.d/

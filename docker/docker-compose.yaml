@@ -41,7 +41,7 @@ services:
       # - APP_URL=http://localhost:9090
 
     ports:
-      - "9001:9000"
+      - "9000:9000"
     working_dir: /var/www/MLCity_backend
     # command: composer install && php artisan migrate
 
