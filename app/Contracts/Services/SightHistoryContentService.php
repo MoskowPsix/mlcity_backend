@@ -80,6 +80,12 @@ class SightHistoryContentService{
         if($this->historyFiles){
             foreach($this->historyFiles as $file){
                 if(is_array($file) && isset($file['on_delete']) && $file['on_delete'] == true){
+                    $file['on_delete'] = true;
+                    unset($file['file_types']);
+                    $file["file_id"] = $file["id"];
+                    unset($file["id"]);
+                    unset($file["sight_id"]);
+                    unset($file["name"]);
                     $this->historyContent->historyFiles()->create($file);
                 }
                 else{
