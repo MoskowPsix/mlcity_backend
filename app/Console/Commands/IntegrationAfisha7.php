@@ -399,14 +399,15 @@ class IntegrationAfisha7 extends Command
     private function integrationEventsForLocation(): void
     {
         $this->argument('location') ? $this->location = $this->argument('location') : $this->failed('not valid argument location');
-
         $this->setTypes();
         $events = $this->getEvents($this->location, $this->limit, $this->offset);
         if (isset($events->events)) {
+            $this->setLocations();
+            $location_name = $this->locations_level_3[array_search($this->location, array_column($this->locations_level_3, 'id'))]->url;
             foreach ($events->events as $event) {
                 if (!Event::where('afisha7_id', $event->id)->exists()) {
                     $event = $this->getEvent($event->id, $this->location);
-                    $event_cr = $this->saveEvent($event);
+                    $event_cr = $this->saveEvent($event, $location_name);
                     isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
                     $this->setPrices($event, $event_cr);
                     $this->saveFilesEvent($event->logo, $event_cr);
@@ -474,20 +475,20 @@ class IntegrationAfisha7 extends Command
      * @param object $event
      * @return Event
      */
-    private function saveEvent(object $event): Event | null
+    private function saveEvent(object $event, string $location_name): Event | null
     {
         try {
 
             return Event::create([
-                'name' => $event->name,
-                'sponsor' => "afisha7.ru",
-                'description' => $event->description,
-                'date_start' => Carbon::createFromTimestamp($event->date_start)->addHours(3),
-                'date_end' => Carbon::createFromTimestamp($event->date_end)->addHours(3),
-                'user_id' => 1,
-
-                'afisha7_id' => $event->id,
-                'age_limit' => $event->age,
+                'name'          => $event->name,
+                'sponsor'       => "afisha7.ru",
+                'description'   => $event->description,
+                'date_start'    => Carbon::createFromTimestamp($event->date_start)->addHours(3),
+                'date_end'      => Carbon::createFromTimestamp($event->date_end)->addHours(3),
+                'materials'     => 'https://afisha7.ru/' . $location_name . '/' . $event->cat_url . '/' . $event->idfull,
+                'user_id'       => 1,
+                'afisha7_id'    => $event->id,
+                'age_limit'     => $event->age,
             ]);
         } catch (Exception $e) {
             print_r($event);
