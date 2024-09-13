@@ -34,6 +34,7 @@ class HistoryContentService {
 
     public function createHistoryPlace(HistoryContent $historyContent, $place): HistoryPlace {
         $place = $this->prepareHistoryPlaceData($place);
+        info($place);
         $historyPlace = $historyContent->historyPlaces()->create($place);
 
         return $historyPlace;
@@ -77,6 +78,7 @@ class HistoryContentService {
         unset($data['created_at']);
         unset($data['updated_at']);
         unset($data['location']);
+        unset($data['seances']);
         return $data;
     }
 
