@@ -730,23 +730,24 @@ class IntegrationAfisha7 extends Command
         foreach ($seances_types as $seances) {
             foreach ($seances as $seance) {
                     if (isset($seances) && !isset($seances->errors) && isset($seance->date_start) && isset($seance->date_end)) {
-                        $date_start = (int)$seance->date_start / 1000;
-                        $date_end = (int)$seance->date_end / 1000;
-                        $seances_res[] = [
-                            $event->id,
-                            $event->loc_id,
-                            $seance->date_start,
-                            $seance->date_end
-                        ];
-                        $res = $place_create->seances()->create([
-                            'date_start' => Carbon::createFromTimestamp($seance->date_start)->addHours(3),
-                            'date_end' => !empty($seance->date_end) ? Carbon::createFromTimestamp($seance->date_end)->addHours(3) : Carbon::createFromTimestamp($seance->date_start)->addHours(3),
+                        $date_start = strlen($seance->date_start) >= 13 ? (int)$seance->date_start / 1000 : $seance->date_start;
+                        $date_end = !empty($seance->date_end) ? strlen($seance->date_end) >= 13 ? (int)$seance->date_end / 1000 : $seance->date_end : (strlen($seance->date_start) >= 13 ? (int)$seance->date_start / 1000 : $seance->date_start);
+//                        $seances_res[] = [
+//                            $event->id,
+//                            $event->loc_id,
+//                            $seance->date_start,
+//                            $seance->date_end,
+//                            $date_start,
+//                            $date_end
+//                        ];
+                        $place_create->seances()->create([
+                            'date_start' => Carbon::createFromTimestamp($date_start)->addHours(3),
+                            'date_end' => Carbon::createFromTimestamp($date_end)->addHours(3),
                         ]);
-                        info($res);
                     }
                 }
             }
-//        $this->saveFile($seances_res, 'event_' . $event->id . '_loc_id_' . $event->loc_id . now());
+        $this->saveFile($seances_res, 'event_' . $event->id . '_loc_id_' . $event->loc_id . '_' . now());
     }
     /**
      *
