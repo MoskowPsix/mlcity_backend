@@ -14,7 +14,6 @@ class EventCity implements Pipe {
                 $query->orWhere('city', 'ilike', '%'.request()->get('city').'%');
             });
         }
-
         return $next($content);
     }
 }

@@ -30,8 +30,11 @@ class EventHistoryContentService{
         if(isset($historyContent["history_files"])){
             $this->historyFiles = $historyContent["history_files"];
         }
-
     }
+
+    /**
+     * Функция сохраняет историю в базу.
+     */
     public function storeHistoryContentWithAllData(array $dataForHistoryContent, int $eventId, int $status_id){
         $event = Event::find($eventId);
         $data = $this->historyContentService->getClearHistoryContent($dataForHistoryContent);

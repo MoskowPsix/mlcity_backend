@@ -2,10 +2,10 @@
 
 namespace App\Contracts\Services;
 
-use App\Models\Event;
 use App\Models\FileType;
 use App\Models\HistoryContent;
 use App\Models\HistoryPlace;
+use App\Models\HistoryPrice;
 use App\Models\HistorySeance;
 use Carbon\Carbon;
 
@@ -20,7 +20,9 @@ class HistoryContentService {
         return $historyContent;
     }
 
-    # возвращает "чистую" историю без плейсов, цен, типов и тд
+    /**
+     * возвращает "чистую" историю без плейсов, цен, типов и тд
+    */
     public function getClearHistoryContent($dataForHistoryContent){
         unset($dataForHistoryContent["history_places"]);
         unset($dataForHistoryContent['history_prices']);
@@ -29,7 +31,6 @@ class HistoryContentService {
 
         return $dataForHistoryContent;
     }
-
 
     public function createHistoryPlace(HistoryContent $historyContent, $place): HistoryPlace {
         $place = $this->prepareHistoryPlaceData($place);
@@ -45,7 +46,7 @@ class HistoryContentService {
         return $historySeance;
     }
 
-    public function createHistoryPrice(HistoryContent $historyContent, $price){
+    public function createHistoryPrice(HistoryContent $historyContent, $price): HistoryPrice {
         $historyPrice = $historyContent->historyPrices()->create($price);
         return $historyPrice;
     }
@@ -79,6 +80,9 @@ class HistoryContentService {
         return $data;
     }
 
+    /**
+     * Очистка полей массива сеанса от не нужных полей
+    */
     public function unsetRawSeanseData($seanceData){
         $data = $seanceData;
         unset($data['created_at']);

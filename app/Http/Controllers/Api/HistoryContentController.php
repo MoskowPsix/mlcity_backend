@@ -101,7 +101,7 @@ class HistoryContentController extends Controller
             $historyContent = $eventHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
 
             # TODO: Убрать когда надо будет
-            # Временное решение для принятия измнений сразу!!!
+            # Временное решение для принятия изменений сразу!!!
             $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
             $decisionHistoryContentService->publishAcceptedHistoryContent();
 
@@ -112,7 +112,7 @@ class HistoryContentController extends Controller
 
 
             # TODO: Убрать когда надо будет
-            # Временное решение для принятия измнений сразу!!!
+            # Временное решение для принятия изменений сразу!!!
             $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
             $decisionHistoryContentService->publishAcceptedHistoryContent();
         }

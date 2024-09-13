@@ -145,7 +145,7 @@ class EventService implements EventServiceInterface
                 'user_id'       => $user->id,
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
-                'age_limit'     => $data->ageLimit,
+                'age_limit'     => $data->age_limit,
                 'organization_id' => $organizationId
             ]);
             // Устанавливаем цену

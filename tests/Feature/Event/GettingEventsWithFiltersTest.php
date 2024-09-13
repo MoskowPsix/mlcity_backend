@@ -44,6 +44,10 @@ class GettingEventsWithFiltersTest extends TestCase
             'id' => $events[1]->id,
         ]);
     }
+    public function test_get_events_with_like_exists(): void
+    {
+        $events = Event::factory()->count(6)->create();
+    }
     private function getEvents(): array
     {
         $events = Event::query()
