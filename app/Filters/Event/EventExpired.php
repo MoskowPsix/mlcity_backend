@@ -19,8 +19,8 @@ class EventExpired implements Pipe {
             } else if (request()->get('expired') === 'false'){
                 $now = Carbon::now();
                 $content->whereHas("places.seances", function($q) use ($now){
-                    $q->whereDate('date_start', '<=', $now)
-                    ->whereDate('date_end', '>=', $now);
+                    $q->whereDate('date_start', '>=', $now);
+                    // ->whereDate('date_end', '>=', $now);
                 });
             }
         }
