@@ -2,7 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Hero;
 use App\Models\Location;
+use App\Models\Photo;
 use Illuminate\Support\Facades\DB;
 use Throwable;
 use Symfony\Component\Process\Process;
@@ -723,22 +725,28 @@ class IntegrationAfisha7 extends Command
      */
     private function setSeances(object $event, object $sight, Place $place_create): void
     {
+        $seances_res = [];
         $seances_types = $this->getSeances($event->id, $event->loc_id);
         foreach ($seances_types as $seances) {
             foreach ($seances as $seance) {
-                if (isset($seances) && !isset($seances->errors) && isset($seance->date_start) && isset($seance->date_end)) {
-
-                    $date_start = (int)$seance->date_start / 1000;
-                    $date_end = (int)$seance->date_end / 1000;
-
-
-                    $place_create->seances()->create([
-                        'date_start' => Carbon::createFromTimestamp($date_start)->addHours(3),
-                        'date_end' => Carbon::createFromTimestamp($date_end)->addHours(3),
-                    ]);
+                    if (isset($seances) && !isset($seances->errors) && isset($seance->date_start) && isset($seance->date_end)) {
+                        $date_start = (int)$seance->date_start / 1000;
+                        $date_end = (int)$seance->date_end / 1000;
+                        $seances_res[] = [
+                            $event->id,
+                            $event->loc_id,
+                            $seance->date_start,
+                            $seance->date_end
+                        ];
+                        $res = $place_create->seances()->create([
+                            'date_start' => Carbon::createFromTimestamp($seance->date_start)->addHours(3),
+                            'date_end' => !empty($seance->date_end) ? Carbon::createFromTimestamp($seance->date_end)->addHours(3) : Carbon::createFromTimestamp($seance->date_start)->addHours(3),
+                        ]);
+                        info($res);
+                    }
                 }
             }
-        }
+//        $this->saveFile($seances_res, 'event_' . $event->id . '_loc_id_' . $event->loc_id . now());
     }
     /**
      *
@@ -787,17 +795,29 @@ class IntegrationAfisha7 extends Command
      * @param string $value
      * @return void
      */
-    private function setNewEnv(string $key, string $value): void
+//    private function setNewEnv(string $key, string $value): void
+//    {
+//        $path = app()->environmentFilePath();
+//
+//        $escaped = preg_quote('=' . env($key), '/');
+//
+//        file_put_contents($path, preg_replace(
+//            "/^{$key}{$escaped}/m",
+//            "{$key}={$value}",
+//            file_get_contents($path)
+//        ));
+//        $this->token = $value;
+//    }
+
+    function saveFile(mixed $arr,string $name): void
     {
-        $path = app()->environmentFilePath();
-
-        $escaped = preg_quote('=' . env($key), '/');
-
-        file_put_contents($path, preg_replace(
-            "/^{$key}{$escaped}/m",
-            "{$key}={$value}",
-            file_get_contents($path)
-        ));
-        $this->token = $value;
+        if(!empty($arr) && count($arr) != 0){
+            $buffer = fopen('storage/app/public/files/error_csv_seance/' . $name . '.csv', 'w');
+            fputs($buffer, chr(0xEF) . chr(0xBB) . chr(0xBF));
+            foreach($arr as $val) {
+                fputcsv($buffer, $val, ';');
+            }
+            fclose($buffer);
+        }
     }
 }

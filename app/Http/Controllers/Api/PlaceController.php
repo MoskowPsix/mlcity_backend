@@ -42,16 +42,10 @@ class PlaceController extends Controller
                 ->via('apply')
                 ->then(function ($places) {
                     $places = $places->get();
-
                     foreach ($places as $key => $place) {
                         $places[$key]->ico = count($place->event->types) ?  $place->event->types[0]->ico : null;
                         unset($places[$key]->event);
                     }
-                    // foreach($places as $key=>$place){
-                    //     $type_id = DB::table("events_etypes")->where("event_id","=",$place->event_id)->first()->etype_id;
-                    //     $ico = EventType::find($type_id)->ico;
-                    //     $places[$key]->ico = $ico;
-                    // }
                     return $places;
                 });
 
