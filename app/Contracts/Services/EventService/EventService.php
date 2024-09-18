@@ -321,6 +321,20 @@ class EventService implements EventServiceInterface
 
         return $organization;
     }
+    public function delete(int $id): bool
+    {
+        try{
+            $event = Event::where('id', $id);
+            if ($event->firstOrFail()->user_id == auth('api')->user()->id) {
+                $event->delete();
+                return true;
+            } else {
+                return false;
+            }
+        } catch(Exception $e){
+            return false;
+        }
+    }
 
     public function addStatus($eventId) {
         $user = auth('api')->user();

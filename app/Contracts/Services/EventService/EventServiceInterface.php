@@ -23,5 +23,6 @@ interface EventServiceInterface
     public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object;
     public function getOrganizationOfEvent($id);
     public function addStatus(int $Id);
+    public function delete(int $Id): bool;
 
 }

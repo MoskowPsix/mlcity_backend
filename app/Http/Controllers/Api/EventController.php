@@ -11,6 +11,8 @@ use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Resources\Event\CreateEvent\ErrorAuthCreateEventResource;
 use App\Http\Resources\Event\CreateEvent\ErrorCreateEventResource;
 use App\Http\Resources\Event\CreateEvent\SuccessCreateEventResource;
+use App\Http\Resources\Event\Delete\SuccessDeleteEventResource;
+use App\Http\Resources\Event\Delete\WarningDeleteEventResource;
 use App\Http\Resources\Event\GetEventForAuthor\SuccessGetEventForAuthorResource;
 use App\Http\Resources\Event\GetEvents\SuccessGetEventsResource;
 use App\Http\Resources\Event\GetEventUserFavoritesIds\SuccessGetEventUserFavoritesIdsResource;
@@ -202,5 +204,19 @@ class EventController extends Controller
     public function addStatusToEvent(AddStatusRequest $request, $id)
     {
         $this->eventService->addStatus($id);
+    }
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessDeleteEventResource::class)]
+    #[ResponseFromApiResource(WarningDeleteEventResource::class, null, 400)]
+
+    #[Endpoint(title: 'delete', description: 'Удаление мероприятия.')]
+    public function delete(int $id)
+    {
+        $response = $this->eventService->delete($id);
+        if($response){
+            return new SuccessDeleteEventResource([]);
+        } else {
+            return new WarningDeleteEventResource([]);
+        }
     }
 }

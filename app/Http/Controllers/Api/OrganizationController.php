@@ -8,6 +8,8 @@ use App\Filters\Organization\OrganizationLocationFilter;
 use App\Filters\Organization\OrganizationName;
 use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Organization\Delete\FailedDeleteOrganizationResource;
+use App\Http\Resources\Organization\Delete\SuccessDeleteOrganizationResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\CreateOrganizationRequest;
 use App\Http\Requests\Organization\IndexOrganizationRequest;
@@ -164,5 +166,14 @@ class OrganizationController extends Controller
         $events = $this->organizationService->getEvents($organizationId, $request);
 
         return response()->json(["events" => $events]);
+    }
+    public function delete($id): SuccessDeleteOrganizationResource | FailedDeleteOrganizationResource
+    {
+        $org = $this->organizationService->delete($id);
+        if ($org){
+            return new SuccessDeleteOrganizationResource([]);
+        } else {
+            return new FailedDeleteOrganizationResource([]);
+        }
     }
 }

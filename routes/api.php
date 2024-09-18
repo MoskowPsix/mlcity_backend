@@ -102,7 +102,7 @@ Route::controller(EventController::class)->group(function () {
     Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
     Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds')->middleware('auth:sanctum');
     Route::post('events/{id}/statuses/', 'addStatusToEvent')->middleware('auth:sanctum');
-    //Route::delete('events/{id}', 'delete')->middleware('auth:sanctum');
+    Route::delete('events/{id}', 'delete')->middleware('auth:sanctum')->name('event.delete');
 });
 
 Route::controller(PlaceController::class)->group(function () {
@@ -201,6 +201,7 @@ Route::controller(OrganizationController::class)->group(function () {
     Route::get("organizations/users/organizations/", "userOrganizations")->middleware('auth:sanctum');
     Route::post("organizations/{organizationId}/users/{userId}/permissions/{permId}", "addOrDeletePermissionToUser");
     Route::get("organizations/{organizationId}/users/{userId}/permissions/", "getPermissionsOfUser")->middleware("orgPerm:update_permissions");
+    Route::delete("organizations/{id}", "delete")->middleware("auth:sanctum")->name('organization.delete');
 
     Route::get("organizations/{id}", "show");
     Route::get("organizations/", "index");
