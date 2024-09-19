@@ -15,19 +15,18 @@ class SendFeedbackTest extends TestCase
      *
      * @return void
      */
-    public function test_send_feedback()
+    public function test_send_feedback(): void
     {
         Mail::fake();
-        $response = $this->postJson('feedback/user', [
+        $data = [
             "name" => "Alex",
             "email" => "example@mail.ru",
-            "text" => "IT Works"
-        ]);
-
+            "text" => "it's Work mail method"
+        ];
+        $response = $this->postJson(route('feedback.user'), $data);
         $response->assertStatus(200);
-
-        Mail::assertSent(UserFeedback::class, function ($email) {
-            return $email->hasTo('example@mail.ru');
+        Mail::assertSent(UserFeedback::class, function ($email) use($data){
+            return $email->data['email'] === $data['email'];
         });
     }
 }

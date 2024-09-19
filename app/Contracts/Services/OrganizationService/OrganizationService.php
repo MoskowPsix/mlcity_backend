@@ -5,6 +5,7 @@ namespace App\Contracts\Services\OrganizationService;
 use App\Filters\Event\EventExpired;
 use App\Filters\Event\EventFiles;
 use App\Filters\Event\EventPrices;
+use App\Filters\Event\EventStatusesLast;
 use App\Models\Event;
 use App\Models\Organization;
 use Illuminate\Pipeline\Pipeline;
@@ -26,8 +27,8 @@ class OrganizationService implements OrganizationServiceInterface
         ->through([
             EventPrices::class,
             EventFiles::class,
-            EventExpired::class
-
+            EventExpired::class,
+            EventStatusesLast::class,
         ])
         ->via("apply")
         ->then(function($event) use($page, $limit){

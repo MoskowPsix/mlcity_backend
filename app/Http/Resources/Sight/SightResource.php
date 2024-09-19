@@ -6,16 +6,20 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property int $id
- * @property string $name
- * @property string $sponsor
- * @property string $latitude
- * @property string $longitude
- * @property int $location_id
- * @property string $address
- * @property string $description
- * @property string $materials
- * @property int $user_id
+ * @property int       $id
+ * @property string    $name
+ * @property string    $sponsor
+ * @property string    $latitude
+ * @property string    $longitude
+ * @property int       $location_id
+ * @property string    $address
+ * @property string    $description
+ * @property string    $materials
+ * @property int       $user_id
+ * @property int       $afisha7_id
+ * @property string    $site
+ * @property string    $email
+ * @property string    $phone_number
  */
 class SightResource extends JsonResource
 {
@@ -25,7 +29,7 @@ class SightResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'id'                => $this->id,
@@ -37,6 +41,9 @@ class SightResource extends JsonResource
             'address'           => $this->address,
             'description'       => $this->description,
             'materials'         => $this->materials,
+            'phone'             => $this->phone_number,
+            'email'             => $this->email,
+            'site'              => $this->site,
             'user_id'           => $this->user_id,
             'afisha7_id'        => $this->afisha7_id,
             'types'             => $this->whenLoaded('types'),

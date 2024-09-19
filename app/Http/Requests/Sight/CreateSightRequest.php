@@ -24,19 +24,19 @@ class CreateSightRequest extends FormRequest
     public function rules()
     {
         return [
-            'name'          => 'required|min:3',
-            'coords'        => 'required|min:2',
-            'description'   => 'nullable|string',
-            'type'          => 'required',
-            'status'        => 'required',
-            'locationId'    => 'required|exists:locations,id',
-            'vkGroupId'     => 'nullable|string',
-            'vkPostId'      => 'nullable|string',
-            'phone_number'  => 'nullable|string',
-            'email'         => 'nullable|email',
-            'site'          => 'nullable|string',
-            'localFilesImg' => 'nullable',
-            'localFilesImg.*' => 'nullable|mimes:jpeg,jpg,png',
+            'name'              => 'required|min:3',
+            'coords'            => 'required|min:2',
+            'description'       => 'nullable|string',
+            'type'              => 'required',
+            'status'            => 'required',
+            'locationId'        => 'required|exists:locations,id',
+            'vkGroupId'         => 'nullable|string',
+            'vkPostId'          => 'nullable|string',
+            'phone_number'      => 'nullable|string|min:10|max:11',
+            'email'             => 'nullable|email',
+            'site'              => 'nullable|string',
+            'localFilesImg'     => 'nullable',
+            'localFilesImg.*'   => 'nullable|mimes:jpeg,jpg,png',
         ];
     }
 }

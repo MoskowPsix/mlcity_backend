@@ -30,6 +30,9 @@ class Sight extends Model
         'cult_id',
         'work_time',
         'afisha7_id',
+        'phone_number',
+        'email',
+        'site'
     ];
 
     // protected $with = ['organization'];

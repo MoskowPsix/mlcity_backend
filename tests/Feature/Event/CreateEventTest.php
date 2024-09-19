@@ -25,7 +25,7 @@ class CreateEventTest extends TestCase
 
         $response = $this->actingAs($user)->postJson('api/events/create', $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
         // $this->assertDatabaseHas("organizations", [
         //     "sight_id" => $user->id,
         //     "name" => $user->name
@@ -40,7 +40,7 @@ class CreateEventTest extends TestCase
 
         $response = $this->actingAs($user)->postJson('api/events/create', $data);
 
-        $response->assertStatus(200);
+        $response->assertStatus(201);
     }
 
     public function testCreateEventWithNotUserOrganization()

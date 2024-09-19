@@ -224,7 +224,7 @@ Route::controller(PermissionController::class)->group(function () {
 });
 
 Route::controller(FeedbackController::class)->group(function () {
-    Route::post("feedback/user", "sendUserFeedback");
+    Route::post("feedback/user", "sendUserFeedback")->name('feedback.user');
 });
 
 Route::controller(PasswordRecoveryController::class)->group(function () {
