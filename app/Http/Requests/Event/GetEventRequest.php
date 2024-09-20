@@ -40,7 +40,7 @@ class GetEventRequest extends FormRequest
             "locationId"    => "nullable|string",
             "dateStart"     => "nullable|string",
             "dateEnd"       => "nullable|string",
-            "eventTypes"    => "nullable|string",
+            "eventTypes"    => "nullable|string|integer",
             "radius"        => "nullable|integer|max:25",
             "latitude"      => "nullable|numeric|between:-87,89",
             "longitude"     => "nullable|numeric|between:-180,180",
