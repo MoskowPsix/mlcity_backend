@@ -333,6 +333,7 @@ class IntegrationAfisha7 extends Command
             $token = json_decode($response->getBody()->getContents());
             $this->setNewEnv('AFISHA_7_TOKEN', $token->token);
         } catch (Exception $e) {
+            dd($e);
             $this->failed('Ошибка при получении токена');
         }
     }
@@ -537,7 +538,13 @@ class IntegrationAfisha7 extends Command
         $type_index = array_search($cat_id, array_column($this->types, 'id'));
         $type_name = $this->types[$type_index]->name;
         $type = EventType::where('name', $type_name);
-        $type->exists() ? $event_create->types()->attach($type->first()->id) : null; // решить проблему с типами
+//        $type->exists() ? $event_create->types()->attach($type->first()->id) : null; // решить проблему с типами
+        if($type->exists()) {
+            $event_create->types()->attach($type->first()->id);
+        } else {
+            $event_type = EventType::create(['name' => $this->types[$type_index]->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
+            $event_create->types()->attach($event_type->id);
+        }
     }
     /**
      *
@@ -674,29 +681,30 @@ class IntegrationAfisha7 extends Command
      */
     private function setPlaces(object $event, Event $event_create): void
     {
-
-        foreach ($event->places as $place) {
-            $sight_search_name = Sight::where('name', $place->name);
-            $sight = $sight_search_name->first();
-            if (isset($sight->latitude) && isset($sight->longitude)) {
-                $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
-                $timezone_id = Timezone::where('UTC', $location[0]->time_zone_utc)->first()->id;
-                if (!isset($timezone_id)) {
-                    info($timezone_id);
+        if (count($event->places)) {
+            foreach ($event->places as $place) {
+                $sight_search_name = Sight::where('name', $place->name);
+                $sight = $sight_search_name->first();
+                if (isset($sight->latitude) && isset($sight->longitude)) {
+                    $location = $this->searchLocationByCoords($sight->latitude, $sight->longitude, $sight->address);
+                    $timezone_id = Timezone::where('UTC', $location[0]->time_zone_utc)->first()->id;
+                    if (!isset($timezone_id)) {
+                        info($timezone_id);
+                    }
+                    $organization = $sight->organization;
+                    isset($organization) ? $event_create->update([
+                        "organization_id" => $organization->id
+                    ]) : null;
+                    $place_create = $event_create->places()->create([
+                        'timezone_id' => $timezone_id,
+                        'address' => $sight->address,
+                        'location_id' => $sight->location_id,
+                        'latitude' => $sight->latitude,
+                        'longitude' => $sight->longitude,
+                        'sight_id' => $sight->id,
+                    ]);
+                    $this->setSeances($event, $sight, $place_create);
                 }
-                $organization = $sight->organization;
-                $event_create->update([
-                    "organization_id" => $organization->id
-                ]);
-                $place_create = $event_create->places()->create([
-                    'timezone_id' => $timezone_id,
-                    'address' => $sight->address,
-                    'location_id' => $sight->location_id,
-                    'latitude' => $sight->latitude,
-                    'longitude' => $sight->longitude,
-                    'sight_id' => $sight->id,
-                ]);
-                $this->setSeances($event, $sight, $place_create);
             }
         }
     }
@@ -797,19 +805,19 @@ class IntegrationAfisha7 extends Command
      * @param string $value
      * @return void
      */
-//    private function setNewEnv(string $key, string $value): void
-//    {
-//        $path = app()->environmentFilePath();
-//
-//        $escaped = preg_quote('=' . env($key), '/');
-//
-//        file_put_contents($path, preg_replace(
-//            "/^{$key}{$escaped}/m",
-//            "{$key}={$value}",
-//            file_get_contents($path)
-//        ));
-//        $this->token = $value;
-//    }
+    private function setNewEnv(string $key, string $value): void
+    {
+        $path = app()->environmentFilePath();
+
+        $escaped = preg_quote('=' . env($key), '/');
+
+        file_put_contents($path, preg_replace(
+            "/^{$key}{$escaped}/m",
+            "{$key}={$value}",
+            file_get_contents($path)
+        ));
+        $this->token = $value;
+    }
 
     function saveFile(mixed $arr,string $name): void
     {
