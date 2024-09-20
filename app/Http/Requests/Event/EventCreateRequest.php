@@ -34,6 +34,8 @@ class EventCreateRequest extends FormRequest
             'places'                        => 'nullable|array',
             'prices'                        => 'nullable|array',
             'ageLimit'                      => 'nullable|integer|min:0|max:18',
+            "vkGroupId"                     => 'nullable|integer',
+            "vkPostId"                      => 'nullable|integer',
             'places.*.seances.*.dateStart'  =>  'required|date',
             'places.*.seances.*.dateEnd'    =>  'required|date',
 

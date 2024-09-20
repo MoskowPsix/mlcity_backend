@@ -27,12 +27,14 @@ class Sight extends Model
         'price',
         'materials',
         'user_id',
+        "vk_group_id",
+        "vk_post_id",
         'cult_id',
         'work_time',
         'afisha7_id',
         'phone_number',
         'email',
-        'site'
+        'site',
     ];
 
     // protected $with = ['organization'];

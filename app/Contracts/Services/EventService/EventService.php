@@ -119,6 +119,8 @@ class EventService implements EventServiceInterface
                     "name" => $user->name,
                     "address" => "",
                     "description" => "",
+                    "vk_group_id" => $data->vkGroupId,
+                    "vk_post_id"  => $data->vkPostId,
                     "user_id" => $user->id,
                 ]);
                 $sight->organization()->create();
