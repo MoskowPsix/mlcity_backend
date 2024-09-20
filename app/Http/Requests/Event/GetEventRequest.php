@@ -42,8 +42,8 @@ class GetEventRequest extends FormRequest
             "dateEnd"       => "nullable|string",
             "eventTypes"    => "nullable|string",
             "radius"        => "nullable|integer|max:25",
-            "latitude"      => "nullable|integer",
-            "longitude"     => "nullable|integer",
+            "latitude"      => "nullable|string",
+            "longitude"     => "nullable|string",
             "searchText"    => "nullable|string|min:3",
             "user"          => "nullable|string|min:3"
 
