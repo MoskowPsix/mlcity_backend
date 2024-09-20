@@ -84,7 +84,7 @@ Route::controller(AuthSocialController::class)->group(function () {
 });
 
 Route::controller(EventController::class)->group(function () {
-    Route::get('events', 'getEvents')->name('events.get_all'); // Запрос ивентов с фильтрами
+    Route::post('events', 'getEvents')->name('events.get_all'); // Запрос ивентов с фильтрами
     Route::get('events-for-author', 'getEventsForAuthor')->name('events.get_for_author'); // Запрос ивентa для автора
     Route::post('events/update-vk-likes', 'updateVkLikes')->name('events.update_vk_like'); //для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum'); //для страницы мероприятия
