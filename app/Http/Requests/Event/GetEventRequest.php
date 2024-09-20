@@ -36,14 +36,14 @@ class GetEventRequest extends FormRequest
             "likedUser"     => "nullable|string",
             "favoriteUser"  => "nullable|string",
             "statuses"      => "nullable|string",
-            "statusLast"    => "nullable|string",
+            "statusLast"    => "nullable|boolean",
             "locationId"    => "nullable|string",
             "dateStart"     => "nullable|string",
             "dateEnd"       => "nullable|string",
             "eventTypes"    => "nullable|string",
             "radius"        => "nullable|integer|max:25",
-            "latitude"      => "nullable|string",
-            "longitude"     => "nullable|string",
+            "latitude"      => "nullable|string|integer",
+            "longitude"     => "nullable|string|integer",
             "searchText"    => "nullable|string|min:3",
             "user"          => "nullable|string|min:3"
 
