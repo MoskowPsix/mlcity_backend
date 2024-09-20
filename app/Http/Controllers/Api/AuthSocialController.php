@@ -92,7 +92,7 @@ class AuthSocialController extends Controller
         $token = $user->createToken('auth_token')->plainTextToken;
 
         if ($user) {
-            return redirect(env('FRONT_APP_URL' ).'/login/'.$token .',token');
+            return redirect(env('FRONT_APP_URL' ).'/login/'.$token);
         }
 
         return redirect(env('FRONT_APP_URL' ).'/login');
