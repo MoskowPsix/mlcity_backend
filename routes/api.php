@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
 use App\Http\Controllers\Api\PlaceController;
+use App\Http\Controllers\Api\PointController;
 use App\Http\Controllers\Api\SeanceController;
 use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\EventController;
@@ -39,6 +40,11 @@ Route::controller(AuthController::class)->group(function () {
     Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
 });
 
+Route::controller(PointController::class)->group(function () {
+    Route::get("users/point", "getForUser")->middleware('auth:sanctum')->name('point.user.get');
+    Route::post("users/point", "store")->middleware('auth:sanctum')->name('point.user.store');
+    Route::delete("users/point", "delete")->middleware('auth:sanctum')->name('point.user.delete');
+});
 
 Route::controller(UserController::class)->group(function () {
     Route::get('admin/users/', 'listUsers')->middleware('admin'); // Для админ панели(поиск юзера по фильтрам)
@@ -231,3 +237,4 @@ Route::controller(PasswordRecoveryController::class)->group(function () {
     Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
     Route::post("recovery/password", "recoveryPasswordByCode");
 });
+
