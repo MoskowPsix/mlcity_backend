@@ -36,7 +36,7 @@ class CreateSightRequest extends FormRequest
             'email'             => 'nullable|email',
             'site'              => 'nullable|string',
             'localFilesImg'     => 'nullable',
-            'localFilesImg.*'   => 'nullable|mimes:jpeg,jpg,png',
+            'localFilesImg.*'   => 'nullable|mimes:jpeg,jpg,png,webp',
         ];
     }
 }
