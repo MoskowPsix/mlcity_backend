@@ -38,6 +38,8 @@ class EventCreateRequest extends FormRequest
             "vkPostId"                      => 'nullable|integer',
             'places.*.seances.*.dateStart'  =>  'required|date',
             'places.*.seances.*.dateEnd'    =>  'required|date',
+            'localFilesImg'     => 'nullable',
+            'localFilesImg.*'   => 'nullable|mimes:jpeg,jpg,png,webp',
 
         ];
     }
