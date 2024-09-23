@@ -3,6 +3,7 @@
 namespace App\Contracts\Services\EventService;
 
 use App\Http\Requests\Event\EventCreateRequest;
+use App\Http\Requests\Event\EventForAuthorReqeust;
 use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
@@ -100,14 +101,22 @@ class EventService implements EventServiceInterface
         });
     }
 
-    public function getUserEvents($data)
+    public function getUserEvents(EventForAuthorReqeust $data)
     {
         isset($data->page) ?  $page = $data->page :  $page = '';
         isset($data->limit) ?  $limit = $data->limit : $limit =  6;
-        info($data->page);
-        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'price', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers');
-        $response = $events->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-        return $response;
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+
+        return app(Pipeline::class)
+            ->send($events)
+            ->through([
+                EventStatuses::class,
+                EventStatusesLast::class,
+            ])
+            ->via('apply')
+            ->then(function ($events) use ($page, $limit, $data){
+                return $events->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+            });
     }
 
     public function store(EventCreateRequest $data): Event

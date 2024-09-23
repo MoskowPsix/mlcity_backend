@@ -30,7 +30,6 @@ class CreateSightTest extends TestCase
         $data['type']   = $types;
 
         $response = $this->actingAs($user)->postJson("api/sights/create", $data);
-
         $response->assertStatus(201);
     }
 }

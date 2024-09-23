@@ -3,6 +3,7 @@
 namespace App\Contracts\Services\EventService;
 
 use App\Http\Requests\Event\EventCreateRequest;
+use App\Http\Requests\Event\EventForAuthorReqeust;
 use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Models\Event;
@@ -13,7 +14,7 @@ interface EventServiceInterface
 {
     public function store(EventCreateRequest $data): Event;
     public function get($data);
-    public function getUserEvents($data);
+    public function getUserEvents(EventForAuthorReqeust $data);
     public function getById(int $id): Event;
     public function setEvenUserLiked(SetEventUserLikedRequest $request): bool;
     public function checkLiked(int $id): bool;

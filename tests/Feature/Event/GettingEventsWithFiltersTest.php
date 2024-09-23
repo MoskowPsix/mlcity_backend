@@ -24,13 +24,13 @@ class GettingEventsWithFiltersTest extends TestCase
     {
         Event::factory()->count(6)->create();
         $events = $this->getEvents();
-        $response = $this->getJson(route('events.get_all', ['order' => 'name']));
+        $response = $this->postJson(route('events.get_all', ['order' => 'name']));
         $response->assertExactJson($events);
     }
     public function test_get_event_filter_name(): void
     {
         $events = Event::factory()->count(6)->create();
-        $response = $this->getJson(route('events.get_all', ['name' => $events[5]->name]));
+        $response = $this->postJson(route('events.get_all', ['name' => $events[5]->name]));
         $response->assertJsonFragment([
             'name' => $events[5]->name,
         ]);
@@ -38,7 +38,7 @@ class GettingEventsWithFiltersTest extends TestCase
     public function test_get_event_filter_ids(): void
     {
         $events = Event::factory()->count(6)->create();
-        $response = $this->getJson(route('events.get_all', ['eventIds' => $events[0]->id.','.$events[1]->id]));
+        $response = $this->postJson(route('events.get_all', ['eventIds' => $events[0]->id.','.$events[1]->id]));
         $response->assertJsonFragment([
             'id' => $events[0]->id,
             'id' => $events[1]->id,

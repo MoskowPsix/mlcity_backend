@@ -13,11 +13,15 @@ class NotFoundDeletePointResource extends JsonResource
      * @param  Request  $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
-            'status' => 'success',
-            'message' => __('messages.point.delete.success'),
+            'status' => 'error',
+            'message' => __('messages.point.delete.not_found'),
         ];
+    }
+    public function withResponse($request, $response)
+    {
+        $response->setStatusCode(400);
     }
 }

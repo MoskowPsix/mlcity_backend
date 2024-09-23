@@ -10,6 +10,7 @@ use App\Http\Resources\Point\Delete\NotFoundDeletePointResource;
 use App\Http\Resources\Point\Delete\SuccessDeletePointResource;
 use App\Http\Resources\Point\GetPoint\SuccessGetPointsResource;
 use App\Http\Resources\Point\StorePoint\SuccessStorePointsResource;
+use Exception;
 
 class PointController extends Controller
 {

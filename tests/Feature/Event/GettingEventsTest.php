@@ -21,7 +21,7 @@ class GettingEventsTest extends TestCase
     {
         EventObjectFactory::createEventInDB(100, true);
 
-        $response = $this->get("/api/events");
+        $response = $this->postJson("/api/events");
 
         $response->assertJsonStructure([
             "events" => [

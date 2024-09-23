@@ -10,5 +10,5 @@ interface PointServiceInterface
 {
     public function store(StorePointsRequest $request): object;
     public function getForUser(PageANDLimitRequest $request): object;
-    public function delete(int $id): object;
+    public function delete(int $id): bool;
 }

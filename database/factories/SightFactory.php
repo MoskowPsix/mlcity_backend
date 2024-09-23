@@ -28,7 +28,7 @@ class SightFactory extends Factory
             'materials'         => fake()->text(),
             'user_id'           => User::first()->id,
             'work_time'         => fake()->text(),
-            'phone_number'      => fake()->phoneNumber(),
+            'phone_number'      => (string)fake()->numberBetween(9999999999, 1000000000),
             'email'             => fake()->email(),
         ];
     }
