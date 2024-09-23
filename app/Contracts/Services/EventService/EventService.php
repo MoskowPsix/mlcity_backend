@@ -102,10 +102,11 @@ class EventService implements EventServiceInterface
 
     public function getUserEvents($data)
     {
-        isset($data->page) ?  $page = $data->page :  $page = 1;
+        isset($data->page) ?  $page = $data->page :  $page = '';
         isset($data->limit) ?  $limit = $data->limit : $limit =  6;
-        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
-        $response = $events->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+        info($data->page);
+        $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'price', 'statuses', 'types')->withCount('likedUsers', 'favoritesUsers');
+        $response = $events->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return $response;
     }
 
