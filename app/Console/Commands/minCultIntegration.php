@@ -193,14 +193,6 @@ class minCultIntegration extends Command
             $sight_type = EventType::create(['name' => $this->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
             $event->types()->attach($sight_type->id);
         }
-//        info($type->name);
-//        $type_search = EventType::where('name', $type->name)->first();
-//        if (isset($type_search)) {
-//            $event->types()->attach($type_search->id);
-//        } else {
-//            !array_search($type->name, $this->error_types) ? $this->error_types[] = $type->name : null;
-//            !array_search($type->name, $this->error_types) ? print($type->name) : null;
-//        }
     }
     private function setStatus(Event $event): void
     {

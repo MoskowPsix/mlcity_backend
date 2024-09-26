@@ -1,18 +1,18 @@
-name: Events
-description: События
+name: UserPoint
+description: 'Сохранённое местоположение пользователя'
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/events
+    uri: api/users/point
     metadata:
-      groupName: Events
-      groupDescription: События
+      groupName: UserPoint
+      groupDescription: 'Сохранённое местоположение пользователя'
       subgroup: ''
       subgroupDescription: ''
-      title: getEvents
-      description: 'Возвращает все события по фильтрам'
-      authenticated: false
+      title: getForUser
+      description: 'Получение точек пользователя'
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -22,222 +22,87 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      address:
-        name: address
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: itaqxfafyhijpdizesasftvjhieknb
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      sponsor:
-        name: sponsor
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: wbibdgzwnlndgnovbdurlajkxscaqiumolehffpbyyynyfuaxteabgimwpfwbcmgkebbcbxbqfn
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      user_name:
-        name: user_name
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: ncqbhhfftzdsteifwgbw
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      user_email:
-        name: user_email
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: jaquan.klein@example.com
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
       page:
         name: page
         description: ''
         required: false
-        example: at
+        example: null
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       limit:
         name: limit
-        description: 'Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50.'
+        description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 7
+        example: 20
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      name:
-        name: name
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: mvexofitwswrhfu
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      userId:
-        name: userId
+    cleanBodyParameters:
+      limit: 20
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","points":{"data":[{"latitude":-43.767106,"longitude":155.332118}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
         description: ''
-        required: false
-        example: 4
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
         custom: []
-      likedUser:
-        name: likedUser
-        description: ''
-        required: false
-        example: ut
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      favoriteUser:
-        name: favoriteUser
-        description: ''
-        required: false
-        example: libero
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      statuses:
-        name: statuses
-        description: ''
-        required: false
-        example: et
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      statusLast:
-        name: statusLast
-        description: ''
-        required: false
-        example: aut
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      locationId:
-        name: locationId
-        description: ''
-        required: false
-        example: sit
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      dateStart:
-        name: dateStart
-        description: ''
-        required: false
-        example: nostrum
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      dateEnd:
-        name: dateEnd
-        description: ''
-        required: false
-        example: sapiente
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      eventTypes:
-        name: eventTypes
-        description: ''
-        required: false
-        example: ipsam
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      radius:
-        name: radius
-        description: 'Значение поля value не может быть больше 25.'
-        required: false
-        example: 22
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/users/point
+    metadata:
+      groupName: UserPoint
+      groupDescription: 'Сохранённое местоположение пользователя'
+      subgroup: ''
+      subgroupDescription: ''
+      title: create
+      description: 'Создание пользовательской точки'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
       latitude:
         name: latitude
-        description: ''
-        required: false
-        example: atque
-        type: string
+        description: 'Значение поля value должно быть между -87 и 89.'
+        required: true
+        example: -86
+        type: number
         enumValues: []
         exampleWasSpecified: false
         custom: []
       longitude:
         name: longitude
-        description: ''
-        required: false
-        example: facilis
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      searchText:
-        name: searchText
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: ndwujtyrncqrebfublwyngpqvpa
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      user:
-        name: user
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: false
-        example: uipmwgwgpjseoxzmuzwxxojsmaxdmldcaxaigdggyzrampviurhnygybq
-        type: string
+        description: 'Значение поля value должно быть между -180 и 180.'
+        required: true
+        example: -179
+        type: number
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      address: itaqxfafyhijpdizesasftvjhieknb
-      sponsor: wbibdgzwnlndgnovbdurlajkxscaqiumolehffpbyyynyfuaxteabgimwpfwbcmgkebbcbxbqfn
-      user_name: ncqbhhfftzdsteifwgbw
-      user_email: jaquan.klein@example.com
-      page: at
-      limit: 7
-      name: mvexofitwswrhfu
-      userId: 4
-      likedUser: ut
-      favoriteUser: libero
-      statuses: et
-      statusLast: aut
-      locationId: sit
-      dateStart: nostrum
-      dateEnd: sapiente
-      eventTypes: ipsam
-      radius: 22
-      latitude: atque
-      longitude: facilis
-      searchText: ndwujtyrncqrebfublwyngpqvpa
-      user: uipmwgwgpjseoxzmuzwxxojsmaxdmldcaxaigdggyzrampviurhnygybq
+      latitude: -86
+      longitude: -179
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":31,"name":"Id est atque excepturi id est.","sponsor":"\u041d\u0435\u043b\u043b\u0438 \u0412\u043b\u0430\u0434\u0438\u043c\u0438\u0440\u043e\u0432\u043d\u0430 \u0414\u0430\u043d\u0438\u043b\u043e\u0432\u0430\u0430","date_start":"2024-09-15 21:36:24","date_end":"2024-09-25 11:05:08","description":"Libero recusandae sed hic id. Quis voluptatibus aperiam quae ab odio. Doloribus quod sint voluptates ut. Aut qui sed alias voluptatem.","materials":"Consectetur suscipit aliquam omnis. Iure aut error et nihil nostrum. Quisquam magnam cupiditate saepe quas dolorem officia optio.","user_id":1,"vk_post_id":"771208","created_at":"2024-09-11T06:22:44.000000Z","updated_at":"2024-09-11T06:22:44.000000Z","age_limit":"6","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0430","points":{"latitude":35.151841,"longitude":120.350414}}'
         headers: []
         description: ''
         custom: []
@@ -249,147 +114,15 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - POST
-    uri: api/events/update-vk-likes
+      - DELETE
+    uri: 'api/users/point/{id}'
     metadata:
-      groupName: Events
-      groupDescription: События
+      groupName: UserPoint
+      groupDescription: 'Сохранённое местоположение пользователя'
       subgroup: ''
       subgroupDescription: ''
-      title: updateVkLikes
-      description: 'Обновляет лайки, подтягивая их с вк. Ничего не возвращает'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/events/set-event-user-liked
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: setEvenUserLiked
-      description: 'Создаем отношение - юзер лайкнул ивент'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      event_id:
-        name: event_id
-        description: 'Значение поля value должно быть не меньше 1.'
-        required: true
-        example: 50
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      event_id: 50
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","likedUser":{"id":23,"name":"\u0420\u0430\u0438\u0441\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430 \u0422\u0430\u0440\u0430\u0441\u043e\u0432\u0430","email":"nonna.krykova@example.net","email_verified_at":"2024-09-11 06:22:44","created_at":"2024-09-11T06:22:44.000000Z","updated_at":"2024-09-11T06:22:44.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: getEvent
-      description: 'Достать события по id'
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      id:
-        name: id
-        description: ''
-        required: true
-        example: 13
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      id: 13
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u043e","event":{"id":32,"name":"Ut qui enim et aut et repudiandae ex.","sponsor":"\u0412\u0430\u0441\u0438\u043b\u044c\u0435\u0432\u0430 \u0415\u043a\u0430\u0442\u0435\u0440\u0438\u043d\u0430 \u041b\u044c\u0432\u043e\u0432\u043d\u0430","date_start":"2024-09-13 02:59:39","date_end":"2024-09-20 14:40:26","description":"Molestiae doloribus ut a fuga a et. Quisquam ea qui et nihil. Eligendi sint temporibus et nisi sunt dolore ea et.","materials":"Recusandae amet eum saepe asperiores aut. Et est asperiores aut quidem. Consequatur in enim voluptas.","user_id":1,"vk_post_id":"800015","created_at":"2024-09-11T06:22:44.000000Z","updated_at":"2024-09-11T06:22:44.000000Z","age_limit":"17","afisha7_id":null}}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/history-contents'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: getHistoryContent
-      description: 'Получить объект истории. Метод доступен только модерам.'
+      title: delete
+      description: 'Удаление точки пользователя'
       authenticated: true
       custom: []
     headers:
@@ -398,7 +131,7 @@ endpoints:
     urlParameters:
       id:
         name: id
-        description: 'The ID of the event.'
+        description: 'id точки'
         required: true
         example: 1
         type: integer
@@ -415,514 +148,16 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","history_content":{"data":[],"path":"http:\/\/localhost:8000\/api\/events\/1\/history-contents","per_page":6,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '489'
-          vary: Origin
-        description: null
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/organization'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: getOrganizationOfEvent
-      description: 'Получить Организацию мероприятия.'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","message":"\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0430","organization":{"id":34,"name":null,"avatar":null,"description":null}}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/check-user-liked'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: checkLikedEventForUser
-      description: 'Проверка лайкал ли авторизованный юзер этот ивент'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","is_liked":false}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/check-user-favorite'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: checkFavoriteEventForUser
-      description: 'Проверка добавил ли авторизованный юзер этот ивент в избранное'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","is_favorite":false}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: api/events/create
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: createEvent
-      description: 'Создание события'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters: []
-    cleanUrlParameters: []
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      name:
-        name: name
-        description: 'Количество символов в поле value должно быть не меньше 3.'
-        required: true
-        example: xnkqcysonwivpqqgmvcurwriopezbtczcllirnsoygofvpmlimkqwdkoelyuywwktwynpzersdobbjocid
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      sponsor:
-        name: sponsor
-        description: ''
-        required: true
-        example: qui
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      description:
-        name: description
-        description: 'Количество символов в поле value должно быть не меньше 10.'
-        required: false
-        example: 'Quod quo qui quasi hic qui sapiente.'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      dateStart:
-        name: dateStart
-        description: 'Значение поля value не является датой.'
-        required: true
-        example: '2024-09-11T06:22:45'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      dateEnd:
-        name: dateEnd
-        description: 'Значение поля value не является датой. Значение поля value должно быть датой после или равной <code>dateStart</code>.'
-        required: true
-        example: '2039-05-19'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      type:
-        name: type
-        description: ''
-        required: true
-        example: perspiciatis
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      status:
-        name: status
-        description: ''
-        required: true
-        example: facilis
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      places:
-        name: places
-        description: ''
-        required: false
-        example:
-          - non
-        type: 'string[]'
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      prices:
-        name: prices
-        description: ''
-        required: false
-        example: null
-        type: object
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      ageLimit:
-        name: ageLimit
-        description: 'Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18.'
-        required: false
-        example: 3
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      'places[].seances':
-        name: 'places[].seances'
-        description: ''
-        required: false
-        example:
-          - []
-        type: 'object[]'
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      'places[].seances[].dateStart':
-        name: 'places[].seances[].dateStart'
-        description: 'Значение поля value не является датой.'
-        required: true
-        example: '2024-09-11T06:22:45'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      'places[].seances[].dateEnd':
-        name: 'places[].seances[].dateEnd'
-        description: 'Значение поля value не является датой.'
-        required: true
-        example: '2024-09-11T06:22:45'
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      name: xnkqcysonwivpqqgmvcurwriopezbtczcllirnsoygofvpmlimkqwdkoelyuywwktwynpzersdobbjocid
-      sponsor: qui
-      description: 'Quod quo qui quasi hic qui sapiente.'
-      dateStart: '2024-09-11T06:22:45'
-      dateEnd: '2039-05-19'
-      type: perspiciatis
-      status: facilis
-      places:
-        -
-          seances:
-            -
-              dateStart: '2024-09-11T06:22:45'
-              dateEnd: '2024-09-11T06:22:45'
-      ageLimit: 3
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u043e","event":{"id":33,"name":"Qui explicabo optio omnis mollitia quo quia.","sponsor":"\u0412\u0435\u0440\u043e\u043d\u0438\u043a\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430 \u0410\u0431\u0440\u0430\u043c\u043e\u0432\u0430\u0430","date_start":"2024-09-09 21:02:02","date_end":"2024-09-24 07:29:16","description":"Non cum ut natus. Minima nemo assumenda et. Laudantium enim iure distinctio officia rem qui. Nesciunt itaque aut aliquam eos non autem saepe.","materials":"Temporibus beatae nemo architecto consequuntur aut temporibus ut. Error harum at non et ut officiis aut. Similique itaque laudantium voluptatibus quam quisquam saepe.","user_id":2,"vk_post_id":"987006","created_at":"2024-09-11T06:22:45.000000Z","updated_at":"2024-09-11T06:22:45.000000Z","age_limit":"5","afisha7_id":null}}'
+        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"}'
         headers: []
         description: ''
         custom: []
       -
-        status: 403
-        content: '{"status":"error","message":"Is not user organization"}'
+        status: 400
+        content: '{"status":"error","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"}'
         headers: []
         description: ''
         custom: []
-      -
-        status: 500
-        content: '{"status":"error","message":"\u0412\u043e \u0432\u0440\u0435\u043c\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u043e\u0448\u0438\u0431\u043a\u0430"}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/liked-users'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: getEventUserLikedIds
-      description: 'Получить пользователей которые лайкали событие'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      page:
-        name: page
-        description: ''
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      limit:
-        name: limit
-        description: 'Значение поля value не может быть больше 50.'
-        required: false
-        example: 16
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      limit: 16
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043d\u0440\u0430\u0432\u0438\u0432\u0448\u0438\u0435\u0441\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":34,"name":"Qui ab alias et qui quibusdam.","sponsor":"\u041f\u0435\u0442\u0443\u0445\u043e\u0432\u0430 \u041c\u0430\u0440\u0438\u043d\u0430 \u0411\u043e\u0440\u0438\u0441\u043e\u0432\u043d\u0430","date_start":"2024-09-10 16:54:37","date_end":"2024-09-19 06:34:32","description":"Alias rerum sint sint non. Et dolor placeat soluta velit consequatur mollitia qui. Et nostrum nihil voluptatem eveniet. Voluptatem et quam et quia laboriosam.","materials":"Excepturi et id modi earum. Id culpa fugit autem est.","user_id":1,"vk_post_id":"424740","created_at":"2024-09-11T06:22:45.000000Z","updated_at":"2024-09-11T06:22:45.000000Z","age_limit":"23","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/favorites-users'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: getEventUserLikedIds
-      description: 'Получить пользователей которые лайкали событие'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      page:
-        name: page
-        description: ''
-        required: false
-        example: null
-        type: string
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-      limit:
-        name: limit
-        description: 'Значение поля value не может быть больше 50.'
-        required: false
-        example: 25
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      limit: 25
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","message":"\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":24,"name":"\u041a\u0443\u0437\u044c\u043c\u0430 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u0438\u0447 \u041d\u0438\u043a\u0438\u0442\u0438\u043d","sponsor":null,"date_start":null,"date_end":null,"description":null,"materials":null,"user_id":null,"vk_post_id":null,"created_at":"2024-09-11T06:22:45.000000Z","updated_at":"2024-09-11T06:22:45.000000Z","age_limit":null,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
-        headers: []
-        description: ''
-        custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - POST
-    uri: 'api/events/{id}/statuses'
-    metadata:
-      groupName: Events
-      groupDescription: События
-      subgroup: ''
-      subgroupDescription: ''
-      title: addStatusToEvent
-      description: 'Смена статуса мероприяия.'
-      authenticated: true
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters:
-      status_id:
-        name: status_id
-        description: ''
-        required: true
-        example: 13
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanBodyParameters:
-      status_id: 13
-    fileParameters: []
-    responses: []
     responseFields: []
     auth: []
     controller: null
