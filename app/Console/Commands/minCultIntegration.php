@@ -2,12 +2,14 @@
 
 namespace App\Console\Commands;
 
+use App\Contracts\Services\CurrentType\CurrentType;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\FileType;
 use App\Models\Location;
 use App\Models\Place;
 use App\Models\Sight;
+use App\Models\SightType;
 use App\Models\Status;
 use App\Models\Timezone;
 use Illuminate\Console\Command;
@@ -182,13 +184,23 @@ class minCultIntegration extends Command
     }
     private function saveType(Object $type, Event $event): void
     {
-        $type_search = EventType::where('name', $type->name)->first();
-        if (isset($type_search)) {
-            $event->types()->attach($type_search->id);
+        $current_type = new CurrentType($type->name);
+        $type_name = $current_type->getType();
+        if(isset($type_name)) {
+            $event->types()->attach($type_name['id']);
         } else {
-            !array_search($type->name, $this->error_types) ? $this->error_types[] = $type->name : null;
-            !array_search($type->name, $this->error_types) ? print($type->name) : null;
+            info($type->name);
+            $sight_type = EventType::create(['name' => $this->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
+            $event->types()->attach($sight_type->id);
         }
+//        info($type->name);
+//        $type_search = EventType::where('name', $type->name)->first();
+//        if (isset($type_search)) {
+//            $event->types()->attach($type_search->id);
+//        } else {
+//            !array_search($type->name, $this->error_types) ? $this->error_types[] = $type->name : null;
+//            !array_search($type->name, $this->error_types) ? print($type->name) : null;
+//        }
     }
     private function setStatus(Event $event): void
     {

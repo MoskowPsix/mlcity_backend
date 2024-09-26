@@ -27,8 +27,8 @@ class TypeTest extends Command
      */
     public function handle()
     {
-        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Библиотека');
-        print_r($currentType);
+        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
+        print_r($currentType->getType());
         return Command::SUCCESS;
     }
 }

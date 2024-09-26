@@ -13,12 +13,9 @@ class CurrentType implements CurrentTypeInterface
     public function __construct(string $type_name)
     {
         $this->type_name = $type_name;
-        $this->culturaRuValid();
-        $this->readCsv();
-        $this->search();
     }
 
-    private function search(): void
+    function search(): void
     {
         foreach ($this->types as $columns) {
             foreach ($columns as $column) {
@@ -34,7 +31,7 @@ class CurrentType implements CurrentTypeInterface
 
     private function readCsv(): void
     {
-        $file = fopen("app/Contracts/Services/CurrentType/types.csv", "r");
+        $file = fopen("app/Contracts/Services/CurrentType/current_types.csv", "r");
         $result = [];
         while (($data = fgetcsv($file)) !== false) {
 
@@ -50,9 +47,12 @@ class CurrentType implements CurrentTypeInterface
         $this->types = $result;
     }
 
-    public function getType(): array
+    public function getType(): array | null
     {
-        return $this->current_type;
+        $this->culturaRuValid();
+        $this->readCsv();
+        $this->search();
+        return !empty($this->current_type) ? $this->current_type : null;
     }
 
     private function culturaRuValid(): void
