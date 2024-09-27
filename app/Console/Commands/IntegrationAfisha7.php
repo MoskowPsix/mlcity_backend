@@ -140,6 +140,8 @@ class IntegrationAfisha7 extends Command
             $progress++;
             if ($location->level == 3) {
                 foreach ($this->types as $type) {
+                    $current_type = new CurrentType($type->name);
+                    print_r($type->name .' | '.$current_type->getType()['current_name'] . "\n");
                     $res =$this->getSights($location->url, $type->id, 0, 0);
                     isset($res) ? $sights = get_object_vars($res) : null;
                     if (isset($sights['total'])) {
