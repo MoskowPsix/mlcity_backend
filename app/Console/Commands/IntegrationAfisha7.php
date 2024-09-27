@@ -411,11 +411,13 @@ class IntegrationAfisha7 extends Command
                 if (!Event::where('afisha7_id', $event->id)->exists()) {
                     $event = $this->getEvent($event->id, $this->location);
                     $event_cr = $this->saveEvent($event, $location_name);
-                    isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
-                    $this->setPrices($event, $event_cr);
-                    $this->saveFilesEvent($event->logo, $event_cr);
-                    $this->setPlaces($event, $event_cr);
-                    $this->setStatusEvent($event_cr);
+                    if ($event_cr) {
+                        isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
+                        $this->setPrices($event, $event_cr);
+                        $this->saveFilesEvent($event->logo, $event_cr);
+                        $this->setPlaces($event, $event_cr);
+                        $this->setStatusEvent($event_cr);
+                    }
                 }
             }
         }
