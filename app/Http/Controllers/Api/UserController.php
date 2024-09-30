@@ -83,7 +83,7 @@ class UserController extends Controller
             ])
             ->via('apply')
             ->then(function ($favoriteEvents) use ($page, $limit){
-                return $favoriteEvents->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+                return $favoriteEvents->with('prices')->orderBy('date_start','desc')->paginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
             });
         return response()->json([
            'status' =>  'success',
