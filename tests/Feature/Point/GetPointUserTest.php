@@ -17,14 +17,26 @@ class GetPointUserTest extends TestCase
      *
      * @return void
      */
-    public function test_get_user_point()
+    public function test_get_user_point(): void
     {
         $user = $this->userCreate();
         $points = Point::factory()->count(6)->create([
             'user_id' => $user->id,
-        ]);
+        ])->toArray();
+        $point_res = [];
+        foreach($points as $point) {
+            $point_res[] = [
+                'latitude' => $point['latitude'],
+                'longitude' => $point['longitude']
+            ];
+        }
         $response = $this->actingAs($user)->getJson(route('point.user.get'));
-        $response->assertJson($this->getResource(new SuccessGetPointsResource($points->cursorPaginate())));
+        $response->assertJson([
+            'status' => 'success',
+            'points'   => [
+                'data' => $point_res
+            ]
+        ]);
     }
 
     private function userCreate()

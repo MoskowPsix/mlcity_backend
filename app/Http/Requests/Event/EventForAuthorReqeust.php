@@ -25,7 +25,9 @@ class EventForAuthorReqeust extends FormRequest
     {
         return [
             'page' => "nullable|string",
-            "limit" => "nullable|integer|max:50"
+            "limit" => "nullable|integer|max:50",
+            "statuses"      => "nullable|string",
+            "statusLast"    => "nullable|boolean",
         ];
     }
 

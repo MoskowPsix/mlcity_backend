@@ -43,7 +43,7 @@ Route::controller(AuthController::class)->group(function () {
 Route::controller(PointController::class)->group(function () {
     Route::get("users/point", "getForUser")->middleware('auth:sanctum')->name('point.user.get');
     Route::post("users/point", "store")->middleware('auth:sanctum')->name('point.user.store');
-    Route::delete("users/point", "delete")->middleware('auth:sanctum')->name('point.user.delete');
+    Route::delete("users/point/{id}", "delete")->middleware('auth:sanctum')->name('point.user.delete');
 });
 
 Route::controller(UserController::class)->group(function () {
@@ -91,7 +91,7 @@ Route::controller(AuthSocialController::class)->group(function () {
 
 Route::controller(EventController::class)->group(function () {
     Route::post('events', 'getEvents')->name('events.get_all'); // Запрос ивентов с фильтрами
-    Route::get('events-for-author', 'getEventsForAuthor')->name('events.get_for_author'); // Запрос ивентa для автора
+    Route::get('events-for-author', 'getEventsForAuthor')->name('events.get_for_author')->middleware('auth:sanctum'); // Запрос ивентa для автора
     Route::post('events/update-vk-likes', 'updateVkLikes')->name('events.update_vk_like'); //для страницы мероприятия
     Route::post('events/set-event-user-liked', 'setEvenUserLiked')->middleware('auth:sanctum'); //для страницы мероприятия
     Route::get('events/{id}', 'show');

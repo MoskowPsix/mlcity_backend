@@ -30,10 +30,16 @@ class PointService implements PointServiceInterface
     /**
      * @throws Exception
      */
-    public function delete(int $id): object
+    public function delete(int $id): bool
     {
         $point = Point::findOrFail($id);
-        $point->user_id !== auth('api')->user()->id ? throw new Exception('This not ypu point') : null;
-        return $point->delete();
+        if ($point->user_id !== auth('api')->user()->id) {
+            throw new Exception("This not you point");
+        } else {
+            null;
+        }
+        $status = $point->delete();
+        $status ? null : throw new Exception('Delete failed');
+        return true;
     }
 }

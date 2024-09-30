@@ -23,7 +23,9 @@ return [
                     'api/sights/*',
                     'api/events',
                     'api/events/*',
-                    'api/recovery/*'
+                    'api/recovery/*',
+                    'api/users/point/*',
+                    'api/users/point',
                 ],
 
                 // Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.

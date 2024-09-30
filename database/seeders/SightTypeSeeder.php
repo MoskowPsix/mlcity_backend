@@ -6,9 +6,17 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 use App\Models\SightType;
+use Illuminate\Support\Facades\DB;
+use JeroenZwart\CsvSeeder\CsvSeeder;
 
-class SightTypeSeeder extends Seeder
+class SightTypeSeeder extends CsvSeeder
 {
+    public function __construct()
+    {
+        $this->file = './database/seeders/csvs/types.csv';
+        $this->tablename = 'stypes';
+        $this->delimiter  = ',';
+    }
     /**
      * Run the database seeds.
      *
@@ -16,6 +24,8 @@ class SightTypeSeeder extends Seeder
      */
     public function run()
     {
+        DB::disableQueryLog();
+        parent::run();
         // $type1 = new SightType();
         // $type1->name = 'Архитектурные';
         // $type1->ico = '/storage/icons/architecture.svg';
@@ -78,19 +88,19 @@ class SightTypeSeeder extends Seeder
 
         //Типы с культуры
 
-        $type2 = new SightType();
-        $type2->name = 'Кинотеатры';
-        $type2->ico = '/storage/icons/film.svg';
-        $type2->cult_id = 2;
-        $type2->cult_path = "cinema";
-        $type2->save();
-
-        $type3 = new SightType();
-        $type3->name = 'Архитектурные';
-        $type3->ico = '/storage/icons/architecture.svg';
-        $type3->cult_id = 419;
-        $type3->cult_path = "architecture";
-        $type3->save();
+//        $type2 = new SightType();
+//        $type2->name = 'Кинотеатры';
+//        $type2->ico = '/storage/icons/film.svg';
+//        $type2->cult_id = 2;
+//        $type2->cult_path = "cinema";
+//        $type2->save();
+//
+//        $type3 = new SightType();
+//        $type3->name = 'Архитектурные';
+//        $type3->ico = '/storage/icons/architecture.svg';
+//        $type3->cult_id = 419;
+//        $type3->cult_path = "architecture";
+//        $type3->save();
 
         // $type4 = new SightType();
         // $type4->name = 'Литература';
@@ -99,12 +109,12 @@ class SightTypeSeeder extends Seeder
         // $type4->cult_path = "literature";
         // $type4->save();
 
-        $type6 = new SightType();
-        $type6->name = 'Музеи';
-        $type6->ico = '/storage/icons/exposition.svg';
-        $type6->cult_id = 1;
-        $type6->cult_path = "museums";
-        $type6->save();
+//        $type6 = new SightType();
+//        $type6->name = 'Музеи';
+//        $type6->ico = '/storage/icons/exposition.svg';
+//        $type6->cult_id = 1;
+//        $type6->cult_path = "museums";
+//        $type6->save();
 
         // $type9 = new SightType();
         // $type9->name = 'Традиции';
@@ -120,12 +130,12 @@ class SightTypeSeeder extends Seeder
         // $type10->cult_path = "theaters";
         // $type10->save();
 
-        $type11 = new SightType();
-        $type11->name = 'Образование';
-        $type11->ico = '/storage/icons/student.svg';
-        $type11->cult_id = 4;
-        $type11->cult_path = "lectures";
-        $type11->save();
+//        $type11 = new SightType();
+//        $type11->name = 'Образование';
+//        $type11->ico = '/storage/icons/student.svg';
+//        $type11->cult_id = 4;
+//        $type11->cult_path = "lectures";
+//        $type11->save();
 
         // $type12 = new SightType();
         // $type12->name = 'Музыка';
@@ -134,33 +144,33 @@ class SightTypeSeeder extends Seeder
         // $type12->cult_path = "music";
         // $type12->save();
 
-        $type13 = new SightType();
-        $type13->name = 'Культура';
-        $type13->ico = '/storage/icons/mask.svg';
-        $type13->cult_id = 561;
-        $type13->cult_path = "traditions";
-        $type13->save();
+//        $type13 = new SightType();
+//        $type13->name = 'Культура';
+//        $type13->ico = '/storage/icons/mask.svg';
+//        $type13->cult_id = 561;
+//        $type13->cult_path = "traditions";
+//        $type13->save();
 
         // Наши типы
 
-        $type14 = new SightType();
-        $type14->name = 'Торговые центры';
-        $type14->ico = '/storage/icons/supermarket.svg';
-        $type14->save();
-
-        $type15 = new SightType();
-        $type15->name = 'Развлечения';
-        $type15->ico = '/storage/icons/entertainment.svg';
-        $type15->save();
-
-        $type16 = new SightType();
-        $type16->name = 'Рестораны';
-        $type16->ico = '/storage/icons/restaurant.svg';
-        $type16->save();
-
-        $type17 = new SightType();
-        $type17->name = 'Спорт';
-        $type17->ico = '/storage/icons/bike.svg';
-        $type17->save();
+//        $type14 = new SightType();
+//        $type14->name = 'Торговые центры';
+//        $type14->ico = '/storage/icons/supermarket.svg';
+//        $type14->save();
+//
+//        $type15 = new SightType();
+//        $type15->name = 'Развлечения';
+//        $type15->ico = '/storage/icons/entertainment.svg';
+//        $type15->save();
+//
+//        $type16 = new SightType();
+//        $type16->name = 'Рестораны';
+//        $type16->ico = '/storage/icons/restaurant.svg';
+//        $type16->save();
+//
+//        $type17 = new SightType();
+//        $type17->name = 'Спорт';
+//        $type17->ico = '/storage/icons/bike.svg';
+//        $type17->save();
     }
 }

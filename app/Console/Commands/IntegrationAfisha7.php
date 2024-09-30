@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Contracts\Services\CurrentType\CurrentType;
 use App\Models\Hero;
 use App\Models\Location;
 use App\Models\Photo;
@@ -45,46 +46,47 @@ class IntegrationAfisha7 extends Command
     /**
      * @var array
      */
-    private $types = [];
+    private array $types = [];
 
     /**
      * @var string
      */
-    private $type = "";
+    private string $type = "";
 
     /**
      * @var string
      */
-    private $token = "";
+    private string $token = "";
 
     /**
      * @var array
      */
-    private $locations = [];
+    private array $locations = [];
 
     /**
      * @var array
      */
-    private $locations_level_3 = [];
+    private array $locations_level_3 = [];
     /**
-     * @var integer
+     * @var string
      */
-    private $location;
+    private string $location;
 
     /**
      * @var integer
      */
-    private $offset = 0;
+    private int $offset = 0;
     /**
      * @var integer
      */
-    private $limit = 100;
+    private int $limit = 100;
 
     /**
      * Execute the console command.
      *
      * @return int
      */
+
     public function handle(): int
     {
 //        DB::reconnect('pgsql');
@@ -409,11 +411,13 @@ class IntegrationAfisha7 extends Command
                 if (!Event::where('afisha7_id', $event->id)->exists()) {
                     $event = $this->getEvent($event->id, $this->location);
                     $event_cr = $this->saveEvent($event, $location_name);
-                    isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
-                    $this->setPrices($event, $event_cr);
-                    $this->saveFilesEvent($event->logo, $event_cr);
-                    $this->setPlaces($event, $event_cr);
-                    $this->setStatusEvent($event_cr);
+                    if ($event_cr) {
+                        isset($event->cat_id) ? $this->setTypesEvent($event->cat_id, $event_cr) : null;
+                        $this->setPrices($event, $event_cr);
+                        $this->saveFilesEvent($event->logo, $event_cr);
+                        $this->setPlaces($event, $event_cr);
+                        $this->setStatusEvent($event_cr);
+                    }
                 }
             }
         }
@@ -534,13 +538,11 @@ class IntegrationAfisha7 extends Command
      */
     private function setTypesEvent(int $cat_id, Event $event_create): void
     {
-        // $type_index = array_search(["id" => (string)$cat_id], $this->types);
         $type_index = array_search($cat_id, array_column($this->types, 'id'));
-        $type_name = $this->types[$type_index]->name;
-        $type = EventType::where('name', $type_name);
-//        $type->exists() ? $event_create->types()->attach($type->first()->id) : null; // решить проблему с типами
-        if($type->exists()) {
-            $event_create->types()->attach($type->first()->id);
+        $current_type = new CurrentType($this->types[$type_index]->name);
+        $type_name = $current_type->getType();
+        if(isset($type_name['id'])) {
+            $event_create->types()->attach($type_name['id']);
         } else {
             $event_type = EventType::create(['name' => $this->types[$type_index]->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
             $event_create->types()->attach($event_type->id);
@@ -554,13 +556,13 @@ class IntegrationAfisha7 extends Command
      */
     private function setTypesSight(int $types_id, Sight $sight_create): void
     {
-        // $type_index = array_search(["id" => (string)$cat_id], $this->types);
         $type_index = array_search($types_id, array_column($this->types, 'id'));
-        $type_name = $this->types[$type_index]->name;
-        $type = SightType::where('name', $type_name);
-        if($type->exists()) {
-            $sight_create->types()->attach($type->first()->id);
+        $current_type = new CurrentType($this->types[$type_index]->name);
+        $type_name = $current_type->getType();
+        if(isset($type_name['id'])) {
+            $sight_create->types()->attach($type_name['id']);
         } else {
+            info($this->types[$type_index]->name);
             $sight_type = SightType::create(['name' => $this->types[$type_index]->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
             $sight_create->types()->attach($sight_type->id);
         }
