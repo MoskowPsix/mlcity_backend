@@ -1,152 +1,245 @@
-name: Endpoints
-description: ''
+name: Events
+description: События
 endpoints:
   -
     httpMethods:
-      - GET
-    uri: 'api/events/{id}/places'
+      - POST
+    uri: api/events
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: Events
+      groupDescription: События
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: getEvents
+      description: 'Возвращает все события по фильтрам'
       authenticated: false
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      address:
+        name: address
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: vpefclwgqeydhkhateoyrculqc
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sponsor:
+        name: sponsor
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: bgkbcpvsreldvroizpcpyxvkxutudfocpjzzorgjjfiqvjwudlwhohjkslmdbbgarcgx
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      user_name:
+        name: user_name
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: zjeanrcmwmzdqehckrgeuwbqwmfvacunmtyqxtgseibbwctmgmdcftb
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      user_email:
+        name: user_email
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: haylee.muller@example.com
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      page:
+        name: page
+        description: ''
+        required: false
+        example: tempora
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50.'
+        required: false
+        example: 23
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","places":{"data":[{"id":1,"event_id":1,"sight_id":null,"location_id":1678,"latitude":"55.02519400000000","longitude":"82.92832600000000","address":"\u043e\u0431\u043b \u041d\u043e\u0432\u043e\u0441\u0438\u0431\u0438\u0440\u0441\u043a\u0430\u044f, \u0433 \u041d\u043e\u0432\u043e\u0441\u0438\u0431\u0438\u0440\u0441\u043a, \u0443\u043b \u041a\u0430\u043c\u0435\u043d\u0441\u043a\u0430\u044f, \u0434 1","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z","timezone_id":6,"cult_id":null,"seances":[{"id":1,"place_id":1,"date_start":"2021-05-28 11:30:00","date_end":"2021-05-28 14:30:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":2,"place_id":1,"date_start":"2021-09-17 11:30:00","date_end":"2021-09-17 14:30:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":3,"place_id":1,"date_start":"2022-02-16 11:30:00","date_end":"2022-02-16 14:30:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":4,"place_id":1,"date_start":"2022-03-01 11:30:00","date_end":"2022-03-01 14:30:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":5,"place_id":1,"date_start":"2022-03-24 11:30:00","date_end":"2022-03-24 14:30:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":6,"place_id":1,"date_start":"2022-04-16 10:00:00","date_end":"2022-04-16 13:05:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":7,"place_id":1,"date_start":"2022-06-08 11:30:00","date_end":"2022-06-08 14:35:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":8,"place_id":1,"date_start":"2022-09-08 11:30:00","date_end":"2022-09-08 14:35:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":9,"place_id":1,"date_start":"2023-02-05 11:00:00","date_end":"2023-02-05 14:05:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":10,"place_id":1,"date_start":"2023-04-28 11:00:00","date_end":"2023-04-28 14:35:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":11,"place_id":1,"date_start":"2023-10-03 11:30:00","date_end":"2023-10-03 14:20:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":12,"place_id":1,"date_start":"2023-11-16 11:30:00","date_end":"2023-11-16 14:35:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":13,"place_id":1,"date_start":"2024-01-12 11:30:00","date_end":"2024-01-12 14:35:00","created_at":"2024-09-26T06:48:00.000000Z","updated_at":"2024-09-26T06:48:00.000000Z"},{"id":14,"place_id":1,"date_start":"2024-02-15 11:30:00","date_end":"2024-02-15 14:35:00","created_at":"2024-09-26T06:48:01.000000Z","updated_at":"2024-09-26T06:48:01.000000Z"},{"id":15,"place_id":1,"date_start":"2024-03-20 11:30:00","date_end":"2024-03-20 14:35:00","created_at":"2024-09-26T06:48:01.000000Z","updated_at":"2024-09-26T06:48:01.000000Z"},{"id":16,"place_id":1,"date_start":"2024-04-12 11:30:00","date_end":"2024-04-12 14:35:00","created_at":"2024-09-26T06:48:01.000000Z","updated_at":"2024-09-26T06:48:01.000000Z"},{"id":17,"place_id":1,"date_start":"2024-10-13 11:00:00","date_end":"2024-10-13 13:50:00","created_at":"2024-09-26T06:48:01.000000Z","updated_at":"2024-09-26T06:48:01.000000Z"}],"location":{"id":1678,"name":"\u041d\u043e\u0432\u043e\u0441\u0438\u0431\u0438\u0440\u0441\u043a","time_zone":"Asia\/Krasnoyarsk","location_id":42,"cult_id":675,"created_at":"2024-09-26T06:47:49.000000Z","updated_at":"2024-09-26T06:47:49.000000Z","latitude":"55.02819100000000","longitude":"82.92114890000000","info_dadata":"{\"source\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\",\"result\":\"\\u0433 \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\",\"postal_code\":\"630000\",\"country\":\"\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\",\"country_iso_code\":\"RU\",\"federal_district\":\"\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\",\"region_fias_id\":\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\",\"region_kladr_id\":\"5400000000000\",\"region_iso_code\":\"RU-NVS\",\"region_with_type\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\",\"region_type\":\"\\u043e\\u0431\\u043b\",\"region_type_full\":\"\\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c\",\"region\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f\",\"area_fias_id\":null,\"area_kladr_id\":null,\"area_with_type\":null,\"area_type\":null,\"area_type_full\":null,\"area\":null,\"city_fias_id\":\"8dea00e3-9aab-4d8e-887c-ef2aaa546456\",\"city_kladr_id\":\"5400000100000\",\"city_with_type\":\"\\u0433 \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\",\"city_type\":\"\\u0433\",\"city_type_full\":\"\\u0433\\u043e\\u0440\\u043e\\u0434\",\"city\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\",\"city_area\":null,\"city_district_fias_id\":null,\"city_district_kladr_id\":null,\"city_district_with_type\":null,\"city_district_type\":null,\"city_district_type_full\":null,\"city_district\":null,\"settlement_fias_id\":null,\"settlement_kladr_id\":null,\"settlement_with_type\":null,\"settlement_type\":null,\"settlement_type_full\":null,\"settlement\":null,\"street_fias_id\":null,\"street_kladr_id\":null,\"street_with_type\":null,\"street_type\":null,\"street_type_full\":null,\"street\":null,\"stead_fias_id\":null,\"stead_kladr_id\":null,\"stead_cadnum\":null,\"stead_type\":null,\"stead_type_full\":null,\"stead\":null,\"house_fias_id\":null,\"house_kladr_id\":null,\"house_cadnum\":null,\"house_type\":null,\"house_type_full\":null,\"house\":null,\"block_type\":null,\"block_type_full\":null,\"block\":null,\"entrance\":null,\"floor\":null,\"flat_fias_id\":null,\"flat_cadnum\":null,\"flat_type\":null,\"flat_type_full\":null,\"flat\":null,\"flat_area\":null,\"square_meter_price\":null,\"flat_price\":null,\"postal_box\":null,\"fias_id\":\"8dea00e3-9aab-4d8e-887c-ef2aaa546456\",\"fias_code\":\"54000001000000000000000\",\"fias_level\":\"4\",\"fias_actuality_state\":\"0\",\"kladr_id\":\"5400000100000\",\"capital_marker\":\"2\",\"okato\":\"50401000000\",\"oktmo\":\"50701000001\",\"tax_office\":\"5400\",\"tax_office_legal\":\"5400\",\"timezone\":\"UTC+7\",\"geo_lat\":\"55.028191\",\"geo_lon\":\"82.9211489\",\"beltway_hit\":null,\"beltway_distance\":null,\"qc_geo\":4,\"qc_complete\":3,\"qc_house\":10,\"qc\":0,\"unparsed_parts\":null,\"metro\":null}","time_zone_utc":"UTC+7","display":false,"location_parent":{"id":42,"name":"\u041d\u043e\u0432\u043e\u0441\u0438\u0431\u0438\u0440\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c","time_zone":"Asia\/Krasnoyarsk","location_id":1,"cult_id":210,"created_at":"2024-09-26T06:47:49.000000Z","updated_at":"2024-09-26T06:47:49.000000Z","latitude":"79.26487000000000","longitude":"55.58239600000000","info_dadata":"{\"source\":\"\\u0420\\u0424 \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c\",\"result\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\",\"postal_code\":null,\"country\":\"\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\",\"country_iso_code\":\"RU\",\"federal_district\":\"\\u0421\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0438\\u0439\",\"region_fias_id\":\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\",\"region_kladr_id\":\"5400000000000\",\"region_iso_code\":\"RU-NVS\",\"region_with_type\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\",\"region_type\":\"\\u043e\\u0431\\u043b\",\"region_type_full\":\"\\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c\",\"region\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f\",\"area_fias_id\":null,\"area_kladr_id\":null,\"area_with_type\":null,\"area_type\":null,\"area_type_full\":null,\"area\":null,\"city_fias_id\":null,\"city_kladr_id\":null,\"city_with_type\":null,\"city_type\":null,\"city_type_full\":null,\"city\":null,\"city_area\":null,\"city_district_fias_id\":null,\"city_district_kladr_id\":null,\"city_district_with_type\":null,\"city_district_type\":null,\"city_district_type_full\":null,\"city_district\":null,\"settlement_fias_id\":null,\"settlement_kladr_id\":null,\"settlement_with_type\":null,\"settlement_type\":null,\"settlement_type_full\":null,\"settlement\":null,\"street_fias_id\":null,\"street_kladr_id\":null,\"street_with_type\":null,\"street_type\":null,\"street_type_full\":null,\"street\":null,\"stead_fias_id\":null,\"stead_kladr_id\":null,\"stead_cadnum\":null,\"stead_type\":null,\"stead_type_full\":null,\"stead\":null,\"house_fias_id\":null,\"house_kladr_id\":null,\"house_cadnum\":null,\"house_type\":null,\"house_type_full\":null,\"house\":null,\"block_type\":null,\"block_type_full\":null,\"block\":null,\"entrance\":null,\"floor\":null,\"flat_fias_id\":null,\"flat_cadnum\":null,\"flat_type\":null,\"flat_type_full\":null,\"flat\":null,\"flat_area\":null,\"square_meter_price\":null,\"flat_price\":null,\"postal_box\":null,\"fias_id\":\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\",\"fias_code\":\"54000000000000000000000\",\"fias_level\":\"1\",\"fias_actuality_state\":\"0\",\"kladr_id\":\"5400000000000\",\"capital_marker\":\"0\",\"okato\":\"50000000000\",\"oktmo\":\"50000000\",\"tax_office\":\"5400\",\"tax_office_legal\":\"5400\",\"timezone\":\"UTC+7\",\"geo_lat\":null,\"geo_lon\":null,\"beltway_hit\":null,\"beltway_distance\":null,\"qc_geo\":5,\"qc_complete\":2,\"qc_house\":10,\"qc\":0,\"unparsed_parts\":null,\"metro\":null}","time_zone_utc":"UTC+7","display":false}}}],"path":"http:\/\/localhost:8000\/api\/events\/1\/places","per_page":5,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '498'
-          vary: Origin
-        description: null
+      name:
+        name: name
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: bcq
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/events/{id}/comments'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the event.'
-        required: true
-        example: 1
+      userId:
+        name: userId
+        description: ''
+        required: false
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
-    fileParameters: []
-    responses:
-      -
-        status: 200
-        content: '{"status":"success","comments":[]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '496'
-          vary: Origin
-        description: null
+      likedUser:
+        name: likedUser
+        description: ''
+        required: false
+        example: numquam
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
         custom: []
-    responseFields: []
-    auth: []
-    controller: null
-    method: null
-    route: null
-    custom: []
-  -
-    httpMethods:
-      - GET
-    uri: 'api/sights/{id}/comments'
-    metadata:
-      groupName: Endpoints
-      groupDescription: ''
-      subgroup: ''
-      subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
-      custom: []
-    headers:
-      Content-Type: application/json
-      Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'The ID of the sight.'
-        required: true
-        example: 1
+      favoriteUser:
+        name: favoriteUser
+        description: ''
+        required: false
+        example: autem
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      statuses:
+        name: statuses
+        description: ''
+        required: false
+        example: quas
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      statusLast:
+        name: statusLast
+        description: ''
+        required: false
+        example: true
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      locationId:
+        name: locationId
+        description: ''
+        required: false
+        example: tempora
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      dateStart:
+        name: dateStart
+        description: ''
+        required: false
+        example: sunt
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      dateEnd:
+        name: dateEnd
+        description: ''
+        required: false
+        example: perferendis
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      eventTypes:
+        name: eventTypes
+        description: ''
+        required: false
+        example: quae
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      radius:
+        name: radius
+        description: 'Значение поля value не может быть больше 25.'
+        required: false
+        example: 25
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
-    cleanUrlParameters:
-      id: 1
-    queryParameters: []
-    cleanQueryParameters: []
-    bodyParameters: []
-    cleanBodyParameters: []
+      latitude:
+        name: latitude
+        description: 'Значение поля value должно быть между -87 и 89.'
+        required: false
+        example: -86
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      longitude:
+        name: longitude
+        description: 'Значение поля value должно быть между -180 и 180.'
+        required: false
+        example: -179
+        type: number
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      searchText:
+        name: searchText
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: phnkrrdeieakckaslwxahpfowbqnfdvmawiyltjwzwfrpkuwzhjjqzj
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      user:
+        name: user
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: false
+        example: nbblpfrxaezpwxjqhuhigobsxubcoffzfcrfrtdeivobhxhfyizwazpfuqddki
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      address: vpefclwgqeydhkhateoyrculqc
+      sponsor: bgkbcpvsreldvroizpcpyxvkxutudfocpjzzorgjjfiqvjwudlwhohjkslmdbbgarcgx
+      user_name: zjeanrcmwmzdqehckrgeuwbqwmfvacunmtyqxtgseibbwctmgmdcftb
+      user_email: haylee.muller@example.com
+      page: tempora
+      limit: 23
+      name: bcq
+      userId: 3
+      likedUser: numquam
+      favoriteUser: autem
+      statuses: quas
+      statusLast: true
+      locationId: tempora
+      dateStart: sunt
+      dateEnd: perferendis
+      eventTypes: quae
+      radius: 25
+      latitude: -86
+      longitude: -179
+      searchText: phnkrrdeieakckaslwxahpfowbqnfdvmawiyltjwzwfrpkuwzhjjqzj
+      user: nbblpfrxaezpwxjqhuhigobsxubcoffzfcrfrtdeivobhxhfyizwazpfuqddki
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","comments":[]}'
-        headers:
-          cache-control: 'no-cache, private'
-          content-type: application/json
-          x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '495'
-          vary: Origin
-        description: null
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":6,"name":"Quia hic in fugit omnis repellat ullam.","sponsor":"\u0418\u043b\u044c\u0438\u043d\u0430 \u0411\u0440\u043e\u043d\u0438\u0441\u043b\u0430\u0432 \u0410\u043d\u0434\u0440\u0435\u0435\u0432\u0438\u0447","date_start":"2024-10-13 15:26:58","date_end":"2024-10-19 03:27:04","description":"Sit minima enim magni reiciendis a et ad. Nobis et dolorem quia enim. Non sed eaque ipsa. Distinctio aut minima est hic.","materials":"Perspiciatis iusto autem illum sit. Quasi quod debitis quo laudantium. Doloribus repellendus architecto fugit in.","user_id":7,"vk_post_id":"344705","created_at":"2024-10-08T07:06:14.000000Z","updated_at":"2024-10-08T07:06:14.000000Z","age_limit":"10","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
+        description: ''
         custom: []
     responseFields: []
     auth: []
@@ -157,14 +250,14 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/events/statuses
+    uri: api/events/update-vk-likes
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: Events
+      groupDescription: События
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
+      title: updateVkLikes
+      description: 'Обновляет лайки, подтягивая их с вк. Ничего не возвращает'
       authenticated: false
       custom: []
     headers:
@@ -187,15 +280,15 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/sights/statuses
+    uri: api/events/set-event-user-liked
     metadata:
-      groupName: Endpoints
-      groupDescription: ''
+      groupName: Events
+      groupDescription: События
       subgroup: ''
       subgroupDescription: ''
-      title: ''
-      description: ''
-      authenticated: false
+      title: setEvenUserLiked
+      description: 'Создаем отношение - юзер лайкнул ивент'
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -204,10 +297,712 @@ endpoints:
     cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
+    bodyParameters:
+      event_id:
+        name: event_id
+        description: 'Значение поля value должно быть не меньше 1.'
+        required: true
+        example: 72
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      event_id: 72
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","likedUser":{"id":18,"name":"\u0417\u0438\u043c\u0438\u043d\u0430\u0430 \u0412\u0435\u0440\u043e\u043d\u0438\u043a\u0430 \u0424\u0451\u0434\u043e\u0440\u043e\u0432\u043d\u0430","email":"donat.vlasov@example.com","email_verified_at":"2024-10-08 07:06:14","created_at":"2024-10-08T07:06:14.000000Z","updated_at":"2024-10-08T07:06:14.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: getEvent
+      description: 'Достать события по id'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 2
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      id:
+        name: id
+        description: ''
+        required: true
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      id: 6
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u043e","event":{"id":7,"name":"Ipsam quia optio dolore id sunt sed.","sponsor":"\u041c\u0438\u0445\u0435\u0435\u0432\u0430\u0430 \u0410\u043b\u043b\u0430 \u0418\u0432\u0430\u043d\u043e\u0432\u043d\u0430","date_start":"2024-10-10 13:11:45","date_end":"2024-10-18 15:15:54","description":"Quibusdam qui perferendis accusamus aliquid minus dolorem. Deleniti enim atque molestias dolorem beatae. Voluptatibus dicta doloremque voluptatem non.","materials":"Sint ea aperiam nostrum maiores. Veniam consequatur incidunt et est aut iure. Nesciunt expedita qui accusamus corrupti et. Accusamus iusto ipsa sequi voluptatibus et sint maxime.","user_id":7,"vk_post_id":"475292","created_at":"2024-10-08T07:06:14.000000Z","updated_at":"2024-10-08T07:06:14.000000Z","age_limit":"23","afisha7_id":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/history-contents'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: getHistoryContent
+      description: 'Получить объект истории. Метод доступен только модерам.'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 17
+    queryParameters: []
+    cleanQueryParameters: []
     bodyParameters: []
     cleanBodyParameters: []
     fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","history_content":{"data":[],"path":"http:\/\/localhost:8000\/api\/events\/17\/history-contents","per_page":6,"next_cursor":null,"next_page_url":null,"prev_cursor":null,"prev_page_url":null}}'
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '499'
+          vary: Origin
+        description: null
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/organization'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: getOrganizationOfEvent
+      description: 'Получить Организацию мероприятия.'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 6
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 6
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041e\u0440\u0433\u0430\u043d\u0438\u0437\u0430\u0446\u0438\u044f \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u0430","organization":{"id":3,"name":null,"avatar":null,"description":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/check-user-liked'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: checkLikedEventForUser
+      description: 'Проверка лайкал ли авторизованный юзер этот ивент'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 8
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 8
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","is_liked":false}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/check-user-favorite'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: checkFavoriteEventForUser
+      description: 'Проверка добавил ли авторизованный юзер этот ивент в избранное'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 17
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 17
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","is_favorite":false}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/events/create
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: createEvent
+      description: 'Создание события'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      name:
+        name: name
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: true
+        example: ryauxlwxuhuakadqckpqxhmy
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sponsor:
+        name: sponsor
+        description: ''
+        required: true
+        example: consectetur
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      description:
+        name: description
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      dateStart:
+        name: dateStart
+        description: 'Значение поля value не является датой.'
+        required: true
+        example: '2024-10-08T07:06:15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      dateEnd:
+        name: dateEnd
+        description: 'Значение поля value не является датой. Значение поля value должно быть датой после или равной <code>dateStart</code>.'
+        required: true
+        example: '2111-06-17'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type:
+        name: type
+        description: ''
+        required: true
+        example: quam
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      status:
+        name: status
+        description: ''
+        required: true
+        example: tempora
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      places:
+        name: places
+        description: ''
+        required: false
+        example:
+          - quo
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      prices:
+        name: prices
+        description: ''
+        required: false
+        example: null
+        type: object
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      ageLimit:
+        name: ageLimit
+        description: 'Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18.'
+        required: false
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      vkGroupId:
+        name: vkGroupId
+        description: ''
+        required: false
+        example: 5
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      vkPostId:
+        name: vkPostId
+        description: ''
+        required: false
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      localFilesImg:
+        name: localFilesImg
+        description: ''
+        required: false
+        example: null
+        type: 'string[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      'places[].seances':
+        name: 'places[].seances'
+        description: ''
+        required: false
+        example:
+          - []
+        type: 'object[]'
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      'places[].seances[].dateStart':
+        name: 'places[].seances[].dateStart'
+        description: 'Значение поля value не является датой.'
+        required: true
+        example: '2024-10-08T07:06:15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      'places[].seances[].dateEnd':
+        name: 'places[].seances[].dateEnd'
+        description: 'Значение поля value не является датой.'
+        required: true
+        example: '2024-10-08T07:06:15'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      name: ryauxlwxuhuakadqckpqxhmy
+      sponsor: consectetur
+      dateStart: '2024-10-08T07:06:15'
+      dateEnd: '2111-06-17'
+      type: quam
+      status: tempora
+      places:
+        -
+          seances:
+            -
+              dateStart: '2024-10-08T07:06:15'
+              dateEnd: '2024-10-08T07:06:15'
+      ageLimit: 5
+      vkGroupId: 5
+      vkPostId: 3
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u043e","event":{"id":8,"name":"Sed nostrum rerum dignissimos minus dolore.","sponsor":"\u0410\u043b\u0451\u043d\u0430 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u043d\u0430 \u0424\u0438\u043b\u0430\u0442\u043e\u0432\u0430","date_start":"2024-10-14 13:37:33","date_end":"2024-10-18 12:27:21","description":"Et impedit eos assumenda quaerat vitae. Velit vel qui sequi eligendi dolores qui nobis sunt. Autem et ea ea minus.","materials":"Pariatur omnis dolorem sit numquam sed sit. Blanditiis rerum voluptas et provident quos praesentium. Natus voluptatum dolores mollitia ipsum. Laboriosam explicabo et voluptas ad et qui ducimus.","user_id":1,"vk_post_id":"556136","created_at":"2024-10-08T07:06:15.000000Z","updated_at":"2024-10-08T07:06:15.000000Z","age_limit":"5","afisha7_id":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"Is not user organization"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"error","message":"\u0412\u043e \u0432\u0440\u0435\u043c\u044f \u0441\u043e\u0437\u0434\u0430\u043d\u0438\u044f \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u043e\u0448\u0438\u0431\u043a\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/liked-users'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: getEventUserLikedIds
+      description: 'Получить пользователей которые лайкали событие'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 14
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 14
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 21
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 21
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043d\u0440\u0430\u0432\u0438\u0432\u0448\u0438\u0435\u0441\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":9,"name":"Pariatur reiciendis sed quos molestias molestiae.","sponsor":"\u0422\u0443\u0440\u043e\u0432\u0430 \u0415\u043b\u0435\u043d\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430","date_start":"2024-10-11 23:55:45","date_end":"2024-10-17 03:18:23","description":"Sit asperiores nihil officia. In ratione velit eaque neque dolorum qui. Aut rerum et eum ut.","materials":"Quis facilis libero ea sed. Est et ab qui magnam quis. Sint qui optio eum in. Autem ut amet quidem ad est assumenda.","user_id":7,"vk_post_id":"276824","created_at":"2024-10-08T07:06:15.000000Z","updated_at":"2024-10-08T07:06:15.000000Z","age_limit":"18","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/events/{id}/favorites-users'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: getEventUserLikedIds
+      description: 'Получить пользователей которые лайкали событие'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 8
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 8
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 1
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u0418\u0437\u0431\u0440\u0430\u043d\u043d\u044b\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","events":{"data":[{"id":19,"name":"\u0413\u0430\u0440\u0440\u0438 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u0438\u0447 \u041f\u043e\u0442\u0430\u043f\u043e\u0432","sponsor":null,"date_start":null,"date_end":null,"description":null,"materials":null,"user_id":null,"vk_post_id":null,"created_at":"2024-10-08T07:06:15.000000Z","updated_at":"2024-10-08T07:06:15.000000Z","age_limit":null,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: 'api/events/{id}/statuses'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: addStatusToEvent
+      description: 'Смена статуса мероприяия.'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      status_id:
+        name: status_id
+        description: ''
+        required: true
+        example: 15
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      status_id: 15
+    fileParameters: []
     responses: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - DELETE
+    uri: 'api/events/{id}'
+    metadata:
+      groupName: Events
+      groupDescription: События
+      subgroup: ''
+      subgroupDescription: ''
+      title: delete
+      description: 'Удаление мероприятия.'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the event.'
+        required: true
+        example: 3
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 3
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0443\u0434\u0430\u043b\u0435\u043d\u043e"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 400
+        content: '{"status":"success","message":"messages.event.delete.error"}'
+        headers: []
+        description: ''
+        custom: []
     responseFields: []
     auth: []
     controller: null

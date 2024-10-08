@@ -9,12 +9,400 @@
         }
     ],
     "info": {
-        "name": "MLCity",
-        "_postman_id": "ddd0b5fb-cab2-4aa0-b2a4-9fd2e846f82e",
+        "name": "VOKRUG.CITY",
+        "_postman_id": "1a4f8df5-8e9d-4c9b-a01f-a2a95950068d",
         "description": "",
         "schema": "https:\/\/schema.getpostman.com\/json\/collection\/v2.1.0\/collection.json"
     },
     "item": [
+        {
+            "name": "Auth",
+            "description": "\u0410\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f",
+            "item": [
+                {
+                    "name": "Register",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/register",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/register"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"nek\",\"email\":\"jerde.leonora@example.net\",\"password\":\"X1C|A*\",\"password_confirmation\":\"ut\"}"
+                        },
+                        "description": "\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f \u043d\u043e\u0432\u043e\u0433\u043e \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0412\\u044b \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0437\\u0430\\u0440\\u0435\\u0433\\u0438\\u0441\\u0442\\u0440\\u0438\\u0440\\u043e\\u0432\\u0430\\u043d\\u044b\",\"access_token\":\"7|a6wiZ9NQJJjGmQzQo99rms0fjxZ2LWQoobUc91Jf319275fd\",\"token_type\":\"Bearer\",\"user\":{\"id\":12,\"name\":\"\\u042d\\u043c\\u043c\\u0430 \\u0421\\u0435\\u0440\\u0433\\u0435\\u0435\\u0432\\u043d\\u0430 \\u0411\\u043e\\u0431\\u0440\\u043e\\u0432\\u0430\\u0430\",\"email\":\"nmerkusev@example.net\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"avatar\":null}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u0420\\u0435\\u0433\\u0438\\u0441\\u0442\\u0440\\u0430\\u0446\\u0438\\u044f \\u043f\\u0440\\u043e\\u0448\\u043b\\u0430 \\u043d\\u0435\\u0443\\u0434\\u0430\\u0447\\u043d\\u043e\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "Login",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/login",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/login"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"name\":\"ploxjsjkxoxmyuaokvpggbtozjffusjfqhtltubpvknzqeeujbljjbnyjmlutsq\",\"password\":\"WvVGhm\\\"+G\\\"x]\"}"
+                        },
+                        "description": "\u0410\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f",
+                        "auth": {
+                            "type": "noauth"
+                        }
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0412\\u044b \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u043e\\u0432\\u0430\\u043b\\u0438\\u0441\\u044c\",\"access_token\":\"8|dFckFzlNITdqbat1qyiVPWWBQnmV0E6A8cZftWU47529b38c\",\"token_type\":\"Bearer\",\"user\":{\"id\":13,\"name\":\"\\u0415\\u0433\\u043e\\u0440 \\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u0438\\u0447 \\u0414\\u0440\\u043e\\u0437\\u0434\\u043e\\u0432\",\"email\":\"erik79@example.com\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"avatar\":null}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041d\\u0435\\u0443\\u0434\\u0430\\u0447\\u043d\\u0430\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u0438\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041d\\u0435\\u0443\\u0434\\u0430\\u0447\\u043d\\u0430\\u044f \\u0430\\u0432\\u0442\\u043e\\u0440\\u0438\\u0437\\u0430\\u0446\\u0438\\u0438\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 404,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c \\u043d\\u0435 \\u043d\\u0430\\u0439\\u0434\\u0435\\u043d\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "logout",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/logout",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/logout"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u0412\u044b\u0445\u043e\u0434 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044c \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0432\\u044b\\u0448\\u0435\\u043b\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041f\\u0440\\u0438 \\u0432\\u044b\\u0445\\u043e\\u0434\\u0435 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u0430 \\u043a\\u0440\\u0438\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u0438\\u044f \\u043e\\u0448\\u0438\\u0431\\u043a\\u0430\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "ResetPasswordForAdmin",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/admin\/reset_password",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/admin\/reset_password"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"user_id\":\"nemo\",\"new_password\":\"xhkylhisrlzztbpphdceewomhlcuycioscgyitwizuhcasbcliglyqpot\",\"password_confirmation\":\"et\"}"
+                        },
+                        "description": "\u0421\u043c\u0435\u043d\u0430 \u043f\u0430\u0440\u043e\u043b\u044f \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u044f \u0434\u043b\u044f \u0410\u0434\u043c\u0438\u043d\u0430"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"error\",\"messages\":\"\\u041f\\u0430\\u0440\\u043e\\u043b\\u044c \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0438\\u0437\\u043c\\u0435\\u043d\\u0451\\u043d.\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"error\",\"messages\":\"\\u041e\\u0448\\u0438\\u0431\\u043a\\u0430 \\u043f\\u0440\\u0438 \\u0441\\u043c\\u0435\\u043d\\u0435 \\u043f\\u0430\\u0440\\u043e\\u043b\\u044f. \\u041f\\u043e\\u043f\\u0440\\u043e\\u0431\\u0443\\u0439\\u0442\\u0435 \\u043f\\u043e\\u0437\\u0436\\u0435.\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "GenerateCodeForEmail",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/verificationEmail",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/verificationEmail"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": null,
+                        "description": "\u041e\u0442\u043f\u0440\u0430\u0432\u043a\u0430 \u043a\u043e\u0434\u0430 \u0434\u043b\u044f \u0441\u043c\u0435\u043d\u044b \u0438\u043b\u0438 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u043e\u0447\u0442\u044b \u043d\u0430 \u043f\u043e\u0447\u0442\u0443"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041a\\u043e\\u0434 \\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d \\u043d\\u0430 \\u043f\\u043e\\u0447\\u0442\\u0443\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041f\\u0440\\u0438 \\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043a\\u0435 \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u0430 \\u043a\\u0440\\u0438\\u0442\\u0438\\u0447\\u0435\\u0441\\u043a\\u0430\\u044f \\u043e\\u0448\\u0438\\u0431\\u043a\\u0430\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "VerifyEmailForCode",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/verificationUserEmail",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/verificationUserEmail"
+                        },
+                        "method": "POST",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":2}"
+                        },
+                        "description": "\u041f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u043e\u0447\u0442\u044b \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u043e \u043a\u043e\u0434\u0443"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\",\"user\":{\"id\":15,\"name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0435\\u0432\\u0430 \\u0410\\u043d\\u0442\\u043e\\u043d\\u0438\\u043d\\u0430 \\u041b\\u044c\\u0432\\u043e\\u0432\\u043d\\u0430\",\"email\":\"vil.mysnikova@example.com\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"avatar\":null}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041a\\u043e\\u0434 \\u043d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u0438\\u043b\\u0438 \\u043f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0436\\u0435 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041a\\u043e\\u0434 \\u043d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u0438\\u043b\\u0438 \\u043f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0436\\u0435 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u043a\\u043e\\u0434\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u0412\\u043e \\u0432\\u0440\\u0435\\u043c\\u044f \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0438\\u044f \\u043f\\u043e\\u0447\\u0442\\u044b \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u0430 \\u043e\\u0448\\u0438\\u0431\\u043a\\u0430\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "ResetEmailForCode",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/resetEmail",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/resetEmail"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"code\":\"o\",\"email\":\"aimee.thiel@example.net\"}"
+                        },
+                        "description": "\u0421\u043c\u0435\u043d\u0430 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u044b"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0412\\u0430\\u0448\\u0430 \\u043f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0430. \\u041d\\u0430 \\u0432\\u0430\\u0448\\u0443 \\u043d\\u043e\\u0432\\u0443\\u044e \\u043f\\u043e\\u0447\\u0442\\u0443 \\u043e\\u0442\\u043f\\u0440\\u0430\\u0432\\u043b\\u0435\\u043d\\u043e \\u043f\\u0438\\u0441\\u044c\\u043c\\u043e \\u0441 \\u043a\\u043e\\u0434\\u043e\\u043c \\u0434\\u043b\\u044f \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0438\\u044f\",\"user\":{\"id\":16,\"name\":\"\\u0413\\u0440\\u0438\\u0433\\u043e\\u0440\\u0438\\u0439 \\u0410\\u043b\\u0435\\u043a\\u0441\\u0430\\u043d\\u0434\\u0440\\u043e\\u0432\\u0438\\u0447 \\u0410\\u043d\\u0434\\u0440\\u0435\\u0435\\u0432\\u0430\",\"email\":\"sorokina.fedor@example.net\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"avatar\":null}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u0412\\u043e \\u0432\\u0440\\u0435\\u043c\\u044f \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0438\\u044f \\u043f\\u043e\\u0447\\u0442\\u044b \\u043f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u0430 \\u043e\\u0448\\u0438\\u0431\\u043a\\u0430\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u043a\\u043e\\u0434\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041a\\u043e\\u0434 \\u043d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u0438\\u043b\\u0438 \\u043f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0436\\u0435 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041a\\u043e\\u0434 \\u043d\\u0435 \\u0432\\u0435\\u0440\\u043d\\u044b\\u0439 \\u0438\\u043b\\u0438 \\u043f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0436\\u0435 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\"}",
+                            "name": ""
+                        }
+                    ]
+                },
+                {
+                    "name": "EditEmailNotVerify",
+                    "request": {
+                        "url": {
+                            "host": "{{baseUrl}}",
+                            "path": "api\/users\/email",
+                            "query": [],
+                            "raw": "{{baseUrl}}\/api\/users\/email"
+                        },
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "key": "Content-Type",
+                                "value": "application\/json"
+                            },
+                            {
+                                "key": "Accept",
+                                "value": "application\/json"
+                            }
+                        ],
+                        "body": {
+                            "mode": "raw",
+                            "raw": "{\"email\":\"doloremque\",\"1\":\"kreiger.shany@example.org\"}"
+                        },
+                        "description": "\u0421\u043c\u0435\u043d\u0430 \u043d\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0451\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u044b"
+                    },
+                    "response": [
+                        {
+                            "header": [],
+                            "code": 200,
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041f\\u043e\\u0447\\u0442\\u0430 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0430\",\"verification_url\":{\"id\":17,\"name\":\"\\u0410\\u0440\\u0442\\u0435\\u043c\\u044c\\u0435\\u0432\\u0430 \\u0413\\u0435\\u0440\\u043c\\u0430\\u043d \\u0420\\u043e\\u043c\\u0430\\u043d\\u043e\\u0432\\u0438\\u0447\",\"email\":\"kseniy.polykov@example.net\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"avatar\":null}}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 403,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041d\\u0435 \\u0443\\u0434\\u0430\\u043b\\u043e\\u0441\\u044c \\u0438\\u0437\\u043c\\u0435\\u043d\\u0438\\u0442\\u044c \\u043f\\u043e\\u0447\\u0442\\u0443, \\u043e\\u043d\\u0430 \\u0443\\u0436\\u0435 \\u043f\\u043e\\u0434\\u0442\\u0432\\u0435\\u0440\\u0436\\u0434\\u0435\\u043d\\u0430\"}",
+                            "name": ""
+                        },
+                        {
+                            "header": [],
+                            "code": 500,
+                            "body": "{\"status\":\"error\",\"message\":\"\\u041f\\u0440\\u043e\\u0438\\u0437\\u043e\\u0448\\u043b\\u0430 \\u043e\\u0448\\u0438\\u0431\\u043a\\u0430 \\u043f\\u0440\\u0438 \\u0438\\u0437\\u043c\\u0435\\u043d\\u0435\\u043d\\u0438\\u0438 \\u043f\\u043e\\u0447\\u0442\\u044b\"}",
+                            "name": ""
+                        }
+                    ]
+                }
+            ]
+        },
         {
             "name": "Endpoints",
             "description": "",
@@ -31,7 +419,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "19",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -77,8 +465,8 @@
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"status\":\"success\",\"places\":{\"data\":[{\"id\":1,\"event_id\":1,\"sight_id\":null,\"location_id\":1678,\"latitude\":\"55.02519400000000\",\"longitude\":\"82.92832600000000\",\"address\":\"\\u043e\\u0431\\u043b \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f, \\u0433 \\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a, \\u0443\\u043b \\u041a\\u0430\\u043c\\u0435\\u043d\\u0441\\u043a\\u0430\\u044f, \\u0434 1\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\",\"timezone_id\":6,\"cult_id\":null,\"seances\":[{\"id\":1,\"place_id\":1,\"date_start\":\"2021-05-28 11:30:00\",\"date_end\":\"2021-05-28 14:30:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":2,\"place_id\":1,\"date_start\":\"2021-09-17 11:30:00\",\"date_end\":\"2021-09-17 14:30:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":3,\"place_id\":1,\"date_start\":\"2022-02-16 11:30:00\",\"date_end\":\"2022-02-16 14:30:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":4,\"place_id\":1,\"date_start\":\"2022-03-01 11:30:00\",\"date_end\":\"2022-03-01 14:30:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":5,\"place_id\":1,\"date_start\":\"2022-03-24 11:30:00\",\"date_end\":\"2022-03-24 14:30:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":6,\"place_id\":1,\"date_start\":\"2022-04-16 10:00:00\",\"date_end\":\"2022-04-16 13:05:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":7,\"place_id\":1,\"date_start\":\"2022-06-08 11:30:00\",\"date_end\":\"2022-06-08 14:35:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":8,\"place_id\":1,\"date_start\":\"2022-09-08 11:30:00\",\"date_end\":\"2022-09-08 14:35:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":9,\"place_id\":1,\"date_start\":\"2023-02-05 11:00:00\",\"date_end\":\"2023-02-05 14:05:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":10,\"place_id\":1,\"date_start\":\"2023-04-28 11:00:00\",\"date_end\":\"2023-04-28 14:35:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":11,\"place_id\":1,\"date_start\":\"2023-10-03 11:30:00\",\"date_end\":\"2023-10-03 14:20:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":12,\"place_id\":1,\"date_start\":\"2023-11-16 11:30:00\",\"date_end\":\"2023-11-16 14:35:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":13,\"place_id\":1,\"date_start\":\"2024-01-12 11:30:00\",\"date_end\":\"2024-01-12 14:35:00\",\"created_at\":\"2024-09-26T06:48:00.000000Z\",\"updated_at\":\"2024-09-26T06:48:00.000000Z\"},{\"id\":14,\"place_id\":1,\"date_start\":\"2024-02-15 11:30:00\",\"date_end\":\"2024-02-15 14:35:00\",\"created_at\":\"2024-09-26T06:48:01.000000Z\",\"updated_at\":\"2024-09-26T06:48:01.000000Z\"},{\"id\":15,\"place_id\":1,\"date_start\":\"2024-03-20 11:30:00\",\"date_end\":\"2024-03-20 14:35:00\",\"created_at\":\"2024-09-26T06:48:01.000000Z\",\"updated_at\":\"2024-09-26T06:48:01.000000Z\"},{\"id\":16,\"place_id\":1,\"date_start\":\"2024-04-12 11:30:00\",\"date_end\":\"2024-04-12 14:35:00\",\"created_at\":\"2024-09-26T06:48:01.000000Z\",\"updated_at\":\"2024-09-26T06:48:01.000000Z\"},{\"id\":17,\"place_id\":1,\"date_start\":\"2024-10-13 11:00:00\",\"date_end\":\"2024-10-13 13:50:00\",\"created_at\":\"2024-09-26T06:48:01.000000Z\",\"updated_at\":\"2024-09-26T06:48:01.000000Z\"}],\"location\":{\"id\":1678,\"name\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\",\"time_zone\":\"Asia\\\/Krasnoyarsk\",\"location_id\":42,\"cult_id\":675,\"created_at\":\"2024-09-26T06:47:49.000000Z\",\"updated_at\":\"2024-09-26T06:47:49.000000Z\",\"latitude\":\"55.02819100000000\",\"longitude\":\"82.92114890000000\",\"info_dadata\":\"{\\\"source\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f \\\\u043e\\\\u0431\\\\u043b\\\\u0430\\\\u0441\\\\u0442\\\\u044c \\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\",\\\"result\\\":\\\"\\\\u0433 \\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\",\\\"postal_code\\\":\\\"630000\\\",\\\"country\\\":\\\"\\\\u0420\\\\u043e\\\\u0441\\\\u0441\\\\u0438\\\\u044f\\\",\\\"country_iso_code\\\":\\\"RU\\\",\\\"federal_district\\\":\\\"\\\\u0421\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0438\\\\u0439\\\",\\\"region_fias_id\\\":\\\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\\\",\\\"region_kladr_id\\\":\\\"5400000000000\\\",\\\"region_iso_code\\\":\\\"RU-NVS\\\",\\\"region_with_type\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f \\\\u043e\\\\u0431\\\\u043b\\\",\\\"region_type\\\":\\\"\\\\u043e\\\\u0431\\\\u043b\\\",\\\"region_type_full\\\":\\\"\\\\u043e\\\\u0431\\\\u043b\\\\u0430\\\\u0441\\\\u0442\\\\u044c\\\",\\\"region\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f\\\",\\\"area_fias_id\\\":null,\\\"area_kladr_id\\\":null,\\\"area_with_type\\\":null,\\\"area_type\\\":null,\\\"area_type_full\\\":null,\\\"area\\\":null,\\\"city_fias_id\\\":\\\"8dea00e3-9aab-4d8e-887c-ef2aaa546456\\\",\\\"city_kladr_id\\\":\\\"5400000100000\\\",\\\"city_with_type\\\":\\\"\\\\u0433 \\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\",\\\"city_type\\\":\\\"\\\\u0433\\\",\\\"city_type_full\\\":\\\"\\\\u0433\\\\u043e\\\\u0440\\\\u043e\\\\u0434\\\",\\\"city\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\",\\\"city_area\\\":null,\\\"city_district_fias_id\\\":null,\\\"city_district_kladr_id\\\":null,\\\"city_district_with_type\\\":null,\\\"city_district_type\\\":null,\\\"city_district_type_full\\\":null,\\\"city_district\\\":null,\\\"settlement_fias_id\\\":null,\\\"settlement_kladr_id\\\":null,\\\"settlement_with_type\\\":null,\\\"settlement_type\\\":null,\\\"settlement_type_full\\\":null,\\\"settlement\\\":null,\\\"street_fias_id\\\":null,\\\"street_kladr_id\\\":null,\\\"street_with_type\\\":null,\\\"street_type\\\":null,\\\"street_type_full\\\":null,\\\"street\\\":null,\\\"stead_fias_id\\\":null,\\\"stead_kladr_id\\\":null,\\\"stead_cadnum\\\":null,\\\"stead_type\\\":null,\\\"stead_type_full\\\":null,\\\"stead\\\":null,\\\"house_fias_id\\\":null,\\\"house_kladr_id\\\":null,\\\"house_cadnum\\\":null,\\\"house_type\\\":null,\\\"house_type_full\\\":null,\\\"house\\\":null,\\\"block_type\\\":null,\\\"block_type_full\\\":null,\\\"block\\\":null,\\\"entrance\\\":null,\\\"floor\\\":null,\\\"flat_fias_id\\\":null,\\\"flat_cadnum\\\":null,\\\"flat_type\\\":null,\\\"flat_type_full\\\":null,\\\"flat\\\":null,\\\"flat_area\\\":null,\\\"square_meter_price\\\":null,\\\"flat_price\\\":null,\\\"postal_box\\\":null,\\\"fias_id\\\":\\\"8dea00e3-9aab-4d8e-887c-ef2aaa546456\\\",\\\"fias_code\\\":\\\"54000001000000000000000\\\",\\\"fias_level\\\":\\\"4\\\",\\\"fias_actuality_state\\\":\\\"0\\\",\\\"kladr_id\\\":\\\"5400000100000\\\",\\\"capital_marker\\\":\\\"2\\\",\\\"okato\\\":\\\"50401000000\\\",\\\"oktmo\\\":\\\"50701000001\\\",\\\"tax_office\\\":\\\"5400\\\",\\\"tax_office_legal\\\":\\\"5400\\\",\\\"timezone\\\":\\\"UTC+7\\\",\\\"geo_lat\\\":\\\"55.028191\\\",\\\"geo_lon\\\":\\\"82.9211489\\\",\\\"beltway_hit\\\":null,\\\"beltway_distance\\\":null,\\\"qc_geo\\\":4,\\\"qc_complete\\\":3,\\\"qc_house\\\":10,\\\"qc\\\":0,\\\"unparsed_parts\\\":null,\\\"metro\\\":null}\",\"time_zone_utc\":\"UTC+7\",\"display\":false,\"location_parent\":{\"id\":42,\"name\":\"\\u041d\\u043e\\u0432\\u043e\\u0441\\u0438\\u0431\\u0438\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c\",\"time_zone\":\"Asia\\\/Krasnoyarsk\",\"location_id\":1,\"cult_id\":210,\"created_at\":\"2024-09-26T06:47:49.000000Z\",\"updated_at\":\"2024-09-26T06:47:49.000000Z\",\"latitude\":\"79.26487000000000\",\"longitude\":\"55.58239600000000\",\"info_dadata\":\"{\\\"source\\\":\\\"\\\\u0420\\\\u0424 \\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f \\\\u043e\\\\u0431\\\\u043b\\\\u0430\\\\u0441\\\\u0442\\\\u044c\\\",\\\"result\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f \\\\u043e\\\\u0431\\\\u043b\\\",\\\"postal_code\\\":null,\\\"country\\\":\\\"\\\\u0420\\\\u043e\\\\u0441\\\\u0441\\\\u0438\\\\u044f\\\",\\\"country_iso_code\\\":\\\"RU\\\",\\\"federal_district\\\":\\\"\\\\u0421\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0438\\\\u0439\\\",\\\"region_fias_id\\\":\\\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\\\",\\\"region_kladr_id\\\":\\\"5400000000000\\\",\\\"region_iso_code\\\":\\\"RU-NVS\\\",\\\"region_with_type\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f \\\\u043e\\\\u0431\\\\u043b\\\",\\\"region_type\\\":\\\"\\\\u043e\\\\u0431\\\\u043b\\\",\\\"region_type_full\\\":\\\"\\\\u043e\\\\u0431\\\\u043b\\\\u0430\\\\u0441\\\\u0442\\\\u044c\\\",\\\"region\\\":\\\"\\\\u041d\\\\u043e\\\\u0432\\\\u043e\\\\u0441\\\\u0438\\\\u0431\\\\u0438\\\\u0440\\\\u0441\\\\u043a\\\\u0430\\\\u044f\\\",\\\"area_fias_id\\\":null,\\\"area_kladr_id\\\":null,\\\"area_with_type\\\":null,\\\"area_type\\\":null,\\\"area_type_full\\\":null,\\\"area\\\":null,\\\"city_fias_id\\\":null,\\\"city_kladr_id\\\":null,\\\"city_with_type\\\":null,\\\"city_type\\\":null,\\\"city_type_full\\\":null,\\\"city\\\":null,\\\"city_area\\\":null,\\\"city_district_fias_id\\\":null,\\\"city_district_kladr_id\\\":null,\\\"city_district_with_type\\\":null,\\\"city_district_type\\\":null,\\\"city_district_type_full\\\":null,\\\"city_district\\\":null,\\\"settlement_fias_id\\\":null,\\\"settlement_kladr_id\\\":null,\\\"settlement_with_type\\\":null,\\\"settlement_type\\\":null,\\\"settlement_type_full\\\":null,\\\"settlement\\\":null,\\\"street_fias_id\\\":null,\\\"street_kladr_id\\\":null,\\\"street_with_type\\\":null,\\\"street_type\\\":null,\\\"street_type_full\\\":null,\\\"street\\\":null,\\\"stead_fias_id\\\":null,\\\"stead_kladr_id\\\":null,\\\"stead_cadnum\\\":null,\\\"stead_type\\\":null,\\\"stead_type_full\\\":null,\\\"stead\\\":null,\\\"house_fias_id\\\":null,\\\"house_kladr_id\\\":null,\\\"house_cadnum\\\":null,\\\"house_type\\\":null,\\\"house_type_full\\\":null,\\\"house\\\":null,\\\"block_type\\\":null,\\\"block_type_full\\\":null,\\\"block\\\":null,\\\"entrance\\\":null,\\\"floor\\\":null,\\\"flat_fias_id\\\":null,\\\"flat_cadnum\\\":null,\\\"flat_type\\\":null,\\\"flat_type_full\\\":null,\\\"flat\\\":null,\\\"flat_area\\\":null,\\\"square_meter_price\\\":null,\\\"flat_price\\\":null,\\\"postal_box\\\":null,\\\"fias_id\\\":\\\"1ac46b49-3209-4814-b7bf-a509ea1aecd9\\\",\\\"fias_code\\\":\\\"54000000000000000000000\\\",\\\"fias_level\\\":\\\"1\\\",\\\"fias_actuality_state\\\":\\\"0\\\",\\\"kladr_id\\\":\\\"5400000000000\\\",\\\"capital_marker\\\":\\\"0\\\",\\\"okato\\\":\\\"50000000000\\\",\\\"oktmo\\\":\\\"50000000\\\",\\\"tax_office\\\":\\\"5400\\\",\\\"tax_office_legal\\\":\\\"5400\\\",\\\"timezone\\\":\\\"UTC+7\\\",\\\"geo_lat\\\":null,\\\"geo_lon\\\":null,\\\"beltway_hit\\\":null,\\\"beltway_distance\\\":null,\\\"qc_geo\\\":5,\\\"qc_complete\\\":2,\\\"qc_house\\\":10,\\\"qc\\\":0,\\\"unparsed_parts\\\":null,\\\"metro\\\":null}\",\"time_zone_utc\":\"UTC+7\",\"display\":false}}}],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/events\\\/1\\\/places\",\"per_page\":5,\"next_cursor\":null,\"next_page_url\":null,\"prev_cursor\":null,\"prev_page_url\":null}}",
+                            "code": 500,
+                            "body": "{\n    \"message\": \"Call to a member function places() on null\",\n    \"exception\": \"Error\",\n    \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/app\/Http\/Controllers\/Api\/PlaceController.php\",\n    \"line\": 73,\n    \"trace\": [\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Controller.php\",\n            \"line\": 54,\n            \"function\": \"getPlacesAtEventIds\",\n            \"class\": \"App\\\\Http\\\\Controllers\\\\Api\\\\PlaceController\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/ControllerDispatcher.php\",\n            \"line\": 43,\n            \"function\": \"callAction\",\n            \"class\": \"Illuminate\\\\Routing\\\\Controller\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Route.php\",\n            \"line\": 259,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\ControllerDispatcher\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Route.php\",\n            \"line\": 205,\n            \"function\": \"runController\",\n            \"class\": \"Illuminate\\\\Routing\\\\Route\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 798,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Routing\\\\Route\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 141,\n            \"function\": \"Illuminate\\\\Routing\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php\",\n            \"line\": 50,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 126,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 57,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 25,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 141,\n            \"function\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\{closure}\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 24,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 797,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 776,\n            \"function\": \"runRouteWithinStack\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 740,\n            \"function\": \"runRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 729,\n            \"function\": \"dispatchToRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 190,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 141,\n            \"function\": \"Illuminate\\\\Foundation\\\\Http\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/barryvdh\/laravel-debugbar\/src\/Middleware\/InjectDebugbar.php\",\n            \"line\": 59,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Barryvdh\\\\Debugbar\\\\Middleware\\\\InjectDebugbar\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php\",\n            \"line\": 31,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php\",\n            \"line\": 40,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php\",\n            \"line\": 27,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php\",\n            \"line\": 86,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Http\/Middleware\/HandleCors.php\",\n            \"line\": 62,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Http\/Middleware\/TrustProxies.php\",\n            \"line\": 39,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 165,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 134,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 300,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 288,\n            \"function\": \"callLaravelOrLumenRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 91,\n            \"function\": \"makeApiCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 44,\n            \"function\": \"makeResponseCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 35,\n            \"function\": \"makeResponseCallIfConditionsPass\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 236,\n            \"function\": \"__invoke\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 163,\n            \"function\": \"iterateThroughStrategies\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 95,\n            \"function\": \"fetchResponses\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 125,\n            \"function\": \"processRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 72,\n            \"function\": \"extractEndpointsInfoFromLaravelApp\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 50,\n            \"function\": \"extractEndpointsInfoAndWriteToDisk\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php\",\n            \"line\": 53,\n            \"function\": \"get\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 36,\n            \"function\": \"handle\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php\",\n            \"line\": 41,\n            \"function\": \"Illuminate\\\\Container\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 93,\n            \"function\": \"unwrapIfClosure\",\n            \"class\": \"Illuminate\\\\Container\\\\Util\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 35,\n            \"function\": \"callBoundMethod\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php\",\n            \"line\": 661,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 183,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\Container\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Command\/Command.php\",\n            \"line\": 326,\n            \"function\": \"execute\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 152,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Command\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 1063,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 320,\n            \"function\": \"doRunCommand\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 174,\n            \"function\": \"doRun\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php\",\n            \"line\": 102,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php\",\n            \"line\": 155,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/artisan\",\n            \"line\": 35,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Console\\\\Kernel\",\n            \"type\": \"->\"\n        }\n    ]\n}",
                             "name": ""
                         }
                     ]
@@ -95,7 +483,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "7",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -141,8 +529,8 @@
                                     "value": "Origin"
                                 }
                             ],
-                            "code": 200,
-                            "body": "{\"status\":\"success\",\"comments\":[]}",
+                            "code": 404,
+                            "body": "{\n    \"message\": \"No query results for model [App\\\\Models\\\\Event].\",\n    \"exception\": \"Symfony\\\\Component\\\\HttpKernel\\\\Exception\\\\NotFoundHttpException\",\n    \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n    \"line\": 391,\n    \"trace\": [\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Exceptions\/Handler.php\",\n            \"line\": 367,\n            \"function\": \"prepareException\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/nunomaduro\/collision\/src\/Adapters\/Laravel\/ExceptionHandler.php\",\n            \"line\": 54,\n            \"function\": \"render\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Exceptions\\\\Handler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Pipeline.php\",\n            \"line\": 51,\n            \"function\": \"render\",\n            \"class\": \"NunoMaduro\\\\Collision\\\\Adapters\\\\Laravel\\\\ExceptionHandler\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 143,\n            \"function\": \"handleException\",\n            \"class\": \"Illuminate\\\\Routing\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/SubstituteBindings.php\",\n            \"line\": 50,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\SubstituteBindings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 126,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Middleware\/ThrottleRequests.php\",\n            \"line\": 57,\n            \"function\": \"handleRequest\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Routing\\\\Middleware\\\\ThrottleRequests\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 25,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 141,\n            \"function\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\{closure}\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/sanctum\/src\/Http\/Middleware\/EnsureFrontendRequestsAreStateful.php\",\n            \"line\": 24,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Laravel\\\\Sanctum\\\\Http\\\\Middleware\\\\EnsureFrontendRequestsAreStateful\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 797,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 776,\n            \"function\": \"runRouteWithinStack\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 740,\n            \"function\": \"runRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Routing\/Router.php\",\n            \"line\": 729,\n            \"function\": \"dispatchToRoute\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 190,\n            \"function\": \"dispatch\",\n            \"class\": \"Illuminate\\\\Routing\\\\Router\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 141,\n            \"function\": \"Illuminate\\\\Foundation\\\\Http\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/barryvdh\/laravel-debugbar\/src\/Middleware\/InjectDebugbar.php\",\n            \"line\": 59,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Barryvdh\\\\Debugbar\\\\Middleware\\\\InjectDebugbar\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ConvertEmptyStringsToNull.php\",\n            \"line\": 31,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ConvertEmptyStringsToNull\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TransformsRequest.php\",\n            \"line\": 21,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/TrimStrings.php\",\n            \"line\": 40,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TransformsRequest\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\TrimStrings\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/ValidatePostSize.php\",\n            \"line\": 27,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\ValidatePostSize\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Middleware\/PreventRequestsDuringMaintenance.php\",\n            \"line\": 86,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Middleware\\\\PreventRequestsDuringMaintenance\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Http\/Middleware\/HandleCors.php\",\n            \"line\": 62,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\HandleCors\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Http\/Middleware\/TrustProxies.php\",\n            \"line\": 39,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 180,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Http\\\\Middleware\\\\TrustProxies\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Pipeline\/Pipeline.php\",\n            \"line\": 116,\n            \"function\": \"Illuminate\\\\Pipeline\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 165,\n            \"function\": \"then\",\n            \"class\": \"Illuminate\\\\Pipeline\\\\Pipeline\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Http\/Kernel.php\",\n            \"line\": 134,\n            \"function\": \"sendRequestThroughRouter\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 300,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Http\\\\Kernel\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 288,\n            \"function\": \"callLaravelOrLumenRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 91,\n            \"function\": \"makeApiCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 44,\n            \"function\": \"makeResponseCall\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Strategies\/Responses\/ResponseCalls.php\",\n            \"line\": 35,\n            \"function\": \"makeResponseCallIfConditionsPass\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 236,\n            \"function\": \"__invoke\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Strategies\\\\Responses\\\\ResponseCalls\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 163,\n            \"function\": \"iterateThroughStrategies\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Extracting\/Extractor.php\",\n            \"line\": 95,\n            \"function\": \"fetchResponses\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 125,\n            \"function\": \"processRoute\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Extracting\\\\Extractor\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 72,\n            \"function\": \"extractEndpointsInfoFromLaravelApp\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/GroupedEndpoints\/GroupedEndpointsFromApp.php\",\n            \"line\": 50,\n            \"function\": \"extractEndpointsInfoAndWriteToDisk\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/knuckleswtf\/scribe\/src\/Commands\/GenerateDocumentation.php\",\n            \"line\": 53,\n            \"function\": \"get\",\n            \"class\": \"Knuckles\\\\Scribe\\\\GroupedEndpoints\\\\GroupedEndpointsFromApp\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 36,\n            \"function\": \"handle\",\n            \"class\": \"Knuckles\\\\Scribe\\\\Commands\\\\GenerateDocumentation\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Util.php\",\n            \"line\": 41,\n            \"function\": \"Illuminate\\\\Container\\\\{closure}\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 93,\n            \"function\": \"unwrapIfClosure\",\n            \"class\": \"Illuminate\\\\Container\\\\Util\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/BoundMethod.php\",\n            \"line\": 35,\n            \"function\": \"callBoundMethod\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Container\/Container.php\",\n            \"line\": 661,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\BoundMethod\",\n            \"type\": \"::\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 183,\n            \"function\": \"call\",\n            \"class\": \"Illuminate\\\\Container\\\\Container\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Command\/Command.php\",\n            \"line\": 326,\n            \"function\": \"execute\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Command.php\",\n            \"line\": 152,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Command\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 1063,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Command\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 320,\n            \"function\": \"doRunCommand\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/symfony\/console\/Application.php\",\n            \"line\": 174,\n            \"function\": \"doRun\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Console\/Application.php\",\n            \"line\": 102,\n            \"function\": \"run\",\n            \"class\": \"Symfony\\\\Component\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/vendor\/laravel\/framework\/src\/Illuminate\/Foundation\/Console\/Kernel.php\",\n            \"line\": 155,\n            \"function\": \"run\",\n            \"class\": \"Illuminate\\\\Console\\\\Application\",\n            \"type\": \"->\"\n        },\n        {\n            \"file\": \"\/home\/moskowpsix\/\\u0414\\u043e\\u043a\\u0443\\u043c\\u0435\\u043d\\u0442\\u044b\/github_projects\/mlcity_backend\/artisan\",\n            \"line\": 35,\n            \"function\": \"handle\",\n            \"class\": \"Illuminate\\\\Foundation\\\\Console\\\\Kernel\",\n            \"type\": \"->\"\n        }\n    ]\n}",
                             "name": ""
                         }
                     ]
@@ -295,7 +683,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"address\":\"vnleuscfojqmijaxnglzvsrz\",\"sponsor\":\"jldsboumczjdeljqveeuxnlkexthzuskzeksuvqcttfveegsqrirqoncbleil\",\"user_name\":\"ayrlx\",\"user_email\":\"brain91@example.com\",\"page\":\"ea\",\"limit\":1,\"name\":\"rutsdwwddxsaycvtnkjftxiycmeerbdmkyoi\",\"userId\":18,\"likedUser\":\"aperiam\",\"favoriteUser\":\"velit\",\"statuses\":\"sunt\",\"statusLast\":false,\"locationId\":\"optio\",\"dateStart\":\"sit\",\"dateEnd\":\"enim\",\"eventTypes\":\"ipsam\",\"radius\":24,\"latitude\":-86,\"longitude\":-179,\"searchText\":\"htczrxuduudezvvkpmpmbyjfpoamfyrplgapmnticnvlmhqyktgjphefxzunzzjyphu\",\"user\":\"ueboaocdxhoscoudwmk\"}"
+                            "raw": "{\"address\":\"vpefclwgqeydhkhateoyrculqc\",\"sponsor\":\"bgkbcpvsreldvroizpcpyxvkxutudfocpjzzorgjjfiqvjwudlwhohjkslmdbbgarcgx\",\"user_name\":\"zjeanrcmwmzdqehckrgeuwbqwmfvacunmtyqxtgseibbwctmgmdcftb\",\"user_email\":\"haylee.muller@example.com\",\"page\":\"tempora\",\"limit\":23,\"name\":\"bcq\",\"userId\":3,\"likedUser\":\"numquam\",\"favoriteUser\":\"autem\",\"statuses\":\"quas\",\"statusLast\":true,\"locationId\":\"tempora\",\"dateStart\":\"sunt\",\"dateEnd\":\"perferendis\",\"eventTypes\":\"quae\",\"radius\":25,\"latitude\":-86,\"longitude\":-179,\"searchText\":\"phnkrrdeieakckaslwxahpfowbqnfdvmawiyltjwzwfrpkuwzhjjqzj\",\"user\":\"nbblpfrxaezpwxjqhuhigobsxubcoffzfcrfrtdeivobhxhfyizwazpfuqddki\"}"
                         },
                         "description": "\u0412\u043e\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u0442 \u0432\u0441\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f \u043f\u043e \u0444\u0438\u043b\u044c\u0442\u0440\u0430\u043c",
                         "auth": {
@@ -306,7 +694,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":408,\"name\":\"Consequatur non illum voluptatum rerum.\",\"sponsor\":\"\\u041d\\u0438\\u043a\\u043e\\u0434\\u0438\\u043c \\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u043e\\u0432\\u0438\\u0447 \\u041f\\u043e\\u0442\\u0430\\u043f\\u043e\\u0432\",\"date_start\":\"2024-10-02 04:36:59\",\"date_end\":\"2024-10-05 15:34:30\",\"description\":\"Ut magnam et nam non. Incidunt est dolor ratione dolor aliquid. Nisi dignissimos aliquid in sed.\",\"materials\":\"Voluptatem optio voluptas illo nihil molestiae velit. Vitae culpa ad vel. Facere est beatae harum id debitis.\",\"user_id\":2,\"vk_post_id\":\"732748\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":\"5\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":6,\"name\":\"Quia hic in fugit omnis repellat ullam.\",\"sponsor\":\"\\u0418\\u043b\\u044c\\u0438\\u043d\\u0430 \\u0411\\u0440\\u043e\\u043d\\u0438\\u0441\\u043b\\u0430\\u0432 \\u0410\\u043d\\u0434\\u0440\\u0435\\u0435\\u0432\\u0438\\u0447\",\"date_start\":\"2024-10-13 15:26:58\",\"date_end\":\"2024-10-19 03:27:04\",\"description\":\"Sit minima enim magni reiciendis a et ad. Nobis et dolorem quia enim. Non sed eaque ipsa. Distinctio aut minima est hic.\",\"materials\":\"Perspiciatis iusto autem illum sit. Quasi quod debitis quo laudantium. Doloribus repellendus architecto fugit in.\",\"user_id\":7,\"vk_post_id\":\"344705\",\"created_at\":\"2024-10-08T07:06:14.000000Z\",\"updated_at\":\"2024-10-08T07:06:14.000000Z\",\"age_limit\":\"10\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -361,7 +749,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"event_id\":51}"
+                            "raw": "{\"event_id\":72}"
                         },
                         "description": "\u0421\u043e\u0437\u0434\u0430\u0435\u043c \u043e\u0442\u043d\u043e\u0448\u0435\u043d\u0438\u0435 - \u044e\u0437\u0435\u0440 \u043b\u0430\u0439\u043a\u043d\u0443\u043b \u0438\u0432\u0435\u043d\u0442"
                     },
@@ -369,7 +757,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"likedUser\":{\"id\":11,\"name\":\"\\u041d\\u0438\\u043a\\u043e\\u043b\\u0430\\u0439 \\u0412\\u043b\\u0430\\u0434\\u0438\\u043c\\u0438\\u0440\\u043e\\u0432\\u0438\\u0447 \\u041a\\u0443\\u0437\\u043d\\u0435\\u0446\\u043e\\u0432\",\"email\":\"svytoslav.mukin@example.org\",\"email_verified_at\":\"2024-09-26 10:04:34\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
+                            "body": "{\"status\":\"success\",\"likedUser\":{\"id\":18,\"name\":\"\\u0417\\u0438\\u043c\\u0438\\u043d\\u0430\\u0430 \\u0412\\u0435\\u0440\\u043e\\u043d\\u0438\\u043a\\u0430 \\u0424\\u0451\\u0434\\u043e\\u0440\\u043e\\u0432\\u043d\\u0430\",\"email\":\"donat.vlasov@example.com\",\"email_verified_at\":\"2024-10-08 07:06:14\",\"created_at\":\"2024-10-08T07:06:14.000000Z\",\"updated_at\":\"2024-10-08T07:06:14.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
                             "name": ""
                         }
                     ]
@@ -386,7 +774,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "2",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -415,7 +803,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u043e\",\"event\":{\"id\":409,\"name\":\"Odio distinctio error nesciunt itaque soluta non.\",\"sponsor\":\"\\u0410\\u043b\\u043b\\u0430 \\u0411\\u043e\\u0440\\u0438\\u0441\\u043e\\u0432\\u043d\\u0430 \\u0425\\u0430\\u0440\\u0438\\u0442\\u043e\\u043d\\u043e\\u0432\\u0430\",\"date_start\":\"2024-09-26 02:28:49\",\"date_end\":\"2024-10-04 16:28:07\",\"description\":\"Maiores cumque nostrum nisi. Omnis vel incidunt consequatur. Molestias et commodi excepturi iste facilis hic similique error.\",\"materials\":\"Inventore est fugiat nihil dolores voluptas. Ut quo qui nihil et dicta. Ut et rem voluptatem similique voluptatibus magni qui.\",\"user_id\":1,\"vk_post_id\":\"750042\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":\"2\",\"afisha7_id\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u043e\",\"event\":{\"id\":7,\"name\":\"Ipsam quia optio dolore id sunt sed.\",\"sponsor\":\"\\u041c\\u0438\\u0445\\u0435\\u0435\\u0432\\u0430\\u0430 \\u0410\\u043b\\u043b\\u0430 \\u0418\\u0432\\u0430\\u043d\\u043e\\u0432\\u043d\\u0430\",\"date_start\":\"2024-10-10 13:11:45\",\"date_end\":\"2024-10-18 15:15:54\",\"description\":\"Quibusdam qui perferendis accusamus aliquid minus dolorem. Deleniti enim atque molestias dolorem beatae. Voluptatibus dicta doloremque voluptatem non.\",\"materials\":\"Sint ea aperiam nostrum maiores. Veniam consequatur incidunt et est aut iure. Nesciunt expedita qui accusamus corrupti et. Accusamus iusto ipsa sequi voluptatibus et sint maxime.\",\"user_id\":7,\"vk_post_id\":\"475292\",\"created_at\":\"2024-10-08T07:06:14.000000Z\",\"updated_at\":\"2024-10-08T07:06:14.000000Z\",\"age_limit\":\"23\",\"afisha7_id\":null}}",
                             "name": ""
                         }
                     ]
@@ -432,7 +820,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "17",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -476,7 +864,7 @@
                                 }
                             ],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"history_content\":{\"data\":[],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/events\\\/1\\\/history-contents\",\"per_page\":6,\"next_cursor\":null,\"next_page_url\":null,\"prev_cursor\":null,\"prev_page_url\":null}}",
+                            "body": "{\"status\":\"success\",\"history_content\":{\"data\":[],\"path\":\"http:\\\/\\\/localhost:8000\\\/api\\\/events\\\/17\\\/history-contents\",\"per_page\":6,\"next_cursor\":null,\"next_page_url\":null,\"prev_cursor\":null,\"prev_page_url\":null}}",
                             "name": ""
                         }
                     ]
@@ -493,7 +881,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "6",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -516,7 +904,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f \\u043c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u0430\",\"organization\":{\"id\":401,\"name\":null,\"avatar\":null,\"description\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041e\\u0440\\u0433\\u0430\\u043d\\u0438\\u0437\\u0430\\u0446\\u0438\\u044f \\u043c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u0430\",\"organization\":{\"id\":3,\"name\":null,\"avatar\":null,\"description\":null}}",
                             "name": ""
                         }
                     ]
@@ -533,7 +921,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "8",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -573,7 +961,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "17",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -623,7 +1011,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"pmwksdqfddhjpksidjhjeuvkruhsyqzueuwujc\",\"sponsor\":\"accusamus\",\"dateStart\":\"2024-09-26T10:04:34\",\"dateEnd\":\"2024-11-14\",\"type\":\"cumque\",\"status\":\"nemo\",\"places\":[{\"seances\":[{\"dateStart\":\"2024-09-26T10:04:34\",\"dateEnd\":\"2024-09-26T10:04:34\"}]}],\"ageLimit\":3,\"vkGroupId\":14,\"vkPostId\":13}"
+                            "raw": "{\"name\":\"ryauxlwxuhuakadqckpqxhmy\",\"sponsor\":\"consectetur\",\"dateStart\":\"2024-10-08T07:06:15\",\"dateEnd\":\"2111-06-17\",\"type\":\"quam\",\"status\":\"tempora\",\"places\":[{\"seances\":[{\"dateStart\":\"2024-10-08T07:06:15\",\"dateEnd\":\"2024-10-08T07:06:15\"}]}],\"ageLimit\":5,\"vkGroupId\":5,\"vkPostId\":3}"
                         },
                         "description": "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u044f"
                     },
@@ -631,7 +1019,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0441\\u043e\\u0437\\u0434\\u0430\\u043d\\u043e\",\"event\":{\"id\":410,\"name\":\"Voluptatem et quae dolor quibusdam.\",\"sponsor\":\"\\u0413\\u0435\\u0440\\u0430\\u0441\\u0438\\u043c\\u043e\\u0432\\u0430 \\u041d\\u0430\\u0442\\u0430\\u043b\\u044c\\u044f \\u0410\\u043b\\u0435\\u043a\\u0441\\u0430\\u043d\\u0434\\u0440\\u043e\\u0432\\u043d\\u0430\",\"date_start\":\"2024-09-27 21:39:46\",\"date_end\":\"2024-10-08 10:28:09\",\"description\":\"Voluptatem cumque delectus enim. Enim reiciendis at eaque sequi magnam nam et. Et officia est omnis non odio. Explicabo velit id ea quidem aut et.\",\"materials\":\"Repudiandae omnis est iure voluptatem praesentium. In qui eum et tenetur quasi aliquid sit corporis.\",\"user_id\":2,\"vk_post_id\":\"385287\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":\"20\",\"afisha7_id\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0440\\u043e\\u043f\\u0440\\u0438\\u044f\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0441\\u043e\\u0437\\u0434\\u0430\\u043d\\u043e\",\"event\":{\"id\":8,\"name\":\"Sed nostrum rerum dignissimos minus dolore.\",\"sponsor\":\"\\u0410\\u043b\\u0451\\u043d\\u0430 \\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u043d\\u0430 \\u0424\\u0438\\u043b\\u0430\\u0442\\u043e\\u0432\\u0430\",\"date_start\":\"2024-10-14 13:37:33\",\"date_end\":\"2024-10-18 12:27:21\",\"description\":\"Et impedit eos assumenda quaerat vitae. Velit vel qui sequi eligendi dolores qui nobis sunt. Autem et ea ea minus.\",\"materials\":\"Pariatur omnis dolorem sit numquam sed sit. Blanditiis rerum voluptas et provident quos praesentium. Natus voluptatum dolores mollitia ipsum. Laboriosam explicabo et voluptas ad et qui ducimus.\",\"user_id\":1,\"vk_post_id\":\"556136\",\"created_at\":\"2024-10-08T07:06:15.000000Z\",\"updated_at\":\"2024-10-08T07:06:15.000000Z\",\"age_limit\":\"5\",\"afisha7_id\":null}}",
                             "name": ""
                         },
                         {
@@ -660,7 +1048,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "14",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -678,7 +1066,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":24}"
+                            "raw": "{\"limit\":21}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439 \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043b\u0430\u0439\u043a\u0430\u043b\u0438 \u0441\u043e\u0431\u044b\u0442\u0438\u0435"
                     },
@@ -686,7 +1074,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u0421\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043f\\u043e\\u043d\\u0440\\u0430\\u0432\\u0438\\u0432\\u0448\\u0438\\u0435\\u0441\\u044f \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":411,\"name\":\"Eum facilis quae dolores autem est.\",\"sponsor\":\"\\u0422\\u0440\\u043e\\u0444\\u0438\\u043c \\u0424\\u0451\\u0434\\u043e\\u0440\\u043e\\u0432\\u0438\\u0447 \\u0424\\u0435\\u0434\\u043e\\u0441\\u0435\\u0435\\u0432\",\"date_start\":\"2024-09-26 04:36:17\",\"date_end\":\"2024-10-07 08:19:47\",\"description\":\"Sint architecto porro totam. Dolor repellendus non vero corporis quo voluptatem error. Illo quia numquam illum nostrum numquam consequatur. Error quas tempora velit nihil.\",\"materials\":\"Ut nostrum dolores inventore saepe aut. Voluptates ut voluptatem fugiat ut voluptatum. Eveniet natus dicta sint maiores aperiam molestiae.\",\"user_id\":1,\"vk_post_id\":\"478863\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":\"16\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0421\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043f\\u043e\\u043d\\u0440\\u0430\\u0432\\u0438\\u0432\\u0448\\u0438\\u0435\\u0441\\u044f \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":9,\"name\":\"Pariatur reiciendis sed quos molestias molestiae.\",\"sponsor\":\"\\u0422\\u0443\\u0440\\u043e\\u0432\\u0430 \\u0415\\u043b\\u0435\\u043d\\u0430 \\u0410\\u043b\\u0435\\u043a\\u0441\\u0430\\u043d\\u0434\\u0440\\u043e\\u0432\\u043d\\u0430\",\"date_start\":\"2024-10-11 23:55:45\",\"date_end\":\"2024-10-17 03:18:23\",\"description\":\"Sit asperiores nihil officia. In ratione velit eaque neque dolorum qui. Aut rerum et eum ut.\",\"materials\":\"Quis facilis libero ea sed. Est et ab qui magnam quis. Sint qui optio eum in. Autem ut amet quidem ad est assumenda.\",\"user_id\":7,\"vk_post_id\":\"276824\",\"created_at\":\"2024-10-08T07:06:15.000000Z\",\"updated_at\":\"2024-10-08T07:06:15.000000Z\",\"age_limit\":\"18\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -703,7 +1091,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "8",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -721,7 +1109,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":8}"
+                            "raw": "{\"limit\":1}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0438\u0442\u044c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439 \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043b\u0430\u0439\u043a\u0430\u043b\u0438 \u0441\u043e\u0431\u044b\u0442\u0438\u0435"
                     },
@@ -729,7 +1117,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u0418\\u0437\\u0431\\u0440\\u0430\\u043d\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":12,\"name\":\"\\u0420\\u043e\\u0437\\u0430\\u043b\\u0438\\u043d\\u0430 \\u0410\\u043b\\u0435\\u043a\\u0441\\u0435\\u0435\\u0432\\u043d\\u0430 \\u0410\\u043b\\u0435\\u043a\\u0441\\u0435\\u0435\\u0432\\u0430\",\"sponsor\":null,\"date_start\":null,\"date_end\":null,\"description\":null,\"materials\":null,\"user_id\":null,\"vk_post_id\":null,\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":null,\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0418\\u0437\\u0431\\u0440\\u0430\\u043d\\u043d\\u044b\\u0435 \\u0441\\u043e\\u0431\\u044b\\u0442\\u0438\\u044f \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"events\":{\"data\":[{\"id\":19,\"name\":\"\\u0413\\u0430\\u0440\\u0440\\u0438 \\u0414\\u043c\\u0438\\u0442\\u0440\\u0438\\u0435\\u0432\\u0438\\u0447 \\u041f\\u043e\\u0442\\u0430\\u043f\\u043e\\u0432\",\"sponsor\":null,\"date_start\":null,\"date_end\":null,\"description\":null,\"materials\":null,\"user_id\":null,\"vk_post_id\":null,\"created_at\":\"2024-10-08T07:06:15.000000Z\",\"updated_at\":\"2024-10-08T07:06:15.000000Z\",\"age_limit\":null,\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -746,7 +1134,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "3",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -764,7 +1152,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"status_id\":6}"
+                            "raw": "{\"status_id\":15}"
                         },
                         "description": "\u0421\u043c\u0435\u043d\u0430 \u0441\u0442\u0430\u0442\u0443\u0441\u0430 \u043c\u0435\u0440\u043e\u043f\u0440\u0438\u044f\u0438\u044f."
                     },
@@ -782,7 +1170,7 @@
                                 {
                                     "id": "id",
                                     "key": "id",
-                                    "value": "1",
+                                    "value": "3",
                                     "description": "The ID of the event."
                                 }
                             ]
@@ -894,7 +1282,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"code\":\"corrupti\",\"password\":\"s$wpjW[9E.\\\/wk3E!\",\"password_confirmation\":\"voluptas\"}"
+                            "raw": "{\"code\":\"facilis\",\"password\":\"Cea^mp\",\"password_confirmation\":\"perspiciatis\"}"
                         },
                         "description": "\u0421\u043c\u0435\u043d\u0430 \u043f\u0430\u0440\u043e\u043b\u044f \u0441 \u043f\u043e \u043a\u043e\u0434\u0443",
                         "auth": {
@@ -961,7 +1349,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0441\\u0442\\u0430 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"sights\":{\"data\":[{\"id\":405,\"name\":\"Et velit saepe illum voluptatibus ut nihil.\",\"sponsor\":null,\"latitude\":\"9.84964600000000\",\"longitude\":\"4.91926600000000\",\"location_id\":67,\"address\":\"090777, \\u0412\\u043e\\u043b\\u043e\\u0433\\u043e\\u0434\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0421\\u0442\\u0443\\u043f\\u0438\\u043d\\u043e, \\u043f\\u0435\\u0440. \\u0411\\u0443\\u0445\\u0430\\u0440\\u0435\\u0441\\u0442\\u0441\\u043a\\u0430\\u044f, 21\",\"description\":\"Deserunt provident illum voluptates dolor rerum iure et. Aut dolor voluptas impedit sed distinctio qui animi. Nemo et corrupti nemo omnis. Et neque quidem autem suscipit voluptatum explicabo rerum.\",\"materials\":\"Omnis maiores quia modi natus. Pariatur numquam minus delectus aspernatur et eaque dolores eos. Quis voluptatem aut voluptas aut cumque. Autem harum et sint asperiores nesciunt.\",\"phone\":\"2924304426\",\"email\":\"zimin.raisa@lobanova.net\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u041c\\u0435\\u0441\\u0442\\u0430 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"sights\":{\"data\":[{\"id\":5,\"name\":\"Id saepe occaecati fuga dolores.\",\"sponsor\":null,\"latitude\":\"26.69382900000000\",\"longitude\":\"-72.07069400000000\",\"location_id\":1091,\"address\":\"276100, \\u0422\\u0432\\u0435\\u0440\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0418\\u0441\\u0442\\u0440\\u0430, \\u0441\\u043f\\u0443\\u0441\\u043a \\u041b\\u0430\\u0434\\u044b\\u0433\\u0438\\u043d\\u0430, 32\",\"description\":\"Excepturi ut et blanditiis eum pariatur molestias voluptate. Sunt doloremque voluptas sit vitae quia quaerat. Dolores nihil et et ad. Et est maiores quod.\",\"materials\":\"Molestiae facere non qui et. Totam omnis praesentium alias dolorem beatae similique. Et ipsam et praesentium in.\",\"phone\":\"9084780308\",\"email\":\"olga.merkuseva@bk.ru\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -996,7 +1384,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"id\":12}"
+                            "raw": "{\"id\":4}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u043c\u0435\u0441\u0442\u043e \u043f\u043e id",
                         "auth": {
@@ -1007,7 +1395,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"sight.show.success\",\"sight\":{\"id\":406,\"name\":\"Voluptatum quae eius ipsa sed enim ab sit voluptatem.\",\"sponsor\":null,\"latitude\":\"-28.48040100000000\",\"longitude\":\"17.42003500000000\",\"location_id\":1587,\"address\":\"809397, \\u041f\\u0441\\u043a\\u043e\\u0432\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0414\\u043e\\u043c\\u043e\\u0434\\u0435\\u0434\\u043e\\u0432\\u043e, \\u043f\\u0435\\u0440. \\u0411\\u0443\\u0434\\u0430\\u043f\\u0435\\u0448\\u0442\\u0441\\u0442\\u043a\\u0430\\u044f, 35\",\"description\":\"Voluptas rem natus sit deserunt nostrum corrupti. Neque consequuntur nobis voluptatem accusamus. Laboriosam sit quibusdam similique. Qui ut omnis et.\",\"materials\":\"Autem aliquid in autem est doloribus est ut. Ea et perspiciatis possimus non ut ipsa ipsa est. Distinctio et libero facere perferendis assumenda quas soluta. Repellendus omnis sit ad et excepturi.\",\"phone\":\"6242162586\",\"email\":\"german.mikeev@hotmail.com\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"sight.show.success\",\"sight\":{\"id\":6,\"name\":\"Nobis deserunt exercitationem officiis quia eos.\",\"sponsor\":null,\"latitude\":\"-78.32986400000000\",\"longitude\":\"-113.94176800000000\",\"location_id\":1117,\"address\":\"270001, \\u0412\\u043e\\u043b\\u043e\\u0433\\u043e\\u0434\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0421\\u043e\\u043b\\u043d\\u0435\\u0447\\u043d\\u043e\\u0433\\u043e\\u0440\\u0441\\u043a, \\u043f\\u043b. \\u041b\\u0435\\u043d\\u0438\\u043d\\u0430, 25\",\"description\":\"Commodi incidunt illo aut quam. Ut et libero voluptatem voluptas. Deserunt in in labore exercitationem sapiente suscipit et.\",\"materials\":\"Quos officiis molestias aut ut sit id harum. Delectus excepturi qui cum ex voluptatem alias. Maxime soluta voluptate quasi ut. Amet sit eos in consequatur fuga.\",\"phone\":\"5925287662\",\"email\":\"dtimofeeva@kiseleva.com\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}}",
                             "name": ""
                         },
                         {
@@ -1048,7 +1436,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":2}"
+                            "raw": "{\"limit\":22}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0441\u043e\u0431\u044b\u0442\u0438\u0439 \u0432 \u043c\u0435\u0441\u0442\u0435 \u043f\u043e id",
                         "auth": {
@@ -1059,7 +1447,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"sight.get_events_in_sight.success\",\"events\":{\"data\":[{\"id\":412,\"name\":\"Harum enim neque est blanditiis.\",\"sponsor\":\"\\u0413\\u0430\\u0432\\u0440\\u0438\\u0438\\u043b \\u0424\\u0451\\u0434\\u043e\\u0440\\u043e\\u0432\\u0438\\u0447 \\u041d\\u0430\\u0437\\u0430\\u0440\\u043e\\u0432\\u0430\",\"date_start\":\"2024-09-29 20:39:48\",\"date_end\":\"2024-10-09 20:14:53\",\"description\":\"Assumenda voluptatem eum cum. Esse voluptas quis et dolorum deserunt. Fuga occaecati adipisci sed amet praesentium quidem quam. Pariatur dolorem voluptatem veritatis excepturi.\",\"materials\":\"Mollitia est libero expedita eos officia suscipit consectetur. Nulla sed sit quod dolor quidem dolor. Qui cupiditate et aut. Odit sit consectetur qui molestiae.\",\"user_id\":2,\"vk_post_id\":\"640850\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"age_limit\":\"14\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"sight.get_events_in_sight.success\",\"events\":{\"data\":[{\"id\":10,\"name\":\"Temporibus distinctio quibusdam sint.\",\"sponsor\":\"\\u042f\\u043a\\u0443\\u0448\\u0435\\u0432\\u0430\\u0430 \\u0410\\u043d\\u0430\\u0441\\u0442\\u0430\\u0441\\u0438\\u044f \\u0415\\u0432\\u0433\\u0435\\u043d\\u044c\\u0435\\u0432\\u043d\\u0430\",\"date_start\":\"2024-10-03 21:20:43\",\"date_end\":\"2024-10-18 20:45:23\",\"description\":\"Distinctio sequi velit consequatur mollitia deserunt doloribus illo. Non sed et natus quisquam quisquam ratione deserunt. Voluptas a perspiciatis iure.\",\"materials\":\"Illo ut quisquam sit odit nam ea. Voluptatum consectetur atque a sit quas quo. Ut neque eaque sit soluta corporis illum. Ut ullam ipsum rem iste placeat rem. Sit suscipit quia dolorem autem.\",\"user_id\":1,\"vk_post_id\":\"625864\",\"created_at\":\"2024-10-08T07:06:16.000000Z\",\"updated_at\":\"2024-10-08T07:06:16.000000Z\",\"age_limit\":\"18\",\"afisha7_id\":null}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -1166,7 +1554,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"name\":\"pdqjtfhwcjhextphzskhqfhmtlh\",\"coords\":\"fujzvbzqrqfouacryabtx\",\"description\":\"Fugiat delectus maxime qui et.\",\"type\":\"quibusdam\",\"status\":\"et\",\"locationId\":\"nam\",\"vkGroupId\":\"recusandae\",\"vkPostId\":\"culpa\",\"phone_number\":\"tgnzowzvm\",\"email\":\"kenyatta23@example.org\",\"site\":\"enim\"}"
+                            "raw": "{\"name\":\"kzzrmwkiowmtihwcryuukccykdbvtrmaucofqmsz\",\"coords\":\"ihbmgluwftsxjrcvtbzmilgxnmwhvyij\",\"description\":\"Ut aut veritatis voluptatem quo sint.\",\"type\":\"unde\",\"status\":\"omnis\",\"locationId\":\"nihil\",\"vkGroupId\":\"voluptatem\",\"vkPostId\":\"similique\",\"phone_number\":\"wl\",\"email\":\"wintheiser.piper@example.net\",\"site\":\"exercitationem\"}"
                         },
                         "description": "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u043c\u0435\u0441\u0442"
                     },
@@ -1174,7 +1562,7 @@
                         {
                             "header": [],
                             "code": 201,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u0421\\u043e\\u0431\\u044b\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0441\\u043e\\u0437\\u0434\\u0430\\u043d\\u043e\",\"sight\":{\"id\":407,\"name\":\"Sed qui eos commodi corporis omnis aliquid rerum.\",\"sponsor\":null,\"latitude\":\"78.53225800000000\",\"longitude\":\"-163.01615500000000\",\"location_id\":878,\"address\":\"841786, \\u0412\\u043e\\u043b\\u043e\\u0433\\u043e\\u0434\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0414\\u043e\\u0440\\u043e\\u0445\\u043e\\u0432\\u043e, \\u043f\\u0440\\u043e\\u0435\\u0437\\u0434 \\u0427\\u0435\\u0445\\u043e\\u0432\\u0430, 60\",\"description\":\"Totam cum molestias recusandae nisi aspernatur eum dolore. Labore et corporis tempore autem. Doloribus officia minus eum odio sed explicabo ullam.\",\"materials\":\"Excepturi quis illo ratione culpa optio vero et. Laboriosam voluptate accusamus sint officiis nihil accusantium. Eos dolores ratione consequuntur tempore.\",\"phone\":\"5556916952\",\"email\":\"loginova.mariy@yandex.ru\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0421\\u043e\\u0431\\u044b\\u0442\\u0438\\u0435 \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0441\\u043e\\u0437\\u0434\\u0430\\u043d\\u043e\",\"sight\":{\"id\":7,\"name\":\"Voluptatem distinctio molestiae veniam est iure nihil.\",\"sponsor\":null,\"latitude\":\"-40.87644200000000\",\"longitude\":\"-96.05971400000000\",\"location_id\":2793,\"address\":\"267899, \\u041c\\u043e\\u0441\\u043a\\u043e\\u0432\\u0441\\u043a\\u0430\\u044f \\u043e\\u0431\\u043b\\u0430\\u0441\\u0442\\u044c, \\u0433\\u043e\\u0440\\u043e\\u0434 \\u0428\\u0430\\u0445\\u043e\\u0432\\u0441\\u043a\\u0430\\u044f, \\u0441\\u043f\\u0443\\u0441\\u043a \\u0413\\u043e\\u0433\\u043e\\u043b\\u044f, 33\",\"description\":\"In vel saepe ducimus sed minus maiores. Laboriosam deleniti eos saepe aperiam a nam ut. Fuga et laborum odit reiciendis. Quo eos maiores inventore sunt veniam.\",\"materials\":\"Placeat facere et quibusdam architecto et eos. Et nemo aut deleniti similique aut et laboriosam.\",\"phone\":\"2263545088\",\"email\":\"valentina52@larionova.ru\",\"site\":null,\"user_id\":1,\"afisha7_id\":null}}",
                             "name": ""
                         }
                     ]
@@ -1209,7 +1597,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":10}"
+                            "raw": "{\"limit\":9}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u0435\u0439 \u043a\u043e\u0442\u043e\u0440\u044b\u0435 \u043b\u0430\u0439\u043a\u043d\u0443\u043b\u0438 \u043c\u0435\u0441\u0442\u043e",
                         "auth": {
@@ -1220,7 +1608,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"result\":{\"id\":13,\"name\":\"\\u0420\\u043e\\u0437\\u0430\\u043b\\u0438\\u043d\\u0430 \\u0410\\u043d\\u0434\\u0440\\u0435\\u0435\\u0432\\u043d\\u0430 \\u0421\\u0430\\u0437\\u043e\\u043d\\u043e\\u0432\\u0430\",\"email\":\"margarita.pakomov@example.com\",\"email_verified_at\":\"2024-09-26 10:04:34\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
+                            "body": "{\"status\":\"success\",\"result\":{\"id\":20,\"name\":\"\\u041a\\u0438\\u0440\\u0438\\u043b\\u043b\\u043e\\u0432\\u0430 \\u041c\\u0438\\u043b\\u0430\\u043d \\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u043e\\u0432\\u0438\\u0447\",\"email\":\"nataly53@example.org\",\"email_verified_at\":\"2024-10-08 07:06:16\",\"created_at\":\"2024-10-08T07:06:16.000000Z\",\"updated_at\":\"2024-10-08T07:06:16.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
                             "name": ""
                         }
                     ]
@@ -1266,7 +1654,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"result\":{\"id\":14,\"name\":\"\\u041a\\u0430\\u043f\\u0438\\u0442\\u043e\\u043b\\u0438\\u043d\\u0430 \\u0410\\u043b\\u0435\\u043a\\u0441\\u0435\\u0435\\u0432\\u043d\\u0430 \\u0410\\u0440\\u0445\\u0438\\u043f\\u043e\\u0432\\u0430\\u0430\",\"email\":\"rmuravev@example.com\",\"email_verified_at\":\"2024-09-26 10:04:34\",\"created_at\":\"2024-09-26T10:04:34.000000Z\",\"updated_at\":\"2024-09-26T10:04:34.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
+                            "body": "{\"status\":\"success\",\"result\":{\"id\":21,\"name\":\"\\u0424\\u0451\\u0434\\u043e\\u0440\\u043e\\u0432 \\u0418\\u0433\\u043d\\u0430\\u0442\\u0438\\u0439 \\u041c\\u0430\\u043a\\u0441\\u0438\\u043c\\u043e\\u0432\\u0438\\u0447\",\"email\":\"marat.tretykova@example.net\",\"email_verified_at\":\"2024-10-08 07:06:16\",\"created_at\":\"2024-10-08T07:06:16.000000Z\",\"updated_at\":\"2024-10-08T07:06:16.000000Z\",\"avatar\":null,\"deleted_at\":null,\"number\":null,\"number_verified_at\":null,\"first_name\":null,\"last_name\":null}}",
                             "name": ""
                         }
                     ]
@@ -1301,7 +1689,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":4}"
+                            "raw": "{\"limit\":10}"
                         },
                         "description": "",
                         "auth": {
@@ -1366,7 +1754,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"limit\":20}"
+                            "raw": "{\"limit\":12}"
                         },
                         "description": "\u041f\u043e\u043b\u0443\u0447\u0435\u043d\u0438\u0435 \u0442\u043e\u0447\u0435\u043a \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f"
                     },
@@ -1374,7 +1762,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u0422\\u043e\\u0447\\u043a\\u0438 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"points\":{\"data\":[{\"latitude\":-43.767106,\"longitude\":155.332118}],\"next_cursor\":null,\"prev_cursor\":null}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0422\\u043e\\u0447\\u043a\\u0438 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f \\u043f\\u043e\\u043b\\u0443\\u0447\\u0435\\u043d\\u044b\",\"points\":{\"data\":[{\"latitude\":79.92307,\"longitude\":-119.898226}],\"next_cursor\":null,\"prev_cursor\":null}}",
                             "name": ""
                         }
                     ]
@@ -1401,7 +1789,7 @@
                         ],
                         "body": {
                             "mode": "raw",
-                            "raw": "{\"latitude\":-86,\"longitude\":-179}"
+                            "raw": "{\"latitude\":-87,\"longitude\":-179}"
                         },
                         "description": "\u0421\u043e\u0437\u0434\u0430\u043d\u0438\u0435 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c\u0441\u043a\u043e\u0439 \u0442\u043e\u0447\u043a\u0438"
                     },
@@ -1409,7 +1797,7 @@
                         {
                             "header": [],
                             "code": 200,
-                            "body": "{\"status\":\"success\",\"message\":\"\\u0422\\u043e\\u0447\\u043a\\u0430 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0434\\u043e\\u0431\\u0430\\u0432\\u043b\\u0435\\u043d\\u0430\",\"points\":{\"latitude\":35.151841,\"longitude\":120.350414}}",
+                            "body": "{\"status\":\"success\",\"message\":\"\\u0422\\u043e\\u0447\\u043a\\u0430 \\u043f\\u043e\\u043b\\u044c\\u0437\\u043e\\u0432\\u0430\\u0442\\u0435\\u043b\\u044f \\u0443\\u0441\\u043f\\u0435\\u0448\\u043d\\u043e \\u0434\\u043e\\u0431\\u0430\\u0432\\u043b\\u0435\\u043d\\u0430\",\"points\":{\"latitude\":7.521746,\"longitude\":115.056869}}",
                             "name": ""
                         }
                     ]

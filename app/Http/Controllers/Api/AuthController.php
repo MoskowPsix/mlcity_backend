@@ -2,29 +2,48 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Contracts\Services\Auth\AuthService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Http\Requests\Auth\RequestEditEmailNotVerification;
+use App\Http\Requests\Auth\ResetPasswordForAdminRequest;
 use App\Http\Requests\Auth\VerficationCodeRequest;
 use App\Http\Requests\RequestResetEmailVerificationCode;
-use App\Mail\OrderCode;
-use App\Models\Email;
+use App\Http\Resources\Auth\EditEmailNotVerify\ErrorEditEmailVerifyResource;
+use App\Http\Resources\Auth\EditEmailNotVerify\ExistVerifyEditEmailVerifyResource;
+use App\Http\Resources\Auth\EditEmailNotVerify\SuccessEditEmailVerifyResource;
+use App\Http\Resources\Auth\GenerateCodeForMail\ErrorGenerateCodeForMailResource;
+use App\Http\Resources\Auth\GenerateCodeForMail\SuccessGenerateCodeForMailResource;
+use App\Http\Resources\Auth\Login\ErrorLoginResource;
+use App\Http\Resources\Auth\Login\FailedLoginResource;
+use App\Http\Resources\Auth\Login\NotFoundLoginResource;
+use App\Http\Resources\Auth\Login\SuccessLoginResource;
+use App\Http\Resources\Auth\Logout\FailedLogoutResource;
+use App\Http\Resources\Auth\Logout\SuccessLogoutResource;
+use App\Http\Resources\Auth\Register\ErrorRegisterResource;
+use App\Http\Resources\Auth\Register\SuccessRegisterResource;
+use App\Http\Resources\Auth\ResetEmailForCode\SuccessResetEmailForCodeResource;
+use App\Http\Resources\Auth\ResetPasswordForAdmin\ErrorResetPasswordForAdminResource;
+use App\Http\Resources\Auth\ResetPasswordForAdmin\SuccessResetPasswordForAdminResource;
+use App\Http\Resources\Auth\VerifyEmailForCode\ErrorVerifyEmailForCodeResource;
+use App\Http\Resources\Auth\VerifyEmailForCode\ExpiredVerifyEmailForCodeResource;
+use App\Http\Resources\Auth\VerifyEmailForCode\InvalidVerifyEmailForCodeResource;
+use App\Http\Resources\Auth\VerifyEmailForCode\NotFitVerifyEmailForCodeResource;
+use App\Http\Resources\Auth\VerifyEmailForCode\SuccessVerifyEmailForCodeResource;
 use App\Models\User;
 use Exception;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Cookie;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
+use Knuckles\Scribe\Attributes\Authenticated;
+use Knuckles\Scribe\Attributes\Endpoint;
+use Knuckles\Scribe\Attributes\Group;
+use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 
-//use Illuminate\Http\Request;
-
-
+#[Group(name: 'Auth', description: 'Авторизация')]
 class AuthController extends Controller
 {
+    public function __construct(private readonly AuthService $authService)
+    {
+    }
     /**
      * Остановить валидацию после первой неуспешной проверки.
      *
@@ -33,259 +52,144 @@ class AuthController extends Controller
     protected $stopOnFirstFailure = true;
 
     /**
-     * @param RegisterRequest $request
-     * @return JsonResponse
-     * Ркгистрация нового пользователя с отправкой кода на почту для её верификации
+     * @throws Exception
      */
-    public function register(RegisterRequest $request): JsonResponse
+    #[ResponseFromApiResource(SuccessRegisterResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(ErrorRegisterResource::class, null, 403)]
+    #[Endpoint(title: 'Register', description: 'Регистрация нового пользователя')]
+    public function register(RegisterRequest $request): SuccessRegisterResource | ErrorRegisterResource
     {
         try {
-            $trans = DB::transaction(function () use ($request) {
-                $input = $request->all();
-                $pass  =  bcrypt($input['password']);
-                if ($request->filled('avatar')) {
-                    $user  =  User::create([
-                        'name' => $input['name'],
-                        'password' => $pass,
-                        'avatar' => $input['avatar'],
-                        'email' => $input['email'],
-                        // 'number' => $input['number'],
-                    ]);
-                } else {
-                    $user  =  User::create([
-                        'name' => $input['name'],
-                        'password' => $pass,
-                        'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt($input['email'] . $input['name']),
-                        'email' => $input['email'],
-                        // 'number' => $input['number'],
-                    ]);
-                }
-
-
-                $token = $this->getAccessToken($user);
-
-                return response()->json([
-                    'status'        => 'success',
-                    'message'       => __('messages.register.success'),
-                    'access_token'  => $token,
-                    'token_type'    => 'Bearer',
-                    'user'          => $user
-                ], 200);
-            }, 3);
-            if ($trans) {
-                return $trans;
-            }
+            $user = $this->authService->register($request);
+            return new SuccessRegisterResource($user);
+        } catch (\Exception $e) {
+            return new ErrorRegisterResource([]);
+        }
+    }
+    #[ResponseFromApiResource(SuccessLoginResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(FailedLoginResource::class, null, 403)]
+    #[ResponseFromApiResource(NotFoundLoginResource::class, null, 404)]
+    #[ResponseFromApiResource(ErrorLoginResource::class, null, 403)]
+    #[Endpoint(title: 'Login', description: 'Авторизация пользователя')]
+    public function login(LoginRequest $request):
+    SuccessLoginResource |
+    FailedLoginResource |
+    NotFoundLoginResource |
+    ErrorLoginResource
+    {
+        try {
+            $user = $this->authService->login($request);
+            return new SuccessLoginResource($user);
+        } catch (\Exception $e) {
+            return match ($e->getMessage()) {
+                'Login failed' => new FailedLoginResource([]),
+                'User not found' => new NotFoundLoginResource([]),
+                default => new ErrorLoginResource([]),
+            };
+        }
+    }
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessLogoutResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(FailedLogoutResource::class, null, 500)]
+    #[Endpoint(title: 'logout', description: 'Выход пользователя')]
+    public function logout(): SuccessLogoutResource | FailedLogoutResource
+    {
+        $response = $this->authService->logout();
+        return $response ? new SuccessLogoutResource([]) : new FailedLogoutResource([]);
+    }
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessVerifyEmailForCodeResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(InvalidVerifyEmailForCodeResource::class, null, 403)]
+    #[ResponseFromApiResource(ExpiredVerifyEmailForCodeResource::class, null, 403)]
+    #[ResponseFromApiResource(NotFitVerifyEmailForCodeResource::class, null, 403)]
+    #[ResponseFromApiResource(ErrorVerifyEmailForCodeResource::class, null, 500)]
+    #[Endpoint(title: 'VerifyEmailForCode', description: 'Подтверждения почты пользователя по коду')]
+    public function verifyEmailForCode(VerficationCodeRequest $request):
+    SuccessVerifyEmailForCodeResource |
+    NotFitVerifyEmailForCodeResource |
+    ExpiredVerifyEmailForCodeResource |
+    InvalidVerifyEmailForCodeResource |
+    ErrorVerifyEmailForCodeResource
+    {
+        try {
+            $user = $this->authService->verificationEmailForCode($request);
+            return new SuccessVerifyEmailForCodeResource($user);
         } catch (Exception $e) {
-            Log::error($e, ["LOGIN"]);
-            return response()->json([
-                'status'        => 'error',
-                'message'       => 'Извините, при регистрации произошла критическая ошибка',
-            ], 500);
+            return match ($e->getMessage()) {
+                'Invalid Code' => new InvalidVerifyEmailForCodeResource([]),
+                'Code has expired' => new ExpiredVerifyEmailForCodeResource([]),
+                'Code does not fit' => new NotFitVerifyEmailForCodeResource([]),
+                default => new ErrorVerifyEmailForCodeResource([]),
+            };
         }
     }
-
-    /**
-     * @param VerficationCodeRequest $request
-     * @return JsonResponse
-     * Верификация почты с кодом подтверждения
-     */
-    public function verificationEmailForCode(VerficationCodeRequest $request)
-    {
-        $code = $request->code;
-        $user = User::find(auth('api')->user()->id);
-        $ecode = $user->ecode()->orderBy('created_at', 'desc')->where('last', true)->first();
-        if (!empty($user) && !empty($ecode)) {
-            if ((strtotime($ecode->created_at) < time())) {
-                if ($ecode->code == $code) {
-                    $ecode->update(['last' => false]);
-                    $user->email_verified_at = date("Y-m-d H:i:s", strtotime('now'));
-                    $user->save();
-                    return response()->json(['status' => 'success', 'email_verification' => $user->email], 200);
-                } else {
-                    return response()->json(['status' => 'error', 'message' => 'code does not fit'], 403);
-                }
-            } else {
-                $ecode->update(['last' => false]);
-                return response()->json(['status' => 'error', 'message' => 'code has expired'], 403);
-            }
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'code has not exist'], 403);
-        }
-    }
-    /**
-     * @param RequestEditEmailNotVerification $request
-     * @return JsonResponse
-     * Изменение не верифицированной почты
-     */
-    public function editEmailNotVerification(RequestEditEmailNotVerification $request): JsonResponse
-    {
-        $user = User::find(auth('api')->user()->id);
-        if (isset($user->email_verified_at)) {
-            return response()->json([
-                'status'   => 'error',
-                'message'  => 'Не удалось поменять почту, она уже подтверждена',
-            ], 403);
-        }
-
-        User::where('id', $user->id)->update([
-            'email' => $request->email,
-        ]);
-
-        return response()->json([
-            'status'   => 'success',
-            'message'  => 'Почта ' . $request->email . ' успешно изменена'
-        ], 201);
-    }
-    /**
-     * @param RequestResetEmailVerificationCode $request
-     * @return JsonResponse
-     * Смена верифицированной почты с кодом подтверждения
-     */
-    public function resetEmailForCode(RequestResetEmailVerificationCode $request)
-    {
-        $user = User::find(auth('api')->user()->id);
-        $ecode = $user->ecode()->where('last', true)->first();
-        if (!empty($user) && !empty($ecode)) {
-            if ($ecode->code === $request->code) {
-                if ((strtotime($ecode->created_at) < time()) && (time() < (strtotime($ecode->created_at) + (60 * 30)))) {
-                    $user->ecode()->where(['last' => true])->update(['last' => false]);
-                    $user->email = $request->email;
-                    $user->email_verification = null;
-                    $user->save();
-                    $this->createCodeEmail($user);
-                    $user->ecode()->update(['last' => false]);
-                    return response()->json(['status' => 'success', 'new_email' => $user->email], 200);
-                } else {
-                    $ecode->update(['last' => false]);
-                    return response()->json(['status' => 'error', 'message' => 'code has expired'], 403);
-                }
-            } else {
-                return response()->json(['status' => 'error', 'message' => 'code does not fit'], 403);
-            }
-        } else {
-            return response()->json(['status' => 'error', 'message' => 'code has not exist'], 403);
-        }
-    }
-    /**
-     * @param LoginRequest $request
-     * @return JsonResponse
-     * Вход пользователя с созданием токена
-     */
-    public function login(LoginRequest $request): \Illuminate\Http\JsonResponse
-    {
-        $credentials = $request->getCredentials();
-        if (!Auth::attempt($credentials)) {
-            return response()->json([
-                'status' => 'error',
-                'message' => __('messages.login.error'),
-                'cr' => $credentials,
-            ], 401);
-        }
-
-        if (isset($credentials['name'])) {
-            $user = User::where('name', $credentials['name'])->with('socialAccount', 'roles')->firstOrFail();
-        } elseif (isset($credentials['email'])) {
-            $user = User::where('email', $credentials['email'])->with('socialAccount', 'roles')->firstOrFail();
-        }
-
-        $token = $this->getAccessToken($user);
-        $cookie = cookie()->forever('Bearer_token', $token);
-
-        return response()->json([
-            'status'        => 'success',
-            'message'       => __('messages.login.success'),
-            'access_token'  => $token,
-            'token_type'    => 'Bearer',
-            'user'          => $user
-        ], 200)->withCookie($cookie);
-    }
-    /**
-     * @param Request $request
-     * @return JsonResponse
-     * Смена пароля любого пользователя только для админа
-     */
-    public function resetPasswordForAdmin(Request $request)
-    {
-        if ($request->new_password === $request->retry_password) {
-            User::where('id', $request->user_id)->update(['password' => bcrypt($request->new_password)]);
-            return response()->json([
-                'status' => 'success',
-                'message' => 'Password changed!'
-            ]);
-        } else {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'The new password does not match!'
-            ], 403);
-        }
-    }
-    /**
-     * @return JsonResponse
-     * Выход пользователя с удалением токена
-     */
-    public function logout(): JsonResponse
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessEditEmailVerifyResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(ErrorEditEmailVerifyResource::class, null, 500)]
+    #[ResponseFromApiResource(ExistVerifyEditEmailVerifyResource::class, null, 403)]
+    #[Endpoint(title: 'EditEmailNotVerify', description: 'Смена не подтверждённой почты')]
+    public function editEmailNotVerify(RequestEditEmailNotVerification $request):
+    SuccessEditEmailVerifyResource |
+    ErrorEditEmailVerifyResource |
+    ExistVerifyEditEmailVerifyResource
     {
         try {
-            $cookie = Cookie::forget('Bearer_token');
-            auth('api')->user()->currentAccessToken()->delete();
-            Session::flush();
+            $user = $this->authService->editEmailNotVerification($request);
+            return new SuccessEditEmailVerifyResource($user);
+        } catch (Exception $e) {
+            return match ($e->getMessage()) {
+                'Email verified' => new ExistVerifyEditEmailVerifyResource([]),
+                default => new ErrorEditEmailVerifyResource([]),
+            };
 
-            return response()->json([
-                'status'        => 'success',
-                'message'       => __('messages.logout.success'),
-            ], 200)->withCookie($cookie);
-        } catch (Exception $ex) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'some went wrong'
-            ], 401);
         }
     }
-
-    public function getAccessToken($user)
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessResetEmailForCodeResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(InvalidVerifyEmailForCodeResource::class, null, 500)]
+    #[ResponseFromApiResource(ErrorVerifyEmailForCodeResource::class, null, 403)]
+    #[ResponseFromApiResource(NotFitVerifyEmailForCodeResource::class, null, 403)]
+    #[ResponseFromApiResource(ExpiredVerifyEmailForCodeResource::class, null, 403)]
+    #[Endpoint(title: 'ResetEmailForCode', description: 'Смена подтверждённой почты')]
+    public function resetEmailForCode(RequestResetEmailVerificationCode $request):
+    SuccessResetEmailForCodeResource |
+    InvalidVerifyEmailForCodeResource |
+    ErrorVerifyEmailForCodeResource |
+    NotFitVerifyEmailForCodeResource |
+    ExpiredVerifyEmailForCodeResource
     {
-        return $user->createToken('auth_token')->plainTextToken;
-    }
-    /**
-     * @param User $user
-     * @return string
-     * Создание одноразового кода подтверждения и отправка его на почту пользователя
-     */
-    private function createCodeEmail(User $user): string
-    {
-        $user = User::where('id', $user->id)->first();
-        if (!empty($user->ecode()->first())) {
-            if ((strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 30) <= time()) {
-                $code = rand(1000, 9999);
-                $user->ecode()->create([
-                    'code' => $code,
-                ]);
-                Mail::to($user->email)->send(new OrderCode($code));
-                return 'success';
-            } else {
-                return 'approximate time: ' . strtotime($user->ecode()->orderBy('created_at', 'desc')->first()->created_at) + 30 - time();
-            }
-        } else {
-            $code = rand(1000, 9999);
-            $user->ecode()->create([
-                'code' => $code,
-            ]);
-            Mail::to($user->email)->send(new OrderCode($code));
-            return 'success';
+        try {
+            $user = $this->authService->resetEmailForCode($request);
+            return new SuccessResetEmailForCodeResource($user);
+        } catch (Exception $e) {
+            return match ($e->getMessage()) {
+                'Invalid Code' => new InvalidVerifyEmailForCodeResource([]),
+                'Code has expired' => new ExpiredVerifyEmailForCodeResource([]),
+                'User or code not found' => new NotFitVerifyEmailForCodeResource([]),
+                default => new ErrorVerifyEmailForCodeResource([]),
+            };
         }
     }
-    /**
-     * @return JsonResponse
-     * Создания одноразого кода для почты по маршруту
-     */
-    public function generateCodeForEmail(): JsonResponse
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessResetPasswordForAdminResource::class, null, )]
+    #[ResponseFromApiResource(ErrorResetPasswordForAdminResource::class, null, 500)]
+    #[Endpoint(title: 'ResetPasswordForAdmin', description: 'Смена пароля пользоватя для Админа')]
+    public function resetPasswordForAdmin(ResetPasswordForAdminRequest $request): SuccessResetPasswordForAdminResource | ErrorResetPasswordForAdminResource
     {
-        $user = auth('api')->user();
-        $result = $this->createCodeEmail($user);
-        if ($result === 'success') {
-            return response()->json(['status' => 'success'], 200);
-        } else {
-            return response()->json(['status' => 'error', 'message' => $result], 400);
-        }
+       try {
+           $this->authService->resetPasswordForAdmin($request);
+           return new SuccessResetPasswordForAdminResource([]);
+       } catch (\Exception $e) {
+            return new ErrorResetPasswordForAdminResource([]);
+       }
+    }
+    #[Authenticated]
+    #[ResponseFromApiResource(SuccessGenerateCodeForMailResource::class, null)]
+    #[ResponseFromApiResource(ErrorGenerateCodeForMailResource::class, null, 500)]
+    #[Endpoint(title: 'GenerateCodeForEmail', description: 'Отправка кода для смены или подтверждения почты на почту')]
+    public function generateCodeForEmail(): SuccessGenerateCodeForMailResource | ErrorGenerateCodeForMailResource
+    {
+            $response = $this->authService->generateCodeForEmail();
+            return $response ? new SuccessGenerateCodeForMailResource([]) : new ErrorGenerateCodeForMailResource([]);
     }
 }

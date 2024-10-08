@@ -1,17 +1,17 @@
-name: PasswordRecovery
-description: 'Методы для восстановления пароля'
+name: Sight
+description: Места
 endpoints:
   -
     httpMethods:
       - GET
-    uri: api/recovery/password
+    uri: api/sights
     metadata:
-      groupName: PasswordRecovery
-      groupDescription: 'Методы для восстановления пароля'
+      groupName: Sight
+      groupDescription: Места
       subgroup: ''
       subgroupDescription: ''
-      title: send
-      description: 'Отправка письма с ссылкой для восстановления пароля'
+      title: getSights
+      description: 'Возвращает все места по фильтрам'
       authenticated: false
       custom: []
     headers:
@@ -22,34 +22,411 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      email:
-        name: email
+      pagination:
+        name: pagination
+        description: 'On and off paginate.'
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      page:
+        name: page
         description: ''
-        required: true
-        example: 123n@mail.ru
+        required: false
+        example: null
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-    cleanBodyParameters:
-      email: 123n@mail.ru
+      limit:
+        name: limit
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      order:
+        name: order
+        description: ''
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      userId:
+        name: userId
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      likedUser:
+        name: likedUser
+        description: ''
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      name:
+        name: name
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sponsor:
+        name: sponsor
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      favoriteUser:
+        name: favoriteUser
+        description: ''
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      statusLast:
+        name: statusLast
+        description: ''
+        required: false
+        example: null
+        type: boolean
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      statuses:
+        name: statuses
+        description: ''
+        required: false
+        example: null
+        type: atring
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      locationId:
+        name: locationId
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      address:
+        name: address
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sightTypes:
+        name: sightTypes
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      user:
+        name: user
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      radius:
+        name: radius
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      latitude:
+        name: latitude
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      longitude:
+        name: longitude
+        description: ''
+        required: false
+        example: null
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      searchText:
+        name: searchText
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      sightIds:
+        name: sightIds
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters: []
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0421\u0441\u044b\u043b\u043a\u0430 \u0434\u043b\u044f \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u044f \u043f\u0430\u0440\u043e\u043b\u044f \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0430 \u043d\u0430 \u0432\u0430\u0448\u0443 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u0443\u044e \u043f\u043e\u0447\u0442\u0443"}'
+        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","sights":{"data":[{"id":5,"name":"Id saepe occaecati fuga dolores.","sponsor":null,"latitude":"26.69382900000000","longitude":"-72.07069400000000","location_id":1091,"address":"276100, \u0422\u0432\u0435\u0440\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0418\u0441\u0442\u0440\u0430, \u0441\u043f\u0443\u0441\u043a \u041b\u0430\u0434\u044b\u0433\u0438\u043d\u0430, 32","description":"Excepturi ut et blanditiis eum pariatur molestias voluptate. Sunt doloremque voluptas sit vitae quia quaerat. Dolores nihil et et ad. Et est maiores quod.","materials":"Molestiae facere non qui et. Totam omnis praesentium alias dolorem beatae similique. Et ipsam et praesentium in.","phone":"9084780308","email":"olga.merkuseva@bk.ru","site":null,"user_id":1,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: show
+      description: 'Получение место по id'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'id места'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      id:
+        name: id
+        description: ''
+        required: true
+        example: 4
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      id: 4
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"sight.show.success","sight":{"id":6,"name":"Nobis deserunt exercitationem officiis quia eos.","sponsor":null,"latitude":"-78.32986400000000","longitude":"-113.94176800000000","location_id":1117,"address":"270001, \u0412\u043e\u043b\u043e\u0433\u043e\u0434\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0421\u043e\u043b\u043d\u0435\u0447\u043d\u043e\u0433\u043e\u0440\u0441\u043a, \u043f\u043b. \u041b\u0435\u043d\u0438\u043d\u0430, 25","description":"Commodi incidunt illo aut quam. Ut et libero voluptatem voluptas. Deserunt in in labore exercitationem sapiente suscipit et.","materials":"Quos officiis molestias aut ut sit id harum. Delectus excepturi qui cum ex voluptatem alias. Maxime soluta voluptate quasi ut. Amet sit eos in consequatur fuga.","phone":"5925287662","email":"dtimofeeva@kiseleva.com","site":null,"user_id":1,"afisha7_id":null}}'
         headers: []
         description: ''
         custom: []
       -
         status: 404
-        content: '{"status":"error","message":"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u0441 \u0442\u0430\u043a\u043e\u0439 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u043e\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d"}'
+        content: '{"status":"success","message":"sight.show.error"}'
         headers: []
         description: ''
         custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/events'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: getEventsInSight
+      description: 'Получение событий в месте по id'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 22
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 22
+    fileParameters: []
+    responses:
       -
-        status: 405
-        content: '{"status":"error","message":"\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0435 \u0441\u0441\u044b\u043b\u043a\u0438 \u043d\u0430 \u0432\u043e\u0441\u0441\u0442\u0430\u043d\u043e\u0432\u043b\u0435\u043d\u0438\u0435 \u043f\u0430\u0440\u043e\u043b\u044f"}'
+        status: 200
+        content: '{"status":"success","message":"sight.get_events_in_sight.success","events":{"data":[{"id":10,"name":"Temporibus distinctio quibusdam sint.","sponsor":"\u042f\u043a\u0443\u0448\u0435\u0432\u0430\u0430 \u0410\u043d\u0430\u0441\u0442\u0430\u0441\u0438\u044f \u0415\u0432\u0433\u0435\u043d\u044c\u0435\u0432\u043d\u0430","date_start":"2024-10-03 21:20:43","date_end":"2024-10-18 20:45:23","description":"Distinctio sequi velit consequatur mollitia deserunt doloribus illo. Non sed et natus quisquam quisquam ratione deserunt. Voluptas a perspiciatis iure.","materials":"Illo ut quisquam sit odit nam ea. Voluptatum consectetur atque a sit quas quo. Ut neque eaque sit soluta corporis illum. Ut ullam ipsum rem iste placeat rem. Sit suscipit quia dolorem autem.","user_id":1,"vk_post_id":"625864","created_at":"2024-10-08T07:06:16.000000Z","updated_at":"2024-10-08T07:06:16.000000Z","age_limit":"18","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/check-user-liked'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: checkLiked
+      description: 'Проверяем лайкал ли авторизованный юзер этот место'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u043e \u043d\u0435 \u043f\u043e\u043d\u0440\u0430\u0432\u0438\u043b\u043e\u0441\u044c \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044e","is_liked":false}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/check-user-favorite'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: checkFavorite
+      description: 'Проверяем добавил ли авторизованный юзер этот место в избранное'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u043e \u043d\u0435 \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u043e \u0432 \u0438\u0437\u0431\u0440\u0430\u043d\u043d\u043e\u0435","is_favorite":false}'
         headers: []
         description: ''
         custom: []
@@ -62,15 +439,15 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/recovery/password
+    uri: api/sights/create
     metadata:
-      groupName: PasswordRecovery
-      groupDescription: 'Методы для восстановления пароля'
+      groupName: Sight
+      groupDescription: Места
       subgroup: ''
       subgroupDescription: ''
-      title: recovery
-      description: 'Смена пароля с по коду'
-      authenticated: false
+      title: create
+      description: 'Создание мест'
+      authenticated: true
       custom: []
     headers:
       Content-Type: application/json
@@ -80,56 +457,817 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      code:
-        name: code
+      name:
+        name: name
+        description: 'Количество символов в поле value должно быть не меньше 3.'
+        required: true
+        example: kzzrmwkiowmtihwcryuukccykdbvtrmaucofqmsz
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      coords:
+        name: coords
+        description: 'Количество символов в поле value должно быть не меньше 2.'
+        required: true
+        example: ihbmgluwftsxjrcvtbzmilgxnmwhvyij
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      description:
+        name: description
+        description: ''
+        required: false
+        example: 'Ut aut veritatis voluptatem quo sint.'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      type:
+        name: type
         description: ''
         required: true
-        example: corrupti
+        example: unde
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      password:
-        name: password
-        description: 'Количество символов в поле value должно быть не меньше 8.'
+      status:
+        name: status
+        description: ''
         required: true
-        example: 's$wpjW[9E./wk3E!'
+        example: omnis
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      password_confirmation:
-        name: password_confirmation
-        description: 'The value and <code>password</code> must match.'
+      locationId:
+        name: locationId
+        description: ''
         required: true
-        example: voluptas
+        example: nihil
         type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      vkGroupId:
+        name: vkGroupId
+        description: ''
+        required: false
+        example: voluptatem
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      vkPostId:
+        name: vkPostId
+        description: ''
+        required: false
+        example: similique
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      phone_number:
+        name: phone_number
+        description: 'Количество символов в поле value должно быть не меньше 10. Количество символов в значении поля value не может превышать 11.'
+        required: false
+        example: wl
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: 'Значение поля value должно быть действительным электронным адресом.'
+        required: false
+        example: wintheiser.piper@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      site:
+        name: site
+        description: ''
+        required: false
+        example: exercitationem
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      localFilesImg:
+        name: localFilesImg
+        description: ''
+        required: false
+        example: null
+        type: 'string[]'
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      code: corrupti
-      password: 's$wpjW[9E./wk3E!'
-      password_confirmation: voluptas
+      name: kzzrmwkiowmtihwcryuukccykdbvtrmaucofqmsz
+      coords: ihbmgluwftsxjrcvtbzmilgxnmwhvyij
+      description: 'Ut aut veritatis voluptatem quo sint.'
+      type: unde
+      status: omnis
+      locationId: nihil
+      vkGroupId: voluptatem
+      vkPostId: similique
+      phone_number: wl
+      email: wintheiser.piper@example.net
+      site: exercitationem
+    fileParameters: []
+    responses:
+      -
+        status: 201
+        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u043e","sight":{"id":7,"name":"Voluptatem distinctio molestiae veniam est iure nihil.","sponsor":null,"latitude":"-40.87644200000000","longitude":"-96.05971400000000","location_id":2793,"address":"267899, \u041c\u043e\u0441\u043a\u043e\u0432\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0428\u0430\u0445\u043e\u0432\u0441\u043a\u0430\u044f, \u0441\u043f\u0443\u0441\u043a \u0413\u043e\u0433\u043e\u043b\u044f, 33","description":"In vel saepe ducimus sed minus maiores. Laboriosam deleniti eos saepe aperiam a nam ut. Fuga et laborum odit reiciendis. Quo eos maiores inventore sunt veniam.","materials":"Placeat facere et quibusdam architecto et eos. Et nemo aut deleniti similique aut et laboriosam.","phone":"2263545088","email":"valentina52@larionova.ru","site":null,"user_id":1,"afisha7_id":null}}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/liked-users'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: getSightUserLikedIds
+      description: 'Получение пользователей которые лайкнули место'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 9
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 9
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u043f\u0430\u0440\u043e\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043c\u0435\u043d\u0451\u043d"}'
+        content: '{"status":"success","result":{"id":20,"name":"\u041a\u0438\u0440\u0438\u043b\u043b\u043e\u0432\u0430 \u041c\u0438\u043b\u0430\u043d \u041c\u0430\u043a\u0441\u0438\u043c\u043e\u0432\u0438\u0447","email":"nataly53@example.org","email_verified_at":"2024-10-08 07:06:16","created_at":"2024-10-08T07:06:16.000000Z","updated_at":"2024-10-08T07:06:16.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
         headers: []
         description: ''
         custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/favorites-users'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: getSightUserFavoritesIds
+      description: 'Получение пользователей которые добавили в избранное место'
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 11
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 11
+    fileParameters: []
+    responses:
       -
-        status: 403
-        content: '{"status":"error","message":"\u041a\u043e\u0434 \u043d\u0435\u0432\u0435\u0440\u043d\u044b\u0439"}'
+        status: 200
+        content: '{"status":"success","result":{"id":21,"name":"\u0424\u0451\u0434\u043e\u0440\u043e\u0432 \u0418\u0433\u043d\u0430\u0442\u0438\u0439 \u041c\u0430\u043a\u0441\u0438\u043c\u043e\u0432\u0438\u0447","email":"marat.tretykova@example.net","email_verified_at":"2024-10-08 07:06:16","created_at":"2024-10-08T07:06:16.000000Z","updated_at":"2024-10-08T07:06:16.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
         headers: []
         description: ''
         custom: []
-      -
-        status: 404
-        content: '{"status":"error","message":"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u0441 \u0442\u0430\u043a\u043e\u0439 \u044d\u043b\u0435\u043a\u0442\u0440\u043e\u043d\u043d\u043e\u0439 \u043f\u043e\u0447\u0442\u043e\u0439 \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d"}'
-        headers: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - GET
+    uri: 'api/sights/{id}/history-contents'
+    metadata:
+      groupName: Sight
+      groupDescription: Места
+      subgroup: ''
+      subgroupDescription: ''
+      title: ''
+      description: ''
+      authenticated: false
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters:
+      id:
+        name: id
+        description: 'The ID of the sight.'
+        required: true
+        example: 1
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanUrlParameters:
+      id: 1
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      page:
+        name: page
         description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      limit:
+        name: limit
+        description: 'Значение поля value не может быть больше 50.'
+        required: false
+        example: 10
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      limit: 10
+    fileParameters: []
+    responses:
+      -
+        status: 500
+        content: |-
+          {
+              "message": "App\\Http\\Controllers\\Api\\SightController::getHistoryContent(): Return value must be of type Illuminate\\Http\\Resources\\Json\\JsonResource, Illuminate\\Http\\JsonResponse returned",
+              "exception": "TypeError",
+              "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/app/Http/Controllers/Api/SightController.php",
+              "line": 198,
+              "trace": [
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
+                      "line": 54,
+                      "function": "getHistoryContent",
+                      "class": "App\\Http\\Controllers\\Api\\SightController",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
+                      "line": 43,
+                      "function": "callAction",
+                      "class": "Illuminate\\Routing\\Controller",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "line": 259,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\ControllerDispatcher",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "line": 205,
+                      "function": "runController",
+                      "class": "Illuminate\\Routing\\Route",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 798,
+                      "function": "run",
+                      "class": "Illuminate\\Routing\\Route",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 141,
+                      "function": "Illuminate\\Routing\\{closure}",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
+                      "line": 50,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 126,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "line": 57,
+                      "function": "handleRequest",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 25,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 141,
+                      "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "line": 24,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 797,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 776,
+                      "function": "runRouteWithinStack",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 740,
+                      "function": "runRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "line": 729,
+                      "function": "dispatchToRoute",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "line": 190,
+                      "function": "dispatch",
+                      "class": "Illuminate\\Routing\\Router",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 141,
+                      "function": "Illuminate\\Foundation\\Http\\{closure}",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php",
+                      "line": 59,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Barryvdh\\Debugbar\\Middleware\\InjectDebugbar",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+                      "line": 31,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "line": 21,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+                      "line": 40,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
+                      "line": 27,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+                      "line": 86,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+                      "line": 62,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Http\\Middleware\\HandleCors",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+                      "line": 39,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 180,
+                      "function": "handle",
+                      "class": "Illuminate\\Http\\Middleware\\TrustProxies",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "line": 116,
+                      "function": "Illuminate\\Pipeline\\{closure}",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "line": 165,
+                      "function": "then",
+                      "class": "Illuminate\\Pipeline\\Pipeline",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "line": 134,
+                      "function": "sendRequestThroughRouter",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "line": 300,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Http\\Kernel",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "line": 288,
+                      "function": "callLaravelOrLumenRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "line": 91,
+                      "function": "makeApiCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "line": 44,
+                      "function": "makeResponseCall",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "line": 35,
+                      "function": "makeResponseCallIfConditionsPass",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "line": 236,
+                      "function": "__invoke",
+                      "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "line": 163,
+                      "function": "iterateThroughStrategies",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "line": 95,
+                      "function": "fetchResponses",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "line": 125,
+                      "function": "processRoute",
+                      "class": "Knuckles\\Scribe\\Extracting\\Extractor",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "line": 72,
+                      "function": "extractEndpointsInfoFromLaravelApp",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "line": 50,
+                      "function": "extractEndpointsInfoAndWriteToDisk",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
+                      "line": 53,
+                      "function": "get",
+                      "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "line": 36,
+                      "function": "handle",
+                      "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Util.php",
+                      "line": 41,
+                      "function": "Illuminate\\Container\\{closure}",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "line": 93,
+                      "function": "unwrapIfClosure",
+                      "class": "Illuminate\\Container\\Util",
+                      "type": "::"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "line": 35,
+                      "function": "callBoundMethod",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Container.php",
+                      "line": 661,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\BoundMethod",
+                      "type": "::"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 183,
+                      "function": "call",
+                      "class": "Illuminate\\Container\\Container",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Command/Command.php",
+                      "line": 326,
+                      "function": "execute",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "line": 152,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Command\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "line": 1063,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Command",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "line": 320,
+                      "function": "doRunCommand",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "line": 174,
+                      "function": "doRun",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Application.php",
+                      "line": 102,
+                      "function": "run",
+                      "class": "Symfony\\Component\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
+                      "line": 155,
+                      "function": "run",
+                      "class": "Illuminate\\Console\\Application",
+                      "type": "->"
+                  },
+                  {
+                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/artisan",
+                      "line": 35,
+                      "function": "handle",
+                      "class": "Illuminate\\Foundation\\Console\\Kernel",
+                      "type": "->"
+                  }
+              ]
+          }
+        headers:
+          cache-control: 'no-cache, private'
+          content-type: application/json
+          x-ratelimit-limit: '500'
+          x-ratelimit-remaining: '497'
+          vary: Origin
+        description: null
         custom: []
     responseFields: []
     auth: []

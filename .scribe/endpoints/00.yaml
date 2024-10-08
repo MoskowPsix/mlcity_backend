@@ -1,18 +1,18 @@
-name: UserPoint
-description: 'Сохранённое местоположение пользователя'
+name: Auth
+description: Авторизация
 endpoints:
   -
     httpMethods:
-      - GET
-    uri: api/users/point
+      - POST
+    uri: api/register
     metadata:
-      groupName: UserPoint
-      groupDescription: 'Сохранённое местоположение пользователя'
+      groupName: Auth
+      groupDescription: Авторизация
       subgroup: ''
       subgroupDescription: ''
-      title: getForUser
-      description: 'Получение точек пользователя'
-      authenticated: true
+      title: Register
+      description: 'Регистрация нового пользователя'
+      authenticated: false
       custom: []
     headers:
       Content-Type: application/json
@@ -22,8 +22,44 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      page:
-        name: page
+      name:
+        name: name
+        description: 'Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 50.'
+        required: true
+        example: nek
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: 'Значение поля value должно быть действительным электронным адресом.'
+        required: true
+        example: jerde.leonora@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password:
+        name: password
+        description: 'Количество символов в поле value должно быть не меньше 8.'
+        required: true
+        example: 'X1C|A*'
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The value and <code>password</code> must match.'
+        required: true
+        example: ut
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      avatar:
+        name: avatar
         description: ''
         required: false
         example: null
@@ -31,22 +67,22 @@ endpoints:
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      limit:
-        name: limit
-        description: 'Значение поля value не может быть больше 50.'
-        required: false
-        example: 20
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
     cleanBodyParameters:
-      limit: 20
+      name: nek
+      email: jerde.leonora@example.net
+      password: 'X1C|A*'
+      password_confirmation: ut
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","points":{"data":[{"latitude":-43.767106,"longitude":155.332118}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u044b","access_token":"7|a6wiZ9NQJJjGmQzQo99rms0fjxZ2LWQoobUc91Jf319275fd","token_type":"Bearer","user":{"id":12,"name":"\u042d\u043c\u043c\u0430 \u0421\u0435\u0440\u0433\u0435\u0435\u0432\u043d\u0430 \u0411\u043e\u0431\u0440\u043e\u0432\u0430\u0430","email":"nmerkusev@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u0420\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u044f \u043f\u0440\u043e\u0448\u043b\u0430 \u043d\u0435\u0443\u0434\u0430\u0447\u043d\u043e"}'
         headers: []
         description: ''
         custom: []
@@ -59,15 +95,15 @@ endpoints:
   -
     httpMethods:
       - POST
-    uri: api/users/point
+    uri: api/login
     metadata:
-      groupName: UserPoint
-      groupDescription: 'Сохранённое местоположение пользователя'
+      groupName: Auth
+      groupDescription: Авторизация
       subgroup: ''
       subgroupDescription: ''
-      title: create
-      description: 'Создание пользовательской точки'
-      authenticated: true
+      title: Login
+      description: 'Авторизация пользователя'
+      authenticated: false
       custom: []
     headers:
       Content-Type: application/json
@@ -77,32 +113,50 @@ endpoints:
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters:
-      latitude:
-        name: latitude
-        description: 'Значение поля value должно быть между -87 и 89.'
+      name:
+        name: name
+        description: 'Значение поля value должно быть действительным электронным адресом. Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: -86
-        type: number
+        example: ploxjsjkxoxmyuaokvpggbtozjffusjfqhtltubpvknzqeeujbljjbnyjmlutsq
+        type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
-      longitude:
-        name: longitude
-        description: 'Значение поля value должно быть между -180 и 180.'
+      password:
+        name: password
+        description: 'Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: -179
-        type: number
+        example: 'WvVGhm"+G"x]'
+        type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      latitude: -86
-      longitude: -179
+      name: ploxjsjkxoxmyuaokvpggbtozjffusjfqhtltubpvknzqeeujbljjbnyjmlutsq
+      password: 'WvVGhm"+G"x]'
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0430","points":{"latitude":35.151841,"longitude":120.350414}}'
+        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043b\u0438\u0441\u044c","access_token":"8|dFckFzlNITdqbat1qyiVPWWBQnmV0E6A8cZftWU47529b38c","token_type":"Bearer","user":{"id":13,"name":"\u0415\u0433\u043e\u0440 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u0438\u0447 \u0414\u0440\u043e\u0437\u0434\u043e\u0432","email":"erik79@example.com","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041d\u0435\u0443\u0434\u0430\u0447\u043d\u0430\u044f \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u0438"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041d\u0435\u0443\u0434\u0430\u0447\u043d\u0430\u044f \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u0430\u0446\u0438\u0438"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 404
+        content: '{"status":"error","message":"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d"}'
         headers: []
         description: ''
         custom: []
@@ -114,32 +168,22 @@ endpoints:
     custom: []
   -
     httpMethods:
-      - DELETE
-    uri: 'api/users/point/{id}'
+      - POST
+    uri: api/logout
     metadata:
-      groupName: UserPoint
-      groupDescription: 'Сохранённое местоположение пользователя'
+      groupName: Auth
+      groupDescription: Авторизация
       subgroup: ''
       subgroupDescription: ''
-      title: delete
-      description: 'Удаление точки пользователя'
+      title: logout
+      description: 'Выход пользователя'
       authenticated: true
       custom: []
     headers:
       Content-Type: application/json
       Accept: application/json
-    urlParameters:
-      id:
-        name: id
-        description: 'id точки'
-        required: true
-        example: 1
-        type: integer
-        enumValues: []
-        exampleWasSpecified: false
-        custom: []
-    cleanUrlParameters:
-      id: 1
+    urlParameters: []
+    cleanUrlParameters: []
     queryParameters: []
     cleanQueryParameters: []
     bodyParameters: []
@@ -148,13 +192,354 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"}'
+        content: '{"status":"success","message":"\u041f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0432\u044b\u0448\u0435\u043b"}'
         headers: []
         description: ''
         custom: []
       -
-        status: 400
-        content: '{"status":"error","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043d\u0435 \u043d\u0430\u0439\u0434\u0435\u043d\u0430"}'
+        status: 500
+        content: '{"status":"error","message":"\u041f\u0440\u0438 \u0432\u044b\u0445\u043e\u0434\u0435 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u044f \u043e\u0448\u0438\u0431\u043a\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: api/admin/reset_password
+    metadata:
+      groupName: Auth
+      groupDescription: Авторизация
+      subgroup: ''
+      subgroupDescription: ''
+      title: ResetPasswordForAdmin
+      description: 'Смена пароля пользоватя для Админа'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      user_id:
+        name: user_id
+        description: ''
+        required: true
+        example: nemo
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      new_password:
+        name: new_password
+        description: 'Количество символов в поле value должно быть не меньше 8.'
+        required: true
+        example: xhkylhisrlzztbpphdceewomhlcuycioscgyitwizuhcasbcliglyqpot
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      password_confirmation:
+        name: password_confirmation
+        description: 'The value and <code>new_password</code> must match.'
+        required: true
+        example: et
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      user_id: nemo
+      new_password: xhkylhisrlzztbpphdceewomhlcuycioscgyitwizuhcasbcliglyqpot
+      password_confirmation: et
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"error","messages":"\u041f\u0430\u0440\u043e\u043b\u044c \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0451\u043d."}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"error","messages":"\u041e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0441\u043c\u0435\u043d\u0435 \u043f\u0430\u0440\u043e\u043b\u044f. \u041f\u043e\u043f\u0440\u043e\u0431\u0443\u0439\u0442\u0435 \u043f\u043e\u0437\u0436\u0435."}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/verificationEmail
+    metadata:
+      groupName: Auth
+      groupDescription: Авторизация
+      subgroup: ''
+      subgroupDescription: ''
+      title: GenerateCodeForEmail
+      description: 'Отправка кода для смены или подтверждения почты на почту'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters: []
+    cleanBodyParameters: []
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041a\u043e\u0434 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d \u043d\u0430 \u043f\u043e\u0447\u0442\u0443"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"success","message":"\u041f\u0440\u0438 \u043e\u0442\u043f\u0440\u0430\u0432\u043a\u0435 \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043a\u0440\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0430\u044f \u043e\u0448\u0438\u0431\u043a\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - POST
+    uri: api/verificationUserEmail
+    metadata:
+      groupName: Auth
+      groupDescription: Авторизация
+      subgroup: ''
+      subgroupDescription: ''
+      title: VerifyEmailForCode
+      description: 'Подтверждения почты пользователя по коду'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      code:
+        name: code
+        description: 'Значение поля value должно быть не меньше 999. Значение поля value не может быть больше 10000.'
+        required: true
+        example: 2
+        type: integer
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      code: 2
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430","user":{"id":15,"name":"\u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0430 \u0410\u043d\u0442\u043e\u043d\u0438\u043d\u0430 \u041b\u044c\u0432\u043e\u0432\u043d\u0430","email":"vil.mysnikova@example.com","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041a\u043e\u0434 \u043d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u043e\u0447\u0442\u0430 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041a\u043e\u0434 \u043d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u043e\u0447\u0442\u0430 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u043a\u043e\u0434"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"error","message":"\u0412\u043e \u0432\u0440\u0435\u043c\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u043e\u0447\u0442\u044b \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043e\u0448\u0438\u0431\u043a\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: api/resetEmail
+    metadata:
+      groupName: Auth
+      groupDescription: Авторизация
+      subgroup: ''
+      subgroupDescription: ''
+      title: ResetEmailForCode
+      description: 'Смена подтверждённой почты'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      code:
+        name: code
+        description: 'Количество символов в поле value должно быть не меньше 4. Количество символов в значении поля value не может превышать 4.'
+        required: true
+        example: o
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      email:
+        name: email
+        description: 'Значение поля value должно быть действительным электронным адресом.'
+        required: true
+        example: aimee.thiel@example.net
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      code: o
+      email: aimee.thiel@example.net
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u0412\u0430\u0448\u0430 \u043f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430. \u041d\u0430 \u0432\u0430\u0448\u0443 \u043d\u043e\u0432\u0443\u044e \u043f\u043e\u0447\u0442\u0443 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e \u043f\u0438\u0441\u044c\u043c\u043e \u0441 \u043a\u043e\u0434\u043e\u043c \u0434\u043b\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f","user":{"id":16,"name":"\u0413\u0440\u0438\u0433\u043e\u0440\u0438\u0439 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u0438\u0447 \u0410\u043d\u0434\u0440\u0435\u0435\u0432\u0430","email":"sorokina.fedor@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u0412\u043e \u0432\u0440\u0435\u043c\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f \u043f\u043e\u0447\u0442\u044b \u043f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043e\u0448\u0438\u0431\u043a\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u043a\u043e\u0434"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041a\u043e\u0434 \u043d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u043e\u0447\u0442\u0430 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"error","message":"\u041a\u043e\u0434 \u043d\u0435 \u0432\u0435\u0440\u043d\u044b\u0439 \u0438\u043b\u0438 \u043f\u043e\u0447\u0442\u0430 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+    responseFields: []
+    auth: []
+    controller: null
+    method: null
+    route: null
+    custom: []
+  -
+    httpMethods:
+      - PUT
+    uri: api/users/email
+    metadata:
+      groupName: Auth
+      groupDescription: Авторизация
+      subgroup: ''
+      subgroupDescription: ''
+      title: EditEmailNotVerify
+      description: 'Смена не подтверждённой почты'
+      authenticated: true
+      custom: []
+    headers:
+      Content-Type: application/json
+      Accept: application/json
+    urlParameters: []
+    cleanUrlParameters: []
+    queryParameters: []
+    cleanQueryParameters: []
+    bodyParameters:
+      email:
+        name: email
+        description: ''
+        required: true
+        example: doloremque
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      0:
+        name: '0'
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      1:
+        name: '1'
+        description: 'Значение поля value должно быть действительным электронным адресом.'
+        required: false
+        example: kreiger.shany@example.org
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+    cleanBodyParameters:
+      email: doloremque
+      1: kreiger.shany@example.org
+    fileParameters: []
+    responses:
+      -
+        status: 200
+        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430","verification_url":{"id":17,"name":"\u0410\u0440\u0442\u0435\u043c\u044c\u0435\u0432\u0430 \u0413\u0435\u0440\u043c\u0430\u043d \u0420\u043e\u043c\u0430\u043d\u043e\u0432\u0438\u0447","email":"kseniy.polykov@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 403
+        content: '{"status":"error","message":"\u041d\u0435 \u0443\u0434\u0430\u043b\u043e\u0441\u044c \u0438\u0437\u043c\u0435\u043d\u0438\u0442\u044c \u043f\u043e\u0447\u0442\u0443, \u043e\u043d\u0430 \u0443\u0436\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430"}'
+        headers: []
+        description: ''
+        custom: []
+      -
+        status: 500
+        content: '{"status":"error","message":"\u041f\u0440\u043e\u0438\u0437\u043e\u0448\u043b\u0430 \u043e\u0448\u0438\u0431\u043a\u0430 \u043f\u0440\u0438 \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0438\u0438 \u043f\u043e\u0447\u0442\u044b"}'
         headers: []
         description: ''
         custom: []

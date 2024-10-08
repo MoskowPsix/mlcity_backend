@@ -26,6 +26,14 @@ return [
                     'api/recovery/*',
                     'api/users/point/*',
                     'api/users/point',
+                    'api/register',
+                    'api/login',
+                    'api/logout',
+                    'api/admin/reset_password',
+                    'api/verificationEmail',
+                    'api/verificationUserEmail',
+                    'api/resetEmail',
+                    'api/users/email'
                 ],
 
                 // Match only routes whose domains match this pattern (use * as a wildcard to match any characters). Example: 'api.*'.

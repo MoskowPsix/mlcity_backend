@@ -2,10 +2,9 @@
 
 namespace App\Http\Requests\Auth;
 
-use Illuminate\Contracts\Validation\Factory as ValidationFactory;
 use Illuminate\Foundation\Http\FormRequest;
 
-class LoginRequest extends FormRequest
+class ResetPasswordForAdminRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -14,7 +13,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return true;
+        return false;
     }
 
     /**
@@ -25,8 +24,9 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         return [
-            "name"        => "required|min:3|email|exists:users,email",
-            'password'    => 'required|min:3',
+            'user_id'                   => 'required|exists:users,id',
+            'new_password'              => 'required|min:8',
+            'password_confirmation'     => 'required|same:new_password',
         ];
     }
 }

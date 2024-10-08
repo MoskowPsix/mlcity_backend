@@ -3,6 +3,7 @@
 namespace App\Http\Requests\Auth;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RequestEditEmailNotVerification extends FormRequest
 {
@@ -24,7 +25,11 @@ class RequestEditEmailNotVerification extends FormRequest
     public function rules()
     {
         return [
-            'email'                  => 'required|email|unique:users'
+            'email'                  => 'required',
+                                        'email',
+                                        Rule::unique('users')->where(function ($query) {
+                                            return $query->whereNotNull('email_verified_at');
+                                        }),
         ];
     }
 }

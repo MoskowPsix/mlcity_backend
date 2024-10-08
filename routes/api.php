@@ -34,10 +34,10 @@ Route::controller(AuthController::class)->group(function () {
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
 
     // Методы манипуляций с почтой
-    Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum');
-    Route::post('verificationUserEmail', 'verificationEmailForCode')->middleware('auth:sanctum');
-    Route::put('resetEmail', 'resetEmailForCode')->middleware('auth:sanctum');
-    Route::put('users/email', 'editEmailNotVerification')->middleware('auth:sanctum');
+    Route::post('verificationEmail', 'generateCodeForEmail')->middleware('auth:sanctum')->name('email.verify.code_generate');
+    Route::post('verificationUserEmail', 'verifyEmailForCode')->middleware('auth:sanctum')->name('email.verify.code_verify');
+    Route::put('resetEmail', 'resetEmailForCode')->middleware('auth:sanctum')->name('user.edit.email_verify');
+    Route::put('users/email', 'editEmailNotVerify')->middleware('auth:sanctum')->name('user.edit.email_not_verify');
 });
 
 Route::controller(PointController::class)->group(function () {
