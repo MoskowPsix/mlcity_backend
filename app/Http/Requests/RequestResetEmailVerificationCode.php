@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class RequestResetEmailVerificationCode extends FormRequest
 {
@@ -25,7 +26,11 @@ class RequestResetEmailVerificationCode extends FormRequest
     {
         return [
             'code'                   => 'required|min:4|max:4',
-            'email'                  => 'required|email|unique:users'
+            'email'                  => 'required',
+                                        'email',
+                                        Rule::unique('users')->where(function ($query) {
+                                            return $query->whereNotNull('email_verified_at');
+                                        }),
         ];
     }
 }
