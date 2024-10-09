@@ -3,10 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Contracts\Services\CurrentType\CurrentType;
-use App\Models\Hero;
 use App\Models\Location;
-use App\Models\Photo;
-use Illuminate\Support\Facades\DB;
 use Throwable;
 use Symfony\Component\Process\Process;
 use Illuminate\Console\Command;
@@ -434,13 +431,17 @@ class IntegrationAfisha7 extends Command
         $sights = $this->getSights($this->location, $types_id, $this->limit, $this->offset);
         if (isset($sights->places)) {
             foreach ($sights->places as $sight) {
-                if (!Sight::where('afisha7_id', $sight->id)->exists()) {
+                $sight_search = Sight::where('afisha7_id', $sight->id);
+                if (!$sight_search->exists()) {
                     $sight_cr = $this->saveSight($sight);
                     if (isset($sight_cr)) {
                         $this->saveFilesSight($sight, $sight_cr);
                         $this->setTypesSight($types_id, $sight_cr);
                         $this->setStatusSight($sight_cr);
                     }
+                } else {
+                    $sight_ex = $sight_search->first();
+                    $this->setTypesSight($types_id, $sight_ex);
                 }
             }
         }
@@ -560,7 +561,8 @@ class IntegrationAfisha7 extends Command
         $current_type = new CurrentType($this->types[$type_index]->name);
         $type_name = $current_type->getType();
         if(isset($type_name['id'])) {
-            $sight_create->types()->attach($type_name['id']);
+            $type_exist = $sight_create->types()->where('stypes.id', $type_name['id'])->exists();
+            $type_exist ? null : $sight_create->types()->attach($type_name['id']);
         } else {
             info($this->types[$type_index]->name);
             $sight_type = SightType::create(['name' => $this->types[$type_index]->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
