@@ -28,13 +28,17 @@ class delDubleType extends Command
      */
     public function handle()
     {
-        Sight::query()->orderBy('id')->chunk(1000, function ($sight) {
-            $sight->each(function($sight) {
+        $bar = $this->output->createProgressBar(Sight::query()->count());
+        Sight::query()->orderBy('id')->chunk(1000, function ($sight) use($bar) {
+            $sight->each(function($sight) use($bar) {
                 $types = $sight->types->pluck('id')->toArray();
                 $sight->types()->detach($types);
                 $sight->types()->attach(array_unique($types));
+                $bar->advance();
             });
         });
+        $bar->finish();
+
         return Command::SUCCESS;
     }
 }
