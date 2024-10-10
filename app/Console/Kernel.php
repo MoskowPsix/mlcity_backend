@@ -18,8 +18,11 @@ class Kernel extends ConsoleKernel
         // $schedule->command('inspire')->hourly();
 //        $schedule->command('addView')->twiceDaily(1, 13);
         // $schedule->command('institutes_save')->weekly();
-//        $schedule->command('clear-log')->weeklyOn(7, '3:00');;
-	    $schedule->command('backup_db')->weeklyOn(6, '3:00');
+//        $schedule->command('clear-log')->weeklyOn(7, '3:00');
+        $schedule->command('duble')->daily()->after(function ($day) {
+            $this->call('duble');
+        });
+        $schedule->command('backup_db')->weeklyOn(6, '3:00');
         $schedule->command('telescope:prune --hours=48')->daily();
     }
 
