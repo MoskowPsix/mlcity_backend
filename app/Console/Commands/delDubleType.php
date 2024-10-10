@@ -28,10 +28,12 @@ class delDubleType extends Command
      */
     public function handle()
     {
-        Sight::all()->each(function($sight) {
-            $types = $sight->types->pluck('id')->toArray();
-            $sight->types()->detach($types);
-            $sight->types()->attach(array_unique($types));
+        Sight::query()->orderBy('id')->chunk(1000, function ($sight) {
+            $sight->each(function($sight) {
+                $types = $sight->types->pluck('id')->toArray();
+                $sight->types()->detach($types);
+                $sight->types()->attach(array_unique($types));
+            });
         });
         return Command::SUCCESS;
     }
