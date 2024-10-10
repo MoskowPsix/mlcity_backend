@@ -29,12 +29,9 @@ class delDubleType extends Command
     public function handle()
     {
         Sight::all()->each(function($sight) {
-            $types = $sight->types()->get();
-            foreach ($types as $type) {
-                $sight->types()->detach([$type->id]);
-                $sight->types()->attach([$type->id]);
-
-            }
+            $types = $sight->types->pluck('id')->toArray();
+            $sight->types()->detach($types);
+            $sight->types()->attach(array_unique($types));
         });
         return Command::SUCCESS;
     }
