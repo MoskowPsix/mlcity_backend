@@ -28,6 +28,7 @@ class delDubleType extends Command
      */
     public function handle()
     {
+        ini_set('memory_limit', '2048M');
         $bar = $this->output->createProgressBar(Sight::query()->count());
         Sight::query()->orderBy('id')->chunk(1000, function ($sight) use($bar) {
             $sight->each(function($sight) use($bar) {
