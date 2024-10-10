@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\User;
 
+use App\Models\Sight;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -115,5 +116,26 @@ class Register extends TestCase
         ]);
 
         $response->assertStatus(422);
+    }
+
+    public function test_memory_allowed(): void
+    {
+        Sight::factory()->count(1000)->create()->each(function (Sight $sight) {
+            $sight->types()->attach(1);
+            $sight->types()->attach(2);
+            $sight->types()->attach(2);
+            $sight->types()->attach(2);
+            $sight->types()->attach(2);
+            $sight->types()->attach(3);
+            $sight->types()->attach(4);
+            $sight->types()->attach(5);
+        });
+        Sight::query()->orderBy('id')->chunk(10, function ($sight) {
+            $sight->each(function($sight) {
+                $types = $sight->types->pluck('id')->toArray();
+                $sight->types()->detach($types);
+                $sight->types()->attach(array_unique($types));
+            });
+        });
     }
 }
