@@ -29,7 +29,7 @@ class SightTypeController extends Controller
             ])
             ->via("apply")
             ->then(function($types){
-                $types = $types->orderBy("name")->get();
+                $types = $types->orderBy('order', 'ASC')->get();
                 return $types;
             });
 

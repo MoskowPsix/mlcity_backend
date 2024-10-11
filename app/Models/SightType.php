@@ -17,7 +17,8 @@ class SightType extends Model
         'name',
         'ico',
         'cult_id',
-        'stype_id'
+        'stype_id',
+        'order',
     ];
 
     public function historyContents(){

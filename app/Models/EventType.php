@@ -17,7 +17,8 @@ class EventType extends Model
         'name',
         'ico',
         'cult_id',
-        'etype_id'
+        'etype_id',
+        'order'
     ];
 
     public function historyContents(){
