@@ -6,10 +6,13 @@ namespace App\MoonShine\Resources;
 
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonSeance;
+use App\Models\Seance;
 use App\MoonShine\Pages\MoonSeance\MoonSeanceIndexPage;
 use App\MoonShine\Pages\MoonSeance\MoonSeanceFormPage;
 use App\MoonShine\Pages\MoonSeance\MoonSeanceDetailPage;
 
+use MoonShine\Fields\ID;
+use MoonShine\Fields\Date;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -18,9 +21,18 @@ use MoonShine\Pages\Page;
  */
 class MoonSeanceResource extends ModelResource
 {
-    protected string $model = MoonSeance::class;
+    protected string $model = Seance::class;
 
-    protected string $title = 'MoonSeances';
+    protected string $title = 'Сеансы';
+
+    public function fields(): array
+    {
+        return [
+            ID::make()->sortable(),
+            Date::make('Дата начала', 'date_start')->format('d.m.Y H:i'),
+            Date::make('Дата конца', 'date_end')->format('d.m.Y H:i'),
+        ];
+    }
 
     /**
      * @return list<Page>
@@ -39,7 +51,7 @@ class MoonSeanceResource extends ModelResource
     }
 
     /**
-     * @param MoonSeance $item
+     * @param Seance $item
      *
      * @return array<string, string[]|string>
      * @see https://laravel.com/docs/validation#available-validation-rules
