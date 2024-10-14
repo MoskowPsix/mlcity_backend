@@ -54,10 +54,14 @@ class MoonUserResource extends ModelResource
             Text::make('Имя', 'name')->sortable(),
             Text::make('Email', 'email')->sortable(),
             Image::make('Аватар', 'avatar')
-                ->changePreview(function ($data) use($url){
-                    if(substr($data, 0, 4) == 'http'){
+                ->changePreview(function ($data) use ($url) {
+                    if (empty($data)) {
+                        return '';
+                    }
+
+                    if (substr($data, 0, 4) == 'http') {
                         return view('moonshine::ui.image', ['value' => $data]);
-                    } else if(substr($data, 0, 4) == '/sto') {
+                    } else if (substr($data, 0, 4) == '/sto') {
                         return view('moonshine::ui.image', ['value' => $url . $data]);
                     } else {
                         return $data;
@@ -82,10 +86,10 @@ class MoonUserResource extends ModelResource
             Text::make('Email', 'email'),
             Checkbox::make('Верфикация почты', 'email_verified_at'),
             Image::make('Аватар', 'avatar')
-                ->changePreview(function ($data) use($url){
-                    if(substr($data, 0, 4) == 'http'){
+                ->changePreview(function ($data) use ($url) {
+                    if (substr($data, 0, 4) == 'http') {
                         return view('moonshine::ui.image', ['value' => $data]);
-                    } else if(substr($data, 0, 4) == '/sto') {
+                    } else if (substr($data, 0, 4) == '/sto') {
                         return view('moonshine::ui.image', ['value' => $url . $data]);
                     } else {
                         return $data;
@@ -93,13 +97,13 @@ class MoonUserResource extends ModelResource
                 }),
             HasOne::make('Социальная сеть', 'socialAccount', resource: new MoonSocialAccountResource()),
             BelongsToMany::make('Роли', 'roles', resource: new MoonRoleResource())
-            ->inLine(
-                separator: ' ',
-                link: fn(Role $role, $value, $field) => Link::make(
-                    (new MoonRoleResource())->detailPageUrl($role),
-                    $value
-                )
-            ),
+                ->inLine(
+                    separator: ' ',
+                    link: fn(Role $role, $value, $field) => Link::make(
+                        (new MoonRoleResource())->detailPageUrl($role),
+                        $value
+                    )
+                ),
         ];
     }
 
@@ -113,7 +117,7 @@ class MoonUserResource extends ModelResource
             Checkbox::make('Верфикация почты', 'email_verified_at'),
             BelongsToMany::make('Роль', 'roles', resource: new MoonRoleResource())->selectMode(),
             File::make('Аватар', 'avatar')
-                ->onApply(function(Model $item, $value, Field $field) {
+                ->onApply(function (Model $item, $value, Field $field) {
                     $storage = 'public';
                     $puth = "users/$item->id";
                     if ($value) {
@@ -122,7 +126,7 @@ class MoonUserResource extends ModelResource
                     }
                     return $item;
                 })
-                ->changeFill(function () use($url){
+                ->changeFill(function () use ($url) {
                     return '';
                 })
         ];
