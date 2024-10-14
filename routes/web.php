@@ -23,9 +23,9 @@ use Laravel\Telescope\Http\Middleware\Authorize;
 //      return view('app');
 // })->where('any', '.*');
 
-Route::get('/{any}', function () {
-     return view('app');
-})->where('any', '.*');
+//Route::get('/{any}', function () {
+//     return view('app');
+//})->where('any', '.*');
 
 // Route::get('/test', function () {
 //      return view('test');
