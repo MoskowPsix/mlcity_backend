@@ -36,6 +36,7 @@ class MoonUserResource extends ModelResource
     protected string $model = User::class;
 
     protected string $title = 'Пользователи';
+    protected string $column = 'name';
     public function fields(): array
     {
         return [

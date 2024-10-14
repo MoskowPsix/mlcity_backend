@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\MoonShine\Resources\MoonEventResource;
 use App\MoonShine\Resources\MoonRoleResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Telescope\TelescopeApplicationServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
@@ -20,13 +22,17 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('Пользователи', new MoonUserResource())
                     ->translatable(),
 //                    ->icon('users'),
-                MenuItem::make('moonshine::ui.resource.role_title', new MoonRoleResource())
-                    ->translatable()
+                MenuItem::make('Роли', new MoonRoleResource())
+                    ->translatable(),
 //                    ->icon('bookmark'),
             ])->translatable(),
+            MenuGroup::make('Контент', [
+                MenuItem::make('События', new MoonEventResource())
+                    ->translatable()
+                ]),
 
-            MenuItem::make('Documentation', 'https://laravel.com')
-                ->badge(fn() => 'Check'),
+//            MenuItem::make('Documentation', 'https://laravel.com')
+//                ->badge(fn() => 'Check'),
         ]);
     }
 }
