@@ -106,6 +106,37 @@ return [
     ],
 
     'socialite' => [
+//        'vkontakte' => '/images/vkontakte.png',
         // 'driver' => 'path_to_image_for_button'
+    ],
+    // config for media manager page
+    'media-manager' => [
+        // Автоматическое добавление в меню
+//        'auto_menu' => false,
+        // Корневая директория
+        'disk' => config('filesystem.default', 'public'),
+        // Разрешенные для загрузки расширения файлов
+        'allowed_ext' => 'jpg,jpeg,png,pdf,doc,docx,zip',
+        // Вид менеджера по-умолчанию
+        'default_view' => 'table',
+    ],
+    // config for composer viewer page
+    'composer-viewer' => [
+        // Автоматическое добавление в меню
+        'auto_menu' => false,
+        // Указать расположение composer'а
+        'composer' => '/usr/local/bin/composer', // !! ВАЖНО !!
+    ],
+    // config for task page
+    'scheduling' => [
+        // Автоматическое добавление в меню
+        'auto_menu' => false,
+    ],
+    // config for logs page
+    'log_viewer' => [
+        // Автоматическое добавление в меню
+        'auto_menu' => false,
+        // Путь до директории с логами
+        'path' => storage_path('logs'),
     ],
 ];

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "053b3e74d7bb157c0cf134bafd444bf8",
+    "content-hash": "5baf543a7fe2cdd472d254a0ab4687e0",
     "packages": [
         {
             "name": "brick/math",
@@ -1140,6 +1140,69 @@
                 }
             ],
             "time": "2023-10-12T05:21:21+00:00"
+        },
+        {
+            "name": "gian_tiaga/moonshine-coordinates",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/falur/moonshine-coordinates.git",
+                "reference": "bfb391c7a4e457c794e37e1eb02c922205f3d933"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/falur/moonshine-coordinates/zipball/bfb391c7a4e457c794e37e1eb02c922205f3d933",
+                "reference": "bfb391c7a4e457c794e37e1eb02c922205f3d933",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "require-dev": {
+                "larastan/larastan": "^2.0",
+                "laravel/framework": "^11.10",
+                "moonshine/moonshine": "^2.14",
+                "orchestra/testbench": "^9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "GianTiaga\\MoonshineCoordinates\\ServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "GianTiaga\\MoonshineCoordinates\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Enakaev Ildar",
+                    "email": "ienakaev@ya.ru",
+                    "homepage": "https://ildar.yoga"
+                }
+            ],
+            "description": "Field of coordinates on leaflet map for moonshine admin panel",
+            "keywords": [
+                "coordinates",
+                "leaflet",
+                "map",
+                "moonshine"
+            ],
+            "support": {
+                "issues": "https://github.com/falur/moonshine-coordinates/issues",
+                "source": "https://github.com/falur/moonshine-coordinates"
+            },
+            "time": "2024-06-12T12:31:06+00:00"
         },
         {
             "name": "google/apiclient",
@@ -8133,6 +8196,51 @@
             "time": "2022-03-08T17:03:00+00:00"
         },
         {
+            "name": "webmatherfacker/moonshine-carousel",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/sliva-name/moonshine-carousel.git",
+                "reference": "6448cceb0230e720f6fa9278484218914db46653"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/sliva-name/moonshine-carousel/zipball/6448cceb0230e720f6fa9278484218914db46653",
+                "reference": "6448cceb0230e720f6fa9278484218914db46653",
+                "shasum": ""
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Webmatherfacker\\MoonshineCarousel\\Providers\\MoonshineCarouselServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Webmatherfacker\\MoonshineCarousel\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ghost"
+                }
+            ],
+            "support": {
+                "issues": "https://github.com/sliva-name/moonshine-carousel/issues",
+                "source": "https://github.com/sliva-name/moonshine-carousel/tree/v1.0"
+            },
+            "time": "2024-06-15T11:34:09+00:00"
+        },
+        {
             "name": "webmozart/assert",
             "version": "1.11.0",
             "source": {
@@ -8189,6 +8297,234 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.11.0"
             },
             "time": "2022-06-03T18:03:27+00:00"
+        },
+        {
+            "name": "yurizoom/moonshine-composer-viewer",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yurizoom/moonshine-composer-viewer.git",
+                "reference": "1edb4a12cdd511b730ba003f61026018e5296dcf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yurizoom/moonshine-composer-viewer/zipball/1edb4a12cdd511b730ba003f61026018e5296dcf",
+                "reference": "1edb4a12cdd511b730ba003f61026018e5296dcf",
+                "shasum": ""
+            },
+            "require": {
+                "moonshine/moonshine": "^2.9",
+                "php": "^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YuriZoom\\MoonShineComposerViewer\\ComposerViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YuriZoom\\MoonShineComposerViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yurizoom",
+                    "homepage": "https://github.com/yurizoom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Composer viewer for moonshine",
+            "keywords": [
+                "Viewer",
+                "composer",
+                "moonshine"
+            ],
+            "support": {
+                "issues": "https://github.com/yurizoom/moonshine-composer-viewer/issues",
+                "source": "https://github.com/yurizoom/moonshine-composer-viewer/tree/1.0.1"
+            },
+            "time": "2024-06-06T07:33:50+00:00"
+        },
+        {
+            "name": "yurizoom/moonshine-log-viewer",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yurizoom/moonshine-log-viewer.git",
+                "reference": "76a02a7f2969f65d52d2ad19b7b0d9e2734a3071"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yurizoom/moonshine-log-viewer/zipball/76a02a7f2969f65d52d2ad19b7b0d9e2734a3071",
+                "reference": "76a02a7f2969f65d52d2ad19b7b0d9e2734a3071",
+                "shasum": ""
+            },
+            "require": {
+                "moonshine/moonshine": "^2.9",
+                "php": "^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YuriZoom\\MoonShineLogViewer\\LogViewerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YuriZoom\\MoonShineLogViewer\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yurizoom",
+                    "homepage": "https://github.com/yurizoom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Log viewer for MoonShine",
+            "keywords": [
+                "Viewer",
+                "log",
+                "moonshine"
+            ],
+            "support": {
+                "issues": "https://github.com/yurizoom/moonshine-log-viewer/issues",
+                "source": "https://github.com/yurizoom/moonshine-log-viewer/tree/1.0.3"
+            },
+            "time": "2024-08-13T04:30:21+00:00"
+        },
+        {
+            "name": "yurizoom/moonshine-media-manager",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yurizoom/moonshine-media-manager.git",
+                "reference": "9fd8eec359cbedcd94f398ad0bec961f1e795d6f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yurizoom/moonshine-media-manager/zipball/9fd8eec359cbedcd94f398ad0bec961f1e795d6f",
+                "reference": "9fd8eec359cbedcd94f398ad0bec961f1e795d6f",
+                "shasum": ""
+            },
+            "require": {
+                "moonshine/moonshine": "^2.9",
+                "php": "^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YuriZoom\\MoonShineMediaManager\\MediaManagerServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YuriZoom\\MoonShineMediaManager\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yurizoom",
+                    "homepage": "https://github.com/yurizoom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Media manager for MoonShine",
+            "keywords": [
+                "manager",
+                "media",
+                "moonshine"
+            ],
+            "support": {
+                "issues": "https://github.com/yurizoom/moonshine-media-manager/issues",
+                "source": "https://github.com/yurizoom/moonshine-media-manager/tree/1.2.0"
+            },
+            "time": "2024-09-30T09:05:41+00:00"
+        },
+        {
+            "name": "yurizoom/moonshine-scheduling",
+            "version": "1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yurizoom/moonshine-scheduling.git",
+                "reference": "4788cf3f538114f126b584113b00805b06fc20e1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yurizoom/moonshine-scheduling/zipball/4788cf3f538114f126b584113b00805b06fc20e1",
+                "reference": "4788cf3f538114f126b584113b00805b06fc20e1",
+                "shasum": ""
+            },
+            "require": {
+                "moonshine/moonshine": "^2.9",
+                "php": "^8.2"
+            },
+            "conflict": {
+                "moonshine/moonshine": "<2.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YuriZoom\\MoonShineScheduling\\SchedulingServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YuriZoom\\MoonShineScheduling\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "yurizoom",
+                    "homepage": "https://github.com/yurizoom",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Task scheduling extension for MoonShine",
+            "keywords": [
+                "moonshine",
+                "scheduling",
+                "task"
+            ],
+            "support": {
+                "issues": "https://github.com/yurizoom/moonshine-scheduling/issues",
+                "source": "https://github.com/yurizoom/moonshine-scheduling/tree/1.1.2"
+            },
+            "time": "2024-08-13T02:27:25+00:00"
         },
         {
             "name": "zircote/swagger-php",

@@ -63,10 +63,10 @@ class Event extends Model
 //        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
 //    }
 //
-//    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'desc')->first();
-//    }
+    public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Status::class)->wherePivot('last', true);
+    }
 
     //У кого в избранном
     public function favoritesUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
