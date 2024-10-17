@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\MoonPlace;
 
+use MoonShine\Fields\ID;
+use MoonShine\Fields\Number;
+use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\DetailPage;
 use MoonShine\Components\MoonShineComponent;
 use MoonShine\Fields\Field;
@@ -11,12 +14,19 @@ use Throwable;
 
 class MoonPlaceDetailPage extends DetailPage
 {
+    use MoonPlaceHelperPageTrait;
     /**
      * @return list<MoonShineComponent|Field>
      */
     public function fields(): array
     {
-        return [];
+        return [
+            ID::make()->sortable(),
+            Number::make('Долгота', 'latitude'),
+            Number::make('Широта', 'longitude'),
+            Text::make('Адрес', 'address'),
+            $this->showSeances(),
+        ];
     }
 
     /**

@@ -201,7 +201,7 @@ class EventController extends Controller
     #[Authenticated]
     #[NoReturn]
     #[Endpoint(title: 'addStatusToEvent', description: 'Смена статуса мероприяия.')]
-    public function addStatusToEvent(AddStatusRequest $request, $id)
+    public function addStatusToEvent(Request $request, $id)
     {
         $this->eventService->addStatus($id);
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\EventController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Laravel\Telescope\Http\Middleware\Authorize;
@@ -15,6 +16,9 @@ use Laravel\Telescope\Http\Middleware\Authorize;
 |
 */
 
+Route::controller(EventController::class)->group(function () {
+    Route::post('events/{id}/statuses/cookie', 'addStatusToEvent')->middleware('auth:session')->name('event.status.cookie');
+});
 // Route::get('/', function () {
 //     return view('welcome');
 // })->name('');

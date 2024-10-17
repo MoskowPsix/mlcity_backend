@@ -4,24 +4,24 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Models\Place;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
-use App\MoonShine\Pages\MoonPlace\MoonPlaceIndexPage;
-use App\MoonShine\Pages\MoonPlace\MoonPlaceFormPage;
-use App\MoonShine\Pages\MoonPlace\MoonPlaceDetailPage;
+use App\Models\MoonSight;
+use App\MoonShine\Pages\MoonSight\MoonSightIndexPage;
+use App\MoonShine\Pages\MoonSight\MoonSightFormPage;
+use App\MoonShine\Pages\MoonSight\MoonSightDetailPage;
 
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
 /**
- * @extends ModelResource<Place>
+ * @extends ModelResource<Sight>
  */
-class MoonPlaceResource extends ModelResource
+class MoonSightResource extends ModelResource
 {
-    protected string $model = Place::class;
+    protected string $model = Sight::class;
 
-    protected string $title = 'Места проведения';
-    protected bool $detailInModal = true;
+    protected string $title = 'Места';
 
     /**
      * @return list<Page>
@@ -29,18 +29,18 @@ class MoonPlaceResource extends ModelResource
     public function pages(): array
     {
         return [
-            MoonPlaceIndexPage::make($this->title()),
-            MoonPlaceFormPage::make(
+            MoonSightIndexPage::make($this->title()),
+            MoonSightFormPage::make(
                 $this->getItemID()
                     ? __('moonshine::ui.edit')
                     : __('moonshine::ui.add')
             ),
-            MoonPlaceDetailPage::make(__('moonshine::ui.show')),
+            MoonSightDetailPage::make(__('moonshine::ui.show')),
         ];
     }
 
     /**
-     * @param Place $item
+     * @param Sight $item
      *
      * @return array<string, string[]|string>
      * @see https://laravel.com/docs/validation#available-validation-rules

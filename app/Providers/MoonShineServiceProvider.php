@@ -2,14 +2,20 @@
 
 namespace App\Providers;
 
+use App\MoonShine\Pages\MoonEventPage;
 use App\MoonShine\Resources\MoonEventResource;
+use App\MoonShine\Resources\MoonLocationResource;
+use App\MoonShine\Resources\MoonOrganizationResource;
+use App\MoonShine\Resources\MoonPlaceResource;
 use App\MoonShine\Resources\MoonRoleResource;
+use App\MoonShine\Resources\MoonSightResource;
 use App\MoonShine\Resources\MoonStatusResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
 use MoonShine\Menu\MenuItem;
+use MoonShine\Providers\MoonShineApplicationServiceProvider;
 use YuriZoom\MoonShineComposerViewer\Pages\ComposerViewerPage;
 use YuriZoom\MoonShineLogViewer\Pages\LogViewerPage;
 use YuriZoom\MoonShineMediaManager\Pages\MediaManagerPage;
@@ -17,11 +23,17 @@ use YuriZoom\MoonShineScheduling\Pages\SchedulingPage;
 
 //use MoonShine\Resources\MoonSeanceResource;
 
-class MoonShineServiceProvider extends ServiceProvider
+class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
 {
-    public function boot(): void
+    protected function resources(): array
     {
-        app(MoonShine::class)->menu([
+        return [
+            new MoonOrganizationResource(),
+        ];
+    }
+    protected function menu(): array
+    {
+        return [
             MenuGroup::make('moonshine::ui.resource.system', [
                 MenuItem::make('Пользователи', new MoonUserResource())
                     ->translatable()
@@ -56,9 +68,18 @@ class MoonShineServiceProvider extends ServiceProvider
                 MenuItem::make('Статусы', new MoonStatusResource())
                     ->translatable()
                     ->icon('heroicons.clipboard-document-check'),
-                ])->icon('heroicons.rectangle-group'),
+                MenuItem::make('Места', new MoonSightResource())
+                    ->translatable()
+                    ->icon('heroicons.flag'),
+//                MenuItem::make('Place', new MoonPlaceResource())
+//                    ->translatable()
+//                    ->icon('heroicons.flag'),
+                MenuItem::make('Города', new MoonLocationResource())
+                    ->translatable()
+                    ->icon('heroicons.building-office-2'),
+            ])->icon('heroicons.rectangle-group'),
 //            MenuItem::make('Documentation', 'https://laravel.com')
 //                ->badge(fn() => 'Check'),
-        ]);
+        ];
     }
 }

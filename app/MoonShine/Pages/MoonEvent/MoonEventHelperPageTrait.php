@@ -3,7 +3,11 @@
 namespace App\MoonShine\Pages\MoonEvent;
 
 use App\Models\Price;
+use App\MoonShine\Resources\MoonHistoryContentResource;
+use App\MoonShine\Resources\MoonOrganizationResource;
+use App\MoonShine\Resources\MoonPlaceResource;
 use App\MoonShine\Resources\MoonPriceResource;
+use App\MoonShine\Resources\MoonSightResource;
 use App\MoonShine\Resources\MoonStatusResource;
 use App\MoonShine\Resources\MoonUserResource;
 use MoonShine\Components\Badge;
@@ -14,13 +18,14 @@ use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Relationships\HasOne;
+use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Text;
 
-trait MoonEventPageTrait
+trait MoonEventHelperPageTrait
 {
     protected function showLastStatus(): BelongsToMany
     {
-        return BelongsToMany::make('статус', 'statuses', resource: new MoonStatusResource())
+        return BelongsToMany::make('Cтатус', 'statuses', resource: new MoonStatusResource())
             ->changePreview(function ($data) {
                 $result = [];
                 if (empty($data->toArray())) {
@@ -62,8 +67,19 @@ trait MoonEventPageTrait
         return BelongsToMany::make('Цены', 'prices', resource: new MoonPriceResource());
     }
 
-//    protected function showOrganization(): BelongsTo
-//    {
-////        return BelongsTo::make('Организация', 'organization', resource: new MoonUserResource());
-//    }
+    protected function showOrganization(): BelongsTo
+    {
+        return BelongsTo::make('Организация', 'organization', resource: new MoonOrganizationResource())
+            ->changePreview(function ($data) {
+                return Link::make((new MoonSightResource())->detailPageUrl($data->sight), $data->sight->name);
+            });
+    }
+    protected function showPlaces(): HasMany
+    {
+        return HasMany::make('Места проведения', 'places', resource: new MoonPlaceResource());
+    }
+    protected function showFirsHistoryContent(): MorphMany
+    {
+        return MorphMany::make('Изменения', 'historyContents', resource: new MoonHistoryContentResource())->searchable(false);
+    }
 }

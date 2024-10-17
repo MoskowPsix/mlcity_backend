@@ -4,11 +4,10 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Contracts\Services\EventService\EventService;
+use App\Contracts\Services\EventService\EventServiceInterface;
 use App\Models\Event;
-use App\Models\Status;
-use App\MoonShine\Fields\Files;
-use GianTiaga\MoonshineCoordinates\Fields\Coordinates;
-use http\Client\Request;
+use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\MoonShine\Pages\MoonEvent\MoonEventIndexPage;
 use App\MoonShine\Pages\MoonEvent\MoonEventFormPage;
@@ -16,28 +15,18 @@ use App\MoonShine\Pages\MoonEvent\MoonEventDetailPage;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 
-use MoonShine\Components\Carousel;
-use MoonShine\Components\Link;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
-use MoonShine\Fields\Checkbox;
-use MoonShine\Fields\Date;
 use MoonShine\Fields\DateRange;
 use MoonShine\Fields\Field;
-use MoonShine\Fields\File;
-use MoonShine\Fields\ID;
-use MoonShine\Fields\Image;
 use MoonShine\Fields\Number;
-use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
-use MoonShine\Fields\Relationships\HasMany;
 use MoonShine\Fields\Text;
-use MoonShine\Metrics\ValueMetric;
+use MoonShine\MoonShineRequest;
+use MoonShine\MoonShineUI;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
-use MoonShine\Resources\Resource;
-use Webmatherfacker\MoonshineCarousel\Components\Slider;
 
 /**
  * @extends ModelResource<Event>
@@ -48,11 +37,24 @@ class MoonEventResource extends ModelResource
 
     protected string $title = 'События';
 
+    protected bool $editInModal = true;
+
     protected bool $saveFilterState = true;
+
+    public static array $activeActions = ['view'];
 
     public function search(): array
     {
         return ['id', 'name', 'author.name', 'author.email'];
+    }
+
+    public function getActiveActions(): array
+    {
+        if (auth()->id() === $this->getItem()?->author_id) {
+            return static::$activeActions;
+        }
+
+        return static::$activeActions;
     }
 
     public function filters(): array
@@ -113,5 +115,15 @@ class MoonEventResource extends ModelResource
     public function rules(Model $item): array
     {
         return [];
+    }
+    public function changeStatus(MoonShineRequest $request): void
+    {
+        try {
+            $eventService = new EventService();
+            $eventService->addStatus((int)$request->status_id);
+            MoonShineUI::toast('Статус изменён!', 'success');
+        } catch (Exception $e) {
+            MoonShineUI::toast('Не удалось изменить статус', 'error');
+        }
     }
 }

@@ -41,12 +41,13 @@ use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 
 class EventService implements EventServiceInterface
 {
-    public function __construct(
-        private readonly FileService $fileService,
-        private readonly OrganizationService $organizationService
-        )
-    {
+    private FileService $fileService;
+    private OrganizationService $organizationService;
 
+    public function __construct()
+    {
+        $this->fileService = new FileService();
+        $this->organizationService = new OrganizationService();
     }
 
     public function getById(int $id): Event
@@ -333,10 +334,10 @@ class EventService implements EventServiceInterface
 
         return $organization;
     }
-    public function delete(int $id): bool
+    public function delete(int $Id): bool
     {
         try{
-            $event = Event::where('id', $id);
+            $event = Event::where('id', $Id);
             if ($event->firstOrFail()->user_id == auth('api')->user()->id) {
                 $event->delete();
                 return true;
@@ -348,11 +349,12 @@ class EventService implements EventServiceInterface
         }
     }
 
-    public function addStatus($eventId) {
-        $user = auth('api')->user();
+    public function addStatus(int $Id):void
+    {
+        $user = auth('api')->user() ?? auth('moonshine')->user();
         $statusId = request()->get("status_id");
-        if (EventService::isUserEvent($eventId, $user->id)) {
-            $event = Event::find($eventId);
+        if (EventService::isUserEvent($Id, $user->id)) {
+            $event = Event::find($Id);
             $this->resetExistedStatusesToLast($event);
             $event->statuses()->attach($statusId, ["last" => True]);
         } else {

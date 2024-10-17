@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use App\Models\Status;
 use App\Models\User;
+use MoonShine\Fields\Relationships\BelongsToMany;
 
 class HistoryContent extends Model
 {
@@ -19,7 +20,7 @@ class HistoryContent extends Model
 
     public function historyEventTypes(){
         return $this->morphedByMany(EventType::class, "history_contentable")->withPivot("on_delete");
-        
+
     }
     public function historySightTypes(){
         return $this->morphedByMany(SightType::class, "history_contentable")->withPivot("on_delete");
@@ -29,7 +30,8 @@ class HistoryContent extends Model
     {
         return $this->belongsTo(User::class);
     }
-    public function statuses() {
+    public function statuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
         return $this->belongsToMany(Status::class, 'history_content_statuses')->withTimestamps();
     }
 
@@ -54,6 +56,6 @@ class HistoryContent extends Model
         return $this->hasMany(HistoryFile::class);
     }
 
-    
+
 
 }

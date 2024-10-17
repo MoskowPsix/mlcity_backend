@@ -2,22 +2,22 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Pages\MoonEvent;
+namespace App\MoonShine\Pages\MoonSight;
 
-use App\MoonShine\Resources\MoonStatusResource;
+use App\MoonShine\Pages\MoonEvent\MoonEventHelperPageTrait;
+use App\MoonShine\Pages\MoonOrganization\MoonOrganizationHelperPageTrait;
 use App\MoonShine\Resources\MoonUserResource;
 use MoonShine\Components\Link;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\IndexPage;
 use MoonShine\Components\MoonShineComponent;
 use MoonShine\Fields\Field;
 use Throwable;
 
-class MoonEventIndexPage extends IndexPage
+class MoonSightIndexPage extends IndexPage
 {
     use MoonEventHelperPageTrait;
     /**
@@ -26,7 +26,7 @@ class MoonEventIndexPage extends IndexPage
     public function fields(): array
     {
         return [
-            ID::make()->sortable(),
+            ID::make(),
             Text::make('Название', 'name')->sortable(),
             BelongsTo::make('Автор', 'author', resource: new MoonUserResource())
                 ->changePreview(function ($data) {

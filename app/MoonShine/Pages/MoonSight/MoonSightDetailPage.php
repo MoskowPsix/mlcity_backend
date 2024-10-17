@@ -2,22 +2,26 @@
 
 declare(strict_types=1);
 
-namespace App\MoonShine\Pages\MoonEvent;
+namespace App\MoonShine\Pages\MoonSight;
 
-use App\MoonShine\Resources\MoonStatusResource;
+use App\MoonShine\Pages\MoonEvent\MoonEventHelperPageTrait;
 use App\MoonShine\Resources\MoonUserResource;
+use GianTiaga\MoonshineCoordinates\Dto\CoordinatesDto;
+use GianTiaga\MoonshineCoordinates\Fields\Coordinates;
+use MoonShine\Components\Carousel;
+use MoonShine\Components\Layout\Div;
 use MoonShine\Components\Link;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
+use MoonShine\Fields\Number;
 use MoonShine\Fields\Relationships\BelongsTo;
-use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
-use MoonShine\Pages\Crud\IndexPage;
+use MoonShine\Pages\Crud\DetailPage;
 use MoonShine\Components\MoonShineComponent;
 use MoonShine\Fields\Field;
 use Throwable;
 
-class MoonEventIndexPage extends IndexPage
+class MoonSightDetailPage extends DetailPage
 {
     use MoonEventHelperPageTrait;
     /**
@@ -26,19 +30,25 @@ class MoonEventIndexPage extends IndexPage
     public function fields(): array
     {
         return [
-            ID::make()->sortable(),
-            Text::make('Название', 'name')->sortable(),
+            $this->showLastStatus(),
+            $this->showCountLikes(),
+            $this->showCountFavorites(),
+            ID::make(),
+            Text::make('Название', 'name'),
             BelongsTo::make('Автор', 'author', resource: new MoonUserResource())
                 ->changePreview(function ($data) {
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
-            Text::make('Организатор', 'name'),
-            Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
-            Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
-            $this->showLastStatus(),
+            Text::make('Организатор', 'sponsor'),
+            Number::make('Долгота', 'latitude'),
+            Number::make('Широта', 'longitude'),
+            Text::make('Адрес', 'address')
         ];
     }
-
+    private function center()
+    {
+        return [55, 55];
+    }
     /**
      * @return list<MoonShineComponent>
      * @throws Throwable
@@ -46,6 +56,12 @@ class MoonEventIndexPage extends IndexPage
     protected function topLayer(): array
     {
         return [
+            Div::make([
+                Carousel::make(
+                    items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+                    portrait: false,
+                )
+            ]),
             ...parent::topLayer()
         ];
     }

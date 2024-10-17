@@ -15,7 +15,7 @@ class Authenticate
      */
     public function handle($request, Closure $next)
     {
-        if (!Auth::guard("sanctum")->check()) {
+        if (!(Auth::guard("sanctum")->check() || Auth::guard("moonshine")->check())) {
             return response()->json(['message' => 'Unauthorized'], 401);
         }
 

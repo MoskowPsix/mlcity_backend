@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckUserForTelescope;
 use App\Http\Middleware\CheckUserRoleInOrganization;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
@@ -70,5 +71,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkRootCookie' => \App\Http\Middleware\CheckUserForTelescope::class,
         "orgPerm" => CheckUserRoleInOrganization::class,
+        "auth.telescope" => CheckUserForTelescope::class,
     ];
 }
