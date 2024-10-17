@@ -72,9 +72,9 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Места', new MoonSightResource())
                     ->translatable()
                     ->icon('heroicons.flag'),
-//                MenuItem::make('Place', new MoonPlaceResource())
-//                    ->translatable()
-//                    ->icon('heroicons.flag'),
+                //                MenuItem::make('Place', new MoonPlaceResource())
+                //                    ->translatable()
+                //                    ->icon('heroicons.flag'),
                 MenuItem::make('Города', new MoonLocationResource())
                     ->translatable()
                     ->icon('heroicons.building-office-2'),
@@ -82,9 +82,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->icon('heroicons.building-storefront'),
                 MenuItem::make('Типы событий', new MoonTypeEventResource())
                     ->icon('heroicons.outline.cake'),
+                MenuItem::make('Test', new MoonPlaceResource)
             ])->icon('heroicons.rectangle-group'),
-//            MenuItem::make('Documentation', 'https://laravel.com')
-//                ->badge(fn() => 'Check'),
+            //            MenuItem::make('Documentation', 'https://laravel.com')
+            //                ->badge(fn() => 'Check'),
         ];
     }
 }
