@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\MoonShine\Pages\MoonEventPage;
 use App\MoonShine\Resources\MoonEventResource;
 use App\MoonShine\Resources\MoonLocationResource;
 use App\MoonShine\Resources\MoonOrganizationResource;
@@ -10,6 +9,8 @@ use App\MoonShine\Resources\MoonPlaceResource;
 use App\MoonShine\Resources\MoonRoleResource;
 use App\MoonShine\Resources\MoonSightResource;
 use App\MoonShine\Resources\MoonStatusResource;
+use App\MoonShine\Resources\MoonTypeSightResource;
+use App\MoonShine\Resources\MoonTypeEventResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
@@ -42,19 +43,19 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->translatable()
                     ->icon('heroicons.lock-closed'),
                 MenuItem::make(
-                    static fn () => __('Команды по расписанию'),
+                    static fn() => __('Команды по расписанию'),
                     new SchedulingPage(),
                 ),
                 MenuItem::make(
-                    static fn () => __('Медиа менеджер'),
+                    static fn() => __('Медиа менеджер'),
                     new MediaManagerPage(),
                 ),
                 MenuItem::make(
-                    static fn () => __('Зависимости'),
+                    static fn() => __('Зависимости'),
                     new ComposerViewerPage(),
                 ),
                 MenuItem::make(
-                    static fn () => __('Логи'),
+                    static fn() => __('Логи'),
                     new LogViewerPage(),
                 ),
                 // MenuItem::make('Сеансы', new ResourcesMoonSeanceResource())
@@ -77,6 +78,10 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Города', new MoonLocationResource())
                     ->translatable()
                     ->icon('heroicons.building-office-2'),
+                MenuItem::make('Типы мест', new MoonTypeSightResource())
+                    ->icon('heroicons.building-storefront'),
+                MenuItem::make('Типы событий', new MoonTypeEventResource())
+                    ->icon('heroicons.outline.cake'),
             ])->icon('heroicons.rectangle-group'),
 //            MenuItem::make('Documentation', 'https://laravel.com')
 //                ->badge(fn() => 'Check'),
