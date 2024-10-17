@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\MoonHistoryPlace;
 
+use MoonShine\Fields\ID;
 use MoonShine\Pages\Crud\DetailPage;
 use MoonShine\Components\MoonShineComponent;
 use MoonShine\Fields\Field;
@@ -16,7 +17,9 @@ class MoonHistoryPlaceDetailPage extends DetailPage
      */
     public function fields(): array
     {
-        return [];
+        return [
+            ID::make()
+        ];
     }
 
     /**
