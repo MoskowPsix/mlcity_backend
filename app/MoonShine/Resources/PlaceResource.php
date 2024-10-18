@@ -21,9 +21,9 @@ class PlaceResource extends ModelResource
     protected string $model = Place::class;
 
     protected string $title = 'Места проведения';
-    protected bool $detailInModal = true;
+//    protected bool $detailInModal = true;
 
-    public static array $activeActions = [];
+    public static array $activeActions = ['view'];
 
 
     public function getActiveActions(): array

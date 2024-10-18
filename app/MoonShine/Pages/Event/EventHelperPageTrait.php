@@ -14,12 +14,15 @@ use App\MoonShine\Resources\MoonUserResource;
 use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Components\Badge;
 use MoonShine\Components\Card;
+use MoonShine\Components\CardsBuilder;
 use MoonShine\Components\FormBuilder;
 use MoonShine\Components\Link;
 use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Fragment;
 use MoonShine\Decorations\Grid;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
+use MoonShine\Fields\Json;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Relationships\HasMany;
@@ -83,7 +86,9 @@ trait EventHelperPageTrait
     }
     protected function showPlaces(): HasMany
     {
-        return HasMany::make('Места проведения', 'places', resource: new PlaceResource());
+        return HasMany::make('Места проведения', 'places', resource: new PlaceResource())
+            ->limit(10)
+            ->searchable(false);
     }
     protected function showFirsHistoryContent(): MorphMany
     {
@@ -128,4 +133,8 @@ trait EventHelperPageTrait
                 },
             );
     }
+//    public function showCardsForPlaces() {
+//        dd($ths->getItems->)
+//        return CardsBuilder::make();
+//    }
 }
