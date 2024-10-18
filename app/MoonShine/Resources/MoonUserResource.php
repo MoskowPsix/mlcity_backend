@@ -7,9 +7,9 @@ namespace App\MoonShine\Resources;
 use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
-use App\MoonShine\Pages\MoonUser\MoonUserIndexPage;
-use App\MoonShine\Pages\MoonUser\MoonUserFormPage;
-use App\MoonShine\Pages\MoonUser\MoonUserDetailPage;
+use App\MoonShine\Pages\User\UserIndexPage;
+use App\MoonShine\Pages\User\UserFormPage;
+use App\MoonShine\Pages\User\UserDetailPage;
 use Illuminate\Support\Facades\Storage;
 use MoonShine\Components\Badge;
 use MoonShine\Components\Boolean;
@@ -67,11 +67,11 @@ class MoonUserResource extends ModelResource
                         return $data;
                     }
                 }),
-            BelongsToMany::make('Роли', 'roles', resource: new MoonRoleResource())
+            BelongsToMany::make('Роли', 'roles', resource: new RoleResource())
                 ->inLine(
                     separator: ' ',
                     link: fn(Role $role, $value, $field) => Link::make(
-                        (new MoonRoleResource())->detailPageUrl($role),
+                        (new RoleResource())->detailPageUrl($role),
                         $value
                     )
                 ),
@@ -95,12 +95,12 @@ class MoonUserResource extends ModelResource
                         return $data;
                     }
                 }),
-            HasOne::make('Социальная сеть', 'socialAccount', resource: new MoonSocialAccountResource()),
-            BelongsToMany::make('Роли', 'roles', resource: new MoonRoleResource())
+            HasOne::make('Социальная сеть', 'socialAccount', resource: new SocialAccountResource()),
+            BelongsToMany::make('Роли', 'roles', resource: new RoleResource())
                 ->inLine(
                     separator: ' ',
                     link: fn(Role $role, $value, $field) => Link::make(
-                        (new MoonRoleResource())->detailPageUrl($role),
+                        (new RoleResource())->detailPageUrl($role),
                         $value
                     )
                 ),
@@ -115,7 +115,7 @@ class MoonUserResource extends ModelResource
             Text::make('Имя', 'name')->sortable(),
             Text::make('Email', 'email')->sortable(),
             Checkbox::make('Верфикация почты', 'email_verified_at'),
-            BelongsToMany::make('Роль', 'roles', resource: new MoonRoleResource())->selectMode(),
+            BelongsToMany::make('Роль', 'roles', resource: new RoleResource())->selectMode(),
             File::make('Аватар', 'avatar')
                 ->onApply(function (Model $item, $value, Field $field) {
                     $storage = 'public';
@@ -137,13 +137,13 @@ class MoonUserResource extends ModelResource
     public function pages(): array
     {
         return [
-            MoonUserIndexPage::make($this->title()),
-            MoonUserFormPage::make(
+            UserIndexPage::make($this->title()),
+            UserFormPage::make(
                 $this->getItemID()
                     ? __('moonshine::ui.edit')
                     : __('moonshine::ui.add')
             ),
-            MoonUserDetailPage::make(__('moonshine::ui.show')),
+            UserDetailPage::make(__('moonshine::ui.show')),
         ];
     }
 

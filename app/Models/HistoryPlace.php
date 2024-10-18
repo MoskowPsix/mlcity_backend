@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use MoonShine\Fields\Relationships\HasMany;
 
 class HistoryPlace extends Model
 {
@@ -22,7 +23,8 @@ class HistoryPlace extends Model
         return $this->belongsTo(HistoryContent::class);
     }
 
-    public function historySeances(){
+    public function historySeances(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
         return $this->hasMany(HistorySeance::class);
     }
 }

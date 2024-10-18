@@ -2,15 +2,15 @@
 
 namespace App\Providers;
 
-use App\MoonShine\Resources\MoonEventResource;
-use App\MoonShine\Resources\MoonLocationResource;
-use App\MoonShine\Resources\MoonOrganizationResource;
-use App\MoonShine\Resources\MoonPlaceResource;
-use App\MoonShine\Resources\MoonRoleResource;
-use App\MoonShine\Resources\MoonSightResource;
-use App\MoonShine\Resources\MoonStatusResource;
-use App\MoonShine\Resources\MoonTypeSightResource;
-use App\MoonShine\Resources\MoonTypeEventResource;
+use App\MoonShine\Resources\EventResource;
+use App\MoonShine\Resources\LocationResource;
+use App\MoonShine\Resources\OrganizationResource;
+use App\MoonShine\Resources\PlaceResource;
+use App\MoonShine\Resources\RoleResource;
+use App\MoonShine\Resources\SightResource;
+use App\MoonShine\Resources\StatusResource;
+use App\MoonShine\Resources\SightTypeResource;
+use App\MoonShine\Resources\EventTypeResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
@@ -29,7 +29,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     protected function resources(): array
     {
         return [
-            new MoonOrganizationResource(),
+            new OrganizationResource(),
+            new PlaceResource()
         ];
     }
     protected function menu(): array
@@ -39,7 +40,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Пользователи', new MoonUserResource())
                     ->translatable()
                     ->icon('heroicons.user-group'),
-                MenuItem::make('Роли', new MoonRoleResource())
+                MenuItem::make('Роли', new RoleResource())
                     ->translatable()
                     ->icon('heroicons.lock-closed'),
                 MenuItem::make(
@@ -63,25 +64,26 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 //                    ->icon('bookmark'),
             ])->translatable()->icon('heroicons.wrench-screwdriver'),
             MenuGroup::make('Контент', [
-                MenuItem::make('События', new MoonEventResource())
+                MenuItem::make('События', new EventResource())
                     ->translatable()
                     ->icon('heroicons.fire'),
-                MenuItem::make('Статусы', new MoonStatusResource())
+                MenuItem::make('Статусы', new StatusResource())
                     ->translatable()
                     ->icon('heroicons.clipboard-document-check'),
-                MenuItem::make('Места', new MoonSightResource())
+                MenuItem::make('Места', new SightResource())
                     ->translatable()
                     ->icon('heroicons.flag'),
 //                MenuItem::make('Place', new MoonPlaceResource())
 //                    ->translatable()
 //                    ->icon('heroicons.flag'),
-                MenuItem::make('Города', new MoonLocationResource())
+                MenuItem::make('Города', new LocationResource())
                     ->translatable()
                     ->icon('heroicons.building-office-2'),
-                MenuItem::make('Типы мест', new MoonTypeSightResource())
+                MenuItem::make('Типы мест', new SightTypeResource())
                     ->icon('heroicons.building-storefront'),
-                MenuItem::make('Типы событий', new MoonTypeEventResource())
+                MenuItem::make('Типы событий', new EventTypeResource())
                     ->icon('heroicons.outline.cake'),
+                MenuItem::make('Типы событий', new PlaceResource())
             ])->icon('heroicons.rectangle-group'),
 //            MenuItem::make('Documentation', 'https://laravel.com')
 //                ->badge(fn() => 'Check'),
