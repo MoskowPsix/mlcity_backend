@@ -48,7 +48,7 @@ class EventDetailPage extends DetailPage
                 }),
             Text::make('Организатор', 'sponsor'),
             Date::make('Начало', 'date_start')->format('d.m.Y H:i'),
-            Date::make('Конец', 'date_start')->format('d.m.Y H:i'),
+            Date::make('Конец', 'date_end')->format('d.m.Y H:i'),
             Markdown::make('Описание', 'description'),
             $this->showLastStatus(),
             $this->showCountLikes(),
@@ -206,9 +206,9 @@ class EventDetailPage extends DetailPage
 
                 $components[] = LineBreak::make();
                 $index_fields = (new HistoryPlaceResource())->getIndexFields();
-//                dd($field->);
-//                CardsBuilder::make($field->value())->fields($index_fields);
-//                $card = Card::make(values: $field->getResource()->getItem()->get()->toArray());
+                dd($field->$item);
+                CardsBuilder::make($field->value())->fields($index_fields);
+                $card = Card::make(values: $field->getResource()->getItem()->get()->toArray());
                 $blocks = [$field];
 
                 if ($field->toOne()) {

@@ -7,6 +7,8 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonType;
 use App\Models\SightType;
+use MoonShine\ActionButtons\ActionButton;
+use MoonShine\Enums\JsEvent;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
@@ -16,6 +18,7 @@ use MoonShine\Fields\Number;
 use MoonShine\Fields\Field;
 use Illuminate\Support\Facades\Storage;
 use MoonShine\Components\MoonShineComponent;
+use MoonShine\Support\AlpineJs;
 
 /**
  * @extends ModelResource<MoonType>
@@ -138,4 +141,11 @@ class SightTypeResource extends ModelResource
     {
         return Image::make('Иконка', 'image');
     }
+//    public function actions(): array
+//    {
+//        return [
+//            ActionButton::make('Refresh')
+//                ->dispatchEvent(AlpineJs::event(JsEvent::TABLE_UPDATED, 'index-table'))
+//        ];
+//    }
 }

@@ -7,7 +7,9 @@ namespace App\MoonShine\Pages\Sight;
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
 use App\MoonShine\Pages\Organization\OrganizationHelperPageTrait;
 use App\MoonShine\Resources\MoonUserResource;
+use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Components\Link;
+use MoonShine\Enums\JsEvent;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
@@ -15,6 +17,7 @@ use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\IndexPage;
 use MoonShine\Components\MoonShineComponent;
 use MoonShine\Fields\Field;
+use MoonShine\Support\AlpineJs;
 use Throwable;
 
 class SightIndexPage extends IndexPage
@@ -33,8 +36,6 @@ class SightIndexPage extends IndexPage
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
             Text::make('Организатор', 'name'),
-            Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
-            Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
             $this->showLastStatus(),
         ];
     }
@@ -71,4 +72,5 @@ class SightIndexPage extends IndexPage
             ...parent::bottomLayer()
         ];
     }
+
 }

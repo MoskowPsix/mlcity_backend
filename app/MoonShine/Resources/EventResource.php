@@ -60,7 +60,7 @@ class EventResource extends ModelResource
     public function filters(): array
     {
         return [
-            BelongsToMany::make('статус', 'statuses', resource: new StatusResource())->selectMode()
+            BelongsToMany::make('Статус', 'statuses', resource: new StatusResource())->selectMode()
             ->onApply(function (Builder $query, array $value, Field $field) {
                 $query = $query->whereHas('lastStatus', function($q) use($value) {
                     return $q->whereIn('status_id', $value);
@@ -69,9 +69,8 @@ class EventResource extends ModelResource
                     return $q->where('last', true);
                 });
             }),
-            Number::make('id мероприятия', 'id'),
+            Number::make('Id мероприятия', 'id'),
             Text::make('Имя', 'name'),
-            Text::make('Организатор', 'sponsor'),
             Grid::make([
                 Column::make([
                     Block::make('Автор', [
@@ -82,8 +81,8 @@ class EventResource extends ModelResource
                 ])->columnSpan(12),
                 Column::make([
                     Block::make('Даты проведения', [
-                        DateRange::make('Начало', 'date_start')->fromTo('date_from', 'date_to'),
-                        DateRange::make('Конец', 'date_end')->fromTo('date_from', 'date_to'),
+                        DateRange::make('Начало', 'date_start'),
+                        DateRange::make('Конец', 'date_end'),
                     ]),
                 ])->columnSpan(12),
             ])
