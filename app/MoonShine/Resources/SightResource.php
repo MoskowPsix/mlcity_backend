@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use App\Http\Controllers\Api\StatusController;
 use App\Models\Sight;
 use Exception;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonSight;
 use App\MoonShine\Pages\Sight\SightIndexPage;
@@ -15,6 +16,14 @@ use App\MoonShine\Pages\Sight\SightDetailPage;
 
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Grid;
+use MoonShine\Fields\DateRange;
+use MoonShine\Fields\Field;
+use MoonShine\Fields\Number;
+use MoonShine\Fields\Relationships\BelongsToMany;
+use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -26,6 +35,7 @@ class SightResource extends ModelResource
     protected string $model = Sight::class;
 
     protected string $title = 'Места';
+    protected bool $saveFilterState = true;
 
     protected string $column = 'name';
     public static array $activeActions = ['view'];
@@ -52,6 +62,32 @@ class SightResource extends ModelResource
                     : __('moonshine::ui.add')
             ),
             SightDetailPage::make(__('moonshine::ui.show')),
+        ];
+    }
+
+    public function filters(): array
+    {
+        return [
+            BelongsToMany::make('Статус', 'statuses', resource: new StatusResource())->selectMode()
+                ->onApply(function (Builder $query, array $value, Field $field) {
+                    $query = $query->whereHas('statuses', function($q) use($value) {
+                        return $q->whereIn('status_id', $value);
+                    });
+                    return $query->whereHas('statuses', function($q) {
+                        return $q->where('last', true);
+                    });
+                }),
+            Number::make('Id события', 'id'),
+            Text::make('Название', 'name'),
+            Grid::make([
+                Column::make([
+                    Block::make('Автор', [
+                        Number::make('id', 'user_id'),
+                        Text::make('Имя', 'author.name'),
+                        Text::make('Почта', 'author.email'),
+                    ]),
+                ])
+            ])
         ];
     }
 
