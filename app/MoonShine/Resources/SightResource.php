@@ -9,11 +9,11 @@ use App\Models\Sight;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\MoonSight;
 use App\MoonShine\Pages\Sight\SightIndexPage;
 use App\MoonShine\Pages\Sight\SightFormPage;
 use App\MoonShine\Pages\Sight\SightDetailPage;
 
+use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
 use MoonShine\Decorations\Block;
@@ -68,6 +68,7 @@ class SightResource extends ModelResource
     public function filters(): array
     {
         return [
+            BelongsTo::make('Города', 'locations', resource: new LocationResource())->searchable(),
             BelongsToMany::make('Статус', 'statuses', resource: new StatusResource())->selectMode()
                 ->onApply(function (Builder $query, array $value, Field $field) {
                     $query = $query->whereHas('statuses', function($q) use($value) {

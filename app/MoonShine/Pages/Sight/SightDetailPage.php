@@ -6,6 +6,7 @@ namespace App\MoonShine\Pages\Sight;
 
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
 use App\MoonShine\Resources\HistoryContentResource;
+use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\MoonUserResource;
 use MoonShine\Components\Carousel;
 use MoonShine\Components\Layout\Div;
@@ -44,12 +45,9 @@ class SightDetailPage extends DetailPage
             Text::make('Организатор', 'sponsor'),
             Number::make('Долгота', 'latitude'),
             Number::make('Широта', 'longitude'),
+            BelongsTo::make('Город', 'locations', resource: new LocationResource())->searchable(),
             Text::make('Адрес', 'address')
         ];
-    }
-    private function center()
-    {
-        return [55, 55];
     }
     /**
      * @return list<MoonShineComponent>
