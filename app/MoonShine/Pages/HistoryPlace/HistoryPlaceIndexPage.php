@@ -22,17 +22,11 @@ class HistoryPlaceIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            ID::make('ID оригинала', 'place_id')
-                ->changePreview(function ($value, Field $field) {
-                    if (is_null($value)) {
-                        return '<p style="color: greenyellow">Новое<p>';
-                    }
-                    return $value;
-                }),
-            Number::make('Долгота', 'latitude'),
-            Number::make('Широта', 'longitude'),
+            $this->showOriginId(),
+//            Number::make('Долгота', 'latitude'),
+//            Number::make('Широта', 'longitude'),
             Number::make('Адрес', 'address'),
-            $this->showSeances(),
+//            $this->showSeances(),
         ];
     }
 

@@ -33,8 +33,6 @@ class SightIndexPage extends IndexPage
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
             Text::make('Организатор', 'name'),
-            Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
-            Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
             $this->showLastStatus(),
         ];
     }

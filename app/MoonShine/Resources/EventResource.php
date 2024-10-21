@@ -6,7 +6,12 @@ namespace App\MoonShine\Resources;
 
 use App\Contracts\Services\EventService\EventService;
 use App\Contracts\Services\EventService\EventServiceInterface;
+use App\Contracts\Services\SightService\SightService;
+use App\Http\Controllers\Api\EventController;
+use App\Http\Controllers\Api\SightController;
+use App\Http\Controllers\Api\StatusController;
 use App\Models\Event;
+use App\Models\Location;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\MoonShine\Pages\Event\EventIndexPage;
@@ -21,7 +26,11 @@ use MoonShine\Decorations\Grid;
 use MoonShine\Fields\DateRange;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\Number;
+use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
+use MoonShine\Fields\Relationships\HasManyThrough;
+use MoonShine\Fields\Relationships\HasOneThrough;
+use MoonShine\Fields\Select;
 use MoonShine\Fields\Text;
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
@@ -60,6 +69,7 @@ class EventResource extends ModelResource
     public function filters(): array
     {
         return [
+            BelongsToMany::make('Города', 'locationsBelongToMany', resource: new LocationResource())->selectMode(),
             BelongsToMany::make('статус', 'statuses', resource: new StatusResource())->selectMode()
             ->onApply(function (Builder $query, array $value, Field $field) {
                 $query = $query->whereHas('lastStatus', function($q) use($value) {
@@ -119,11 +129,11 @@ class EventResource extends ModelResource
     public function changeStatus(MoonShineRequest $request): void
     {
         try {
-            $eventService = new EventService();
-            $eventService->addStatus((int)$request->status_id);
+            $eventService = new StatusController();
+            $eventService->addStatusEvent($request);
             MoonShineUI::toast('Статус изменён!', 'success');
         } catch (Exception $e) {
-            MoonShineUI::toast('Не удалось изменить статус', 'error');
+            MoonShineUI::toast($e->getMessage(), 'error');
         }
     }
 }

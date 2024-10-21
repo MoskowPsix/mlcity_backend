@@ -22,7 +22,7 @@ class HistoryPlaceResource extends ModelResource
 
     protected string $title = 'История мест ведения';
 
-    public static array $activeActions = [];
+    public static array $activeActions = ['view'];
 
 
     public function getActiveActions(): array

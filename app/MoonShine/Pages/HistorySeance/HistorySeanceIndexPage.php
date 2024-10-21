@@ -13,6 +13,7 @@ use Throwable;
 
 class HistorySeanceIndexPage extends IndexPage
 {
+    use HistorySeanceHelperTrait;
     /**
      * @return list<MoonShineComponent|Field>
      */
@@ -20,13 +21,7 @@ class HistorySeanceIndexPage extends IndexPage
     {
         return [
             ID::make(),
-            ID::make('ID оригинала', 'seance_id')
-                ->changePreview(function ($value, Field $field) {
-                    if (is_null($value)) {
-                        return '<p style="color: greenyellow">Новое<p>';
-                    }
-                    return $value;
-                }),
+            $this->showOriginId(),
             Date::make('Начало', 'date_start'),
             Date::make('Конец', 'date_end'),
 

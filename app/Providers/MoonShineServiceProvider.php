@@ -2,11 +2,15 @@
 
 namespace App\Providers;
 
+use App\MoonShine\Pages\HistoryPlace\HistoryPlaceDetailPage;
 use App\MoonShine\Resources\EventResource;
+use App\MoonShine\Resources\HistoryPlaceResource;
+use App\MoonShine\Resources\HistorySeanceResource;
 use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\OrganizationResource;
 use App\MoonShine\Resources\PlaceResource;
 use App\MoonShine\Resources\RoleResource;
+use App\MoonShine\Resources\SeanceResource;
 use App\MoonShine\Resources\SightResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\SightTypeResource;
@@ -30,7 +34,11 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
     {
         return [
             new OrganizationResource(),
-            new PlaceResource()
+            new PlaceResource(),
+            new HistoryPlaceResource(),
+            new SeanceResource(),
+            new HistorySeanceResource(),
+            new LocationResource(),
         ];
     }
     protected function menu(): array
@@ -59,9 +67,6 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     static fn() => __('Логи'),
                     new LogViewerPage(),
                 ),
-                // MenuItem::make('Сеансы', new ResourcesMoonSeanceResource())
-                //     ->translatable()
-                //                    ->icon('bookmark'),
             ])->translatable()->icon('heroicons.wrench-screwdriver'),
             MenuGroup::make('Контент', [
                 MenuItem::make('События', new EventResource())
@@ -73,9 +78,6 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Места', new SightResource())
                     ->translatable()
                     ->icon('heroicons.flag'),
-//                MenuItem::make('Place', new MoonPlaceResource())
-//                    ->translatable()
-//                    ->icon('heroicons.flag'),
                 MenuItem::make('Города', new LocationResource())
                     ->translatable()
                     ->icon('heroicons.building-office-2'),
@@ -83,10 +85,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->icon('heroicons.building-storefront'),
                 MenuItem::make('Типы событий', new EventTypeResource())
                     ->icon('heroicons.outline.cake'),
-                MenuItem::make('Типы событий', new PlaceResource())
             ])->icon('heroicons.rectangle-group'),
-//            MenuItem::make('Documentation', 'https://laravel.com')
-//                ->badge(fn() => 'Check'),
         ];
     }
 }

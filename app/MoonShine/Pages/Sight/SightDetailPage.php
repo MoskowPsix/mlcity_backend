@@ -5,13 +5,15 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages\Sight;
 
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
+use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\MoonUserResource;
-use GianTiaga\MoonshineCoordinates\Dto\CoordinatesDto;
-use GianTiaga\MoonshineCoordinates\Fields\Coordinates;
 use MoonShine\Components\Carousel;
 use MoonShine\Components\Layout\Div;
 use MoonShine\Components\Link;
-use MoonShine\Fields\Date;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Column;
+use MoonShine\Decorations\Fragment;
+use MoonShine\Decorations\Grid;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Relationships\BelongsTo;
@@ -56,12 +58,6 @@ class SightDetailPage extends DetailPage
     protected function topLayer(): array
     {
         return [
-            Div::make([
-                Carousel::make(
-                    items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
-                    portrait: false,
-                )
-            ]),
             ...parent::topLayer()
         ];
     }
@@ -72,9 +68,19 @@ class SightDetailPage extends DetailPage
      */
     protected function mainLayer(): array
     {
-        return [
-            ...parent::mainLayer()
-        ];
+        if($this->getCurrentStatus()->name == 'Изменено') {
+            return $this->showForDetailChange();
+        } else {
+            return [
+                Div::make([
+                    Carousel::make(
+                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+                        portrait: false,
+                    )
+                ]),
+                ...parent::mainLayer()
+            ];
+        }
     }
 
     /**
@@ -84,7 +90,49 @@ class SightDetailPage extends DetailPage
     protected function bottomLayer(): array
     {
         return [
+            $this->showActionStatusButtonForSight(),
             ...parent::bottomLayer()
+        ];
+    }
+    private function showForDetailChange()
+    {
+        $resource = $this->getResource();
+        $history_resource = (new HistoryContentResource());
+        $item = $resource->getItem();
+        $history_item = $item->historyContents()->orderBy('created_at', 'DESC')->first();
+        return [
+            Grid::make([
+                Column::make([
+                    Block::make('Оригинал',[
+                        Div::make('Галерея', [
+                            Carousel::make(
+                                items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+                                portrait: false,
+                            )
+                        ]),
+                        Fragment::make([
+                            $this->getResource()->modifyDetailComponent(
+                                $this->detailComponent($item, $resource->getDetailFields())
+                            ),
+                        ])->name('crud-detail'),
+                    ]),
+                ])->columnSpan(6),
+                Column::make([
+                    Block::make('Изменения', [
+                        Div::make('Галерея', [
+                            Carousel::make(
+                                items: collect($history_item->historyFiles)->pluck('link')->all(),
+                                portrait: false,
+                            )
+                        ]),
+                        Fragment::make([
+                            $history_resource->modifyDetailComponent(
+                                $history_resource->detailPage()->detailComponent($history_item, $history_resource->getDetailFields())
+                            ),
+                        ])->name('crud-detail'),
+                    ]),
+                ])->columnSpan(6),
+            ])
         ];
     }
 }

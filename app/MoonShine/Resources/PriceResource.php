@@ -22,6 +22,8 @@ class PriceResource extends ModelResource
 
     protected string $title = 'Цены';
 
+    protected string $column = 'cost_rub';
+
     /**
      * @return list<Page>
      */

@@ -12,8 +12,11 @@ use App\Models\EventFile;
 use App\Models\EventLike;
 use App\Models\Comment;
 use App\Models\View;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use MoonShine\Fields\Relationships\HasOneThrough;
 
 class Event extends Model
 {
@@ -116,6 +119,14 @@ class Event extends Model
     public function places(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Place::class);
+    }
+    public function locations(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Location::class, Place::class, firstKey: 'event_id', secondKey: 'id', secondLocalKey: 'location_id');
+    }
+    public function locationsBelongToMany(): BelongsToMany
+    {
+        return $this->belongsToMany(Location::class, 'places');
     }
     public function placesFull(): \Illuminate\Database\Eloquent\Relations\HasMany
     {

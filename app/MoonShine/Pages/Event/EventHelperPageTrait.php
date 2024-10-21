@@ -11,6 +11,7 @@ use App\MoonShine\Resources\PriceResource;
 use App\MoonShine\Resources\SightResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\MoonUserResource;
+use Illuminate\Database\Eloquent\Model;
 use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Components\Badge;
 use MoonShine\Components\Card;
@@ -30,6 +31,7 @@ use MoonShine\Fields\Relationships\HasOne;
 use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Select;
 use MoonShine\Fields\Text;
+use stdClass;
 
 trait EventHelperPageTrait
 {
@@ -49,6 +51,19 @@ trait EventHelperPageTrait
                 }
                 return Link::make((new StatusResource())->detailPageUrl($result), $result->name);
             });
+    }
+    protected function getCurrentStatus(): Model | stdClass
+    {
+        $statuses = $this->getResource()->getItem()->statuses;
+        $result = new stdClass();
+        $result->name = 'Нет статуса';
+        foreach ($statuses as $status) {
+            if($status->pivot->last) {
+                $result = $status;
+                break;
+            }
+        }
+        return $result;
     }
     protected function showGallery()
     {
@@ -72,7 +87,7 @@ trait EventHelperPageTrait
     {
         return BelongsToMany::make('Добавили в избранное', 'favoritesUsers', resource: new MoonUserResource())->onlyLink();
     }
-    protected function showPrices():BelongsToMany
+    protected function showPrices(): BelongsToMany
     {
         return BelongsToMany::make('Цены', 'prices', resource: new PriceResource());
     }
@@ -87,29 +102,12 @@ trait EventHelperPageTrait
     protected function showPlaces(): HasMany
     {
         return HasMany::make('Места проведения', 'places', resource: new PlaceResource())
-            ->limit(10)
             ->searchable(false);
     }
     protected function showFirsHistoryContent(): MorphMany
     {
         return MorphMany::make('Изменения', 'historyContents', resource: new HistoryContentResource())
             ->searchable(false);
-    }
-
-    public function showGridCardPriceUI($prices)
-    {
-        $cards = [];
-        foreach($prices as $price) {
-            $cards[] = Column::make([Card::make(
-                title: 'Билет',
-                values: [
-                    'Цена' => $price->cost_rub . ' р.',
-                ],
-                subtitle: $price->description
-            )
-            ])->columnSpan(3);
-        }
-        return Grid::make('Цена',$cards)->customAttributes(['class' => 'mt-8']);
     }
     public function showActionStatusButton()
     {
@@ -126,15 +124,35 @@ trait EventHelperPageTrait
                     return (string)FormBuilder::make()
                         ->async(asyncEvents: ['testMethod'])
                         ->fields([
-                            Select::make('Статус', 'status_id')
-                                ->options(collect(Status::all())->pluck('name', 'id')->all())
+                            ID::make('ID', 'event_id')->hideOnAll()->setValue($this->getResource()->getItem()->id),
+                            Select::make('Статус', 'status')
+                                ->options(collect(Status::all())->pluck('name', 'name')->all())
                         ])->submit('Сменить')
                         ->asyncMethod('changeStatus');
                 },
             );
     }
-//    public function showCardsForPlaces() {
-//        dd($ths->getItems->)
-//        return CardsBuilder::make();
-//    }
+    public function showActionStatusButtonForSight()
+    {
+        return  ActionButton::make(
+            label: 'Сменить статус',
+        )
+            ->customAttributes(['class' => 'mt-8'])
+            ->icon('heroicons.sparkles')
+            ->secondary()
+            ->inModal(
+                title: fn() => 'Modal title',
+                content: function() {
+                    $user = auth('moonshine')->user();
+                    return (string)FormBuilder::make()
+                        ->async(asyncEvents: ['testMethod'])
+                        ->fields([
+                            ID::make('ID', 'sight_id')->hideOnAll()->setValue($this->getResource()->getItem()->id),
+                            Select::make('Статус', 'status')
+                                ->options(collect(Status::all())->pluck('name', 'name')->all())
+                        ])->submit('Сменить')
+                        ->asyncMethod('changeStatus');
+                },
+            );
+    }
 }

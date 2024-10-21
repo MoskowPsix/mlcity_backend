@@ -47,12 +47,21 @@ class Location extends Model
 
     public function sights(): hasMany
     {
-        return $this->hasMany(Sights::class);
+        return $this->hasMany(Sight::class);
     }
 
-    public function events(): hasMany
+//    public function events(): hasMany
+//    {
+//        return $this->hasMany(Event::class);
+//    }
+    function places(): HasMany
     {
-        return $this->hasMany(Event::class);
+        return $this->hasMany(Place::class);
+    }
+
+    public function events(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+    {
+        return $this->hasManyThrough(Event::class, Place::class, firstKey: 'location_id', secondKey: 'id', localKey: 'id', secondLocalKey: 'event_id');
     }
 
 }

@@ -20,7 +20,12 @@ class LocationResource extends ModelResource
 {
     protected string $model = Location::class;
 
+    protected string $column = 'name';
+
     protected string $title = 'Города';
+    protected string $sortColumn = 'locations.id';
+
+    protected array $with = ['events'];
 
     /**
      * @return list<Page>

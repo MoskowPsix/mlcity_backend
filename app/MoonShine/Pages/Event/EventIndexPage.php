@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\Event;
 
+use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\MoonUserResource;
 use MoonShine\Components\Link;
@@ -11,6 +12,7 @@ use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
+use MoonShine\Fields\Relationships\HasManyThrough;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\IndexPage;
 use MoonShine\Components\MoonShineComponent;

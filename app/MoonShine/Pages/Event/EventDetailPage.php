@@ -7,7 +7,9 @@ namespace App\MoonShine\Pages\Event;
 use App\MoonShine\Pages\HistoryPlace\HistoryPlaceIndexPage;
 use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\HistoryPlaceResource;
+use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\MoonUserResource;
+use App\MoonShine\Resources\StatusResource;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\Components\ActionGroup;
 use MoonShine\Components\Card;
@@ -24,6 +26,9 @@ use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Markdown;
 use MoonShine\Fields\Relationships\BelongsTo;
+use MoonShine\Fields\Relationships\BelongsToMany;
+use MoonShine\Fields\Relationships\HasManyThrough;
+use MoonShine\Fields\Relationships\HasOneThrough;
 use MoonShine\Fields\Relationships\ModelRelationField;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\DetailPage;
@@ -55,6 +60,8 @@ class EventDetailPage extends DetailPage
             $this->showCountFavorites(),
             $this->showPlaces(),
             $this->showOrganization(),
+            $this->showPrices(),
+//            HasManyThrough::make('Города', 'locations', resource: new LocationResource()),
         ];
     }
     /**
@@ -64,41 +71,6 @@ class EventDetailPage extends DetailPage
     protected function topLayer(): array
     {
         return [];
-//        if ($this->getCurrentStatus()->name == 'Изменено'){
-//            return [
-//                Grid::make([
-//                    Column::make([
-//
-//                    ])->columnSpan(6),
-//                    Column::make([
-//
-//                    ])->columnSpan(6),
-//                ]),
-//                ...parent::topLayer()
-//            ];
-//        } else {
-//            return [
-//                Div::make('Билеты', [
-//                    Carousel::make(
-//                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
-//                        portrait: false,
-//                    )
-//                ]),
-//                ...parent::topLayer()
-//            ];
-//        }
-    }
-    private function getCurrentStatus(): Model
-    {
-        $statuses = $this->getResource()->getItem()->statuses;
-        $result = '';
-        foreach ($statuses as $status) {
-            if($status->pivot->last) {
-                $result = $status;
-                break;
-            }
-        }
-        return $result;
     }
     /**
      * @return list<MoonShineComponent>
@@ -110,6 +82,12 @@ class EventDetailPage extends DetailPage
             return $this->showForDetailChange();
         } else {
             return [
+                Div::make([
+                    Carousel::make(
+                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+                        portrait: false,
+                    )
+                ]),
                 ...parent::mainLayer()
             ];
         }
@@ -130,10 +108,11 @@ class EventDetailPage extends DetailPage
                         ...$this->showBottonForChange(),
                     ])->columnSpan(6),
                 ]),
+                $this->showActionStatusButton(),
             ];
         } else {
             return [
-                $this->showGridCardPriceUI($this->getResource()->getItem()->prices),
+//                $this->showGridCardPriceUI($this->getResource()->getItem()->prices),
                 ...parent::bottomLayer(),
                 $this->showActionStatusButton(),
             ];
@@ -166,7 +145,7 @@ class EventDetailPage extends DetailPage
                     Block::make('Изменения', [
                         Div::make('Билеты', [
                             Carousel::make(
-                                items: collect($history_item->historyFiles)->pluck('link')->all(),
+                                items: empty($history_item->historyFiles) ? [] : collect($history_item->historyFiles)->pluck('link')->all(),
                                 portrait: false,
                             )
                         ]),

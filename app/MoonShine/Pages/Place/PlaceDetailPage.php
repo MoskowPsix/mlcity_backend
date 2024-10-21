@@ -22,11 +22,14 @@ class PlaceDetailPage extends DetailPage
      */
     public function fields(): array
     {
+//        dd($this->getResource()->getItem()->first()->toArray());
         return [
             ID::make()->sortable(),
             Number::make('Долгота', 'latitude'),
             Number::make('Широта', 'longitude'),
             Text::make('Адрес', 'address'),
+            $this->showLocation(),
+//            $this->showSight(),
             $this->showSeances(),
         ];
     }
