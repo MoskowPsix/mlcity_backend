@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\Place;
 
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Fragment;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
@@ -36,7 +38,7 @@ class PlaceDetailPage extends DetailPage
     protected function topLayer(): array
     {
         return [
-            ...parent::topLayer()
+            ...parent::topLayer(),
         ];
     }
 
@@ -47,7 +49,10 @@ class PlaceDetailPage extends DetailPage
     protected function mainLayer(): array
     {
         return [
-            ...parent::mainLayer()
+//            Block::make([
+//                $this->showSeances(),
+//            ]),
+            ...parent::mainLayer(),
         ];
     }
 

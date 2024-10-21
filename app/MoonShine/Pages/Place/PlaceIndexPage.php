@@ -6,6 +6,8 @@ namespace App\MoonShine\Pages\Place;
 
 use MoonShine\Components\CardsBuilder;
 use MoonShine\Contracts\MoonShineRenderable;
+use MoonShine\Decorations\Block;
+use MoonShine\Decorations\Fragment;
 use MoonShine\Fields\Fields;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Number;
@@ -26,18 +28,15 @@ class PlaceIndexPage extends IndexPage
     {
         return [
             ID::make()->sortable(),
-            Number::make('Долгота', 'latitude'),
-            Number::make('Широта', 'longitude'),
+//            Number::make('Долгота', 'latitude'),
+//            Number::make('Широта', 'longitude'),
             Text::make('Адрес', 'address'),
-            $this->showSeances(),
-
         ];
     }
     protected function itemsComponent(iterable $items, Fields $fields): MoonShineRenderable
     {
         return CardsBuilder::make($items)
             ->fields($fields)
-            ->title('sss')
             ->cast($this->getResource()->getModelCast());
 //        return Collapse::make('Место провидения')->fields($components)->persist(fn() => false);
 

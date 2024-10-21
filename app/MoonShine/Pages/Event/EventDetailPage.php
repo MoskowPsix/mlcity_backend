@@ -48,7 +48,7 @@ class EventDetailPage extends DetailPage
                 }),
             Text::make('Организатор', 'sponsor'),
             Date::make('Начало', 'date_start')->format('d.m.Y H:i'),
-            Date::make('Конец', 'date_end')->format('d.m.Y H:i'),
+            Date::make('Конец', 'date_start')->format('d.m.Y H:i'),
             Markdown::make('Описание', 'description'),
             $this->showLastStatus(),
             $this->showCountLikes(),
@@ -63,29 +63,30 @@ class EventDetailPage extends DetailPage
      */
     protected function topLayer(): array
     {
-        if ($this->getCurrentStatus()->name == 'Изменено'){
-            return [
-                Grid::make([
-                    Column::make([
-
-                    ])->columnSpan(6),
-                    Column::make([
-
-                    ])->columnSpan(6),
-                ]),
-                ...parent::topLayer()
-            ];
-        } else {
-            return [
-                Div::make('Билеты', [
-                    Carousel::make(
-                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
-                        portrait: false,
-                    )
-                ]),
-                ...parent::topLayer()
-            ];
-        }
+        return [];
+//        if ($this->getCurrentStatus()->name == 'Изменено'){
+//            return [
+//                Grid::make([
+//                    Column::make([
+//
+//                    ])->columnSpan(6),
+//                    Column::make([
+//
+//                    ])->columnSpan(6),
+//                ]),
+//                ...parent::topLayer()
+//            ];
+//        } else {
+//            return [
+//                Div::make('Билеты', [
+//                    Carousel::make(
+//                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+//                        portrait: false,
+//                    )
+//                ]),
+//                ...parent::topLayer()
+//            ];
+//        }
     }
     private function getCurrentStatus(): Model
     {
@@ -206,9 +207,9 @@ class EventDetailPage extends DetailPage
 
                 $components[] = LineBreak::make();
                 $index_fields = (new HistoryPlaceResource())->getIndexFields();
-                dd($field->$item);
-                CardsBuilder::make($field->value())->fields($index_fields);
-                $card = Card::make(values: $field->getResource()->getItem()->get()->toArray());
+//                dd($field->);
+//                CardsBuilder::make($field->value())->fields($index_fields);
+//                $card = Card::make(values: $field->getResource()->getItem()->get()->toArray());
                 $blocks = [$field];
 
                 if ($field->toOne()) {
