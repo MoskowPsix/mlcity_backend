@@ -71,6 +71,5 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkRootCookie' => \App\Http\Middleware\CheckUserForTelescope::class,
         "orgPerm" => CheckUserRoleInOrganization::class,
-        "auth.telescope" => CheckUserForTelescope::class,
     ];
 }

@@ -78,7 +78,7 @@ return [
     */
 
     'middleware' => [
-        'checkRootCookie'
+        'moonshine'
     ],
 
     /*

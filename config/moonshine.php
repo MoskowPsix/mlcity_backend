@@ -112,7 +112,7 @@ return [
     // config for media manager page
     'media-manager' => [
         // Автоматическое добавление в меню
-//        'auto_menu' => false,
+        'auto_menu' => false,
         // Корневая директория
         'disk' => config('filesystem.default', 'public'),
         // Разрешенные для загрузки расширения файлов

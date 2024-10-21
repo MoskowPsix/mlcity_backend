@@ -26,6 +26,11 @@ class StatusResource extends ModelResource
 
     protected string $column = 'name';
 
+    public function search(): array
+    {
+        return ['id', 'name'];
+    }
+
     /**
      * @return list<MoonShineComponent|Field>
      */

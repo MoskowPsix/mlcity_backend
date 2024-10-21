@@ -40,6 +40,11 @@ class SightResource extends ModelResource
     protected string $column = 'name';
     public static array $activeActions = ['view'];
 
+    public function search(): array
+    {
+        return ['id', 'name'];
+    }
+
     public function getActiveActions(): array
     {
         if (auth()->id() === $this->getItem()?->author_id) {

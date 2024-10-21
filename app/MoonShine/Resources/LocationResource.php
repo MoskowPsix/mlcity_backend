@@ -27,6 +27,11 @@ class LocationResource extends ModelResource
 
     protected array $with = ['events'];
 
+    public function search(): array
+    {
+        return ['id', 'name'];
+    }
+
     /**
      * @return list<Page>
      */

@@ -29,34 +29,10 @@ class SightTypeResource extends ModelResource
 
     protected string $title = 'Типы мест';
 
-    /**
-     * @return list<MoonShineComponent|Field>
-     */
-    // public function fields(): array
-    // {
-    //     $url = env('APP_URL');
-    //     return [
-    //         Block::make([
-    //             ID::make()->sortable(),
-    //             Text::make()->sortable(),
-    //             Image::make('Иконка', 'image')
-    //                 ->changePreview(function ($data) use ($url) {
-    //                     if (empty($data)) {
-    //                         return '';
-    //                     }
-
-    //                     if (substr($data, 0, 4) == 'http') {
-    //                         return view('moonshine::ui.image', ['value' => $data]);
-    //                     } else if (substr($data, 0, 4) == '/sto') {
-    //                         return view('moonshine::ui.image', ['value' => $url . $data]);
-    //                     } else {
-    //                         return $data;
-    //                     }
-    //                 }),
-
-    //         ]),
-    //     ];
-    // }
+    public function search(): array
+    {
+        return ['id', 'name'];
+    }
 
     public function indexFields(): array
     {

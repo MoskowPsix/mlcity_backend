@@ -67,20 +67,21 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     static fn() => __('Логи'),
                     new LogViewerPage(),
                 ),
+                MenuItem::make('Telescope', '/telescope')
             ])->translatable()->icon('heroicons.wrench-screwdriver'),
             MenuGroup::make('Контент', [
                 MenuItem::make('События', new EventResource())
                     ->translatable()
                     ->icon('heroicons.fire'),
-                MenuItem::make('Статусы', new StatusResource())
-                    ->translatable()
-                    ->icon('heroicons.clipboard-document-check'),
                 MenuItem::make('Места', new SightResource())
                     ->translatable()
                     ->icon('heroicons.flag'),
                 MenuItem::make('Города', new LocationResource())
                     ->translatable()
                     ->icon('heroicons.building-office-2'),
+                MenuItem::make('Статусы', new StatusResource())
+                    ->translatable()
+                    ->icon('heroicons.clipboard-document-check'),
                 MenuItem::make('Типы мест', new SightTypeResource())
                     ->icon('heroicons.building-storefront'),
                 MenuItem::make('Типы событий', new EventTypeResource())
