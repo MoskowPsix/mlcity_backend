@@ -26,14 +26,15 @@ class SightIndexPage extends IndexPage
     public function fields(): array
     {
         return [
-            ID::make(),
+            ID::make()->sortable(),
             Text::make('Название', 'name')->sortable(),
             BelongsTo::make('Автор', 'author', resource: new MoonUserResource())
                 ->changePreview(function ($data) {
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
-            Text::make('Организатор', 'name'),
+            Text::make('Организатор', 'name')->sortable(),
             $this->showLastStatus(),
+            Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
         ];
     }
 

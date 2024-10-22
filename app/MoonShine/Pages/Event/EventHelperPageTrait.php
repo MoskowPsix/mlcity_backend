@@ -11,6 +11,7 @@ use App\MoonShine\Resources\PriceResource;
 use App\MoonShine\Resources\SightResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\MoonUserResource;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\ActionButtons\ActionButton;
 use MoonShine\Components\Badge;
@@ -50,6 +51,19 @@ trait EventHelperPageTrait
                     }
                 }
                 return Link::make((new StatusResource())->detailPageUrl($result), $result->name);
+            })->sortable(function(Builder $query, string $column, string $direction) {
+//                dd($this->getResource()->getModelCast());
+                if ($this->getResource()->getModelCast() == 'App\Models\Event') {
+                    return $query
+                        ->join('event_status', 'event_status.event_id', '=', 'events.id')
+                        ->join('statuses', 'event_status.status_id', '=', 'statuses.id')
+                        ->orderBy($column, $direction);
+                } else if($this->getResource()->getModelCast() == 'App\Models\Sight') {
+                    return $query
+                        ->join('sight_status', 'sight_status.sight_id', '=', 'sights.id')
+                        ->join('statuses', 'sight_status.status_id', '=', 'statuses.id')
+                        ->orderBy($column, $direction);
+                }
             });
     }
     protected function getCurrentStatus(): Model | stdClass

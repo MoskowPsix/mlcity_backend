@@ -37,6 +37,8 @@ class MoonUserResource extends ModelResource
 
     protected string $title = 'Пользователи';
     protected string $column = 'name';
+    protected bool $simplePaginate = true;
+    protected bool $isAsync = true;
     public function fields(): array
     {
         return [

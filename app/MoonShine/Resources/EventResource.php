@@ -4,14 +4,8 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
-use App\Contracts\Services\EventService\EventService;
-use App\Contracts\Services\EventService\EventServiceInterface;
-use App\Contracts\Services\SightService\SightService;
-use App\Http\Controllers\Api\EventController;
-use App\Http\Controllers\Api\SightController;
 use App\Http\Controllers\Api\StatusController;
 use App\Models\Event;
-use App\Models\Location;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\MoonShine\Pages\Event\EventIndexPage;
@@ -20,17 +14,14 @@ use App\MoonShine\Pages\Event\EventDetailPage;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 
 
+use Illuminate\Support\Facades\Request;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
 use MoonShine\Fields\DateRange;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\Number;
-use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
-use MoonShine\Fields\Relationships\HasManyThrough;
-use MoonShine\Fields\Relationships\HasOneThrough;
-use MoonShine\Fields\Select;
 use MoonShine\Fields\Text;
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
@@ -51,6 +42,11 @@ class EventResource extends ModelResource
     protected bool $saveFilterState = true;
 
     public static array $activeActions = ['view'];
+    protected bool $simplePaginate = true;
+    protected bool $usePagination = true;
+
+    protected bool $isAsync = true;
+
 
     public function search(): array
     {
@@ -69,7 +65,10 @@ class EventResource extends ModelResource
     public function filters(): array
     {
         return [
-            BelongsToMany::make('Города', 'locationsBelongToMany', resource: new LocationResource())->selectMode(),
+            BelongsToMany::make('Города', 'locationsBelongToMany', resource: new LocationResource())
+                ->selectMode()
+                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true)->limit(10))
+            ,
             BelongsToMany::make('статус', 'statuses', resource: new StatusResource())->selectMode()
             ->onApply(function (Builder $query, array $value, Field $field) {
                 $query = $query->whereHas('lastStatus', function($q) use($value) {

@@ -38,6 +38,7 @@ class EventIndexPage extends IndexPage
             Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
             Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
             $this->showLastStatus(),
+            Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
         ];
     }
 

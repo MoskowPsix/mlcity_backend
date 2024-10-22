@@ -39,6 +39,8 @@ class SightResource extends ModelResource
 
     protected string $column = 'name';
     public static array $activeActions = ['view'];
+    protected bool $simplePaginate = true;
+    protected bool $isAsync = true;
 
     public function search(): array
     {
@@ -73,7 +75,9 @@ class SightResource extends ModelResource
     public function filters(): array
     {
         return [
-            BelongsTo::make('Города', 'locations', resource: new LocationResource())->searchable(),
+            BelongsTo::make('Города', 'locations', resource: new LocationResource())->searchable()
+                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true)->limit(10))
+            ,
             BelongsToMany::make('Статус', 'statuses', resource: new StatusResource())->selectMode()
                 ->onApply(function (Builder $query, array $value, Field $field) {
                     $query = $query->whereHas('statuses', function($q) use($value) {

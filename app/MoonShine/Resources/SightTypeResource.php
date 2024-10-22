@@ -28,6 +28,18 @@ class SightTypeResource extends ModelResource
     protected string $model = SightType::class;
 
     protected string $title = 'Типы мест';
+    protected bool $simplePaginate = true;
+    protected bool $isAsync = true;
+    public static array $activeActions = ['view'];
+
+    public function getActiveActions(): array
+    {
+        if (auth()->id() === $this->getItem()?->author_id) {
+            return static::$activeActions;
+        }
+
+        return static::$activeActions;
+    }
 
     public function search(): array
     {

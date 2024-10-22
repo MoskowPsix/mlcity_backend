@@ -25,6 +25,18 @@ class StatusResource extends ModelResource
     protected string $title = 'Статус';
 
     protected string $column = 'name';
+    protected bool $simplePaginate = true;
+    protected bool $isAsync = true;
+    public static array $activeActions = ['view'];
+
+    public function getActiveActions(): array
+    {
+        if (auth()->id() === $this->getItem()?->author_id) {
+            return static::$activeActions;
+        }
+
+        return static::$activeActions;
+    }
 
     public function search(): array
     {
