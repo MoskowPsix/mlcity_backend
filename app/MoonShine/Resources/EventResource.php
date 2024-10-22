@@ -92,8 +92,8 @@ class EventResource extends ModelResource
                 ])->columnSpan(12),
                 Column::make([
                     Block::make('Даты проведения', [
-                        DateRange::make('Начало', 'date_start')->fromTo('date_from', 'date_to'),
-                        DateRange::make('Конец', 'date_end')->fromTo('date_from', 'date_to'),
+                        DateRange::make('Начало', 'date_start'),
+                        DateRange::make('Конец', 'date_end'),
                     ]),
                 ])->columnSpan(12),
             ])
