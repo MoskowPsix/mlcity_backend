@@ -100,9 +100,10 @@ class AuthService implements AuthServiceInterface
         if (isset($user->email_verified_at)) {
             throw new Exception('Email verified');
         }
-        return $user->update([
+        $user->update([
             'email' => $request->email,
-        ]);
+        ]) ? null : throw new Exception('Email not updated');
+        return $user;
     }
 
     /**
