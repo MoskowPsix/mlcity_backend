@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.2",
         "darkaonline/l5-swagger": "^8.5",
-        "doctrine/dbal": "2.13.1",
+        "doctrine/dbal": "3.5",
         "gian_tiaga/moonshine-coordinates": "^1.0",
         "google/apiclient": "^2.17",
         "guzzlehttp/guzzle": "^7.2",
