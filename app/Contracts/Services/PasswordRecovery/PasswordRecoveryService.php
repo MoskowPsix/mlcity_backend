@@ -7,6 +7,7 @@ use App\Http\Requests\RecoveryPassword\RecoveryPasswordByCode;
 use App\Http\Requests\RecoveryPassword\SendRecoveryPassword;
 use App\Mail\RecoveryPasswordMail;
 use App\Models\User;
+use App\Notifications\PasswordRecovery;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Database\QueryException as QueryExceptionAlias;
@@ -23,11 +24,8 @@ class PasswordRecoveryService implements PasswordRecoveriServiceInterface
         if (!User::where('email', $email )->exists()) {
             throw new \Exception('Mail not found');
         }
-        $user = User::where('email', $email)->first();
-        $code = encrypt(Carbon::now() . ',' . $email . ',' . $user->id);
-        $url = env('FRONT_APP_URL') . '/recovery/' . $code;
         try {
-            $this->sendMail($email, $url);
+            auth('api')->user()->notify(new PasswordRecovery());
         } catch (Exception $ex) {
             throw new \Exception('Mail not send');
         }
