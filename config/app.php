@@ -1,5 +1,6 @@
 <?php
 
+use App\Providers\ElasticsearchServiceProvider;
 use Illuminate\Support\Facades\Facade;
 
 return [
@@ -183,7 +184,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-
+        ElasticsearchServiceProvider::class,
 
         /*
          * Package Service Providers...

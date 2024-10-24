@@ -2,14 +2,16 @@
 
 namespace App\Models;
 
+use App\Models\Event;
+use App\Traits\SearchableContentTrait;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Models\FileType;
 
-use App\Models\Event;
 
 class EventFile extends Model
 {
+    use SearchableContentTrait;
     use HasFactory;
 
     protected $fillable = [
@@ -17,6 +19,29 @@ class EventFile extends Model
         'link',
         'local'
     ];
+
+    public static function boot(): void
+    {
+        parent::boot();
+        self::saved(function (EventFile $model) {
+            $event = Event::with('files')->find($model->event_id)->toArray();
+            resolve(Client::class)->index([
+                'index' => 'events',
+                'type' => $model->getSearchType(),
+                'id' => $model->event_id,
+                'body' => $event,
+            ]);
+        });
+        self::deleted(function (EventFile $model) {
+            $event = Event::with('files')->find($model->event_id)->toArray();
+            resolve(Client::class)->index([
+                'index' => 'events',
+                'type' => $model->getSearchType(),
+                'id' => $model->event_id,
+                'body' => $event,
+            ]);
+        });
+    }
 
     public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

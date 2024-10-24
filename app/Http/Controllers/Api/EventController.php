@@ -43,7 +43,9 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 #[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
 {
-    public function __construct(private readonly EventServiceInterface $eventService) {}
+    public function __construct(private readonly EventServiceInterface $eventService)
+    {
+    }
 
     #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
     #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
@@ -52,6 +54,12 @@ class EventController extends Controller
         $response = $this->eventService->get($request);
         return new SuccessGetEventsResource($response);
     }
+
+//    public function searchForText()
+//    {
+//        $response = $this->eventService->get($request);
+//
+//    }
 
 
     #[Authenticated]

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\SightType;
@@ -12,8 +13,9 @@ use App\Models\SightLike;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
-class Sight extends Model
+class Sight extends ElasticsearchModel
 {
+    use SearchableContentTrait;
     use HasFactory;
 
     protected $fillable = [

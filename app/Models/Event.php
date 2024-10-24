@@ -1,25 +1,14 @@
 <?php
 
 namespace App\Models;
-use App\Models\Place;
-use App\Models\Price;
-use App\Models\User;
+use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use App\Models\EventType;
-use App\Models\Status;
-use App\Models\EventFile;
-use App\Models\EventLike;
-use App\Models\Comment;
-use App\Models\View;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use MoonShine\Fields\Relationships\HasOneThrough;
 
-class Event extends Model
+class Event extends ElasticsearchModel
 {
+    use SearchableContentTrait;
     use HasFactory;
 
     protected $primaryKey = 'id';
@@ -42,14 +31,6 @@ class Event extends Model
         'organization_id',
         'age_limit',
     ];
-
-
-    // protected static function booted()
-    // {
-    //     static::created(function($model){
-    //         event(new EventCreated($model));
-    //     });
-    // }
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

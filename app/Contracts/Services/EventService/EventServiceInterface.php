@@ -14,6 +14,7 @@ interface EventServiceInterface
 {
     public function store(EventCreateRequest $data): Event;
     public function get($data);
+//    public function searchForText($request)
     public function getUserEvents(EventForAuthorReqeust $data);
     public function getById(int $id): Event;
     public function setEvenUserLiked(SetEventUserLikedRequest $request): bool;
