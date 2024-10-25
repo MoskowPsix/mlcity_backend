@@ -67,7 +67,7 @@ class EventResource extends ModelResource
         return [
             BelongsToMany::make('Города', 'locationsBelongToMany', resource: new LocationResource())
                 ->selectMode()
-                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true)->limit(10))
+                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true))
             ,
             BelongsToMany::make('статус', 'statuses', resource: new StatusResource())->selectMode()
             ->onApply(function (Builder $query, array $value, Field $field) {

@@ -76,7 +76,7 @@ class SightResource extends ModelResource
     {
         return [
             BelongsTo::make('Города', 'locations', resource: new LocationResource())->searchable()
-                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true)->limit(10))
+                ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true))
             ,
             BelongsToMany::make('Статус', 'statuses', resource: new StatusResource())->selectMode()
                 ->onApply(function (Builder $query, array $value, Field $field) {
