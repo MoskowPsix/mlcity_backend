@@ -18,13 +18,15 @@ use Illuminate\Support\Facades\Storage;
 use MoonShine\Components\MoonShineComponent;
 
 /**
- * @extends ModelResource<MoonType>
+ * @extends ModelResource<EventTypeResource>
  */
 class EventTypeResource extends ModelResource
 {
     protected string $model = EventType::class;
 
     protected string $title = 'Типы событий';
+
+    protected string $column = 'name';
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];

@@ -69,6 +69,7 @@ class EventResource extends ModelResource
                 ->selectMode()
                 ->valuesQuery(fn(Builder $query, Field $field) => $query->where('display', '=',true))
             ,
+            BelongsToMany::make('Тип', 'types', resource: new EventTypeResource())->selectMode(),
             BelongsToMany::make('статус', 'statuses', resource: new StatusResource())->selectMode()
             ->onApply(function (Builder $query, array $value, Field $field) {
                 $query = $query->whereHas('lastStatus', function($q) use($value) {

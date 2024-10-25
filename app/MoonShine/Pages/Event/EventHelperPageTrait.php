@@ -110,7 +110,7 @@ trait EventHelperPageTrait
     {
         return BelongsTo::make('Организация', 'organization', resource: new OrganizationResource())
             ->changePreview(function ($data) {
-                return Link::make((new SightResource())->detailPageUrl($data->sight), $data->sight->name);
+                return isset($data->sight) ? Link::make((new SightResource())->detailPageUrl($data->sight), $data->sight->name) : 'Отсутствует';
             });
     }
     protected function showPlaces(): HasMany

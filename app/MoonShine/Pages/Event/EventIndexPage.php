@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\Event;
 
+use App\MoonShine\Resources\EventTypeResource;
 use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\MoonUserResource;
@@ -37,6 +38,11 @@ class EventIndexPage extends IndexPage
             Text::make('Организатор', 'name'),
             Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
             Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
+            BelongsToMany::make('Тип', 'types', resource: new EventTypeResource())
+                ->inLine(
+                    separator: ', ',
+                )
+            ,
             $this->showLastStatus(),
             Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
         ];

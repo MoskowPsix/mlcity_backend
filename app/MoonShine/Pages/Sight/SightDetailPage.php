@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages\Sight;
 
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
+use App\MoonShine\Resources\EventTypeResource;
 use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\MoonUserResource;
+use App\MoonShine\Resources\SightTypeResource;
 use MoonShine\Components\Carousel;
 use MoonShine\Components\Layout\Div;
 use MoonShine\Components\Link;
@@ -18,6 +20,7 @@ use MoonShine\Decorations\Grid;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Relationships\BelongsTo;
+use MoonShine\Fields\Relationships\BelongsToMany;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\DetailPage;
 use MoonShine\Components\MoonShineComponent;
@@ -46,7 +49,9 @@ class SightDetailPage extends DetailPage
             Number::make('Долгота', 'latitude'),
             Number::make('Широта', 'longitude'),
             BelongsTo::make('Город', 'locations', resource: new LocationResource())->searchable(),
-            Text::make('Адрес', 'address')
+            Text::make('Адрес', 'address'),
+            BelongsToMany::make('Типы', 'types', resource: new SightTypeResource()),
+
         ];
     }
     /**

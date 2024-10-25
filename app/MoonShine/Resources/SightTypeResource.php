@@ -21,13 +21,17 @@ use MoonShine\Components\MoonShineComponent;
 use MoonShine\Support\AlpineJs;
 
 /**
- * @extends ModelResource<MoonType>
+ * @extends ModelResource<SightTypeResource>
  */
 class SightTypeResource extends ModelResource
 {
     protected string $model = SightType::class;
 
     protected string $title = 'Типы мест';
+
+    protected string $column = 'name';
+
+
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];

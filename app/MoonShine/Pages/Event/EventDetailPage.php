@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\MoonShine\Pages\Event;
 
 use App\MoonShine\Pages\HistoryPlace\HistoryPlaceIndexPage;
+use App\MoonShine\Resources\EventTypeResource;
 use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\HistoryPlaceResource;
 use App\MoonShine\Resources\LocationResource;
@@ -60,6 +61,7 @@ class EventDetailPage extends DetailPage
             $this->showCountFavorites(),
             $this->showPlaces(),
             $this->showOrganization(),
+            BelongsToMany::make('Типы', 'types', resource: new EventTypeResource()),
             $this->showPrices(),
 //            HasManyThrough::make('Города', 'locations', resource: new LocationResource()),
         ];
