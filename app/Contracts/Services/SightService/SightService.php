@@ -19,11 +19,14 @@ use App\Filters\Sight\SightIco;
 use App\Filters\Sight\SightLocation;
 use App\Filters\Sight\SightTypes;
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Requests\SearchContentForTextRequest;
 use App\Http\Requests\Sight\CreateSightRequest;
 use App\Http\Requests\Sight\GetSightsForMapRequest;
 use App\Http\Requests\Sight\GetSightsRequest;
+use App\Models\Event;
 use App\Models\FileType;
 use App\Models\Sight;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
@@ -31,6 +34,15 @@ use Illuminate\Support\Facades\Auth;
 
 class SightService implements SightServiceInterface
 {
+
+    private Client $elasticsearch;
+
+    public function __construct()
+    {
+        if (config('elasticsearch.enabled')) {
+            $this->elasticsearch = resolve(Client::class);
+        }
+    }
     /**
      * @throws \Exception
      */
@@ -82,6 +94,40 @@ class SightService implements SightServiceInterface
                 });
 
         return $response;
+    }
+    public function getSearchText(SearchContentForTextRequest $request): object
+    {
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        $sights = Sight::with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        if (config('elasticsearch.enabled')) {
+            $model = new Event();
+            $query = [
+                'query' => [
+                    'query_string' => [
+                        'fields' => $request->columns,
+                        'query' => $request->text . '*',
+                        'default_operator' => 'and',
+                    ],
+                ],
+                '_source' => ['id']
+            ];
+            $items = $this->elasticsearch->search([
+                'index' => $model->getSearchIndex(),
+                'type' => $model->getSearchType(),
+                'body' => $query,
+            ])->asArray();
+            $sights_ids = [];
+            foreach ($items['hits']['hits'] as $item) {
+                $sights_ids[] = $item['_source']['id'];
+            }
+            $events = $sights->whereIn('id', $sights_ids);
+        } else {
+            foreach($request->columns as $column) {
+                $sights = $sights->orWhere($column, 'ilike', "%$request->text%");
+            }
+        }
+        return $sights->cursorPaginate($limit, ['*'], 'page', $page);
     }
     public function getSightsForMap(GetSightsForMapRequest $request): object
     {

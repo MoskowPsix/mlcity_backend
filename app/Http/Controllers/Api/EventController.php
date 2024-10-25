@@ -8,6 +8,7 @@ use App\Http\Requests\Event\EventCreateRequest;
 use App\Http\Requests\Event\EventForAuthorReqeust;
 use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Requests\SearchContentForTextRequest;
 use App\Http\Resources\Event\CreateEvent\ErrorAuthCreateEventResource;
 use App\Http\Resources\Event\CreateEvent\ErrorCreateEventResource;
 use App\Http\Resources\Event\CreateEvent\SuccessCreateEventResource;
@@ -18,10 +19,12 @@ use App\Http\Resources\Event\GetEvents\SuccessGetEventsResource;
 use App\Http\Resources\Event\GetEventUserFavoritesIds\SuccessGetEventUserFavoritesIdsResource;
 use App\Http\Resources\Event\GetEventUserLikedIds\SuccessGetEventUserLikedIdsResource;
 use App\Http\Resources\Event\GetOrganizatonOfEvent\SuccessGetOrganizationOfEventResource;
+use App\Http\Resources\Event\SearchForText\SuccessSearchForTextEventResource;
 use App\Http\Resources\Event\SetEventUserLiked\SuccessSetEventUserLikedResource;
 use App\Http\Resources\Event\ShowEvent\SuccessShowEventResource;
 use App\Models\Organization;
 use App\Models\User;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Http\Request;
 use Illuminate\Pipeline\Pipeline;
 use App\Models\Event;
@@ -54,12 +57,13 @@ class EventController extends Controller
         $response = $this->eventService->get($request);
         return new SuccessGetEventsResource($response);
     }
-
-//    public function searchForText()
-//    {
-//        $response = $this->eventService->get($request);
-//
-//    }
+    #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
+    #[Endpoint(title: 'searchForText', description: 'Поиск по основным полям через elasticsearch')]
+    public function searchForText(SearchContentForTextRequest $request)
+    {
+        $response = $this->eventService->getSearchText($request);
+        return new SuccessGetEventsResource($response);
+    }
 
 
     #[Authenticated]

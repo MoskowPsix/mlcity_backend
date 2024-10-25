@@ -6,6 +6,7 @@ use App\Http\Requests\Event\EventCreateRequest;
 use App\Http\Requests\Event\EventForAuthorReqeust;
 use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Requests\SearchContentForTextRequest;
 use App\Models\Event;
 use App\Models\Location;
 use App\Models\Status;
@@ -32,6 +33,7 @@ use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
 use App\Models\Sight;
+use Elastic\Elasticsearch\Client;
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
@@ -43,9 +45,14 @@ class EventService implements EventServiceInterface
 {
     private FileService $fileService;
     private OrganizationService $organizationService;
+    private Client $elasticsearch;
+
 
     public function __construct()
     {
+        if (config('elasticsearch.enabled')) {
+            $this->elasticsearch = resolve(Client::class);
+        }
         $this->fileService = new FileService();
         $this->organizationService = new OrganizationService();
     }
@@ -101,6 +108,42 @@ class EventService implements EventServiceInterface
             return $events->cursorPaginate($limit, ['*'], 'page' , $page);
         });
     }
+
+    public function getSearchText(SearchContentForTextRequest $request): object
+    {
+        $page = $request->page;
+        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
+        $events = Event::with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
+        if (config('elasticsearch.enabled')) {
+            $model = new Event();
+            $query = [
+                'query' => [
+                    'query_string' => [
+                        'fields' => $request->columns,
+                        'query' => $request->text . '*',
+                        'default_operator' => 'and',
+                    ],
+                ],
+                '_source' => ['id']
+            ];
+            $items = $this->elasticsearch->search([
+                'index' => $model->getSearchIndex(),
+                'type' => $model->getSearchType(),
+                'body' => $query,
+            ])->asArray();
+            $events_ids = [];
+            foreach ($items['hits']['hits'] as $item) {
+                $events_ids[] = $item['_source']['id'];
+            }
+            $events = $events->whereIn('id', $events_ids);
+        } else {
+            foreach($request->columns as $column) {
+                $events = $events->orWhere($column, 'ilike', "%$request->text%");
+            }
+        }
+        return $events->cursorPaginate($limit, ['*'], 'page', $page);
+    }
+
 
     public function getUserEvents(EventForAuthorReqeust $data)
     {

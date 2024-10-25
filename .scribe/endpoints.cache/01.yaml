@@ -48,7 +48,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","points":{"data":[{"latitude":79.92307,"longitude":-119.898226}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0438 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","points":{"data":[{"id":null,"latitude":85.435047,"longitude":-29.414127}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -104,7 +104,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0430","points":{"latitude":7.521746,"longitude":115.056869}}'
+        content: '{"status":"success","message":"\u0422\u043e\u0447\u043a\u0430 \u043f\u043e\u043b\u044c\u0437\u043e\u0432\u0430\u0442\u0435\u043b\u044f \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0434\u043e\u0431\u0430\u0432\u043b\u0435\u043d\u0430","points":{"id":null,"latitude":13.981892,"longitude":-1.060853}}'
         headers: []
         description: ''
         custom: []

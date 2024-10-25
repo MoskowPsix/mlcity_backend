@@ -90,6 +90,7 @@ Route::controller(AuthSocialController::class)->group(function () {
 });
 
 Route::controller(EventController::class)->group(function () {
+    Route::get('events/search/text', 'searchForText')->name('event.search.text');
     Route::post('events', 'getEvents')->name('events.get_all'); // Запрос ивентов с фильтрами
     Route::get('events-for-author', 'getEventsForAuthor')->name('events.get_for_author')->middleware('auth:sanctum'); // Запрос ивентa для автора
     Route::post('events/update-vk-likes', 'updateVkLikes')->name('events.update_vk_like'); //для страницы мероприятия
@@ -122,6 +123,7 @@ Route::controller(SeanceController::class)->group(function () {
     Route::get('places/{id}/seances', 'getSeancesAtPlaceIds');
 });
 Route::controller(SightController::class)->group(function () {
+    Route::get('sights/search/text', 'searchForText')->name('sight.search.text');
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
     Route::get('sights-for-map', 'getSightsForMap'); // Запрос достопримечательностей с фильтрами для карты
     Route::get('sights-for-card/{id}', 'showForCard'); // Запрос достопримечательностей по id для карты

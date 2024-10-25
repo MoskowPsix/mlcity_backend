@@ -7,6 +7,7 @@ use App\Filters\Event\EventRegion;
 use App\Filters\HistoryContent\HistoryContentLast;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Requests\SearchContentForTextRequest;
 use App\Http\Requests\Sight\CreateSightRequest;
 use App\Http\Requests\Sight\GetSightsForMapRequest;
 use App\Http\Requests\Sight\GetSightsRequest;
@@ -67,6 +68,13 @@ class SightController extends Controller
     public function getSights(GetSightsRequest $request): SuccessGetSightResource
     {
         $response = $this->sightService->getSights($request);
+        return new SuccessGetSightResource($response);
+    }
+    #[ResponseFromApiResource(SuccessGetSightResource::class, Sight::class, collection: false)]
+    #[Endpoint(title: 'searchForText', description: 'Поиск по основным полям через elasticsearch')]
+    public function searchForText(SearchContentForTextRequest $request)
+    {
+        $response = $this->sightService->getSearchText($request);
         return new SuccessGetSightResource($response);
     }
     #[ResponseFromApiResource(SuccessGetSightResource::class)]

@@ -26,7 +26,7 @@ endpoints:
         name: name
         description: 'Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 50.'
         required: true
-        example: nek
+        example: pegxhxyqahchghderlm
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -35,7 +35,7 @@ endpoints:
         name: email
         description: 'Значение поля value должно быть действительным электронным адресом.'
         required: true
-        example: jerde.leonora@example.net
+        example: toy.tremblay@example.org
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -44,7 +44,7 @@ endpoints:
         name: password
         description: 'Количество символов в поле value должно быть не меньше 8.'
         required: true
-        example: 'X1C|A*'
+        example: '|Ce=>Vw9)Q:W<o0+4C9'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -53,7 +53,7 @@ endpoints:
         name: password_confirmation
         description: 'The value and <code>password</code> must match.'
         required: true
-        example: ut
+        example: dolorem
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -68,15 +68,15 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: nek
-      email: jerde.leonora@example.net
-      password: 'X1C|A*'
-      password_confirmation: ut
+      name: pegxhxyqahchghderlm
+      email: toy.tremblay@example.org
+      password: '|Ce=>Vw9)Q:W<o0+4C9'
+      password_confirmation: dolorem
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u044b","access_token":"7|a6wiZ9NQJJjGmQzQo99rms0fjxZ2LWQoobUc91Jf319275fd","token_type":"Bearer","user":{"id":12,"name":"\u042d\u043c\u043c\u0430 \u0421\u0435\u0440\u0433\u0435\u0435\u0432\u043d\u0430 \u0411\u043e\u0431\u0440\u043e\u0432\u0430\u0430","email":"nmerkusev@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043e\u0432\u0430\u043d\u044b","access_token":"1|NnzDe86hrzVwQBKo5N3jT8VFLpnJLUb8upHL1vMJ455e81d6","token_type":"Bearer","user":{"id":3,"name":"\u0410\u043d\u043d\u0430 \u0412\u043b\u0430\u0434\u0438\u043c\u0438\u0440\u043e\u0432\u043d\u0430 \u0414\u044c\u044f\u0447\u043a\u043e\u0432\u0430","email":"rgulyeva@example.net","email_verified_at":"2024-10-25 10:25:39","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -117,7 +117,7 @@ endpoints:
         name: name
         description: 'Значение поля value должно быть действительным электронным адресом. Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: ploxjsjkxoxmyuaokvpggbtozjffusjfqhtltubpvknzqeeujbljjbnyjmlutsq
+        example: dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -126,19 +126,19 @@ endpoints:
         name: password
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: 'WvVGhm"+G"x]'
+        example: "uYE*h:`]'(n.s(D-W["
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: ploxjsjkxoxmyuaokvpggbtozjffusjfqhtltubpvknzqeeujbljjbnyjmlutsq
-      password: 'WvVGhm"+G"x]'
+      name: dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt
+      password: "uYE*h:`]'(n.s(D-W["
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043b\u0438\u0441\u044c","access_token":"8|dFckFzlNITdqbat1qyiVPWWBQnmV0E6A8cZftWU47529b38c","token_type":"Bearer","user":{"id":13,"name":"\u0415\u0433\u043e\u0440 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u0438\u0447 \u0414\u0440\u043e\u0437\u0434\u043e\u0432","email":"erik79@example.com","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        content: '{"status":"success","message":"\u0412\u044b \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0430\u0432\u0442\u043e\u0440\u0438\u0437\u043e\u0432\u0430\u043b\u0438\u0441\u044c","access_token":"2|x6j0l6qUMV1wyBD8v5b1YWgksEIHoeghQgjmq2Xo8198a0ae","token_type":"Bearer","user":{"id":4,"name":"\u0423\u0441\u0442\u0438\u043d\u043e\u0432 \u042e\u0440\u0438\u0439 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u0438\u0447","email":"zkolobov@example.com","email_verified_at":"2024-10-25 10:25:39","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -233,7 +233,7 @@ endpoints:
         name: user_id
         description: ''
         required: true
-        example: nemo
+        example: nisi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -242,7 +242,7 @@ endpoints:
         name: new_password
         description: 'Количество символов в поле value должно быть не меньше 8.'
         required: true
-        example: xhkylhisrlzztbpphdceewomhlcuycioscgyitwizuhcasbcliglyqpot
+        example: igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -251,15 +251,15 @@ endpoints:
         name: password_confirmation
         description: 'The value and <code>new_password</code> must match.'
         required: true
-        example: et
+        example: dolor
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      user_id: nemo
-      new_password: xhkylhisrlzztbpphdceewomhlcuycioscgyitwizuhcasbcliglyqpot
-      password_confirmation: et
+      user_id: nisi
+      new_password: igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla
+      password_confirmation: dolor
     fileParameters: []
     responses:
       -
@@ -347,18 +347,18 @@ endpoints:
         name: code
         description: 'Значение поля value должно быть не меньше 999. Значение поля value не может быть больше 10000.'
         required: true
-        example: 2
+        example: 12
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      code: 2
+      code: 12
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430","user":{"id":15,"name":"\u041d\u0438\u043a\u043e\u043b\u0430\u0435\u0432\u0430 \u0410\u043d\u0442\u043e\u043d\u0438\u043d\u0430 \u041b\u044c\u0432\u043e\u0432\u043d\u0430","email":"vil.mysnikova@example.com","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0430","user":{"id":6,"name":"\u0411\u0435\u0441\u043f\u0430\u043b\u043e\u0432\u0430 \u041e\u043a\u0441\u0430\u043d\u0430 \u0418\u0432\u0430\u043d\u043e\u0432\u043d\u0430","email":"dan22@example.com","email_verified_at":"2024-10-25 10:25:39","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -417,28 +417,47 @@ endpoints:
         name: code
         description: 'Количество символов в поле value должно быть не меньше 4. Количество символов в значении поля value не может превышать 4.'
         required: true
-        example: o
+        example: yi
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
       email:
         name: email
-        description: 'Значение поля value должно быть действительным электронным адресом.'
+        description: ''
         required: true
-        example: aimee.thiel@example.net
+        example: voluptas
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      0:
+        name: '0'
+        description: ''
+        required: false
+        example: null
+        type: string
+        enumValues: []
+        exampleWasSpecified: false
+        custom: []
+      1:
+        name: '1'
+        description: 'Значение поля value должно быть действительным электронным адресом.'
+        required: false
+        example: tlemke@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      code: o
-      email: aimee.thiel@example.net
+      code: yi
+      email: voluptas
+      1: tlemke@example.com
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u0412\u0430\u0448\u0430 \u043f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430. \u041d\u0430 \u0432\u0430\u0448\u0443 \u043d\u043e\u0432\u0443\u044e \u043f\u043e\u0447\u0442\u0443 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e \u043f\u0438\u0441\u044c\u043c\u043e \u0441 \u043a\u043e\u0434\u043e\u043c \u0434\u043b\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f","user":{"id":16,"name":"\u0413\u0440\u0438\u0433\u043e\u0440\u0438\u0439 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u0438\u0447 \u0410\u043d\u0434\u0440\u0435\u0435\u0432\u0430","email":"sorokina.fedor@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        content: '{"status":"success","message":"\u0412\u0430\u0448\u0430 \u043f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430. \u041d\u0430 \u0432\u0430\u0448\u0443 \u043d\u043e\u0432\u0443\u044e \u043f\u043e\u0447\u0442\u0443 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u043e \u043f\u0438\u0441\u044c\u043c\u043e \u0441 \u043a\u043e\u0434\u043e\u043c \u0434\u043b\u044f \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u044f","user":{"id":7,"name":"\u042f\u043a\u0443\u0448\u0435\u0432\u0430 \u0410\u043d\u0444\u0438\u0441\u0430 \u0410\u043b\u0435\u043a\u0441\u0430\u043d\u0434\u0440\u043e\u0432\u043d\u0430","email":"blinov.klementina@example.org","email_verified_at":"2024-10-25 10:25:39","avatar":null}}'
         headers: []
         description: ''
         custom: []
@@ -497,7 +516,7 @@ endpoints:
         name: email
         description: ''
         required: true
-        example: doloremque
+        example: quasi
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -515,19 +534,19 @@ endpoints:
         name: '1'
         description: 'Значение поля value должно быть действительным электронным адресом.'
         required: false
-        example: kreiger.shany@example.org
+        example: pansy.will@example.com
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      email: doloremque
-      1: kreiger.shany@example.org
+      email: quasi
+      1: pansy.will@example.com
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430","verification_url":{"id":17,"name":"\u0410\u0440\u0442\u0435\u043c\u044c\u0435\u0432\u0430 \u0413\u0435\u0440\u043c\u0430\u043d \u0420\u043e\u043c\u0430\u043d\u043e\u0432\u0438\u0447","email":"kseniy.polykov@example.net","email_verified_at":"2024-10-08 07:06:14","avatar":null}}'
+        content: '{"status":"success","message":"\u041f\u043e\u0447\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0438\u0437\u043c\u0435\u043d\u0435\u043d\u0430","verification_url":{"id":8,"name":"\u041d\u0435\u0441\u0442\u043e\u0440 \u0414\u043c\u0438\u0442\u0440\u0438\u0435\u0432\u0438\u0447 \u041c\u0430\u0440\u043a\u043e\u0432","email":"leonid91@example.net","email_verified_at":"2024-10-25 10:25:39","avatar":null}}'
         headers: []
         description: ''
         custom: []
