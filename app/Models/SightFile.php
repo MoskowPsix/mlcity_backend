@@ -23,13 +23,16 @@ class SightFile extends Model
     {
         parent::boot();
         self::saved(function (Model $model) {
-            $event = Sight::with('files')->find($model->sight_id)->toArray();
-            resolve(Client::class)->index([
-                'index' => 'sight',
-                'type' => '_doc',
-                'id' => $model->sight_id,
-                'body' => $event,
-            ]);
+            if(config('elasticsearch.enabled')) {
+
+                $event = Sight::with('files')->find($model->sight_id)->toArray();
+                resolve(Client::class)->index([
+                    'index' => 'sight',
+                    'type' => '_doc',
+                    'id' => $model->sight_id,
+                    'body' => $event,
+                ]);
+            }
         });
     }
 
