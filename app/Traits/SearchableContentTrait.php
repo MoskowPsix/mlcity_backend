@@ -28,8 +28,4 @@ trait SearchableContentTrait
     {
         return $this->toArray();
     }
-    public function getClient()
-    {
-        return resolve(Client::class);
-    }
 }

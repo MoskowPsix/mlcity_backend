@@ -24,22 +24,27 @@ class EventFile extends Model
     {
         parent::boot();
         self::saved(function (EventFile $model) {
-            $event = Event::with('files')->find($model->event_id)->toArray();
-            resolve(Client::class)->index([
-                'index' => 'events',
-                'type' => $model->getSearchType(),
-                'id' => $model->event_id,
-                'body' => $event,
-            ]);
+            if(config('elasticsearch.enabled')) {
+                $event = Event::with('files')->find($model->event_id)->toArray();
+                resolve(Client::class)->index([
+                    'index' => 'events',
+                    'type' => $model->getSearchType(),
+                    'id' => $model->event_id,
+                    'body' => $event,
+                ]);
+            }
         });
         self::deleted(function (EventFile $model) {
-            $event = Event::with('files')->find($model->event_id)->toArray();
-            resolve(Client::class)->index([
-                'index' => 'events',
-                'type' => $model->getSearchType(),
-                'id' => $model->event_id,
-                'body' => $event,
-            ]);
+            if(config('elasticsearch.enabled')) {
+
+                $event = Event::with('files')->find($model->event_id)->toArray();
+                resolve(Client::class)->index([
+                    'index' => 'events',
+                    'type' => $model->getSearchType(),
+                    'id' => $model->event_id,
+                    'body' => $event,
+                ]);
+            }
         });
     }
 
