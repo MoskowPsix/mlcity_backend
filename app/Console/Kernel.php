@@ -15,12 +15,16 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        $schedule->command('integration sight');
-        $schedule->command('integration event');
-        $schedule->command('integration');
-        $schedule->command('int token');
-        $schedule->command('int all');
-        $schedule->command('double-type:del');
+//        $schedule->command('integration sight');
+//        $schedule->command('integration event');
+//        $schedule->command('integration');
+//        $schedule->command('int token');
+        $schedule->command('int all')->weeklyOn(6, '4:00')->after(function () {
+            $this->call('double-type:del');
+            $this->call('int token');
+            $this->call('int all');
+        });
+//        $schedule->command('double-type:del');
 //        $schedule->command('int all')->daily()->after(function ($day) {
 //            $this->call('duble');
 ////            $this->call('integration:min-cult all');
