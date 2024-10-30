@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Contracts\Services\CurrentType\CurrentType;
 use App\Events\Event\EventCreated;
 use App\Models\Event;
 use App\Models\EventType;
@@ -15,6 +16,7 @@ use App\Models\Status;
 use App\Models\Timezone;
 use Exception;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
 
 class addEvents extends Command
@@ -33,6 +35,11 @@ class addEvents extends Command
      */
     protected $description = 'get elements-2';
 
+    private int $offset = 0;
+    private array $genres;
+
+    private string $url = 'https://www.culture.ru/api/';
+
     /**
      * Execute the console command.
      *
@@ -40,170 +47,135 @@ class addEvents extends Command
      */
     public function handle()
     {
+        $this->argument('page_events') > 1 ? $page_events = (int)$this->argument('page_events') : $page_events = 1;
 
-        function checkTypeInCurrentTypes($genres){
-            foreach($genres as $genre){
-                if(EventType::where("cult_id",$genre->_id)->exists()){
-                    return true;
-                }
-                break;
-            }
+        $this->offset = ($page_events - 1) * 100;
+
+        $this->argument("limit_events") >= 1 ? $limit_events = (int)$this->argument("limit_events") : $limit_events = 10;
+        try {
+            $this->getPageEvent($page_events, $limit_events);
+        } catch (Exception $e) {
+            return 1;
         }
-        function  getPageEvent($page_events, $limit_events) {
-            try
-            {
-                $type = FileType::where('name', 'image')->firstOrFail();
-                $status= Status::where('name', 'Опубликовано')->firstOrFail();
-                $events = json_decode(file_get_contents('https://www.culture.ru/api-next/events?page='.$page_events.'&limit='.$limit_events, true));
-                foreach ($events->items as $event) {
-                    if (!Event::where('cult_id', $event->_id)->first() && checkTypeInCurrentTypes($event->genres)) {
-                        if (str_contains($event->text,'[HTML]')) {
-                            $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
-                        } else {
-                            $descriptions =  strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text));
-                        }
-                        $event_cr = new Event;
-                        $event_cr->name = $event->title;
-                        $event_cr->sponsor = 'culture.ru';
-                        $event_cr->description = $descriptions;
-                        $event_cr->materials = $event->saleLink;
-                        $event_cr->date_start = $event->startDate;
-                        $event_cr->date_end = $event->endDate;
-                        $event_cr->user_id = 1;
-                        $event_cr->cult_id = $event->_id;
-                        $event_cr->age_limit = isset($event->ageRestriction) ? $event->ageRestriction : '';
-                        $event_cr->save();
-
-                        if (isset($event->price)){
-                        if (($event->price->min === 0) && ($event->price->max === 0)) {
-                            $price = new Price;
-                            $price->event_id = $event_cr->id;
-                            $price->cost_rub = 0;
-                            $price->descriptions = 'Бесплатный вход.';
-                            $price->save();
-                        }else if ($event->price->min === 0) {
-                            $price = new Price;
-                            $price->event_id = $event_cr->id;
-                            $price->cost_rub = 0;
-                            $price->descriptions = 'Возможен бесплатный вход.';
-                            $price->save();
-
-                            $price = new Price;
-                            $price->event_id = $event_cr->id;
-                            $price->cost_rub = $event->price->max;
-                            $price->descriptions = 'Самая дорогая цена.';
-                            $price->save();
-
-                        }else if ($event->price->min === $event->price->max) {
-                                $price = new Price;
-                                $price->event_id = $event_cr->id;
-                                $price->cost_rub = $event->price->min;
-                                $price->descriptions = 'Одна цена на все билеты.';
-                                $price->save();
-                            } else {
-                                $price = new Price;
-                                $price->event_id = $event_cr->id;
-                                $price->cost_rub = $event->price->min;
-                                $price->descriptions = 'Самый низкая цена.';
-                                $price->save();
-
-                                $price = new Price;
-                                $price->event_id = $event_cr->id;
-                                $price->cost_rub = $event->price->max;
-                                $price->descriptions = 'Самая дорогая цена.';
-                                $price->save();
-                            }
-                        }
-
-                        foreach ($event->places as $place) {
-
-                            $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
-
-                            if (isset($place->institute)) {
-                                $sight = Sight::where('cult_id', $place->institute->_id)->first();
-                                $sight ? $sight_id = $sight->id : $sight_id = null;
-
-                                $place_cr =  new Place;
-                                $place_cr->event_id = $event_cr->id;
-                                $place_cr->cult_id = $place->_id;
-                                $place_cr->address = $place->address;
-                                $place_cr->location_id = Location::where('cult_id', $place->locale->_id)->first()->id;
-                                $place_cr->latitude = $place->location->coordinates[1];
-                                $place_cr->longitude = $place->location->coordinates[0];
-                                $place_cr->sight_id = $sight_id;
-                                $place_cr->timezone_id = $timezone;
-                                $place_cr->save();
-                                // foreach ($place->seances as $seance) {
-                                //     Seance::create([
-                                //         'place_id'  => $place_cr->id,
-                                //         'date_start' => $seance->startDate,
-                                //         'date_end' => $seance->endDate
-                                //     ]);
-                                // }
-                            }
-                        }
-
-                        foreach ($event->seances as $seance){
-                            $place_s = Place::where('cult_id', $seance->placeId)->first();
-                            if (isset($place_s)) {
-                                $place_s->seances()->create([
-                                    'date_start' => $seance->startDate,
-                                    'date_end' => $seance->endDate
+        return 0;
+    }
+    private function  getPageEvent($page_events, $limit_events): void
+    {
+        try
+        {
+            $type = FileType::where('name', 'image')->firstOrFail();
+            $status= Status::where('name', 'Опубликовано')->firstOrFail();
+            $start = Carbon::now()->toIso8601ZuluString();
+            $end = Carbon::now()->addYear(1)->toIso8601ZuluString();
+            $events = json_decode(file_get_contents("$this->url/atlas/events?offset=$this->offset&limit=$limit_events&startDateFrom=$start&startDateTo=$end", true));
+            if (count($events) == 0) {
+                throw new Exception('No events');
+            }
+            foreach ($events as $event) {
+                if (!Event::where('cult_id', $event->_id)->first()) {
+                    $event = json_decode(file_get_contents($this->url . 'events/' . $event->_id, true));
+                    $event_cr = $this->saveEvent($event);
+                    if (isset($event->price)){
+                        switch (true) {
+                            case ($event->price->min === 0) && ($event->price->max === 0):
+                                $event_cr->prices()->create([
+                                    'cost_rub' => 0,
                                 ]);
-                            }
+                                break;
+                            case $event->price->min === 0:
+                                $event_cr->prices()->create([
+                                    'cost_rub' => 0,
+                                ]);
+                                $event_cr->prices()->create([
+                                    'cost_rub' => $event->price->max,
+                                ]);
+                                break;
+                            case $event->price->min === $event->price->max:
+                                $event_cr->prices()->create([
+                                    'cost_rub' => $event->price->max,
+                                ]);
+                                break;
+                            default:
+                                $event_cr->prices()->create([
+                                    'cost_rub' => $event->price->min,
+                                ]);
+                                $event_cr->prices()->create([
+                                    'cost_rub' => $event->price->max,
+                                ]);
+                                break;
                         }
+                    }
 
-                        foreach ($event->genres as $genre) {
-                            $types_id = EventType::where('cult_id', $genre->_id);
-                            if($types_id->exists()){
-                                Event::find($event_cr->id)->types()->attach($types_id->first()->id);
-                            }
+                    foreach ($event->places as $place) {
+                        $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
+                        if (isset($place->institute)) {
+                            $sight = Sight::where('cult_id', $place->institute->_id)->first();
+                            $sight ? $sight_id = $sight->id : $sight_id = null;
+                            $event_cr->places()->create([
+                                'cult_id'       => $place->_id,
+                                'address'       => $place->address,
+                                'location_id'   => Location::where('cult_id', $place->locale->_id)->first()->id,
+                                'latitude'      => $place->location->coordinates[1],
+                                'longitude'     => $place->location->coordinates[0],
+                                'sight_id'      => $sight_id,
+                                'timezone_id'   => $timezone,
+                            ]);
                         }
-                        if (isset($event->thumbnailFile)) {
-                            if (preg_match('/[a-z]+/i',$event->thumbnailFile->publicId)) {
-                            Event::find($event_cr->id)->files()->create([
+                    }
+
+                    foreach ($event->seances as $seance){
+                        $place_s = Place::where('cult_id', $seance->placeId)->first();
+                        if (isset($place_s)) {
+                            $place_s->seances()->create([
+                                'date_start' => $seance->startDate,
+                                'date_end' => $seance->endDate
+                            ]);
+                        }
+                    }
+
+                    foreach ($event->genres as $genre) {
+//                        uuuuu
+                        $current_type = (new CurrentType($genre->title))->getType();
+                        if(isset($current_type['id'])) {
+                            $event_cr->types()->attach($current_type['id']);
+                        }
+                    }
+
+                    if (isset($event->thumbnailFile)) {
+                        if (preg_match('/[a-z]+/i',$event->thumbnailFile->publicId)) {
+                            $event_cr->files()->create([
                                 "name" => $event->thumbnailFile->originalName,
                                 "link" => 'https://cdn.culture.ru/images/'.$event->thumbnailFile->publicId.'/w_'.$event->thumbnailFile->width.',h_'.$event->thumbnailFile->height.'/'.$event->thumbnailFile->originalName,
                             ])->file_types()->sync($type->id);
-                            } else {
-                                Event::find($event_cr->id)->files()->create([
-                                    "name" => $event->thumbnailFile->originalName,
-                                    "link" => 'https://cdn.culture.ru/c/'. $event->thumbnailFile->publicId .'.'. $event->thumbnailFile->width .'x'. $event->thumbnailFile->height .'.'.$event->thumbnailFile->format,
-                                ])->file_types()->sync($type->id);
-                            }
+                        } else {
+                            $event_cr->files()->create([
+                                "name" => $event->thumbnailFile->originalName,
+                                "link" => 'https://cdn.culture.ru/c/'. $event->thumbnailFile->publicId .'.'. $event->thumbnailFile->width .'x'. $event->thumbnailFile->height .'.'.$event->thumbnailFile->format,
+                            ])->file_types()->sync($type->id);
                         }
-                        Event::find($event_cr->id)->statuses()->updateExistingPivot( $status, ['last' => false]);
-                        Event::find($event_cr->id)->statuses()->attach($status, ['last' => true]);
-
                     }
+                    $event_cr->statuses()->updateExistingPivot( $status, ['last' => false]);
+                    $event_cr->statuses()->attach($status, ['last' => true]);
                 }
-            }  catch (Exception $e) {
-                Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.$e);
-                sleep(5);
-                getPageEvent($page_events, $limit_events);
             }
+        }  catch (Exception $e) {
+            Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.$e->getMessage());
+            sleep(3);
+            $this->getPageEvent($page_events, $limit_events);
         }
-
-        if($this->argument('page_events') > 1){
-            $page_events = (int)$this->argument('page_events');
-
-        }
-        else {
-            $page_events = 1;
-        }
-
-        if($this->argument("limit_events") >= 1){
-            $limit_events = (int)$this->argument("limit_events");
-
-        }
-        else {
-            $limit_events = 10;
-        }
-
-
-        getPageEvent($page_events,$limit_events);
-
-
-        return 0;
+    }
+    private function saveEvent(object $event): Event
+    {
+        return Event::create([
+            'name'          => $event->title,
+            'sponsor'       => 'culture.ru',
+            'description'   => strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text)),
+            'materials'     => $event->saleLink,
+            'date_start'    => $event->startDate,
+            'date_end'      => $event->endDate,
+            'user_id'       => 1,
+            'cult_id'       => $event->_id,
+            'age_limit'     => $event->ageRestriction ?? '',
+        ]);
     }
 }

@@ -12,7 +12,7 @@ class delDubleType extends Command
      *
      * @var string
      */
-    protected $signature = 'duble';
+    protected $signature = 'double-type:del';
 
     /**
      * The console command description.
