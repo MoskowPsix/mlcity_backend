@@ -44,6 +44,8 @@ class GetSightsRequest extends FormRequest
             'longitude'         => 'nullable|numeric|between:-180,180',
             'searchText'        => 'nullable|string|min:3',
             'sightIds'          => 'nullable|string',
+            'latitude_position' => 'nullable|numeric|between:-87,89',
+            'longitude_position' => 'nullable|numeric|between:-87,89',
         ];
     }
 }

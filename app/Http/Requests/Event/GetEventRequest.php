@@ -29,7 +29,7 @@ class GetEventRequest extends FormRequest
             "sponsor"       => "nullable|string|min:3",
             "user_name"     => "nullable|string|min:3",
             "user_email"    => "nullable|string|min:3",
-            "page"          => "nullable|string",
+            "page"          => "nullable|integer",
             "limit"         => "nullable|integer|min:1|max:50",
             "name"          => "nullable|string|min:3",
             "userId"        => "nullable|integer",
@@ -45,7 +45,9 @@ class GetEventRequest extends FormRequest
             "latitude"      => "nullable|numeric|between:-87,89",
             "longitude"     => "nullable|numeric|between:-180,180",
             "searchText"    => "nullable|string|min:3",
-            "user"          => "nullable|string|min:3"
+            "user"          => "nullable|string|min:3",
+            'latitude_position' => 'nullable|numeric|between:-91,91',
+            'longitude_position' => 'nullable|numeric|between:-180,180',
 
         ];
     }

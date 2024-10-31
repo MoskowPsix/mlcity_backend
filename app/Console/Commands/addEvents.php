@@ -49,7 +49,7 @@ class addEvents extends Command
     {
         $this->argument('page_events') > 1 ? $page_events = (int)$this->argument('page_events') : $page_events = 1;
 
-        $this->offset = ($page_events - 1) * 100;
+        $this->offset = $page_events;
 
         $this->argument("limit_events") >= 1 ? $limit_events = (int)$this->argument("limit_events") : $limit_events = 10;
         try {

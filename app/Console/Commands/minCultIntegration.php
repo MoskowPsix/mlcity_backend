@@ -78,6 +78,7 @@ class minCultIntegration extends Command
             $start_timer = microtime(true);
             $this->startCommands();
             $total = $total - $this->limit * $this->numberOfProcess;
+            $this->bar->advance($this->limit * $this->numberOfProcess);
             $progress = $progress + $this->limit * $this->numberOfProcess;
             $end_time = ((microtime(true) - $start_timer) / 60)  * ($total / 10);
             $this->info($progress . ' | ' . $total . ' | ' . (int)$end_time . 'min' . "\n");
@@ -92,7 +93,6 @@ class minCultIntegration extends Command
             $process->setTimeout(0);
             $process->disableOutput();
             $process->start();
-            $this->bar->advance($this->limit * $this->numberOfProcess);
             $processes[] = $process;
             $this->offset = $this->offset + $this->limit;
         }
@@ -178,7 +178,7 @@ class minCultIntegration extends Command
             'longitude' => $place->address->mapPosition->coordinates[1],
             'timezone_id' => $timezone_id,
         ]);
-        !empty($sight) ? $place_cr->sight()->save($sight) : null;
+        !empty($sight) ? $place_cr->update(['sight_id' => $sight->id]) : null;
         foreach ($seances as $seance) {
             $this->saveSeance($seance, $place_cr);
         }
