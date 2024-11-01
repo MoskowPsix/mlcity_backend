@@ -26,7 +26,7 @@ endpoints:
         name: text
         description: 'Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 255.'
         required: true
-        example: tzjumdzyv
+        example: xd
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -36,7 +36,7 @@ endpoints:
         description: ''
         required: true
         example:
-          - name
+          - description
         type: 'string[]'
         enumValues:
           - name
@@ -47,7 +47,7 @@ endpoints:
         name: page
         description: ''
         required: false
-        example: amet
+        example: dolor
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -56,22 +56,22 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 6
+        example: 7
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      text: tzjumdzyv
+      text: xd
       columns:
-        - name
-      page: amet
-      limit: 6
+        - description
+      page: dolor
+      limit: 7
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","sights":{"data":[{"id":99,"name":"Dolorem aut animi velit labore enim magnam ratione doloremque.","sponsor":null,"latitude":"-34.69875900000000","longitude":"169.67826900000000","location_id":2621,"address":"461769, \u0421\u0430\u043c\u0430\u0440\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u041b\u043e\u0442\u043e\u0448\u0438\u043d\u043e, \u043f\u0440\u043e\u0435\u0437\u0434 \u0411\u0443\u0434\u0430\u043f\u0435\u0448\u0442\u0441\u0442\u043a\u0430\u044f, 89","description":"Et nesciunt laborum veritatis suscipit ab. Velit suscipit impedit in atque aut nostrum alias. Labore cumque voluptatem dolor laborum pariatur. Molestiae quia necessitatibus quia.","materials":"Voluptate sunt enim incidunt excepturi consectetur sapiente nemo id. Non error a sit enim alias sapiente. Blanditiis sit eum vero. Repudiandae tenetur et laudantium et delectus.","phone":"3081855767","email":"ifedorova@lytkin.ru","site":null,"user_id":2,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","sights":{"data":[{"id":7,"name":"Ex cum voluptatibus occaecati laudantium quo aut doloribus.","sponsor":null,"latitude":"33.99895900000000","longitude":"-120.61148100000000","location_id":1906,"address":"519213, \u041a\u0443\u0440\u0433\u0430\u043d\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0421\u043e\u043b\u043d\u0435\u0447\u043d\u043e\u0433\u043e\u0440\u0441\u043a, \u0443\u043b. \u041b\u0435\u043d\u0438\u043d\u0430, 29","description":"Odio nostrum accusantium qui consequatur. Qui tenetur velit ipsum iure earum. Expedita similique recusandae voluptas enim. Sit consequatur non molestiae.","materials":"Dolorum quaerat provident occaecati. At exercitationem exercitationem in ex quia quas. Aspernatur dolore at autem.","phone":"3313715157","email":"faina39@rambler.ru","site":null,"user_id":1,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -288,7 +288,7 @@ endpoints:
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","sights":{"data":[{"id":100,"name":"Illum et ad deleniti natus magnam adipisci.","sponsor":null,"latitude":"9.76674500000000","longitude":"10.25432900000000","location_id":264,"address":"621714, \u041b\u0435\u043d\u0438\u043d\u0433\u0440\u0430\u0434\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0415\u0433\u043e\u0440\u044c\u0435\u0432\u0441\u043a, \u0441\u043f\u0443\u0441\u043a \u0411\u0443\u0445\u0430\u0440\u0435\u0441\u0442\u0441\u043a\u0430\u044f, 30","description":"Facere et quidem tempore id. Quas omnis voluptatibus est ipsam suscipit quia. Nam sunt consequatur amet asperiores. Quia ex quae et dolorum.","materials":"Consequatur accusantium ad ullam sequi debitis est. Et optio rerum eos corrupti quidem quidem. Ad fugit deserunt voluptate et animi.","phone":"8475688460","email":"veniamin27@hotmail.com","site":null,"user_id":2,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"\u041c\u0435\u0441\u0442\u0430 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u043f\u043e\u043b\u0443\u0447\u0435\u043d\u044b","sights":{"data":[{"id":8,"name":"Enim eum voluptas et omnis voluptas magnam quisquam.","sponsor":null,"latitude":"42.03272600000000","longitude":"-99.01342800000000","location_id":394,"address":"973860, \u041b\u0435\u043d\u0438\u043d\u0433\u0440\u0430\u0434\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u041d\u0430\u0440\u043e-\u0424\u043e\u043c\u0438\u043d\u0441\u043a, \u0432\u044a\u0435\u0437\u0434 \u0413\u0430\u0433\u0430\u0440\u0438\u043d\u0430, 49","description":"Est sit voluptas libero id laboriosam libero magnam. Alias veniam explicabo sunt autem. Molestiae nihil minus dolorem voluptatum sed.","materials":"Suscipit temporibus incidunt illum vitae nihil iste. Laborum veritatis atque fugiat nobis. Fuga nobis occaecati fugiat.","phone":"4083702749","email":"bkazakov@ya.ru","site":null,"user_id":1,"afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -333,18 +333,18 @@ endpoints:
         name: id
         description: ''
         required: true
-        example: 15
+        example: 3
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      id: 15
+      id: 3
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"sight.show.success","sight":{"id":101,"name":"Sunt sed consequatur nam sunt nemo.","sponsor":null,"latitude":"-14.95114900000000","longitude":"110.26737300000000","location_id":2582,"address":"741363, \u041b\u0435\u043d\u0438\u043d\u0433\u0440\u0430\u0434\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0427\u0435\u0445\u043e\u0432, \u043f\u0435\u0440. \u041b\u0430\u0434\u044b\u0433\u0438\u043d\u0430, 38","description":"Ducimus et praesentium quia tempore. Amet odit laborum illo. Minus eos illum explicabo.","materials":"Officiis sequi non ratione repellat non. Explicabo expedita illo dolor dolores dolorum rerum. Nesciunt et est expedita suscipit nemo ex.","phone":"3573721351","email":"vasilisa.sitnikov@rambler.ru","site":null,"user_id":2,"afisha7_id":null}}'
+        content: '{"status":"success","message":"sight.show.success","sight":{"id":9,"name":"Sint iusto libero numquam ipsam.","sponsor":null,"latitude":"-35.61506400000000","longitude":"14.58959400000000","location_id":1044,"address":"454427, \u0418\u0440\u043a\u0443\u0442\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u0411\u0430\u043b\u0430\u0448\u0438\u0445\u0430, \u043d\u0430\u0431. \u0411\u0443\u0434\u0430\u043f\u0435\u0448\u0442\u0441\u0442\u043a\u0430\u044f, 32","description":"Repudiandae ipsum dolores recusandae quisquam nisi vel minus laudantium. Ipsum deserunt sunt est id.","materials":"Commodi blanditiis exercitationem enim. Odio ipsam molestias et natus sint. Corrupti nisi magnam qui iusto amet quia.","phone":"1135433083","email":"xfomina@mail.ru","site":null,"user_id":1,"afisha7_id":null}}'
         headers: []
         description: ''
         custom: []
@@ -404,18 +404,18 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 16
+        example: 9
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 16
+      limit: 9
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","message":"sight.get_events_in_sight.success","events":{"data":[{"id":103,"name":"Pariatur quae ea officia et et veniam a earum.","sponsor":"\u0418\u0433\u043d\u0430\u0442\u043e\u0432 \u0421\u0430\u0432\u0432\u0430 \u0424\u0451\u0434\u043e\u0440\u043e\u0432\u0438\u0447","date_start":"2024-10-27 11:33:31","date_end":"2024-11-02 17:47:02","description":"Aperiam occaecati consequatur et. Odio omnis fugit velit et harum. Est officiis facilis molestiae aliquid ut eaque aut.","materials":"Aliquam eum dolore voluptatem reprehenderit. Incidunt et magnam illum fugiat velit perspiciatis. Deleniti minima pariatur nesciunt. Nihil iure dignissimos sit.","user_id":2,"vk_post_id":"215014","created_at":"2024-10-25T10:25:41.000000Z","updated_at":"2024-10-25T10:25:41.000000Z","age_limit":"24","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
+        content: '{"status":"success","message":"sight.get_events_in_sight.success","events":{"data":[{"id":77,"name":"A consectetur optio enim illum pariatur delectus.","sponsor":"\u041a\u0443\u0434\u0440\u044f\u0432\u0446\u0435\u0432 \u0412\u0441\u0435\u0432\u043e\u043b\u043e\u0434 \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447","date_start":"2024-11-06 09:14:52","date_end":"2024-11-10 01:43:11","description":"Voluptas maiores dolorem iusto suscipit. Qui quas aut veniam nisi. Rerum molestias esse nemo at.","materials":"Est dignissimos id est velit maxime velit aut. Et cumque facere reiciendis autem consequatur. Et repudiandae voluptatem optio asperiores quae. Maxime laboriosam debitis expedita.","user_id":3,"vk_post_id":"980021","created_at":"2024-11-01T05:40:42.000000Z","updated_at":"2024-11-01T05:40:42.000000Z","age_limit":"12","afisha7_id":null}],"next_cursor":null,"prev_cursor":null}}'
         headers: []
         description: ''
         custom: []
@@ -542,7 +542,7 @@ endpoints:
         name: name
         description: 'Количество символов в поле value должно быть не меньше 3.'
         required: true
-        example: rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd
+        example: rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -551,7 +551,7 @@ endpoints:
         name: coords
         description: 'Количество символов в поле value должно быть не меньше 2.'
         required: true
-        example: ayqorxwgxxlrysqyydhaiys
+        example: krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -560,7 +560,7 @@ endpoints:
         name: description
         description: ''
         required: false
-        example: 'Libero fugit aspernatur repellendus.'
+        example: 'Et numquam rem occaecati natus dolores in voluptas.'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -569,7 +569,7 @@ endpoints:
         name: type
         description: ''
         required: true
-        example: et
+        example: natus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -578,7 +578,7 @@ endpoints:
         name: status
         description: ''
         required: true
-        example: est
+        example: explicabo
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -587,7 +587,7 @@ endpoints:
         name: locationId
         description: ''
         required: true
-        example: necessitatibus
+        example: voluptatibus
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -596,7 +596,7 @@ endpoints:
         name: vkGroupId
         description: ''
         required: false
-        example: corrupti
+        example: alias
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -605,7 +605,7 @@ endpoints:
         name: vkPostId
         description: ''
         required: false
-        example: ipsam
+        example: doloremque
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -614,7 +614,7 @@ endpoints:
         name: phone_number
         description: 'Количество символов в поле value должно быть не меньше 10. Количество символов в значении поля value не может превышать 11.'
         required: false
-        example: qbxcxve
+        example: biinamcky
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -623,7 +623,7 @@ endpoints:
         name: email
         description: 'Значение поля value должно быть действительным электронным адресом.'
         required: false
-        example: ambrose32@example.net
+        example: xjohnson@example.net
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -632,7 +632,7 @@ endpoints:
         name: site
         description: ''
         required: false
-        example: eos
+        example: qui
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -647,22 +647,22 @@ endpoints:
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      name: rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd
-      coords: ayqorxwgxxlrysqyydhaiys
-      description: 'Libero fugit aspernatur repellendus.'
-      type: et
-      status: est
-      locationId: necessitatibus
-      vkGroupId: corrupti
-      vkPostId: ipsam
-      phone_number: qbxcxve
-      email: ambrose32@example.net
-      site: eos
+      name: rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz
+      coords: krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq
+      description: 'Et numquam rem occaecati natus dolores in voluptas.'
+      type: natus
+      status: explicabo
+      locationId: voluptatibus
+      vkGroupId: alias
+      vkPostId: doloremque
+      phone_number: biinamcky
+      email: xjohnson@example.net
+      site: qui
     fileParameters: []
     responses:
       -
         status: 201
-        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u043e","sight":{"id":102,"name":"Magnam amet quibusdam ut dolores id adipisci est.","sponsor":null,"latitude":"-5.46844800000000","longitude":"-139.08168600000000","location_id":2173,"address":"643494, \u041f\u0441\u043a\u043e\u0432\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u041a\u0430\u0448\u0438\u0440\u0430, \u043f\u0435\u0440. \u041a\u043e\u0441\u043c\u043e\u043d\u0430\u0432\u0442\u043e\u0432, 88","description":"Et occaecati ut aut amet alias quis. Facere provident a soluta. Ut ea voluptatum voluptatum quo in temporibus voluptatibus qui. Id aut facilis vitae aut ut dolores eos quasi.","materials":"Odio dolorem atque omnis sunt. Sed corrupti est cupiditate et repudiandae. Laborum ex at amet repellat deserunt.","phone":"4174463348","email":"gerasim10@bespalova.ru","site":null,"user_id":2,"afisha7_id":null}}'
+        content: '{"status":"success","message":"\u0421\u043e\u0431\u044b\u0442\u0438\u0435 \u0443\u0441\u043f\u0435\u0448\u043d\u043e \u0441\u043e\u0437\u0434\u0430\u043d\u043e","sight":{"id":10,"name":"Molestias quis sed id a.","sponsor":null,"latitude":"-47.95283200000000","longitude":"159.91087700000000","location_id":629,"address":"600990, \u0420\u043e\u0441\u0442\u043e\u0432\u0441\u043a\u0430\u044f \u043e\u0431\u043b\u0430\u0441\u0442\u044c, \u0433\u043e\u0440\u043e\u0434 \u041f\u0430\u0432\u043b\u043e\u0432\u0441\u043a\u0438\u0439 \u041f\u043e\u0441\u0430\u0434, \u043f\u0440\u043e\u0435\u0437\u0434 \u041b\u0430\u0434\u044b\u0433\u0438\u043d\u0430, 32","description":"Minus recusandae velit omnis deleniti. Et et molestiae sed esse praesentium ad.","materials":"Quis provident nulla fugit sed. Qui dolores non excepturi qui amet dolorum quis. Aut doloremque quis ipsam ipsum accusantium. Voluptates debitis itaque iure fuga sunt.","phone":"5027635800","email":"iraklii24@narod.ru","site":null,"user_id":1,"afisha7_id":null}}'
         headers: []
         description: ''
         custom: []
@@ -716,18 +716,18 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 15
+        example: 19
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 15
+      limit: 19
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","result":{"id":11,"name":"\u0410\u0434\u0430\u043c \u0420\u043e\u043c\u0430\u043d\u043e\u0432\u0438\u0447 \u041a\u0430\u043f\u0443\u0441\u0442\u0438\u043d","email":"matvei66@example.com","email_verified_at":"2024-10-25 10:25:41","created_at":"2024-10-25T10:25:41.000000Z","updated_at":"2024-10-25T10:25:41.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
+        content: '{"status":"success","result":{"id":14,"name":"\u0413\u0443\u0441\u0435\u0432\u0430 \u0417\u0438\u043d\u0430\u0438\u0434\u0430 \u0410\u043b\u0435\u043a\u0441\u0435\u0435\u0432\u043d\u0430","email":"georgii42@example.org","email_verified_at":"2024-11-01 05:40:42","created_at":"2024-11-01T05:40:42.000000Z","updated_at":"2024-11-01T05:40:42.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
         headers: []
         description: ''
         custom: []
@@ -781,18 +781,18 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 19
+        example: 24
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 19
+      limit: 24
     fileParameters: []
     responses:
       -
         status: 200
-        content: '{"status":"success","result":{"id":12,"name":"\u0410\u043d\u0442\u043e\u043d\u043e\u0432\u0430 \u041b\u0438\u043b\u0438\u044f \u0411\u043e\u0440\u0438\u0441\u043e\u0432\u043d\u0430","email":"alina.bogdanova@example.com","email_verified_at":"2024-10-25 10:25:41","created_at":"2024-10-25T10:25:41.000000Z","updated_at":"2024-10-25T10:25:41.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
+        content: '{"status":"success","result":{"id":15,"name":"\u0410\u0434\u0430\u043c \u0418\u0432\u0430\u043d\u043e\u0432\u0438\u0447 \u0422\u0443\u0440\u043e\u0432","email":"ykusev.irina@example.net","email_verified_at":"2024-11-01 05:40:42","created_at":"2024-11-01T05:40:42.000000Z","updated_at":"2024-11-01T05:40:42.000000Z","avatar":null,"deleted_at":null,"number":null,"number_verified_at":null,"first_name":null,"last_name":null}}'
         headers: []
         description: ''
         custom: []
@@ -846,13 +846,13 @@ endpoints:
         name: limit
         description: 'Значение поля value не может быть больше 50.'
         required: false
-        example: 12
+        example: 5
         type: integer
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      limit: 12
+      limit: 5
     fileParameters: []
     responses:
       -
@@ -861,473 +861,473 @@ endpoints:
           {
               "message": "App\\Http\\Controllers\\Api\\SightController::getHistoryContent(): Return value must be of type Illuminate\\Http\\Resources\\Json\\JsonResource, Illuminate\\Http\\JsonResponse returned",
               "exception": "TypeError",
-              "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/app/Http/Controllers/Api/SightController.php",
+              "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\app\\Http\\Controllers\\Api\\SightController.php",
               "line": 206,
               "trace": [
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php",
                       "line": 54,
                       "function": "getHistoryContent",
                       "class": "App\\Http\\Controllers\\Api\\SightController",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php",
                       "line": 43,
                       "function": "callAction",
                       "class": "Illuminate\\Routing\\Controller",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
                       "line": 259,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\ControllerDispatcher",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php",
                       "line": 205,
                       "function": "runController",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
                       "line": 806,
                       "function": "run",
                       "class": "Illuminate\\Routing\\Route",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 144,
                       "function": "Illuminate\\Routing\\{closure}",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php",
                       "line": 50,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\SubstituteBindings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
                       "line": 159,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php",
                       "line": 90,
                       "function": "handleRequest",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Routing\\Middleware\\ThrottleRequests",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
                       "line": 25,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 144,
                       "function": "Laravel\\Sanctum\\Http\\Middleware\\{closure}",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 119,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php",
                       "line": 24,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 119,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
                       "line": 805,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
                       "line": 784,
                       "function": "runRouteWithinStack",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
                       "line": 748,
                       "function": "runRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php",
                       "line": 737,
                       "function": "dispatchToRoute",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
                       "line": 200,
                       "function": "dispatch",
                       "class": "Illuminate\\Routing\\Router",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 144,
                       "function": "Illuminate\\Foundation\\Http\\{closure}",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php",
                       "line": 59,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Barryvdh\\Debugbar\\Middleware\\InjectDebugbar",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php",
                       "line": 31,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php",
                       "line": 21,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php",
                       "line": 40,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\TrimStrings",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php",
                       "line": 27,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php",
                       "line": 99,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php",
                       "line": 62,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\HandleCors",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php",
                       "line": 39,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 183,
                       "function": "handle",
                       "class": "Illuminate\\Http\\Middleware\\TrustProxies",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php",
                       "line": 119,
                       "function": "Illuminate\\Pipeline\\{closure}",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
                       "line": 175,
                       "function": "then",
                       "class": "Illuminate\\Pipeline\\Pipeline",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php",
                       "line": 144,
                       "function": "sendRequestThroughRouter",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
                       "line": 310,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Http\\Kernel",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
                       "line": 298,
                       "function": "callLaravelOrLumenRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
                       "line": 91,
                       "function": "makeApiCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
                       "line": 44,
                       "function": "makeResponseCall",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php",
                       "line": 35,
                       "function": "makeResponseCallIfConditionsPass",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
                       "line": 237,
                       "function": "__invoke",
                       "class": "Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
                       "line": 163,
                       "function": "iterateThroughStrategies",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php",
                       "line": 95,
                       "function": "fetchResponses",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
                       "line": 125,
                       "function": "processRoute",
                       "class": "Knuckles\\Scribe\\Extracting\\Extractor",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
                       "line": 72,
                       "function": "extractEndpointsInfoFromLaravelApp",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php",
                       "line": 50,
                       "function": "extractEndpointsInfoAndWriteToDisk",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Commands\\GenerateDocumentation.php",
                       "line": 53,
                       "function": "get",
                       "class": "Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
                       "line": 36,
                       "function": "handle",
                       "class": "Knuckles\\Scribe\\Commands\\GenerateDocumentation",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Util.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php",
                       "line": 41,
                       "function": "Illuminate\\Container\\{closure}",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
                       "line": 93,
                       "function": "unwrapIfClosure",
                       "class": "Illuminate\\Container\\Util",
                       "type": "::"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php",
                       "line": 35,
                       "function": "callBoundMethod",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Container.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php",
                       "line": 662,
                       "function": "call",
                       "class": "Illuminate\\Container\\BoundMethod",
                       "type": "::"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
                       "line": 211,
                       "function": "call",
                       "class": "Illuminate\\Container\\Container",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Command/Command.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Command\\Command.php",
                       "line": 326,
                       "function": "execute",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php",
                       "line": 180,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Command\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
                       "line": 1096,
                       "function": "run",
                       "class": "Illuminate\\Console\\Command",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
                       "line": 324,
                       "function": "doRunCommand",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/symfony/console/Application.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php",
                       "line": 175,
                       "function": "doRun",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php",
                       "line": 201,
                       "function": "run",
                       "class": "Symfony\\Component\\Console\\Application",
                       "type": "->"
                   },
                   {
-                      "file": "/home/moskowpsix/\u0414\u043e\u043a\u0443\u043c\u0435\u043d\u0442\u044b/github_projects/mlcity_backend/artisan",
+                      "file": "C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\artisan",
                       "line": 35,
                       "function": "handle",
                       "class": "Illuminate\\Foundation\\Console\\Kernel",
@@ -1339,7 +1339,7 @@ endpoints:
           cache-control: 'no-cache, private'
           content-type: application/json
           x-ratelimit-limit: '500'
-          x-ratelimit-remaining: '496'
+          x-ratelimit-remaining: '497'
           vary: Origin
         description: null
         custom: []

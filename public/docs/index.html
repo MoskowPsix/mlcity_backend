@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>VOKRUG.CITY Documentation</title>
+    <title>MLCity Documentation</title>
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
 
@@ -124,8 +124,8 @@
                     <a href="#events">Events</a>
                 </li>
                                     <ul id="tocify-subheader-events" class="tocify-subheader">
-                                                    <li class="tocify-item level-2" data-unique="events-GETapi-events-search-text">
-                                <a href="#events-GETapi-events-search-text">searchForText</a>
+                                                    <li class="tocify-item level-2" data-unique="events-POSTapi-events-search-text">
+                                <a href="#events-POSTapi-events-search-text">searchForText</a>
                             </li>
                                                                                 <li class="tocify-item level-2" data-unique="events-POSTapi-events">
                                 <a href="#events-POSTapi-events">getEvents</a>
@@ -246,7 +246,7 @@
     </ul>
 
     <ul class="toc-footer" id="last-updated">
-        <li>Last updated: October 25, 2024</li>
+        <li>Last updated: November 1, 2024</li>
     </ul>
 </div>
 
@@ -285,10 +285,10 @@ You can switch the language used with the tabs at the top right (or from the nav
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"pegxhxyqahchghderlm\",
-    \"email\": \"toy.tremblay@example.org\",
-    \"password\": \"|Ce=&gt;Vw9)Q:W&lt;o0+4C9\",
-    \"password_confirmation\": \"dolorem\"
+    \"name\": \"sepiisazjwpnfvblouqudfcqt\",
+    \"email\": \"johnson.mireille@example.net\",
+    \"password\": \"|b&amp;VeU.van468h\\/8\",
+    \"password_confirmation\": \"voluptatem\"
 }"
 </code></pre></div>
 
@@ -304,10 +304,10 @@ const headers = {
 };
 
 let body = {
-    "name": "pegxhxyqahchghderlm",
-    "email": "toy.tremblay@example.org",
-    "password": "|Ce=&gt;Vw9)Q:W&lt;o0+4C9",
-    "password_confirmation": "dolorem"
+    "name": "sepiisazjwpnfvblouqudfcqt",
+    "email": "johnson.mireille@example.net",
+    "password": "|b&amp;VeU.van468h\/8",
+    "password_confirmation": "voluptatem"
 };
 
 fetch(url, {
@@ -327,13 +327,13 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Вы успешно зарегистрированы&quot;,
-    &quot;access_token&quot;: &quot;1|NnzDe86hrzVwQBKo5N3jT8VFLpnJLUb8upHL1vMJ455e81d6&quot;,
+    &quot;access_token&quot;: &quot;8|5vGu9YetQFHZymUrX5i13PQXYabBSv7JEYejB2Gmf016f4f0&quot;,
     &quot;token_type&quot;: &quot;Bearer&quot;,
     &quot;user&quot;: {
-        &quot;id&quot;: 3,
-        &quot;name&quot;: &quot;Анна Владимировна Дьячкова&quot;,
-        &quot;email&quot;: &quot;rgulyeva@example.net&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:39&quot;,
+        &quot;id&quot;: 6,
+        &quot;name&quot;: &quot;Ильин Данила Евгеньевич&quot;,
+        &quot;email&quot;: &quot;yfedorova@example.org&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:38&quot;,
         &quot;avatar&quot;: null
     }
 }</code>
@@ -425,10 +425,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-register"
-               value="pegxhxyqahchghderlm"
+               value="sepiisazjwpnfvblouqudfcqt"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 50. Example: <code>pegxhxyqahchghderlm</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 50. Example: <code>sepiisazjwpnfvblouqudfcqt</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -436,10 +436,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-register"
-               value="toy.tremblay@example.org"
+               value="johnson.mireille@example.net"
                data-component="body">
     <br>
-<p>Значение поля value должно быть действительным электронным адресом. Example: <code>toy.tremblay@example.org</code></p>
+<p>Значение поля value должно быть действительным электронным адресом. Example: <code>johnson.mireille@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -447,10 +447,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-register"
-               value="|Ce=>Vw9)Q:W<o0+4C9"
+               value="|b&VeU.van468h/8"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 8. Example: <code>|Ce=&gt;Vw9)Q:W&lt;o0+4C9</code></p>
+<p>Количество символов в поле value должно быть не меньше 8. Example: <code>|b&amp;VeU.van468h/8</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
@@ -458,10 +458,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password_confirmation"                data-endpoint="POSTapi-register"
-               value="dolorem"
+               value="voluptatem"
                data-component="body">
     <br>
-<p>The value and <code>password</code> must match. Example: <code>dolorem</code></p>
+<p>The value and <code>password</code> must match. Example: <code>voluptatem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>avatar</code></b>&nbsp;&nbsp;
@@ -493,8 +493,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt\",
-    \"password\": \"uYE*h:`]\'(n.s(D-W[\"
+    \"name\": \"zvgwekqdkrnozkyymypiflcucxqufzzcjdfqpoptjotenrfrs\",
+    \"password\": \"dOV3;=-.)Z\"
 }"
 </code></pre></div>
 
@@ -510,8 +510,8 @@ const headers = {
 };
 
 let body = {
-    "name": "dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt",
-    "password": "uYE*h:`]'(n.s(D-W["
+    "name": "zvgwekqdkrnozkyymypiflcucxqufzzcjdfqpoptjotenrfrs",
+    "password": "dOV3;=-.)Z"
 };
 
 fetch(url, {
@@ -531,13 +531,13 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Вы успешно авторизовались&quot;,
-    &quot;access_token&quot;: &quot;2|x6j0l6qUMV1wyBD8v5b1YWgksEIHoeghQgjmq2Xo8198a0ae&quot;,
+    &quot;access_token&quot;: &quot;9|Axjjuwqfo4cWCVDZwJH6b2Jg01WncCrMLSxSa5GFdaaff69c&quot;,
     &quot;token_type&quot;: &quot;Bearer&quot;,
     &quot;user&quot;: {
-        &quot;id&quot;: 4,
-        &quot;name&quot;: &quot;Устинов Юрий Александрович&quot;,
-        &quot;email&quot;: &quot;zkolobov@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:39&quot;,
+        &quot;id&quot;: 7,
+        &quot;name&quot;: &quot;Татьяна Фёдоровна Фролова&quot;,
+        &quot;email&quot;: &quot;albert54@example.org&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:39&quot;,
         &quot;avatar&quot;: null
     }
 }</code>
@@ -649,10 +649,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-login"
-               value="dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt"
+               value="zvgwekqdkrnozkyymypiflcucxqufzzcjdfqpoptjotenrfrs"
                data-component="body">
     <br>
-<p>Значение поля value должно быть действительным электронным адресом. Количество символов в поле value должно быть не меньше 3. Example: <code>dnopplpyuqvqmviouarwifslqhjurzyiixqikgppthwcewqiuifwfgtnsxlfavdsxpvgfaqbqkdeaedjvrzggt</code></p>
+<p>Значение поля value должно быть действительным электронным адресом. Количество символов в поле value должно быть не меньше 3. Example: <code>zvgwekqdkrnozkyymypiflcucxqufzzcjdfqpoptjotenrfrs</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -660,10 +660,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-login"
-               value="uYE*h:`]'(n.s(D-W["
+               value="dOV3;=-.)Z"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>uYE*h:</code>]'(n.s(D-W[`</p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>dOV3;=-.)Z</code></p>
         </div>
         </form>
 
@@ -814,9 +814,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"user_id\": \"nisi\",
-    \"new_password\": \"igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla\",
-    \"password_confirmation\": \"dolor\"
+    \"user_id\": \"tempore\",
+    \"new_password\": \"ohnipfogrmilpmbfe\",
+    \"password_confirmation\": \"est\"
 }"
 </code></pre></div>
 
@@ -832,9 +832,9 @@ const headers = {
 };
 
 let body = {
-    "user_id": "nisi",
-    "new_password": "igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla",
-    "password_confirmation": "dolor"
+    "user_id": "tempore",
+    "new_password": "ohnipfogrmilpmbfe",
+    "password_confirmation": "est"
 };
 
 fetch(url, {
@@ -943,10 +943,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="user_id"                data-endpoint="PUTapi-admin-reset_password"
-               value="nisi"
+               value="tempore"
                data-component="body">
     <br>
-<p>Example: <code>nisi</code></p>
+<p>Example: <code>tempore</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>new_password</code></b>&nbsp;&nbsp;
@@ -954,10 +954,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="new_password"                data-endpoint="PUTapi-admin-reset_password"
-               value="igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla"
+               value="ohnipfogrmilpmbfe"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 8. Example: <code>igokltdndsxbyszyqnpgeosepoefrmnoavpmcjbaauxdoviwmnfcpdhcaoirdrnmcqjcgxtyrvzlycbudxqrpmixla</code></p>
+<p>Количество символов в поле value должно быть не меньше 8. Example: <code>ohnipfogrmilpmbfe</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
@@ -965,10 +965,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password_confirmation"                data-endpoint="PUTapi-admin-reset_password"
-               value="dolor"
+               value="est"
                data-component="body">
     <br>
-<p>The value and <code>new_password</code> must match. Example: <code>dolor</code></p>
+<p>The value and <code>new_password</code> must match. Example: <code>est</code></p>
         </div>
         </form>
 
@@ -1119,7 +1119,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"code\": 12
+    \"code\": 1
 }"
 </code></pre></div>
 
@@ -1135,7 +1135,7 @@ const headers = {
 };
 
 let body = {
-    "code": 12
+    "code": 1
 };
 
 fetch(url, {
@@ -1156,10 +1156,10 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Почта успешно подтверждена&quot;,
     &quot;user&quot;: {
-        &quot;id&quot;: 6,
-        &quot;name&quot;: &quot;Беспалова Оксана Ивановна&quot;,
-        &quot;email&quot;: &quot;dan22@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:39&quot;,
+        &quot;id&quot;: 9,
+        &quot;name&quot;: &quot;Макар Владимирович Поляков&quot;,
+        &quot;email&quot;: &quot;prokor.isakov@example.com&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:40&quot;,
         &quot;avatar&quot;: null
     }
 }</code>
@@ -1281,10 +1281,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="code"                data-endpoint="POSTapi-verificationUserEmail"
-               value="12"
+               value="1"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 999. Значение поля value не может быть больше 10000. Example: <code>12</code></p>
+<p>Значение поля value должно быть не меньше 999. Значение поля value не может быть больше 10000. Example: <code>1</code></p>
         </div>
         </form>
 
@@ -1306,9 +1306,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"code\": \"yi\",
-    \"email\": \"voluptas\",
-    \"1\": \"tlemke@example.com\"
+    \"code\": \"kcin\",
+    \"email\": \"autem\",
+    \"1\": \"sboehm@example.com\"
 }"
 </code></pre></div>
 
@@ -1324,9 +1324,9 @@ const headers = {
 };
 
 let body = {
-    "code": "yi",
-    "email": "voluptas",
-    "1": "tlemke@example.com"
+    "code": "kcin",
+    "email": "autem",
+    "1": "sboehm@example.com"
 };
 
 fetch(url, {
@@ -1347,10 +1347,10 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Ваша почта успешно изменена. На вашу новую почту отправлено письмо с кодом для подтверждения&quot;,
     &quot;user&quot;: {
-        &quot;id&quot;: 7,
-        &quot;name&quot;: &quot;Якушева Анфиса Александровна&quot;,
-        &quot;email&quot;: &quot;blinov.klementina@example.org&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:39&quot;,
+        &quot;id&quot;: 10,
+        &quot;name&quot;: &quot;Королёва Инесса Львовна&quot;,
+        &quot;email&quot;: &quot;zzuravleva@example.org&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:40&quot;,
         &quot;avatar&quot;: null
     }
 }</code>
@@ -1472,10 +1472,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="code"                data-endpoint="PUTapi-resetEmail"
-               value="yi"
+               value="kcin"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 4. Количество символов в значении поля value не может превышать 4. Example: <code>yi</code></p>
+<p>Количество символов в поле value должно быть не меньше 4. Количество символов в значении поля value не может превышать 4. Example: <code>kcin</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -1483,10 +1483,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-resetEmail"
-               value="voluptas"
+               value="autem"
                data-component="body">
     <br>
-<p>Example: <code>voluptas</code></p>
+<p>Example: <code>autem</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>0</code></b>&nbsp;&nbsp;
@@ -1505,10 +1505,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="1"                data-endpoint="PUTapi-resetEmail"
-               value="tlemke@example.com"
+               value="sboehm@example.com"
                data-component="body">
     <br>
-<p>Значение поля value должно быть действительным электронным адресом. Example: <code>tlemke@example.com</code></p>
+<p>Значение поля value должно быть действительным электронным адресом. Example: <code>sboehm@example.com</code></p>
         </div>
         </form>
 
@@ -1530,8 +1530,8 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"email\": \"quasi\",
-    \"1\": \"pansy.will@example.com\"
+    \"email\": \"magni\",
+    \"1\": \"ullrich.stephen@example.com\"
 }"
 </code></pre></div>
 
@@ -1547,8 +1547,8 @@ const headers = {
 };
 
 let body = {
-    "email": "quasi",
-    "1": "pansy.will@example.com"
+    "email": "magni",
+    "1": "ullrich.stephen@example.com"
 };
 
 fetch(url, {
@@ -1569,10 +1569,10 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Почта успешно изменена&quot;,
     &quot;verification_url&quot;: {
-        &quot;id&quot;: 8,
-        &quot;name&quot;: &quot;Нестор Дмитриевич Марков&quot;,
-        &quot;email&quot;: &quot;leonid91@example.net&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:39&quot;,
+        &quot;id&quot;: 11,
+        &quot;name&quot;: &quot;Давид Львович Гаврилов&quot;,
+        &quot;email&quot;: &quot;jkovalev@example.com&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:40&quot;,
         &quot;avatar&quot;: null
     }
 }</code>
@@ -1674,10 +1674,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="PUTapi-users-email"
-               value="quasi"
+               value="magni"
                data-component="body">
     <br>
-<p>Example: <code>quasi</code></p>
+<p>Example: <code>magni</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>0</code></b>&nbsp;&nbsp;
@@ -1696,10 +1696,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="1"                data-endpoint="PUTapi-users-email"
-               value="pansy.will@example.com"
+               value="ullrich.stephen@example.com"
                data-component="body">
     <br>
-<p>Значение поля value должно быть действительным электронным адресом. Example: <code>pansy.will@example.com</code></p>
+<p>Значение поля value должно быть действительным электронным адресом. Example: <code>ullrich.stephen@example.com</code></p>
         </div>
         </form>
 
@@ -1720,14 +1720,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/places" \
+    --get "http://localhost:8000/api/events/4/places" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/places"
+    "http://localhost:8000/api/events/4/places"
 );
 
 const headers = {
@@ -1753,7 +1753,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 497
+x-ratelimit-remaining: 498
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -1763,89 +1763,57 @@ vary: Origin
         &quot;data&quot;: [
             {
                 &quot;id&quot;: 1,
-                &quot;event_id&quot;: 1,
+                &quot;event_id&quot;: 4,
                 &quot;sight_id&quot;: null,
-                &quot;location_id&quot;: 1463,
-                &quot;latitude&quot;: &quot;42.96395000000000&quot;,
-                &quot;longitude&quot;: &quot;47.50641600000000&quot;,
-                &quot;address&quot;: &quot;Респ Дагестан,г Махачкала,ул Ирчи Казака,д 14&quot;,
-                &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
+                &quot;location_id&quot;: 35,
+                &quot;latitude&quot;: &quot;55.75157400000000&quot;,
+                &quot;longitude&quot;: &quot;37.57385600000000&quot;,
+                &quot;address&quot;: &quot;Москва, Центральный административный округ, район Арбат&quot;,
+                &quot;created_at&quot;: &quot;2024-09-09T13:30:01.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-09-09T13:30:01.000000Z&quot;,
                 &quot;timezone_id&quot;: 2,
                 &quot;cult_id&quot;: null,
                 &quot;seances&quot;: [
                     {
                         &quot;id&quot;: 1,
                         &quot;place_id&quot;: 1,
-                        &quot;date_start&quot;: &quot;2021-05-08 07:00:00&quot;,
-                        &quot;date_end&quot;: &quot;2021-05-08 18:00:00&quot;,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;
-                    },
-                    {
-                        &quot;id&quot;: 3,
-                        &quot;place_id&quot;: 1,
-                        &quot;date_start&quot;: &quot;2022-05-09 07:00:00&quot;,
-                        &quot;date_end&quot;: &quot;2022-05-09 18:00:00&quot;,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;
-                    },
-                    {
-                        &quot;id&quot;: 5,
-                        &quot;place_id&quot;: 1,
-                        &quot;date_start&quot;: &quot;2023-05-09 07:00:00&quot;,
-                        &quot;date_end&quot;: &quot;2023-05-09 18:00:00&quot;,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;
-                    },
-                    {
-                        &quot;id&quot;: 6,
-                        &quot;place_id&quot;: 1,
-                        &quot;date_start&quot;: &quot;2024-05-09 07:00:00&quot;,
-                        &quot;date_end&quot;: &quot;2024-05-09 18:00:00&quot;,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;
-                    },
-                    {
-                        &quot;id&quot;: 8,
-                        &quot;place_id&quot;: 1,
-                        &quot;date_start&quot;: &quot;2025-05-09 07:00:00&quot;,
-                        &quot;date_end&quot;: &quot;2025-05-09 18:00:00&quot;,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-24T12:31:51.000000Z&quot;
+                        &quot;date_start&quot;: &quot;2024-09-13 18:29:00&quot;,
+                        &quot;date_end&quot;: &quot;2024-09-13 18:29:00&quot;,
+                        &quot;created_at&quot;: &quot;2024-09-09T13:30:01.000000Z&quot;,
+                        &quot;updated_at&quot;: &quot;2024-09-09T13:30:01.000000Z&quot;
                     }
                 ],
                 &quot;location&quot;: {
-                    &quot;id&quot;: 1463,
-                    &quot;name&quot;: &quot;Махачкала&quot;,
+                    &quot;id&quot;: 35,
+                    &quot;name&quot;: &quot;Москва&quot;,
                     &quot;time_zone&quot;: &quot;Europe/Moscow&quot;,
-                    &quot;location_id&quot;: 54,
-                    &quot;cult_id&quot;: 1978,
-                    &quot;created_at&quot;: &quot;2024-10-24T12:31:33.000000Z&quot;,
-                    &quot;updated_at&quot;: &quot;2024-10-25T06:34:36.000000Z&quot;,
-                    &quot;latitude&quot;: &quot;42.98491590000000&quot;,
-                    &quot;longitude&quot;: &quot;47.50471810000000&quot;,
-                    &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d \\u041c\\u0430\\u0445\\u0430\\u0447\\u043a\\u0430\\u043b\\u0430\&quot;,\&quot;result\&quot;:\&quot;\\u0433 \\u041c\\u0430\\u0445\\u0430\\u0447\\u043a\\u0430\\u043b\\u0430\&quot;,\&quot;postal_code\&quot;:\&quot;367000\&quot;,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:\&quot;\\u0421\\u0435\\u0432\\u0435\\u0440\\u043e-\\u041a\\u0430\\u0432\\u043a\\u0430\\u0437\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;region_fias_id\&quot;:\&quot;0bb7fa19-736d-49cf-ad0e-9774c4dae09b\&quot;,\&quot;region_kladr_id\&quot;:\&quot;0500000000000\&quot;,\&quot;region_iso_code\&quot;:\&quot;RU-DA\&quot;,\&quot;region_with_type\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f \\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;region_type\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f\&quot;,\&quot;region_type_full\&quot;:\&quot;\\u0440\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\&quot;,\&quot;region\&quot;:\&quot;\\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:\&quot;727cdf1e-1b70-4e07-8995-9bf7ca9abefb\&quot;,\&quot;city_kladr_id\&quot;:\&quot;0500000100000\&quot;,\&quot;city_with_type\&quot;:\&quot;\\u0433 \\u041c\\u0430\\u0445\\u0430\\u0447\\u043a\\u0430\\u043b\\u0430\&quot;,\&quot;city_type\&quot;:\&quot;\\u0433\&quot;,\&quot;city_type_full\&quot;:\&quot;\\u0433\\u043e\\u0440\\u043e\\u0434\&quot;,\&quot;city\&quot;:\&quot;\\u041c\\u0430\\u0445\\u0430\\u0447\\u043a\\u0430\\u043b\\u0430\&quot;,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:\&quot;727cdf1e-1b70-4e07-8995-9bf7ca9abefb\&quot;,\&quot;fias_code\&quot;:\&quot;05000001000000000000000\&quot;,\&quot;fias_level\&quot;:\&quot;4\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:\&quot;0500000100000\&quot;,\&quot;capital_marker\&quot;:\&quot;2\&quot;,\&quot;okato\&quot;:\&quot;82401000000\&quot;,\&quot;oktmo\&quot;:\&quot;82701000001\&quot;,\&quot;tax_office\&quot;:\&quot;0500\&quot;,\&quot;tax_office_legal\&quot;:\&quot;0500\&quot;,\&quot;timezone\&quot;:\&quot;UTC+3\&quot;,\&quot;geo_lat\&quot;:\&quot;42.9849159\&quot;,\&quot;geo_lon\&quot;:\&quot;47.5047181\&quot;,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:4,\&quot;qc_complete\&quot;:3,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
+                    &quot;location_id&quot;: 1,
+                    &quot;cult_id&quot;: 2317,
+                    &quot;created_at&quot;: &quot;2024-09-09T13:21:54.000000Z&quot;,
+                    &quot;updated_at&quot;: &quot;2024-09-09T13:21:54.000000Z&quot;,
+                    &quot;latitude&quot;: &quot;55.75404710000000&quot;,
+                    &quot;longitude&quot;: &quot;37.62040500000000&quot;,
+                    &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u0420\\u0424 \\u041c\\u043e\\u0441\\u043a\\u0432\\u0430\&quot;,\&quot;result\&quot;:\&quot;\\u0433 \\u041c\\u043e\\u0441\\u043a\\u0432\\u0430\&quot;,\&quot;postal_code\&quot;:\&quot;101000\&quot;,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:\&quot;\\u0426\\u0435\\u043d\\u0442\\u0440\\u0430\\u043b\\u044c\\u043d\\u044b\\u0439\&quot;,\&quot;region_fias_id\&quot;:\&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5\&quot;,\&quot;region_kladr_id\&quot;:\&quot;7700000000000\&quot;,\&quot;region_iso_code\&quot;:\&quot;RU-MOW\&quot;,\&quot;region_with_type\&quot;:\&quot;\\u0433 \\u041c\\u043e\\u0441\\u043a\\u0432\\u0430\&quot;,\&quot;region_type\&quot;:\&quot;\\u0433\&quot;,\&quot;region_type_full\&quot;:\&quot;\\u0433\\u043e\\u0440\\u043e\\u0434\&quot;,\&quot;region\&quot;:\&quot;\\u041c\\u043e\\u0441\\u043a\\u0432\\u0430\&quot;,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:null,\&quot;city_kladr_id\&quot;:null,\&quot;city_with_type\&quot;:null,\&quot;city_type\&quot;:null,\&quot;city_type_full\&quot;:null,\&quot;city\&quot;:null,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:\&quot;0c5b2444-70a0-4932-980c-b4dc0d3f02b5\&quot;,\&quot;fias_code\&quot;:\&quot;77000000000000000000000\&quot;,\&quot;fias_level\&quot;:\&quot;1\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:\&quot;7700000000000\&quot;,\&quot;capital_marker\&quot;:\&quot;0\&quot;,\&quot;okato\&quot;:\&quot;45000000000\&quot;,\&quot;oktmo\&quot;:\&quot;45000000\&quot;,\&quot;tax_office\&quot;:\&quot;7700\&quot;,\&quot;tax_office_legal\&quot;:\&quot;7700\&quot;,\&quot;timezone\&quot;:\&quot;UTC+3\&quot;,\&quot;geo_lat\&quot;:\&quot;55.7540471\&quot;,\&quot;geo_lon\&quot;:\&quot;37.620405\&quot;,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:4,\&quot;qc_complete\&quot;:3,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
                     &quot;time_zone_utc&quot;: &quot;UTC+3&quot;,
-                    &quot;display&quot;: true,
+                    &quot;display&quot;: false,
                     &quot;location_parent&quot;: {
-                        &quot;id&quot;: 54,
-                        &quot;name&quot;: &quot;Республика Дагестан&quot;,
+                        &quot;id&quot;: 1,
+                        &quot;name&quot;: &quot;РФ&quot;,
                         &quot;time_zone&quot;: &quot;Europe/Moscow&quot;,
-                        &quot;location_id&quot;: 1,
-                        &quot;cult_id&quot;: 153,
-                        &quot;created_at&quot;: &quot;2024-10-24T12:31:33.000000Z&quot;,
-                        &quot;updated_at&quot;: &quot;2024-10-25T06:34:17.000000Z&quot;,
-                        &quot;latitude&quot;: &quot;47.09575100000000&quot;,
-                        &quot;longitude&quot;: &quot;42.25979300000000&quot;,
-                        &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u0420\\u0424 \\u0420\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430 \\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;result\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f \\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;postal_code\&quot;:null,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:\&quot;\\u0421\\u0435\\u0432\\u0435\\u0440\\u043e-\\u041a\\u0430\\u0432\\u043a\\u0430\\u0437\\u0441\\u043a\\u0438\\u0439\&quot;,\&quot;region_fias_id\&quot;:\&quot;0bb7fa19-736d-49cf-ad0e-9774c4dae09b\&quot;,\&quot;region_kladr_id\&quot;:\&quot;0500000000000\&quot;,\&quot;region_iso_code\&quot;:\&quot;RU-DA\&quot;,\&quot;region_with_type\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f \\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;region_type\&quot;:\&quot;\\u0420\\u0435\\u0441\\u043f\&quot;,\&quot;region_type_full\&quot;:\&quot;\\u0440\\u0435\\u0441\\u043f\\u0443\\u0431\\u043b\\u0438\\u043a\\u0430\&quot;,\&quot;region\&quot;:\&quot;\\u0414\\u0430\\u0433\\u0435\\u0441\\u0442\\u0430\\u043d\&quot;,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:null,\&quot;city_kladr_id\&quot;:null,\&quot;city_with_type\&quot;:null,\&quot;city_type\&quot;:null,\&quot;city_type_full\&quot;:null,\&quot;city\&quot;:null,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:\&quot;0bb7fa19-736d-49cf-ad0e-9774c4dae09b\&quot;,\&quot;fias_code\&quot;:\&quot;05000000000000000000000\&quot;,\&quot;fias_level\&quot;:\&quot;1\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:\&quot;0500000000000\&quot;,\&quot;capital_marker\&quot;:\&quot;0\&quot;,\&quot;okato\&quot;:\&quot;82000000000\&quot;,\&quot;oktmo\&quot;:\&quot;82000000\&quot;,\&quot;tax_office\&quot;:\&quot;0500\&quot;,\&quot;tax_office_legal\&quot;:\&quot;0500\&quot;,\&quot;timezone\&quot;:\&quot;UTC+3\&quot;,\&quot;geo_lat\&quot;:null,\&quot;geo_lon\&quot;:null,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:5,\&quot;qc_complete\&quot;:2,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
-                        &quot;time_zone_utc&quot;: &quot;UTC+3&quot;,
+                        &quot;location_id&quot;: null,
+                        &quot;cult_id&quot;: 1,
+                        &quot;created_at&quot;: &quot;2024-09-09T13:21:54.000000Z&quot;,
+                        &quot;updated_at&quot;: &quot;2024-09-09T13:21:54.000000Z&quot;,
+                        &quot;latitude&quot;: &quot;99.50540500000000&quot;,
+                        &quot;longitude&quot;: &quot;61.69865700000000&quot;,
+                        &quot;info_dadata&quot;: &quot;{\&quot;source\&quot;:\&quot;\\u0420\\u0424\&quot;,\&quot;result\&quot;:null,\&quot;postal_code\&quot;:null,\&quot;country\&quot;:\&quot;\\u0420\\u043e\\u0441\\u0441\\u0438\\u044f\&quot;,\&quot;country_iso_code\&quot;:\&quot;RU\&quot;,\&quot;federal_district\&quot;:null,\&quot;region_fias_id\&quot;:null,\&quot;region_kladr_id\&quot;:null,\&quot;region_iso_code\&quot;:null,\&quot;region_with_type\&quot;:null,\&quot;region_type\&quot;:null,\&quot;region_type_full\&quot;:null,\&quot;region\&quot;:null,\&quot;area_fias_id\&quot;:null,\&quot;area_kladr_id\&quot;:null,\&quot;area_with_type\&quot;:null,\&quot;area_type\&quot;:null,\&quot;area_type_full\&quot;:null,\&quot;area\&quot;:null,\&quot;city_fias_id\&quot;:null,\&quot;city_kladr_id\&quot;:null,\&quot;city_with_type\&quot;:null,\&quot;city_type\&quot;:null,\&quot;city_type_full\&quot;:null,\&quot;city\&quot;:null,\&quot;city_area\&quot;:null,\&quot;city_district_fias_id\&quot;:null,\&quot;city_district_kladr_id\&quot;:null,\&quot;city_district_with_type\&quot;:null,\&quot;city_district_type\&quot;:null,\&quot;city_district_type_full\&quot;:null,\&quot;city_district\&quot;:null,\&quot;settlement_fias_id\&quot;:null,\&quot;settlement_kladr_id\&quot;:null,\&quot;settlement_with_type\&quot;:null,\&quot;settlement_type\&quot;:null,\&quot;settlement_type_full\&quot;:null,\&quot;settlement\&quot;:null,\&quot;street_fias_id\&quot;:null,\&quot;street_kladr_id\&quot;:null,\&quot;street_with_type\&quot;:null,\&quot;street_type\&quot;:null,\&quot;street_type_full\&quot;:null,\&quot;street\&quot;:null,\&quot;stead_fias_id\&quot;:null,\&quot;stead_kladr_id\&quot;:null,\&quot;stead_cadnum\&quot;:null,\&quot;stead_type\&quot;:null,\&quot;stead_type_full\&quot;:null,\&quot;stead\&quot;:null,\&quot;house_fias_id\&quot;:null,\&quot;house_kladr_id\&quot;:null,\&quot;house_cadnum\&quot;:null,\&quot;house_type\&quot;:null,\&quot;house_type_full\&quot;:null,\&quot;house\&quot;:null,\&quot;block_type\&quot;:null,\&quot;block_type_full\&quot;:null,\&quot;block\&quot;:null,\&quot;entrance\&quot;:null,\&quot;floor\&quot;:null,\&quot;flat_fias_id\&quot;:null,\&quot;flat_cadnum\&quot;:null,\&quot;flat_type\&quot;:null,\&quot;flat_type_full\&quot;:null,\&quot;flat\&quot;:null,\&quot;flat_area\&quot;:null,\&quot;square_meter_price\&quot;:null,\&quot;flat_price\&quot;:null,\&quot;postal_box\&quot;:null,\&quot;fias_id\&quot;:null,\&quot;fias_code\&quot;:null,\&quot;fias_level\&quot;:\&quot;0\&quot;,\&quot;fias_actuality_state\&quot;:\&quot;0\&quot;,\&quot;kladr_id\&quot;:null,\&quot;capital_marker\&quot;:\&quot;0\&quot;,\&quot;okato\&quot;:null,\&quot;oktmo\&quot;:null,\&quot;tax_office\&quot;:null,\&quot;tax_office_legal\&quot;:null,\&quot;timezone\&quot;:\&quot;UTC+2\\/UTC+12\&quot;,\&quot;geo_lat\&quot;:null,\&quot;geo_lon\&quot;:null,\&quot;beltway_hit\&quot;:null,\&quot;beltway_distance\&quot;:null,\&quot;qc_geo\&quot;:5,\&quot;qc_complete\&quot;:1,\&quot;qc_house\&quot;:10,\&quot;qc\&quot;:0,\&quot;unparsed_parts\&quot;:null,\&quot;metro\&quot;:null}&quot;,
+                        &quot;time_zone_utc&quot;: &quot;UTC+2/UTC+12&quot;,
                         &quot;display&quot;: false
                     }
                 }
             }
         ],
-        &quot;path&quot;: &quot;http://localhost:8000/api/events/1/places&quot;,
+        &quot;path&quot;: &quot;http://localhost:8000/api/events/4/places&quot;,
         &quot;per_page&quot;: 5,
         &quot;next_cursor&quot;: null,
         &quot;next_page_url&quot;: null,
@@ -1931,10 +1899,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--places"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -1951,14 +1919,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/comments" \
+    --get "http://localhost:8000/api/events/4/comments" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/comments"
+    "http://localhost:8000/api/events/4/comments"
 );
 
 const headers = {
@@ -1984,7 +1952,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 495
+x-ratelimit-remaining: 496
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -2070,10 +2038,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--comments"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -2123,7 +2091,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 494
+x-ratelimit-remaining: 495
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -2436,29 +2404,29 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
     <p>События</p>
 
-                                <h2 id="events-GETapi-events-search-text">searchForText</h2>
+                                <h2 id="events-POSTapi-events-search-text">searchForText</h2>
 
 <p>
 </p>
 
 <p>Поиск по основным полям через elasticsearch</p>
 
-<span id="example-requests-GETapi-events-search-text">
+<span id="example-requests-POSTapi-events-search-text">
 <blockquote>Example request:</blockquote>
 
 
 <div class="bash-example">
-    <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/search/text" \
+    <pre><code class="language-bash">curl --request POST \
+    "http://localhost:8000/api/events/search/text" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"text\": \"rsewvbnhrfzauqwsnykmgrlx\",
+    \"text\": \"fqyszmtxgfnjobyoymor\",
     \"columns\": [
         \"description\"
     ],
-    \"page\": \"deserunt\",
-    \"limit\": 20
+    \"page\": \"odit\",
+    \"limit\": 11
 }"
 </code></pre></div>
 
@@ -2474,23 +2442,23 @@ const headers = {
 };
 
 let body = {
-    "text": "rsewvbnhrfzauqwsnykmgrlx",
+    "text": "fqyszmtxgfnjobyoymor",
     "columns": [
         "description"
     ],
-    "page": "deserunt",
-    "limit": 20
+    "page": "odit",
+    "limit": 11
 };
 
 fetch(url, {
-    method: "GET",
+    method: "POST",
     headers,
     body: JSON.stringify(body),
 }).then(response =&gt; response.json());</code></pre></div>
 
 </span>
 
-<span id="example-responses-GETapi-events-search-text">
+<span id="example-responses-POSTapi-events-search-text">
             <blockquote>
             <p>Example response (200):</p>
         </blockquote>
@@ -2502,18 +2470,18 @@ fetch(url, {
     &quot;events&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 98,
-                &quot;name&quot;: &quot;Voluptate quisquam labore nesciunt consequatur iure.&quot;,
-                &quot;sponsor&quot;: &quot;Светлана Романовна Доронина&quot;,
-                &quot;date_start&quot;: &quot;2024-10-23 05:54:46&quot;,
-                &quot;date_end&quot;: &quot;2024-11-05 15:48:04&quot;,
-                &quot;description&quot;: &quot;Dicta nesciunt suscipit ipsa facere. Sed ipsa debitis et quia. Sint commodi fugit in quidem voluptatem. Unde quos id repellendus voluptate enim dolorem.&quot;,
-                &quot;materials&quot;: &quot;Id et exercitationem temporibus nostrum suscipit asperiores. Cumque earum quos voluptates sunt sit voluptatibus dolores. Sit voluptatibus sapiente sequi exercitationem.&quot;,
+                &quot;id&quot;: 72,
+                &quot;name&quot;: &quot;Eius molestiae ut harum magni quia qui sunt.&quot;,
+                &quot;sponsor&quot;: &quot;Михаил Борисович Ермаков&quot;,
+                &quot;date_start&quot;: &quot;2024-11-02 06:54:24&quot;,
+                &quot;date_end&quot;: &quot;2024-11-14 02:18:13&quot;,
+                &quot;description&quot;: &quot;Magnam velit est velit autem dolor cumque velit. Eaque voluptatem provident ullam non eaque praesentium ea. Distinctio veritatis impedit voluptates nulla. Recusandae est quo quis ipsa.&quot;,
+                &quot;materials&quot;: &quot;Expedita veniam quidem quo voluptatem distinctio sed eius. Eveniet et est ab eveniet aut. Dolore quisquam dicta aspernatur et nihil quasi.&quot;,
                 &quot;user_id&quot;: 2,
-                &quot;vk_post_id&quot;: &quot;658028&quot;,
-                &quot;created_at&quot;: &quot;2024-10-25T10:25:39.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-25T10:25:39.000000Z&quot;,
-                &quot;age_limit&quot;: &quot;15&quot;,
+                &quot;vk_post_id&quot;: &quot;504604&quot;,
+                &quot;created_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;20&quot;,
                 &quot;afisha7_id&quot;: null
             }
         ],
@@ -2523,50 +2491,50 @@ fetch(url, {
 }</code>
  </pre>
     </span>
-<span id="execution-results-GETapi-events-search-text" hidden>
+<span id="execution-results-POSTapi-events-search-text" hidden>
     <blockquote>Received response<span
-                id="execution-response-status-GETapi-events-search-text"></span>:
+                id="execution-response-status-POSTapi-events-search-text"></span>:
     </blockquote>
-    <pre class="json"><code id="execution-response-content-GETapi-events-search-text"
+    <pre class="json"><code id="execution-response-content-POSTapi-events-search-text"
       data-empty-response-text="<Empty response>" style="max-height: 400px;"></code></pre>
 </span>
-<span id="execution-error-GETapi-events-search-text" hidden>
+<span id="execution-error-POSTapi-events-search-text" hidden>
     <blockquote>Request failed with error:</blockquote>
-    <pre><code id="execution-error-message-GETapi-events-search-text">
+    <pre><code id="execution-error-message-POSTapi-events-search-text">
 
 Tip: Check that you&#039;re properly connected to the network.
 If you&#039;re a maintainer of ths API, verify that your API is running and you&#039;ve enabled CORS.
 You can check the Dev Tools console for debugging information.</code></pre>
 </span>
-<form id="form-GETapi-events-search-text" data-method="GET"
+<form id="form-POSTapi-events-search-text" data-method="POST"
       data-path="api/events/search/text"
       data-authed="0"
       data-hasfiles="0"
       data-isarraybody="0"
       autocomplete="off"
-      onsubmit="event.preventDefault(); executeTryOut('GETapi-events-search-text', this);">
+      onsubmit="event.preventDefault(); executeTryOut('POSTapi-events-search-text', this);">
     <h3>
         Request&nbsp;&nbsp;&nbsp;
                     <button type="button"
                     style="background-color: #8fbcd4; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-tryout-GETapi-events-search-text"
-                    onclick="tryItOut('GETapi-events-search-text');">Try it out ⚡
+                    id="btn-tryout-POSTapi-events-search-text"
+                    onclick="tryItOut('POSTapi-events-search-text');">Try it out ⚡
             </button>
             <button type="button"
                     style="background-color: #c97a7e; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-canceltryout-GETapi-events-search-text"
-                    onclick="cancelTryOut('GETapi-events-search-text');" hidden>Cancel 🛑
+                    id="btn-canceltryout-POSTapi-events-search-text"
+                    onclick="cancelTryOut('POSTapi-events-search-text');" hidden>Cancel 🛑
             </button>&nbsp;&nbsp;
             <button type="submit"
                     style="background-color: #6ac174; padding: 5px 10px; border-radius: 5px; border-width: thin;"
-                    id="btn-executetryout-GETapi-events-search-text"
+                    id="btn-executetryout-POSTapi-events-search-text"
                     data-initial-text="Send Request 💥"
                     data-loading-text="⏱ Sending..."
                     hidden>Send Request 💥
             </button>
             </h3>
             <p>
-            <small class="badge badge-green">GET</small>
+            <small class="badge badge-black">POST</small>
             <b><code>api/events/search/text</code></b>
         </p>
                 <h4 class="fancy-heading-panel"><b>Headers</b></h4>
@@ -2575,7 +2543,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Content-Type"                data-endpoint="GETapi-events-search-text"
+                              name="Content-Type"                data-endpoint="POSTapi-events-search-text"
                value="application/json"
                data-component="header">
     <br>
@@ -2586,7 +2554,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
 &nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="Accept"                data-endpoint="GETapi-events-search-text"
+                              name="Accept"                data-endpoint="POSTapi-events-search-text"
                value="application/json"
                data-component="header">
     <br>
@@ -2598,21 +2566,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <small>string</small>&nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="text"                data-endpoint="GETapi-events-search-text"
-               value="rsewvbnhrfzauqwsnykmgrlx"
+                              name="text"                data-endpoint="POSTapi-events-search-text"
+               value="fqyszmtxgfnjobyoymor"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 255. Example: <code>rsewvbnhrfzauqwsnykmgrlx</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 255. Example: <code>fqyszmtxgfnjobyoymor</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>columns</code></b>&nbsp;&nbsp;
 <small>string[]</small>&nbsp;
  &nbsp;
                 <input type="text" style="display: none"
-                              name="columns[0]"                data-endpoint="GETapi-events-search-text"
+                              name="columns[0]"                data-endpoint="POSTapi-events-search-text"
                data-component="body">
         <input type="text" style="display: none"
-               name="columns[1]"                data-endpoint="GETapi-events-search-text"
+               name="columns[1]"                data-endpoint="POSTapi-events-search-text"
                data-component="body">
     <br>
 
@@ -2624,22 +2592,22 @@ Must be one of:
 <small>string</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
-                              name="page"                data-endpoint="GETapi-events-search-text"
-               value="deserunt"
+                              name="page"                data-endpoint="POSTapi-events-search-text"
+               value="odit"
                data-component="body">
     <br>
-<p>Example: <code>deserunt</code></p>
+<p>Example: <code>odit</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
 <small>integer</small>&nbsp;
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
-               step="any"               name="limit"                data-endpoint="GETapi-events-search-text"
-               value="20"
+               step="any"               name="limit"                data-endpoint="POSTapi-events-search-text"
+               value="11"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>20</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>11</code></p>
         </div>
         </form>
 
@@ -2660,27 +2628,27 @@ Must be one of:
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"address\": \"sedtbjhhun\",
-    \"sponsor\": \"tesucfuuvnxyowvkngnjlpgmgfwbyiwnrzrbbwceqchiblasgmfxoghzzcuprsyysimfrijlyymlijvxbe\",
-    \"user_name\": \"mquzdhgufqhatmvedbifjglutkwaivqwbmlusztmnrmwcs\",
-    \"user_email\": \"laron.wilkinson@example.com\",
-    \"page\": \"repudiandae\",
-    \"limit\": 24,
-    \"name\": \"sacxqqqufpjsdzdnhswlfmhrlweqzbwppptelrxjwg\",
-    \"userId\": 20,
-    \"likedUser\": \"vero\",
-    \"favoriteUser\": \"unde\",
-    \"statuses\": \"et\",
+    \"address\": \"ejjsnqpubjtdifvleyuhqunvktncjdoqztyeogteaignjgqye\",
+    \"sponsor\": \"siququhoorfkcilgihyxaorrsbdcrnqmmrxvwrisjebbljcxxxggyfzytziolwedlikecwbboocsmuyc\",
+    \"user_name\": \"fmsyxgjvedkeordelbdiirwdaygfanzciarwkvrikyrybivhqeblyyqpgemauzmyg\",
+    \"user_email\": \"jessica.nienow@example.com\",
+    \"page\": \"quia\",
+    \"limit\": 15,
+    \"name\": \"ybnimvvemrnhlsf\",
+    \"userId\": 8,
+    \"likedUser\": \"et\",
+    \"favoriteUser\": \"sunt\",
+    \"statuses\": \"animi\",
     \"statusLast\": false,
-    \"locationId\": \"qui\",
-    \"dateStart\": \"harum\",
-    \"dateEnd\": \"unde\",
-    \"eventTypes\": \"deserunt\",
-    \"radius\": 11,
-    \"latitude\": -86,
+    \"locationId\": \"et\",
+    \"dateStart\": \"nostrum\",
+    \"dateEnd\": \"fugit\",
+    \"eventTypes\": \"distinctio\",
+    \"radius\": 12,
+    \"latitude\": -87,
     \"longitude\": -179,
-    \"searchText\": \"ofzwwvocxlygbjtsbzapuxlaajkilayvudyydpwqbhbnctnbzvnzjdqjvmznfkwnrxgbymvwvfmwfcypfgcggl\",
-    \"user\": \"oevbuh\"
+    \"searchText\": \"ezolaufpgrjtafznfvctwcncmzhwvbtnhidlptynxx\",
+    \"user\": \"pgwbufzotsdboldwlblnjzmtlnfebkunppmcs\"
 }"
 </code></pre></div>
 
@@ -2696,27 +2664,27 @@ const headers = {
 };
 
 let body = {
-    "address": "sedtbjhhun",
-    "sponsor": "tesucfuuvnxyowvkngnjlpgmgfwbyiwnrzrbbwceqchiblasgmfxoghzzcuprsyysimfrijlyymlijvxbe",
-    "user_name": "mquzdhgufqhatmvedbifjglutkwaivqwbmlusztmnrmwcs",
-    "user_email": "laron.wilkinson@example.com",
-    "page": "repudiandae",
-    "limit": 24,
-    "name": "sacxqqqufpjsdzdnhswlfmhrlweqzbwppptelrxjwg",
-    "userId": 20,
-    "likedUser": "vero",
-    "favoriteUser": "unde",
-    "statuses": "et",
+    "address": "ejjsnqpubjtdifvleyuhqunvktncjdoqztyeogteaignjgqye",
+    "sponsor": "siququhoorfkcilgihyxaorrsbdcrnqmmrxvwrisjebbljcxxxggyfzytziolwedlikecwbboocsmuyc",
+    "user_name": "fmsyxgjvedkeordelbdiirwdaygfanzciarwkvrikyrybivhqeblyyqpgemauzmyg",
+    "user_email": "jessica.nienow@example.com",
+    "page": "quia",
+    "limit": 15,
+    "name": "ybnimvvemrnhlsf",
+    "userId": 8,
+    "likedUser": "et",
+    "favoriteUser": "sunt",
+    "statuses": "animi",
     "statusLast": false,
-    "locationId": "qui",
-    "dateStart": "harum",
-    "dateEnd": "unde",
-    "eventTypes": "deserunt",
-    "radius": 11,
-    "latitude": -86,
+    "locationId": "et",
+    "dateStart": "nostrum",
+    "dateEnd": "fugit",
+    "eventTypes": "distinctio",
+    "radius": 12,
+    "latitude": -87,
     "longitude": -179,
-    "searchText": "ofzwwvocxlygbjtsbzapuxlaajkilayvudyydpwqbhbnctnbzvnzjdqjvmznfkwnrxgbymvwvfmwfcypfgcggl",
-    "user": "oevbuh"
+    "searchText": "ezolaufpgrjtafznfvctwcncmzhwvbtnhidlptynxx",
+    "user": "pgwbufzotsdboldwlblnjzmtlnfebkunppmcs"
 };
 
 fetch(url, {
@@ -2739,18 +2707,18 @@ fetch(url, {
     &quot;events&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 99,
-                &quot;name&quot;: &quot;Maiores voluptates unde quidem non sit.&quot;,
-                &quot;sponsor&quot;: &quot;Лаврентьев Кирилл Александрович&quot;,
-                &quot;date_start&quot;: &quot;2024-10-30 22:38:35&quot;,
-                &quot;date_end&quot;: &quot;2024-11-06 15:14:02&quot;,
-                &quot;description&quot;: &quot;Sit harum ullam sunt qui. Cumque autem nihil excepturi necessitatibus. Vel distinctio qui occaecati quasi cumque recusandae debitis nihil.&quot;,
-                &quot;materials&quot;: &quot;Quod ut laborum qui saepe. Est debitis dolores et enim eum. Incidunt autem consequatur est aut eum sunt.&quot;,
-                &quot;user_id&quot;: 1,
-                &quot;vk_post_id&quot;: &quot;856342&quot;,
-                &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-                &quot;age_limit&quot;: &quot;18&quot;,
+                &quot;id&quot;: 73,
+                &quot;name&quot;: &quot;Pariatur veritatis excepturi inventore ducimus omnis culpa consectetur.&quot;,
+                &quot;sponsor&quot;: &quot;Олеся Алексеевна Михайлова&quot;,
+                &quot;date_start&quot;: &quot;2024-10-30 20:18:38&quot;,
+                &quot;date_end&quot;: &quot;2024-11-13 13:38:08&quot;,
+                &quot;description&quot;: &quot;Earum voluptas et esse hic veritatis voluptatem corrupti. Consequatur quo dolores porro illo debitis. Quis atque qui laboriosam omnis eum quo.&quot;,
+                &quot;materials&quot;: &quot;Suscipit quisquam quia est est architecto dicta accusamus. Minima sequi blanditiis et cum labore. Minus sed perspiciatis facilis architecto in.&quot;,
+                &quot;user_id&quot;: 3,
+                &quot;vk_post_id&quot;: &quot;583245&quot;,
+                &quot;created_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;22&quot;,
                 &quot;afisha7_id&quot;: null
             }
         ],
@@ -2836,10 +2804,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="address"                data-endpoint="POSTapi-events"
-               value="sedtbjhhun"
+               value="ejjsnqpubjtdifvleyuhqunvktncjdoqztyeogteaignjgqye"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>sedtbjhhun</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ejjsnqpubjtdifvleyuhqunvktncjdoqztyeogteaignjgqye</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sponsor</code></b>&nbsp;&nbsp;
@@ -2847,10 +2815,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="sponsor"                data-endpoint="POSTapi-events"
-               value="tesucfuuvnxyowvkngnjlpgmgfwbyiwnrzrbbwceqchiblasgmfxoghzzcuprsyysimfrijlyymlijvxbe"
+               value="siququhoorfkcilgihyxaorrsbdcrnqmmrxvwrisjebbljcxxxggyfzytziolwedlikecwbboocsmuyc"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>tesucfuuvnxyowvkngnjlpgmgfwbyiwnrzrbbwceqchiblasgmfxoghzzcuprsyysimfrijlyymlijvxbe</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>siququhoorfkcilgihyxaorrsbdcrnqmmrxvwrisjebbljcxxxggyfzytziolwedlikecwbboocsmuyc</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user_name</code></b>&nbsp;&nbsp;
@@ -2858,10 +2826,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user_name"                data-endpoint="POSTapi-events"
-               value="mquzdhgufqhatmvedbifjglutkwaivqwbmlusztmnrmwcs"
+               value="fmsyxgjvedkeordelbdiirwdaygfanzciarwkvrikyrybivhqeblyyqpgemauzmyg"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>mquzdhgufqhatmvedbifjglutkwaivqwbmlusztmnrmwcs</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>fmsyxgjvedkeordelbdiirwdaygfanzciarwkvrikyrybivhqeblyyqpgemauzmyg</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user_email</code></b>&nbsp;&nbsp;
@@ -2869,10 +2837,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user_email"                data-endpoint="POSTapi-events"
-               value="laron.wilkinson@example.com"
+               value="jessica.nienow@example.com"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>laron.wilkinson@example.com</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>jessica.nienow@example.com</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>page</code></b>&nbsp;&nbsp;
@@ -2880,10 +2848,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="page"                data-endpoint="POSTapi-events"
-               value="repudiandae"
+               value="quia"
                data-component="body">
     <br>
-<p>Example: <code>repudiandae</code></p>
+<p>Example: <code>quia</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
@@ -2891,10 +2859,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="POSTapi-events"
-               value="24"
+               value="15"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50. Example: <code>24</code></p>
+<p>Значение поля value должно быть не меньше 1. Значение поля value не может быть больше 50. Example: <code>15</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>name</code></b>&nbsp;&nbsp;
@@ -2902,10 +2870,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-events"
-               value="sacxqqqufpjsdzdnhswlfmhrlweqzbwppptelrxjwg"
+               value="ybnimvvemrnhlsf"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>sacxqqqufpjsdzdnhswlfmhrlweqzbwppptelrxjwg</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ybnimvvemrnhlsf</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>userId</code></b>&nbsp;&nbsp;
@@ -2913,10 +2881,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="userId"                data-endpoint="POSTapi-events"
-               value="20"
+               value="8"
                data-component="body">
     <br>
-<p>Example: <code>20</code></p>
+<p>Example: <code>8</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>likedUser</code></b>&nbsp;&nbsp;
@@ -2924,10 +2892,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="likedUser"                data-endpoint="POSTapi-events"
-               value="vero"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>vero</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>favoriteUser</code></b>&nbsp;&nbsp;
@@ -2935,10 +2903,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="favoriteUser"                data-endpoint="POSTapi-events"
-               value="unde"
+               value="sunt"
                data-component="body">
     <br>
-<p>Example: <code>unde</code></p>
+<p>Example: <code>sunt</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>statuses</code></b>&nbsp;&nbsp;
@@ -2946,10 +2914,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="statuses"                data-endpoint="POSTapi-events"
-               value="et"
+               value="animi"
                data-component="body">
     <br>
-<p>Example: <code>et</code></p>
+<p>Example: <code>animi</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>statusLast</code></b>&nbsp;&nbsp;
@@ -2978,10 +2946,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="locationId"                data-endpoint="POSTapi-events"
-               value="qui"
+               value="et"
                data-component="body">
     <br>
-<p>Example: <code>qui</code></p>
+<p>Example: <code>et</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateStart</code></b>&nbsp;&nbsp;
@@ -2989,10 +2957,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dateStart"                data-endpoint="POSTapi-events"
-               value="harum"
+               value="nostrum"
                data-component="body">
     <br>
-<p>Example: <code>harum</code></p>
+<p>Example: <code>nostrum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateEnd</code></b>&nbsp;&nbsp;
@@ -3000,10 +2968,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="dateEnd"                data-endpoint="POSTapi-events"
-               value="unde"
+               value="fugit"
                data-component="body">
     <br>
-<p>Example: <code>unde</code></p>
+<p>Example: <code>fugit</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>eventTypes</code></b>&nbsp;&nbsp;
@@ -3011,10 +2979,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="eventTypes"                data-endpoint="POSTapi-events"
-               value="deserunt"
+               value="distinctio"
                data-component="body">
     <br>
-<p>Example: <code>deserunt</code></p>
+<p>Example: <code>distinctio</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>radius</code></b>&nbsp;&nbsp;
@@ -3022,10 +2990,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="radius"                data-endpoint="POSTapi-events"
-               value="11"
+               value="12"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 25. Example: <code>11</code></p>
+<p>Значение поля value не может быть больше 25. Example: <code>12</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>latitude</code></b>&nbsp;&nbsp;
@@ -3033,10 +3001,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="latitude"                data-endpoint="POSTapi-events"
-               value="-86"
+               value="-87"
                data-component="body">
     <br>
-<p>Значение поля value должно быть между -87 и 89. Example: <code>-86</code></p>
+<p>Значение поля value должно быть между -87 и 89. Example: <code>-87</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>longitude</code></b>&nbsp;&nbsp;
@@ -3055,10 +3023,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="searchText"                data-endpoint="POSTapi-events"
-               value="ofzwwvocxlygbjtsbzapuxlaajkilayvudyydpwqbhbnctnbzvnzjdqjvmznfkwnrxgbymvwvfmwfcypfgcggl"
+               value="ezolaufpgrjtafznfvctwcncmzhwvbtnhidlptynxx"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ofzwwvocxlygbjtsbzapuxlaajkilayvudyydpwqbhbnctnbzvnzjdqjvmznfkwnrxgbymvwvfmwfcypfgcggl</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ezolaufpgrjtafznfvctwcncmzhwvbtnhidlptynxx</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>user</code></b>&nbsp;&nbsp;
@@ -3066,10 +3034,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="user"                data-endpoint="POSTapi-events"
-               value="oevbuh"
+               value="pgwbufzotsdboldwlblnjzmtlnfebkunppmcs"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>oevbuh</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>pgwbufzotsdboldwlblnjzmtlnfebkunppmcs</code></p>
         </div>
         </form>
 
@@ -3199,7 +3167,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"event_id\": 33
+    \"event_id\": 56
 }"
 </code></pre></div>
 
@@ -3215,7 +3183,7 @@ const headers = {
 };
 
 let body = {
-    "event_id": 33
+    "event_id": 56
 };
 
 fetch(url, {
@@ -3235,12 +3203,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;likedUser&quot;: {
-        &quot;id&quot;: 9,
-        &quot;name&quot;: &quot;Зуева Ярослава Максимовна&quot;,
-        &quot;email&quot;: &quot;ydina.evgeniy@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:40&quot;,
-        &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
+        &quot;id&quot;: 12,
+        &quot;name&quot;: &quot;Ольга Дмитриевна Жданова&quot;,
+        &quot;email&quot;: &quot;yroslava10@example.net&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:40&quot;,
+        &quot;created_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -3327,10 +3295,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="event_id"                data-endpoint="POSTapi-events-set-event-user-liked"
-               value="33"
+               value="56"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 1. Example: <code>33</code></p>
+<p>Значение поля value должно быть не меньше 1. Example: <code>56</code></p>
         </div>
         </form>
 
@@ -3347,18 +3315,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1" \
+    --get "http://localhost:8000/api/events/4" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"id\": 17
+    \"id\": 4
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1"
+    "http://localhost:8000/api/events/4"
 );
 
 const headers = {
@@ -3367,7 +3335,7 @@ const headers = {
 };
 
 let body = {
-    "id": 17
+    "id": 4
 };
 
 fetch(url, {
@@ -3388,18 +3356,18 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Мероприятие успешно получено&quot;,
     &quot;event&quot;: {
-        &quot;id&quot;: 100,
-        &quot;name&quot;: &quot;Illum voluptas esse quia ratione veritatis earum nihil.&quot;,
-        &quot;sponsor&quot;: &quot;Игорь Сергеевич Королёв&quot;,
-        &quot;date_start&quot;: &quot;2024-10-23 19:10:41&quot;,
-        &quot;date_end&quot;: &quot;2024-11-04 08:44:39&quot;,
-        &quot;description&quot;: &quot;Labore laboriosam nisi consectetur est et quia. Facilis velit iure sapiente consequuntur rerum dicta. Fugiat est quod non molestiae. Accusantium quia eos perferendis voluptatem optio eum qui.&quot;,
-        &quot;materials&quot;: &quot;Voluptates voluptatum autem sunt consectetur qui iusto. Non et sed quaerat qui similique occaecati a. Sit deserunt quo veniam laborum veritatis. In a adipisci rem neque voluptas.&quot;,
-        &quot;user_id&quot;: 2,
-        &quot;vk_post_id&quot;: &quot;623890&quot;,
-        &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-        &quot;age_limit&quot;: &quot;23&quot;,
+        &quot;id&quot;: 74,
+        &quot;name&quot;: &quot;Harum officia quod sed earum.&quot;,
+        &quot;sponsor&quot;: &quot;Агафонова Яна Андреевна&quot;,
+        &quot;date_start&quot;: &quot;2024-11-01 10:39:39&quot;,
+        &quot;date_end&quot;: &quot;2024-11-13 14:50:22&quot;,
+        &quot;description&quot;: &quot;Id odit doloribus neque. Quia quibusdam reiciendis quas ut minus provident est reprehenderit. Tenetur qui nihil architecto quasi. Voluptatem consequuntur dolorum voluptatem tempora deserunt.&quot;,
+        &quot;materials&quot;: &quot;Omnis nemo fugit minus sint magnam. Voluptas similique facere sed sit velit. Quis dolorem occaecati illum necessitatibus vel iusto. At id magni fugit sed fugit illo vitae.&quot;,
+        &quot;user_id&quot;: 3,
+        &quot;vk_post_id&quot;: &quot;684334&quot;,
+        &quot;created_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-01T05:40:40.000000Z&quot;,
+        &quot;age_limit&quot;: &quot;24&quot;,
         &quot;afisha7_id&quot;: null
     }
 }</code>
@@ -3481,10 +3449,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id-"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -3493,10 +3461,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id-"
-               value="17"
+               value="4"
                data-component="body">
     <br>
-<p>Example: <code>17</code></p>
+<p>Example: <code>4</code></p>
         </div>
         </form>
 
@@ -3514,14 +3482,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/history-contents" \
+    --get "http://localhost:8000/api/events/4/history-contents" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/history-contents"
+    "http://localhost:8000/api/events/4/history-contents"
 );
 
 const headers = {
@@ -3547,7 +3515,7 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 498
+x-ratelimit-remaining: 499
 vary: Origin
  </code></pre></details>         <pre>
 
@@ -3555,7 +3523,7 @@ vary: Origin
     &quot;status&quot;: &quot;success&quot;,
     &quot;history_content&quot;: {
         &quot;data&quot;: [],
-        &quot;path&quot;: &quot;http://localhost:8000/api/events/1/history-contents&quot;,
+        &quot;path&quot;: &quot;http://localhost:8000/api/events/4/history-contents&quot;,
         &quot;per_page&quot;: 6,
         &quot;next_cursor&quot;: null,
         &quot;next_page_url&quot;: null,
@@ -3641,10 +3609,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--history-contents"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -3662,14 +3630,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/organization" \
+    --get "http://localhost:8000/api/events/4/organization" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/organization"
+    "http://localhost:8000/api/events/4/organization"
 );
 
 const headers = {
@@ -3694,7 +3662,7 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Организация мероприятия успешно получена&quot;,
     &quot;organization&quot;: {
-        &quot;id&quot;: 99,
+        &quot;id&quot;: 7,
         &quot;name&quot;: null,
         &quot;avatar&quot;: null,
         &quot;description&quot;: null
@@ -3778,10 +3746,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--organization"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -3799,14 +3767,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/check-user-liked" \
+    --get "http://localhost:8000/api/events/4/check-user-liked" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/check-user-liked"
+    "http://localhost:8000/api/events/4/check-user-liked"
 );
 
 const headers = {
@@ -3909,10 +3877,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--check-user-liked"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -3930,14 +3898,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/check-user-favorite" \
+    --get "http://localhost:8000/api/events/4/check-user-favorite" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/check-user-favorite"
+    "http://localhost:8000/api/events/4/check-user-favorite"
 );
 
 const headers = {
@@ -4040,10 +4008,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--check-user-favorite"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -4065,21 +4033,21 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"qsqzyvdjwbzqibjvlbmowwbuwwf\",
-    \"sponsor\": \"quam\",
-    \"dateStart\": \"2024-10-25T10:25:40\",
-    \"dateEnd\": \"2052-11-15\",
-    \"type\": \"veniam\",
-    \"status\": \"corporis\",
-    \"ageLimit\": 9,
-    \"vkGroupId\": 14,
-    \"vkPostId\": 19,
+    \"name\": \"ngpzvmwxrqgydozkivfzprsnivjotyxjqudzxkhcpmmnu\",
+    \"sponsor\": \"rerum\",
+    \"dateStart\": \"2024-11-01T05:40:41\",
+    \"dateEnd\": \"2065-07-28\",
+    \"type\": \"consequatur\",
+    \"status\": \"qui\",
+    \"ageLimit\": 15,
+    \"vkGroupId\": 4,
+    \"vkPostId\": 4,
     \"places\": [
         {
             \"seances\": [
                 {
-                    \"dateStart\": \"2024-10-25T10:25:40\",
-                    \"dateEnd\": \"2024-10-25T10:25:40\"
+                    \"dateStart\": \"2024-11-01T05:40:41\",
+                    \"dateEnd\": \"2024-11-01T05:40:41\"
                 }
             ]
         }
@@ -4099,21 +4067,21 @@ const headers = {
 };
 
 let body = {
-    "name": "qsqzyvdjwbzqibjvlbmowwbuwwf",
-    "sponsor": "quam",
-    "dateStart": "2024-10-25T10:25:40",
-    "dateEnd": "2052-11-15",
-    "type": "veniam",
-    "status": "corporis",
-    "ageLimit": 9,
-    "vkGroupId": 14,
-    "vkPostId": 19,
+    "name": "ngpzvmwxrqgydozkivfzprsnivjotyxjqudzxkhcpmmnu",
+    "sponsor": "rerum",
+    "dateStart": "2024-11-01T05:40:41",
+    "dateEnd": "2065-07-28",
+    "type": "consequatur",
+    "status": "qui",
+    "ageLimit": 15,
+    "vkGroupId": 4,
+    "vkPostId": 4,
     "places": [
         {
             "seances": [
                 {
-                    "dateStart": "2024-10-25T10:25:40",
-                    "dateEnd": "2024-10-25T10:25:40"
+                    "dateStart": "2024-11-01T05:40:41",
+                    "dateEnd": "2024-11-01T05:40:41"
                 }
             ]
         }
@@ -4138,18 +4106,18 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Мероприятие успешно создано&quot;,
     &quot;event&quot;: {
-        &quot;id&quot;: 101,
-        &quot;name&quot;: &quot;Iure quos modi vel quia aliquam.&quot;,
-        &quot;sponsor&quot;: &quot;Фёдор Максимович Пахомов&quot;,
-        &quot;date_start&quot;: &quot;2024-10-31 13:15:15&quot;,
-        &quot;date_end&quot;: &quot;2024-11-04 05:51:10&quot;,
-        &quot;description&quot;: &quot;Quo adipisci dolores unde blanditiis totam tempora facilis. Architecto exercitationem sit optio deleniti. Ipsam totam sunt a nihil temporibus. Temporibus voluptates fugiat sunt sunt.&quot;,
-        &quot;materials&quot;: &quot;Nemo explicabo quae voluptate vero vel hic. Veritatis quod vero consequuntur repudiandae dolores. Atque alias saepe optio dolore. Alias et fugit aspernatur in nemo modi.&quot;,
-        &quot;user_id&quot;: 2,
-        &quot;vk_post_id&quot;: &quot;528559&quot;,
-        &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-        &quot;age_limit&quot;: &quot;21&quot;,
+        &quot;id&quot;: 75,
+        &quot;name&quot;: &quot;Veritatis laudantium minima est.&quot;,
+        &quot;sponsor&quot;: &quot;Самсонов Станислав Львович&quot;,
+        &quot;date_start&quot;: &quot;2024-10-31 23:59:33&quot;,
+        &quot;date_end&quot;: &quot;2024-11-11 05:50:47&quot;,
+        &quot;description&quot;: &quot;Dignissimos rerum voluptatem quia vel consequatur possimus. Adipisci dolorem non aut est. Totam sint modi perspiciatis quis facere. Rerum expedita debitis id est fugit facilis voluptas.&quot;,
+        &quot;materials&quot;: &quot;Voluptates et eum fugit. Quidem aut ullam nobis vel sunt aut omnis. Ipsam reprehenderit quaerat iste perferendis.&quot;,
+        &quot;user_id&quot;: 5,
+        &quot;vk_post_id&quot;: &quot;117975&quot;,
+        &quot;created_at&quot;: &quot;2024-11-01T05:40:41.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-01T05:40:41.000000Z&quot;,
+        &quot;age_limit&quot;: &quot;14&quot;,
         &quot;afisha7_id&quot;: null
     }
 }</code>
@@ -4251,10 +4219,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-events-create"
-               value="qsqzyvdjwbzqibjvlbmowwbuwwf"
+               value="ngpzvmwxrqgydozkivfzprsnivjotyxjqudzxkhcpmmnu"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>qsqzyvdjwbzqibjvlbmowwbuwwf</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>ngpzvmwxrqgydozkivfzprsnivjotyxjqudzxkhcpmmnu</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>sponsor</code></b>&nbsp;&nbsp;
@@ -4262,10 +4230,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="sponsor"                data-endpoint="POSTapi-events-create"
-               value="quam"
+               value="rerum"
                data-component="body">
     <br>
-<p>Example: <code>quam</code></p>
+<p>Example: <code>rerum</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -4284,10 +4252,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="dateStart"                data-endpoint="POSTapi-events-create"
-               value="2024-10-25T10:25:40"
+               value="2024-11-01T05:40:41"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Example: <code>2024-10-25T10:25:40</code></p>
+<p>Значение поля value не является датой. Example: <code>2024-11-01T05:40:41</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>dateEnd</code></b>&nbsp;&nbsp;
@@ -4295,10 +4263,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="dateEnd"                data-endpoint="POSTapi-events-create"
-               value="2052-11-15"
+               value="2065-07-28"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Значение поля value должно быть датой после или равной <code>dateStart</code>. Example: <code>2052-11-15</code></p>
+<p>Значение поля value не является датой. Значение поля value должно быть датой после или равной <code>dateStart</code>. Example: <code>2065-07-28</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>type</code></b>&nbsp;&nbsp;
@@ -4306,10 +4274,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-events-create"
-               value="veniam"
+               value="consequatur"
                data-component="body">
     <br>
-<p>Example: <code>veniam</code></p>
+<p>Example: <code>consequatur</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
@@ -4317,10 +4285,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-events-create"
-               value="corporis"
+               value="qui"
                data-component="body">
     <br>
-<p>Example: <code>corporis</code></p>
+<p>Example: <code>qui</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
         <details>
@@ -4346,10 +4314,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="places.0.seances.0.dateStart"                data-endpoint="POSTapi-events-create"
-               value="2024-10-25T10:25:40"
+               value="2024-11-01T05:40:41"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Example: <code>2024-10-25T10:25:40</code></p>
+<p>Значение поля value не является датой. Example: <code>2024-11-01T05:40:41</code></p>
                     </div>
                                                                 <div style="margin-left: 28px; clear: unset;">
                         <b style="line-height: 2;"><code>dateEnd</code></b>&nbsp;&nbsp;
@@ -4357,10 +4325,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="places.0.seances.0.dateEnd"                data-endpoint="POSTapi-events-create"
-               value="2024-10-25T10:25:40"
+               value="2024-11-01T05:40:41"
                data-component="body">
     <br>
-<p>Значение поля value не является датой. Example: <code>2024-10-25T10:25:40</code></p>
+<p>Значение поля value не является датой. Example: <code>2024-11-01T05:40:41</code></p>
                     </div>
                                     </details>
         </div>
@@ -4383,10 +4351,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="ageLimit"                data-endpoint="POSTapi-events-create"
-               value="9"
+               value="15"
                data-component="body">
     <br>
-<p>Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18. Example: <code>9</code></p>
+<p>Значение поля value должно быть не меньше 0. Значение поля value не может быть больше 18. Example: <code>15</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkGroupId</code></b>&nbsp;&nbsp;
@@ -4394,10 +4362,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="vkGroupId"                data-endpoint="POSTapi-events-create"
-               value="14"
+               value="4"
                data-component="body">
     <br>
-<p>Example: <code>14</code></p>
+<p>Example: <code>4</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkPostId</code></b>&nbsp;&nbsp;
@@ -4405,10 +4373,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="vkPostId"                data-endpoint="POSTapi-events-create"
-               value="19"
+               value="4"
                data-component="body">
     <br>
-<p>Example: <code>19</code></p>
+<p>Example: <code>4</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>localFilesImg</code></b>&nbsp;&nbsp;
@@ -4439,18 +4407,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/liked-users" \
+    --get "http://localhost:8000/api/events/4/liked-users" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 13
+    \"limit\": 20
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/liked-users"
+    "http://localhost:8000/api/events/4/liked-users"
 );
 
 const headers = {
@@ -4459,7 +4427,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 13
+    "limit": 20
 };
 
 fetch(url, {
@@ -4482,17 +4450,17 @@ fetch(url, {
     &quot;events&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 102,
-                &quot;name&quot;: &quot;Consequatur nulla qui provident consequatur ut.&quot;,
-                &quot;sponsor&quot;: &quot;Зинаида Фёдоровна Ситникова&quot;,
-                &quot;date_start&quot;: &quot;2024-10-18 19:21:07&quot;,
-                &quot;date_end&quot;: &quot;2024-11-08 07:41:50&quot;,
-                &quot;description&quot;: &quot;Cumque est culpa optio in non voluptas. Eveniet nobis minus a doloribus aperiam eaque dignissimos. Id impedit sit reiciendis suscipit sit a aut.&quot;,
-                &quot;materials&quot;: &quot;Voluptate placeat dolorum aperiam molestiae ullam ea quis. Libero illo est et molestiae. Est similique natus quaerat ea. Vel deleniti aut minima hic quae.&quot;,
-                &quot;user_id&quot;: 1,
-                &quot;vk_post_id&quot;: &quot;560763&quot;,
-                &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
+                &quot;id&quot;: 76,
+                &quot;name&quot;: &quot;Nisi dolor doloremque atque quas ut tempora nesciunt voluptatem.&quot;,
+                &quot;sponsor&quot;: &quot;Блохина Ника Владимировна&quot;,
+                &quot;date_start&quot;: &quot;2024-10-31 11:44:52&quot;,
+                &quot;date_end&quot;: &quot;2024-11-14 04:04:44&quot;,
+                &quot;description&quot;: &quot;Repellat similique officiis et veniam molestiae. Quam aliquam beatae excepturi dolor.&quot;,
+                &quot;materials&quot;: &quot;Doloribus ex est omnis ut aliquam magnam. Laborum itaque deserunt dolor et officia in molestiae. Nihil nulla enim quia officia aut reprehenderit ducimus. Et qui magnam dicta.&quot;,
+                &quot;user_id&quot;: 5,
+                &quot;vk_post_id&quot;: &quot;991941&quot;,
+                &quot;created_at&quot;: &quot;2024-11-01T05:40:41.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-11-01T05:40:41.000000Z&quot;,
                 &quot;age_limit&quot;: &quot;21&quot;,
                 &quot;afisha7_id&quot;: null
             }
@@ -4579,10 +4547,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--liked-users"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4602,10 +4570,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-events--id--liked-users"
-               value="13"
+               value="20"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>13</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>20</code></p>
         </div>
         </form>
 
@@ -4623,18 +4591,18 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request GET \
-    --get "http://localhost:8000/api/events/1/favorites-users" \
+    --get "http://localhost:8000/api/events/4/favorites-users" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 11
+    \"limit\": 17
 }"
 </code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/favorites-users"
+    "http://localhost:8000/api/events/4/favorites-users"
 );
 
 const headers = {
@@ -4643,7 +4611,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 11
+    "limit": 17
 };
 
 fetch(url, {
@@ -4666,8 +4634,8 @@ fetch(url, {
     &quot;events&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 10,
-                &quot;name&quot;: &quot;Титова Диана Александровна&quot;,
+                &quot;id&quot;: 13,
+                &quot;name&quot;: &quot;Филатова Лилия Владимировна&quot;,
                 &quot;sponsor&quot;: null,
                 &quot;date_start&quot;: null,
                 &quot;date_end&quot;: null,
@@ -4675,8 +4643,8 @@ fetch(url, {
                 &quot;materials&quot;: null,
                 &quot;user_id&quot;: null,
                 &quot;vk_post_id&quot;: null,
-                &quot;created_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-25T10:25:40.000000Z&quot;,
+                &quot;created_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
                 &quot;age_limit&quot;: null,
                 &quot;afisha7_id&quot;: null
             }
@@ -4763,10 +4731,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-events--id--favorites-users"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                             <h4 class="fancy-heading-panel"><b>Body Parameters</b></h4>
         <div style=" padding-left: 28px;  clear: unset;">
@@ -4786,10 +4754,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-events--id--favorites-users"
-               value="11"
+               value="17"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>11</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>17</code></p>
         </div>
         </form>
 
@@ -4807,14 +4775,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/events/1/statuses" \
+    "http://localhost:8000/api/events/4/statuses" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/statuses"
+    "http://localhost:8000/api/events/4/statuses"
 );
 
 const headers = {
@@ -4907,10 +4875,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-events--id--statuses"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -4928,14 +4896,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request POST \
-    "http://localhost:8000/api/events/1/statuses/cookie" \
+    "http://localhost:8000/api/events/4/statuses/cookie" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1/statuses/cookie"
+    "http://localhost:8000/api/events/4/statuses/cookie"
 );
 
 const headers = {
@@ -5028,10 +4996,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="POSTapi-events--id--statuses-cookie"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -5049,14 +5017,14 @@ You can check the Dev Tools console for debugging information.</code></pre>
 
 <div class="bash-example">
     <pre><code class="language-bash">curl --request DELETE \
-    "http://localhost:8000/api/events/1" \
+    "http://localhost:8000/api/events/4" \
     --header "Content-Type: application/json" \
     --header "Accept: application/json"</code></pre></div>
 
 
 <div class="javascript-example">
     <pre><code class="language-javascript">const url = new URL(
-    "http://localhost:8000/api/events/1"
+    "http://localhost:8000/api/events/4"
 );
 
 const headers = {
@@ -5169,10 +5137,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="DELETEapi-events--id-"
-               value="1"
+               value="4"
                data-component="url">
     <br>
-<p>The ID of the event. Example: <code>1</code></p>
+<p>The ID of the event. Example: <code>4</code></p>
             </div>
                     </form>
 
@@ -5356,9 +5324,9 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"code\": \"corporis\",
-    \"password\": \"n9dOdSQq5ZS\",
-    \"password_confirmation\": \"saepe\"
+    \"code\": \"molestiae\",
+    \"password\": \"@PXF+egT-\",
+    \"password_confirmation\": \"enim\"
 }"
 </code></pre></div>
 
@@ -5374,9 +5342,9 @@ const headers = {
 };
 
 let body = {
-    "code": "corporis",
-    "password": "n9dOdSQq5ZS",
-    "password_confirmation": "saepe"
+    "code": "molestiae",
+    "password": "@PXF+egT-",
+    "password_confirmation": "enim"
 };
 
 fetch(url, {
@@ -5495,10 +5463,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="code"                data-endpoint="POSTapi-recovery-password"
-               value="corporis"
+               value="molestiae"
                data-component="body">
     <br>
-<p>Example: <code>corporis</code></p>
+<p>Example: <code>molestiae</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password</code></b>&nbsp;&nbsp;
@@ -5506,10 +5474,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password"                data-endpoint="POSTapi-recovery-password"
-               value="n9dOdSQq5ZS"
+               value="@PXF+egT-"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 8. Example: <code>n9dOdSQq5ZS</code></p>
+<p>Количество символов в поле value должно быть не меньше 8. Example: <code>@PXF+egT-</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>password_confirmation</code></b>&nbsp;&nbsp;
@@ -5517,10 +5485,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="password_confirmation"                data-endpoint="POSTapi-recovery-password"
-               value="saepe"
+               value="enim"
                data-component="body">
     <br>
-<p>The value and <code>password</code> must match. Example: <code>saepe</code></p>
+<p>The value and <code>password</code> must match. Example: <code>enim</code></p>
         </div>
         </form>
 
@@ -5545,12 +5513,12 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"text\": \"tzjumdzyv\",
+    \"text\": \"xd\",
     \"columns\": [
-        \"name\"
+        \"description\"
     ],
-    \"page\": \"amet\",
-    \"limit\": 6
+    \"page\": \"dolor\",
+    \"limit\": 7
 }"
 </code></pre></div>
 
@@ -5566,12 +5534,12 @@ const headers = {
 };
 
 let body = {
-    "text": "tzjumdzyv",
+    "text": "xd",
     "columns": [
-        "name"
+        "description"
     ],
-    "page": "amet",
-    "limit": 6
+    "page": "dolor",
+    "limit": 7
 };
 
 fetch(url, {
@@ -5594,19 +5562,19 @@ fetch(url, {
     &quot;sights&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 99,
-                &quot;name&quot;: &quot;Dolorem aut animi velit labore enim magnam ratione doloremque.&quot;,
+                &quot;id&quot;: 7,
+                &quot;name&quot;: &quot;Ex cum voluptatibus occaecati laudantium quo aut doloribus.&quot;,
                 &quot;sponsor&quot;: null,
-                &quot;latitude&quot;: &quot;-34.69875900000000&quot;,
-                &quot;longitude&quot;: &quot;169.67826900000000&quot;,
-                &quot;location_id&quot;: 2621,
-                &quot;address&quot;: &quot;461769, Самарская область, город Лотошино, проезд Будапештсткая, 89&quot;,
-                &quot;description&quot;: &quot;Et nesciunt laborum veritatis suscipit ab. Velit suscipit impedit in atque aut nostrum alias. Labore cumque voluptatem dolor laborum pariatur. Molestiae quia necessitatibus quia.&quot;,
-                &quot;materials&quot;: &quot;Voluptate sunt enim incidunt excepturi consectetur sapiente nemo id. Non error a sit enim alias sapiente. Blanditiis sit eum vero. Repudiandae tenetur et laudantium et delectus.&quot;,
-                &quot;phone&quot;: &quot;3081855767&quot;,
-                &quot;email&quot;: &quot;ifedorova@lytkin.ru&quot;,
+                &quot;latitude&quot;: &quot;33.99895900000000&quot;,
+                &quot;longitude&quot;: &quot;-120.61148100000000&quot;,
+                &quot;location_id&quot;: 1906,
+                &quot;address&quot;: &quot;519213, Курганская область, город Солнечногорск, ул. Ленина, 29&quot;,
+                &quot;description&quot;: &quot;Odio nostrum accusantium qui consequatur. Qui tenetur velit ipsum iure earum. Expedita similique recusandae voluptas enim. Sit consequatur non molestiae.&quot;,
+                &quot;materials&quot;: &quot;Dolorum quaerat provident occaecati. At exercitationem exercitationem in ex quia quas. Aspernatur dolore at autem.&quot;,
+                &quot;phone&quot;: &quot;3313715157&quot;,
+                &quot;email&quot;: &quot;faina39@rambler.ru&quot;,
                 &quot;site&quot;: null,
-                &quot;user_id&quot;: 2,
+                &quot;user_id&quot;: 1,
                 &quot;afisha7_id&quot;: null
             }
         ],
@@ -5692,10 +5660,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="text"                data-endpoint="GETapi-sights-search-text"
-               value="tzjumdzyv"
+               value="xd"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 255. Example: <code>tzjumdzyv</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Количество символов в значении поля value не может превышать 255. Example: <code>xd</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>columns</code></b>&nbsp;&nbsp;
@@ -5718,10 +5686,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="page"                data-endpoint="GETapi-sights-search-text"
-               value="amet"
+               value="dolor"
                data-component="body">
     <br>
-<p>Example: <code>amet</code></p>
+<p>Example: <code>dolor</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>limit</code></b>&nbsp;&nbsp;
@@ -5729,10 +5697,10 @@ Must be one of:
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights-search-text"
-               value="6"
+               value="7"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>6</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>7</code></p>
         </div>
         </form>
 
@@ -5792,19 +5760,19 @@ fetch(url, {
     &quot;sights&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 100,
-                &quot;name&quot;: &quot;Illum et ad deleniti natus magnam adipisci.&quot;,
+                &quot;id&quot;: 8,
+                &quot;name&quot;: &quot;Enim eum voluptas et omnis voluptas magnam quisquam.&quot;,
                 &quot;sponsor&quot;: null,
-                &quot;latitude&quot;: &quot;9.76674500000000&quot;,
-                &quot;longitude&quot;: &quot;10.25432900000000&quot;,
-                &quot;location_id&quot;: 264,
-                &quot;address&quot;: &quot;621714, Ленинградская область, город Егорьевск, спуск Бухарестская, 30&quot;,
-                &quot;description&quot;: &quot;Facere et quidem tempore id. Quas omnis voluptatibus est ipsam suscipit quia. Nam sunt consequatur amet asperiores. Quia ex quae et dolorum.&quot;,
-                &quot;materials&quot;: &quot;Consequatur accusantium ad ullam sequi debitis est. Et optio rerum eos corrupti quidem quidem. Ad fugit deserunt voluptate et animi.&quot;,
-                &quot;phone&quot;: &quot;8475688460&quot;,
-                &quot;email&quot;: &quot;veniamin27@hotmail.com&quot;,
+                &quot;latitude&quot;: &quot;42.03272600000000&quot;,
+                &quot;longitude&quot;: &quot;-99.01342800000000&quot;,
+                &quot;location_id&quot;: 394,
+                &quot;address&quot;: &quot;973860, Ленинградская область, город Наро-Фоминск, въезд Гагарина, 49&quot;,
+                &quot;description&quot;: &quot;Est sit voluptas libero id laboriosam libero magnam. Alias veniam explicabo sunt autem. Molestiae nihil minus dolorem voluptatum sed.&quot;,
+                &quot;materials&quot;: &quot;Suscipit temporibus incidunt illum vitae nihil iste. Laborum veritatis atque fugiat nobis. Fuga nobis occaecati fugiat.&quot;,
+                &quot;phone&quot;: &quot;4083702749&quot;,
+                &quot;email&quot;: &quot;bkazakov@ya.ru&quot;,
                 &quot;site&quot;: null,
-                &quot;user_id&quot;: 2,
+                &quot;user_id&quot;: 1,
                 &quot;afisha7_id&quot;: null
             }
         ],
@@ -6173,7 +6141,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"id\": 15
+    \"id\": 3
 }"
 </code></pre></div>
 
@@ -6189,7 +6157,7 @@ const headers = {
 };
 
 let body = {
-    "id": 15
+    "id": 3
 };
 
 fetch(url, {
@@ -6210,19 +6178,19 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;sight.show.success&quot;,
     &quot;sight&quot;: {
-        &quot;id&quot;: 101,
-        &quot;name&quot;: &quot;Sunt sed consequatur nam sunt nemo.&quot;,
+        &quot;id&quot;: 9,
+        &quot;name&quot;: &quot;Sint iusto libero numquam ipsam.&quot;,
         &quot;sponsor&quot;: null,
-        &quot;latitude&quot;: &quot;-14.95114900000000&quot;,
-        &quot;longitude&quot;: &quot;110.26737300000000&quot;,
-        &quot;location_id&quot;: 2582,
-        &quot;address&quot;: &quot;741363, Ленинградская область, город Чехов, пер. Ладыгина, 38&quot;,
-        &quot;description&quot;: &quot;Ducimus et praesentium quia tempore. Amet odit laborum illo. Minus eos illum explicabo.&quot;,
-        &quot;materials&quot;: &quot;Officiis sequi non ratione repellat non. Explicabo expedita illo dolor dolores dolorum rerum. Nesciunt et est expedita suscipit nemo ex.&quot;,
-        &quot;phone&quot;: &quot;3573721351&quot;,
-        &quot;email&quot;: &quot;vasilisa.sitnikov@rambler.ru&quot;,
+        &quot;latitude&quot;: &quot;-35.61506400000000&quot;,
+        &quot;longitude&quot;: &quot;14.58959400000000&quot;,
+        &quot;location_id&quot;: 1044,
+        &quot;address&quot;: &quot;454427, Иркутская область, город Балашиха, наб. Будапештсткая, 32&quot;,
+        &quot;description&quot;: &quot;Repudiandae ipsum dolores recusandae quisquam nisi vel minus laudantium. Ipsum deserunt sunt est id.&quot;,
+        &quot;materials&quot;: &quot;Commodi blanditiis exercitationem enim. Odio ipsam molestias et natus sint. Corrupti nisi magnam qui iusto amet quia.&quot;,
+        &quot;phone&quot;: &quot;1135433083&quot;,
+        &quot;email&quot;: &quot;xfomina@mail.ru&quot;,
         &quot;site&quot;: null,
-        &quot;user_id&quot;: 2,
+        &quot;user_id&quot;: 1,
         &quot;afisha7_id&quot;: null
     }
 }</code>
@@ -6326,10 +6294,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="id"                data-endpoint="GETapi-sights--id-"
-               value="15"
+               value="3"
                data-component="body">
     <br>
-<p>Example: <code>15</code></p>
+<p>Example: <code>3</code></p>
         </div>
         </form>
 
@@ -6350,7 +6318,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 16
+    \"limit\": 9
 }"
 </code></pre></div>
 
@@ -6366,7 +6334,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 16
+    "limit": 9
 };
 
 fetch(url, {
@@ -6389,18 +6357,18 @@ fetch(url, {
     &quot;events&quot;: {
         &quot;data&quot;: [
             {
-                &quot;id&quot;: 103,
-                &quot;name&quot;: &quot;Pariatur quae ea officia et et veniam a earum.&quot;,
-                &quot;sponsor&quot;: &quot;Игнатов Савва Фёдорович&quot;,
-                &quot;date_start&quot;: &quot;2024-10-27 11:33:31&quot;,
-                &quot;date_end&quot;: &quot;2024-11-02 17:47:02&quot;,
-                &quot;description&quot;: &quot;Aperiam occaecati consequatur et. Odio omnis fugit velit et harum. Est officiis facilis molestiae aliquid ut eaque aut.&quot;,
-                &quot;materials&quot;: &quot;Aliquam eum dolore voluptatem reprehenderit. Incidunt et magnam illum fugiat velit perspiciatis. Deleniti minima pariatur nesciunt. Nihil iure dignissimos sit.&quot;,
-                &quot;user_id&quot;: 2,
-                &quot;vk_post_id&quot;: &quot;215014&quot;,
-                &quot;created_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
-                &quot;updated_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
-                &quot;age_limit&quot;: &quot;24&quot;,
+                &quot;id&quot;: 77,
+                &quot;name&quot;: &quot;A consectetur optio enim illum pariatur delectus.&quot;,
+                &quot;sponsor&quot;: &quot;Кудрявцев Всеволод Иванович&quot;,
+                &quot;date_start&quot;: &quot;2024-11-06 09:14:52&quot;,
+                &quot;date_end&quot;: &quot;2024-11-10 01:43:11&quot;,
+                &quot;description&quot;: &quot;Voluptas maiores dolorem iusto suscipit. Qui quas aut veniam nisi. Rerum molestias esse nemo at.&quot;,
+                &quot;materials&quot;: &quot;Est dignissimos id est velit maxime velit aut. Et cumque facere reiciendis autem consequatur. Et repudiandae voluptatem optio asperiores quae. Maxime laboriosam debitis expedita.&quot;,
+                &quot;user_id&quot;: 3,
+                &quot;vk_post_id&quot;: &quot;980021&quot;,
+                &quot;created_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
+                &quot;updated_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
+                &quot;age_limit&quot;: &quot;12&quot;,
                 &quot;afisha7_id&quot;: null
             }
         ],
@@ -6509,10 +6477,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--events"
-               value="16"
+               value="9"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>16</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>9</code></p>
         </div>
         </form>
 
@@ -6798,17 +6766,17 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"name\": \"rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd\",
-    \"coords\": \"ayqorxwgxxlrysqyydhaiys\",
-    \"description\": \"Libero fugit aspernatur repellendus.\",
-    \"type\": \"et\",
-    \"status\": \"est\",
-    \"locationId\": \"necessitatibus\",
-    \"vkGroupId\": \"corrupti\",
-    \"vkPostId\": \"ipsam\",
-    \"phone_number\": \"qbxcxve\",
-    \"email\": \"ambrose32@example.net\",
-    \"site\": \"eos\"
+    \"name\": \"rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz\",
+    \"coords\": \"krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq\",
+    \"description\": \"Et numquam rem occaecati natus dolores in voluptas.\",
+    \"type\": \"natus\",
+    \"status\": \"explicabo\",
+    \"locationId\": \"voluptatibus\",
+    \"vkGroupId\": \"alias\",
+    \"vkPostId\": \"doloremque\",
+    \"phone_number\": \"biinamcky\",
+    \"email\": \"xjohnson@example.net\",
+    \"site\": \"qui\"
 }"
 </code></pre></div>
 
@@ -6824,17 +6792,17 @@ const headers = {
 };
 
 let body = {
-    "name": "rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd",
-    "coords": "ayqorxwgxxlrysqyydhaiys",
-    "description": "Libero fugit aspernatur repellendus.",
-    "type": "et",
-    "status": "est",
-    "locationId": "necessitatibus",
-    "vkGroupId": "corrupti",
-    "vkPostId": "ipsam",
-    "phone_number": "qbxcxve",
-    "email": "ambrose32@example.net",
-    "site": "eos"
+    "name": "rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz",
+    "coords": "krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq",
+    "description": "Et numquam rem occaecati natus dolores in voluptas.",
+    "type": "natus",
+    "status": "explicabo",
+    "locationId": "voluptatibus",
+    "vkGroupId": "alias",
+    "vkPostId": "doloremque",
+    "phone_number": "biinamcky",
+    "email": "xjohnson@example.net",
+    "site": "qui"
 };
 
 fetch(url, {
@@ -6855,19 +6823,19 @@ fetch(url, {
     &quot;status&quot;: &quot;success&quot;,
     &quot;message&quot;: &quot;Событие успешно создано&quot;,
     &quot;sight&quot;: {
-        &quot;id&quot;: 102,
-        &quot;name&quot;: &quot;Magnam amet quibusdam ut dolores id adipisci est.&quot;,
+        &quot;id&quot;: 10,
+        &quot;name&quot;: &quot;Molestias quis sed id a.&quot;,
         &quot;sponsor&quot;: null,
-        &quot;latitude&quot;: &quot;-5.46844800000000&quot;,
-        &quot;longitude&quot;: &quot;-139.08168600000000&quot;,
-        &quot;location_id&quot;: 2173,
-        &quot;address&quot;: &quot;643494, Псковская область, город Кашира, пер. Космонавтов, 88&quot;,
-        &quot;description&quot;: &quot;Et occaecati ut aut amet alias quis. Facere provident a soluta. Ut ea voluptatum voluptatum quo in temporibus voluptatibus qui. Id aut facilis vitae aut ut dolores eos quasi.&quot;,
-        &quot;materials&quot;: &quot;Odio dolorem atque omnis sunt. Sed corrupti est cupiditate et repudiandae. Laborum ex at amet repellat deserunt.&quot;,
-        &quot;phone&quot;: &quot;4174463348&quot;,
-        &quot;email&quot;: &quot;gerasim10@bespalova.ru&quot;,
+        &quot;latitude&quot;: &quot;-47.95283200000000&quot;,
+        &quot;longitude&quot;: &quot;159.91087700000000&quot;,
+        &quot;location_id&quot;: 629,
+        &quot;address&quot;: &quot;600990, Ростовская область, город Павловский Посад, проезд Ладыгина, 32&quot;,
+        &quot;description&quot;: &quot;Minus recusandae velit omnis deleniti. Et et molestiae sed esse praesentium ad.&quot;,
+        &quot;materials&quot;: &quot;Quis provident nulla fugit sed. Qui dolores non excepturi qui amet dolorum quis. Aut doloremque quis ipsam ipsum accusantium. Voluptates debitis itaque iure fuga sunt.&quot;,
+        &quot;phone&quot;: &quot;5027635800&quot;,
+        &quot;email&quot;: &quot;iraklii24@narod.ru&quot;,
         &quot;site&quot;: null,
-        &quot;user_id&quot;: 2,
+        &quot;user_id&quot;: 1,
         &quot;afisha7_id&quot;: null
     }
 }</code>
@@ -6949,10 +6917,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="name"                data-endpoint="POSTapi-sights-create"
-               value="rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd"
+               value="rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 3. Example: <code>rizyrxygywoafembpxljfivsakrzmnviiwjyofcwvtlrmwmbeuurpputqd</code></p>
+<p>Количество символов в поле value должно быть не меньше 3. Example: <code>rmoqjnuicnrnfnybjeqteqmbwqsdgyttgqntvovcobyeyizrenoxmvibbjsbz</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>coords</code></b>&nbsp;&nbsp;
@@ -6960,10 +6928,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="coords"                data-endpoint="POSTapi-sights-create"
-               value="ayqorxwgxxlrysqyydhaiys"
+               value="krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 2. Example: <code>ayqorxwgxxlrysqyydhaiys</code></p>
+<p>Количество символов в поле value должно быть не меньше 2. Example: <code>krokcosbgqeaiecvkqygdokzogfffnhdbqrjgvqxaetoxyaaxlyttjetpragwwwucnudmrvmwrfwfbtkq</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>description</code></b>&nbsp;&nbsp;
@@ -6971,10 +6939,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="description"                data-endpoint="POSTapi-sights-create"
-               value="Libero fugit aspernatur repellendus."
+               value="Et numquam rem occaecati natus dolores in voluptas."
                data-component="body">
     <br>
-<p>Example: <code>Libero fugit aspernatur repellendus.</code></p>
+<p>Example: <code>Et numquam rem occaecati natus dolores in voluptas.</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>type</code></b>&nbsp;&nbsp;
@@ -6982,10 +6950,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="type"                data-endpoint="POSTapi-sights-create"
-               value="et"
+               value="natus"
                data-component="body">
     <br>
-<p>Example: <code>et</code></p>
+<p>Example: <code>natus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>status</code></b>&nbsp;&nbsp;
@@ -6993,10 +6961,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="status"                data-endpoint="POSTapi-sights-create"
-               value="est"
+               value="explicabo"
                data-component="body">
     <br>
-<p>Example: <code>est</code></p>
+<p>Example: <code>explicabo</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>locationId</code></b>&nbsp;&nbsp;
@@ -7004,10 +6972,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="text" style="display: none"
                               name="locationId"                data-endpoint="POSTapi-sights-create"
-               value="necessitatibus"
+               value="voluptatibus"
                data-component="body">
     <br>
-<p>Example: <code>necessitatibus</code></p>
+<p>Example: <code>voluptatibus</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkGroupId</code></b>&nbsp;&nbsp;
@@ -7015,10 +6983,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="vkGroupId"                data-endpoint="POSTapi-sights-create"
-               value="corrupti"
+               value="alias"
                data-component="body">
     <br>
-<p>Example: <code>corrupti</code></p>
+<p>Example: <code>alias</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>vkPostId</code></b>&nbsp;&nbsp;
@@ -7026,10 +6994,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="vkPostId"                data-endpoint="POSTapi-sights-create"
-               value="ipsam"
+               value="doloremque"
                data-component="body">
     <br>
-<p>Example: <code>ipsam</code></p>
+<p>Example: <code>doloremque</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>phone_number</code></b>&nbsp;&nbsp;
@@ -7037,10 +7005,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="phone_number"                data-endpoint="POSTapi-sights-create"
-               value="qbxcxve"
+               value="biinamcky"
                data-component="body">
     <br>
-<p>Количество символов в поле value должно быть не меньше 10. Количество символов в значении поля value не может превышать 11. Example: <code>qbxcxve</code></p>
+<p>Количество символов в поле value должно быть не меньше 10. Количество символов в значении поля value не может превышать 11. Example: <code>biinamcky</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>email</code></b>&nbsp;&nbsp;
@@ -7048,10 +7016,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="email"                data-endpoint="POSTapi-sights-create"
-               value="ambrose32@example.net"
+               value="xjohnson@example.net"
                data-component="body">
     <br>
-<p>Значение поля value должно быть действительным электронным адресом. Example: <code>ambrose32@example.net</code></p>
+<p>Значение поля value должно быть действительным электронным адресом. Example: <code>xjohnson@example.net</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>site</code></b>&nbsp;&nbsp;
@@ -7059,10 +7027,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="text" style="display: none"
                               name="site"                data-endpoint="POSTapi-sights-create"
-               value="eos"
+               value="qui"
                data-component="body">
     <br>
-<p>Example: <code>eos</code></p>
+<p>Example: <code>qui</code></p>
         </div>
                 <div style=" padding-left: 28px;  clear: unset;">
             <b style="line-height: 2;"><code>localFilesImg</code></b>&nbsp;&nbsp;
@@ -7096,7 +7064,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 15
+    \"limit\": 19
 }"
 </code></pre></div>
 
@@ -7112,7 +7080,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 15
+    "limit": 19
 };
 
 fetch(url, {
@@ -7132,12 +7100,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;result&quot;: {
-        &quot;id&quot;: 11,
-        &quot;name&quot;: &quot;Адам Романович Капустин&quot;,
-        &quot;email&quot;: &quot;matvei66@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:41&quot;,
-        &quot;created_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
+        &quot;id&quot;: 14,
+        &quot;name&quot;: &quot;Гусева Зинаида Алексеевна&quot;,
+        &quot;email&quot;: &quot;georgii42@example.org&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:42&quot;,
+        &quot;created_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -7247,10 +7215,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--liked-users"
-               value="15"
+               value="19"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>15</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>19</code></p>
         </div>
         </form>
 
@@ -7271,7 +7239,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 19
+    \"limit\": 24
 }"
 </code></pre></div>
 
@@ -7287,7 +7255,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 19
+    "limit": 24
 };
 
 fetch(url, {
@@ -7307,12 +7275,12 @@ fetch(url, {
 <code class="language-json" style="max-height: 300px;">{
     &quot;status&quot;: &quot;success&quot;,
     &quot;result&quot;: {
-        &quot;id&quot;: 12,
-        &quot;name&quot;: &quot;Антонова Лилия Борисовна&quot;,
-        &quot;email&quot;: &quot;alina.bogdanova@example.com&quot;,
-        &quot;email_verified_at&quot;: &quot;2024-10-25 10:25:41&quot;,
-        &quot;created_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
-        &quot;updated_at&quot;: &quot;2024-10-25T10:25:41.000000Z&quot;,
+        &quot;id&quot;: 15,
+        &quot;name&quot;: &quot;Адам Иванович Туров&quot;,
+        &quot;email&quot;: &quot;ykusev.irina@example.net&quot;,
+        &quot;email_verified_at&quot;: &quot;2024-11-01 05:40:42&quot;,
+        &quot;created_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
+        &quot;updated_at&quot;: &quot;2024-11-01T05:40:42.000000Z&quot;,
         &quot;avatar&quot;: null,
         &quot;deleted_at&quot;: null,
         &quot;number&quot;: null,
@@ -7422,10 +7390,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--favorites-users"
-               value="19"
+               value="24"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>19</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>24</code></p>
         </div>
         </form>
 
@@ -7446,7 +7414,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Content-Type: application/json" \
     --header "Accept: application/json" \
     --data "{
-    \"limit\": 12
+    \"limit\": 5
 }"
 </code></pre></div>
 
@@ -7462,7 +7430,7 @@ const headers = {
 };
 
 let body = {
-    "limit": 12
+    "limit": 5
 };
 
 fetch(url, {
@@ -7484,480 +7452,480 @@ fetch(url, {
             <pre><code class="language-http">cache-control: no-cache, private
 content-type: application/json
 x-ratelimit-limit: 500
-x-ratelimit-remaining: 496
+x-ratelimit-remaining: 497
 vary: Origin
  </code></pre></details>         <pre>
 
 <code class="language-json" style="max-height: 300px;">{
     &quot;message&quot;: &quot;App\\Http\\Controllers\\Api\\SightController::getHistoryContent(): Return value must be of type Illuminate\\Http\\Resources\\Json\\JsonResource, Illuminate\\Http\\JsonResponse returned&quot;,
     &quot;exception&quot;: &quot;TypeError&quot;,
-    &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/app/Http/Controllers/Api/SightController.php&quot;,
+    &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\app\\Http\\Controllers\\Api\\SightController.php&quot;,
     &quot;line&quot;: 206,
     &quot;trace&quot;: [
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Controller.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Controller.php&quot;,
             &quot;line&quot;: 54,
             &quot;function&quot;: &quot;getHistoryContent&quot;,
             &quot;class&quot;: &quot;App\\Http\\Controllers\\Api\\SightController&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/ControllerDispatcher.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php&quot;,
             &quot;line&quot;: 43,
             &quot;function&quot;: &quot;callAction&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Controller&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php&quot;,
             &quot;line&quot;: 259,
             &quot;function&quot;: &quot;dispatch&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\ControllerDispatcher&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Route.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php&quot;,
             &quot;line&quot;: 205,
             &quot;function&quot;: &quot;runController&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Route&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
             &quot;line&quot;: 806,
             &quot;function&quot;: &quot;run&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Route&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 144,
             &quot;function&quot;: &quot;Illuminate\\Routing\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/SubstituteBindings.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\SubstituteBindings.php&quot;,
             &quot;line&quot;: 50,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\SubstituteBindings&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php&quot;,
             &quot;line&quot;: 159,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Middleware/ThrottleRequests.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Middleware\\ThrottleRequests.php&quot;,
             &quot;line&quot;: 90,
             &quot;function&quot;: &quot;handleRequest&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Middleware\\ThrottleRequests&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php&quot;,
             &quot;line&quot;: 25,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 144,
             &quot;function&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\{closure}&quot;,
             &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 119,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/sanctum/src/Http/Middleware/EnsureFrontendRequestsAreStateful.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\sanctum\\src\\Http\\Middleware\\EnsureFrontendRequestsAreStateful.php&quot;,
             &quot;line&quot;: 24,
             &quot;function&quot;: &quot;then&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Laravel\\Sanctum\\Http\\Middleware\\EnsureFrontendRequestsAreStateful&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 119,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
             &quot;line&quot;: 805,
             &quot;function&quot;: &quot;then&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
             &quot;line&quot;: 784,
             &quot;function&quot;: &quot;runRouteWithinStack&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
             &quot;line&quot;: 748,
             &quot;function&quot;: &quot;runRoute&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Routing/Router.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php&quot;,
             &quot;line&quot;: 737,
             &quot;function&quot;: &quot;dispatchToRoute&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
             &quot;line&quot;: 200,
             &quot;function&quot;: &quot;dispatch&quot;,
             &quot;class&quot;: &quot;Illuminate\\Routing\\Router&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 144,
             &quot;function&quot;: &quot;Illuminate\\Foundation\\Http\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/barryvdh/laravel-debugbar/src/Middleware/InjectDebugbar.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\barryvdh\\laravel-debugbar\\src\\Middleware\\InjectDebugbar.php&quot;,
             &quot;line&quot;: 59,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Barryvdh\\Debugbar\\Middleware\\InjectDebugbar&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php&quot;,
             &quot;line&quot;: 21,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ConvertEmptyStringsToNull.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull.php&quot;,
             &quot;line&quot;: 31,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ConvertEmptyStringsToNull&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TransformsRequest.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest.php&quot;,
             &quot;line&quot;: 21,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/TrimStrings.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\TrimStrings.php&quot;,
             &quot;line&quot;: 40,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TransformsRequest&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\TrimStrings&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/ValidatePostSize.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize.php&quot;,
             &quot;line&quot;: 27,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\ValidatePostSize&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Middleware/PreventRequestsDuringMaintenance.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance.php&quot;,
             &quot;line&quot;: 99,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Middleware\\PreventRequestsDuringMaintenance&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/HandleCors.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\HandleCors.php&quot;,
             &quot;line&quot;: 62,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Http\\Middleware\\HandleCors&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Http/Middleware/TrustProxies.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Http\\Middleware\\TrustProxies.php&quot;,
             &quot;line&quot;: 39,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 183,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Http\\Middleware\\TrustProxies&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Pipeline/Pipeline.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Pipeline\\Pipeline.php&quot;,
             &quot;line&quot;: 119,
             &quot;function&quot;: &quot;Illuminate\\Pipeline\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
             &quot;line&quot;: 175,
             &quot;function&quot;: &quot;then&quot;,
             &quot;class&quot;: &quot;Illuminate\\Pipeline\\Pipeline&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Http/Kernel.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Http\\Kernel.php&quot;,
             &quot;line&quot;: 144,
             &quot;function&quot;: &quot;sendRequestThroughRouter&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
             &quot;line&quot;: 310,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Http\\Kernel&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
             &quot;line&quot;: 298,
             &quot;function&quot;: &quot;callLaravelOrLumenRoute&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
             &quot;line&quot;: 91,
             &quot;function&quot;: &quot;makeApiCall&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
             &quot;line&quot;: 44,
             &quot;function&quot;: &quot;makeResponseCall&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Strategies/Responses/ResponseCalls.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Strategies\\Responses\\ResponseCalls.php&quot;,
             &quot;line&quot;: 35,
             &quot;function&quot;: &quot;makeResponseCallIfConditionsPass&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
             &quot;line&quot;: 237,
             &quot;function&quot;: &quot;__invoke&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Strategies\\Responses\\ResponseCalls&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
             &quot;line&quot;: 163,
             &quot;function&quot;: &quot;iterateThroughStrategies&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Extracting/Extractor.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Extracting\\Extractor.php&quot;,
             &quot;line&quot;: 95,
             &quot;function&quot;: &quot;fetchResponses&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
             &quot;line&quot;: 125,
             &quot;function&quot;: &quot;processRoute&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Extracting\\Extractor&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
             &quot;line&quot;: 72,
             &quot;function&quot;: &quot;extractEndpointsInfoFromLaravelApp&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/GroupedEndpoints/GroupedEndpointsFromApp.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\GroupedEndpoints\\GroupedEndpointsFromApp.php&quot;,
             &quot;line&quot;: 50,
             &quot;function&quot;: &quot;extractEndpointsInfoAndWriteToDisk&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/knuckleswtf/scribe/src/Commands/GenerateDocumentation.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\knuckleswtf\\scribe\\src\\Commands\\GenerateDocumentation.php&quot;,
             &quot;line&quot;: 53,
             &quot;function&quot;: &quot;get&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\GroupedEndpoints\\GroupedEndpointsFromApp&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
             &quot;line&quot;: 36,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Knuckles\\Scribe\\Commands\\GenerateDocumentation&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Util.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Util.php&quot;,
             &quot;line&quot;: 41,
             &quot;function&quot;: &quot;Illuminate\\Container\\{closure}&quot;,
             &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
             &quot;type&quot;: &quot;::&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
             &quot;line&quot;: 93,
             &quot;function&quot;: &quot;unwrapIfClosure&quot;,
             &quot;class&quot;: &quot;Illuminate\\Container\\Util&quot;,
             &quot;type&quot;: &quot;::&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/BoundMethod.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\BoundMethod.php&quot;,
             &quot;line&quot;: 35,
             &quot;function&quot;: &quot;callBoundMethod&quot;,
             &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
             &quot;type&quot;: &quot;::&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Container/Container.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php&quot;,
             &quot;line&quot;: 662,
             &quot;function&quot;: &quot;call&quot;,
             &quot;class&quot;: &quot;Illuminate\\Container\\BoundMethod&quot;,
             &quot;type&quot;: &quot;::&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php&quot;,
             &quot;line&quot;: 211,
             &quot;function&quot;: &quot;call&quot;,
             &quot;class&quot;: &quot;Illuminate\\Container\\Container&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/symfony/console/Command/Command.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Command\\Command.php&quot;,
             &quot;line&quot;: 326,
             &quot;function&quot;: &quot;execute&quot;,
             &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Console/Command.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Console\\Command.php&quot;,
             &quot;line&quot;: 180,
             &quot;function&quot;: &quot;run&quot;,
             &quot;class&quot;: &quot;Symfony\\Component\\Console\\Command\\Command&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/symfony/console/Application.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php&quot;,
             &quot;line&quot;: 1096,
             &quot;function&quot;: &quot;run&quot;,
             &quot;class&quot;: &quot;Illuminate\\Console\\Command&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/symfony/console/Application.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php&quot;,
             &quot;line&quot;: 324,
             &quot;function&quot;: &quot;doRunCommand&quot;,
             &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/symfony/console/Application.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\symfony\\console\\Application.php&quot;,
             &quot;line&quot;: 175,
             &quot;function&quot;: &quot;doRun&quot;,
             &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/vendor/laravel/framework/src/Illuminate/Foundation/Console/Kernel.php&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php&quot;,
             &quot;line&quot;: 201,
             &quot;function&quot;: &quot;run&quot;,
             &quot;class&quot;: &quot;Symfony\\Component\\Console\\Application&quot;,
             &quot;type&quot;: &quot;-&gt;&quot;
         },
         {
-            &quot;file&quot;: &quot;/home/moskowpsix/Документы/github_projects/mlcity_backend/artisan&quot;,
+            &quot;file&quot;: &quot;C:\\Users\\PC\\Desktop\\MLC\\mlcity_backend\\artisan&quot;,
             &quot;line&quot;: 35,
             &quot;function&quot;: &quot;handle&quot;,
             &quot;class&quot;: &quot;Illuminate\\Foundation\\Console\\Kernel&quot;,
@@ -8066,10 +8034,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
 <i>optional</i> &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="limit"                data-endpoint="GETapi-sights--id--history-contents"
-               value="12"
+               value="5"
                data-component="body">
     <br>
-<p>Значение поля value не может быть больше 50. Example: <code>12</code></p>
+<p>Значение поля value не может быть больше 50. Example: <code>5</code></p>
         </div>
         </form>
 
@@ -8135,8 +8103,8 @@ fetch(url, {
         &quot;data&quot;: [
             {
                 &quot;id&quot;: null,
-                &quot;latitude&quot;: 85.435047,
-                &quot;longitude&quot;: -29.414127
+                &quot;latitude&quot;: -76.970401,
+                &quot;longitude&quot;: 79.225214
             }
         ],
         &quot;next_cursor&quot;: null,
@@ -8258,7 +8226,7 @@ You can check the Dev Tools console for debugging information.</code></pre>
     --header "Accept: application/json" \
     --data "{
     \"latitude\": -87,
-    \"longitude\": -179
+    \"longitude\": -180
 }"
 </code></pre></div>
 
@@ -8275,7 +8243,7 @@ const headers = {
 
 let body = {
     "latitude": -87,
-    "longitude": -179
+    "longitude": -180
 };
 
 fetch(url, {
@@ -8297,8 +8265,8 @@ fetch(url, {
     &quot;message&quot;: &quot;Точка пользователя успешно добавлена&quot;,
     &quot;points&quot;: {
         &quot;id&quot;: null,
-        &quot;latitude&quot;: 13.981892,
-        &quot;longitude&quot;: -1.060853
+        &quot;latitude&quot;: -39.377155,
+        &quot;longitude&quot;: -148.915759
     }
 }</code>
  </pre>
@@ -8390,10 +8358,10 @@ You can check the Dev Tools console for debugging information.</code></pre>
  &nbsp;
                 <input type="number" style="display: none"
                step="any"               name="longitude"                data-endpoint="POSTapi-users-point"
-               value="-179"
+               value="-180"
                data-component="body">
     <br>
-<p>Значение поля value должно быть между -180 и 180. Example: <code>-179</code></p>
+<p>Значение поля value должно быть между -180 и 180. Example: <code>-180</code></p>
         </div>
         </form>
 
