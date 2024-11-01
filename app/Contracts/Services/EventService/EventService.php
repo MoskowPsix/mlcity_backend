@@ -249,10 +249,10 @@ class EventService implements EventServiceInterface
 
                 }
             }
-            $status = Status::where('name', 'Опубликовано')->first();
+//            $status = Status::where('name', 'Опубликовано')->first();
             $types = explode(",",$data->type[0]);
             $event->types()->sync($types);
-            $event->statuses()->attach($status->id, ['last' => true]);
+            $event->statuses()->attach($data->status, ['last' => true]);
             $event->likes()->create();
 
 
@@ -402,7 +402,7 @@ class EventService implements EventServiceInterface
     {
         $user = auth('api')->user() ?? auth('moonshine')->user();
         $statusId = request()->get("status_id");
-        if (EventService::isUserEvent($Id, $user->id)) {
+        if ($this->isUserEvent($Id, $user->id)) {
             $event = Event::find($Id);
             $this->resetExistedStatusesToLast($event);
             $event->statuses()->attach($statusId, ["last" => True]);
@@ -411,7 +411,8 @@ class EventService implements EventServiceInterface
         }
     }
 
-    private function resetExistedStatusesToLast($event) {
+    private function resetExistedStatusesToLast($event): void
+    {
         $statuses = $event->statuses;
         foreach($statuses as $status) {
             $event->statuses()->updateExistingPivot($status["id"], [

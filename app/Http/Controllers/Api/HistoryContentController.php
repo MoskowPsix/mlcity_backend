@@ -102,8 +102,8 @@ class HistoryContentController extends Controller
 
             # TODO: Убрать когда надо будет
             # Временное решение для принятия изменений сразу!!!
-            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
-            $decisionHistoryContentService->publishAcceptedHistoryContent();
+//            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+//            $decisionHistoryContentService->publishAcceptedHistoryContent();
 
         }
         else if($data["type"] == "Sight"){
@@ -113,8 +113,8 @@ class HistoryContentController extends Controller
 
             # TODO: Убрать когда надо будет
             # Временное решение для принятия изменений сразу!!!
-            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
-            $decisionHistoryContentService->publishAcceptedHistoryContent();
+//            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+//            $decisionHistoryContentService->publishAcceptedHistoryContent();
         }
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent],201);
