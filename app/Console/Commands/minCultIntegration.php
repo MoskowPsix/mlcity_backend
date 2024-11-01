@@ -9,13 +9,12 @@ use App\Models\FileType;
 use App\Models\Location;
 use App\Models\Place;
 use App\Models\Sight;
-use App\Models\SightType;
 use App\Models\Status;
 use App\Models\Timezone;
 use Illuminate\Console\Command;
+use Illuminate\Support\Carbon;
+use Symfony\Component\Console\Helper\ProgressBar;
 use Symfony\Component\Process\Process;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 
 # 21.35
@@ -44,6 +43,8 @@ class minCultIntegration extends Command
 
     private int $numberOfProcess = 10;
 
+    private ProgressBar $bar;
+
     /**
      * Execute the console command.
      *
@@ -51,6 +52,7 @@ class minCultIntegration extends Command
      */
     public function handle()
     {
+//        dd(env('ELASTICSEARCH_ENABLED', false) ? 'y' : 'n');
         if ($this->argument('type') == 'all') {
             if ($this->argument('offset')) {
                 //                print('offset');
@@ -68,18 +70,24 @@ class minCultIntegration extends Command
     private function startInt(): void
     {
         $progress = 0;
-        $total =  json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"2024-06-06"}}&l=1', true, $this->getHeader()))->total;
+        $response =  json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"'.Carbon::now()->format('Y-m-d').'"}}&l=1', true, $this->getHeader()));
+        $total = $response->total;
+
+        $this->bar = $this->output->createProgressBar($total);
         while ($total >= 1) {
             $start_timer = microtime(true);
             $this->startCommands();
             $total = $total - $this->limit * $this->numberOfProcess;
+            $this->bar->advance($this->limit * $this->numberOfProcess);
             $progress = $progress + $this->limit * $this->numberOfProcess;
             $end_time = ((microtime(true) - $start_timer) / 60)  * ($total / 10);
-            info($progress . ' | ' . $total . ' | ' . (int)$end_time . 'min' . "\n");
+            $this->info($progress . ' | ' . $total . ' | ' . (int)$end_time . 'min' . "\n");
         }
+        $this->bar->finish();
     }
     private function startCommands(): void
     {
+        $processes = [];
         for ($i = 0; $i < $this->numberOfProcess; $i++) { // Запускаем команды по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
             $process = new Process(['php', 'artisan', 'integration:min-cult', $this->argument('type'), $this->offset]);
             $process->setTimeout(0);
@@ -100,7 +108,7 @@ class minCultIntegration extends Command
     public function setEvents(): void
     {
         $offset = $this->argument('offset');
-        $response = json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"2024-06-06"}}&l=' . $this->limit . '&s=' . $offset, true, $this->getHeader()));
+        $response = json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"'.Carbon::now()->format('Y-m-d').'"}}&l=' . $this->limit . '&s=' . $offset, true, $this->getHeader()));
         $events = $response->data;
         foreach ($events as $event) {
             $this->saveEvent($event);
@@ -170,7 +178,7 @@ class minCultIntegration extends Command
             'longitude' => $place->address->mapPosition->coordinates[1],
             'timezone_id' => $timezone_id,
         ]);
-        !empty($sight) ? $place_cr->sight()->save($sight) : null;
+        !empty($sight) ? $place_cr->update(['sight_id' => $sight->id]) : null;
         foreach ($seances as $seance) {
             $this->saveSeance($seance, $place_cr);
         }
@@ -189,8 +197,10 @@ class minCultIntegration extends Command
         if(isset($type_name)) {
             $event->types()->attach($type_name['id']);
         } else {
-            info($type->name);
-            $sight_type = EventType::create(['name' => $this->name, 'ico' => 'none']);  // Распределить типы (Типы мест отличаются от наших)
+            $sight_type = EventType::where('name', $type->name);
+            if(!$sight_type->exists()) {
+                $sight_type = EventType::create(['name' => $type->name, 'ico' => 'none']);
+            }
             $event->types()->attach($sight_type->id);
         }
     }

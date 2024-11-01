@@ -2,8 +2,10 @@
 
 namespace App\Contracts\Services\EventService;
 
+use App\Filters\Event\EventSortByCoords;
 use App\Http\Requests\Event\EventCreateRequest;
 use App\Http\Requests\Event\EventForAuthorReqeust;
+use App\Http\Requests\Event\GetEventRequest;
 use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Requests\SearchContentForTextRequest;
@@ -35,6 +37,7 @@ use App\Models\Organization;
 use App\Models\Sight;
 use Elastic\Elasticsearch\Client;
 use Exception;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -76,16 +79,18 @@ class EventService implements EventServiceInterface
 
     public function get($data)
     {
-        $total = 0;
         $page = $data->page;
-        $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
-        $events = Event::query()->with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $limit = $data->limit && ($data->limit < 50)? $data->limit : 10;
+        $events = Event::query()
+            ->with('files', 'author', "types", 'price', 'statuses')
+//            ->simplePaginate()->currentPage()
+            ->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         return app(Pipeline::class)
         ->send($events)
         ->through([
             // EventTotal::class,
-            EventOrderByDateCreate::class,
+//            EventOrderByDateCreate::class,
             EventName::class,
             EventByIds::class,
             EventLikedUserExists::class,
@@ -95,17 +100,18 @@ class EventService implements EventServiceInterface
             EventPlaceLocation::class,
             EventDate::class,
             EventTypes::class,
-            EventPlaceGeoPositionInArea::class,
+//            EventPlaceGeoPositionInArea::class,
             EventSearchText::class,
             EventPlaceAddress::class,
             EventSponsor::class,
             EventAuthorName::class,
             EventAuthorEmail::class,
             SightAuthor::class,
+            EventSortByCoords::class,
         ])
         ->via('apply')
         ->then(function ($events) use ($page, $limit, $data){
-            return $events->cursorPaginate($limit, ['*'], 'page' , $page);
+            return $events->simplePaginate($limit, ['*'], 'page',  $page);
         });
     }
 
@@ -113,7 +119,7 @@ class EventService implements EventServiceInterface
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $events = Event::with('files', 'author', "types", 'price', 'statuses',)->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $events = Event::with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
         if (config('elasticsearch.enabled')) {
             $model = new Event();
             $query = [

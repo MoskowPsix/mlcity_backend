@@ -7,6 +7,7 @@ use App\Filters\Event\EventLikedUserExists;
 use App\Filters\Event\EventName;
 use App\Filters\Event\EventOrderByDateCreate;
 use App\Filters\Event\EventSearchText;
+use App\Filters\Event\EventSortByCoords;
 use App\Filters\Event\EventSponsor;
 use App\Filters\Event\EventStatuses;
 use App\Filters\Event\EventStatusesLast;
@@ -17,6 +18,7 @@ use App\Filters\Sight\SightByIds;
 use App\Filters\Sight\SightEvents;
 use App\Filters\Sight\SightIco;
 use App\Filters\Sight\SightLocation;
+use App\Filters\Sight\SightSortByCoords;
 use App\Filters\Sight\SightTypes;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Requests\SearchContentForTextRequest;
@@ -27,6 +29,7 @@ use App\Models\Event;
 use App\Models\FileType;
 use App\Models\Sight;
 use Elastic\Elasticsearch\Client;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pipeline\Pipeline;
@@ -72,6 +75,7 @@ class SightService implements SightServiceInterface
                 ->send($sights)
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
+                    SightSortByCoords::class,
                     EventOrderByDateCreate::class,
                     EventLikedUserExists::class,
                     EventName::class,
@@ -88,8 +92,8 @@ class SightService implements SightServiceInterface
                     SightByIds::class
                 ])
                 ->via('apply')
-                ->then(function ($sights) use ( $page, $limit){
-                    $sights = $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+                ->then(function ($sights) use ( $page, $limit, $request){
+                    $sights = $sights->cursorPaginate($limit, ['*'], 'page' , $page);
                     return $sights;
                 });
 
@@ -144,8 +148,9 @@ class SightService implements SightServiceInterface
                 // SightIco::class
             ])
             ->via('apply')
-            ->then(function ($sights) {
-                return $sights->get();
+            ->then(function ($sights) use ($request){
+                return $sights
+                        ->get();
             });
     }
     public function getSightsForAuthor(PageANDLimitRequest $request): object

@@ -13,29 +13,29 @@ class ElasticsearchModel extends Model
     {
         parent::boot();
         self::saved(function ($model) {
-            if (!config('elasticsearch.enabled'))
+            if (config('elasticsearch.enabled'))
             {
-                return;
+                $body = $model->toSearchArray();
+                $body['files'] = $model->files()->get()->toArray();
+                resolve(Client::class)->index([
+                    'index' => $model->getSearchIndex(),
+                    'type' => $model->getSearchType(),
+                    'id' => $model->getKey(),
+                    'body' => $body,
+                ]);
             }
-            $body = $model->toSearchArray();
-            $body['files'] = $model->files()->get()->toArray();
-            resolve(Client::class)->index([
-                'index' => $model->getSearchIndex(),
-                'type' => $model->getSearchType(),
-                'id' => $model->getKey(),
-                'body' => $body,
-            ]);
         });
         self::deleted(function ($model) {
             if (!config('elasticsearch.enabled'))
             {
                 return;
+            } else {
+                resolve(Client::class)->delete([
+                    'index' => $model->getSearchIndex(),
+                    'type' => $model->getSearchType(),
+                    'id' => $model->getKey(),
+                ]);
             }
-            resolve(Client::class)->delete([
-                'index' => $model->getSearchIndex(),
-                'type' => $model->getSearchType(),
-                'id' => $model->getKey(),
-            ]);
         });
     }
 }
