@@ -13,8 +13,8 @@ class PlaceGeoPositionInArea implements Pipe {
         if(request()->filled('radius')
             && request()->filled('latitude')
             && request()->filled('longitude')
-            && !request()->filled('position_latitude')
-            && !request()->filled('position_longitude')
+            && !request()->filled('latitude_position')
+            && !request()->filled('longitude_position')
         ){
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));

@@ -33,7 +33,7 @@ class startIntegration extends Command
      */
     public function handle()
     {
-        $limit = 1; // Задаём лимит записей на странице
+        $limit = 100; // Задаём лимит записей на странице
         $url = 'https://www.culture.ru/api/';
 //        $this->getMessage('Setting the settings start');
         if (($this->argument('type') == 'event') && $this->argument('page')) {
