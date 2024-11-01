@@ -90,7 +90,7 @@ class EventService implements EventServiceInterface
         ->send($events)
         ->through([
             // EventTotal::class,
-//            EventOrderByDateCreate::class,
+            EventOrderByDateCreate::class,
             EventName::class,
             EventByIds::class,
             EventLikedUserExists::class,
@@ -100,7 +100,7 @@ class EventService implements EventServiceInterface
             EventPlaceLocation::class,
             EventDate::class,
             EventTypes::class,
-//            EventPlaceGeoPositionInArea::class,
+            EventPlaceGeoPositionInArea::class,
             EventSearchText::class,
             EventPlaceAddress::class,
             EventSponsor::class,

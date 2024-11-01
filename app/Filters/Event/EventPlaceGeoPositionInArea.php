@@ -10,7 +10,11 @@ class EventPlaceGeoPositionInArea implements Pipe {
     public function apply($content, Closure $next)
     {
 //        if(request()->filled('latitudeBounds') && request()->filled('longitudeBounds')){
-        if(request()->filled('radius') && request()->filled('latitude') && request()->filled('longitude')){
+        if(request()->filled('radius') &&
+            request()->filled('latitude') &&
+            request()->filled('longitude') &&
+            !request()->filled('position_longitude') &&
+            !request()->filled('position_latitude')){
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));
 
@@ -35,7 +39,7 @@ class EventPlaceGeoPositionInArea implements Pipe {
 
             if (request()->has('forEventPage')){
                 $content->where('locationId', '!=' , request()->get('locationId'))
-                    ->whereHas('places', function($q) use ($lat_max, $lat_min, $lon_max, $lon_min){ 
+                    ->whereHas('places', function($q) use ($lat_max, $lat_min, $lon_max, $lon_min){
                             $q->where('latitude', '<=', $lat_max)
                             ->where('latitude', '>=', $lat_min)
                             ->where('longitude', '<=',  $lon_max)
