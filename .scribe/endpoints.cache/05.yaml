@@ -86,7 +86,7 @@ endpoints:
         name: code
         description: ''
         required: true
-        example: corporis
+        example: molestiae
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -95,7 +95,7 @@ endpoints:
         name: password
         description: 'Количество символов в поле value должно быть не меньше 8.'
         required: true
-        example: n9dOdSQq5ZS
+        example: '@PXF+egT-'
         type: string
         enumValues: []
         exampleWasSpecified: false
@@ -104,15 +104,15 @@ endpoints:
         name: password_confirmation
         description: 'The value and <code>password</code> must match.'
         required: true
-        example: saepe
+        example: enim
         type: string
         enumValues: []
         exampleWasSpecified: false
         custom: []
     cleanBodyParameters:
-      code: corporis
-      password: n9dOdSQq5ZS
-      password_confirmation: saepe
+      code: molestiae
+      password: '@PXF+egT-'
+      password_confirmation: enim
     fileParameters: []
     responses:
       -
