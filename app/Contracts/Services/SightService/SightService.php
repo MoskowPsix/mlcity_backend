@@ -93,7 +93,7 @@ class SightService implements SightServiceInterface
                 ])
                 ->via('apply')
                 ->then(function ($sights) use ( $page, $limit, $request){
-                    $sights = $sights->cursorPaginate($limit, ['*'], 'page' , $page);
+                    $sights = $sights->simplePaginate($limit, ['*'], 'page' , $page);
                     return $sights;
                 });
 

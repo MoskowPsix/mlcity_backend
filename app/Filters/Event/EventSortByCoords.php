@@ -26,15 +26,15 @@ class EventSortByCoords implements Pipe
 //                    ->orderBy('distance')
 //                    ->limit(1);
 //            }]);
-            $content->with(['places' => function($query) use ($latitude, $longitude) {
-                $query->select('id', 'event_id', 'latitude', 'longitude')
-                    ->selectRaw('(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance', [$latitude, $longitude, $latitude])
-                    ->orderBy('distance');
-            }])->distinct();
+//            $content->with(['places' => function($query) use ($latitude, $longitude) {
+//                $query->select('id', 'event_id', 'latitude', 'longitude')
+//                    ->selectRaw('(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance', [$latitude, $longitude, $latitude])
+//                    ->orderBy('distance');
+//            }])->distinct();
             // Выбираем только первое местоположение для каждого события(Для отладки)
-//            $content->selectRaw(DB::raw('(SELECT (6371 * acos(cos(radians(?)) * cos(radians(p.latitude)) * cos(radians(p.longitude) - radians(?)) + sin(radians(?)) * sin(radians(p.latitude))))
-//                          FROM places p WHERE p.event_id = events.id ORDER BY (6371 * acos(cos(radians(?)) * cos(radians(p.latitude)) * cos(radians(p.longitude) - radians(?)) + sin(radians(?)) * sin(radians(p.latitude)))) LIMIT 1) as distance'), [$latitude, $longitude, $latitude, $latitude, $longitude, $latitude])
-//                ->orderBy('distance');
+            $content->selectRaw(DB::raw('(SELECT (6371 * acos(cos(radians(?)) * cos(radians(p.latitude)) * cos(radians(p.longitude) - radians(?)) + sin(radians(?)) * sin(radians(p.latitude))))
+                          FROM places p WHERE p.event_id = events.id ORDER BY (6371 * acos(cos(radians(?)) * cos(radians(p.latitude)) * cos(radians(p.longitude) - radians(?)) + sin(radians(?)) * sin(radians(p.latitude)))) LIMIT 1) as distance'), [$latitude, $longitude, $latitude, $latitude, $longitude, $latitude])
+                ->orderBy('distance')->distinct();
 
         }
         return $next($content);

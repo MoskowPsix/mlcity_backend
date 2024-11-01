@@ -25,7 +25,7 @@ class GetSightsRequest extends FormRequest
     {
         return [
             'pagination'        => 'nullable|string|in:true',
-            'page'              => 'nullable|string|min:1',
+            'page'              => 'nullable|integer|min:1',
             'limit'             => 'nullable|integer|min:1|max:50',
             'order'             => 'nullable|string',
             'userId'            => 'nullable|integer|exists:users,id',

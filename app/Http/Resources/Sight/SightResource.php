@@ -20,6 +20,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string    $site
  * @property string    $email
  * @property string    $phone_number
+ * @property double $distance
  */
 class SightResource extends JsonResource
 {
@@ -46,6 +47,7 @@ class SightResource extends JsonResource
             'site'              => $this->site,
             'user_id'           => $this->user_id,
             'afisha7_id'        => $this->afisha7_id,
+            'distance'          => $this->when(!empty($this->distance), $this->distance),
             'types'             => $this->whenLoaded('types'),
             'statuses'          => $this->whenLoaded('statuses'),
             'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),

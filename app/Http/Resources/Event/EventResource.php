@@ -18,9 +18,12 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property string $created_at
  * @property string $updated_at
  * @property int $age_limit
+ * @property int $afisha7_id
+ * @property double $distance
  */
 class EventResource extends JsonResource
 {
+
     /**
      * Transform the resource into an array.
      *
@@ -43,6 +46,7 @@ class EventResource extends JsonResource
             'updated_at'        => $this->updated_at,
             'age_limit'         => $this->age_limit,
             'afisha7_id'        => $this->afisha7_id,
+            'distance'          => $this->when(!empty($this->distance), $this->distance),
             'statuses'          => $this->whenLoaded('statuses'),
             'files'             => $this->whenLoaded('files'),
             'author'            => $this->whenLoaded('author'),
