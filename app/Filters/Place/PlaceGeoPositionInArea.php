@@ -10,7 +10,12 @@ class PlaceGeoPositionInArea implements Pipe {
     public function apply($content, Closure $next)
     {
 //        if(request()->filled('latitudeBounds') && request()->filled('longitudeBounds')){
-        if(request()->filled('radius') && request()->filled('latitude') && request()->filled('longitude')){
+        if(request()->filled('radius')
+            && request()->filled('latitude')
+            && request()->filled('longitude')
+            && !request()->filled('position_latitude')
+            && !request()->filled('position_longitude')
+        ){
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));
 
