@@ -17,7 +17,7 @@ class startIntegration extends Command
      *
      * @var string
      */
-    protected $signature = 'integration {type?} {page?}';
+    protected $signature = 'integration:culture {type?} {page?}';
 
     /**
      * The console command description.
@@ -33,7 +33,7 @@ class startIntegration extends Command
      */
     public function handle()
     {
-        $limit = 100; // Задаём лимит записей на странице
+        $limit = 10; // Задаём лимит записей на странице
         $url = 'https://www.culture.ru/api/';
 //        $this->getMessage('Setting the settings start');
         if (($this->argument('type') == 'event') && $this->argument('page')) {
@@ -44,12 +44,14 @@ class startIntegration extends Command
             // sight задаём page и total если пришли аргументы
             $page_sight = $this->argument('page') ? $this->argument('page') : 1;
             $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
-        } else {
+        } else if($this->argument('type') == 'all'){
             // Если не пришли аргументы то устанавливаем стартовые значения для всех
             $page_event = 1;
             $page_sight = 1;
 //            $total_event = json_decode(file_get_contents($url.'events?page='.$page_event.'&limit='.$limit, true))->pagination->total;
             $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
+        } else {
+            $this->error('Invalid argument');
         }
         $this->getMessage('Setting the settings end');
 

@@ -38,7 +38,7 @@ class addEvents extends Command
     private int $offset = 0;
     private array $genres;
 
-    private string $url = 'https://www.culture.ru/api/';
+    private string $url = 'https://www.culture.ru/api-next/';
 
     /**
      * Execute the console command.
@@ -59,7 +59,7 @@ class addEvents extends Command
         }
         return 0;
     }
-    private function  getPageEvent($page_events, $limit_events): void
+    private function  getPageEvent($page_events, $limit_events, $i = 0): void
     {
         try
         {
@@ -67,7 +67,7 @@ class addEvents extends Command
             $status= Status::where('name', 'Опубликовано')->firstOrFail();
             $start = Carbon::now()->toIso8601ZuluString();
             $end = Carbon::now()->addYear(1)->toIso8601ZuluString();
-            $events = json_decode(file_get_contents("$this->url/atlas/events?offset=$this->offset&limit=$limit_events&startDateFrom=$start&startDateTo=$end", true));
+            $events = json_decode(file_get_contents($this->url . "atlas/events?offset=$this->offset&limit=$limit_events&startDateFrom=$start&startDateTo=$end", true));
             if (count($events) == 0) {
                 throw new Exception('No events');
             }
@@ -75,35 +75,33 @@ class addEvents extends Command
                 if (!Event::where('cult_id', $event->_id)->first()) {
                     $event = json_decode(file_get_contents($this->url . 'events/' . $event->_id, true));
                     $event_cr = $this->saveEvent($event);
-                    if (isset($event->price)){
-                        switch (true) {
-                            case ($event->price->min === 0) && ($event->price->max === 0):
-                                $event_cr->prices()->create([
-                                    'cost_rub' => 0,
-                                ]);
-                                break;
-                            case $event->price->min === 0:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => 0,
-                                ]);
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                            case $event->price->min === $event->price->max:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                            default:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->min,
-                                ]);
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                        }
+                    switch (true) {
+                        case ($event->priceMin === 0) && ($event->priceMax === 0):
+                            $event_cr->prices()->create([
+                                'cost_rub' => 0,
+                            ]);
+                            break;
+                        case $event->priceMin === 0:
+                            $event_cr->prices()->create([
+                                'cost_rub' => 0,
+                            ]);
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
+                        case $event->priceMin === $event->priceMax:
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
+                        default:
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMin,
+                            ]);
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
                     }
 
                     foreach ($event->places as $place) {
@@ -134,7 +132,6 @@ class addEvents extends Command
                     }
 
                     foreach ($event->genres as $genre) {
-//                        uuuuu
                         $current_type = (new CurrentType($genre->title))->getType();
                         if(isset($current_type['id'])) {
                             $event_cr->types()->attach($current_type['id']);
@@ -159,9 +156,13 @@ class addEvents extends Command
                 }
             }
         }  catch (Exception $e) {
-            Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.$e->getMessage());
-            sleep(3);
-            $this->getPageEvent($page_events, $limit_events);
+            if ($i < 4) {
+                Log::error($e);
+                sleep(3);
+                $this->getPageEvent($page_events, $limit_events, $i);
+            } else {
+                Log::error('Ошибка при получении страницы events более 3 раз(page=' . $page_events . ', offset=' . $limit_events . '): ' . $e->getMessage());
+            }
         }
     }
     private function saveEvent(object $event): Event
