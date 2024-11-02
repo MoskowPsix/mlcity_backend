@@ -54,7 +54,7 @@ class startIntegration extends Command
         }else if($this->argument('type') == 'delete'){
             $bar = $this->output->createProgressBar(Event::whereNotNull('cult_id')->count());
 
-            Event::query()->orderBy('id')->chunk(1000, function ($event) use($bar) {
+            Event::whereNotNull('cult_id')->chunk(1000, function ($event) use($bar) {
                 $event->each(function($event) use($bar) {
                     if(isset($event->cult_id)) {
                         $event->delete();
