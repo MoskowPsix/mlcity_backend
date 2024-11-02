@@ -33,10 +33,6 @@ class delDubleType extends Command
      */
     public function handle()
     {
-        dd(Place::where('id', 1)->first()->timezones()->first()->UTC);
-//        dd(explode('+', Timezone::first()->UTC)[1]);
-        dd(Carbon::make("2024-11-04T13:30:00.000Z")->addHour(explode('+', Timezone::first()->UTC)[1]));
-        ini_set('memory_limit', '2048M');
         $bar = $this->output->createProgressBar(Sight::query()->count());
         Sight::query()->orderBy('id')->chunk(1000, function ($sight) use($bar) {
             $sight->each(function($sight) use($bar) {
