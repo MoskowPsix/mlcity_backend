@@ -3,8 +3,11 @@
 namespace App\Console\Commands;
 
 use App\Models\Event;
+use App\Models\Place;
 use App\Models\Sight;
 use App\Models\Status;
+use App\Models\Timezone;
+use Carbon\Carbon;
 use Illuminate\Console\Command;
 
 class delDubleType extends Command
@@ -30,6 +33,9 @@ class delDubleType extends Command
      */
     public function handle()
     {
+        dd(Place::where('id', 1)->first()->timezones()->first()->UTC);
+//        dd(explode('+', Timezone::first()->UTC)[1]);
+        dd(Carbon::make("2024-11-04T13:30:00.000Z")->addHour(explode('+', Timezone::first()->UTC)[1]));
         ini_set('memory_limit', '2048M');
         $bar = $this->output->createProgressBar(Sight::query()->count());
         Sight::query()->orderBy('id')->chunk(1000, function ($sight) use($bar) {

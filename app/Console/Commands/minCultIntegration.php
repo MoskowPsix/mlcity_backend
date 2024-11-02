@@ -130,22 +130,23 @@ class minCultIntegration extends Command
     private function saveEvent($event): void
     {
         if (!Event::where('min_cult_id', $event->data->general->id)->exists()) {
-            $event_cr = Event::create([
-                'name' => $event->nativeName,
-                'description' => $event->data->general->description,
-                'materials' => isset($event->data->general->saleLink) ? $event->data->general->saleLink : null,
-                'date_start' => $event->data->general->start,
-                'date_end' => $event->data->general->end,
-                'user_id' => 1,
-                'min_cult_id' => $event->data->general->id,
-            ]);
             $sight = Sight::create([
                 "name" => $event->nativeName,
                 "address" => "",
                 "description" => "",
                 "user_id" => 1,
             ]);
-            $sight->organization()->create();
+            $org = $sight->organization()->create();
+            $event_cr = Event::create([
+                'name'              => $event->nativeName,
+                'description'       => $event->data->general->description,
+                'materials'         => isset($event->data->general->saleLink) ? $event->data->general->saleLink : null,
+                'date_start'        => $event->data->general->start,
+                'date_end'          => $event->data->general->end,
+                'user_id'           => 1,
+                'min_cult_id'       => $event->data->general->id,
+                'organization_id'   =>$org->id,
+            ]);
             $event = $event->data->general;
             $this->saveType($event->category, $event_cr);
 

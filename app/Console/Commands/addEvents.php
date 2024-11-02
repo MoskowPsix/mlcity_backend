@@ -105,7 +105,7 @@ class addEvents extends Command
                     }
 
                     foreach ($event->places as $place) {
-                        $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
+                        $timezone = Timezone::where("name", $place->locale->timezone)->first();
                         if (isset($place->institute)) {
                             $sight = Sight::where('cult_id', $place->institute->_id)->first();
                             $sight ? $sight_id = $sight->id : $sight_id = null;
@@ -116,7 +116,7 @@ class addEvents extends Command
                                 'latitude'      => $place->location->coordinates[1],
                                 'longitude'     => $place->location->coordinates[0],
                                 'sight_id'      => $sight_id,
-                                'timezone_id'   => $timezone,
+                                'timezone_id'   => $timezone->id,
                             ]);
                         }
                     }
@@ -125,8 +125,8 @@ class addEvents extends Command
                         $place_s = Place::where('cult_id', $seance->placeId)->first();
                         if (isset($place_s)) {
                             $place_s->seances()->create([
-                                'date_start' => $seance->startDate,
-                                'date_end' => $seance->endDate
+                                'date_start' => Carbon::make($seance->startDate)->addHour(explode('+', $place_s->timezones()->first()->UTC)[1]),
+                                'date_end' => Carbon::make($seance->endDate)->addHour(explode('+', $place_s->timezones()->first()->UTC)[1])
                             ]);
                         }
                     }
@@ -156,6 +156,7 @@ class addEvents extends Command
                 }
             }
         }  catch (Exception $e) {
+            dd($e);
             if ($i < 4) {
                 Log::error($e);
                 sleep(3);
@@ -167,16 +168,24 @@ class addEvents extends Command
     }
     private function saveEvent(object $event): Event
     {
-        return Event::create([
-            'name'          => $event->title,
-            'sponsor'       => 'culture.ru',
-            'description'   => strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text)),
-            'materials'     => $event->saleLink,
-            'date_start'    => $event->startDate,
-            'date_end'      => $event->endDate,
-            'user_id'       => 1,
-            'cult_id'       => $event->_id,
-            'age_limit'     => $event->ageRestriction ?? '',
+        $sight = Sight::create([
+            "name" => $event->title,
+            "address" => "",
+            "description" => "",
+            "user_id" => 1,
+        ]);
+        $org = $sight->organization()->create();
+        return  Event::create([
+            'name'              => $event->title,
+            'sponsor'           => 'culture.ru',
+            'description'       => strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text)),
+            'materials'         => $event->saleLink,
+            'date_start'        => $event->startDate,
+            'date_end'          => $event->endDate,
+            'user_id'           => 1,
+            'cult_id'           => $event->_id,
+            'age_limit'         => $event->ageRestriction ?? '',
+            'organization_id'   => $org->id
         ]);
     }
 }
