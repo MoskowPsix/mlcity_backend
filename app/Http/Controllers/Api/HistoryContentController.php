@@ -102,19 +102,25 @@ class HistoryContentController extends Controller
 
             # TODO: Убрать когда надо будет
             # Временное решение для принятия изменений сразу!!!
-//            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
-//            $decisionHistoryContentService->publishAcceptedHistoryContent();
+            # Разрешено толко для root пользователей
+            if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')){
+                $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+                $decisionHistoryContentService->publishAcceptedHistoryContent();
+            }
 
         }
-        else if($data["type"] == "Sight"){
+        else if($data["type"] == "Sight") {
             $sightHistoryContentService = new SightHistoryContentService($data["history_content"]);
             $historyContent = $sightHistoryContentService->storeHistoryContentWithAllData($data["history_content"], $data["id"], $status_id);
 
 
             # TODO: Убрать когда надо будет
             # Временное решение для принятия изменений сразу!!!
-//            $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
-//            $decisionHistoryContentService->publishAcceptedHistoryContent();
+            # Разрешено толко для root пользователей
+            if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')){
+                $decisionHistoryContentService = new DecisionHistoryContentService($historyContent->id);
+                $decisionHistoryContentService->publishAcceptedHistoryContent();
+            }
         }
 
         return response()->json(["status"=>"success", "history_content"=>$historyContent],201);

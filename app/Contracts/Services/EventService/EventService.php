@@ -249,11 +249,16 @@ class EventService implements EventServiceInterface
 
                 }
             }
-//            $status = Status::where('name', 'Опубликовано')->first();
             $types = explode(",",$data->type[0]);
             $event->types()->sync($types);
-            $event->statuses()->attach($data->status, ['last' => true]);
-            $event->likes()->create();
+            if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) {
+                $status = Status::where('name', 'Опубликовано')->first();
+                $event->statuses()->attach($status->id, ['last' => true]);
+                $event->likes()->create();
+            } else {
+                $event->statuses()->attach($data->status, ['last' => true]);
+                $event->likes()->create();
+            }
 
 
             if ($data->vkFilesImg){
