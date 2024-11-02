@@ -120,6 +120,6 @@ class Sight extends ElasticsearchModel
     public function  organization()
     {
         return $this->hasOne(Organization::class);
-        App\Models\Sight::whereHas('types', function($q) {return $q->where('stypes.name', 'Архитектурные');})->get()->events()->count();
+//        App\Models\Sight::whereHas('types', function($q) {return $q->where('stypes.name', 'Архитектурные');})->get()->events()->count();
     }
 }
