@@ -115,38 +115,78 @@ class EventService implements EventServiceInterface
         });
     }
 
+
     public function getSearchText(SearchContentForTextRequest $request): object
     {
+        $query = [
+            'bool' => [
+                'must' => [],
+                'filter' => []
+            ]
+        ];
+
         $page = $request->page;
-        $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $events = Event::with('files', 'author', "types", 'price', 'statuses')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 6;
+
+        $events = Event::with('files', 'author', "types", 'price', 'statuses')
+            ->withCount('likedUsers', 'favoritesUsers', 'comments');
+
         if (config('elasticsearch.enabled')) {
-            $model = new Event();
-            $query = [
-                'query' => [
+            $dateStart = $request->dateStart;
+            $dateEnd = $request->dateEnd;
+
+//            if ($dateStart || $dateEnd) {
+//                $range = [];
+//
+//                if ($dateStart) {
+//                    $range['gte'] = $dateStart;
+//                }
+//
+//                if ($dateEnd) {
+//                    $range['lte'] = $dateEnd;
+//                }
+//
+//                $query['bool']['filter'][] = [
+//                    'range' => [
+//                        'date_start' => $range,
+//                    ]
+//                ];
+//            }
+
+            if ($request->text) {
+                $query['bool']['must'][] = [
                     'query_string' => [
                         'fields' => $request->columns,
                         'query' => $request->text . '*',
                         'default_operator' => 'and',
-                    ],
-                ],
-                '_source' => ['id']
-            ];
-            $items = $this->elasticsearch->search([
+                    ]
+                ];
+            }
+
+            $model = new Event();
+            $searchParams = [
                 'index' => $model->getSearchIndex(),
                 'type' => $model->getSearchType(),
-                'body' => $query,
-            ])->asArray();
+                'body' => [
+                    'query' => $query,
+                    '_source' => ['id']
+                ],
+            ];
+
+            $items = $this->elasticsearch->search($searchParams)->asArray();
+
             $events_ids = [];
             foreach ($items['hits']['hits'] as $item) {
                 $events_ids[] = $item['_source']['id'];
             }
+
             $events = $events->whereIn('id', $events_ids);
         } else {
-            foreach($request->columns as $column) {
+            foreach ($request->columns as $column) {
                 $events = $events->orWhere($column, 'ilike', "%$request->text%");
             }
         }
+
         return $events->cursorPaginate($limit, ['*'], 'page', $page);
     }
 

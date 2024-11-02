@@ -26,6 +26,8 @@ class SearchContentForTextRequest extends FormRequest
             'text'      => 'required|min:3|max:255|string',
             'columns'   => 'required|array|min:1|max:10',
             'columns.*' => 'required|string|in:name,description',
+            'dateStart' => 'nullable|date',
+            'dateEnd' => 'nullable|date',
             'page' => 'nullable|string',
             'limit' => 'nullable|integer|max:50'
         ];
