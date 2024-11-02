@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Event;
 use App\Models\Sight;
 use DateTime;
 use Illuminate\Console\Command;
@@ -44,12 +45,24 @@ class startIntegration extends Command
             // sight задаём page и total если пришли аргументы
             $page_sight = $this->argument('page') ? $this->argument('page') : 1;
             $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
-        } else if($this->argument('type') == 'all'){
+        } else if($this->argument('type') == 'all') {
             // Если не пришли аргументы то устанавливаем стартовые значения для всех
             $page_event = 1;
             $page_sight = 1;
 //            $total_event = json_decode(file_get_contents($url.'events?page='.$page_event.'&limit='.$limit, true))->pagination->total;
-            $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
+            $total_sight = json_decode(file_get_contents($url . 'institutes?page=' . $page_sight . '&limit=' . $limit, true))->pagination->total;
+        }else if($this->argument('type') == 'delete'){
+            $bar = $this->output->createProgressBar(Event::whereNotNull('cult_id')->count());
+
+            Event::query()->orderBy('id')->chunk(1000, function ($event) use($bar) {
+                $event->each(function($event) use($bar) {
+                    if(isset($event->cult_id)) {
+                        $event->delete();
+                        $bar->advance();
+                    }
+                });
+            });
+
         } else {
             $this->error('Invalid argument');
         }
@@ -61,10 +74,12 @@ class startIntegration extends Command
         } else if($this->argument('type') == 'sight') {
             // sight
             $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
-        } else {
+        } else if($this->argument('type') == 'sight') {
             // all
             $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
             $this->saveIntegration($page_event, $limit, 1, 'event');
+        } else if($this->argument('type') == 'delete') {
+            $this->info('Delete events success!');
         }
 
         return 0;
