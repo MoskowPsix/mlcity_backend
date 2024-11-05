@@ -42,13 +42,13 @@ use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
+use App\Http\Resources\Event\addView\AddViewResource;
+use App\Http\Resources\Event\addView\ErrorAddViewResource;
 
 #[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
 {
-    public function __construct(private readonly EventServiceInterface $eventService)
-    {
-    }
+    public function __construct(private readonly EventServiceInterface $eventService) {}
 
     #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
     #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
@@ -172,6 +172,7 @@ class EventController extends Controller
     }
 
 
+
     #[Authenticated]
     #[Endpoint(title: 'getHistoryContent', description: 'Получить объект истории. Метод доступен только модерам.')]
     public function getHistoryContent(Request $request, $id)
@@ -220,15 +221,24 @@ class EventController extends Controller
     #[Authenticated]
     #[ResponseFromApiResource(SuccessDeleteEventResource::class)]
     #[ResponseFromApiResource(WarningDeleteEventResource::class, null, 400)]
-
     #[Endpoint(title: 'delete', description: 'Удаление мероприятия.')]
     public function delete(int $id)
     {
         $response = $this->eventService->delete($id);
-        if($response){
+        if ($response) {
             return new SuccessDeleteEventResource([]);
         } else {
             return new WarningDeleteEventResource([]);
+        }
+    }
+
+    public function addViewEvent(int $id)
+    {
+        $res = $this->eventService->addView($id);
+        if ($res) {
+            return new AddViewResource([]);
+        } else {
+            return new ErrorAddViewResource([]);
         }
     }
 }
