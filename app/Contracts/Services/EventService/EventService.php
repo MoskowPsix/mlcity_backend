@@ -62,7 +62,7 @@ class EventService implements EventServiceInterface
 
     public function getById(int $id): Event
     {
-        $event = Event::query()->where('id', $id)->with('price', 'types', 'files', 'statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $event = Event::query()->where('id', $id)->with('price', 'types', 'files', 'statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments', 'viewsUsers');
         $response =
             app(Pipeline::class)
             ->send($event)
@@ -82,7 +82,7 @@ class EventService implements EventServiceInterface
         $page = $data->page;
         $limit = $data->limit && ($data->limit < 50) ? $data->limit : 10;
         $events = Event::query()
-            ->with('files', 'author', "types", 'price', 'statuses')
+            ->with('files', 'author', "types", 'price', 'statuses','viewCount')
             //            ->simplePaginate()->currentPage()
             ->withCount('likedUsers', 'favoritesUsers', 'comments');
 
@@ -474,17 +474,21 @@ class EventService implements EventServiceInterface
     {
         try {
             $event = Event::findOrFail($id);
-            $views = $event->viewsUsers()->where('event_id', $id)->get();
-            if ($views->count()) {
-                echo $views;
+            if ($event->viewsUsers()->where('user_id', auth('api')->user()->id)->exists()) {
                 return false;
-            } else {
-                $event->viewsUsers()->create([
-                    'user_id' => auth('api')->user()->id,
-                    'time_view' => 1,
-                ]);
-                return true;
             }
+
+            $event->viewsUsers()->create([
+                'user_id' => auth('api')->user()->id,
+                'time_view' => 1,
+            ]);
+            if ($event->viewCount()->exists()) {
+                $event->viewCount()->increment('count');
+            } else {
+                $event->viewCount()->create(['count' => 1]);
+            }
+
+            return true;
         } catch (Exception $e) {
             return false;
         }

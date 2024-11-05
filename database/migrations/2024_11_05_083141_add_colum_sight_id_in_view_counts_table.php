@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('view_counts', function (Blueprint $table) {
-            $table->foreignId('sight_id')->references('id')->on('sights')->cascadeOnDelete()->nullable();
+            $table->foreignId('sight_id')->nullable()->references('id')->on('sights')->cascadeOnDelete()->nullable();
             $table->bigInteger('event_id')->nullable()->change();
         });
     }

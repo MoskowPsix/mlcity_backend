@@ -19,4 +19,9 @@ class ErrorAddViewResource extends JsonResource
             'message' => __('messages.event.add_view.error'),
         ];
     }
+
+    public function withResponse($request, $response)
+    {
+        $response->setStatusCode(400);
+    }
 }
