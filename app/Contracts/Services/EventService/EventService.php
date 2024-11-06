@@ -35,6 +35,7 @@ use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
 use App\Models\Sight;
+use Carbon\Carbon;
 use Elastic\Elasticsearch\Client;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -132,8 +133,8 @@ class EventService implements EventServiceInterface
             ->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         if (config('elasticsearch.enabled')) {
-            $dateStart = $request->dateStart;
-            $dateEnd = $request->dateEnd;
+            $dateStart = Carbon::now();
+            $dateEnd = $dateStart->addYear(3);
 
             if ($dateStart || $dateEnd) {
                 $range = [];
@@ -148,7 +149,7 @@ class EventService implements EventServiceInterface
 
                 $query['bool']['filter'][] = [
                     'range' => [
-                        'date_start' => $range,
+                        'date_end' => $range,
                     ]
                 ];
             }
