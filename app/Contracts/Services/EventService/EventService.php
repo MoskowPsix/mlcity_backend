@@ -380,7 +380,7 @@ class EventService implements EventServiceInterface
         return Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
     }
 
-    public function getEventUserLiked(int $id, PageANDLimitRequest $request): User
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 10;
@@ -402,7 +402,7 @@ class EventService implements EventServiceInterface
 //            ->withPath($request->url());
     }
 
-    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): User
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50) ? $request->limit : 10;

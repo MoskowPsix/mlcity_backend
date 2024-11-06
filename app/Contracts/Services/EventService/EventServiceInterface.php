@@ -24,8 +24,8 @@ interface EventServiceInterface
     public function checkLiked(int $id): bool;
     public function checkFavorite(int $id): bool;
     public function showForMap(int $id): Event;
-    public function getEventUserLiked(int $id, PageANDLimitRequest $request): User;
-    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): User;
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object;
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object;
     public function getOrganizationOfEvent($id);
     public function addStatus(int $Id);
     public function delete(int $Id): bool;
