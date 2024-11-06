@@ -31,6 +31,7 @@ class Event extends ElasticsearchModel
         'organization_id',
         'age_limit',
     ];
+    protected array $dates = ['date_start', 'date_end'];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {

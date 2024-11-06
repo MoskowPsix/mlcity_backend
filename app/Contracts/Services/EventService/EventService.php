@@ -135,23 +135,23 @@ class EventService implements EventServiceInterface
             $dateStart = $request->dateStart;
             $dateEnd = $request->dateEnd;
 
-//            if ($dateStart || $dateEnd) {
-//                $range = [];
-//
-//                if ($dateStart) {
-//                    $range['gte'] = $dateStart;
-//                }
-//
-//                if ($dateEnd) {
-//                    $range['lte'] = $dateEnd;
-//                }
-//
-//                $query['bool']['filter'][] = [
-//                    'range' => [
-//                        'date_start' => $range,
-//                    ]
-//                ];
-//            }
+            if ($dateStart || $dateEnd) {
+                $range = [];
+
+                if ($dateStart) {
+                    $range['gte'] = $dateStart;
+                }
+
+                if ($dateEnd) {
+                    $range['lte'] = $dateEnd;
+                }
+
+                $query['bool']['filter'][] = [
+                    'range' => [
+                        'date_start' => $range,
+                    ]
+                ];
+            }
 
             if ($request->text) {
                 $query['bool']['must'][] = [

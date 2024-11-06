@@ -18,23 +18,23 @@ class SightFile extends Model
         'link',
         'local'
     ];
-
-    public static function boot(): void
-    {
-        parent::boot();
-        self::saved(function (Model $model) {
-            if(config('elasticsearch.enabled')) {
-
-                $event = Sight::with('files')->find($model->sight_id)->toArray();
-                resolve(Client::class)->index([
-                    'index' => 'sight',
-                    'type' => '_doc',
-                    'id' => $model->sight_id,
-                    'body' => $event,
-                ]);
-            }
-        });
-    }
+//    Если нужны файлы в elastic
+//    public static function boot(): void
+//    {
+//        parent::boot();
+//        self::saved(function (Model $model) {
+//            if(config('elasticsearch.enabled')) {
+//
+//                $event = Sight::with('files')->find($model->sight_id)->toArray();
+//                resolve(Client::class)->index([
+//                    'index' => 'sights',
+//                    'type' => '_doc',
+//                    'id' => $model->sight_id,
+//                    'body' => $event,
+//                ]);
+//            }
+//        });
+//    }
 
     public function sight(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

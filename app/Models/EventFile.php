@@ -19,34 +19,34 @@ class EventFile extends Model
         'link',
         'local'
     ];
-
-    public static function boot(): void
-    {
-        parent::boot();
-        self::saved(function (EventFile $model) {
-            if(config('elasticsearch.enabled')) {
-                $event = Event::with('files')->find($model->event_id)->toArray();
-                resolve(Client::class)->index([
-                    'index' => 'events',
-                    'type' => $model->getSearchType(),
-                    'id' => $model->event_id,
-                    'body' => $event,
-                ]);
-            }
-        });
-        self::deleted(function (EventFile $model) {
-            if(config('elasticsearch.enabled')) {
-
-                $event = Event::with('files')->find($model->event_id)->toArray();
-                resolve(Client::class)->index([
-                    'index' => 'events',
-                    'type' => $model->getSearchType(),
-                    'id' => $model->event_id,
-                    'body' => $event,
-                ]);
-            }
-        });
-    }
+//    Если нужны файлы в elastic
+//    public static function boot(): void
+//    {
+//        parent::boot();
+//        self::saved(function (EventFile $model) {
+//            if(config('elasticsearch.enabled')) {
+//                $event = Event::with('files')->find($model->event_id)->toArray();
+//                resolve(Client::class)->index([
+//                    'index' => 'events',
+//                    'type' => $model->getSearchType(),
+//                    'id' => $model->event_id,
+//                    'body' => $event,
+//                ]);
+//            }
+//        });
+//        self::deleted(function (EventFile $model) {
+//            if(config('elasticsearch.enabled')) {
+//
+//                $event = Event::with('files')->find($model->event_id)->toArray();
+//                resolve(Client::class)->index([
+//                    'index' => 'events',
+//                    'type' => $model->getSearchType(),
+//                    'id' => $model->event_id,
+//                    'body' => $event,
+//                ]);
+//            }
+//        });
+//    }
 
     public function event(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {

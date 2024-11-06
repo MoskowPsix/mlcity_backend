@@ -16,7 +16,7 @@ class ElasticsearchModel extends Model
             if (config('elasticsearch.enabled'))
             {
                 $body = $model->toSearchArray();
-                $body['files'] = $model->files()->get()->toArray();
+//                $body['files'] = $model->files()->get()->toArray();
                 resolve(Client::class)->index([
                     'index' => $model->getSearchIndex(),
                     'type' => $model->getSearchType(),
