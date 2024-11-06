@@ -28,5 +28,5 @@ interface EventServiceInterface
     public function getOrganizationOfEvent($id);
     public function addStatus(int $Id);
     public function delete(int $Id): bool;
-
+    public function addView(int $id): bool;
 }

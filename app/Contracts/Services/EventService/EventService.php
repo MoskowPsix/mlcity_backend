@@ -62,17 +62,17 @@ class EventService implements EventServiceInterface
 
     public function getById(int $id): Event
     {
-        $event = Event::query()->where('id', $id)->with('price', 'types', 'files','statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $event = Event::query()->where('id', $id)->with('price', 'types', 'files', 'statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments', 'viewsUsers');
         $response =
-        app(Pipeline::class)
-        ->send($event)
-        ->through([
-            EventWithPlaceFull::class
-        ])
-        ->via("apply")
-        ->then(function($event){
-            return $event->firstOrFail();
-        });
+            app(Pipeline::class)
+            ->send($event)
+            ->through([
+                EventWithPlaceFull::class
+            ])
+            ->via("apply")
+            ->then(function ($event) {
+                return $event->firstOrFail();
+            });
 
         return $response;
     }
@@ -80,39 +80,39 @@ class EventService implements EventServiceInterface
     public function get($data)
     {
         $page = $data->page;
-        $limit = $data->limit && ($data->limit < 50)? $data->limit : 10;
+        $limit = $data->limit && ($data->limit < 50) ? $data->limit : 10;
         $events = Event::query()
-            ->with('files', 'author', "types", 'price', 'statuses')
-//            ->simplePaginate()->currentPage()
+            ->with('files', 'author', "types", 'price', 'statuses','viewCount')
+            //            ->simplePaginate()->currentPage()
             ->withCount('likedUsers', 'favoritesUsers', 'comments');
 
         return app(Pipeline::class)
-        ->send($events)
-        ->through([
-            // EventTotal::class,
-            EventOrderByDateCreate::class,
-            EventName::class,
-            EventByIds::class,
-            EventLikedUserExists::class,
-            EventFavoritesUserExists::class,
-            EventStatuses::class,
-            EventStatusesLast::class,
-            EventPlaceLocation::class,
-            EventDate::class,
-            EventTypes::class,
-            EventPlaceGeoPositionInArea::class,
-            EventSearchText::class,
-            EventPlaceAddress::class,
-            EventSponsor::class,
-            EventAuthorName::class,
-            EventAuthorEmail::class,
-            SightAuthor::class,
-            EventSortByCoords::class,
-        ])
-        ->via('apply')
-        ->then(function ($events) use ($page, $limit, $data){
-            return $events->simplePaginate($limit, ['*'], 'page',  $page);
-        });
+            ->send($events)
+            ->through([
+                // EventTotal::class,
+                EventOrderByDateCreate::class,
+                EventName::class,
+                EventByIds::class,
+                EventLikedUserExists::class,
+                EventFavoritesUserExists::class,
+                EventStatuses::class,
+                EventStatusesLast::class,
+                EventPlaceLocation::class,
+                EventDate::class,
+                EventTypes::class,
+                EventPlaceGeoPositionInArea::class,
+                EventSearchText::class,
+                EventPlaceAddress::class,
+                EventSponsor::class,
+                EventAuthorName::class,
+                EventAuthorEmail::class,
+                SightAuthor::class,
+                EventSortByCoords::class,
+            ])
+            ->via('apply')
+            ->then(function ($events) use ($page, $limit, $data) {
+                return $events->simplePaginate($limit, ['*'], 'page',  $page);
+            });
     }
 
 
@@ -204,8 +204,8 @@ class EventService implements EventServiceInterface
                 EventStatusesLast::class,
             ])
             ->via('apply')
-            ->then(function ($events) use ($page, $limit, $data){
-                return $events->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page' , $page);
+            ->then(function ($events) use ($page, $limit, $data) {
+                return $events->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
             });
     }
 
@@ -251,14 +251,13 @@ class EventService implements EventServiceInterface
                 'organization_id' => $organizationId
             ]);
             // Устанавливаем цену
-            foreach ($data->prices as $price){
-                if($price["cost_rub"] == ""){
+            foreach ($data->prices as $price) {
+                if ($price["cost_rub"] == "") {
                     $event->price()->create([
                         'cost_rub' => 0,
                         'descriptions' => $price['descriptions']
                     ]);
-                }
-                else{
+                } else {
                     $event->price()->create([
                         'cost_rub' => $price['cost_rub'],
                         'descriptions' => $price['descriptions']
@@ -266,8 +265,8 @@ class EventService implements EventServiceInterface
                 }
             }
             // Устанавливаем марки
-            foreach ($data->places as $place){
-                $coords = explode(',',$place['coords']);
+            foreach ($data->places as $place) {
+                $coords = explode(',', $place['coords']);
                 $latitude   = $coords[0]; // широта
                 $longitude  = $coords[1]; // долгота
                 $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
@@ -281,15 +280,14 @@ class EventService implements EventServiceInterface
                 ]);
                 // Устанавливаем сеансы марок
 
-                foreach($place['seances'] as $seance) {
-                   $place_cr->seances()->create([
+                foreach ($place['seances'] as $seance) {
+                    $place_cr->seances()->create([
                         'date_start' => $seance['dateStart'],
                         'date_end' => $seance['dateEnd']
                     ]);
-
                 }
             }
-            $types = explode(",",$data->type[0]);
+            $types = explode(",", $data->type[0]);
             $event->types()->sync($types);
             if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) {
                 $status = Status::where('name', 'Опубликовано')->first();
@@ -301,37 +299,36 @@ class EventService implements EventServiceInterface
             }
 
 
-            if ($data->vkFilesImg){
+            if ($data->vkFilesImg) {
                 $this->fileService->saveVkFilesImg($event, $data->vkFilesImg);
             }
 
-            if ($data->vkFilesVideo){
+            if ($data->vkFilesVideo) {
                 $this->fileService->saveVkFilesVideo($event, $data->vkFilesVideo);
             }
-            if ($data->vkFilesLink){
+            if ($data->vkFilesLink) {
                 $this->fileService->saveVkFilesLink($event, $data->vkFilesLink);
             }
 
-            if ($data->localFilesImg){
+            if ($data->localFilesImg) {
                 $this->fileService->saveLocalFilesImg($event, $data->localFilesImg);
             }
 
             DB::commit();
 
             return $event;
-
-    } catch(Exception $e) {
-        DB::rollBack();
-        Log::error($e);
-        throw $e;
+        } catch (Exception $e) {
+            DB::rollBack();
+            Log::error($e);
+            throw $e;
+        }
     }
-    }
 
-    public function checkUserHaveOrganization(): bool {
+    public function checkUserHaveOrganization(): bool
+    {
         $user = auth('api')->user();
         if ($user) {
             $sight = Sight::where("user_id", $user->id)->get();
-
         } else {
             return false;
         }
@@ -343,8 +340,9 @@ class EventService implements EventServiceInterface
         return true;
     }
 
-    public function isUserOrganization(int $userId, $organizationId): bool {
-        $res = Sight::where("user_id", $userId)->whereHas("organization", function ($query) use($organizationId) {
+    public function isUserOrganization(int $userId, $organizationId): bool
+    {
+        $res = Sight::where("user_id", $userId)->whereHas("organization", function ($query) use ($organizationId) {
             $query->where("organizations.id", $organizationId);
         })->exists();
 
@@ -356,7 +354,7 @@ class EventService implements EventServiceInterface
         $event = Event::find($request->event_id);
         $likedUser = false;
 
-        if (!$event->likedUsers()->where('user_id',auth('api')->user()->id)->exists()){
+        if (!$event->likedUsers()->where('user_id', auth('api')->user()->id)->exists()) {
             $event->likedUsers()->sync(auth('api')->user()->id);
             $likedUser = true;
         }
@@ -385,7 +383,7 @@ class EventService implements EventServiceInterface
         $likedUsers = Event::findOrFail($id)->likedUsers;
         $likedUsersIds = [];
 
-        foreach ($likedUsers as $user){
+        foreach ($likedUsers as $user) {
             $likedUsersIds[] = $user;
         }
         $page = $request->page;
@@ -395,9 +393,9 @@ class EventService implements EventServiceInterface
         $items = $paginator->getCollection();
 
         return  $paginator->setCollection(
-                $items->forPage($page, $limit)
-            )->appends(request()->except(['page']))
-                ->withPath($request->url());
+            $items->forPage($page, $limit)
+        )->appends(request()->except(['page']))
+            ->withPath($request->url());
     }
 
     public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object
@@ -405,7 +403,7 @@ class EventService implements EventServiceInterface
         $likedUsers = Event::findOrFail($id)->favoritesUsers;
         $likedUsersIds = [];
 
-        foreach ($likedUsers as $user){
+        foreach ($likedUsers as $user) {
             $likedUsersIds[] = $user;
         }
         $page = $request->page;
@@ -415,9 +413,9 @@ class EventService implements EventServiceInterface
         $items = $paginator->getCollection();
 
         return $paginator->setCollection(
-                $items->forPage($page, $limit)
-            )->appends(request()->except(['page']))
-                ->withPath($request->url());
+            $items->forPage($page, $limit)
+        )->appends(request()->except(['page']))
+            ->withPath($request->url());
     }
 
     public function getOrganizationOfEvent($id): Sight
@@ -430,7 +428,7 @@ class EventService implements EventServiceInterface
     }
     public function delete(int $Id): bool
     {
-        try{
+        try {
             $event = Event::where('id', $Id);
             if ($event->firstOrFail()->user_id == auth('api')->user()->id) {
                 $event->delete();
@@ -438,12 +436,12 @@ class EventService implements EventServiceInterface
             } else {
                 return false;
             }
-        } catch(Exception $e){
+        } catch (Exception $e) {
             return false;
         }
     }
 
-    public function addStatus(int $Id):void
+    public function addStatus(int $Id): void
     {
         $user = auth('api')->user() ?? auth('moonshine')->user();
         $statusId = request()->get("status_id");
@@ -459,15 +457,40 @@ class EventService implements EventServiceInterface
     private function resetExistedStatusesToLast($event): void
     {
         $statuses = $event->statuses;
-        foreach($statuses as $status) {
+        foreach ($statuses as $status) {
             $event->statuses()->updateExistingPivot($status["id"], [
                 "last" => false
             ]);
         }
     }
 
-    public static function isUserEvent($eventId, $userId) {
+    public static function isUserEvent($eventId, $userId)
+    {
         $res = Event::where("id", $eventId)->where("user_id", $userId)->get();
         return count($res) > 0;
+    }
+
+    public function addView(int $id): bool
+    {
+        try {
+            $event = Event::findOrFail($id);
+            if ($event->viewsUsers()->where('user_id', auth('api')->user()->id)->exists()) {
+                return false;
+            }
+
+            $event->viewsUsers()->create([
+                'user_id' => auth('api')->user()->id,
+                'time_view' => 1,
+            ]);
+            if ($event->viewCount()->exists()) {
+                $event->viewCount()->increment('count');
+            } else {
+                $event->viewCount()->create(['count' => 1]);
+            }
+
+            return true;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }

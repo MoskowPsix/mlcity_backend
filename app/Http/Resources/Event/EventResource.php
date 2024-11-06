@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event;
 
+use App\Http\Resources\View\ViewCountResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -32,6 +33,7 @@ class EventResource extends JsonResource
      */
     public function toArray($request): array
     {
+        // dd($this->resource->toArray());
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -53,6 +55,7 @@ class EventResource extends JsonResource
             'types'             => $this->whenLoaded('types'),
             'price'             => $this->whenLoaded('price'),
             'likedUsers'        => $this->whenLoaded('likedUsers'),
+            'views'             => $this->whenLoaded('viewCount', new ViewCountResource($this->viewCount)),
             'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
             'places'            => $this->whenLoaded('places'),
             'places_full' => $this->whenLoaded('placesFull'),

@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Models;
+
 use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Event extends ElasticsearchModel
@@ -35,7 +38,7 @@ class Event extends ElasticsearchModel
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(EventType::class, 'events_etypes','event_id','etype_id');
+        return $this->belongsToMany(EventType::class, 'events_etypes', 'event_id', 'etype_id');
     }
 
     public function statuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -43,11 +46,12 @@ class Event extends ElasticsearchModel
         return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
     }
 
-//    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
-//    }
-//
+
+    //    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    //    {
+    //        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
+    //    }
+    //
     public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Status::class)->wherePivot('last', true);
@@ -56,19 +60,19 @@ class Event extends ElasticsearchModel
     //У кого в избранном
     public function favoritesUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class,'event_user_favorite')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user_favorite')->withTimestamps();
     }
 
     //Кто лайкнул
     public function likedUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class,'event_user_liked')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user_liked')->withTimestamps();
     }
 
-   public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-   {
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
-   }
+    }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
@@ -133,5 +137,9 @@ class Event extends ElasticsearchModel
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+    public function viewCount(): HasOne
+    {
+        return $this->hasOne(ViewCount::class);
     }
 }
