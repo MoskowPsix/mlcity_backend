@@ -167,8 +167,8 @@ class EventController extends Controller
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые добавили событие в избранное')]
     public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
-        $events = $this->eventService->getEventUserFavoritesIds($id, $request);
-        return new SuccessGetEventUserFavoritesIdsResource($events);
+        $users = $this->eventService->getEventUserFavoritesIds($id, $request);
+        return new SuccessGetEventUserFavoritesIdsResource($users);
     }
 
 

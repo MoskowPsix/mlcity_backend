@@ -21,6 +21,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $age_limit
  * @property int $afisha7_id
  * @property double $distance
+ * @property int $liked_users_count
+ * @property int $favorites_users_count
+ * @property int $viewCount
  */
 class EventResource extends JsonResource
 {
@@ -33,7 +36,6 @@ class EventResource extends JsonResource
      */
     public function toArray($request): array
     {
-        // dd($this->resource->toArray());
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -54,9 +56,11 @@ class EventResource extends JsonResource
             'author'            => $this->whenLoaded('author'),
             'types'             => $this->whenLoaded('types'),
             'price'             => $this->whenLoaded('price'),
-            'likedUsers'        => $this->whenLoaded('likedUsers'),
+//            'likedUsers'        => $this->whenLoaded('likedUsers'),
+            'likedUsers'        => $this->when(!empty($this->liked_users_count), $this->liked_users_count),
+            'favoritesUsers'    => $this->when(!empty($this->favorites_users_count), $this->favorites_users_count),
             'views'             => $this->whenLoaded('viewCount', new ViewCountResource($this->viewCount)),
-            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
+//            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
             'places'            => $this->whenLoaded('places'),
             'places_full' => $this->whenLoaded('placesFull'),
         ];
