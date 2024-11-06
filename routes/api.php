@@ -108,7 +108,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('moderator');
 
-    Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
+    Route::get('events/{id}/liked-users', 'getEventUserLikedIds');
     Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds');
     Route::post('events/{id}/statuses/', 'addStatusToEvent')->middleware('auth:sanctum')->name('event.status');
     Route::post('events/{id}/statuses/cookie', 'addStatusToEvent')->middleware('auth:moonshine')->name('event.status.cookie');
