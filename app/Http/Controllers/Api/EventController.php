@@ -157,8 +157,8 @@ class EventController extends Controller
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserLikedIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($id, $request);
-        return new SuccessGetEventUserLikedIdsResource($events);
+        $users = $this->eventService->getEventUserLiked($id, $request);
+        return new SuccessGetEventUserLikedIdsResource($users);
     }
 
 

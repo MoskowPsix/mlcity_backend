@@ -10,6 +10,7 @@ use App\Http\Requests\SearchContentForTextRequest;
 use App\Models\Event;
 use App\Models\Organization;
 use App\Models\Sight;
+use App\Models\User;
 
 interface EventServiceInterface
 {
@@ -23,8 +24,8 @@ interface EventServiceInterface
     public function checkLiked(int $id): bool;
     public function checkFavorite(int $id): bool;
     public function showForMap(int $id): Event;
-    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object;
-    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object;
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): User;
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): User;
     public function getOrganizationOfEvent($id);
     public function addStatus(int $Id);
     public function delete(int $Id): bool;

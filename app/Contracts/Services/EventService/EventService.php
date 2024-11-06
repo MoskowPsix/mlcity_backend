@@ -35,6 +35,7 @@ use App\Filters\Event\EventWithPlaceFull;
 use App\Filters\Sight\SightAuthor;
 use App\Models\Organization;
 use App\Models\Sight;
+use App\Models\User;
 use Carbon\Carbon;
 use Elastic\Elasticsearch\Client;
 use Exception;
@@ -379,44 +380,33 @@ class EventService implements EventServiceInterface
         return Event::where('id', $id)->with('files', 'author', 'price')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
     }
 
-    public function getEventUserLiked(int $id, PageANDLimitRequest $request): object
+    public function getEventUserLiked(int $id, PageANDLimitRequest $request): User
     {
-        $likedUsers = Event::findOrFail($id)->likedUsers;
-        $likedUsersIds = [];
-
-        foreach ($likedUsers as $user) {
-            $likedUsersIds[] = $user;
-        }
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-
-        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
-        $items = $paginator->getCollection();
-
-        return  $paginator->setCollection(
-            $items->forPage($page, $limit)
-        )->appends(request()->except(['page']))
-            ->withPath($request->url());
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 10;
+        return Event::findOrFail($id)->likedUsers()->orderBy('id', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
+//        $likedUsersIds = [];
+//
+//        foreach ($likedUsers as $user) {
+//            $likedUsersIds[] = $user;
+//        }
+//        $page = $request->page;
+//        $limit = $request->limit ? $request->limit : 6;
+//
+//        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
+//        $items = $paginator->getCollection();
+//
+//        return  $paginator->setCollection(
+//            $items->forPage($page, $limit)
+//        )->appends(request()->except(['page']))
+//            ->withPath($request->url());
     }
 
-    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): object
+    public function getEventUserFavoritesIds($id, PageANDLimitRequest $request): User
     {
-        $likedUsers = Event::findOrFail($id)->favoritesUsers;
-        $likedUsersIds = [];
-
-        foreach ($likedUsers as $user) {
-            $likedUsersIds[] = $user;
-        }
         $page = $request->page;
-        $limit = $request->limit ? $request->limit : 6;
-
-        $paginator = new LengthAwarePaginator($likedUsersIds, count($likedUsersIds), $limit);
-        $items = $paginator->getCollection();
-
-        return $paginator->setCollection(
-            $items->forPage($page, $limit)
-        )->appends(request()->except(['page']))
-            ->withPath($request->url());
+        $limit = $request->limit && ($request->limit < 50) ? $request->limit : 10;
+        return Event::findOrFail($id)->favoritesUsers()->orderBy('id', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
     }
 
     public function getOrganizationOfEvent($id): Sight
