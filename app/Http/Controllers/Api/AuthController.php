@@ -66,6 +66,18 @@ class AuthController extends Controller
             return new ErrorRegisterResource([]);
         }
     }
+    #[ResponseFromApiResource(SuccessRegisterResource::class, User::class, collection: false)]
+    #[ResponseFromApiResource(ErrorRegisterResource::class, null, 403)]
+    #[Endpoint(title: 'RegisterGuest', description: 'Регистрация нового пользователя как гостя')]
+    public function registerGuest(): SuccessRegisterResource | ErrorRegisterResource
+    {
+        try {
+            $user = $this->authService->registerGuest();
+            return new SuccessRegisterResource($user);
+        } catch (\Exception $e) {
+            return new ErrorRegisterResource([]);
+        }
+    }
     #[ResponseFromApiResource(SuccessLoginResource::class, User::class, collection: false)]
     #[ResponseFromApiResource(FailedLoginResource::class, null, 403)]
     #[ResponseFromApiResource(NotFoundLoginResource::class, null, 404)]

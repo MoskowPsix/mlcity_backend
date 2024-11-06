@@ -2,6 +2,7 @@
 
 namespace App\Contracts\Services\Auth;
 
+use App\Constants\RolesConstants;
 use App\Contracts\Services\Auth\AuthServiceInterface;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -9,6 +10,7 @@ use App\Http\Requests\Auth\RequestEditEmailNotVerification;
 use App\Http\Requests\Auth\ResetPasswordForAdminRequest;
 use App\Http\Requests\Auth\VerficationCodeRequest;
 use App\Http\Requests\RequestResetEmailVerificationCode;
+use App\Models\Role;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
 use Exception;
@@ -18,6 +20,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class AuthService implements AuthServiceInterface
 {
@@ -27,17 +30,40 @@ class AuthService implements AuthServiceInterface
      */
     public function register(RegisterRequest $request): User
     {
-            $trans = DB::transaction(function () use ($request) {
-                $input = $request->all();
-                $pass  =  bcrypt($input['password']);
-                return User::create([
-                    'name' => $input['name'],
-                    'password' => $pass,
-                    'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt($input['email'] . $input['name']),
-                    'email' => $input['email'],
-                ]);
-            }, 3);
-            return $trans ?? throw new Exception('Register failed trnsaction');
+        DB::beginTransaction();
+        try {
+            $input = $request->all();
+            $pass = bcrypt($input['password']);
+            $user =  User::create([
+                'name' => $input['name'],
+                'password' => $pass,
+                'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt($input['email'] . $input['name']),
+                'email' => $input['email'],
+            ]);
+            DB::commit();
+            return $user;
+        } catch (Exception $e) {
+            DB::rollBack();
+            throw new Exception('Register failed trnsaction');
+        }
+    }
+    public function registerGuest(): User | null
+    {
+        DB::beginTransaction();
+        try {
+            $user = User::create([
+                'name' => "guest_" . Str::random(16),
+                'password' => bcrypt(Str::random(16)),
+                'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt(Str::random(16)),
+            ]);
+//            $role = Role::where('name', RolesConstants::GUEST)->first();
+//            $user->roles()->attach($role->id);
+            DB::commit();
+            return $user;
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return null;
+        }
     }
 
     /**
