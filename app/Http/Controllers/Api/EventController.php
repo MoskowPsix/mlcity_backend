@@ -164,10 +164,10 @@ class EventController extends Controller
 
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class, User::class)]
-    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
+    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые добавили событие в избранное')]
     public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($id, $request);
+        $events = $this->eventService->getEventUserFavoritesIds($id, $request);
         return new SuccessGetEventUserFavoritesIdsResource($events);
     }
 

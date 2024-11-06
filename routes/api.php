@@ -28,7 +28,9 @@ Route::controller(AppVersionController::class)->group(function () {
     Route::get('app', 'getVersion');
 });
 Route::controller(AuthController::class)->group(function () {
-    Route::post('register', 'register'); // Регистрация
+    Route::post('register', 'register')->name('user.register'); // Регистрация
+    Route::post('register/guest', 'registerGuest')->name('user.register.guest'); // Регистрация гостя
+
     Route::post('login', 'login')->name('login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
