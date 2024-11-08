@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Contracts\Services\Auth\AuthService;
+use App\Contracts\Services\Auth\AuthServiceService;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Auth\RegisterRequest;
@@ -41,7 +41,7 @@ use Knuckles\Scribe\Attributes\ResponseFromApiResource;
 #[Group(name: 'Auth', description: 'Авторизация')]
 class AuthController extends Controller
 {
-    public function __construct(private readonly AuthService $authService)
+    public function __construct(private readonly AuthServiceService $authService)
     {
     }
     /**

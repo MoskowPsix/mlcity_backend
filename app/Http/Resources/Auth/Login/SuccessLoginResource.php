@@ -2,7 +2,7 @@
 
 namespace App\Http\Resources\Auth\Login;
 
-use App\Contracts\Services\Auth\AuthService;
+use App\Contracts\Services\Auth\AuthServiceService;
 use App\Http\Resources\User\UserResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -16,7 +16,7 @@ class SuccessLoginResource extends JsonResource
     public function __construct($resource)
     {
         parent::__construct($resource);
-        $authService = new AuthService();
+        $authService = new AuthServiceService();
         $this->token = $authService->getAccessToken($resource);
     }
     /**

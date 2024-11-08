@@ -2,7 +2,7 @@
 
 namespace App\Constants;
 
-class RolesConstants
+class RolesConstants extends Constants
 {
     public const ROOT       = 'root';
     public const ADMIN      = 'Admin';

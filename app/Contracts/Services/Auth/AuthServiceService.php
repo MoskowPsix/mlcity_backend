@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
-class AuthService implements AuthServiceInterface
+class AuthServiceService implements AuthServiceInterface
 {
 
     /**

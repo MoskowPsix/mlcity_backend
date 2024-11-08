@@ -41,7 +41,7 @@ class minCultIntegration extends Command
 
     private int $offset = 1;
 
-    private int $numberOfProcess = 10;
+    private int $numberOfProcess = 100;
 
     private ProgressBar $bar;
 
@@ -144,8 +144,10 @@ class minCultIntegration extends Command
                 'date_start'        => $event->data->general->start,
                 'date_end'          => $event->data->general->end,
                 'user_id'           => 1,
-                'min_cult_id'       => $event->data->general->id,
-                'organization_id'   =>$org->id,
+                'min_cult_id'       => $this->getId($event),
+                'organization_id'   =>  $org->id,
+                'source_id'         => $event->data->general->id,
+                'source_name'       => 'min_cult'
             ]);
             $event = $event->data->general;
             $this->saveType($event->category, $event_cr);
@@ -248,5 +250,14 @@ class minCultIntegration extends Command
         isset($sight_coords) && !isset($sight_address) ? $sight = $sight_coords : null;
 
         return $sight;
+    }
+
+    /**
+     * @param $event
+     * @return mixed
+     */
+    public function getId($event)
+    {
+        return $event->data->general->id;
     }
 }

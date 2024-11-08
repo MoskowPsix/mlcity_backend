@@ -33,6 +33,8 @@ class Event extends ElasticsearchModel
         'min_cult_id',
         'organization_id',
         'age_limit',
+        'source_id',
+        'source_name'
     ];
     protected array $dates = ['date_start', 'date_end'];
 

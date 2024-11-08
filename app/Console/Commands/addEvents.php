@@ -184,6 +184,8 @@ class addEvents extends Command
             'date_end'          => $event->endDate,
             'user_id'           => 1,
             'cult_id'           => $event->_id,
+            'source_id'         => $event->_id,
+            'source_name'       => 'culture',
             'age_limit'         => $event->ageRestriction ?? '',
             'organization_id'   => $org->id
         ]);
