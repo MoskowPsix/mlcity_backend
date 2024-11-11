@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres
+    image: postgres:16-alpine
     container_name: MLCity_database
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
@@ -10,6 +10,8 @@ services:
       - "5432:5432"
     volumes:
       - "./db/data:/var/lib/postgresql/data"
+    networks:
+      - db-net
 
   nginx:
     container_name: nginx
@@ -17,13 +19,14 @@ services:
       context: ./nginx
       dockerfile: dockerfile
     ports:
-        - "8000:443"
+        - "${APP_PORT}:443"
     depends_on:
         - backend
-        - db
     volumes:
         - ../:/var/www/MLCity_backend
         - ./nginx/conf.d/:/etc/nginx/conf.d
+    networks:
+      - ng-net
 
   backend:
     container_name: MLCity_backend
@@ -33,28 +36,59 @@ services:
     volumes:
       - "../:/var/www/MLCity_backend"
     environment:
+      - APP_URL=${APP_URL}
       - DB_HOST=${POSTGRES_HOST}
       - DB_PORT=${POSTGRES_PORT}
       - DB_DATABASE=${POSTGRES_DB}
       - DB_USERNAME=${POSTGRES_USER}
       - DB_PASSWORD=${POSTGRES_PASSWORD}
-      # - APP_URL=http://localhost:9090
-
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_ENABLED=true
+      - ELASTICSEARCH_HOSTS=elasticsearch:${ELASTIC_PORT}
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=cache
+      - REDIS_CLIENT=phpredis
+      - REDIS_PORT=${REDIS_PORT}
+    networks:
+      - cache-net
+      - db-net
+      - es-net
+      - ng-net
     ports:
       - "9000:9000"
     working_dir: /var/www/MLCity_backend
     # command: composer install && php artisan migrate
 
-
-  build-admin:
-    depends_on:
-      - backend
-      - nginx
+  worker:
+    deploy:
+      mode: replicated
+      replicas: 6
+    command: php artisan queue:work --daemon
     build:
       context: ./php
-      dockerfile: admin.dockerfile
+      dockerfile: dockerfile
     volumes:
       - "../:/var/www/MLCity_backend"
+    environment:
+      - APP_URL=${APP_URL}
+      - DB_HOST=${POSTGRES_HOST}
+      - DB_PORT=${POSTGRES_PORT}
+      - DB_DATABASE=${POSTGRES_DB}
+      - DB_USERNAME=${POSTGRES_USER}
+      - DB_PASSWORD=${POSTGRES_PASSWORD}
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTICSEARCH_ENABLED=true
+      - ELASTICSEARCH_HOSTS=elasticsearch:${ELASTIC_PORT}
+      - QUEUE_CONNECTION=redis
+      - REDIS_HOST=cache
+      - REDIS_CLIENT=phpredis
+      - REDIS_PORT=${REDIS_PORT}
+    networks:
+      - cache-net
+      - db-net
+      - es-net
     working_dir: /var/www/MLCity_backend
 
   artisan:
@@ -69,3 +103,49 @@ services:
     entrypoint: ["/bin/bash"]
     command: ["-c", "chmod -R 777 storage && composer install && php artisan migrate --force"]
 
+  elasticsearch:
+    image: elasticsearch:8.15.3
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ELASTIC_PASSWORD=${ELASTIC_PASSWORD}
+      - ELASTIC_USERNAME=${ELASTIC_USERNAME}
+    ports:
+      - "${ELASTIC_PORT}:9200"
+      - "9300:9300"
+    networks:
+      - es-net
+  kibana:
+    image: kibana:8.15.3
+    environment:
+      - xpack.monitoring.enabled=true         # Включить мониторинг
+      - xpack.security.enabled=false          # Включить безопасность
+      - xpack.reporting.enabled=true         # Включить отчёты
+      - xpack.graph.enabled=true             # Включить графики
+      - ELASTICSEARCH_URL=https://elasticsearch:${ELASTIC_PORT}
+      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
+      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
+    ports:
+      - "${KIBANA_PORT}:5601"
+    networks:
+      - es-net
+    depends_on:
+      - elasticsearch
+
+  cache:
+    image: redis:6.2-alpine
+    restart: always
+    ports:
+      - "${REDIS_PORT}:6379"
+    networks:
+      - cache-net
+
+networks:
+  db-net:
+  es-net:
+  ng-net:
+  cache-net:
+
+#volumes:
+#  esdata1:
+#    driver: local
