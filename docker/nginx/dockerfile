@@ -1,5 +1,5 @@
 # Используем официальный образ Nginx как основу
-FROM nginx:alpine
+FROM nginx
 
 # Создаем директорию для сертификатов
 WORKDIR /etc/nginx/certs
