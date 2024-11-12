@@ -1,3 +1,4 @@
+version: '3.9'
 services:
   db:
     image: postgres:16-alpine
@@ -63,7 +64,7 @@ services:
   worker:
     deploy:
       mode: replicated
-      replicas: 6
+      replicas: 10
     command: php artisan queue:work --daemon
     build:
       context: ./php
@@ -139,6 +140,14 @@ services:
       - "${REDIS_PORT}:6379"
     networks:
       - cache-net
+  portainer:
+    image: portainer/portainer-ce
+    ports:
+      - 9000:9000
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer_data:/data
+    restart: always
 
 networks:
   db-net:
