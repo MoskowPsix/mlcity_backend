@@ -1,4 +1,4 @@
-version: '3.9'
+version: "3"
 services:
   db:
     image: postgres:16-alpine
@@ -14,6 +14,7 @@ services:
       - db-net
 
   nginx:
+    image: mlcity_nginx
     build:
       context: ./nginx
       dockerfile: dockerfile
@@ -28,6 +29,7 @@ services:
       - ng-net
 
   backend:
+    image: mlcity_laravel
     build:
       context: ./php
       dockerfile: dockerfile
@@ -59,6 +61,7 @@ services:
     # command: composer install && php artisan migrate
 
   worker:
+    image: mlcity_worker
     deploy:
       mode: replicated
       replicas: 10
@@ -88,18 +91,6 @@ services:
       - db-net
       - es-net
     working_dir: /var/www/MLCity_backend
-
-  artisan:
-    depends_on:
-      - backend
-    build:
-      context: ./php
-      dockerfile: dockerfile
-    volumes:
-      - "../:/var/www/MLCity_backend"
-    working_dir: /var/www/MLCity_backend
-    entrypoint: ["/bin/bash"]
-    command: ["-c", "chmod -R 777 storage && composer install && php artisan migrate --force"]
 
   elasticsearch:
     image: elasticsearch:8.15.3
