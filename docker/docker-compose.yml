@@ -2,6 +2,16 @@ version: "3"
 services:
   db:
     image: postgres:16-alpine
+    restart: always
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.5"
+                memory: "512M"
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -15,6 +25,15 @@ services:
 
   nginx:
     image: mlcity_nginx
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.1"
+                memory: "256M"
     build:
       context: ./nginx
       dockerfile: dockerfile
@@ -30,6 +49,15 @@ services:
 
   backend:
     image: mlcity_laravel
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.5"
+                memory: "512M"
     build:
       context: ./php
       dockerfile: dockerfile
@@ -62,9 +90,16 @@ services:
 
   worker:
     image: mlcity_worker
+    restart: always
     deploy:
-      mode: replicated
-      replicas: 10
+        replicas: 10
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.2"
+                memory: "256M"
     command: php artisan queue:work --daemon
     build:
       context: ./php
@@ -94,6 +129,15 @@ services:
 
   elasticsearch:
     image: elasticsearch:8.15.3
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.3"
+                memory: "256M"
     environment:
       - discovery.type=single-node
       - xpack.security.enabled=false
@@ -106,6 +150,15 @@ services:
       - es-net
   kibana:
     image: kibana:8.15.3
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.5"
+                memory: "512M"
     environment:
       - xpack.monitoring.enabled=true         # Включить мониторинг
       - xpack.security.enabled=false          # Включить безопасность
@@ -123,6 +176,15 @@ services:
 
   cache:
     image: redis:6.2-alpine
+    deploy:
+        replicas: 1
+        restart_policy:
+            delay: 5s
+            condition: on-failure
+        resources:
+            limits:
+                cpus: "0.5"
+                memory: "512M"
     restart: always
     ports:
       - "${REDIS_PORT}:6379"
