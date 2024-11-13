@@ -18,6 +18,7 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "${DB_PORT}:5432"
+    user: "1000:1000"
     volumes:
       - db_volume:/var/lib/postgresql/data
     networks:
@@ -41,6 +42,7 @@ services:
         - "${APP_PORT}:443"
     depends_on:
         - backend
+    user: "1000:1000"
     volumes:
         - laravel_volume:/var/www/MLCity_backend
         - nginx_volume:/etc/nginx/conf.d
