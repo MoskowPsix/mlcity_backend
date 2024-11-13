@@ -60,9 +60,9 @@ services:
             limits:
                 cpus: "0.5"
                 memory: "512M"
-    build:
-      context: ./php
-      dockerfile: dockerfile
+#    build:
+#      context: ./php
+#      dockerfile: dockerfile
     volumes:
       - laravel_volume:/var/www/MLCity_backend
     networks:
@@ -88,9 +88,9 @@ services:
                 cpus: "0.2"
                 memory: "256M"
     command: php artisan queue:work --daemon
-    build:
-      context: ./php
-      dockerfile: dockerfile
+#    build:
+#      context: ./php
+#      dockerfile: dockerfile
     volumes:
       - laravel_volume:/var/www/MLCity_backend
     networks:
