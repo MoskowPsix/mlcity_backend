@@ -2,7 +2,6 @@ version: "3.8"
 services:
   db:
     image: postgres:16-alpine
-    restart: always
     deploy:
         replicas: 1
         restart_policy:
@@ -79,7 +78,6 @@ services:
   worker:
     env_file: .env
     image: moskowpsix/mlcity_laravel:my-image
-    restart: always
     deploy:
         replicas: 1
         restart_policy:
