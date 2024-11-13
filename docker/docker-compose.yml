@@ -42,7 +42,7 @@ services:
     depends_on:
         - backend
     volumes:
-        - ../:/var/www/MLCity_backend
+        - glusterfs:/var/www/MLCity_backend
         - ./nginx/conf.d/:/etc/nginx/conf.d
     networks:
       - ng-net
@@ -63,7 +63,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - ../:/var/www/MLCity_backend
+      - glusterfs:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -79,7 +79,7 @@ services:
     image: moskowpsix/mlcity_laravel:my-image
     restart: always
     deploy:
-        replicas: 10
+        replicas: 1
         restart_policy:
             delay: 5s
             condition: on-failure
@@ -92,7 +92,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - ../:/var/www/MLCity_backend
+      - glusterfs:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -168,3 +168,15 @@ networks:
   es-net:
   ng-net:
   cache-net:
+
+volumes:
+    gluster_backend:
+        driver: glusterfs
+        driver_opts:
+            volname: myproject
+            servers: worker1:/data/mlcity_baclend, worker2:/data/mlcity_backend, worker3:/data/mlcity_backend
+    gluster_nginx:
+        driver: glusterfs
+        driver_opts:
+            volname: myproject
+            servers: worker1:/data/mlcity_baclend/docker/nginx/conf.d/, worker2:/data/mlcity_baclend/docker/nginx/conf.d/, worker3:/data/mlcity_baclend/docker/nginx/conf.d/
