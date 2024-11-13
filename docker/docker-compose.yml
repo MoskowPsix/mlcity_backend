@@ -19,7 +19,7 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - gluster_db:/var/lib/postgresql/data
+      - db_volume:/var/lib/postgresql/data
     networks:
       - db-net
 
@@ -42,8 +42,8 @@ services:
     depends_on:
         - backend
     volumes:
-        - gluster_backend:/var/www/MLCity_backend
-        - gluster_nginx:./nginx/conf.d/:/etc/nginx/conf.d
+        - laravel_volume:/var/www/MLCity_backend
+        - nginx_volume:./nginx/conf.d/:/etc/nginx/conf.d
     networks:
       - ng-net
 
@@ -63,7 +63,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - gluster_backend:/var/www/MLCity_backend
+      - laravel_volume:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -92,7 +92,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - gluster_backend:/var/www/MLCity_backend
+      - laravel_volume:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
