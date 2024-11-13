@@ -190,7 +190,7 @@ volumes:
         driver_opts:
             type: nfs
             o: addr=master,nolock
-            device: ":/srv/code/mlcity_backend/int_vld/docker/db/data"
+            device: ":/srv/db/data"
 
 #volumes:
 #    gluster_backend:
