@@ -49,7 +49,7 @@ services:
 
   backend:
     env_file: .env
-    image: moskowpsix/mlcity_laravel
+    image: moskowpsix/mlcity_laravel:my-image
     deploy:
         replicas: 1
         restart_policy:
@@ -76,7 +76,7 @@ services:
 
   worker:
     env_file: .env
-    image: moskowpsix/mlcity_laravel
+    image: moskowpsix/mlcity_laravel:my-image
     restart: always
     deploy:
         replicas: 10
