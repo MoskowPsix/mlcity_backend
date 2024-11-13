@@ -19,7 +19,7 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - "./db/data:/var/lib/postgresql/data"
+      - ./db/data:/var/lib/postgresql/data
     networks:
       - db-net
 
@@ -49,7 +49,7 @@ services:
 
   backend:
     env_file: .env
-    image: mlcity_laravel
+    image: moskowpsix/mlcity_laravel
     deploy:
         replicas: 1
         restart_policy:
@@ -59,26 +59,11 @@ services:
             limits:
                 cpus: "0.5"
                 memory: "512M"
-    build:
-      context: ./php
-      dockerfile: dockerfile
+#    build:
+#      context: ./php
+#      dockerfile: dockerfile
     volumes:
-      - "../:/var/www/MLCity_backend"
-#    environment:
-#      - APP_URL=${APP_URL}
-#      - DB_HOST=${POSTGRES_HOST}
-#      - DB_PORT=${POSTGRES_PORT}
-#      - DB_DATABASE=${POSTGRES_DB}
-#      - DB_USERNAME=${POSTGRES_USER}
-#      - DB_PASSWORD=${POSTGRES_PASSWORD}
-#      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
-#      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-#      - ELASTICSEARCH_ENABLED=true
-#      - ELASTICSEARCH_HOSTS=elasticsearch:${ELASTIC_PORT}
-#      - QUEUE_CONNECTION=redis
-#      - REDIS_HOST=cache
-#      - REDIS_CLIENT=phpredis
-#      - REDIS_PORT=${REDIS_PORT}
+      - ../:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -91,7 +76,7 @@ services:
 
   worker:
     env_file: .env
-    image: mlcity_worker
+    image: moskowpsix/mlcity_laravel
     restart: always
     deploy:
         replicas: 10
@@ -103,26 +88,11 @@ services:
                 cpus: "0.2"
                 memory: "256M"
     command: php artisan queue:work --daemon
-    build:
-      context: ./php
-      dockerfile: dockerfile
+#    build:
+#      context: ./php
+#      dockerfile: dockerfile
     volumes:
-      - "../:/var/www/MLCity_backend"
-#    environment:
-#      - APP_URL=${APP_URL}
-#      - DB_HOST=${POSTGRES_HOST}
-#      - DB_PORT=${POSTGRES_PORT}
-#      - DB_DATABASE=${POSTGRES_DB}
-#      - DB_USERNAME=${POSTGRES_USER}
-#      - DB_PASSWORD=${POSTGRES_PASSWORD}
-#      - ELASTICSEARCH_USERNAME=${ELASTIC_USERNAME}
-#      - ELASTICSEARCH_PASSWORD=${ELASTIC_PASSWORD}
-#      - ELASTICSEARCH_ENABLED=true
-#      - ELASTICSEARCH_HOSTS=elasticsearch:${ELASTIC_PORT}
-#      - QUEUE_CONNECTION=redis
-#      - REDIS_HOST=cache
-#      - REDIS_CLIENT=phpredis
-#      - REDIS_PORT=${REDIS_PORT}
+      - ../:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -198,7 +168,3 @@ networks:
   es-net:
   ng-net:
   cache-net:
-
-#volumes:
-#  esdata1:
-#    driver: local
