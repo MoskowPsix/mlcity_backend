@@ -169,19 +169,40 @@ networks:
   ng-net:
   cache-net:
 
+
 volumes:
-    gluster_backend:
-        driver: glusterfs
+    laravel_volume:
+        driver: local
         driver_opts:
-            volname: myproject
-            servers: worker1:/data/mlcity_baclend, worker2:/data/mlcity_backend, worker3:/data/mlcity_backend
-    gluster_nginx:
-        driver: glusterfs
+            type: nfs
+            o: addr=master,nolock
+            device: ":/srv/code/mlcity_backend/int_vld"
+    nginx_volume:
+        driver: local
         driver_opts:
-            volname: myproject
-            servers: worker1:/data/mlcity_baclend/docker/nginx/conf.d/, worker2:/data/mlcity_baclend/docker/nginx/conf.d/, worker3:/data/mlcity_baclend/docker/nginx/conf.d/
-    gluster_db:
-        driver: glusterfs
+            type: nfs
+            o: addr=master,nolock
+            device: ":/srv/code/mlcity_backend/int_vld/docker/nginx/conf.d/"
+    db_volume:
+        driver: local
         driver_opts:
-            volname: myproject
-            servers: worker1:/data/mlcity_baclend/docker/db/data, worker2:/data/mlcity_baclend/docker/db/data, worker3:/data/mlcity_baclend/docker/db/data
+            type: nfs
+            o: addr=master,nolock
+            device: ":/srv/code/mlcity_backend/int_vld/docker/db/data"
+
+#volumes:
+#    gluster_backend:
+#        driver: glusterfs
+#        driver_opts:
+#            volname: myproject
+#            servers: worker1:/data/mlcity_baclend, worker2:/data/mlcity_backend, worker3:/data/mlcity_backend
+#    gluster_nginx:
+#        driver: glusterfs
+#        driver_opts:
+#            volname: myproject
+#            servers: worker1:/data/mlcity_baclend/docker/nginx/conf.d/, worker2:/data/mlcity_baclend/docker/nginx/conf.d/, worker3:/data/mlcity_baclend/docker/nginx/conf.d/
+#    gluster_db:
+#        driver: glusterfs
+#        driver_opts:
+#            volname: myproject
+#            servers: worker1:/data/mlcity_baclend/docker/db/data, worker2:/data/mlcity_baclend/docker/db/data, worker3:/data/mlcity_baclend/docker/db/data
