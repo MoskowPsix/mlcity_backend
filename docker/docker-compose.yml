@@ -19,7 +19,7 @@ services:
     ports:
       - "${DB_PORT}:5432"
     volumes:
-      - ./db/data:/var/lib/postgresql/data
+      - gluster_db:/var/lib/postgresql/data
     networks:
       - db-net
 
@@ -42,8 +42,8 @@ services:
     depends_on:
         - backend
     volumes:
-        - glusterfs:/var/www/MLCity_backend
-        - ./nginx/conf.d/:/etc/nginx/conf.d
+        - gluster_backend:/var/www/MLCity_backend
+        - gluster_nginx:./nginx/conf.d/:/etc/nginx/conf.d
     networks:
       - ng-net
 
@@ -63,7 +63,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - glusterfs:/var/www/MLCity_backend
+      - gluster_backend:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -92,7 +92,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - glusterfs:/var/www/MLCity_backend
+      - gluster_backend:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -180,3 +180,8 @@ volumes:
         driver_opts:
             volname: myproject
             servers: worker1:/data/mlcity_baclend/docker/nginx/conf.d/, worker2:/data/mlcity_baclend/docker/nginx/conf.d/, worker3:/data/mlcity_baclend/docker/nginx/conf.d/
+    gluster_db:
+        driver: glusterfs
+        driver_opts:
+            volname: myproject
+            servers: worker1:/data/mlcity_baclend/docker/db/data, worker2:/data/mlcity_baclend/docker/db/data, worker3:/data/mlcity_baclend/docker/db/data
