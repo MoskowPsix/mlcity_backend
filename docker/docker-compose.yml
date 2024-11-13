@@ -174,18 +174,21 @@ networks:
 
 volumes:
     laravel_volume:
+        external: true
         driver: local
         driver_opts:
             type: nfs
             o: addr=master,nolock
             device: ":/srv/code/mlcity_backend/int_vld"
     nginx_volume:
+        external: true
         driver: local
         driver_opts:
             type: nfs
             o: addr=master,nolock
             device: ":/srv/code/mlcity_backend/int_vld/docker/nginx/conf.d/"
     db_volume:
+        external: true
         driver: local
         driver_opts:
             type: nfs
