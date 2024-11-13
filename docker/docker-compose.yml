@@ -43,7 +43,7 @@ services:
         - backend
     volumes:
         - laravel_volume:/var/www/MLCity_backend
-        - nginx_volume:./nginx/conf.d/:/etc/nginx/conf.d
+        - nginx_volume:/etc/nginx/conf.d
     networks:
       - ng-net
 
