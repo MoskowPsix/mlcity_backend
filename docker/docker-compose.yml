@@ -1,6 +1,6 @@
 services:
   db:
-    image: postgres:16
+    image: postgres:16-alpine
     restart: always
     deploy:
         replicas: 1
@@ -17,7 +17,6 @@ services:
       POSTGRES_DB: ${DB_DATABASE}
     ports:
       - "${DB_PORT}:5432"
-    user: "1000:1000"
     volumes:
       - ./db/data:/var/lib/postgresql/data
     networks:
@@ -38,10 +37,9 @@ services:
       context: ./nginx
       dockerfile: dockerfile
     ports:
-        - "${APP_PORT}:443"
+        - "443:443"
     depends_on:
         - backend
-    user: "1000:1000"
     volumes:
         - ../:/var/www/MLCity_backend
         - ./nginx/conf.d:/etc/nginx/conf.d
@@ -71,9 +69,9 @@ services:
       - db-net
       - es-net
       - ng-net
-    ports:
-      - "9000:9000"
     working_dir: /var/www/MLCity_backend
+#    command:
+#      - apt install php-redis
 
   worker:
     env_file: .env
@@ -88,7 +86,8 @@ services:
             limits:
                 cpus: "0.2"
                 memory: "256M"
-    command: php artisan queue:work --daemon
+    command:
+      - php artisan queue:work --daemon
 #    build:
 #      context: ./php
 #      dockerfile: dockerfile
@@ -150,7 +149,7 @@ services:
       - elasticsearch
 
   cache:
-    image: redis:6.2-alpine
+    image: redis:7.4.1
     deploy:
         replicas: 1
         restart_policy:

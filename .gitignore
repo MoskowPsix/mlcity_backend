@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/apple-jwt/*
 /vendor
-.env
+.env.all
 .env.backup
 .env.production
 .phpunit.result.cache
