@@ -19,7 +19,7 @@ services:
       - "${DB_PORT}:5432"
     user: "1000:1000"
     volumes:
-      - db_volume:/var/lib/postgresql/data
+      - ./db/data:/var/lib/postgresql/data
     networks:
       - db-net
 
@@ -43,8 +43,8 @@ services:
         - backend
     user: "1000:1000"
     volumes:
-        - laravel_volume:/var/www/MLCity_backend
-        - nginx_volume:/etc/nginx/conf.d
+        - ../:/var/www/MLCity_backend
+        - ./nginx/conf.d:/etc/nginx/conf.d
     networks:
       - ng-net
 
@@ -65,7 +65,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - laravel_volume:/var/www/MLCity_backend
+      - ../:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
@@ -93,7 +93,7 @@ services:
 #      context: ./php
 #      dockerfile: dockerfile
     volumes:
-      - laravel_volume:/var/www/MLCity_backend
+      - ../:/var/www/MLCity_backend
     networks:
       - cache-net
       - db-net
