@@ -1,7 +1,6 @@
-version: "3.8"
 services:
   db:
-    image: postgres:16-alpine
+    image: postgres:16
     restart: always
     deploy:
         replicas: 1
@@ -25,7 +24,6 @@ services:
       - db-net
 
   nginx:
-    image: mlcity_nginx
     restart: always
     deploy:
         replicas: 1
