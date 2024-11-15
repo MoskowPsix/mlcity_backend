@@ -185,13 +185,7 @@ class ProcessIntegrationVld implements ShouldQueue
         if (isset($type_name)) {
             $event->types()->attach($type_name['id']);
         } else {
-            $sight_type = EventType::where('name', $type->name);
-            if (!$sight_type->exists()) {
-                $sight_type = EventType::create(['name' => $type->name, 'ico' => 'none']);
-            } else {
-                $sight_type = $sight_type->first();
-            }
-            $event->types()->attach($sight_type->id);
+            throw  new Exception('Not current type');
         }
     }
     private function isScroll(): bool
