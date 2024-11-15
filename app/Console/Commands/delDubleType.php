@@ -36,7 +36,7 @@ class delDubleType extends Command
         $bar = $this->output->createProgressBar(Sight::query()->count());
         Sight::query()->orderBy('id')->chunk(1000, function ($sight) use($bar) {
             $sight->each(function($sight) use($bar) {
-                if (Event::where('organization_id', $sight->organization->id)->exists()){
+                if (isset($sight->organization_id) && Event::where('organization_id', $sight->organization->id)->exists()){
                     $types = $sight->types->pluck('id')->toArray();
                     $sight->types()->detach($types);
                     $sight->types()->attach(array_unique($types));
