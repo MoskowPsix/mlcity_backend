@@ -49,6 +49,8 @@ class ProcessIntegrationVld implements ShouldQueue
     private function saveEvent($response)
     {
             foreach ($response->hits->hits as $event) {
+                $id = explode('_', $event->_id);
+                if (Event::where('source_name', $id[0])->where('source_id', $id[1])->exists()) continue;
                 DB::beginTransaction();
                 try{
                     $event_form = $this->formEvent($event);
