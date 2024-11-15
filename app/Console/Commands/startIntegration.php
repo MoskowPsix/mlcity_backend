@@ -85,7 +85,7 @@ class startIntegration extends Command
         return 0;
     }
 
-    public function saveIntegration($page, $limit, $total, $type): void
+    public function saveIntegration($page, $limit, $total, $type, int $i = 0): void
     {
         $this->getMessage('Download '.$type.' start');
         try
@@ -126,11 +126,17 @@ class startIntegration extends Command
             return;
         } catch (Exception $e) {
             if ($e->getMessage() == 'Events end') {
-                return;
+                if ($i < 5) {
+                    $this->saveIntegration($page, $limit, $total, $type, $i + 1);
+                    sleep(10);
+                } else {
+                    $this->warn('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . $e->getMessage());
+                    return;
+                }
             } else {
                 Log::error('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . json_decode($e));
                 $this->warn('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . $e->getMessage());
-                sleep(3);
+                sleep(5);
                 $this->saveSightIntegration($page, $limit, $total);
             }
         }
