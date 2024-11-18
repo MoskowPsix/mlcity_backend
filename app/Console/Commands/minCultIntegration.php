@@ -2,21 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Contracts\Services\CurrentType\CurrentType;
 use App\Contracts\Services\IntegrationMinCult\IntegrationMinCult;
 use App\Jobs\ProcessIntegrationMinCult;
-use App\Models\Event;
-use App\Models\EventType;
-use App\Models\FileType;
-use App\Models\Location;
-use App\Models\Place;
-use App\Models\Sight;
-use App\Models\Status;
-use App\Models\Timezone;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Process\Process;
 
 
 # 21.35
@@ -75,26 +64,4 @@ class minCultIntegration extends Command
         }
         $this->bar->finish();
     }
-
-//    private function startCommands(): void
-//    {
-//        $processes = [];
-//        for ($i = 0; $i < $this->numberOfProcess; $i++) { // Запускаем команды по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
-//            ProcessIntegrationMinCult::dispatch($this->offset, $this->limit);
-////            $process = new Process(['php', 'artisan', 'integration:min-cult', $this->argument('type'), $this->offset]);
-////            $process->setTimeout(0);
-////            $process->disableOutput();
-////            $process->start();
-////            $processes[] = $process;
-//            $this->offset = $this->offset + $this->limit;
-//        }
-////        while (count($processes)) {
-////            foreach ($processes as $i => $runningProcess) {
-////                // этот процесс завершен, поэтому удаляем его
-////                if (!$runningProcess->isRunning()) {
-////                    unset($processes[$i]);
-////                }
-////            }
-////        }
-//    }
 }

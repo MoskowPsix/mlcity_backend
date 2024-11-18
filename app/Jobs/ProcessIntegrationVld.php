@@ -84,7 +84,7 @@ class ProcessIntegrationVld implements ShouldQueue
             $id = explode('_', $event->_id);
             $date_start = explode('+', $event->_source->start_at);
             $date_end = explode('+', $event->_source->end_at);
-            if (count($date_start) > 2 || count($date_end) > 2) {
+            if (count($date_start) < 2 || count($date_end) < 2) {
                 throw new \Exception('No valid date');
             }
             $org = $this->orgCreate($event->_source->title);
@@ -179,13 +179,21 @@ class ProcessIntegrationVld implements ShouldQueue
     }
     private function setTypes(array $types, Event $event)
     {
-        $type = $types[0];
-        $current_type = new CurrentType($type->name);
-        $type_name = $current_type->getType();
-        if (isset($type_name)) {
-            $event->types()->attach($type_name['id']);
-        } else {
-            throw  new Exception('Not current type');
+        foreach ($types as $type) {
+            $current_type = new CurrentType($type);
+            $type_name = $current_type->getType();
+            if (isset($type_name)) {
+                $event->types()->attach($type_name['id']);
+            } else {
+                $event_type = EventType::where('name', $type);
+                if(!$event_type->exists()) {
+                    $event_type = EventType::create(['name' => $type, 'ico' => 'none']);
+                } else {
+                    $event_type = $event_type->first();
+                }
+                $event->types()->attach($event_type->id);
+//                throw  new Exception('Not current type');
+            }
         }
     }
     private function isScroll(): bool
