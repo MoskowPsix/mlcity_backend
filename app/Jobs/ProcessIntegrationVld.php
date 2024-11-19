@@ -185,14 +185,14 @@ class ProcessIntegrationVld implements ShouldQueue
             if (isset($type_name)) {
                 $event->types()->attach($type_name['id']);
             } else {
-                $event_type = EventType::where('name', $type);
-                if(!$event_type->exists()) {
-                    $event_type = EventType::create(['name' => $type, 'ico' => 'none']);
-                } else {
-                    $event_type = $event_type->first();
-                }
-                $event->types()->attach($event_type->id);
-//                throw  new Exception('Not current type');
+//                $event_type = EventType::where('name', $type);
+//                if(!$event_type->exists()) {
+//                    $event_type = EventType::create(['name' => $type, 'ico' => 'none']);
+//                } else {
+//                    $event_type = $event_type->first();
+//                }
+//                $event->types()->attach($event_type->id);
+                throw  new Exception('Not current type');
             }
         }
     }
