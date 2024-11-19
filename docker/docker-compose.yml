@@ -1,5 +1,6 @@
 services:
     db:
+        container_name: vokrug_database
         image: postgres:16-alpine
         restart: always
         deploy:
@@ -23,6 +24,7 @@ services:
             - db-net
 
     nginx:
+        container_name: vokrug_nginx
         restart: always
         deploy:
             replicas: 1
@@ -47,6 +49,7 @@ services:
             - ng-net
 
     backend:
+        container_name: vokrug_backend
         env_file: .env
         restart: always
         #    image: bitnami/laravel
@@ -73,11 +76,11 @@ services:
     #    command:
     #      - apt install php-redis
     scheduler:
+        container_name: vokrug_scheduler
         env_file: .env
         build:
             context: ./php
             dockerfile: dockerfile
-        container_name: scheduler
         restart: unless-stopped
         tty: true
         working_dir: /var/www/MLCity_backend
@@ -115,6 +118,7 @@ services:
         working_dir: /var/www/MLCity_backend
 
     elasticsearch:
+        container_name: vokrug_elasticsearch
         image: elasticsearch:8.15.3
         restart: always
         deploy:
@@ -196,6 +200,7 @@ services:
 #            - elasticsearch
 
     cache:
+        container_name: vokrug_cache
         image: redis:7.4.1
         deploy:
             replicas: 1
