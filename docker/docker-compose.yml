@@ -212,6 +212,8 @@ services:
                     cpus: "0.5"
                     memory: "512M"
         restart: always
+        volumes:
+            - ./redis/data:/data
         ports:
             - "${REDIS_PORT}:6379"
         networks:

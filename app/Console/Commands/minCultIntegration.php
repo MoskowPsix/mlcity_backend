@@ -60,7 +60,7 @@ class minCultIntegration extends Command
             ProcessIntegrationMinCult::dispatch($this->offset, $this->limit);
             $this->offset = $this->offset + $this->limit;
             $this->bar->advance($this->limit);
-            $total= $total + $this->limit;
+            $total= $total - $this->limit;
         }
         $this->bar->finish();
     }
