@@ -8,10 +8,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "1"
-                    memory: "1024M"
+#            resources:
+#                limits:
+#                    cpus: "4"
+#                    memory: "2058M"
         environment:
             POSTGRES_PASSWORD: ${DB_PASSWORD}
             POSTGRES_USER: ${DB_USERNAME}
@@ -31,10 +31,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "0.1"
-                    memory: "128M"
+#            resources:
+#                limits:
+#                    cpus: "0.1"
+#                    memory: "128M"
         build:
             context: ./nginx
             dockerfile: dockerfile
@@ -58,10 +58,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "0.5"
-                    memory: "512M"
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
         build:
             context: ./php
             dockerfile: dockerfile
@@ -101,10 +101,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "0.2"
-                    memory: "256M"
+#            resources:
+#                limits:
+#                    cpus: "0.2"
+#                    memory: "256M"
         command: php /var/www/MLCity_backend/artisan queue:work --daemon
         build:
             context: ./php
@@ -126,10 +126,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "0.5"
-                    memory: "512M"
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
         environment:
             - discovery.type=single-node
             - xpack.security.enabled=true
@@ -207,10 +207,10 @@ services:
             restart_policy:
                 delay: 5s
                 condition: on-failure
-            resources:
-                limits:
-                    cpus: "0.5"
-                    memory: "512M"
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
         restart: always
         volumes:
             - ./redis/data:/data
