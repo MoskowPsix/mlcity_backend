@@ -62,7 +62,7 @@ class ProcessIntegrationMinCult implements ShouldQueue
     private function startInt($event): void
     {
         try {
-            $org = $this->orgCreate($event->nativeName);
+            $org = $this->orgCreate($event);
             $event_cr = $this->eventCreate($event, $org->id);
             $event = $event->data->general;
 
@@ -84,18 +84,30 @@ class ProcessIntegrationMinCult implements ShouldQueue
 
             $this->setStatus($event_cr);
         } catch (\Exception $e) {
-            dd($e);
+            throw new \Exception($e->getMessage());
         }
     }
-    private function orgCreate(string $name): Organization
+    private function orgCreate(object $event): Organization
     {
-        $sight = Sight::create([
-            "name" => $name,
-            "address" => "",
-            "description" => "",
-            "user_id" => 1,
-        ]);
-        return $sight->organization()->create();
+        $place = $event->data->general->places[0];
+        $sight = Sight::where('name', $place->name)->where('address', $place->address->fullAddress);
+        if($sight->exists()){
+            $this->saveType($event->data->general->category, $sight->first());
+            return $sight->first()->organization;
+        } else {
+            $sight = Sight::create([
+                "name" => $place->name,
+                "address" => $place->address->fullAddress,
+                "latitude" => $place->address->mapPosition->coordinates[0],
+                "longitude" => $place->address->mapPosition->coordinates[1],
+                "user_id" => 1,
+            ]);
+            $this->saveType($event->data->general->category, $sight);
+            $status = Status::where('name', 'Опубликовано')->first();
+            $sight->statuses()->updateExistingPivot($status, ['last' => false]);
+            $sight->statuses()->attach($status->id,  ['last' => true]);
+            return $sight->organization()->create();
+        }
     }
     private function eventCreate(object $event, int $org_id): Event
     {
@@ -112,18 +124,21 @@ class ProcessIntegrationMinCult implements ShouldQueue
             'source_name' => 'min_cult'
         ]);
     }
-    private function saveType(Object $type, Event $event): void
+    private function saveType(Object $type, Event | Sight $event): void
     {
         $current_type = new CurrentType($type->name);
         $type_name = $current_type->getType();
         if(isset($type_name)) {
             $event->types()->attach($type_name['id']);
+            $types_ids_cr = $event->types->pluck('id')->toArray();
+            $event->types()->detach($types_ids_cr);
+            $event->types()->attach(array_unique($types_ids_cr));
         } else {
-            $sight_type = EventType::where('name', $type->name);
-            if(!$sight_type->exists()) {
-                $sight_type = EventType::create(['name' => $type->name, 'ico' => 'none']);
-            }
-            $event->types()->attach($sight_type->id);
+//            $sight_type = EventType::where('name', $type->name);
+//            if(!$sight_type->exists()) {
+//                $sight_type = EventType::create(['name' => $type->name, 'ico' => 'none']);
+//            }
+//            $event->types()->attach($sight_type->id);
         }
     }
     private function savePrice(int $price, Event $event): void

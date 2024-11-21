@@ -34,8 +34,8 @@ class IntegrationVLD extends Command
             case 'all':
                 $this->integrationAll();
                 break;
-            case 'event':
-                $this->integrationEvent();
+            case 'delete':
+                $this->integrationDel();
                 break;
         }
         return 0;
@@ -54,9 +54,5 @@ class IntegrationVLD extends Command
             $bar->advance();
         }
         $bar->finish();
-    }
-    private function integrationEvent()
-    {
-
     }
 }

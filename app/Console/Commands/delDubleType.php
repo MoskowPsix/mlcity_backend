@@ -52,7 +52,7 @@ class delDubleType extends Command
                                 "last" => false
                             ]);
                         }
-                        $sight->statuses()->attach($status->id, ["last" => True]);
+                        $sight->statuses()->attach($status->id, ["last" => true]);
                         $bar->advance();
                     }
                     DB::commit();

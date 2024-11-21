@@ -11,6 +11,7 @@ use App\Models\Location;
 use App\Models\Organization;
 use App\Models\Place;
 use App\Models\Sight;
+use App\Models\Status;
 use App\Models\Timezone;
 use Carbon\Carbon;
 use Exception;
@@ -68,6 +69,9 @@ class ProcessIntegrationVld implements ShouldQueue
 
                     isset($event->_source->media) ? $this->saveFiles($event->_source->media, $event_cr) : null;
                     $this->setTypes($event->_source->types, $event_cr);
+                    $status = Status::where('name', 'Опубликовано')->first();
+                    $event_cr->statuses()->updateExistingPivot($status, ['last' => false]);
+                    $event_cr->statuses()->attach($status->id,  ['last' => true]);
                     DB::commit();
                 } catch(Exception $e) {
                     DB::rollBack();
@@ -87,7 +91,7 @@ class ProcessIntegrationVld implements ShouldQueue
             if (count($date_start) < 2 || count($date_end) < 2) {
                 throw new \Exception('No valid date');
             }
-            $org = $this->orgCreate($event->_source->title);
+            $org = $this->orgCreate($event);
             return [
                 'source_id' => $id[1],
                 'source_name' => $id[0],
@@ -104,15 +108,34 @@ class ProcessIntegrationVld implements ShouldQueue
             throw new \Exception($e->getMessage());
         }
     }
-    private function orgCreate(string $title): Organization
+    private function orgCreate(object $event): Organization
     {
-        $sight = Sight::create([
-            "name" => $title,
-            "address" => "",
-            "description" => "",
-            "user_id" => 1,
-        ]);
-        return $sight->organization()->create();
+        $sight = Sight::where('name', $event->_source->venue->name);
+        if ($sight->exists()) {
+            $this->setTypes($event->_source->types, $sight);
+            return $sight->first()->organization()->first();
+        } else {
+            $sight = Sight::create([
+                "name" => $event->_source->venue->name,
+                "address" => $event->_source->venue->address->address,
+                "latitude" => $event->_source->venue->address->location->lat,
+                "longitude" => $event->_source->venue->address->location->long,
+                "description" => "",
+                "user_id" => 1,
+            ]);
+            foreach ($event->_source->types as $type) {
+                $current_type = new CurrentType($type);
+                $type_name = $current_type->getType();
+                if (isset($type_name)) {
+                    $sight->types()->attach($type_name['id']);
+                }
+            }
+            $this->setTypes($event->_source->types, $sight);
+            $status = Status::where('name', 'Опубликовано')->first();
+            $sight->statuses()->updateExistingPivot($status, ['last' => false]);
+            $sight->statuses()->attach($status->id,  ['last' => true]);
+            return $sight->organization()->create();
+        }
     }
     private function formPlace(object|null $place): array
     {
@@ -177,23 +200,20 @@ class ProcessIntegrationVld implements ShouldQueue
             ])->file_types()->attach($image_type->id);
         }
     }
-    private function setTypes(array $types, Event $event)
+    private function setTypes(array $types, Event | Sight $event)
     {
+        $types_ids = [];
         foreach ($types as $type) {
             $current_type = new CurrentType($type);
             $type_name = $current_type->getType();
             if (isset($type_name)) {
-                $event->types()->attach($type_name['id']);
-            } else {
-//                $event_type = EventType::where('name', $type);
-//                if(!$event_type->exists()) {
-//                    $event_type = EventType::create(['name' => $type, 'ico' => 'none']);
-//                } else {
-//                    $event_type = $event_type->first();
-//                }
-//                $event->types()->attach($event_type->id);
-                throw  new Exception('Not current type');
+                $types_ids[] = $type_name['id'];
+//                $event->types()->attach($type_name['id']);
             }
+            $event->types()->attach(array_unique($types_ids));
+            $types_ids_cr = $event->types->pluck('id')->toArray();
+            $event->types()->detach($types_ids_cr);
+            $event->types()->attach(array_unique($types_ids_cr));
         }
     }
     private function isScroll(): bool
