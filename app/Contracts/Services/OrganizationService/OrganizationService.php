@@ -68,6 +68,23 @@ class OrganizationService implements OrganizationServiceInterface
             return false;
         }
     }
+
+    /**
+     * @throws \Exception
+     */
+    public function organizationTransferUser(int $org_id, int $user_id): void {
+            $user = auth('api')->user();
+            $organization = Organization::findOrFail($org_id);
+
+            if ($organization->users()->firstOrFail()->id !== $user->id) {
+                throw new \Exception('You are not allowed to transfer users to this organization');
+            }
+
+            $organization->users()->detach($user->id);
+            $organization->users()->attach($user_id);
+
+            $organization->sight()->update(['user_id' => $user_id]);
+    }
     private function saveLocalAvatar(Organization $org, $file): void
     {
         $path = $file->store('organization/avatar/' . $org->id, 'public');

@@ -33,8 +33,8 @@ class IntegrationDel extends Command
         $events_q->chunk(1000, function ($events) use($bar) {
             $events->each(function($event) use($bar) {
                 $bar->advance();
-                DB::beginTransaction();
-                try {
+//                DB::beginTransaction();
+//                try {
                     if($event->organization()->exists()) {
                         if($event->organization()->first()->sight()->exists()) {
                             $event->organization()->first()->sight()->delete();
@@ -42,11 +42,11 @@ class IntegrationDel extends Command
                         $event->organization()->delete();
                     }
                     $event->delete();
-                    DB::commit();
-                } catch(Exception $e) {
-                    dd($e);
-                    DB::rollBack();
-                }
+//                    DB::commit();
+//                } catch(Exception $e) {
+//                    dd($e);
+//                    DB::rollBack();
+//                }
             });
         });
         $bar->finish();

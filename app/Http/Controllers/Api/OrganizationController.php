@@ -176,4 +176,13 @@ class OrganizationController extends Controller
             return new FailedDeleteOrganizationResource([]);
         }
     }
+
+    public function organizationTransferUser(int $org_id, int $user_id) {
+        try {
+            $this->organizationService->organizationTransferUser($org_id, $user_id);
+            return response()->json(["message" => "User was transferred"]);
+        } catch (Exception $e) {
+            dd($e);
+        }
+    }
 }
