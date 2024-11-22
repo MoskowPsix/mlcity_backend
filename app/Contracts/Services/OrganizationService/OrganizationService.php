@@ -75,13 +75,9 @@ class OrganizationService implements OrganizationServiceInterface
     public function organizationTransferUser(int $org_id, int $user_id): void {
             $user = auth('api')->user();
             $organization = Organization::findOrFail($org_id);
-
-            if ($organization->users()->firstOrFail()->id !== $user->id) {
+            if ($organization->sight()->firstOrFail()->user_id !== $user->id) {
                 throw new \Exception('You are not allowed to transfer users to this organization');
             }
-
-            $organization->users()->detach($user->id);
-            $organization->users()->attach($user_id);
 
             $organization->sight()->update(['user_id' => $user_id]);
     }
