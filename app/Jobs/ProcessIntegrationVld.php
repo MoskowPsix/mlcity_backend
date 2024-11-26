@@ -200,7 +200,7 @@ class ProcessIntegrationVld implements ShouldQueue
             ])->file_types()->attach($image_type->id);
         }
     }
-    private function setTypes(array $types, Event | Sight $event)
+    private function setTypes(array $types, mixed $event)
     {
         $types_ids = [];
         foreach ($types as $type) {
