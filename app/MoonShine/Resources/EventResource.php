@@ -96,7 +96,13 @@ class EventResource extends ModelResource
                         DateRange::make('Конец', 'date_end'),
                     ]),
                 ])->columnSpan(12),
-            ])
+                Column::make([
+                    Block::make('Интеграция', [
+                        Text::make('Имя Источника', 'source_name'),
+                        Text::make('ID Источника', 'source_id'),
+                    ])
+                ])->columnSpan(12),
+            ]),
         ];
     }
 

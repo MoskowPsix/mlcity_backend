@@ -45,6 +45,8 @@ class EventIndexPage extends IndexPage
             ,
             $this->showLastStatus(),
             Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
+            Text::make('Имя Источника', 'source_name')->sortable(),
+            Text::make('ID Источника', 'source_id')->sortable(),
         ];
     }
 
