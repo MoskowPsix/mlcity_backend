@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Constants\StatusesConstants;
+use App\Contracts\Services\DecisionHistoryContentService;
 use App\Http\Controllers\Controller;
+use App\Jobs\ProcessSendMailOfChangedHistoryContent;
 use App\Mail\EventStatusChanged;
+use App\Mail\HistoryContentChanged;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use App\Models\Sight;
@@ -62,13 +66,20 @@ class StatusController extends Controller
     public function addStatusEvent(Request $request)
     {
         // $vk_post['response']['post_id'] = '';
-        $event = Event::where('id', $request->event_id)->firstOrFail();
+        $event = Event::find($request->event_id);
         $statuses_all = Status::all();
         $status = Status::where('name', $request->status)->firstOrFail();
+
+        $event_status = $event->statuses()->where('last', true)->first()->name;
+        if($event_status == StatusesConstants::EDITED){
+            $history = $event->historyContents()->orderBy('created_at', 'desc')->first();
+            $decisionHistoryContentService = new DecisionHistoryContentService($history->id);
+            $decisionHistoryContentService->publishAcceptedHistoryContent();
+            ProcessSendMailOfChangedHistoryContent::dispatch($event);
+        }
+
         $event->statuses()->updateExistingPivot($statuses_all, ['last' => false]);
-        $user = User::findOrFail($event->user_id);
         $event->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
-        Mail::to($user->email)->send(new EventStatusChanged($status->name, $event->name));
         // $status_post = Status::where('id', $request->status_id)->firstOrFail();
         // $vk_post['response']['post_id'] = $event->vk_post_id;
 
@@ -80,8 +91,7 @@ class StatusController extends Controller
         //     $event->save();
         // }
 
-        return response()->json(
-            [
+        return response()->json([
                 'status' => 'success',
                 'event' => $request->event_id,
                 'add_status' => $request->status,
@@ -94,13 +104,17 @@ class StatusController extends Controller
     // Для достопримечательностей
     public function addStatusSight(Request $request)
     {
-        $vk_post['response']['post_id'] = '';
-        $sight = Sight::where('id', $request->sight_id)->firstOrFail();
-        $statuses_all = Status::all();
+//        $vk_post['response']['post_id'] = '';
+        $sight = Sight::find('id', $request->sight_id);
         $status = Status::where('name',$request->get("status"))->firstOrFail();
-        $sight->statuses()->updateExistingPivot( $statuses_all, ['last' => false]);
+        $sight_status = $sight->statuses()->where('last', true)->first()->name;
+        if($sight_status == StatusesConstants::EDITED){
+            $decisionHistoryContentService = new DecisionHistoryContentService($sight->historyContents()->orderBy('created_at', 'desc')->first()->id);
+            $decisionHistoryContentService->publishAcceptedHistoryContent();
+            ProcessSendMailOfChangedHistoryContent::dispatch($sight);
+        }
+        $sight->statuses()->updateExistingPivot( Status::all(), ['last' => false]);
         $sight->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
-
 
         return response()->json(
             [
@@ -116,7 +130,6 @@ class StatusController extends Controller
         $status = Status::where('name',$request->status_id)->firstOrFail();
         $sight->statuses()->updateExistingPivot( $statuses_all, ['last' => false]);
         $sight->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
-
 
         return response()->json(
             [

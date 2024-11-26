@@ -324,7 +324,7 @@ class DecisionHistoryContentService {
      */
     private function setAccepter() {
         $this->historyContent->update([
-            "accepter_id" => auth('api')->user()->id
+            "accepter_id" => auth('api')->user()->id ?? auth('moonshine')->user()->id
         ]);
     }
 

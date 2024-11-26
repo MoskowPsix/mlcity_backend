@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\ProcessSendMailOfChangedHistoryContent;
 use App\Models\Event;
 use Exception;
 use Illuminate\Console\Command;
