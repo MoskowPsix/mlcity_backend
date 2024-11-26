@@ -413,7 +413,7 @@ class EventService implements EventServiceInterface
     {
         $event = Event::findOrFail($id);
         $organization = $event->organization->sight;
-        $organization->load('files');
+        $organization->load('files', 'types');
 
         return $organization;
     }
