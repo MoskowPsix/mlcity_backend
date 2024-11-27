@@ -95,11 +95,13 @@ class ProcessIntegrationMinCult implements ShouldQueue
             $this->saveType($event->data->general->category, $sight->first());
             return $sight->first()->organization;
         } else {
+            $location = $this->getLocation($place->address->mapPosition->coordinates[0], $place->address->mapPosition->coordinates[1]);
             $sight = Sight::create([
                 "name" => $place->name,
                 "address" => $place->address->fullAddress,
                 "latitude" => $place->address->mapPosition->coordinates[0],
                 "longitude" => $place->address->mapPosition->coordinates[1],
+                "location_id" => $location->id,
                 "user_id" => 1,
             ]);
             $this->saveType($event->data->general->category, $sight);
@@ -208,5 +210,14 @@ class ProcessIntegrationMinCult implements ShouldQueue
     public function getId($event)
     {
         return $event->data->general->id;
+    }
+    private function getLocation(float $lat,float  $long): mixed
+    {
+        $location = Location::select('*')->selectRaw('(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude)))) AS distance', [$lat, $long, $lat])
+            ->orderBy('distance');
+        if (!$location) {
+            throw new \Exception('Location not found');
+        }
+        return $location->first();
     }
 }
