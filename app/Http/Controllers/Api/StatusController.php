@@ -105,7 +105,7 @@ class StatusController extends Controller
     public function addStatusSight(Request $request)
     {
 //        $vk_post['response']['post_id'] = '';
-        $sight = Sight::find('id', $request->sight_id);
+        $sight = Sight::find($request->sight_id);
         $status = Status::where('name',$request->get("status"))->firstOrFail();
         $sight_status = $sight->statuses()->where('last', true)->first()->name;
         if($sight_status == StatusesConstants::EDITED){
