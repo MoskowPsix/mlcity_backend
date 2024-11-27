@@ -11,6 +11,7 @@ use App\MoonShine\Pages\HistorySeance\HistorySeanceIndexPage;
 use App\MoonShine\Pages\HistorySeance\HistorySeanceFormPage;
 use App\MoonShine\Pages\HistorySeance\HistorySeanceDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -22,6 +23,7 @@ class HistorySeanceResource extends ModelResource
     protected string $model = HistorySeance::class;
 
     protected string $title = 'MoonHistorySeances';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<Page>

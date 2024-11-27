@@ -13,6 +13,7 @@ use App\MoonShine\Pages\Sight\SightIndexPage;
 use App\MoonShine\Pages\Sight\SightFormPage;
 use App\MoonShine\Pages\Sight\SightDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
@@ -39,6 +40,7 @@ class SightResource extends ModelResource
 
     protected string $column = 'name';
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
 

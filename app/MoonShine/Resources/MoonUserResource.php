@@ -16,6 +16,7 @@ use MoonShine\Components\Boolean;
 use MoonShine\Components\Link;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Checkbox;
 use MoonShine\Fields\Field;
 
@@ -39,6 +40,7 @@ class MoonUserResource extends ModelResource
     protected string $column = 'name';
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
     public function fields(): array
     {
         return [

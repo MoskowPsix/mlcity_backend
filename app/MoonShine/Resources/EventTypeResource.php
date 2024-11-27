@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonType;
 use App\Models\EventType;
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
@@ -30,6 +31,7 @@ class EventTypeResource extends ModelResource
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     public function getActiveActions(): array
     {

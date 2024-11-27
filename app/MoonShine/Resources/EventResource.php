@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Request;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\DateRange;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\Number;
@@ -44,7 +45,7 @@ class EventResource extends ModelResource
     public static array $activeActions = ['view'];
     protected bool $simplePaginate = true;
     protected bool $usePagination = true;
-
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
     protected bool $isAsync = true;
 
 

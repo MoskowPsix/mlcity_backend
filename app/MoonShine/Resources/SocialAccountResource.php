@@ -8,6 +8,7 @@ use App\Models\SocialAccount;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonSocialAccount;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Date;
 use MoonShine\Fields\Number;
 use MoonShine\Fields\Text;
@@ -27,6 +28,7 @@ class SocialAccountResource extends ModelResource
     protected string $title = 'MoonSocialAccounts';
 
     protected string $column = 'provider';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<MoonShineComponent|Field>

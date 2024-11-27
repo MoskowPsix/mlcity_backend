@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonType;
 use App\Models\SightType;
 use MoonShine\ActionButtons\ActionButton;
+use MoonShine\Enums\ClickAction;
 use MoonShine\Enums\JsEvent;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
@@ -35,6 +36,7 @@ class SightTypeResource extends ModelResource
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     public function getActiveActions(): array
     {
