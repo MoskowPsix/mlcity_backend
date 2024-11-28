@@ -18,6 +18,7 @@ return [
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
         'localhost,
+        https://localhost,
 		https://80.90.190.252:443,
 		https://80.90.190.252:3443,
 		https://mlcity.ru:443,
