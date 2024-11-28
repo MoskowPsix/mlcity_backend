@@ -16,7 +16,7 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
 
           script: |
-            cd ${{ secrets.DIR }};
+            cd ${{ secrets.DIR }}/docker;
             git checkout main;
             git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
             docker compose down
