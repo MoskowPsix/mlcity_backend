@@ -49,9 +49,17 @@ class ProcessIntegrationVld implements ShouldQueue
     }
     private function saveEvent($response)
     {
-            foreach ($response->hits->hits as $event) {
+        foreach ($response->hits->hits as $event) {
                 $id = explode('_', $event->_id);
+
                 if (Event::where('source_name', $id[0])->where('source_id', $id[1])->exists()) continue;
+                if (empty($event->_source->venue->address->address)) continue;
+
+                if($event->_source->venue->address->location->lat == 0 || $event->_source->venue->address->location->long){
+                    $coords = $this->getCoords($event->_source->venue->address->address);
+                    $event->_source->venue->address->location->lat = $coords[0];
+                    $event->_source->venue->address->location->long = $coords[1];
+                }
                 DB::beginTransaction();
                 try{
                     $event_form = $this->formEvent($event);
@@ -108,33 +116,88 @@ class ProcessIntegrationVld implements ShouldQueue
             throw new \Exception($e->getMessage());
         }
     }
+    public function getCoords(string $address): array
+    {
+        $sight = Sight::where('address', $address);
+        $place = Place::where('address', $address);
+        if ($sight->exists()) {
+            $sight = $sight->first();
+            return [$sight->latitude, $sight->longitude];
+        } else if ($place->exists()) {
+            return [$place->latitude, $place->longitude];
+        } else {
+            $format = 'json';
+            $key = env('YANDEX_MAP_API_KEY');
+            $ch = curl_init('https://geocode-maps.yandex.ru/1.x/?apikey=' . $key . '&format=' . $format . '&geocode=' . urlencode($address));
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+            curl_setopt($ch, CURLOPT_HEADER, false);
+            $res = curl_exec($ch);
+            curl_close($ch);
+            $res = json_decode($res, true);
+            return explode(' ', $res['response']['GeoObjectCollection']['featureMember'][0]['GeoObject']['Point']['pos']);
+        }
+    }
     private function orgCreate(object $event): Organization
     {
-        $sight = Sight::where('name', $event->_source->venue->name);
-        if ($sight->exists()) {
-            $this->setTypes($event->_source->types, $sight);
-            return $sight->first()->organization()->first();
-        } else {
-            $sight = Sight::create([
-                "name" => $event->_source->venue->name,
-                "address" => $event->_source->venue->address->address,
-                "latitude" => $event->_source->venue->address->location->lat,
-                "longitude" => $event->_source->venue->address->location->long,
-                "description" => "",
-                "user_id" => 1,
-            ]);
-            foreach ($event->_source->types as $type) {
-                $current_type = new CurrentType($type);
-                $type_name = $current_type->getType();
-                if (isset($type_name)) {
-                    $sight->types()->attach($type_name['id']);
+        if(empty($event->_source->organization)) {
+            $sight = Sight::where('name', $event->_source->venue->name);
+            if ($sight->exists()) {
+                $this->setTypes($event->_source->types, $sight);
+                return $sight->first()->organization()->first();
+            } else {
+                $location = $this->getLocation($event->_source->venue->address->location->lat, $event->_source->venue->address->location->long);
+                $sight = Sight::create([
+                    "name"          => $event->_source->venue->name,
+                    "address"       => $event->_source->venue->address->address,
+                    "latitude"      => $event->_source->venue->address->location->lat,
+                    "longitude"     => $event->_source->venue->address->location->long,
+                    "description"   => "",
+                    "location_id" => $location->id,
+                    "user_id"       => 1,
+                ]);
+                foreach ($event->_source->types as $type) {
+                    $current_type = new CurrentType($type);
+                    $type_name = $current_type->getType();
+                    if (isset($type_name)) {
+                        $sight->types()->attach($type_name['id']);
+                    }
                 }
+                $this->setTypes($event->_source->types, $sight);
+                $status = Status::where('name', 'Опубликовано')->first();
+                $sight->statuses()->updateExistingPivot($status, ['last' => false]);
+                $sight->statuses()->attach($status->id, ['last' => true]);
+                return $sight->organization()->create();
             }
-            $this->setTypes($event->_source->types, $sight);
-            $status = Status::where('name', 'Опубликовано')->first();
-            $sight->statuses()->updateExistingPivot($status, ['last' => false]);
-            $sight->statuses()->attach($status->id,  ['last' => true]);
-            return $sight->organization()->create();
+        } else {
+            $sight = Sight::where('name', $event->_source->organization->name);
+            if ($sight->exists()) {
+                $this->setTypes($event->_source->types, $sight);
+                return $sight->first()->organization()->first();
+            } else {
+                $location = $this->getLocation($event->_source->venue->address->location->lat, $event->_source->venue->address->location->long);
+                $sight = Sight::create([
+                    "name" => $event->_source->organization->name,
+                    "address" => $event->_source->organization->address,
+                    "latitude" => $event->_source->venue->address->location->lat,
+                    "longitude" => $event->_source->venue->address->location->long,
+                    "description" => $event->_source->organization->description,
+                    "location_id" => $location->id,
+                    "site" => $event->_source->organization->url,
+                    "user_id" => 1,
+                ]);
+                $image_type = FileType::where('name', 'image')->first();
+                $sight->files()->create([
+                    'name' => "img_" . Str::random(16),
+                    'link' => $event->_source->organization->image,
+                    'local' => false,
+                ])->file_types()->attach($image_type->id);
+                $this->setTypes($event->_source->types, $sight);
+                $status = Status::where('name', 'Опубликовано')->first();
+                $sight->statuses()->updateExistingPivot($status, ['last' => false]);
+                $sight->statuses()->attach($status->id, ['last' => true]);
+                return $sight->organization()->create();
+            }
         }
     }
     private function formPlace(object|null $place): array

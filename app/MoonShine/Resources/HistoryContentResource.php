@@ -10,6 +10,7 @@ use App\MoonShine\Pages\HistoryContent\HistoryContentIndexPage;
 use App\MoonShine\Pages\HistoryContent\HistoryContentFormPage;
 use App\MoonShine\Pages\HistoryContent\HistoryContentDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -21,6 +22,7 @@ class HistoryContentResource extends ModelResource
     protected string $model = HistoryContent::class;
 
     protected string $title = 'MoonHistoryContents';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<Page>

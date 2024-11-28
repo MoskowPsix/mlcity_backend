@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
@@ -24,6 +25,7 @@ class RoleResource extends ModelResource
     protected string $title = 'Роли';
 
     protected string $column = 'name';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<MoonShineComponent|Field>

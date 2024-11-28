@@ -10,6 +10,7 @@ use App\MoonShine\Pages\Place\PlaceIndexPage;
 use App\MoonShine\Pages\Place\PlaceFormPage;
 use App\MoonShine\Pages\Place\PlaceDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -24,6 +25,7 @@ class PlaceResource extends ModelResource
 //    protected bool $detailInModal = true;
 
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
 
     public function getActiveActions(): array

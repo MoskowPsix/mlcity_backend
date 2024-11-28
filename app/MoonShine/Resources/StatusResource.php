@@ -8,6 +8,7 @@ use App\Models\Status;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\MoonStatus;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Text;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Decorations\Block;
@@ -28,6 +29,7 @@ class StatusResource extends ModelResource
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     public function getActiveActions(): array
     {

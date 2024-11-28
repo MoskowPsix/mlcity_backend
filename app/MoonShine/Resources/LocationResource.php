@@ -10,6 +10,7 @@ use App\MoonShine\Pages\Location\LocationIndexPage;
 use App\MoonShine\Pages\Location\LocationFormPage;
 use App\MoonShine\Pages\Location\LocationDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -29,6 +30,7 @@ class LocationResource extends ModelResource
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     public function getActiveActions(): array
     {

@@ -10,6 +10,7 @@ use App\MoonShine\Pages\HistoryPlace\HistoryPlaceIndexPage;
 use App\MoonShine\Pages\HistoryPlace\HistoryPlaceFormPage;
 use App\MoonShine\Pages\HistoryPlace\HistoryPlaceDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -23,6 +24,7 @@ class HistoryPlaceResource extends ModelResource
     protected string $title = 'История мест ведения';
 
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
 
     public function getActiveActions(): array
