@@ -54,6 +54,7 @@ class ProcessIntegrationMinCult implements ShouldQueue
                 $this->startInt($event);
                 DB::commit();
             } catch (\Exception $e) {
+                dd($e);
                 DB::rollBack();
                 continue;
             }
