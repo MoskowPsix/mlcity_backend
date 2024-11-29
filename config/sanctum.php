@@ -18,6 +18,7 @@ return [
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
         '%s%s',
         'localhost,
+        https://localhost,
 		https://80.90.190.252:443,
 		https://80.90.190.252:3443,
 		https://mlcity.ru:443,
@@ -75,7 +76,7 @@ return [
     'middleware' => [
         'authenticate_session' => Laravel\Sanctum\Http\Middleware\AuthenticateSession::class,
         'encrypt_cookies' => Illuminate\Cookie\Middleware\EncryptCookies::class,
-        'validate_csrf_token' => \App\Http\Middleware\VerifyCsrfToken::class,
+//        'validate_csrf_token' => Illuminate\Cookie\Middleware\VerifyCsrfToken::class,
     ],
 
 ];
