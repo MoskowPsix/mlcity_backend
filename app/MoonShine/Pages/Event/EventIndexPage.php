@@ -35,7 +35,7 @@ class EventIndexPage extends IndexPage
                 ->changePreview(function ($data) {
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
-            Text::make('Организатор', 'name'),
+            Text::make('Организатор', 'organization.sight.name'),
             Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
             Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
             BelongsToMany::make('Тип', 'types', resource: new EventTypeResource())
