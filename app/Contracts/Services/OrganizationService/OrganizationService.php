@@ -19,7 +19,7 @@ class OrganizationService implements OrganizationServiceInterface
 
     public function getEvents(int $organizationId, $data): object
     {
-        $events = Event::query()->where("organization_id", $organizationId);
+        $events = Event::query()->with('types')->where("organization_id", $organizationId);
         $page = $data->page;
         $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
         return app(Pipeline::class)
