@@ -24,6 +24,9 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $liked_users_count
  * @property int $favorites_users_count
  * @property int $viewCount
+ * @property int $min_cult_id
+ * @property int $cult_id
+ * @property array $places
  */
 class EventResource extends JsonResource
 {
@@ -60,10 +63,11 @@ class EventResource extends JsonResource
             'price'             => $this->whenLoaded('price'),
             //            'likedUsers'        => $this->whenLoaded('likedUsers'),
             'likedUsers'        => $this->when(!empty($this->liked_users_count), $this->liked_users_count),
+            'likedUsers'        => $this->when(isset($this->likes), $this->likes->local_count ?? null),
             'favoritesUsers'    => $this->when(!empty($this->favorites_users_count), $this->favorites_users_count),
             'views'             => $this->whenLoaded('viewCount', new ViewCountResource($this->viewCount)),
             //            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
-            'places'            => $this->whenLoaded('places'),
+            'places_full' => $this->whenLoaded('places'),
             'places_full' => $this->whenLoaded('placesFull'),
         ];
     }
