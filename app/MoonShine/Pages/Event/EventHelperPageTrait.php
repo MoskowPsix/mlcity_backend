@@ -203,7 +203,7 @@ trait EventHelperPageTrait
                         return (string)FormBuilder::make()
                             ->async(asyncEvents: ['transfer'])
                             ->fields([
-                                Number::make('ID', 'user_id')->setValue($this->getResource()->getItem()->user_id), // Более правильное название поля
+                                Number::make('ID пользователя, которому передаётся сообщество и его события', 'user_id')->setValue($this->getResource()->getItem()->user_id), // Более правильное название поля
                                 ID::make('ID', 'organization_id')->hideOnAll()->setValue($this->getResource()->getItem()->organization->id), // Более правильное название поля
                             ])->submit('Сменить')
                             ->asyncMethod('transferSight');

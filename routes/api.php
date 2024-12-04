@@ -222,7 +222,7 @@ Route::controller(OrganizationController::class)->group(function () {
 
     Route::get("organizations/{organizationId}/events", "getEvents");
 
-    Route::post("organizations/{organizationId}/transfer/user/{userId}", "organizationTransferUser")->name('organization.transfer.user');
+    Route::post("organizations/{organizationId}/transfer/user/{userId}", "organizationTransferUser")->middleware("auth:sanctum")->name('organization.transfer.user');
 });
 
 Route::controller(OrganizationInviteController::class)->group(function () {
