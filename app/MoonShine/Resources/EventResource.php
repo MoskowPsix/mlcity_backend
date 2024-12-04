@@ -28,12 +28,25 @@ use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
+use MoonShine\Traits\Resource\ResourceWithParent;
 
 /**
  * @extends ModelResource<Event>
  */
 class EventResource extends ModelResource
 {
+    use ResourceWithParent;
+
+    protected function getParentResourceClassName(): string
+    {
+        return SightResource::class;
+    }
+
+    protected function getParentRelationName(): string
+    {
+        return 'sight';
+    }
+
     protected string $model = Event::class;
 
     protected string $title = 'События';

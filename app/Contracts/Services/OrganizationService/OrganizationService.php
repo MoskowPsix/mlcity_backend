@@ -73,13 +73,15 @@ class OrganizationService implements OrganizationServiceInterface
      * @throws \Exception
      */
     public function organizationTransferUser(int $org_id, int $user_id): void {
-            $user = auth('api')->user();
-            $organization = Organization::findOrFail($org_id);
-            if ($organization->sight()->firstOrFail()->user_id !== $user->id) {
-                throw new \Exception('You are not allowed to transfer users to this organization');
-            }
+        $organization = Organization::findOrFail($org_id);
+        $organization->sight()->update(['user_id' => $user_id]);
+        $events = $organization->sight()->first()->organizationEvents();
 
-            $organization->sight()->update(['user_id' => $user_id]);
+        $events->chunk(100, function ($events_coll) use($user_id) {
+            $events_coll->each(function($event) use($user_id) {
+                $event->update(['user_id' => $user_id]);
+            });
+        });
     }
     private function saveLocalAvatar(Organization $org, $file): void
     {

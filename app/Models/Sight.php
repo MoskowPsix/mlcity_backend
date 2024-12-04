@@ -11,7 +11,11 @@ use App\Models\Status;
 use App\Models\SightFile;
 use App\Models\SightLike;
 use App\Models\Comment;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use MoonShine\Fields\Relationships\HasMany;
 
 class Sight extends ElasticsearchModel
 {
@@ -117,9 +121,12 @@ class Sight extends ElasticsearchModel
         return $this->belongsToMany(Event::class, "places", "sight_id", "event_id")->with("files");
     }
 
-    public function  organization()
+    public function  organization(): HasOne
     {
         return $this->hasOne(Organization::class);
-//        App\Models\Sight::whereHas('types', function($q) {return $q->where('stypes.name', 'Архитектурные');})->get()->events()->count();
+    }
+    public function organizationEvents()
+    {
+        return $this->hasOne(Organization::class)->first()->events();
     }
 }

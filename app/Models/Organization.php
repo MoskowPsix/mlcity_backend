@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Organization extends Model
 {
@@ -29,10 +30,9 @@ class Organization extends Model
     {
         return $this->belongsToMany(User::class, "user_organization", "organization_id", "user_id")->distinct();
     }
-
-    public function events()
+    public function events(): HasMany
     {
-        return $this->belongsTo(Event::class, "organization_id", "id");
+        return $this->hasMany(Event::class, "organization_id", "id");
     }
 
     public function usersPermissions(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
