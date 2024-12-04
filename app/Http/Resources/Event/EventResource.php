@@ -31,14 +31,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
  */
 class EventResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
      * @param  Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray($request)
     {
         return [
             'id'                => $this->id,
@@ -68,9 +67,11 @@ class EventResource extends JsonResource
             'favoritesUsers'    => $this->when(!empty($this->favorites_users_count), $this->favorites_users_count),
             'views'             => $this->whenLoaded('viewCount', new ViewCountResource($this->viewCount)),
             //            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
-            'places_full' => $this->whenLoaded('places'),
-            'places_full' => $this->whenLoaded('placesFull'),
-            'organization' => $this->whenLoaded('organization'),
+            'places_full'       => $this->whenLoaded('places'),
+            'places_full'       => $this->whenLoaded('placesFull'),
+            'organization'      => $this->whenLoaded('organization'),
+            'location_name'     => $this->when(!empty($this->location_name), $this->location_name),
+            'place'             => $this->whenLoaded('place'),
 //            'organization' => $this->when(!empty($this->organizationSight), new SightResource($this->organizationSight)),
         ];
     }
