@@ -52,6 +52,6 @@ class Organization extends Model
 
     public function sight(): BelongsTo
     {
-        return $this->belongsTo(Sight::class);
+        return $this->belongsTo(Sight::class)->with('types', 'files');
     }
 }

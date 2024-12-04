@@ -4,10 +4,12 @@ namespace App\Models;
 
 use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use MoonShine\Fields\Relationships\HasManyThrough;
 
 class Event extends ElasticsearchModel
 {
@@ -140,6 +142,13 @@ class Event extends ElasticsearchModel
     {
         return $this->belongsTo(Organization::class);
     }
+//    public function organizationSight(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+//    {
+//            return $this->hasManyThrough(Sight::class, Organization::class);
+////        return $this->hasManyThrough(Location::class, Place::class, firstKey: 'event_id', secondKey: 'id', secondLocalKey: 'location_id');
+////        dd($this->organization()->first()->sight()->get());
+////        return $this->organization()->sight;
+//    }
     public function viewCount(): HasOne
     {
         return $this->hasOne(ViewCount::class);

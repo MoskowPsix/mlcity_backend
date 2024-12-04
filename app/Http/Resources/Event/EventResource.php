@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Event;
 
+use App\Http\Resources\Sight\SightResource;
 use App\Http\Resources\View\ViewCountResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -69,6 +70,8 @@ class EventResource extends JsonResource
             //            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
             'places_full' => $this->whenLoaded('places'),
             'places_full' => $this->whenLoaded('placesFull'),
+            'organization' => $this->whenLoaded('organization'),
+//            'organization' => $this->when(!empty($this->organizationSight), new SightResource($this->organizationSight)),
         ];
     }
 }
