@@ -290,7 +290,7 @@ class EventService implements EventServiceInterface
                     ]);
                 }
             }
-            $types = explode(",", $data->type[0]);
+            $types = explode(",", $data->type);
             $event->types()->sync($types);
             if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) {
                 $status = Status::where('name', 'Опубликовано')->first();

@@ -32,6 +32,8 @@ class PasswordRecoveryController extends Controller
         try {
             $this->passwordRecoveryService->send($request);
         } catch (Exception $ex) {
+            dd($ex);
+
             return match ($ex) {
                 "Mail not found" => new ErrorNotMailExistPasswordRecoveryResource([]),
                 default => new ErrorNotMailSendPasswordRecoveryResource([]),
