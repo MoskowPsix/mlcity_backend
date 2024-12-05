@@ -24,3 +24,4 @@ tests/Coverage
 /.env
 docker/.env
 docker/redis
+docker/elastic/data

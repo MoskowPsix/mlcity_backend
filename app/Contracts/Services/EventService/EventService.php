@@ -149,11 +149,11 @@ class EventService implements EventServiceInterface
                     $range['lte'] = $dateEnd;
                 }
 
-                $query['bool']['filter'][] = [
-                    'range' => [
-                        'date_end' => $range,
-                    ]
-                ];
+//                $query['bool']['filter'][] = [
+//                    'range' => [
+//                        'date_end' => $range,
+//                    ]
+//                ];
             }
 
             if ($request->text) {
