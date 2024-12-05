@@ -82,7 +82,7 @@ class EventService implements EventServiceInterface
     public function get($data)
     {
         $page = $data->page;
-        $limit = $data->limit && ($data->limit < 50) ? $data->limit : 10;
+        $limit = $data->limit && ($data->limit < 50) ? $data->limit : 6;
         $events = Event::query()
             ->with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight')
             ->withCount([
