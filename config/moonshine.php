@@ -69,13 +69,9 @@ return [
 
     'auth' => [
         'enable' => true,
-        'middleware' => [
+        'middleware' =>
             Authenticate::class,
-            \App\Http\Middleware\MoonshineCkeckRoleForLogin::class
-        ],
-        'pipelines' => [
-//            \App\MoonShine\Pipelines\CheckUserIsAdmin::class,
-        ],
+//            \App\Http\Middleware\MoonshineCkeckRoleForLogin::class,
         'fields' => [
             'username' => 'email',
             'password' => 'password',
@@ -94,6 +90,9 @@ return [
                 'driver' => 'eloquent',
                 'model' => \App\Models\User::class,
             ],
+        ],
+        'pipelines' => [
+//            \App\MoonShine\Pipelines\CheckUserIsAdmin::class,
         ],
     ],
     'locales' => [
