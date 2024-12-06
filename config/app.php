@@ -183,7 +183,6 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         \SocialiteProviders\Manager\ServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
         ElasticsearchServiceProvider::class,
 
         /*
