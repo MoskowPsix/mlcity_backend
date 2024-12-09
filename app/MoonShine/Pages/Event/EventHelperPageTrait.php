@@ -103,9 +103,9 @@ trait EventHelperPageTrait
     {
         return BelongsToMany::make('Понравилось', 'likedUsers', resource: new MoonUserResource())->onlyLink();
     }
-    protected function showCountEvents(): HasMany
+    protected function showCountEvents(): HasMany | null
     {
-        return HasMany::make('События', 'organizationEvents', resource: new EventResource())->searchable(false);
+        return isset($this->getResource()->getItem()->organization) ? HasMany::make('События', 'organizationEvents', resource: new EventResource())->searchable(false) : null;
     }
 
     protected function showCountFavorites(): BelongsToMany
@@ -195,7 +195,7 @@ trait EventHelperPageTrait
                 ->icon('heroicons.sparkles')
                 ->primary()
                 ->canSee(function() {
-                    return auth('moonshine')->user()->hasRole('Admin') || auth('moonshine')->user()->hasRole('root');
+                    return auth('moonshine')->user()->hasRole('Admin') || auth('moonshine')->user()->hasRole('root') && isset($this->getResource()->getItem()->organization);
                 })
                 ->inModal(
                     title: fn() => 'Передать сообщество',
