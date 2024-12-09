@@ -174,16 +174,27 @@ class EventService implements EventServiceInterface
         DB::beginTransaction();
         $user = auth('api')->user();
         try {
+
             if (!$this->checkUserHaveOrganization()) {
+                $coords = explode(',',$data->places[0]['coords']);
+                $latitude   = $coords[0]; // широта
+                $longitude  = $coords[1]; // долгота
                 $sight = Sight::create([
                     "name" => $user->name,
-                    "address" => "",
+                    "address" => $data->places[0]['address'],
                     "description" => "",
+                    'latitude' => $latitude,
+                    'longitude' => $longitude,
+                    'location_id' => $data->places[0]['locationId'],
                     "vk_group_id" => $data->vkGroupId,
                     "vk_post_id"  => $data->vkPostId,
                     "user_id" => $user->id,
                 ]);
+
+                $types = explode(",",$data->type[0]);
+                $sight->types()->sync($types);
                 $sight->organization()->create();
+
             }
 
             if (!isset($data->organization_id)) {
@@ -397,7 +408,6 @@ class EventService implements EventServiceInterface
             return false;
         }
     }
-
     public function addStatus(int $Id):void
     {
         $user = auth('api')->user() ?? auth('moonshine')->user();
