@@ -12,28 +12,25 @@ use Illuminate\Pipeline\Pipeline;
 
 class OrganizationService implements OrganizationServiceInterface
 {
-    public function addUserToOrganization(int $userId, int $organizationId): void
-    {
-
-    }
+    public function addUserToOrganization(int $userId, int $organizationId): void {}
 
     public function getEvents(int $organizationId, $data): object
     {
         $events = Event::query()->with('types')->where("organization_id", $organizationId);
         $page = $data->page;
-        $limit = $data->limit && ($data->limit < 50)? $data->limit : 6;
+        $limit = $data->limit && ($data->limit < 50) ? $data->limit : 6;
         return app(Pipeline::class)
-        ->send($events)
-        ->through([
-            EventPrices::class,
-            EventFiles::class,
-            EventExpired::class,
-            EventStatusesLast::class,
-        ])
-        ->via("apply")
-        ->then(function($event) use($page, $limit) {
-            return $event->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
-        });
+            ->send($events)
+            ->through([
+                EventPrices::class,
+                EventFiles::class,
+                EventExpired::class,
+                EventStatusesLast::class,
+            ])
+            ->via("apply")
+            ->then(function ($event) use ($page, $limit) {
+                return $event->orderBy('id', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
+            });
     }
 
     public function store($data): Organization
@@ -72,13 +69,14 @@ class OrganizationService implements OrganizationServiceInterface
     /**
      * @throws \Exception
      */
-    public function organizationTransferUser(int $org_id, int $user_id): void {
+    public function organizationTransferUser(int $org_id, int $user_id): void
+    {
         $organization = Organization::findOrFail($org_id);
         $organization->sight()->update(['user_id' => $user_id]);
         $events = $organization->sight()->first()->organizationEvents();
 
-        $events->chunk(100, function ($events_coll) use($user_id) {
-            $events_coll->each(function($event) use($user_id) {
+        $events->chunk(100, function ($events_coll) use ($user_id) {
+            $events_coll->each(function ($event) use ($user_id) {
                 $event->update(['user_id' => $user_id]);
             });
         });
