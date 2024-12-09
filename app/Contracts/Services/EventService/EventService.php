@@ -84,10 +84,7 @@ class EventService implements EventServiceInterface
         $page = $data->page;
         $limit = $data->limit && ($data->limit < 50) ? $data->limit : 6;
         $events = Event::query()
-            ->with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight')
-            ->withCount([
-                'favoritesUsers as event_user_favorite', // Подсчет пользователей, добавивших в избранное
-            ]);
+            ->with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight')->withCount('favoritesUsers');
 
         return app(Pipeline::class)
             ->send($events)

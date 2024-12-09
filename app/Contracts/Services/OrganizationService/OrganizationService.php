@@ -31,7 +31,7 @@ class OrganizationService implements OrganizationServiceInterface
             EventStatusesLast::class,
         ])
         ->via("apply")
-        ->then(function($event) use($page, $limit){
+        ->then(function($event) use($page, $limit) {
             return $event->orderBy('date_start','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         });
     }
