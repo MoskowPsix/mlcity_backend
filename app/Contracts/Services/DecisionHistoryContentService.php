@@ -172,8 +172,6 @@ class DecisionHistoryContentService {
      * Изменение оригинальных типов.
      */
     public function changeHistoryContentTypes() {
-        $historyTypes = "";
-
         if($this->historyContent->history_contentable_type == "App\Models\Sight"){
             $historyTypes = $this->historyContent->historySightTypes;
         } else {
@@ -183,9 +181,11 @@ class DecisionHistoryContentService {
             $typeId = $historyType["pivot"]["history_contentable_id"];
             if(isset($historyType["pivot"]['on_delete']) && $historyType["pivot"]['on_delete']==true){
                 $this->historyParent->types()->detach($typeId);
-            }
-            else{
+            } else{
                 $this->historyParent->types()->attach($typeId);
+                $types = $this->historyParent->types->pluck('id')->toArray();
+                $this->historyParent->types()->detach($types);
+                $this->historyParent->types()->attach(array_unique($types));
             }
         }
     }
@@ -324,7 +324,7 @@ class DecisionHistoryContentService {
      */
     private function setAccepter() {
         $this->historyContent->update([
-            "accepter_id" => auth('api')->user()->id
+            "accepter_id" => auth('api')->user()->id ?? auth('moonshine')->user()->id
         ]);
     }
 

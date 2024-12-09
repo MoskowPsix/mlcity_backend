@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Event;
 use App\Models\Sight;
 use DateTime;
 use Illuminate\Console\Command;
@@ -17,7 +18,7 @@ class startIntegration extends Command
      *
      * @var string
      */
-    protected $signature = 'integration {type?} {page?}';
+    protected $signature = 'integration:culture {type?} {page?}';
 
     /**
      * The console command description.
@@ -33,7 +34,7 @@ class startIntegration extends Command
      */
     public function handle()
     {
-        $limit = 100; // Задаём лимит записей на странице
+        $limit = 10; // Задаём лимит записей на странице
         $url = 'https://www.culture.ru/api/';
 //        $this->getMessage('Setting the settings start');
         if (($this->argument('type') == 'event') && $this->argument('page')) {
@@ -44,12 +45,26 @@ class startIntegration extends Command
             // sight задаём page и total если пришли аргументы
             $page_sight = $this->argument('page') ? $this->argument('page') : 1;
             $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
-        } else {
+        } else if($this->argument('type') == 'all') {
             // Если не пришли аргументы то устанавливаем стартовые значения для всех
             $page_event = 1;
             $page_sight = 1;
 //            $total_event = json_decode(file_get_contents($url.'events?page='.$page_event.'&limit='.$limit, true))->pagination->total;
-            $total_sight = json_decode(file_get_contents($url.'institutes?page='.$page_sight.'&limit='.$limit, true))->pagination->total;
+            $total_sight = json_decode(file_get_contents($url . 'institutes?page=' . $page_sight . '&limit=' . $limit, true))->pagination->total;
+        }else if($this->argument('type') == 'delete'){
+            $bar = $this->output->createProgressBar(Event::whereNotNull('cult_id')->count());
+
+            Event::whereNotNull('cult_id')->chunk(1000, function ($event) use($bar) {
+                $event->each(function($event) use($bar) {
+                    if(isset($event->cult_id)) {
+                        $event->delete();
+                        $bar->advance();
+                    }
+                });
+            });
+
+        } else {
+            $this->error('Invalid argument');
         }
         $this->getMessage('Setting the settings end');
 
@@ -59,16 +74,18 @@ class startIntegration extends Command
         } else if($this->argument('type') == 'sight') {
             // sight
             $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
-        } else {
+        } else if($this->argument('type') == 'sight') {
             // all
             $this->saveIntegration($page_sight, $limit, $total_sight, 'sight');
             $this->saveIntegration($page_event, $limit, 1, 'event');
+        } else if($this->argument('type') == 'delete') {
+            $this->info('Delete events success!');
         }
 
         return 0;
     }
 
-    public function saveIntegration($page, $limit, $total, $type): void
+    public function saveIntegration($page, $limit, $total, $type, int $i = 0): void
     {
         $this->getMessage('Download '.$type.' start');
         try
@@ -109,11 +126,17 @@ class startIntegration extends Command
             return;
         } catch (Exception $e) {
             if ($e->getMessage() == 'Events end') {
-                return;
+                if ($i < 5) {
+                    $this->saveIntegration($page, $limit, $total, $type, $i + 1);
+                    sleep(10);
+                } else {
+                    $this->warn('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . $e->getMessage());
+                    return;
+                }
             } else {
                 Log::error('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . json_decode($e));
                 $this->warn('Ошибка при выполнении функции saveSightIntegration: страница=' . $page . ' лимит=' . $limit . ' тотал=' . $total . $e->getMessage());
-                sleep(3);
+                sleep(5);
                 $this->saveSightIntegration($page, $limit, $total);
             }
         }

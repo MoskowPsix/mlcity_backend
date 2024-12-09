@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\Event;
 
+use App\Http\Resources\Sight\SightResource;
+use App\Http\Resources\View\ViewCountResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -20,18 +22,24 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property int $age_limit
  * @property int $afisha7_id
  * @property double $distance
+ * @property int $liked_users_count
+ * @property int $favorites_users_count
+ * @property int $viewCount
+ * @property int $min_cult_id
+ * @property int $cult_id
+ * @property array $places
  */
 class EventResource extends JsonResource
 {
-
     /**
      * Transform the resource into an array.
      *
      * @param  Request  $request
      * @return array
      */
-    public function toArray($request): array
+    public function toArray($request)
     {
+//        return $this->resource->toArray();
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -46,16 +54,26 @@ class EventResource extends JsonResource
             'updated_at'        => $this->updated_at,
             'age_limit'         => $this->age_limit,
             'afisha7_id'        => $this->afisha7_id,
+            'min_cult_id'       => $this->min_cult_id,
+            'cult_id'           => $this->cult_id,
             'distance'          => $this->when(!empty($this->distance), $this->distance),
             'statuses'          => $this->whenLoaded('statuses'),
             'files'             => $this->whenLoaded('files'),
             'author'            => $this->whenLoaded('author'),
             'types'             => $this->whenLoaded('types'),
             'price'             => $this->whenLoaded('price'),
-            'likedUsers'        => $this->whenLoaded('likedUsers'),
-            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
-            'places'            => $this->whenLoaded('places'),
-            'places_full' => $this->whenLoaded('placesFull'),
+            //            'likedUsers'        => $this->whenLoaded('likedUsers'),
+            'likedUsers'        => $this->when(!empty($this->liked_users_count), $this->liked_users_count),
+            'likedUsers'        => $this->when(isset($this->likes), $this->likes->local_count ?? null),
+            'favoritesUsers'    => $this->when(!empty($this->event_user_favorite), $this->event_user_favorite, 0),
+            'views'             => $this->whenLoaded('viewCount', new ViewCountResource($this->viewCount)),
+//            'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),
+            'places_full'       => $this->whenLoaded('places'),
+            'places_full'       => $this->whenLoaded('placesFull'),
+            'organization'      => $this->whenLoaded('organization'),
+            'location_name'     => $this->when(!empty($this->location_name), $this->location_name),
+            'place'             => $this->whenLoaded('place'),
+//            'organization' => $this->when(!empty($this->organizationSight), new SightResource($this->organizationSight)),
         ];
     }
 }

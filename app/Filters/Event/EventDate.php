@@ -4,6 +4,7 @@ namespace App\Filters\Event;
 
 use Closure;
 use App\Filters\Pipe;
+use Illuminate\Support\Facades\DB;
 
 class EventDate implements Pipe {
 
@@ -17,6 +18,11 @@ class EventDate implements Pipe {
                 $q->whereDate('date_start', '<=', $dateEnd)
                 ->whereDate('date_start', '>=', $dateStart);
             });
+//            $content->whereHas('places', function ($query) use ($dateStart, $dateEnd) {
+//                $query->whereHas('seances', function ($query) use ($dateStart, $dateEnd) {
+//                    $query->whereBetween(DB::raw('DATE(date_start)'), [$dateStart, $dateEnd]);
+//                });
+//            });
         }
         return $next($content);
     }

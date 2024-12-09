@@ -38,7 +38,7 @@ class addEvents extends Command
     private int $offset = 0;
     private array $genres;
 
-    private string $url = 'https://www.culture.ru/api/';
+    private string $url = 'https://www.culture.ru/api-next/';
 
     /**
      * Execute the console command.
@@ -59,7 +59,7 @@ class addEvents extends Command
         }
         return 0;
     }
-    private function  getPageEvent($page_events, $limit_events): void
+    private function  getPageEvent($page_events, $limit_events, $i = 0): void
     {
         try
         {
@@ -67,7 +67,7 @@ class addEvents extends Command
             $status= Status::where('name', 'Опубликовано')->firstOrFail();
             $start = Carbon::now()->toIso8601ZuluString();
             $end = Carbon::now()->addYear(1)->toIso8601ZuluString();
-            $events = json_decode(file_get_contents("$this->url/atlas/events?offset=$this->offset&limit=$limit_events&startDateFrom=$start&startDateTo=$end", true));
+            $events = json_decode(file_get_contents($this->url . "atlas/events?offset=$this->offset&limit=$limit_events&startDateFrom=$start&startDateTo=$end", true));
             if (count($events) == 0) {
                 throw new Exception('No events');
             }
@@ -75,39 +75,37 @@ class addEvents extends Command
                 if (!Event::where('cult_id', $event->_id)->first()) {
                     $event = json_decode(file_get_contents($this->url . 'events/' . $event->_id, true));
                     $event_cr = $this->saveEvent($event);
-                    if (isset($event->price)){
-                        switch (true) {
-                            case ($event->price->min === 0) && ($event->price->max === 0):
-                                $event_cr->prices()->create([
-                                    'cost_rub' => 0,
-                                ]);
-                                break;
-                            case $event->price->min === 0:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => 0,
-                                ]);
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                            case $event->price->min === $event->price->max:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                            default:
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->min,
-                                ]);
-                                $event_cr->prices()->create([
-                                    'cost_rub' => $event->price->max,
-                                ]);
-                                break;
-                        }
+                    switch (true) {
+                        case ($event->priceMin === 0) && ($event->priceMax === 0):
+                            $event_cr->prices()->create([
+                                'cost_rub' => 0,
+                            ]);
+                            break;
+                        case $event->priceMin === 0:
+                            $event_cr->prices()->create([
+                                'cost_rub' => 0,
+                            ]);
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
+                        case $event->priceMin === $event->priceMax:
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
+                        default:
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMin,
+                            ]);
+                            $event_cr->prices()->create([
+                                'cost_rub' => $event->priceMax,
+                            ]);
+                            break;
                     }
 
                     foreach ($event->places as $place) {
-                        $timezone = Timezone::where("name", $place->locale->timezone)->first()->id;
+                        $timezone = Timezone::where("name", $place->locale->timezone)->first();
                         if (isset($place->institute)) {
                             $sight = Sight::where('cult_id', $place->institute->_id)->first();
                             $sight ? $sight_id = $sight->id : $sight_id = null;
@@ -118,7 +116,7 @@ class addEvents extends Command
                                 'latitude'      => $place->location->coordinates[1],
                                 'longitude'     => $place->location->coordinates[0],
                                 'sight_id'      => $sight_id,
-                                'timezone_id'   => $timezone,
+                                'timezone_id'   => $timezone->id,
                             ]);
                         }
                     }
@@ -127,14 +125,13 @@ class addEvents extends Command
                         $place_s = Place::where('cult_id', $seance->placeId)->first();
                         if (isset($place_s)) {
                             $place_s->seances()->create([
-                                'date_start' => $seance->startDate,
-                                'date_end' => $seance->endDate
+                                'date_start' => Carbon::make($seance->startDate)->addHour(explode('+', $place_s->timezones()->first()->UTC)[1]),
+                                'date_end' => Carbon::make($seance->endDate)->addHour(explode('+', $place_s->timezones()->first()->UTC)[1])
                             ]);
                         }
                     }
 
                     foreach ($event->genres as $genre) {
-//                        uuuuu
                         $current_type = (new CurrentType($genre->title))->getType();
                         if(isset($current_type['id'])) {
                             $event_cr->types()->attach($current_type['id']);
@@ -159,23 +156,38 @@ class addEvents extends Command
                 }
             }
         }  catch (Exception $e) {
-            Log::error('Ошибка при получении страницы events(page='.$page_events.', limit='.$limit_events.'): '.$e->getMessage());
-            sleep(3);
-            $this->getPageEvent($page_events, $limit_events);
+            dd($e);
+            if ($i < 4) {
+                Log::error($e);
+                sleep(3);
+                $this->getPageEvent($page_events, $limit_events, $i);
+            } else {
+                Log::error('Ошибка при получении страницы events более 3 раз(page=' . $page_events . ', offset=' . $limit_events . '): ' . $e->getMessage());
+            }
         }
     }
     private function saveEvent(object $event): Event
     {
-        return Event::create([
-            'name'          => $event->title,
-            'sponsor'       => 'culture.ru',
-            'description'   => strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text)),
-            'materials'     => $event->saleLink,
-            'date_start'    => $event->startDate,
-            'date_end'      => $event->endDate,
-            'user_id'       => 1,
-            'cult_id'       => $event->_id,
-            'age_limit'     => $event->ageRestriction ?? '',
+        $sight = Sight::create([
+            "name" => $event->title,
+            "address" => "",
+            "description" => "",
+            "user_id" => 1,
+        ]);
+        $org = $sight->organization()->create();
+        return  Event::create([
+            'name'              => $event->title,
+            'sponsor'           => 'culture.ru',
+            'description'       => strip_tags(preg_replace('/\[HTML\]|\[\/HTML\]/', '', $event->text)),
+            'materials'         => $event->saleLink,
+            'date_start'        => $event->startDate,
+            'date_end'          => $event->endDate,
+            'user_id'           => 1,
+            'cult_id'           => $event->_id,
+            'source_id'         => $event->_id,
+            'source_name'       => 'culture',
+            'age_limit'         => $event->ageRestriction ?? '',
+            'organization_id'   => $org->id
         ]);
     }
 }

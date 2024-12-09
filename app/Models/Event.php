@@ -1,10 +1,15 @@
 <?php
 
 namespace App\Models;
+
 use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use MoonShine\Fields\Relationships\HasManyThrough;
 
 class Event extends ElasticsearchModel
 {
@@ -30,11 +35,14 @@ class Event extends ElasticsearchModel
         'min_cult_id',
         'organization_id',
         'age_limit',
+        'source_id',
+        'source_name'
     ];
+    protected array $dates = ['date_start', 'date_end'];
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(EventType::class, 'events_etypes','event_id','etype_id');
+        return $this->belongsToMany(EventType::class, 'events_etypes', 'event_id', 'etype_id');
     }
 
     public function statuses(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
@@ -42,11 +50,12 @@ class Event extends ElasticsearchModel
         return $this->belongsToMany(Status::class)->withPivot('last', 'descriptions')->orderBy('pivot_created_at', 'desc')->withTimestamps();
     }
 
-//    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
-//    {
-//        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
-//    }
-//
+
+    //    public function firstStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    //    {
+    //        return $this->belongsToMany(Status::class)->orderByPivot('created_at', 'asc')->first();
+    //    }
+    //
     public function lastStatus(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
         return $this->belongsToMany(Status::class)->wherePivot('last', true);
@@ -55,19 +64,19 @@ class Event extends ElasticsearchModel
     //У кого в избранном
     public function favoritesUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class,'event_user_favorite')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user_favorite')->withTimestamps();
     }
 
     //Кто лайкнул
     public function likedUsers(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
-        return $this->belongsToMany(User::class,'event_user_liked')->withTimestamps();
+        return $this->belongsToMany(User::class, 'event_user_liked')->withTimestamps();
     }
 
-   public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
-   {
+    public function author(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
         return $this->belongsTo(User::class, 'user_id');
-   }
+    }
 
     public function files(): \Illuminate\Database\Eloquent\Relations\hasMany
     {
@@ -132,5 +141,16 @@ class Event extends ElasticsearchModel
     public function organization()
     {
         return $this->belongsTo(Organization::class);
+    }
+//    public function organizationSight(): \Illuminate\Database\Eloquent\Relations\HasManyThrough
+//    {
+//            return $this->hasManyThrough(Sight::class, Organization::class);
+////        return $this->hasManyThrough(Location::class, Place::class, firstKey: 'event_id', secondKey: 'id', secondLocalKey: 'location_id');
+////        dd($this->organization()->first()->sight()->get());
+////        return $this->organization()->sight;
+//    }
+    public function viewCount(): HasOne
+    {
+        return $this->hasOne(ViewCount::class);
     }
 }

@@ -28,7 +28,9 @@ Route::controller(AppVersionController::class)->group(function () {
     Route::get('app', 'getVersion');
 });
 Route::controller(AuthController::class)->group(function () {
-    Route::post('register', 'register'); // Регистрация
+    Route::post('register', 'register')->name('user.register'); // Регистрация
+    Route::post('register/guest', 'registerGuest')->name('user.register.guest'); // Регистрация гостя
+
     Route::post('login', 'login')->name('login');
     Route::post('logout', 'logout')->middleware('auth:sanctum');
     Route::put('admin/reset_password', 'resetPasswordForAdmin')->middleware('auth:sanctum');
@@ -106,11 +108,13 @@ Route::controller(EventController::class)->group(function () {
     Route::post('events/create', 'create')->middleware('auth:sanctum');
     Route::put('updateEvent/{id}/', 'updateEvent')->middleware('moderator');
 
-    Route::get('events/{id}/liked-users', 'getEventUserLikedIds')->middleware('auth:sanctum');
-    Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds')->middleware('auth:sanctum');
+    Route::get('events/{id}/liked-users', 'getEventUserLikedIds');
+    Route::get('events/{id}/favorites-users', 'getEventUserFavoritesIds');
     Route::post('events/{id}/statuses/', 'addStatusToEvent')->middleware('auth:sanctum')->name('event.status');
     Route::post('events/{id}/statuses/cookie', 'addStatusToEvent')->middleware('auth:moonshine')->name('event.status.cookie');
     Route::delete('events/{id}', 'delete')->middleware('auth:sanctum')->name('event.delete');
+
+    Route::get('events/{id}/view', 'addViewEvent')->middleware('auth:sanctum')->name('event.view');
 });
 
 Route::controller(PlaceController::class)->group(function () {
@@ -217,6 +221,8 @@ Route::controller(OrganizationController::class)->group(function () {
     Route::get("organizations/{organizationId}/users/", "getUsersOfOrganization");
 
     Route::get("organizations/{organizationId}/events", "getEvents");
+
+    Route::post("organizations/{organizationId}/transfer/user/{userId}", "organizationTransferUser")->middleware("auth:sanctum")->name('organization.transfer.user');
 });
 
 Route::controller(OrganizationInviteController::class)->group(function () {

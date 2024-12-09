@@ -10,6 +10,7 @@ use App\MoonShine\Pages\Price\PriceIndexPage;
 use App\MoonShine\Pages\Price\PriceFormPage;
 use App\MoonShine\Pages\Price\PriceDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -23,6 +24,7 @@ class PriceResource extends ModelResource
     protected string $title = 'Цены';
 
     protected string $column = 'cost_rub';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<Page>

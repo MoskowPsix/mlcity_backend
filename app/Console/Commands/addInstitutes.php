@@ -139,7 +139,7 @@ class addInstitutes extends Command
     }
     private function getAndSetRubrics(): void
     {
-        $response = json_decode(file_get_contents('https://www.culture.ru/api/rubrics?fields=title,level,path&sort=level&limit=25', true));
+        $response = json_decode(file_get_contents('https://www.culture.ru/api-next/rubrics?fields=title,level,path&sort=level&limit=25', true));
         foreach ($response->items as $rubric) {
             $rubric->level < 1 ? $this->types[] = $rubric : null;
         }

@@ -15,5 +15,6 @@ interface OrganizationServiceInterface
     public function getEvents(int $organizationId, $data): object;
     public function store($data): Organization;
     public function delete(int $id): bool;
+    public function organizationTransferUser(int $org_id, int $user_id): void;
 
 }

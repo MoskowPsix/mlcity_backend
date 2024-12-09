@@ -36,6 +36,7 @@ class SightDetailPage extends DetailPage
     public function fields(): array
     {
         return [
+            $this->showCountEvents(),
             $this->showLastStatus(),
             $this->showCountLikes(),
             $this->showCountFavorites(),
@@ -74,15 +75,20 @@ class SightDetailPage extends DetailPage
         if($this->getCurrentStatus()->name == 'Изменено') {
             return $this->showForDetailChange();
         } else {
-            return [
-                Div::make([
-                    Carousel::make(
-                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
-                        portrait: false,
-                    )
-                ]),
-                ...parent::mainLayer()
-            ];
+            $items = collect($this->getResource()->getItem()->files)->pluck('link')->all();
+            if (!empty($items)) {
+                return [
+                    Div::make([
+                        Carousel::make(
+                            items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
+                            portrait: false,
+                        )
+                    ]),
+                    ...parent::mainLayer()
+                ];
+            } else {
+                return [...parent::mainLayer()];
+            }
         }
     }
 
@@ -93,7 +99,14 @@ class SightDetailPage extends DetailPage
     protected function bottomLayer(): array
     {
         return [
-            $this->showActionStatusButtonForSight(),
+            Grid::make([
+                Column::make([
+                    $this->showActionStatusButtonForSight(),
+                ])->columnSpan(2),
+                Column::make([
+                    $this->transferSight(),
+                ])->columnSpan(1)
+            ]),
             ...parent::bottomLayer()
         ];
     }

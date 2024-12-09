@@ -2,19 +2,10 @@
 
 namespace App\Console\Commands;
 
-use App\Contracts\Services\CurrentType\CurrentType;
-use App\Models\Event;
-use App\Models\EventType;
-use App\Models\FileType;
-use App\Models\Location;
-use App\Models\Place;
-use App\Models\Sight;
-use App\Models\Status;
-use App\Models\Timezone;
+use App\Contracts\Services\IntegrationMinCult\IntegrationMinCult;
+use App\Jobs\ProcessIntegrationMinCult;
 use Illuminate\Console\Command;
-use Illuminate\Support\Carbon;
 use Symfony\Component\Console\Helper\ProgressBar;
-use Symfony\Component\Process\Process;
 
 
 # 21.35
@@ -41,7 +32,7 @@ class minCultIntegration extends Command
 
     private int $offset = 1;
 
-    private int $numberOfProcess = 10;
+    private int $numberOfProcess = 100;
 
     private ProgressBar $bar;
 
@@ -54,13 +45,7 @@ class minCultIntegration extends Command
     {
 //        dd(env('ELASTICSEARCH_ENABLED', false) ? 'y' : 'n');
         if ($this->argument('type') == 'all') {
-            if ($this->argument('offset')) {
-                //                print('offset');
-                $this->setEvents();
-            } else {
-                //                print('not offset');
-                $this->startInt();
-            }
+            $this->startInt();
         } else {
             print('argument not found');
         }
@@ -69,183 +54,14 @@ class minCultIntegration extends Command
 
     private function startInt(): void
     {
-        $progress = 0;
-        $response =  json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"'.Carbon::now()->format('Y-m-d').'"}}&l=1', true, $this->getHeader()));
-        $total = $response->total;
-
+        $total = (new IntegrationMinCult())->getTotal();
         $this->bar = $this->output->createProgressBar($total);
         while ($total >= 1) {
-            $start_timer = microtime(true);
-            $this->startCommands();
-            $total = $total - $this->limit * $this->numberOfProcess;
-            $this->bar->advance($this->limit * $this->numberOfProcess);
-            $progress = $progress + $this->limit * $this->numberOfProcess;
-            $end_time = ((microtime(true) - $start_timer) / 60)  * ($total / 10);
-            $this->info($progress . ' | ' . $total . ' | ' . (int)$end_time . 'min' . "\n");
+            ProcessIntegrationMinCult::dispatch($this->offset, $this->limit);
+            $this->offset = $this->offset + $this->limit;
+            $this->bar->advance($this->limit);
+            $total= $total - $this->limit;
         }
         $this->bar->finish();
-    }
-    private function startCommands(): void
-    {
-        $processes = [];
-        for ($i = 0; $i < $this->numberOfProcess; $i++) { // Запускаем команды по загрузке sight ['php', 'artisan', 'institutes_save', $page, $limit]
-            $process = new Process(['php', 'artisan', 'integration:min-cult', $this->argument('type'), $this->offset]);
-            $process->setTimeout(0);
-            $process->disableOutput();
-            $process->start();
-            $processes[] = $process;
-            $this->offset = $this->offset + $this->limit;
-        }
-        while (count($processes)) {
-            foreach ($processes as $i => $runningProcess) {
-                // этот процесс завершен, поэтому удаляем его
-                if (!$runningProcess->isRunning()) {
-                    unset($processes[$i]);
-                }
-            }
-        }
-    }
-    public function setEvents(): void
-    {
-        $offset = $this->argument('offset');
-        $response = json_decode(file_get_contents('https://opendata.mkrf.ru/v2/events/$?f={"data.general.end":{"$gt":"'.Carbon::now()->format('Y-m-d').'"}}&l=' . $this->limit . '&s=' . $offset, true, $this->getHeader()));
-        $events = $response->data;
-        foreach ($events as $event) {
-            $this->saveEvent($event);
-        }
-    }
-
-    private function getHeader()
-    {
-        // Create a stream
-        $opts = [
-            "http" => [
-                "method" => "GET",
-                "header" => "X-API-KEY: " . env('API_KEY_MIN_CULT') . "\r\n"
-            ]
-        ];
-        return stream_context_create($opts);
-    }
-
-    private function saveEvent($event): void
-    {
-        if (!Event::where('min_cult_id', $event->data->general->id)->exists()) {
-            $event_cr = Event::create([
-                'name' => $event->nativeName,
-                'description' => $event->data->general->description,
-                'materials' => isset($event->data->general->saleLink) ? $event->data->general->saleLink : null,
-                'date_start' => $event->data->general->start,
-                'date_end' => $event->data->general->end,
-                'user_id' => 1,
-                'min_cult_id' => $event->data->general->id,
-            ]);
-            $sight = Sight::create([
-                "name" => $event->nativeName,
-                "address" => "",
-                "description" => "",
-                "user_id" => 1,
-            ]);
-            $sight->organization()->create();
-            $event = $event->data->general;
-            $this->saveType($event->category, $event_cr);
-
-            isset($event->price) ? $this->savePrice($event->price, $event_cr) : null;
-            isset($event->maxPrice) ? $this->savePrice($event->maxPrice, $event_cr) : null;
-
-            isset($event->image) ? $this->saveFiles($event->image, $event_cr) : null;
-            if (isset($event->gallery)) {
-                foreach ($event->gallery as $file) {
-                    $this->saveFiles($file, $event_cr);
-                }
-            }
-
-            foreach ($event->places as $place) {
-                $this->savePlace($event->seances, $place, $event_cr);
-            }
-            $this->setStatus($event_cr);
-        }
-    }
-
-    private function savePlace(array $seances, object $place, Event $event): void
-    {
-        $location = $this->searchLocation($place->address->mapPosition->coordinates);
-        $sight = $this->searchSight($place->address->mapPosition->coordinates, $place->address->fullAddress);
-        $timezone_id = Timezone::where('UTC', $location->time_zone_utc)->first()->id;
-        $place_cr =  $event->places()->create([
-            'address' => $place->address->fullAddress,
-            'location_id' => $location->id,
-            'latitude' => $place->address->mapPosition->coordinates[0],
-            'longitude' => $place->address->mapPosition->coordinates[1],
-            'timezone_id' => $timezone_id,
-        ]);
-        !empty($sight) ? $place_cr->update(['sight_id' => $sight->id]) : null;
-        foreach ($seances as $seance) {
-            $this->saveSeance($seance, $place_cr);
-        }
-    }
-    private function saveSeance(Object $seance, Place $place): void
-    {
-        $seance = $place->seances()->create([
-            'date_start' => $seance->start,
-            'date_end' => $seance->end,
-        ]);
-    }
-    private function saveType(Object $type, Event $event): void
-    {
-        $current_type = new CurrentType($type->name);
-        $type_name = $current_type->getType();
-        if(isset($type_name)) {
-            $event->types()->attach($type_name['id']);
-        } else {
-            $sight_type = EventType::where('name', $type->name);
-            if(!$sight_type->exists()) {
-                $sight_type = EventType::create(['name' => $type->name, 'ico' => 'none']);
-            }
-            $event->types()->attach($sight_type->id);
-        }
-    }
-    private function setStatus(Event $event): void
-    {
-        $status = Status::where('name', 'Опубликовано')->first();
-        $event->statuses()->updateExistingPivot($status, ['last' => false]);
-        $event->statuses()->attach($status->id,  ['last' => true]);
-    }
-    private function savePrice(int $price, Event $event): void
-    {
-        $event->price()->create([
-            'cost_rub' => $price
-        ]);
-    }
-    private function saveFiles(Object $file, Event $event): void
-    {
-        $file_type = FileType::where('name', 'image')->first();
-        $event->files()->create([
-            'name' => uniqid('img_'),
-            'link' => $file->url,
-            'local' => 0,
-        ])->file_types()->attach($file_type->id);
-    }
-    private function searchLocation(array $coords): Location
-    {
-        $latitude = $coords[0];
-        $longitude = $coords[1];
-        $radius = 5;
-        $searchForCoord = '(6371 * acos(cos(radians(?)) * cos(radians(latitude)) * cos(radians(longitude) - radians(?)) + sin(radians(?)) * sin(radians(latitude ))) ) <= ? ';
-
-        while (empty($location) == true) {
-            $location = Location::with('locationParent')->whereRaw($searchForCoord,  [$latitude, $longitude,  $latitude,  $radius])->first();
-            $radius = $radius + 5;
-        }
-        return $location;
-    }
-    private function searchSight(array $coords, string $address): Sight | null
-    {
-        $sight_address = Sight::where('address', 'ILIKE', '%' . $address . '%')->first();
-        $sight_coords = Sight::where('latitude', $coords[0])->where('longitude', $coords[1])->first();
-
-        isset($sight_address) ? $sight = $sight_address : $sight = null;
-        isset($sight_coords) && !isset($sight_address) ? $sight = $sight_coords : null;
-
-        return $sight;
     }
 }

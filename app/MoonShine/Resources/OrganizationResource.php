@@ -10,6 +10,7 @@ use App\MoonShine\Pages\Organization\OrganizationIndexPage;
 use App\MoonShine\Pages\Organization\OrganizationFormPage;
 use App\MoonShine\Pages\Organization\OrganizationDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
 
@@ -21,6 +22,7 @@ class OrganizationResource extends ModelResource
     protected string $model = Organization::class;
 
     protected string $title = 'Организации';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<Page>

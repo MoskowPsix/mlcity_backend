@@ -11,6 +11,7 @@ use App\MoonShine\Pages\Seance\SeanceIndexPage;
 use App\MoonShine\Pages\Seance\SeanceFormPage;
 use App\MoonShine\Pages\Seance\SeanceDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Date;
 use MoonShine\Resources\ModelResource;
@@ -24,6 +25,7 @@ class SeanceResource extends ModelResource
     protected string $model = Seance::class;
 
     protected string $title = 'Сеансы';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     /**
      * @return list<Page>

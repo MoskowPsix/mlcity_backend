@@ -42,13 +42,13 @@ use Knuckles\Scribe\Attributes\Authenticated;
 use Knuckles\Scribe\Attributes\Endpoint;
 use Knuckles\Scribe\Attributes\Group;
 use Knuckles\Scribe\Attributes\ResponseFromApiResource;
+use App\Http\Resources\Event\addView\AddViewResource;
+use App\Http\Resources\Event\addView\ErrorAddViewResource;
 
 #[Group(name: 'Events', description: 'События')]
 class EventController extends Controller
 {
-    public function __construct(private readonly EventServiceInterface $eventService)
-    {
-    }
+    public function __construct(private readonly EventServiceInterface $eventService) {}
 
     #[ResponseFromApiResource(SuccessGetEventsResource::class, Event::class)]
     #[Endpoint(title: 'getEvents', description: 'Возвращает все события по фильтрам')]
@@ -159,19 +159,20 @@ class EventController extends Controller
     #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
     public function getEventUserLikedIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserLikedIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($id, $request);
-        return new SuccessGetEventUserLikedIdsResource($events);
+        $users = $this->eventService->getEventUserLiked($id, $request);
+        return new SuccessGetEventUserLikedIdsResource($users);
     }
 
 
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventUserFavoritesIdsResource::class, User::class)]
-    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые лайкали событие')]
+    #[Endpoint(title: 'getEventUserLikedIds', description: 'Получить пользователей которые добавили событие в избранное')]
     public function getEventUserFavoritesIds(int $id, PageANDLimitRequest $request): SuccessGetEventUserFavoritesIdsResource
     {
-        $events = $this->eventService->getEventUserLiked($id, $request);
-        return new SuccessGetEventUserFavoritesIdsResource($events);
+        $users = $this->eventService->getEventUserFavoritesIds($id, $request);
+        return new SuccessGetEventUserFavoritesIdsResource($users);
     }
+
 
 
     #[Authenticated]
@@ -222,15 +223,24 @@ class EventController extends Controller
     #[Authenticated]
     #[ResponseFromApiResource(SuccessDeleteEventResource::class)]
     #[ResponseFromApiResource(WarningDeleteEventResource::class, null, 400)]
-
     #[Endpoint(title: 'delete', description: 'Удаление мероприятия.')]
     public function delete(int $id)
     {
         $response = $this->eventService->delete($id);
-        if($response){
+        if ($response) {
             return new SuccessDeleteEventResource([]);
         } else {
             return new WarningDeleteEventResource([]);
+        }
+    }
+
+    public function addViewEvent(int $id)
+    {
+        $res = $this->eventService->addView($id);
+        if ($res) {
+            return new AddViewResource([]);
+        } else {
+            return new ErrorAddViewResource([]);
         }
     }
 }

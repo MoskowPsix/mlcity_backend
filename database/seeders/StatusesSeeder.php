@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Constants\StatusesConstants;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -16,7 +17,7 @@ class StatusesSeeder extends Seeder
      */
     public function run()
     {
-        $statuses = ["Новое", "Изменено", "Опубликовано", "Черновик", "Заблокировано", "В архиве", "Отказ"];
+        $statuses = StatusesConstants::getConstants();
 
         foreach($statuses as $status) {
             Status::create(["name" => $status]);

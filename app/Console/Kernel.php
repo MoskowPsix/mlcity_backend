@@ -15,22 +15,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-//        $schedule->command('integration sight');
-//        $schedule->command('integration event');
-//        $schedule->command('integration');
-//        $schedule->command('int token');
-        $schedule->command('int all')->weeklyOn(6, '4:00')->after(function () {
-            $this->call('double-type:del');
-            $this->call('int token');
-            $this->call('int all');
-        });
-//        $schedule->command('double-type:del');
-//        $schedule->command('int all')->daily()->after(function ($day) {
-//            $this->call('duble');
-////            $this->call('integration:min-cult all');
-//        });
-        $schedule->command('backup_db')->weeklyOn(6, '3:00');
-        $schedule->command('telescope:prune --hours=48')->daily();
+        // По расписанию
+        $schedule->command('integration:min-cult all')->everySixHours();
+        $schedule->command('telescope:prune --hours=48')->daily()->description('Очистка записей telescope');
+
+        // Запуск по вызову из админки
+        $schedule->command('integration:vld all')->daily()->skip(function () { return true; })->description('Интеграция с сервисом Влада');
+//        $schedule->command('integration:del')->daily()->skip(function () { return true; })->description('Удалить все записи полученные через интеграцию'); // Слишком опасная команда, запуск её должен происходить из консоли
+        $schedule->command('display:upd')->daily(); //->description('Обновить список городов для пользователей');
+        $schedule->command('search:index')->daily()->skip(function () { return true; })->description('Проиндекчировать записи для elasticsearch');
+        $schedule->command('double-type:del')->daily()->skip(function () { return true; })->description('Убрать дублирующиеся типы у сообществ и удалить сообщества без мероприятий');
+        $schedule->command('backup_db')->daily()->skip(function () { return true; })->description('Создать резервную копию бд');
     }
 
     /**

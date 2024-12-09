@@ -11,7 +11,8 @@ use Carbon\Carbon;
 
 class HistoryContentService {
 
-    public function createHistoryContent($entity, $data, $status_id): HistoryContent {
+    public function createHistoryContent($entity, $data, $status_id): HistoryContent
+    {
         $historyContent = $entity->historyContents()->create($data);
         $historyContent->historyContentStatuses()->create([
             "status_id" => $status_id
@@ -28,7 +29,6 @@ class HistoryContentService {
         unset($dataForHistoryContent['history_prices']);
         unset($dataForHistoryContent['history_types']);
         unset($dataForHistoryContent['history_files']);
-
         return $dataForHistoryContent;
     }
 

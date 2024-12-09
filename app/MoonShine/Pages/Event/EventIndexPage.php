@@ -35,7 +35,7 @@ class EventIndexPage extends IndexPage
                 ->changePreview(function ($data) {
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
-            Text::make('Организатор', 'name'),
+            Text::make('Сообщество', 'organization.sight.name'),
             Date::make('Начало', 'date_start')->format('d.m.Y H:i')->sortable(),
             Date::make('Конец', 'date_start')->format('d.m.Y H:i')->sortable(),
             BelongsToMany::make('Тип', 'types', resource: new EventTypeResource())
@@ -45,6 +45,8 @@ class EventIndexPage extends IndexPage
             ,
             $this->showLastStatus(),
             Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
+            Text::make('Имя Источника', 'source_name')->sortable(),
+            Text::make('ID Источника', 'source_id')->sortable(),
         ];
     }
 

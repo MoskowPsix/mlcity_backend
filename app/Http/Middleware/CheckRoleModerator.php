@@ -20,7 +20,7 @@ class CheckRoleModerator
             //$request->merge(["city"=>auth('api')->user()->city]);
             //$request->merge(["region"=>auth('api')->user()->region]);
             return $next($request);
-        } elseif (auth('api')->user()->hasRole('root')){ 
+        } elseif (auth('api')->user()->hasRole('root')){
             return $next($request);
         } else {
             return response()->json([

@@ -83,15 +83,20 @@ class EventDetailPage extends DetailPage
         if ($this->getCurrentStatus()->name == 'Изменено') {
             return $this->showForDetailChange();
         } else {
-            return [
-                Div::make([
-                    Carousel::make(
-                        items: collect($this->getResource()->getItem()->files)->pluck('link')->all(),
-                        portrait: false,
-                    )
-                ]),
-                ...parent::mainLayer()
-            ];
+            $items = collect($this->getResource()->getItem()->files)->pluck('link')->all();
+            if (!empty($items)) {
+                return [
+                    Div::make([
+                        Carousel::make(
+                            items: $items,
+                            portrait: false,
+                        )
+                    ]),
+                    ...parent::mainLayer()
+                ];
+            } else {
+                return [...parent::mainLayer()];
+            }
         }
     }
     /**

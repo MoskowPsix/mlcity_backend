@@ -95,6 +95,7 @@ class IntegrationAfisha7 extends Command
         switch ($this->type) {
             case 'all':
                 $this->integrationEventsAndSights();
+                $this->integrationEventsAndSights();
                 break;
             case 'event':
                 $this->integrationEventsForLocation();
@@ -217,7 +218,7 @@ class IntegrationAfisha7 extends Command
             $url = 'https://api.afisha7.ru/v3.1/evs/';
 
             $params = [
-                "form_params" => [
+                "form_paramsform_params" => [
                     "token" => $this->token,
                     "loc_id" => $location_id,
                     "limit" => $limit,
@@ -495,6 +496,8 @@ class IntegrationAfisha7 extends Command
                 'user_id'       => 1,
                 'afisha7_id'    => $event->id,
                 'age_limit'     => $event->age,
+                'source_id'     => $event->id,
+                'source_name'   => 'afisha7'
             ]);
         } catch (Exception $e) {
             print_r($event);

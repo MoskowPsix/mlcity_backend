@@ -6,7 +6,7 @@
 /storage/*.key
 /storage/apple-jwt/*
 /vendor
-.env
+.env.all
 .env.backup
 .env.production
 .phpunit.result.cache
@@ -21,3 +21,7 @@ yarn-error.log
 .env.testing
 docker/db
 tests/Coverage
+/.env
+docker/.env
+docker/redis
+docker/elastic/data

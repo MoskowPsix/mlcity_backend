@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Middleware\CheckRoleAdmin;
 use MoonShine\Exceptions\MoonShineNotFoundException;
 use MoonShine\Forms\LoginForm;
 use MoonShine\Http\Middleware\Authenticate;
@@ -68,7 +69,9 @@ return [
 
     'auth' => [
         'enable' => true,
-        'middleware' => Authenticate::class,
+        'middleware' =>
+            Authenticate::class,
+//            \App\Http\Middleware\MoonshineCkeckRoleForLogin::class,
         'fields' => [
             'username' => 'email',
             'password' => 'password',
@@ -88,7 +91,9 @@ return [
                 'model' => \App\Models\User::class,
             ],
         ],
-        'pipelines' => [],
+        'pipelines' => [
+//            \App\MoonShine\Pipelines\CheckUserIsAdmin::class,
+        ],
     ],
     'locales' => [
         'en',

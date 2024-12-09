@@ -16,12 +16,15 @@ jobs:
           port: ${{ secrets.SSH_PORT }}
 
           script: |
-            cd ${{ secrets.DIR }};
+            cd ${{ secrets.DIR }}/docker;
             git checkout main;
             git pull && echo ${{secrets.GIT_USERNAME}} && echo ${{secrets.GIT_TOKEN}};
-            composer install;
-            npm install;
-            npm run build;
-            php artisan migrate --force;
+            docker compose down
+            docker builder prune -f
+            docker compose build --progress=plain
+            docker compose up -d --force-recreate --renew-anon-volumes
+            docker exec -it vokrug_backend composer install --ignore-platform-req=ext-zip
+            docker exec -it vokrug_backend php artisan migrate
+
 
 

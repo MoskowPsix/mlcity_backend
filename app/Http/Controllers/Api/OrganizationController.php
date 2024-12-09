@@ -10,6 +10,9 @@ use App\Filters\Organization\OrganizationUser;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Organization\Delete\FailedDeleteOrganizationResource;
 use App\Http\Resources\Organization\Delete\SuccessDeleteOrganizationResource;
+use App\Http\Resources\Organization\OrganizationTransferUser\NotFoundOrganizationTransferUserResource;
+use App\Http\Resources\Organization\OrganizationTransferUser\NotPermissionOrganizationTransferUserResource;
+use App\Http\Resources\Organization\OrganizationTransferUser\SuccessOrganizationTransferUserResource;
 use Illuminate\Http\Request;
 use App\Http\Requests\Organization\CreateOrganizationRequest;
 use App\Http\Requests\Organization\IndexOrganizationRequest;
@@ -174,6 +177,18 @@ class OrganizationController extends Controller
             return new SuccessDeleteOrganizationResource([]);
         } else {
             return new FailedDeleteOrganizationResource([]);
+        }
+    }
+
+    public function organizationTransferUser(int $org_id, int $user_id) {
+        try {
+            $this->organizationService->organizationTransferUser($org_id, $user_id);
+            return new SuccessOrganizationTransferUserResource([]);
+        } catch (Exception $e) {
+            return match ($e->getCode()) {
+                'You are not allowed to transfer users to this organization' => new NotFoundOrganizationTransferUserResource([]),
+                default => new NotPermissionOrganizationTransferUserResource([]),
+            };
         }
     }
 }

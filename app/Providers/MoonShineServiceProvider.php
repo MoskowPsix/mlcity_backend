@@ -68,6 +68,7 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     new LogViewerPage(),
                 ),
                 MenuItem::make('Telescope', '/telescope')
+                    ->icon('heroicons.rocket-launch'),
             ])->translatable()->icon('heroicons.wrench-screwdriver'),
             MenuGroup::make('Контент', [
                 MenuItem::make('События', new EventResource())

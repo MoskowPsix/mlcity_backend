@@ -15,6 +15,8 @@ use Illuminate\Http\Request;
 interface AuthServiceInterface
 {
     public function register(RegisterRequest $request): User;
+    public function registerGuest(): User | null;
+
     /**
      * @param LoginRequest $request
      * @return User

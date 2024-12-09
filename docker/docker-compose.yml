@@ -1,0 +1,229 @@
+services:
+    db:
+        container_name: vokrug_database
+        image: postgres:16-alpine
+        restart: always
+        deploy:
+            replicas: 1
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "4"
+#                    memory: "2058M"
+        environment:
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_DB: ${DB_DATABASE}
+        ports:
+            - "${DB_PORT}:5432"
+        volumes:
+            - ./db/data:/var/lib/postgresql/data
+        networks:
+            - db-net
+
+    nginx:
+        container_name: vokrug_nginx
+        restart: always
+        deploy:
+            replicas: 1
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "0.1"
+#                    memory: "128M"
+        build:
+            context: ./nginx
+            dockerfile: dockerfile
+        ports:
+            - "443:443"
+        depends_on:
+            - backend
+        volumes:
+            - ../:/var/www/MLCity_backend
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        networks:
+            - ng-net
+
+    backend:
+        container_name: vokrug_backend
+        env_file: .env
+        restart: always
+        #    image: bitnami/laravel
+        deploy:
+            replicas: 1
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
+        build:
+            context: ./php
+            dockerfile: dockerfile
+        volumes:
+            - ../:/var/www/MLCity_backend
+        networks:
+            - cache-net
+            - db-net
+            - es-net
+            - ng-net
+        working_dir: /var/www/MLCity_backend
+    #    command:
+    #      - apt install php-redis
+    scheduler:
+        container_name: vokrug_scheduler
+        env_file: .env
+        build:
+            context: ./php
+            dockerfile: dockerfile
+        restart: unless-stopped
+        tty: true
+        working_dir: /var/www/MLCity_backend
+        volumes:
+            - ../:/var/www/MLCity_backend
+        command: php artisan schedule:work
+        networks:
+            - cache-net
+            - db-net
+            - es-net
+            - ng-net
+    worker:
+        env_file: .env
+        restart: always
+        #    image: bitnami/laravel
+        deploy:
+            replicas: 10
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "0.2"
+#                    memory: "256M"
+        command: php /var/www/MLCity_backend/artisan queue:work --daemon
+        build:
+            context: ./php
+            dockerfile: dockerfile
+        volumes:
+            - ../:/var/www/MLCity_backend
+        networks:
+            - cache-net
+            - db-net
+            - es-net
+        working_dir: /var/www/MLCity_backend
+
+    elasticsearch:
+        container_name: vokrug_elasticsearch
+        image: elasticsearch:8.15.3
+        restart: always
+        deploy:
+            replicas: 1
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
+        environment:
+            - discovery.type=single-node
+            - xpack.security.enabled=true
+            - xpack.security.enrollment.enabled=true
+            - ELASTIC_PASSWORD=${ELASTICSEARCH_PASSWORD}
+            - ELASTIC_USERNAME=${ELASTICSEARCH_USERNAME}
+        ports:
+            - "${ELASTICSEARCH_PORT}:9200"
+            - "9300:9300"
+        volumes:
+            - ./elastic/data:/usr/share/elasticsearch/data
+        networks:
+            - es-net
+        command: >
+            bash -c "
+              /usr/local/bin/docker-entrypoint.sh &
+              echo 'Waiting for Elasticsearch to be ready...';
+              until curl -k --silent http://localhost:9200 -u elastic:${ELASTICSEARCH_PASSWORD} > /dev/null; do
+                sleep 5;
+              done;
+              echo 'Creating new user...';
+              curl -u elastic:${ELASTICSEARCH_PASSWORD} -X POST 'http://localhost:9200/_security/user/${ELASTICSEARCH_USERNAME}' -H 'Content-Type: application/json' -d'
+              {
+                \"password\" : \"${ELASTICSEARCH_PASSWORD}\",
+                \"roles\" : [ \"superuser\", \"kibana_user\" ],
+                \"full_name\" : \"Admin User\",
+                \"email\" : \"admin@example.com\",
+                \"enabled\": true
+              }' --insecure;
+              echo 'Updating role permissions...';
+              curl -u elastic:${ELASTICSEARCH_PASSWORD} -X PUT 'http://localhost:9200/_security/role/kibana_user' -H 'Content-Type: application/json' -d'
+              {
+                \"cluster\": [\"all\"],
+                \"indices\": [
+                  {
+                    \"names\": [\".kibana*\", \"*\"],
+                    \"privileges\": [\"all\", \"create_index\"]
+                  }
+                ]
+              }' --insecure;
+              echo 'User and roles configured successfully!';
+              wait
+            "
+
+#    kibana:
+#        image: kibana:8.15.3
+#        restart: always
+#        deploy:
+#            replicas: 1
+#            restart_policy:
+#                delay: 5s
+#                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "1"
+#                    memory: "1024M"
+#        environment:
+#            - xpack.monitoring.enabled=true         # Включить мониторинг
+#            - xpack.security.enabled=false          # Включить безопасность
+#            #      - xpack.reporting.enabled=true         # Включить отчёты
+#            #      - xpack.graph.enabled=true             # Включить графики
+#            - ELASTICSEARCH_URL=http://elasticsearch:${ELASTIC_PORT}
+#            - ELASTICSEARCH_USERNAME=${ELASTICSEARCH_USERNAME}
+#            - ELASTICSEARCH_PASSWORD=${ELASTICSEARCH_PASSWORD}
+#        ports:
+#            - "${KIBANA_PORT}:5601"
+#        networks:
+#            - es-net
+#        depends_on:
+#            - elasticsearch
+
+    cache:
+        container_name: vokrug_cache
+        image: redis:7.4.1
+        deploy:
+            replicas: 1
+            restart_policy:
+                delay: 5s
+                condition: on-failure
+#            resources:
+#                limits:
+#                    cpus: "0.5"
+#                    memory: "512M"
+        restart: always
+        volumes:
+            - ./redis/data:/data
+        ports:
+            - "${REDIS_PORT}:6379"
+        networks:
+            - cache-net
+
+networks:
+    db-net:
+    es-net:
+    ng-net:
+    cache-net:
+

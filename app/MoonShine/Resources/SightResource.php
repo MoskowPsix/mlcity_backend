@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Contracts\Services\OrganizationService\OrganizationService;
 use App\Http\Controllers\Api\StatusController;
 use App\Models\Sight;
 use Exception;
@@ -13,6 +14,7 @@ use App\MoonShine\Pages\Sight\SightIndexPage;
 use App\MoonShine\Pages\Sight\SightFormPage;
 use App\MoonShine\Pages\Sight\SightDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
@@ -39,6 +41,7 @@ class SightResource extends ModelResource
 
     protected string $column = 'name';
     public static array $activeActions = ['view'];
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
     protected bool $simplePaginate = true;
     protected bool $isAsync = true;
 
@@ -118,6 +121,16 @@ class SightResource extends ModelResource
             $eventService = new StatusController();
             $eventService->addStatusSight($request);
             MoonShineUI::toast('Статус изменён!', 'success');
+        } catch (Exception $e) {
+            MoonShineUI::toast($e->getMessage(), 'error');
+        }
+    }
+    public function transferSight(MoonShineRequest $request): void
+    {
+        try {
+            $eventService = new OrganizationService();
+            $eventService->organizationTransferUser((int)$request->organization_id, (int)$request->user_id);
+            MoonShineUI::toast('Сообщество передано новому пользователю!', 'success');
         } catch (Exception $e) {
             MoonShineUI::toast($e->getMessage(), 'error');
         }

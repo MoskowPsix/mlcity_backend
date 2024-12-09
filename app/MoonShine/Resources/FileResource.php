@@ -10,6 +10,7 @@ use App\MoonShine\Pages\File\FileIndexPage;
 use App\MoonShine\Pages\File\FileFormPage;
 use App\MoonShine\Pages\File\FileDetailPage;
 
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\Checkbox;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Image;
@@ -25,6 +26,7 @@ class FileResource extends ModelResource
     protected string $model = EventFile::class;
 
     protected string $title = 'Файлы';
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
 
     public function fields(): array
     {

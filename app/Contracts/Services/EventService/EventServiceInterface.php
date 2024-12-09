@@ -10,6 +10,7 @@ use App\Http\Requests\SearchContentForTextRequest;
 use App\Models\Event;
 use App\Models\Organization;
 use App\Models\Sight;
+use App\Models\User;
 
 interface EventServiceInterface
 {
@@ -28,5 +29,5 @@ interface EventServiceInterface
     public function getOrganizationOfEvent($id);
     public function addStatus(int $Id);
     public function delete(int $Id): bool;
-
+    public function addView(int $id): bool;
 }

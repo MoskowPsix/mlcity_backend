@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Request;
 use MoonShine\Decorations\Block;
 use MoonShine\Decorations\Column;
 use MoonShine\Decorations\Grid;
+use MoonShine\Enums\ClickAction;
 use MoonShine\Fields\DateRange;
 use MoonShine\Fields\Field;
 use MoonShine\Fields\Number;
@@ -27,12 +28,25 @@ use MoonShine\MoonShineRequest;
 use MoonShine\MoonShineUI;
 use MoonShine\Resources\ModelResource;
 use MoonShine\Pages\Page;
+use MoonShine\Traits\Resource\ResourceWithParent;
 
 /**
  * @extends ModelResource<Event>
  */
 class EventResource extends ModelResource
 {
+    use ResourceWithParent;
+
+    protected function getParentResourceClassName(): string
+    {
+        return SightResource::class;
+    }
+
+    protected function getParentRelationName(): string
+    {
+        return 'sight';
+    }
+
     protected string $model = Event::class;
 
     protected string $title = 'События';
@@ -44,7 +58,7 @@ class EventResource extends ModelResource
     public static array $activeActions = ['view'];
     protected bool $simplePaginate = true;
     protected bool $usePagination = true;
-
+    protected ?ClickAction $clickAction = ClickAction::DETAIL;
     protected bool $isAsync = true;
 
 
@@ -96,7 +110,13 @@ class EventResource extends ModelResource
                         DateRange::make('Конец', 'date_end'),
                     ]),
                 ])->columnSpan(12),
-            ])
+                Column::make([
+                    Block::make('Интеграция', [
+                        Text::make('Имя Источника', 'source_name'),
+                        Text::make('ID Источника', 'source_id'),
+                    ])
+                ])->columnSpan(12),
+            ]),
         ];
     }
 

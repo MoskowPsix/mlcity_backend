@@ -59,13 +59,7 @@ class UserController extends Controller
     public function getSocialAccountByUserId($user_id){
         return SocialAccount::where('user_id', $user_id)->firstOrFail();
     }
-    //Получаем избранные ивенты у юзера
-    private function getUserFavoriteEvents()
-    {
-        return User::findOrFail(auth("api")->user()->id)->favoriteEvents;
-    }
 
-    //Получаем массив с ид ивентов, которые юзер добавил в избранное
    public function getUserFavoriteEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
         $page = $request->page;
@@ -90,14 +84,6 @@ class UserController extends Controller
            'result' => $response,
         ], 200);
    }
-
-    // Получаем ивенты, которые юзер айкнул
-    private function getUserLikedEvents()
-    {
-        return User::findOrFail(auth("api")->user()->id)->likedEvents;
-    }
-
-    //Получаем массив с ид ивентов, которые юзер лайкнул
    public function getUserLikedEventsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
         $likedEvents = User::findOrFail($id)->likedEvents;
@@ -147,64 +133,64 @@ class UserController extends Controller
     ], 200);
    }
 
-    public function chekUserName($name) {
-        if (strlen($name) >= 3) {
-            $user = User::where('name', $name)->first();
-            if ($user) {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_name' =>  false], 200);
-            } elseif (!$user) {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_name' =>  true], 200);
-            }
-        } else {
-            return response()->json([
-                'status' =>  'error',
-                'message' =>  'minimal 3'], 403);
-        }
-    }
+//    public function chekUserName($name) {
+//        if (strlen($name) >= 3) {
+//            $user = User::where('name', $name)->first();
+//            if ($user) {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_name' =>  false], 200);
+//            } elseif (!$user) {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_name' =>  true], 200);
+//            }
+//        } else {
+//            return response()->json([
+//                'status' =>  'error',
+//                'message' =>  'minimal 3'], 403);
+//        }
+//    }
 
-    public function chekUserEmail($email)
-    {
-        if (strlen($email) >= 3) {
-            $user = User::where('email', $email)->first();
-            if ($user==null) {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_email' =>  true,"user"=>$user], 200);
-            } else {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_email' =>  false,"user"=>$user], 200);
-            }
-        } else {
-            return response()->json([
-                'status' =>  'error',
-                'message' =>  'min 3 lenght'], 403);
-        }
-    }
+//    public function chekUserEmail($email)
+//    {
+//        if (strlen($email) >= 3) {
+//            $user = User::where('email', $email)->first();
+//            if ($user==null) {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_email' =>  true,"user"=>$user], 200);
+//            } else {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_email' =>  false,"user"=>$user], 200);
+//            }
+//        } else {
+//            return response()->json([
+//                'status' =>  'error',
+//                'message' =>  'min 3 lenght'], 403);
+//        }
+//    }
 
-    public function checkUserNumber($number)
-    {
-        if (strlen($number) >= 3) {
-            $user = User::where('number', $number)->first();
-            if ($user!==null) {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_number' =>  false], 200);
-            } else {
-                return response()->json([
-                    'status' =>  'success',
-                    'user_number' =>  true], 200);
-            }
-        } else {
-            return response()->json([
-                'status' =>  'error',
-                'message' =>  'min 3 lenght'], 403);
-        }
-    }
+//    public function checkUserNumber($number)
+//    {
+//        if (strlen($number) >= 3) {
+//            $user = User::where('number', $number)->first();
+//            if ($user!==null) {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_number' =>  false], 200);
+//            } else {
+//                return response()->json([
+//                    'status' =>  'success',
+//                    'user_number' =>  true], 200);
+//            }
+//        } else {
+//            return response()->json([
+//                'status' =>  'error',
+//                'message' =>  'min 3 lenght'], 403);
+//        }
+//    }
    public function getUserLikedSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
         $likedSights = User::findOrFail($id)->likedSights;
@@ -290,56 +276,56 @@ class UserController extends Controller
         ], 200);
     }
 
-    //Методы для Админ панели
+//    //Методы для Админ панели
+//
+//    //Получить всех юзеров через фильтры
+//    public function listUsers(Request $request)
+//    {
+//        $page = $request->page;
+//        $limit = $request->limit ? $request->limit : 10;
+//        $name = $request->name ? $request->name : '';
+//        $users = User::with('roles', 'locations');
+//
+//        $response =
+//            app(Pipeline::class)
+//            ->send($users)
+//            ->via('apply')
+//            ->through([
+//                EventOrderByDateCreate::class,
+//                UsersId::class,
+//                UsersName::class,
+//                UsersEmail::class,
+//                UsersCreated::class,
+//                UsersUpdated::class,
+//                UsersLocation::class,
+//            ])
+//            ->then(function ($users) use ($page, $limit, $request){
+//                return $users->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
+//            });
+//
+//            return response()->json(['status' => 'success', 'users' => $response], 200);
+//    }
+//
+//
+//    public function updateUsers(Request $request, $id)
+//    {
+//
+//        $data = $request->all();
+//        $user = User::findOrFail($id);
+//        $user->fill($data);
+//        $user->save();
+//
+//        return response()->json([
+//            'status' => 'success',
+//            'user' => $user,
+//        ], 200);
+//    }
 
-    //Получить всех юзеров через фильтры
-    public function listUsers(Request $request)
-    {
-        $page = $request->page;
-        $limit = $request->limit ? $request->limit : 10;
-        $name = $request->name ? $request->name : '';
-        $users = User::with('roles', 'locations');
-
-        $response =
-            app(Pipeline::class)
-            ->send($users)
-            ->via('apply')
-            ->through([
-                EventOrderByDateCreate::class,
-                UsersId::class,
-                UsersName::class,
-                UsersEmail::class,
-                UsersCreated::class,
-                UsersUpdated::class,
-                UsersLocation::class,
-            ])
-            ->then(function ($users) use ($page, $limit, $request){
-                return $users->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page)->appends(request()->except('page'));
-            });
-
-            return response()->json(['status' => 'success', 'users' => $response], 200);
-    }
-
-
-    public function updateUsers(Request $request, $id)
-    {
-
-        $data = $request->all();
-        $user = User::findOrFail($id);
-        $user->fill($data);
-        $user->save();
-
-        return response()->json([
-            'status' => 'success',
-            'user' => $user,
-        ], 200);
-    }
-
-    public function deleteUsers($id): \Illuminate\Http\JsonResponse
-    {
-        User::find($id)->delete();
-        return response()->json(['status' => 'success', 'delete user' => $id], 200);
-    }
+//    public function deleteUsers($id): \Illuminate\Http\JsonResponse
+//    {
+//        User::find($id)->delete();
+//        return response()->json(['status' => 'success', 'delete user' => $id], 200);
+//    }
 
     public function deleteForUsers(): \Illuminate\Http\JsonResponse
     {

@@ -3,6 +3,7 @@
 namespace App\Http\Resources\Event\GetOrganizatonOfEvent;
 
 use App\Http\Resources\Organization\OrganizationResource;
+use App\Http\Resources\Sight\SightResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -19,7 +20,7 @@ class SuccessGetOrganizationOfEventResource extends JsonResource
         return [
             'status' => 'success',
             'message' => __('messages.event.get_organization_of_event.success'),
-            'organization' => new OrganizationResource($this->resource),
+            'organization' => new SightResource($this->resource),
         ];
     }
 }

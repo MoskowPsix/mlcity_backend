@@ -38,7 +38,7 @@ class indexSearchContents extends Command
         $chunk_size = 100;
         ini_set('memory_limit', '2048M');
         $bar_event = $this->output->createProgressBar(Event::query()->count());
-        Event::with('files')->chunk($chunk_size, function ($event) use($bar_event) {
+        Event::chunk($chunk_size, function ($event) use($bar_event) {
             $event->each(function($event) use($bar_event) {
                 resolve(Client::class)
                     ->setElasticMetaHeader(true)
