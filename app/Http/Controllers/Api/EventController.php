@@ -140,15 +140,17 @@ class EventController extends Controller
     #[Endpoint(title: 'createEvent', description: 'Создание события')]
     public function create(EventCreateRequest $request): SuccessCreateEventResource | ErrorCreateEventResource | ErrorAuthCreateEventResource
     {
-        try {
-            $event = $this->eventService->store($request);
-            return new SuccessCreateEventResource($event);
-        } catch (Exception $e) {
-            if ($e->getMessage() == "Is not user organization") {
-                return new ErrorAuthCreateEventResource([]);
-            }
-            return new ErrorCreateEventResource([]);
-        }
+        $event = $this->eventService->store($request);
+        return new SuccessCreateEventResource($event);
+//        try {
+//            $event = $this->eventService->store($request);
+//            return new SuccessCreateEventResource($event);
+//        } catch (Exception $e) {
+//            if ($e->getMessage() == "Is not user organization") {
+//                return new ErrorAuthCreateEventResource([]);
+//            }
+//            return new ErrorCreateEventResource([]);
+//        }
     }
 
 
