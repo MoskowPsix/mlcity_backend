@@ -53,7 +53,7 @@ class LocationController extends Controller
                 sin(radians(?)) *
                 sin(radians(latitude )))
             ) <= ? ',
-                [$latitude, $longitude,  $latitude,  $radius])->first();
+                [$latitude, $longitude,  $latitude,  $radius])->where('display', true)->first();
             $radius = $radius + 5;
         }
         return response()->json(['status' => 'success', 'location' => $location], 200);
