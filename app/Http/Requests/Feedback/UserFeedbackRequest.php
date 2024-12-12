@@ -26,7 +26,8 @@ class UserFeedbackRequest extends FormRequest
         return [
             "email" => "min:1|email|required",
             "text" => "string|min:10|required",
-            "name" => "string|min:1|required"
+            "name" => "string|min:1|required",
+            "type" => "string|min:1|nullable"
         ];
     }
 }
