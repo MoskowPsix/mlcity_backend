@@ -39,7 +39,6 @@ class EventResource extends JsonResource
      */
     public function toArray($request)
     {
-//        return $this->resource->withCount('favoritesUsers');
         return [
             'id'                => $this->id,
             'name'              => $this->name,
@@ -62,6 +61,7 @@ class EventResource extends JsonResource
             'author'            => $this->whenLoaded('author'),
             'types'             => $this->whenLoaded('types'),
             'price'             => $this->whenLoaded('price'),
+            'liked_users_exists'=> $this->liked_users_exists,
             //            'likedUsers'        => $this->whenLoaded('likedUsers'),
             'likedUsers'        => $this->when(!empty($this->liked_users_count), $this->liked_users_count),
             'likedUsers'        => $this->when(isset($this->likes), $this->likes->local_count ?? null),

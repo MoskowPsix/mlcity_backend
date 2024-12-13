@@ -33,7 +33,7 @@ class GetEventRequest extends FormRequest
             "limit"         => "nullable|integer|min:1|max:50",
             "name"          => "nullable|string|min:3",
             "userId"        => "nullable|integer",
-            "likedUser"     => "nullable|string",
+            "likedUser"     => "nullable|boolean",
             "favoriteUser"  => "nullable|string",
             "statuses"      => "nullable|string",
             "statusLast"    => "nullable|boolean",

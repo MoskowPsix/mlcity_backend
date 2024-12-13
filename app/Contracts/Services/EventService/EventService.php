@@ -88,11 +88,11 @@ class EventService implements EventServiceInterface
         $response = app(Pipeline::class)
             ->send($events)
             ->through([
+                EventSortByCoords::class,
                 // EventTotal::class,
                 EventOrderByDateCreate::class,
                 EventName::class,
                 EventByIds::class,
-                EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
                 EventStatusesLast::class,
@@ -106,7 +106,7 @@ class EventService implements EventServiceInterface
                 EventAuthorName::class,
                 EventAuthorEmail::class,
                 SightAuthor::class,
-                EventSortByCoords::class,
+                EventLikedUserExists::class,
             ])
             ->via('apply')
             ->then(function ($events) use ($page, $limit, $data) {
