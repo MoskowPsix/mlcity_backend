@@ -52,7 +52,10 @@ class ProcessIntegrationVld implements ShouldQueue
         foreach ($response->hits->hits as $event) {
                 $id = explode('_', $event->_id);
 
-                if (Event::where('source_name', $id[0])->where('source_id', $id[1])->exists()) continue;
+                if (Event::where('source_name', $id[0])->where('source_id', $id[1])->exists()
+                    || isset($event->_source->venue->address->location->lat)
+                    || isset($event->_source->venue->address->location->long)) continue;
+
                 if (empty($event->_source->venue->address->address)) continue;
 
                 if($event->_source->venue->address->location->lat == 0 || $event->_source->venue->address->location->long){

@@ -84,20 +84,16 @@ class EventService implements EventServiceInterface
     {
         $page = $data->page;
         $limit = $data->limit && ($data->limit < 50) ? $data->limit : 6;
-        $events = Event::query()
-            ->with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight')
-            ->withCount([
-                'favoritesUsers as event_user_favorite', // Подсчет пользователей, добавивших в избранное
-            ]);
+        $events = Event::with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight');
 
-        return app(Pipeline::class)
+        $response = app(Pipeline::class)
             ->send($events)
             ->through([
+                EventSortByCoords::class,
                 // EventTotal::class,
                 EventOrderByDateCreate::class,
                 EventName::class,
                 EventByIds::class,
-                EventLikedUserExists::class,
                 EventFavoritesUserExists::class,
                 EventStatuses::class,
                 EventStatusesLast::class,
@@ -111,12 +107,14 @@ class EventService implements EventServiceInterface
                 EventAuthorName::class,
                 EventAuthorEmail::class,
                 SightAuthor::class,
-                EventSortByCoords::class,
+                EventLikedUserExists::class,
             ])
             ->via('apply')
             ->then(function ($events) use ($page, $limit, $data) {
-                return $events->simplePaginate($limit, ['*'], 'page',  $page);
+                return $events->withCount('favoritesUsers')->simplePaginate($limit, ['*'], 'page',  $page);
             });
+        return $response;
+
     }
 
 

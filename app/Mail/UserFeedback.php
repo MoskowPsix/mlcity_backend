@@ -34,7 +34,7 @@ class UserFeedback extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Обратная связь от пользователя',
+            subject: $this->data["type"],
         );
     }
 
@@ -48,9 +48,10 @@ class UserFeedback extends Mailable
         return new Content(
             view: 'mail.view.userFeedback',
             with:[
+                "theme" => $this->data["type"],
                 "name" => $this->data["name"],
                 "email" => $this->data["email"],
-                "text" => $this->data["text"]
+                "text" => $this->data["text"],
             ]
         );
     }
