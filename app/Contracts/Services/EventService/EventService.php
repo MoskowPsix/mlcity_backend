@@ -10,6 +10,7 @@ use App\Http\Requests\Event\SetEventUserLikedRequest;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Requests\SearchContentForTextRequest;
 use App\Models\Event;
+use App\Models\FileType;
 use App\Models\Location;
 use App\Models\Status;
 use App\Models\Timezone;
@@ -221,7 +222,8 @@ class EventService implements EventServiceInterface
             if (!$this->checkUserHaveOrganization()) {
                 $coords = explode(',',$data->places[0]['coords']);
                 $latitude   = $coords[0]; // широта
-                $longitude  = $coords[1]; // долгота
+                $longitude  = $coords[1];
+
                 $sight = Sight::create([
                     "name" => $user->name,
                     "address" => $data->places[0]['address'],
@@ -233,11 +235,32 @@ class EventService implements EventServiceInterface
                     "vk_post_id"  => $data->vkPostId,
                     "user_id" => $user->id,
                 ]);
-
                 $types = explode(",",$data->type[0]);
                 $sight->types()->sync($types);
-                $sight->organization()->create();
 
+                foreach ($data->files as $file) {
+                    $filename = uniqid('img_');
+                    $path = $file->store('sights/'.$sight->id, 'public');
+                    $type = FileType::where('name', 'image')->get();
+
+                    $sight->files()->create([
+                        'name'  => $filename,
+                        'link'  => '/storage/'.$path,
+                        'local' => 1
+                    ])->file_types()->sync($type[0]->id);
+
+                    if ($data->localFilesImg) {
+                        $this->fileService->saveLocalFilesImg($sight, $data->localFilesImg);
+                    }
+                    if ($data->vkFilesImg) {
+                        $this->fileService->saveVkFilesImg($sight, $data->vkFilesImg);
+                    }
+                    if($data->localFilesImg || $data->vkFilesImg){
+                        $data->$file($sight,  $data->localFilesImg || $data->vkFilesImg);
+                    }
+                }
+
+                $sight->organization()->create();
             }
 
             if (!isset($data->organization_id)) {
