@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Events\Statuses\ChangeStatusForAuthor;
+use App\Models\Event;
 use Illuminate\Console\Command;
 
 class TypeTest extends Command
@@ -27,8 +29,12 @@ class TypeTest extends Command
      */
     public function handle()
     {
-        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
-        print_r($currentType->getType());
+        $event = Event::find(1);
+//        (new ChangeStatusForAuthor($event))->broadcastOn();
+        event((new ChangeStatusForAuthor($event)));
+//        dd(event((new ChangeStatusForAuthor($event))));
+//        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
+//        print_r($currentType->getType());
         return Command::SUCCESS;
     }
 }

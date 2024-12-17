@@ -92,6 +92,25 @@ services:
             - db-net
             - es-net
             - ng-net
+    websocket:
+        container_name: vokrug_websocket
+        env_file: .env
+        build:
+            context: ./php
+            dockerfile: dockerfile
+        restart: unless-stopped
+        tty: true
+        working_dir: /var/www/MLCity_backend
+        volumes:
+            - ../:/var/www/MLCity_backend
+        command: php artisan websockets:serve
+        ports:
+            - "6001:6001"
+        networks:
+            - cache-net
+            - db-net
+            - es-net
+            - ng-net
     worker:
         env_file: .env
         restart: always

@@ -6,6 +6,7 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
+        "beyondcode/laravel-websockets": "^1.14",
         "darkaonline/l5-swagger": "^8.5",
         "doctrine/dbal": "3.5",
         "elasticsearch/elasticsearch": "^8.15",
@@ -19,6 +20,7 @@
         "laravel/tinker": "^2.7",
         "monolog/monolog": "^3.0",
         "moonshine/moonshine": "^2.22",
+        "pusher/pusher-php-server": "^7.2",
         "socialiteproviders/apple": "^5.6",
         "socialiteproviders/telegram": "^4.1",
         "socialiteproviders/vkontakte": "^5.0",

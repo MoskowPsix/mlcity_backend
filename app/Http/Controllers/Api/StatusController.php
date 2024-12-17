@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Constants\StatusesConstants;
 use App\Contracts\Services\DecisionHistoryContentService;
+use App\Events\Statuses\ChangeStatusForAuthor;
 use App\Http\Controllers\Controller;
 use App\Jobs\ProcessSendMailOfChangedHistoryContent;
 use App\Mail\EventStatusChanged;
@@ -80,16 +81,7 @@ class StatusController extends Controller
 
         $event->statuses()->updateExistingPivot($statuses_all, ['last' => false]);
         $event->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
-        // $status_post = Status::where('id', $request->status_id)->firstOrFail();
-        // $vk_post['response']['post_id'] = $event->vk_post_id;
-
-        // if ($status_post->name === 'Опубликовано' && empty($event->vk_post_id)) {
-        //     $url = 'https://api.vk.com/method/wall.post?message=' . $event->description . '&owner_id=' . getenv('VK_OWNER_ID') . '&lat=' . $event->latitude . '&long=' . $event->longitude . '&copyright=' . getenv('FRONT_APP_URL') . '&access_token=' . getenv('VK_TOKEN') . '&v=5.131';
-        //     $vk_post = Http::post($url)->json();
-        //     $event->vk_post_id = $vk_post['response']['post_id'];
-        //     $event->vk_group_id = getenv('VK_OWNER_ID');
-        //     $event->save();
-        // }
+        event(new ChangeStatusForAuthor($event));
 
         return response()->json([
                 'status' => 'success',
@@ -116,6 +108,7 @@ class StatusController extends Controller
         $sight->statuses()->updateExistingPivot( Status::all(), ['last' => false]);
         $sight->statuses()->attach($status->id, ['last' => true, 'descriptions' => $request->descriptions]);
 
+        event(new ChangeStatusForAuthor($sight));
         return response()->json(
             [
                 'status' => 'success',
