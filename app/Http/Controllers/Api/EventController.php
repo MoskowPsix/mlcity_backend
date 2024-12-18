@@ -65,7 +65,6 @@ class EventController extends Controller
         return new SuccessGetEventsResource($response);
     }
 
-
     #[Authenticated]
     #[ResponseFromApiResource(SuccessGetEventForAuthorResource::class, Event::class)]
     #[Endpoint(title: 'getEventsForAuthor', description: 'Возвращает события пользователя')]

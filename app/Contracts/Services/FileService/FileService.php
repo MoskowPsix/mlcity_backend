@@ -36,9 +36,7 @@ class FileService {
 
         foreach ($files as $file) {
             $filename = uniqid('img_');
-
             $path = $file->store('events/'.$event->id, 'public');
-
             $type = FileType::where('name', 'image')->get();
 
             $event->files()->create([
