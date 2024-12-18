@@ -3,6 +3,7 @@
 namespace App\Contracts\Services\SightService;
 
 use App\Http\Requests\PageANDLimitRequest;
+use App\Http\Requests\SearchContentForTextRequest;
 use App\Http\Requests\Sight\CreateSightRequest;
 use App\Http\Requests\Sight\GetSightsForMapRequest;
 use App\Http\Requests\Sight\GetSightsRequest;
