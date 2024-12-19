@@ -77,7 +77,6 @@ class ProcessIntegrationVld implements ShouldQueue
                     $event->_source->prices->min > 0 ? $event_cr->prices()->create(['cost_rub' => $event->_source->prices->min]) : null;
 
                     $event->_source->prices->max > 0 ? $event_cr->prices()->create(['cost_rub' => $event->_source->prices->max]) : null;
-
                     isset($event->_source->media) ? $this->saveFiles($event->_source->media, $event_cr) : null;
                     $this->setTypes($event->_source->types, $event_cr);
                     $status = Status::where('name', 'Опубликовано')->first();
@@ -106,7 +105,7 @@ class ProcessIntegrationVld implements ShouldQueue
             return [
                 'source_id' => $id[1],
                 'source_name' => $id[0],
-                'name' => $event->_source->title,
+                'name' => html_entity_decode($event->_source->title),
                 'sponsor' => 'kassir',
                 'description' => $event->_source->description,
                 'materials' => $event->_source->original_link,
@@ -153,8 +152,8 @@ class ProcessIntegrationVld implements ShouldQueue
                 $sight = Sight::create([
                     "name"          => $event->_source->venue->name,
                     "address"       => $event->_source->venue->address->address,
-                    "latitude"      => $event->_source->venue->address->location->lat,
-                    "longitude"     => $event->_source->venue->address->location->long,
+                    "latitude"      => $event->_source->venue->address->location->long,
+                    "longitude"     => $event->_source->venue->address->location->lat,
                     "description"   => "",
                     "location_id" => $location->id,
                     "user_id"       => 1,
@@ -182,8 +181,8 @@ class ProcessIntegrationVld implements ShouldQueue
                 $sight = Sight::create([
                     "name" => $event->_source->organization->name,
                     "address" => $event->_source->organization->address,
-                    "latitude" => $event->_source->venue->address->location->lat,
-                    "longitude" => $event->_source->venue->address->location->long,
+                    "latitude" => $event->_source->venue->address->location->long,
+                    "longitude" => $event->_source->venue->address->location->lat,
                     "description" => $event->_source->organization->description,
                     "location_id" => $location->id,
                     "site" => $event->_source->organization->url,
@@ -212,8 +211,8 @@ class ProcessIntegrationVld implements ShouldQueue
         $timezone = $this->getTimezone($location->time_zone);
         $place = [
             'location_id' => $location->id,
-            'latitude' => $place->address->location->lat,
-            'longitude' => $place->address->location->long,
+            'latitude' => $place->address->location->long,
+            'longitude' => $place->address->location->lat,
             'address' => $place->address->address,
             'timezone_id' => $timezone->id,
         ];

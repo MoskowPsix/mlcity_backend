@@ -127,7 +127,7 @@ Route::controller(SeanceController::class)->group(function () {
     Route::get('places/{id}/seances', 'getSeancesAtPlaceIds');
 });
 Route::controller(SightController::class)->group(function () {
-    Route::get('sights/search/text', 'searchForText')->name('sight.search.text');
+    Route::post('sights/search/text', 'searchForText')->name('sight.search.text');
     Route::get('sights', 'getSights'); // Запрос достопримечательностей с фильтрами
     Route::get('sights-for-map', 'getSightsForMap'); // Запрос достопримечательностей с фильтрами для карты
     Route::get('sights-for-card/{id}', 'showForCard'); // Запрос достопримечательностей по id для карты
