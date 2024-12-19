@@ -37,6 +37,10 @@ class ProcessIntegrationVld implements ShouldQueue
         $scroll_id ? $this->scroll_id = $scroll_id : null;
         $this->integrationVld = app(IntegrationVldService::class);
     }
+    public function tags(): array
+    {
+        return ['integration', 'vld'];
+    }
 
     /**
      * Execute the job.

@@ -29,6 +29,11 @@ class ProcessIntegrationMinCult implements ShouldQueue
     private readonly IntegrationMinCultInterface $integrationMinCult;
     private int $offset;
     private int $limit;
+
+    public function tags(): array
+    {
+        return ['integration', 'min-cult', "min-cult:$this->offset-$this->limit"];
+    }
     /**
      * Create a new job instance.
      */

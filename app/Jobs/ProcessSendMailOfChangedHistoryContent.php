@@ -25,6 +25,10 @@ class ProcessSendMailOfChangedHistoryContent implements ShouldQueue
     {
         $this->content = $content;
     }
+    public function tags(): array
+    {
+        return ['send_mail', 'notification', 'changed_history_content', 'changed_history_content:' . $this->content->id];
+    }
 
     /**
      * Execute the job.
