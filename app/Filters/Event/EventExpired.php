@@ -11,7 +11,7 @@ class EventExpired implements Pipe {
     public function apply($content, Closure $next)
     {
         if (request()->filled('expired')){
-            if(request()->get('expired') === 'true') {
+            if(request()->get('expired') === 'true'){
                 $now = Carbon::now();
                 $content->whereDate('date_end', '<', $now);
             }
