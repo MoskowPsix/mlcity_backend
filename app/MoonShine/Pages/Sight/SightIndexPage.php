@@ -7,6 +7,7 @@ namespace App\MoonShine\Pages\Sight;
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
 use App\MoonShine\Pages\Organization\OrganizationHelperPageTrait;
 use App\MoonShine\Resources\EventTypeResource;
+use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\MoonUserResource;
 use App\MoonShine\Resources\SightTypeResource;
 use MoonShine\Components\Link;
@@ -35,7 +36,7 @@ class SightIndexPage extends IndexPage
                 ->changePreview(function ($data) {
                     return Link::make((new MoonUserResource())->detailPageUrl($data), $data->name);
                 }),
-            Text::make('Организатор', 'name')->sortable(),
+            BelongsTo::make('Город', 'locations', resource: new LocationResource())->sortable(),
             BelongsToMany::make('Тип', 'types', resource: new SightTypeResource())
                 ->inLine(
                     separator: ', ',
