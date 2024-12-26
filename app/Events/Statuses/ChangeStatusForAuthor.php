@@ -6,14 +6,16 @@ use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ChangeStatusForAuthor implements ShouldBroadcastNow
+class ChangeStatusForAuthor implements ShouldBroadcast, ShouldQueue
 {
-    use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Dispatchable, InteractsWithSockets, SerializesModels, Queueable;
 
     public $model;
 
@@ -24,6 +26,10 @@ class ChangeStatusForAuthor implements ShouldBroadcastNow
     {
         $this->model = $model;
     }
+//    public function broadcastAs(): string
+//    {
+//        return 'order.created';
+//    }
 
     /**
      * Get the channels the event should broadcast on.
@@ -32,12 +38,15 @@ class ChangeStatusForAuthor implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
+        dump('ok');
         return [
-            new Channel('App.Models.User.1'),
+            new Channel('All'),
         ];
     }
-    public function broadcastWith(){
+    public function broadcastWith()
+    {
         $status = $this->model->lastStatus()->first();
+//        $status = true;
         return [
             'status'    => $status,
             'content'   => $this->model

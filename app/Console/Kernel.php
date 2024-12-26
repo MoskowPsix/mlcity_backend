@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // По расписанию
-        $schedule->command('integration:min-cult all')->everySixHours();
+//        $schedule->command('integration:min-cult all')->everySixHours();
         $schedule->command('telescope:prune --hours=48')->daily()->description('Очистка записей telescope');
 
         // Запуск по вызову из админки

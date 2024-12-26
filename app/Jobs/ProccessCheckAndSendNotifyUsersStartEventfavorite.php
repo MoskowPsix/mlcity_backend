@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
+use App\Events\Event\StartHoursEventNotify;
 use App\Models\Event;
+use App\Notifications\VerifyEmail;
 use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -33,10 +35,13 @@ class ProccessCheckAndSendNotifyUsersStartEventfavorite implements ShouldQueue
      */
     public function handle(): void
     {
-        $now = Carbon::now();
-        $event_start = Carbon::parse($this->event->date_start);
-        $favorite_time = $event_start->subHours(24);
-        dd($favorite_time);
-        if($event_start) {}
+        $this->event->favoritesUsers()->chunk(1000, function ($users_ch) {
+            $users_ch->each(function($user) {
+                dump($user->name);
+//              $user->notify(new VerifyEmail());
+
+                event((new StartHoursEventNotify($this->event, $user)));
+            });
+        });
     }
 }

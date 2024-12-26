@@ -53,6 +53,9 @@ services:
         env_file: .env
         restart: always
         #    image: bitnami/laravel
+        command: php artisan websockets:serve
+        ports:
+            - "6001:6001"
         deploy:
             replicas: 1
             restart_policy:
@@ -91,32 +94,30 @@ services:
             - cache-net
             - db-net
             - es-net
-            - ng-net
-    websocket:
-        container_name: vokrug_websocket
-        env_file: .env
-        build:
-            context: ./php
-            dockerfile: dockerfile
-        restart: unless-stopped
-        tty: true
-        working_dir: /var/www/MLCity_backend
-        volumes:
-            - ../:/var/www/MLCity_backend
-        command: php artisan websockets:serve
-        ports:
-            - "6001:6001"
-        networks:
-            - cache-net
-            - db-net
-            - es-net
-            - ng-net
+#    websocket:
+#        container_name: vokrug_websocket
+#        env_file: .env
+#        build:
+#            context: ./php
+#            dockerfile: dockerfile
+#        restart: unless-stopped
+#        tty: true
+#        working_dir: /var/www/MLCity_backend
+#        volumes:
+#            - ../:/var/www/MLCity_backend
+#        command: php artisan websockets:serve
+#        ports:
+#            - "6001:6001"
+#        networks:
+#            - cache-net
+#            - db-net
+#            - es-net
     worker:
         env_file: .env
         restart: always
         #    image: bitnami/laravel
         deploy:
-            replicas: 10
+            replicas: 1
             restart_policy:
                 delay: 5s
                 condition: on-failure
@@ -124,7 +125,7 @@ services:
 #                limits:
 #                    cpus: "0.2"
 #                    memory: "256M"
-        command: php /var/www/MLCity_backend/artisan queue:work --daemon
+        command: php /var/www/MLCity_backend/artisan queue:work
         build:
             context: ./php
             dockerfile: dockerfile

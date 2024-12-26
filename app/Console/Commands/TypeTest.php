@@ -29,9 +29,11 @@ class TypeTest extends Command
      */
     public function handle()
     {
-        $event = Event::find(1);
+//        dd(env('PUSHER_HOST'));
+        $event = Event::find(4708);
 //        (new ChangeStatusForAuthor($event))->broadcastOn();
-        event((new ChangeStatusForAuthor($event)));
+        event(new ChangeStatusForAuthor($event));
+
 //        dd(event((new ChangeStatusForAuthor($event))));
 //        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
 //        print_r($currentType->getType());
