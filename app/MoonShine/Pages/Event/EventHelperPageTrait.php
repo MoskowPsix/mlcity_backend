@@ -4,6 +4,7 @@ namespace App\MoonShine\Pages\Event;
 
 use App\Models\Price;
 use App\Models\Status;
+use App\Models\User;
 use App\MoonShine\Resources\EventResource;
 use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\OrganizationResource;
@@ -12,6 +13,8 @@ use App\MoonShine\Resources\PriceResource;
 use App\MoonShine\Resources\SightResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\MoonUserResource;
+use Barryvdh\Debugbar\Twig\Extension\Debug;
+use Google\Service\CloudSearch\Button;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use MoonShine\ActionButtons\ActionButton;
@@ -35,6 +38,7 @@ use MoonShine\Fields\Relationships\HasOne;
 use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Select;
 use MoonShine\Fields\Text;
+use MoonShine\MoonShineUI;
 use stdClass;
 
 trait EventHelperPageTrait
@@ -162,6 +166,31 @@ trait EventHelperPageTrait
             );
     }
 
+    public function transferEvent()
+    {
+        return ActionButton::make(
+            label: 'Передать другому сообществу',
+        )
+            ->customAttributes(['class' => 'mt-8'])
+            ->icon('heroicons.sparkles')
+            ->primary()
+            ->canSee(function() {
+                return auth('moonshine')->user()->hasRole('Admin') || auth('moonshine')->user()->hasRole('root') && isset($this->getResource()->getItem()->organization);
+            })
+            ->inModal(
+                title: fn() => 'Передать событие',
+                content: function () {
+                    return (string)FormBuilder::make()
+                        ->async(asyncEvents: ['transfer'])
+                        ->fields([
+                            Number::make('ID сообщетсва, которому передаётся событие', 'sight_id')->setValue($this->getResource()->getItem()->organization()->first()->sight()->first()->id), // Более правильное название поля
+                            ID::make('ID', 'event_id')->hideOnAll()->setValue($this->getResource()->getItem()->id),
+                        ])->submit('Сменить')
+                        ->asyncMethod('transferEvent');
+                },
+            );
+    }
+
     public function showActionStatusButtonForSight()
     {
         return ActionButton::make(
@@ -205,9 +234,25 @@ trait EventHelperPageTrait
                             ->fields([
                                 Number::make('ID пользователя, которому передаётся сообщество и его события', 'user_id')->setValue($this->getResource()->getItem()->user_id), // Более правильное название поля
                                 ID::make('ID', 'organization_id')->hideOnAll()->setValue($this->getResource()->getItem()->organization->id), // Более правильное название поля
-                            ])->submit('Сменить')
+                            ])->submit('Передать')
                             ->asyncMethod('transferSight');
+
                     },
+                    buttons: [
+                       ActionButton::make(label: 'Проверить')
+                        ->onClick(fn() =>  $this->checkUser(), 'prevent')
+                    ],
                 );
+    }
+    public function checkUser(){
+        $userID = request()->input('user_id');
+        $user = User::find($userID);
+        if($user){
+            $userName = $user->name;
+            MoonShineUI::toast("Пользователь - $userName", 'success');
+        }
+        else{
+            MoonShineUI::toast("Не найден", 'success');
+        }
     }
 }

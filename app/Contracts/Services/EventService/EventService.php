@@ -494,6 +494,18 @@ class EventService implements EventServiceInterface
         return count($res) > 0;
     }
 
+    public function sightTransferOrganization(int $sight_id, int $event_id): void
+    {
+        $sight = Sight::findOrFail($sight_id);
+        $event = Event::findOrFail($event_id);
+
+        $event->update([
+             'user_id' => $sight->user_id,
+            'organization_id' => $sight->organization()->first()->id,
+
+        ]);
+    }
+
     public function addView(int $id): bool
     {
         try {
