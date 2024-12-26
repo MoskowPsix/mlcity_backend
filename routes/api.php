@@ -114,7 +114,7 @@ Route::controller(EventController::class)->group(function () {
     Route::post('events/{id}/statuses/cookie', 'addStatusToEvent')->middleware('auth:moonshine')->name('event.status.cookie');
     Route::delete('events/{id}', 'delete')->middleware('auth:sanctum')->name('event.delete');
 
-    Route::get('events/{id}/view', 'addViewEvent')->middleware('auth:sanctum')->name('event.view');
+    Route::get('events/{id}/view', 'addViewEvent')->name('event.view');
 });
 
 Route::controller(PlaceController::class)->group(function () {

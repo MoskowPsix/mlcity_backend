@@ -510,14 +510,15 @@ class EventService implements EventServiceInterface
     {
         try {
             $event = Event::findOrFail($id);
-            if ($event->viewsUsers()->where('user_id', auth('api')->user()->id)->exists()) {
-                return false;
+            if (!empty(auth('api')->user())) {
+                if ($event->viewsUsers()->where('user_id', auth('api')->user()->id)->exists()) {
+                    return false;
+                }
+                $event->viewsUsers()->create([
+                    'user_id' => auth('api')->user()->id,
+                    'time_view' => 1,
+                ]);
             }
-
-            $event->viewsUsers()->create([
-                'user_id' => auth('api')->user()->id,
-                'time_view' => 1,
-            ]);
             if ($event->viewCount()->exists()) {
                 $event->viewCount()->increment('count');
             } else {
@@ -526,6 +527,7 @@ class EventService implements EventServiceInterface
 
             return true;
         } catch (Exception $e) {
+            dd($e);
             return false;
         }
     }

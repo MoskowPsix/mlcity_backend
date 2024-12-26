@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
@@ -53,16 +54,16 @@ class ProcessIntegrationVld implements ShouldQueue
                 $id = explode('_', $event->_id);
 
                 if (Event::where('source_name', $id[0])->where('source_id', $id[1])->exists()
-                    || isset($event->_source->venue->address->location->lat)
-                    || isset($event->_source->venue->address->location->long)) continue;
+                    || $event->_source->venue->address->location->lat == 0
+                    || $event->_source->venue->address->location->long == 0) continue;
 
                 if (empty($event->_source->venue->address->address)) continue;
 
-                if($event->_source->venue->address->location->lat == 0 || $event->_source->venue->address->location->long){
-                    $coords = $this->getCoords($event->_source->venue->address->address);
-                    $event->_source->venue->address->location->lat = $coords[0];
-                    $event->_source->venue->address->location->long = $coords[1];
-                }
+//                if($event->_source->venue->address->location->lat == 0 || $event->_source->venue->address->location->long){
+//                    $coords = $this->getCoords($event->_source->venue->address->address);
+//                    $event->_source->venue->address->location->lat = $coords[0];
+//                    $event->_source->venue->address->location->long = $coords[1];
+//                }
                 DB::beginTransaction();
                 try{
                     $event_form = $this->formEvent($event);
@@ -84,6 +85,9 @@ class ProcessIntegrationVld implements ShouldQueue
                     $event_cr->statuses()->attach($status->id,  ['last' => true]);
                     DB::commit();
                 } catch(Exception $e) {
+                    if($e->getMessage() != "No valid date") {
+                        dd($e->getMessage());
+                    };
                     DB::rollBack();
                 }
             }
@@ -115,6 +119,9 @@ class ProcessIntegrationVld implements ShouldQueue
                 'organization_id' => $org->id,
             ];
         } catch (\Exception $e) {
+            if($e->getMessage() != "No valid date") {
+                dd($e->getMessage());
+            };
             throw new \Exception($e->getMessage());
         }
     }
@@ -145,15 +152,15 @@ class ProcessIntegrationVld implements ShouldQueue
         if(empty($event->_source->organization)) {
             $sight = Sight::where('name', $event->_source->venue->name);
             if ($sight->exists()) {
-                $this->setTypes($event->_source->types, $sight);
+                $this->setTypes($event->_source->types, $sight->first());
                 return $sight->first()->organization()->first();
             } else {
                 $location = $this->getLocation($event->_source->venue->address->location->lat, $event->_source->venue->address->location->long);
                 $sight = Sight::create([
                     "name"          => $event->_source->venue->name,
                     "address"       => $event->_source->venue->address->address,
-                    "latitude"      => $event->_source->venue->address->location->long,
-                    "longitude"     => $event->_source->venue->address->location->lat,
+                    "latitude"      => $event->_source->venue->address->location->lat,
+                    "longitude"     => $event->_source->venue->address->location->long,
                     "description"   => "",
                     "location_id" => $location->id,
                     "user_id"       => 1,
@@ -174,15 +181,15 @@ class ProcessIntegrationVld implements ShouldQueue
         } else {
             $sight = Sight::where('name', $event->_source->organization->name);
             if ($sight->exists()) {
-                $this->setTypes($event->_source->types, $sight);
+                $this->setTypes($event->_source->types, $sight->first());
                 return $sight->first()->organization()->first();
             } else {
                 $location = $this->getLocation($event->_source->venue->address->location->lat, $event->_source->venue->address->location->long);
                 $sight = Sight::create([
                     "name" => $event->_source->organization->name,
                     "address" => $event->_source->organization->address,
-                    "latitude" => $event->_source->venue->address->location->long,
-                    "longitude" => $event->_source->venue->address->location->lat,
+                    "latitude" => $event->_source->venue->address->location->lat,
+                    "longitude" => $event->_source->venue->address->location->long,
                     "description" => $event->_source->organization->description,
                     "location_id" => $location->id,
                     "site" => $event->_source->organization->url,
@@ -211,8 +218,8 @@ class ProcessIntegrationVld implements ShouldQueue
         $timezone = $this->getTimezone($location->time_zone);
         $place = [
             'location_id' => $location->id,
-            'latitude' => $place->address->location->long,
-            'longitude' => $place->address->location->lat,
+            'latitude' => $place->address->location->lat,
+            'longitude' => $place->address->location->long,
             'address' => $place->address->address,
             'timezone_id' => $timezone->id,
         ];
@@ -267,18 +274,24 @@ class ProcessIntegrationVld implements ShouldQueue
     }
     private function setTypes(array $types, mixed $event)
     {
-        $types_ids = [];
-        foreach ($types as $type) {
-            $current_type = new CurrentType($type);
-            $type_name = $current_type->getType();
-            if (isset($type_name)) {
-                $types_ids[] = $type_name['id'];
+        try {
+            $types_ids = [];
+            foreach ($types as $type) {
+                $current_type = new CurrentType($type);
+                $type_name = $current_type->getType();
+                if (isset($type_name)) {
+                    $types_ids[] = $type_name['id'];
 //                $event->types()->attach($type_name['id']);
+                }
             }
+//        dd(array_unique($types_ids));
             $event->types()->attach(array_unique($types_ids));
-            $types_ids_cr = $event->types->pluck('id')->toArray();
-            $event->types()->detach($types_ids_cr);
-            $event->types()->attach(array_unique($types_ids_cr));
+//        $types_ids = $event->types->pluck('id')->toArray();
+//        $event->types()->detach($types_ids);
+//        $event->types()->attach(array_unique($types_ids));
+        } catch (Exception $e) {
+            dd($e);
+            throw new \RuntimeException($e->getMessage());
         }
     }
     private function isScroll(): bool
