@@ -4,9 +4,12 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Pages\Sight;
 
+use App\Models\HistoryContent;
+use App\Models\Sight;
 use App\MoonShine\Pages\Event\EventHelperPageTrait;
 use App\MoonShine\Pages\Organization\OrganizationHelperPageTrait;
 use App\MoonShine\Resources\EventTypeResource;
+use App\MoonShine\Resources\HistoryContentResource;
 use App\MoonShine\Resources\LocationResource;
 use App\MoonShine\Resources\MoonUserResource;
 use App\MoonShine\Resources\SightTypeResource;
@@ -15,6 +18,7 @@ use MoonShine\Fields\Date;
 use MoonShine\Fields\ID;
 use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Relationships\BelongsToMany;
+use MoonShine\Fields\Relationships\MorphMany;
 use MoonShine\Fields\Text;
 use MoonShine\Pages\Crud\IndexPage;
 use MoonShine\Components\MoonShineComponent;
@@ -44,6 +48,8 @@ class SightIndexPage extends IndexPage
             ,
             $this->showLastStatus(),
             Date::make('Создано', 'created_at')->format('d.m.Y H:i')->sortable(),
+
+//            Date::make('Изменено', 'historyContents')->setValue($this->getResource()->getItem()->historyContents()->first()->created_at),
         ];
     }
 

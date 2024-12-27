@@ -137,7 +137,7 @@ class SightDetailPage extends DetailPage
                     Block::make('Изменения', [
                         Div::make('Галерея', [
                             Carousel::make(
-                                items: collect($history_item->historyFiles)->pluck('link')->all(),
+                                items: collect(empty($history_item->historyFiles) ? [] : $history_item->historyFiles)->pluck('link')->all(),
                                 portrait: false,
                             )
                         ]),

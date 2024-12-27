@@ -116,12 +116,14 @@ class EventDetailPage extends DetailPage
                     ])->columnSpan(6),
                 ]),
                 $this->showActionStatusButton(),
+                $this->transferEvent(),
             ];
         } else {
             return [
 //                $this->showGridCardPriceUI($this->getResource()->getItem()->prices),
                 ...parent::bottomLayer(),
                 $this->showActionStatusButton(),
+                $this->transferEvent(),
             ];
         }
     }

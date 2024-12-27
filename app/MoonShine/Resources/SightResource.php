@@ -7,6 +7,7 @@ namespace App\MoonShine\Resources;
 use App\Contracts\Services\OrganizationService\OrganizationService;
 use App\Http\Controllers\Api\StatusController;
 use App\Models\Sight;
+use App\Models\User;
 use Exception;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -130,9 +131,14 @@ class SightResource extends ModelResource
         try {
             $eventService = new OrganizationService();
             $eventService->organizationTransferUser((int)$request->organization_id, (int)$request->user_id);
-            MoonShineUI::toast('Сообщество передано новому пользователю!', 'success');
+            $userName = User::find((int)$request->user_id);
+            if($userName){
+                $user = $userName->name;
+                MoonShineUI::toast("Сообщество передано новому пользователю с именем: $user, id: $request->user_id", 'success');
+            }
         } catch (Exception $e) {
-            MoonShineUI::toast($e->getMessage(), 'error');
+            MoonShineUI::toast('Пользователь не найден', 'error');
         }
     }
+
 }

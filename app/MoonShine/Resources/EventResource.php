@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App\MoonShine\Resources;
 
+use App\Contracts\Services\EventService\EventService;
+use App\Contracts\Services\OrganizationService\OrganizationService;
+use App\Contracts\Services\SightService\SightService;
 use App\Http\Controllers\Api\StatusController;
 use App\Models\Event;
+use App\Models\Organization;
+use App\Models\Sight;
 use Exception;
 use Illuminate\Database\Eloquent\Model;
 use App\MoonShine\Pages\Event\EventIndexPage;
@@ -152,6 +157,21 @@ class EventResource extends ModelResource
             $eventService = new StatusController();
             $eventService->addStatusEvent($request);
             MoonShineUI::toast('Статус изменён!', 'success');
+        } catch (Exception $e) {
+            MoonShineUI::toast($e->getMessage(), 'error');
+        }
+    }
+    public function transferEvent(MoonShineRequest $request): void
+    {
+        try {
+            $eventService = new EventService();
+            $eventService->sightTransferOrganization((int)$request->sight_id, (int)$request->event_id);
+            $orgName = Sight::find((int)$request->sight_id);
+            if($orgName){
+                $org = $orgName->name;
+                MoonShineUI::toast("Событие передано новому сообществу с именем: $org, id: $request->sight_id", 'success');
+            }
+
         } catch (Exception $e) {
             MoonShineUI::toast($e->getMessage(), 'error');
         }
