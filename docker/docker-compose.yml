@@ -125,7 +125,7 @@ services:
 #                limits:
 #                    cpus: "0.2"
 #                    memory: "256M"
-        command: php /var/www/MLCity_backend/artisan queue:work
+        command: php /var/www/MLCity_backend/artisan horizon
         build:
             context: ./php
             dockerfile: dockerfile
