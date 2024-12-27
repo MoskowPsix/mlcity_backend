@@ -16,7 +16,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // По расписанию
-        $schedule->command('telescope:prune --hours=48')->daily()->description('Очистка записей telescope');
+        $schedule->command('telescope:prune --hours=48')->everySixHours()->description('Очистка записей telescope');
         $schedule->command('notify:start-events')->daily()->skip(function () { return true; })->description('Оповещение о начале мероприятия в избранном');;
 
         // Запуск по вызову из админки

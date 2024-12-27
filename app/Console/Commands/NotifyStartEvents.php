@@ -29,7 +29,7 @@ class NotifyStartEvents extends Command
     public function handle()
     {
         $from = Carbon::now()->addDay(1)->format('Y-m-d H:i:s');
-        $to = Carbon::now()->addDay(1)->addMinute(1)->format('Y-m-d H:i:s');
+        $to = Carbon::now()->addDay(1)->addHour(6)->format('Y-m-d H:i:s');
         $events_q = Event::whereBetween('date_start', [$from, $to]);
         $bar = $this->output->createProgressBar($events_q->count());
         $events_q->orderBy('id')->chunk(1000, function ($events) use($bar) {
