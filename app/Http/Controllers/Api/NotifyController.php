@@ -65,7 +65,7 @@ class NotifyController extends Controller
                 flush();
 
                 // Sleep for a few seconds before checking again
-                sleep(60);
+                sleep(5);
             }
         }, 200, $headers);
     }
