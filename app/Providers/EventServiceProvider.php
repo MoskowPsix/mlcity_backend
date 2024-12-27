@@ -3,9 +3,11 @@
 namespace App\Providers;
 
 use App\Events\Event\EventCreated;
+use App\Events\Notify\StartHoursEventNotify;
 use App\Events\Place\PlaceCreated;
 use App\Events\Sight\SightCreated;
 use App\Listeners\Event\CreateHistoryContent;
+use App\Listeners\Notify\StartHoursListenersNotify;
 use App\Listeners\Place\CreateHistoryPlace;
 use App\Listeners\Sight\CreateHistoryContent as SightCreateHistoryContent;
 use Illuminate\Auth\Events\Registered;
@@ -38,8 +40,10 @@ class EventServiceProvider extends ServiceProvider
 
         SightCreated::class => [
             SightCreateHistoryContent::class
-        ]
-
+        ],
+        StartHoursEventNotify::class => [
+            StartHoursListenersNotify::class,
+        ],
 
     ];
 
@@ -50,7 +54,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+
     }
 
     /**

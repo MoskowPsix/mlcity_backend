@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Listeners\Notify\StartHoursListenersNotify;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
 use MoonShine\MoonShine;
@@ -28,6 +30,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         JsonResource::withoutWrapping();
-
+        Event::listen(StartHoursListenersNotify::class);
     }
 }

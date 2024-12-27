@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\AuthSocialController;
+use App\Http\Controllers\Api\NotifyController;
 use App\Http\Controllers\Api\PlaceController;
 use App\Http\Controllers\Api\PointController;
 use App\Http\Controllers\Api\SeanceController;
@@ -232,8 +233,8 @@ Route::controller(OrganizationInviteController::class)->group(function () {
 
 Route::controller(PermissionController::class)->group(function () {
     Route::post("permissions", "store")->middleware('root');
-    Route::get("permissions/{id}", "show")->middleware('auth:sanctum');;
-    Route::get("permissions/", "index")->middleware('auth:sanctum');;
+    Route::get("permissions/{id}", "show")->middleware('auth:sanctum');
+    Route::get("permissions/", "index")->middleware('auth:sanctum');
     Route::patch("permissions/", "update")->middleware('root');
     Route::delete("permissions/{id}", "delete")->middleware('root');
 });
@@ -246,3 +247,10 @@ Route::controller(PasswordRecoveryController::class)->group(function () {
     Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
     Route::post("recovery/password", "recoveryPasswordByCode");
 });
+
+Route::controller(NotifyController::class)->group(function () {
+    Route::get('notify/chanel/user/{id}', 'private');
+    Route::get('notify/chanel/all', 'public');
+    Route::get('notify/view/{id}', 'view')->middleware('auth:sanctum');
+});
+

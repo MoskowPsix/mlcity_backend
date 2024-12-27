@@ -2,6 +2,11 @@
 
 namespace App\Console\Commands;
 
+use App\Events\Notify\StartHoursEventNotify;
+use App\Events\TestEvent;
+use App\Models\Event;
+use App\Models\Notify;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class TypeTest extends Command
@@ -27,8 +32,13 @@ class TypeTest extends Command
      */
     public function handle()
     {
-        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
-        print_r($currentType->getType());
+        Notify::create([
+            'message' => 'Тестирование системы оповещений',
+            'data' => json_encode(['message' => 'test'])
+        ]);
+//        event(new StartHoursEventNotify($event, $user));
+//        $currentType = new \App\Contracts\Services\CurrentType\CurrentType('Встречи');
+//        print_r($currentType->getType());
         return Command::SUCCESS;
     }
 }
