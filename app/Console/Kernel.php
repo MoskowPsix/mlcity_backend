@@ -17,9 +17,9 @@ class Kernel extends ConsoleKernel
     {
         // По расписанию
         // $schedule->command('telescope:prune --hours=48')->everySixHours()->description('Очистка записей telescope');
-        $schedule->command('notify:start-events')->daily()->skip(function () {
-            return true;
-        })->description('Оповещение о начале мероприятия в избранном');;
+        // $schedule->command('notify:start-events')->daily()->skip(function () {
+        //     return true;
+        // })->description('Оповещение о начале мероприятия в избранном');;
 
         // Запуск по вызову из админки
         $schedule->command('type')->daily()->skip(function () {
