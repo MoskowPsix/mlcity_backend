@@ -248,9 +248,9 @@ Route::controller(PasswordRecoveryController::class)->group(function () {
     Route::post("recovery/password", "recoveryPasswordByCode");
 });
 
-Route::controller(NotifyController::class)->group(function () {
-    Route::get('notify/chanel/user/{id}', 'private');
-    Route::get('notify/chanel/all', 'public');
-    Route::get('notify/view/{id}', 'view')->middleware('auth:sanctum');
-});
+//Route::controller(NotifyController::class)->group(function () {
+//    Route::get('notify/chanel/user/{id}', 'private');
+//    Route::get('notify/chanel/all', 'public');
+//    Route::get('notify/view/{id}', 'view')->middleware('auth:sanctum');
+//});
 
