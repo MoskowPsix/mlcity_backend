@@ -4,23 +4,19 @@
 - Laravel 9
 
 ## Содержание:
-1. [Как запустить](#install)
+1. [Как запустить для разработки](#install)
 2. [Пример развертывания проекта (deploy) на хостинге](#deploy)
-3. [API](#api)
-   - [Регистрация и получение токена](#api_register)
-   - [Авторизация](#api_login)
-   - [Авторизация через соцсети](#api_socialAuth)
-   - [Выход](#api_logout)
+3. [Генерация документаци](#docs)
 
 ## <a name="install"><h4>Как запустить:</h4></a>
 
 - Установить **PHP 8+**
 
-- Установить **PostgreSQL**
+- Создать базу **PostgreSQL**
 
 - Установить **composer**
 
-- Клонировать проект ```git clone https://github.com/refus91/citylife_backend```
+- Клонировать проект ```git clone https://github.com/MoskowPsix/mlcity_backend.git```
 
 - В файле .env установить ключ приложения (**APP_KEY**) и настройки подключения к БД (**DB_CONNECTION, DB_HOST, DB_PORT, DB_DATABASE, DB_USERNAME,DB_PASSWORD**)
 
@@ -36,10 +32,30 @@
     VKONTAKTE_CLIENT_ID=51440111 
     VKONTAKTE_CLIENT_SECRET=PsB4W0SVkFGP1M3I2BAH 
     VKONTAKTE_REDIRECT_URI=http://DOMAIN/social-auth/PROVIDER/callback
-    ```
+    VKONTAKTE_SERVICE_KEY=
+    VK_TOKEN=
+    VK_OWNER_ID=
+  ```
     где ```PROVIDER``` нужная соц сеть, например vkontakte.
-
-- В терминале выполнить команду ```composer update```
+- В файле .env установить подключение к почтовому сервису:
+    ```
+    MAIL_MAILER=
+    MAIL_HOST=
+    MAIL_PORT=
+    MAIL_USERNAME=
+    MAIL_PASSWORD=
+    MAIL_ENCRYPTION=
+    MAIL_FROM_ADDRESS=
+    ```
+-  В файле .env если не используется elasticsearch то установить:
+    ```
+   ELASTICSEARCH_ENABLED=false
+   ```
+- В файле .env если не используется redis, то установить:
+    ```
+  CACHE_DRIVER=file
+  ```
+- В терминале выполнить команду ```composer install```
 
 - В терминале выполнить команду ```php artisan migrate```
 
@@ -57,140 +73,115 @@
 - Для отката всей БД и нового ее заполнения используй команду ```php artisan migrate:refresh --seed```
 
 ## <a name="deploy"><h4>Пример развертывания проекта (deploy) на хостинге:</h4></a>
-https://www.youtube.com/watch?v=Vle7D38pmDg
+- На хостинге должен быть установлен Docker
 
-## <a name="api"><h4>API:</h4></a>
+- Клонировать проект ```git clone https://github.com/MoskowPsix/mlcity_backend.git```
 
-### Используйте Postman для теста API
+- Переходим в директорию `docker/`
 
-### <a name="api_register"><h4>Регистрация и получение токена:</h4></a>
+- Тут создаём `.env` файл с следующим содержимым:
+    ```
+    APP_NAME=VOKRUG.CITY
+    APP_ENV=production
+    APP_KEY= # Сгенерируйте ключь локально и вставте его потом сюда
+    APP_DEBUG=false
+    APP_URL=https://localhost
+    FRONT_APP_URL= # Адрес frontend
+    
+    LOG_CHANNEL=stack
+    LOG_DEPRECATIONS_CHANNEL=null
+    LOG_LEVEL=debug
+    
+    DB_CONNECTION=pgsql
+    DB_HOST=db
+    DB_PORT= # Порт базы данных (На своё усмотрение)
+    DB_DATABASE= # Название бд (На своё усмотрение)
+    DB_USERNAME= # Имя пользователя бд (На своё усмотрение)
+    DB_PASSWORD= # Пароль пользователя бд (На своё усмотрение)
+    
+    BROADCAST_DRIVER=log
+    CACHE_DRIVER=redis
+    FILESYSTEM_DISK=local
+    QUEUE_CONNECTION=redis
+    SESSION_DRIVER=cookie
+    SESSION_DOMAIN=localhost
+    SANCTUM_STATEFUL_DOMAINS=localhost
+    SESSION_LIFETIME=120
+    
+    MEMCACHED_HOST=127.0.0.1
+    
+    REDIS_HOST=cache
+    REDIS_PASSWORD=
+    REDIS_PORT=6379
+    
+    # Блок сервиса почты (начало)
+  
+    # Обязательно установить свои данные почтового сервиса
+    MAIL_MAILER=
+    MAIL_HOST=
+    MAIL_PORT=
+    MAIL_USERNAME=
+    MAIL_PASSWORD=
+    MAIL_ENCRYPTION=
+    MAIL_FROM_ADDRESS=
+    MAIL_FROM_NAME="${APP_NAME}"
+    MAIL_EHLO_DOMAIN=null
+  
+    # Блок сервиса почты (Конец)
+    
+    AWS_ACCESS_KEY_ID=
+    AWS_SECRET_ACCESS_KEY=
+    AWS_DEFAULT_REGION=us-east-1
+    AWS_BUCKET=
+    AWS_USE_PATH_STYLE_ENDPOINT=false
+    
+    PUSHER_APP_ID=
+    PUSHER_APP_KEY=
+    PUSHER_APP_SECRET=
+    PUSHER_HOST=
+    PUSHER_PORT=6001
+    PUSHER_SCHEME=http
+    PUSHER_APP_CLUSTER=mt1
+    
+    VITE_PUSHER_APP_KEY="${PUSHER_APP_KEY}"
+    VITE_PUSHER_HOST="${PUSHER_HOST}"
+    VITE_PUSHER_PORT="${PUSHER_PORT}"
+    VITE_PUSHER_SCHEME="${PUSHER_SCHEME}"
+    VITE_PUSHER_APP_CLUSTER="${PUSHER_APP_CLUSTER}"
+    VITE_YANDEX_APP_KEY="${YANDEX_MAP_API_KEY}"
+    VITE_YANDEX_APP_KEY_SUBGEKT="${YANDEX_MAP_API_KEY_SUBGEKT}"
+    
+    # Блок вк (Начало)
+  
+    VKONTAKTE_CLIENT_ID=
+    VKONTAKTE_CLIENT_SECRET=
+    VKONTAKTE_REDIRECT_URI=${APP_URL}/api/social-auth/vkontakte/callback
+    VKONTAKTE_SERVICE_KEY=
+    
+    VK_TOKEN=
+    VK_OWNER_ID=
+  
+    # Блок вк (Конец)
+ 
+    MOONSHINE_TITLE=VOKRUG.CITY # Заголов админки (На своё усмотрение)
+    # MOONSHINE_LOGO
+    # MOONSHINE_LOGO_SMALL
+    MOONSHINE_ROUTE_PREFIX=moon # Маршрут по которому доступна админка (На своё усмотрение)
+    
+    ELASTICSEARCH_USERNAME=post
+    ELASTICSEARCH_PASSWORD=postpost
+    ELASTICSEARCH_ENABLED=true
+    ELASTICSEARCH_PORT=9200
+    ELASTICSEARCH_HOSTS=http://elasticsearch:${ELASTICSEARCH_PORT}
+    
+    KIBANA_PORT=5602
+  ```
+  
+- Запускаем проект командой `docker compose up --build -d` и проект стартанёт на `443` порту по `https`
 
-Перед регистрацией необходимо запросить CRSF токен
-http://DOMAIN/sanctum/csrf-cookie
+## <a name="docs"><h4>Сгенерируем и посмотрим api документацию:</h4></a>
 
-- URL: http://DOMAIN/api/register
+- После запуска проекта нужно ввести команду `php artisan scribe:generate`
 
-- Method: POST
+- Теперь документация api доступна по адресу `docs/`
 
-- Перейдите на вкладку ``Headers`` и введите ``key => Accept, value => application/json``
-
-- Перейдите на вкладку ``Body`` и выберите ``form-data``
-
-  |                   |  **key**   |             **value**             |
-  |-------------------|:---------------------------------:|:---------------------------------:|
-  | Введите имя:      |    name    | текст, мин - 3 символа, макс - 50 |
-  | Введите email:    |   email    |     уникальный почтовый адрес     |
-  | Введите пароль:   |  password  |      текст, мин - 3 символа       |
-  | Повторите пароль: | password_confirmation |      текст, мин - 3 символа       |
-
-- Вы получите токен, например, ``1|FLolPZ7eg1LGixtlRR1AE3TTAg2HU9DvDWP7maX3``
-- Запомните имя и почтовый адрес, запишите токен - он понадобится для авторизации на других маршутах
-
-Успешный ответ:
-```
-{
-"status": "success",
-"message": "Вы успешно зарегистрированы!",
-"access_token": "1|zMno0E4VJi9BB6tIhKAjVTHhS5CkvrbLQaHB2Hl7",
-"token_type": "Bearer",
- "user": {
-        "id": 1,
-        "name": "Admin1",
-        "email": "123@rambler.ru",
-        "email_verified_at": null,
-        "created_at": "2023-01-12T16:16:33.000000Z",
-        "updated_at": "2023-01-12T16:16:33.000000Z"
-    }
-}
-```
-Ответ в случае ошибки (могут быть разными):
-```
-{
-    "message": "Такое значение поля email адрес уже существует.",
-    "errors": {
-        "email": [
-            "Такое значение поля email адрес уже существует."
-        ]
-    }
-}
-```
-
-### <a name="api_login"><h4>Авторизация:</h4></a>
-Перед авторизацией необходимо запросить CRSF токен
-http://DOMAIN/sanctum/csrf-cookie
-
-- URL: http://DOMAIN/api/login
-
-- Method: POST
-  Перейдите на вкладку ``Headers`` и введите ``key => Accept, value => application/json``
-- Перейдите на вкладку ``Body`` и выберите ``form-data``
-
-  |                 |  **key** |                       **value**                      |
-    |-----------------|:--------:|:----------------------------------------------------:|
-  | Введите email:  | email    | почтовый адрес, который использовали при регистрации |
-  | Введите пароль: | password | пароль, который использовали при регистрации         |
-
-
-Успешный ответ:
-```
-{
-    "status": "success",
-    "message": "Вы успешно авторизовались",
-    "access_token": "6|igmhnoW7duePpVqyxBbnG6ZlZokFoXPyVcutaSmq",
-    "token_type": "Bearer",
-    "user": {
-        "id": 1,
-        "name": "Admin1",
-        "email": "123@rambler.ru",
-        "email_verified_at": null,
-        "created_at": "2023-01-12T16:16:33.000000Z",
-        "updated_at": "2023-01-12T16:16:33.000000Z"
-    }
-}
-```
-Ответ в случае ошибки (могут быть разными):
-```
-{
-    "status": "error",
-    "message": "Неудачная авторизации"
-}
-```
-
-### <a name="api_socialAuth"><h4>Авторизация через соц. сети:</h4></a>
-
-URL: http://DOMAIN/social-auth/PROVIDER
-
-где  PROVIDER нужная соц сеть, например vkontakte.
-Для подключения нужного провайдера его нужно подключить через команду
-- Method: GET
-
-```composer require socialiteproviders/PROVIDER```
- Подробнее смотри на https://socialiteproviders.com/
-
-
-### <a name="api_logout"><h4>Выход:</h4></a>
-
-- URL: http://DOMAIN/api/logout
-
-- Method: POST
-
-- Перейдите на вкладку ``Headers``
-
-- Введите ``key => Accept, value => application/json``
-
-- Введите токен: ``key => Authorization, value => 'Bearer '.$accessToken``
-  должна получится строка вида - ``Bearer 1\|FLolPZ7eg1LGixtlRR1AE3TTAg2HU9DvDWP7maX3``
-
-Успешный ответ:
-```
-{
-    "status": "success",
-    "message": "Пользователь успешно вышел"
-}
-```
-Возможный ответ в случае ошибки:
-```
-{
-    "message": "Unauthenticated."
-}
-```
