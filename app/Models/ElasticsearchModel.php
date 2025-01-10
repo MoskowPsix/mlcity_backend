@@ -15,6 +15,21 @@ class ElasticsearchModel extends Model
         self::saved(function ($model) {
             if (config('elasticsearch.enabled'))
             {
+                if($model->getSearchType() == "places" && !resolve(Client::class)->indices()->exists(['index' => $model->getSearchIndex()])) {
+                    $params = [
+                        'index' => $model->getSearchIndex(),
+                        'body' => [
+                            'mappings' => [
+                                'properties' => [
+                                    'location' => [
+                                        'type' => 'geo_point'
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ];
+                    resolve(Client::class)->indices()->create($params);
+                }
                 $body = $model->toSearchArray();
 //                $body['files'] = $model->files()->get()->toArray();
                 resolve(Client::class)->index([

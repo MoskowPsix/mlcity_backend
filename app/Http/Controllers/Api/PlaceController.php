@@ -15,12 +15,18 @@ use App\Http\Controllers\Controller;
 use App\Models\Event;
 use App\Models\EventType;
 use App\Models\Place;
+use Elastic\Elasticsearch\Client;
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class PlaceController extends Controller
 {
+
+    public function __construct(private Client $elasticsearch) {
+        $this->elasticsearch = $elasticsearch;
+    }
+
     public function getPlaces(Request $request): \Illuminate\Http\JsonResponse
     {
         if (request()->has('radius') && ($request->radius <= 25) && (request()->get('latitude') && request()->get('longitude'))) {
@@ -86,5 +92,89 @@ class PlaceController extends Controller
 
         // $place = Event::where('id', $id)->first()->places()->with('location')->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
         return response()->json(['status' => 'success', 'places' => $response], 200);
+    }
+
+    public function getEventsElastic(Request $request) {
+        $page = 2;
+        $limit = 10;
+        $from = $page * $limit;
+        $model = new Place();
+        $searchParams = [
+            'index' => $model->getSearchIndex(),
+            'type' => $model->getSearchType(),
+            '_source' => ['id', 'event_id', 'location'],
+            'size' => 100,
+            'body' => [
+                "query" => [
+                    "bool" => [
+                        "must" => [
+                            [
+                                "nested" => [
+                                    "path" => "seances",
+                                    "query" => [
+                                        "bool" => [
+                                            "must" => [
+                                                [
+                                                    "range" => [
+                                                        "seances.date_end" => [
+                                                            "gte" => $request->date_start, // Начальная дата
+                                                            "lte" => $request->date_end // Конечная дата
+                                                        ]
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ],
+                            [
+                                "nested" => [
+                                    "path" => "status",
+                                    "query" => [
+                                        "bool" => [
+                                            "must" => [
+                                                [
+                                                    "match" => [
+                                                        "status.name" => $request->statusName
+                                                    ]
+                                                ],
+                                                [
+                                                    "term" => [
+                                                        "status.last" => $request->statusLast
+                                                    ]
+                                                ]
+                                            ]
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+                "sort" => [
+                    '_geo_distance' => [
+                        'location' => [
+                            'lat' => $request->latitude,
+                            'lon' => $request->longitude
+                        ],
+                        'order' => 'asc',
+                        'unit' => 'km',
+                        'distance_type' => 'arc',
+                    ]
+                ]
+            ],
+        ];
+
+        $items = $this->elasticsearch->search($searchParams)->asArray();
+        dd($items);
+        foreach ($items['hits']['hits'] as $item) {
+            $ids[] = $item['_source']['event_id'];
+            $distance[$item['_source']['event_id']] = $item['sort'][0];
+        }
+        $response = Event::whereIn('id', array_unique($ids))->get();
+        foreach ($response as $key => $event) {
+            $response[$key]->distance = $distance[$event->id];
+        }
+        return response()->json($response);
     }
 }

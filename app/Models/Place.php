@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Events\Place\PlaceCreated;
 use App\Models\Event;
 use App\Models\EventTypes;
+use App\Traits\SearchableContentTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,8 +13,9 @@ use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 
-class Place extends Model
+class Place extends ElasticsearchModel
 {
+    use SearchableContentTrait;
     use HasFactory;
 
     protected $table = 'places';
@@ -26,6 +28,10 @@ class Place extends Model
         'address',
         'timezone_id',
         'cult_id'
+    ];
+
+    protected $spatialFields = [
+        'location',
     ];
 
     protected static function booted(){

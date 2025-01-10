@@ -140,7 +140,8 @@ services:
             - "${ELASTICSEARCH_PORT}:9200"
             - "9300:9300"
         volumes:
-            - ./elastic/data:/usr/share/elasticsearch/data
+            - ./elastic/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+#            - ./elastic/data:/usr/share/elasticsearch/data
         networks:
             - es-net
         command: >

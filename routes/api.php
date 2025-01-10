@@ -120,6 +120,7 @@ Route::controller(EventController::class)->group(function () {
 
 Route::controller(PlaceController::class)->group(function () {
     Route::get('places', 'getPlaces'); // Запрос маркеров с фильтрами
+    Route::get('places/test/test', 'getEventsElastic'); // Запрос маркеров с фильтрами
     Route::get('places/{id}', 'getPlacesIds'); // Запрос маркера по id
     Route::get('events/{id}/places', 'getPlacesAtEventIds'); // Запрос маркера по id ивента
 });
