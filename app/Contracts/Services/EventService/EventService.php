@@ -89,7 +89,7 @@ class EventService implements EventServiceInterface
         $response = app(Pipeline::class)
             ->send($events)
             ->through([
-                EventSortByCoords::class,
+//                EventSortByCoords::class,
                 // EventTotal::class,
                 EventOrderByDateCreate::class,
                 EventName::class,
