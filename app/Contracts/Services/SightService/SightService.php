@@ -77,7 +77,7 @@ class SightService implements SightServiceInterface
                 ->send($sights)
                 ->through([
                     //фильтры такие же как для местоа, если что то поменяется то надо будет разносить
-                    SightSortByCoords::class,
+//                    SightSortByCoords::class,
                     EventOrderByDateCreate::class,
                     EventLikedUserExists::class,
                     EventName::class,
