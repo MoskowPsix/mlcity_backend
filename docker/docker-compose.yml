@@ -17,9 +17,14 @@ services:
             POSTGRES_USER: ${DB_USERNAME}
             POSTGRES_DB: ${DB_DATABASE}
         ports:
-            - "${DB_PORT}:5432"
+            - "${DB_PUBLISH_PORT:-${DB_PORT}}:5432"
         volumes:
             - ./db/data:/var/lib/postgresql/data
+        healthcheck:
+            test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE}"]
+            interval: 5s
+            timeout: 5s
+            retries: 10
         networks:
             - db-net
 
@@ -39,6 +44,7 @@ services:
             context: ./nginx
             dockerfile: dockerfile
         ports:
+            - "8000:80"
             - "443:443"
         depends_on:
             - backend
@@ -67,6 +73,9 @@ services:
             dockerfile: dockerfile
         volumes:
             - ../:/var/www/MLCity_backend
+        depends_on:
+            db:
+                condition: service_healthy
         networks:
             - cache-net
             - db-net
@@ -87,6 +96,9 @@ services:
         volumes:
             - ../:/var/www/MLCity_backend
         command: php artisan schedule:work
+        depends_on:
+            db:
+                condition: service_healthy
         networks:
             - cache-net
             - db-net
@@ -111,6 +123,9 @@ services:
             dockerfile: dockerfile
         volumes:
             - ../:/var/www/MLCity_backend
+        depends_on:
+            db:
+                condition: service_healthy
         networks:
             - cache-net
             - db-net

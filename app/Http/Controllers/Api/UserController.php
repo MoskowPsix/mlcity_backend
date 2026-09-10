@@ -133,64 +133,65 @@ class UserController extends Controller
     ], 200);
    }
 
-//    public function chekUserName($name) {
-//        if (strlen($name) >= 3) {
-//            $user = User::where('name', $name)->first();
-//            if ($user) {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_name' =>  false], 200);
-//            } elseif (!$user) {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_name' =>  true], 200);
-//            }
-//        } else {
-//            return response()->json([
-//                'status' =>  'error',
-//                'message' =>  'minimal 3'], 403);
-//        }
-//    }
+    public function chekUserName($name) {
+        if (strlen($name) >= 3) {
+            $user = User::where('name', $name)->first();
+            if ($user) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_name' =>  false], 200);
+            }
 
-//    public function chekUserEmail($email)
-//    {
-//        if (strlen($email) >= 3) {
-//            $user = User::where('email', $email)->first();
-//            if ($user==null) {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_email' =>  true,"user"=>$user], 200);
-//            } else {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_email' =>  false,"user"=>$user], 200);
-//            }
-//        } else {
-//            return response()->json([
-//                'status' =>  'error',
-//                'message' =>  'min 3 lenght'], 403);
-//        }
-//    }
+            return response()->json([
+                'status' =>  'success',
+                'user_name' =>  true], 200);
+        }
 
-//    public function checkUserNumber($number)
-//    {
-//        if (strlen($number) >= 3) {
-//            $user = User::where('number', $number)->first();
-//            if ($user!==null) {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_number' =>  false], 200);
-//            } else {
-//                return response()->json([
-//                    'status' =>  'success',
-//                    'user_number' =>  true], 200);
-//            }
-//        } else {
-//            return response()->json([
-//                'status' =>  'error',
-//                'message' =>  'min 3 lenght'], 403);
-//        }
-//    }
+        return response()->json([
+            'status' =>  'error',
+            'message' =>  'minimal 3'], 403);
+    }
+
+    public function chekUserEmail($email)
+    {
+        if (strlen($email) >= 3) {
+            $user = User::where('email', $email)->first();
+            if ($user == null) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_email' =>  true, 'user' => $user], 200);
+            }
+
+            return response()->json([
+                'status' =>  'success',
+                'user_email' =>  false, 'user' => $user], 200);
+        }
+
+        return response()->json([
+            'status' =>  'error',
+            'message' =>  'min 3 lenght'], 403);
+    }
+
+    public function checkUserNumber($number)
+    {
+        if (strlen($number) >= 3) {
+            $user = User::where('number', $number)->first();
+            if ($user !== null) {
+                return response()->json([
+                    'status' =>  'success',
+                    'user_number' =>  false], 200);
+            }
+
+            return response()->json([
+                'status' =>  'success',
+                'user_number' =>  true], 200);
+        }
+
+        return response()->json([
+            'status' =>  'error',
+            'message' =>  'min 3 lenght'], 403);
+    }
+
    public function getUserLikedSightsIds($id, Request $request): \Illuminate\Http\JsonResponse
    {
         $likedSights = User::findOrFail($id)->likedSights;

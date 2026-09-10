@@ -88,7 +88,7 @@ class MoonUserResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Имя', 'name'),
             Text::make('Email', 'email'),
-            Checkbox::make('Верфикация почты', 'email_verified_at'),
+            $this->emailVerifiedField(),
             Image::make('Аватар', 'avatar')
                 ->changePreview(function ($data) use ($url) {
                     if (substr($data, 0, 4) == 'http') {
@@ -118,7 +118,7 @@ class MoonUserResource extends ModelResource
             ID::make()->sortable(),
             Text::make('Имя', 'name')->sortable(),
             Text::make('Email', 'email')->sortable(),
-            Checkbox::make('Верфикация почты', 'email_verified_at'),
+            $this->emailVerifiedField(),
             BelongsToMany::make('Роль', 'roles', resource: new RoleResource())->selectMode(),
             File::make('Аватар', 'avatar')
                 ->onApply(function (Model $item, $value, Field $field) {
@@ -134,6 +134,28 @@ class MoonUserResource extends ModelResource
                     return '';
                 })
         ];
+    }
+
+    private function emailVerifiedField(): Checkbox
+    {
+        return Checkbox::make('Верфикация почты', 'email_verified_at')
+            ->changeFill(
+                fn (mixed $data): int => filled(data_get($data, 'email_verified_at')) ? 1 : 0
+            )
+            ->onApply(function (Model $item, mixed $value, Field $field): Model {
+                $checked = $value === true
+                    || $value === 1
+                    || $value === '1'
+                    || $value === 'on';
+
+                if ($checked) {
+                    $item->email_verified_at ??= now();
+                } else {
+                    $item->email_verified_at = null;
+                }
+
+                return $item;
+            });
     }
     /**
      * @return list<Page>
