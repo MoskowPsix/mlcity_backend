@@ -10,9 +10,14 @@ class EventPlaceGeoPositionInArea implements Pipe {
     public function apply($content, Closure $next)
     {
 //        if(request()->filled('latitudeBounds') && request()->filled('longitudeBounds')){
+        // radius+lat/lng без *_position — жёсткий круг (карта/модалка).
+        // С latitude_position/longitude_position геофильтр не режем: лента
+        // сортирует по distance, события «за кругом» идут после ближайших.
         if(request()->filled('radius') &&
             request()->filled('latitude') &&
-            request()->filled('longitude')){
+            request()->filled('longitude') &&
+            !request()->filled('latitude_position') &&
+            !request()->filled('longitude_position')){
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));
 
