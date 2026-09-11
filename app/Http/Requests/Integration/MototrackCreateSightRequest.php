@@ -11,6 +11,25 @@ class MototrackCreateSightRequest extends FormRequest
         return true;
     }
 
+    protected function prepareForValidation(): void
+    {
+        $lat = $this->input('latitude');
+        $lng = $this->input('longitude');
+        if (!is_numeric($lat) || !is_numeric($lng)) {
+            return;
+        }
+
+        $lat = (float) $lat;
+        $lng = (float) $lng;
+        // Частый баг синка: lat/lng перепутаны (Москва как 37.57 / 55.75)
+        if ($lat > -20 && $lat < 45 && $lng > 40 && $lng < 85) {
+            $this->merge([
+                'latitude' => $lng,
+                'longitude' => $lat,
+            ]);
+        }
+    }
+
     public function rules(): array
     {
         return [
