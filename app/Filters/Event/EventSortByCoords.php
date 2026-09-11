@@ -10,20 +10,15 @@ class EventSortByCoords implements Pipe
 {
     public function apply($content, Closure $next)
     {
-        // Проверяем наличие координат в запросе
-        if (request()->has('latitude_position') && request()->has('longitude_position') && !request()->has('eventIds')) {
-            $latitude = request()->get('latitude_position');
-            $longitude = request()->get('longitude_position');
+        // Проверяем наличие координат в запросе (position для сортировки, либо map center)
+        $latitude = request()->get('latitude_position', request()->get('latitude'));
+        $longitude = request()->get('longitude_position', request()->get('longitude'));
+
+        if ($latitude !== null && $longitude !== null && $latitude !== '' && $longitude !== '' && !request()->has('eventIds')) {
+            $latitude = (float) $latitude;
+            $longitude = (float) $longitude;
             $content->select([
                 'events.*',
-//                DB::raw("
-//                    6371 * acos(
-//                        cos(radians($latitude)) * cos(radians(places.latitude)) *
-//                        cos(radians(places.longitude) - radians($longitude)) +
-//                        sin(radians($latitude)) * sin(radians(places.latitude))
-//                    ) as distance,
-//                    locations.name as location
-//                "),
                 DB::raw("
                     (
                         SELECT MIN(6371 * acos(

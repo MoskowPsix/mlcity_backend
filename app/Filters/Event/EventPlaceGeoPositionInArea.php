@@ -12,9 +12,7 @@ class EventPlaceGeoPositionInArea implements Pipe {
 //        if(request()->filled('latitudeBounds') && request()->filled('longitudeBounds')){
         if(request()->filled('radius') &&
             request()->filled('latitude') &&
-            request()->filled('longitude') &&
-            !request()->filled('latitude_position') &&
-            !request()->filled('longitude_position')){
+            request()->filled('longitude')){
            // $lat_coords = explode(',', request()->get('latitudeBounds'));
             //$lon_coords = explode(',', request()->get('longitudeBounds'));
 
