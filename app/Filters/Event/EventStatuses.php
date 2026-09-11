@@ -15,10 +15,19 @@ class EventStatuses implements Pipe {
             if ($statuses == "Все") {
                 return $next($content);
             }
-            $status = Status::where('name', $statuses)->first()->id;
-            $content->whereHas('statuses', function($q) use ($status){
-                $q->where('status_id', $status);
-            });
+
+            $statusNames = explode(',', $statuses);
+            if (is_numeric($statusNames[0])) {
+                $status = Status::find($statusNames[0]);
+            } else {
+                $status = Status::where('name', $statusNames[0])->first();
+            }
+
+            if ($status) {
+                $content->whereHas('statuses', function($q) use ($status){
+                    $q->where('status_id', $status->id);
+                });
+            }
         }
 
         return $next($content);

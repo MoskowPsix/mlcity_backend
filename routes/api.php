@@ -22,6 +22,7 @@ use App\Http\Controllers\Api\PermissionController;
 use App\Http\Controllers\Api\OrganizationInviteController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\AppVersionController;
+use App\Http\Controllers\Api\MototrackIntegrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AppVersionController::class)->group(function () {
@@ -247,6 +248,16 @@ Route::controller(PasswordRecoveryController::class)->group(function () {
     Route::get("recovery/password", "sendMailRecoveryPasswordUrl");
     Route::post("recovery/password", "recoveryPasswordByCode");
 });
+
+Route::controller(MototrackIntegrationController::class)
+    ->middleware('mototrack.integration')
+    ->prefix('integration/mototrack')
+    ->group(function () {
+        Route::post('events', 'createEvent')->name('integration.mototrack.events.create');
+        Route::delete('events/{sourceId}', 'deleteEvent')->name('integration.mototrack.events.delete');
+        Route::post('sights', 'createSight')->name('integration.mototrack.sights.create');
+        Route::delete('sights/{sourceId}', 'deleteSight')->name('integration.mototrack.sights.delete');
+    });
 
 //Route::controller(NotifyController::class)->group(function () {
 //    Route::get('notify/chanel/user/{id}', 'private');

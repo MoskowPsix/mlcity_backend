@@ -4,7 +4,6 @@ namespace App\Filters\Event;
 
 use Closure;
 use App\Filters\Pipe;
-use Illuminate\Support\Facades\DB;
 
 class EventDate implements Pipe {
 
@@ -14,15 +13,11 @@ class EventDate implements Pipe {
             $dateStart = request()->get('dateStart');
             $dateEnd = request()->get('dateEnd');
 
+            // Same overlap rule as PlaceDate: seance intersects [dateStart, dateEnd]
             $content->whereHas("places.seances", function($q) use ($dateStart, $dateEnd){
                 $q->whereDate('date_start', '<=', $dateEnd)
-                ->whereDate('date_start', '>=', $dateStart);
+                    ->whereDate('date_end', '>=', $dateStart);
             });
-//            $content->whereHas('places', function ($query) use ($dateStart, $dateEnd) {
-//                $query->whereHas('seances', function ($query) use ($dateStart, $dateEnd) {
-//                    $query->whereBetween(DB::raw('DATE(date_start)'), [$dateStart, $dateEnd]);
-//                });
-//            });
         }
         return $next($content);
     }

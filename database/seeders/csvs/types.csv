@@ -8,3 +8,4 @@ name,ico,order,image_path
 Выступления,/storage/icons/theaters.svg,7,/storage/images_types/performances.jpg
 Игры,/storage/icons/exposition.svg,8,/storage/images_types/games.jpg
 Деловые,/storage/icons/initiative.svg,9,/storage/images_types/meetings.jpg
+Мотоспорт,/storage/icons/ball.svg,10,/storage/images_types/sport.jpg

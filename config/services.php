@@ -52,4 +52,9 @@ return [
         'client_secret' => env("YANDEX_CLIENT_SECRET"),
         'redirect' => env("YANDEX_REDIRECT_URI")
     ],
+
+    'mototrack' => [
+        'api_key' => env('MOTOTRACK_INTEGRATION_API_KEY'),
+        'user_id' => env('MOTOTRACK_INTEGRATION_USER_ID', 1),
+    ],
 ];

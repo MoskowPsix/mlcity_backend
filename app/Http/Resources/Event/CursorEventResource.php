@@ -39,8 +39,8 @@ class CursorEventResource extends JsonResource
         $current_page = $this->currentPage();
         return [
             'data'          => method_exists($this->resource, 'items') ? EventResource::collection($this->items()) : [new EventResource($this->resource)],
-            'next_cursor'   => $current_page + 1,
-            'prev_cursor'   => method_exists($this->resource, 'nextPage') ? $this->nextPage() ? $this->previousCursor()->encode(): null : null,
+            'next_cursor'   => $this->hasMorePages() ? $current_page + 1 : null,
+            'prev_cursor'   => $current_page > 1 ? $current_page - 1 : null,
         ];
     }
 

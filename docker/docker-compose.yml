@@ -44,7 +44,7 @@ services:
             context: ./nginx
             dockerfile: dockerfile
         ports:
-            - "8000:80"
+            - "${APP_PORT:-8001}:80"
             - "443:443"
         depends_on:
             - backend

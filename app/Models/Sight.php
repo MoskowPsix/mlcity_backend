@@ -41,6 +41,8 @@ class Sight extends ElasticsearchModel
         'phone_number',
         'email',
         'site',
+        'source_id',
+        'source_name',
     ];
 
     // protected $with = ['organization'];

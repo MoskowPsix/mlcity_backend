@@ -19,6 +19,7 @@ class SightType extends Model
         'cult_id',
         'stype_id',
         'order',
+        'image_path',
     ];
 
     public function historyContents(){

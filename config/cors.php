@@ -1,48 +1,23 @@
 <?php
 
-$defaultOrigins = [
-    'https://vokrug.city',
-    'https://www.vokrug.city',
-    'https://api.vokrug.city',
-    'http://localhost:8100',
-    'http://127.0.0.1:8100',
-    'http://localhost:4200',
-    'http://127.0.0.1:4200',
-];
-
-$envOrigins = array_values(array_filter(array_map(
-    'trim',
-    explode(',', (string) env('CORS_ALLOWED_ORIGINS', ''))
-)));
-
 return [
 
     /*
     |--------------------------------------------------------------------------
     | Cross-Origin Resource Sharing (CORS) Configuration
     |--------------------------------------------------------------------------
-    |
-    | With supports_credentials=true browsers reject Access-Control-Allow-Origin: *.
-    | List concrete frontend origins (prod + local) instead.
-    |
     */
 
-    'paths' => ['api/*', 'storage/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'storage/*', 'sanctum/csrf-cookie', '*'],
 
-    'allowed_methods' => ['POST', 'GET', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
+    'allowed_methods' => ['*'],
 
-    'allowed_origins' => $envOrigins !== [] ? $envOrigins : $defaultOrigins,
+    'allowed_origins' => [],
 
-    'allowed_origins_patterns' => [],
+    // Reflect any Origin (needed when supports_credentials=true; '*' is invalid then)
+    'allowed_origins_patterns' => ['#\A.*\z#'],
 
-    'allowed_headers' => [
-        'Content-Type',
-        'Authorization',
-        'Accept',
-        'X-XSRF-TOKEN',
-        'X-Requested-With',
-        'X-Socket-Id',
-    ],
+    'allowed_headers' => ['*'],
 
     'exposed_headers' => [],
 
