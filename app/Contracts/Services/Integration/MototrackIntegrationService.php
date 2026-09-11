@@ -112,9 +112,10 @@ class MototrackIntegrationService
             ]);
 
             $place = $event->places()->first();
+            $linkedSightId = $sight?->id ?? $place?->sight_id;
             if ($place) {
                 $place->update([
-                    'sight_id' => $sight?->id ?? $place->sight_id,
+                    'sight_id' => $linkedSightId,
                     'location_id' => $location->id,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
@@ -136,7 +137,7 @@ class MototrackIntegrationService
                 }
             } else {
                 $place = $event->places()->create([
-                    'sight_id' => $sight?->id,
+                    'sight_id' => $linkedSightId,
                     'location_id' => $location->id,
                     'latitude' => $request->latitude,
                     'longitude' => $request->longitude,
@@ -148,6 +149,13 @@ class MototrackIntegrationService
                     'date_end' => $request->dateEnd,
                 ]);
             }
+
+            // Карта «Места» читает coords у Sight, не у Place — обновляем связанный мото-sight
+            $this->syncLinkedMototrackSightCoords(
+                $linkedSightId,
+                $request,
+                $location,
+            );
 
             $this->ensurePublishedStatus($event);
             $this->syncEventImages($event, $request->input('images'));
@@ -374,10 +382,45 @@ class MototrackIntegrationService
             }
         }
 
+        // Fallback-sight, созданный из гонки (source_id = event:{raceId})
+        $fallback = Sight::query()
+            ->where('source_name', MototrackSourceConstants::SOURCE_NAME)
+            ->where('source_id', 'event:' . $request->sourceId)
+            ->first();
+        if ($fallback) {
+            return $fallback;
+        }
+
         return Sight::query()
             ->where('latitude', $request->latitude)
             ->where('longitude', $request->longitude)
             ->first();
+    }
+
+    private function syncLinkedMototrackSightCoords(
+        ?int $sightId,
+        MototrackCreateEventRequest $request,
+        Location $location,
+    ): void {
+        if (!$sightId) {
+            return;
+        }
+
+        $sight = Sight::query()
+            ->where('id', $sightId)
+            ->where('source_name', MototrackSourceConstants::SOURCE_NAME)
+            ->first();
+
+        if (!$sight) {
+            return;
+        }
+
+        $sight->update([
+            'location_id' => $location->id,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'address' => $request->address ?: ($sight->address ?: $location->name),
+        ]);
     }
 
     private function createFallbackSight(
