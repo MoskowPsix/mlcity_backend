@@ -23,6 +23,7 @@ use App\Http\Controllers\Api\OrganizationInviteController;
 use App\Http\Controllers\Api\PasswordRecoveryController;
 use App\Http\Controllers\Api\AppVersionController;
 use App\Http\Controllers\Api\MototrackIntegrationController;
+use App\Http\Controllers\Api\CartingIntegrationController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AppVersionController::class)->group(function () {
@@ -257,6 +258,16 @@ Route::controller(MototrackIntegrationController::class)
         Route::delete('events/{sourceId}', 'deleteEvent')->name('integration.mototrack.events.delete');
         Route::post('sights', 'createSight')->name('integration.mototrack.sights.create');
         Route::delete('sights/{sourceId}', 'deleteSight')->name('integration.mototrack.sights.delete');
+    });
+
+Route::controller(CartingIntegrationController::class)
+    ->middleware('carting.integration')
+    ->prefix('integration/carting')
+    ->group(function () {
+        Route::post('events', 'createEvent')->name('integration.carting.events.create');
+        Route::delete('events/{sourceId}', 'deleteEvent')->name('integration.carting.events.delete');
+        Route::post('sights', 'createSight')->name('integration.carting.sights.create');
+        Route::delete('sights/{sourceId}', 'deleteSight')->name('integration.carting.sights.delete');
     });
 
 //Route::controller(NotifyController::class)->group(function () {

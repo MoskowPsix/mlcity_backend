@@ -57,4 +57,9 @@ return [
         'api_key' => env('MOTOTRACK_INTEGRATION_API_KEY'),
         'user_id' => env('MOTOTRACK_INTEGRATION_USER_ID', 1),
     ],
+
+    'carting' => [
+        'api_key' => env('CARTING_INTEGRATION_API_KEY'),
+        'user_id' => env('CARTING_INTEGRATION_USER_ID', 1),
+    ],
 ];

@@ -72,5 +72,6 @@ class Kernel extends HttpKernel
         'checkRootCookie' => \App\Http\Middleware\CheckUserForTelescope::class,
         "orgPerm" => CheckUserRoleInOrganization::class,
         'mototrack.integration' => \App\Http\Middleware\AuthenticateMototrackIntegration::class,
+        'carting.integration' => \App\Http\Middleware\AuthenticateCartingIntegration::class,
     ];
 }
