@@ -15,6 +15,7 @@ use App\Http\Controllers\Api\SightTypeController;
 use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FeedbackController;
+use App\Http\Controllers\Api\CategorySuggestionController;
 use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
@@ -243,6 +244,10 @@ Route::controller(PermissionController::class)->group(function () {
 
 Route::controller(FeedbackController::class)->group(function () {
     Route::post("feedback/user", "sendUserFeedback")->name('feedback.user');
+});
+
+Route::controller(CategorySuggestionController::class)->group(function () {
+    Route::post('category-suggestions', 'store')->name('category-suggestions.store');
 });
 
 Route::controller(PasswordRecoveryController::class)->group(function () {

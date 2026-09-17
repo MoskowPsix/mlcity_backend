@@ -15,6 +15,7 @@ use App\MoonShine\Resources\SightResource;
 use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\SightTypeResource;
 use App\MoonShine\Resources\EventTypeResource;
+use App\MoonShine\Resources\CategorySuggestionResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
@@ -87,6 +88,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->icon('heroicons.building-storefront'),
                 MenuItem::make('Типы событий', new EventTypeResource())
                     ->icon('heroicons.outline.cake'),
+                MenuItem::make('Предложения категорий', new CategorySuggestionResource())
+                    ->icon('heroicons.light-bulb'),
             ])->icon('heroicons.rectangle-group'),
         ];
     }
