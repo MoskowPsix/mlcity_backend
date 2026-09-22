@@ -16,6 +16,7 @@ use App\MoonShine\Resources\StatusResource;
 use App\MoonShine\Resources\SightTypeResource;
 use App\MoonShine\Resources\EventTypeResource;
 use App\MoonShine\Resources\CategorySuggestionResource;
+use App\MoonShine\Resources\MototrackDevicePlaceMappingResource;
 use App\MoonShine\Resources\MoonUserResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
@@ -90,6 +91,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                     ->icon('heroicons.outline.cake'),
                 MenuItem::make('Предложения категорий', new CategorySuggestionResource())
                     ->icon('heroicons.light-bulb'),
+                MenuItem::make('RFID антенны', new MototrackDevicePlaceMappingResource())
+                    ->icon('heroicons.cpu-chip'),
             ])->icon('heroicons.rectangle-group'),
         ];
     }

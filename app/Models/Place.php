@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use \Illuminate\Database\Eloquent\Relations\BelongsTo;
 use \Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use League\MimeTypeDetection\FinfoMimeTypeDetector;
 
@@ -54,6 +55,11 @@ class Place extends Model
     public function seances(): \Illuminate\Database\Eloquent\Relations\HasMany
     {
         return $this->hasMany(Seance::class);
+    }
+
+    public function mototrackDevices(): HasMany
+    {
+        return $this->hasMany(MototrackDevicePlaceMapping::class);
     }
     public function location(): BelongsTo
     {

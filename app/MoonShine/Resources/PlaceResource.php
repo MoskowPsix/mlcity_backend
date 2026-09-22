@@ -22,10 +22,17 @@ class PlaceResource extends ModelResource
     protected string $model = Place::class;
 
     protected string $title = 'Места проведения';
+
+    protected string $column = 'address';
 //    protected bool $detailInModal = true;
 
     public static array $activeActions = ['view'];
     protected ?ClickAction $clickAction = ClickAction::DETAIL;
+
+    public function search(): array
+    {
+        return ['id', 'address'];
+    }
 
 
     public function getActiveActions(): array
