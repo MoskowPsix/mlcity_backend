@@ -53,7 +53,7 @@ class SightService implements SightServiceInterface
      */
     public function show(int $id): Sight
     {
-        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices', 'organization');
+        $sight = Sight::where('id', $id)->with('types', 'files', 'likes','statuses', 'author', 'comments', 'locations', 'prices', 'organization')->withCount('mototrackDevices');
             $response = app(Pipeline::class)
                 ->send($sight)
                 ->through([
@@ -71,7 +71,7 @@ class SightService implements SightServiceInterface
 //        $pagination = $request->pagination;
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::query()->with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments', 'mototrackDevices');
         $response =
             app(Pipeline::class)
                 ->send($sights)
@@ -105,7 +105,7 @@ class SightService implements SightServiceInterface
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $sights = Sight::with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::with('files', 'author', 'locations', 'statuses', 'types', 'organization')->withCount('likedUsers', 'favoritesUsers', 'comments', 'mototrackDevices');
         if (config('elasticsearch.enabled')) {
             $model = new Event();
             $query = [
@@ -137,7 +137,7 @@ class SightService implements SightServiceInterface
     }
     public function getSightsForMap(GetSightsForMapRequest $request): object
     {
-        $sights = Sight::query();
+        $sights = Sight::query()->withCount('mototrackDevices');
         return app(Pipeline::class)
             ->send($sights)
             ->through([
@@ -159,12 +159,12 @@ class SightService implements SightServiceInterface
     {
         $page = $request->page;
         $limit = $request->limit && ($request->limit < 50)? $request->limit : 6;
-        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $sights = Sight::where('user_id', auth('api')->user()->id)->with('files', 'author', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments', 'mototrackDevices');
         return $sights->orderBy('created_at','desc')->cursorPaginate($limit, ['*'], 'page' , $page);
     }
     public function showForCard(int $id): Sight
     {
-        return Sight::where('id', $id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments')->firstOrFail();
+        return Sight::where('id', $id)->with('files', 'author')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments', 'mototrackDevices')->firstOrFail();
     }
     public function checkLiked(int $id): bool
     {

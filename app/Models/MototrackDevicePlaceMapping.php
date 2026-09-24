@@ -9,14 +9,14 @@ class MototrackDevicePlaceMapping extends Model
 {
     protected $fillable = [
         'device_id',
-        'place_id',
+        'sight_id',
         'name',
         'notes',
     ];
 
-    public function place(): BelongsTo
+    public function sight(): BelongsTo
     {
-        return $this->belongsTo(Place::class);
+        return $this->belongsTo(Sight::class);
     }
 
     public function setDeviceIdAttribute(mixed $value): void

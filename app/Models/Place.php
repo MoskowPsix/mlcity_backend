@@ -57,10 +57,6 @@ class Place extends Model
         return $this->hasMany(Seance::class);
     }
 
-    public function mototrackDevices(): HasMany
-    {
-        return $this->hasMany(MototrackDevicePlaceMapping::class);
-    }
     public function location(): BelongsTo
     {
         return $this->belongsTo(Location::class)->with('locationParent');

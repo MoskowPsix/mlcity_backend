@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\MoonShine\Resources;
 
 use App\Models\MototrackDevicePlaceMapping;
+use App\Models\Sight;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Validation\Rule;
 use MoonShine\Decorations\Block;
 use MoonShine\Fields\ID;
-use MoonShine\Fields\Relationships\BelongsTo;
 use MoonShine\Fields\Text;
 use MoonShine\Fields\Textarea;
 use MoonShine\Resources\ModelResource;
@@ -35,6 +35,7 @@ class MototrackDevicePlaceMappingResource extends ModelResource
             'id',
             'device_id',
             'name',
+            'sight_id',
         ];
     }
 
@@ -44,12 +45,19 @@ class MototrackDevicePlaceMappingResource extends ModelResource
             ID::make()->sortable(),
             Text::make('ID устройства', 'device_id')->sortable(),
             Text::make('Название', 'name')->sortable(),
-            BelongsTo::make('Место проведения', 'place', resource: new PlaceResource()),
+            Text::make('sight_id', 'sight_id')->sortable(),
+            Text::make('Место', 'sight.name'),
         ];
     }
 
     public function formFields(): array
     {
+        $exampleIds = Sight::query()
+            ->orderBy('id')
+            ->limit(10)
+            ->pluck('id')
+            ->implode(', ');
+
         return [
             Block::make([
                 ID::make(),
@@ -57,9 +65,12 @@ class MototrackDevicePlaceMappingResource extends ModelResource
                     ->required()
                     ->hint('Значение device_id из backend-а ESP/Mega.'),
                 Text::make('Название', 'name'),
-                BelongsTo::make('Место проведения', 'place', resource: new PlaceResource())
+                Text::make('sight_id', 'sight_id')
                     ->required()
-                    ->asyncSearch(),
+                    ->hint(
+                        'ID из раздела «Места» (таблица sights).'
+                        .($exampleIds !== '' ? " Сейчас есть: {$exampleIds}." : '')
+                    ),
                 Textarea::make('Заметки', 'notes'),
             ]),
         ];
@@ -71,7 +82,8 @@ class MototrackDevicePlaceMappingResource extends ModelResource
             ID::make(),
             Text::make('ID устройства', 'device_id'),
             Text::make('Название', 'name'),
-            BelongsTo::make('Место проведения', 'place', resource: new PlaceResource()),
+            Text::make('sight_id', 'sight_id'),
+            Text::make('Место', 'sight.name'),
             Textarea::make('Заметки', 'notes'),
         ];
     }
@@ -90,9 +102,22 @@ class MototrackDevicePlaceMappingResource extends ModelResource
                 'max:255',
                 Rule::unique('mototrack_device_place_mappings', 'device_id')->ignore($item->getKey()),
             ],
-            'place_id' => ['required', 'integer', 'exists:places,id'],
+            'sight_id' => [
+                'required',
+                'integer',
+                'exists:sights,id',
+            ],
             'name' => ['nullable', 'string', 'max:255'],
             'notes' => ['nullable', 'string'],
+        ];
+    }
+
+    public function validationMessages(): array
+    {
+        return [
+            'sight_id.exists' => 'Место (sight) с таким id не найдено. Бери id из раздела «Места».',
+            'sight_id.required' => 'Укажите sight_id.',
+            'sight_id.integer' => 'sight_id должен быть числом.',
         ];
     }
 }

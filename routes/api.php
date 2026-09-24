@@ -16,6 +16,8 @@ use App\Http\Controllers\Api\RoleController;
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\FeedbackController;
 use App\Http\Controllers\Api\CategorySuggestionController;
+use App\Http\Controllers\Api\RfidTagController;
+use App\Http\Controllers\Api\MototrackRiderRunController;
 use App\Http\Controllers\Api\HistoryContentController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\OrganizationController;
@@ -82,6 +84,15 @@ Route::controller(UserController::class)->group(function () {
 
     Route::post("users/agreements/accept", "acceptAgreement");
     Route::get("users/agreements/{agreement_id}/check", "checkAgreement");
+});
+
+Route::controller(RfidTagController::class)->group(function () {
+    Route::patch('users/cabinet/rfid-tag', 'update')->middleware('auth:sanctum')->name('rfid-tag.update');
+    Route::delete('users/cabinet/rfid-tag', 'detach')->middleware('auth:sanctum')->name('rfid-tag.detach');
+});
+
+Route::controller(MototrackRiderRunController::class)->group(function () {
+    Route::get('users/cabinet/mototrack-runs', 'index')->middleware('auth:sanctum')->name('mototrack-runs.index');
 });
 
 Route::controller(AuthSocialController::class)->group(function () {

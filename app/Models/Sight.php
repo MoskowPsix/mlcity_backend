@@ -13,9 +13,9 @@ use App\Models\SightLike;
 use App\Models\Comment;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use MoonShine\Fields\Relationships\HasMany;
 
 class Sight extends ElasticsearchModel
 {
@@ -106,6 +106,11 @@ class Sight extends ElasticsearchModel
     public function locations(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Location::class, 'location_id');
+    }
+
+    public function mototrackDevices(): HasMany
+    {
+        return $this->hasMany(MototrackDevicePlaceMapping::class);
     }
 
     public function historyContents(): MorphMany

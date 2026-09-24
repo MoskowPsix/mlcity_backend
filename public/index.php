@@ -1,5 +1,8 @@
 <?php
 
+// PHP 8.4 + nesbot/carbon 2.x сыпет E_DEPRECATED в stdout и ломает JSON-ответы API.
+error_reporting(E_ALL & ~E_DEPRECATED & ~E_USER_DEPRECATED);
+
 use Illuminate\Contracts\Http\Kernel;
 use Illuminate\Http\Request;
 
