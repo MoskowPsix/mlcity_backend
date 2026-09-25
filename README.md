@@ -203,7 +203,7 @@
     API, MoonShine и sync должны смотреть в одну БД. Внутренний `DB_HOST=db` — это postgres контейнера, не кабинет.
 3. Поднять воркер (из `docker/`):
     ```bash
-    docker compose up -d moto_rfid_sync
+    docker compose up -d --no-build moto_rfid_sync
     ```
     `restart: unless-stopped` — процесс переживает disconnect SSH.
 4. Логи:

@@ -137,15 +137,13 @@ services:
     # Sync обязан писать в ту же БД, что API/MoonShine (на проде: 192.168.220.251 / vokrug).
     moto_rfid_sync:
         container_name: vokrug_rfid_sync
+        image: docker-backend
         env_file: .env
         environment:
             DB_HOST: ${RFID_SYNC_DB_HOST:-192.168.220.251}
             DB_PORT: ${RFID_SYNC_DB_PORT:-5432}
             DB_DATABASE: ${RFID_SYNC_DB_DATABASE:-vokrug}
             REDIS_HOST: ${REDIS_HOST:-cache}
-        build:
-            context: ./php
-            dockerfile: dockerfile
         restart: unless-stopped
         working_dir: /var/www/MLCity_backend
         volumes:
