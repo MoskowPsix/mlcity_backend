@@ -65,11 +65,18 @@ class SyncMototrackRfidEventsCommand extends Command
                     }
                 }
 
+                $hadEvents = $events !== [];
+                unset($response, $events);
+
+                if (function_exists('gc_collect_cycles')) {
+                    gc_collect_cycles();
+                }
+
                 if ($once) {
                     break;
                 }
 
-                sleep($events === [] ? $sleep : 1);
+                sleep($hadEvents ? 1 : $sleep);
             } catch (Throwable $e) {
                 Log::error('Mototrack RFID sync poll failed', [
                     'from_id' => $fromId,

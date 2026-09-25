@@ -132,6 +132,31 @@ services:
             - es-net
         working_dir: /var/www/MLCity_backend
 
+    # Постоянный RFID-воркер. Не schedule: крутится сам и переживает disconnect SSH.
+    # DB_HOST=db в docker/.env — это локальный postgres контейнера, не кабинет.
+    # Sync обязан писать в ту же БД, что API/MoonShine (на проде: 192.168.220.251 / vokrug).
+    moto_rfid_sync:
+        container_name: vokrug_rfid_sync
+        env_file: .env
+        environment:
+            DB_HOST: ${RFID_SYNC_DB_HOST:-192.168.220.251}
+            DB_PORT: ${RFID_SYNC_DB_PORT:-5432}
+            DB_DATABASE: ${RFID_SYNC_DB_DATABASE:-vokrug}
+            REDIS_HOST: ${REDIS_HOST:-cache}
+        build:
+            context: ./php
+            dockerfile: dockerfile
+        restart: unless-stopped
+        working_dir: /var/www/MLCity_backend
+        volumes:
+            - ../:/var/www/MLCity_backend
+        command: php artisan mototrack:rfid-sync --sleep=5
+        networks:
+            - cache-net
+            - db-net
+            - es-net
+            - ng-net
+
     elasticsearch:
         container_name: vokrug_elasticsearch
         image: elasticsearch:8.15.3

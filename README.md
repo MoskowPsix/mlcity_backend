@@ -185,6 +185,33 @@
 
 - Запуск команд в контейнере осуществляется через команду `doocker compose exet -it <container-name> <command>`
 
+### RFID sync (хронометраж)
+
+Отдельный контейнер `vokrug_rfid_sync`, не `schedule`. Пишет круги в БД кабинета.
+
+1. Остановить ручной процесс, если он ещё крутится на хосте:
+    ```bash
+    pgrep -af mototrack:rfid-sync
+    # затем kill <pid>
+    ```
+2. В `docker/.env` (формат `KEY=value`, без YAML-двоеточий):
+    ```
+    MOTOTRACK_DEVICE_SERVICE_URL=https://api.hron.vokrug.city
+    RFID_SYNC_DB_HOST=192.168.220.251
+    RFID_SYNC_DB_DATABASE=vokrug
+    ```
+    API, MoonShine и sync должны смотреть в одну БД. Внутренний `DB_HOST=db` — это postgres контейнера, не кабинет.
+3. Поднять воркер (из `docker/`):
+    ```bash
+    docker compose up -d moto_rfid_sync
+    ```
+    `restart: unless-stopped` — процесс переживает disconnect SSH.
+4. Логи:
+    ```bash
+    docker logs -f vokrug_rfid_sync
+    ```
+    Ожидается строка вида: `RFID sync started ... url=https://api.hron.vokrug.city`
+
 ## <a name="docs"><h4>Сгенерируем и посмотрим api документацию:</h4></a>
 
 - После запуска проекта нужно ввести команду `php artisan scribe:generate`
