@@ -1,0 +1,45 @@
+{
+  "competition": {
+    "id": 1001,
+    "name": "Тестовый кубок — лыжи",
+    "date_start": "2026-12-01",
+    "date_end": "2026-12-01",
+    "city": "Казань",
+    "place_name": "Лыжная база",
+    "checkpoint_enabled": true,
+    "publish_allowed": true,
+    "updated_at": "2026-11-20T12:00:00+03:00"
+  },
+  "groups": [
+    { "id": 1, "name": "М18", "sort_order": 1 },
+    { "id": 2, "name": "Ж18", "sort_order": 2 }
+  ],
+  "participants": [
+    {
+      "id": 55,
+      "last_name": "Иванов",
+      "first_name": "Иван",
+      "middle_name": "Петрович",
+      "birth_date": "1998-05-12",
+      "city": "Казань",
+      "group_id": 1,
+      "group_name": "М18",
+      "start_number": "12",
+      "rfid": "E200001122334455",
+      "updated_at": "2026-11-20T11:00:00+03:00"
+    },
+    {
+      "id": 56,
+      "last_name": "Петрова",
+      "first_name": "Анна",
+      "middle_name": null,
+      "birth_date": "2001-03-01",
+      "city": "Набережные Челны",
+      "group_id": 2,
+      "group_name": "Ж18",
+      "start_number": "7",
+      "rfid": null,
+      "updated_at": "2026-11-20T11:05:00+03:00"
+    }
+  ]
+}
