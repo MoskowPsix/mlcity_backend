@@ -58,6 +58,16 @@ return [
         'user_id' => env('MOTOTRACK_INTEGRATION_USER_ID', 1),
     ],
 
+    'mototrack_device_service' => [
+        'base_url' => env('MOTOTRACK_DEVICE_SERVICE_URL', 'http://127.0.0.1:8080'),
+        'token' => env('MOTOTRACK_DEVICE_SERVICE_TOKEN'),
+        'timeout' => env('MOTOTRACK_DEVICE_SERVICE_TIMEOUT', 5),
+        'poll_limit' => env('MOTOTRACK_DEVICE_SERVICE_POLL_LIMIT', 100),
+        'last_event_id_key' => env('MOTOTRACK_DEVICE_SERVICE_LAST_EVENT_ID_KEY', 'mototrack:device-service:last_event_id'),
+        'min_lap_interval_ms' => env('MOTOTRACK_RFID_MIN_LAP_INTERVAL_MS', 10000),
+        'min_run_duration_ms' => env('MOTOTRACK_RFID_MIN_RUN_DURATION_MS', 5000),
+    ],
+
     'carting' => [
         'api_key' => env('CARTING_INTEGRATION_API_KEY'),
         'user_id' => env('CARTING_INTEGRATION_USER_ID', 1),

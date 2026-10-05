@@ -48,6 +48,8 @@ class SightResource extends JsonResource
             'user_id'           => $this->user_id,
             'afisha7_id'        => $this->afisha7_id,
             'distance'          => $this->when(!empty($this->distance), $this->distance),
+            'has_mototrack'     => (int) ($this->mototrack_devices_count ?? 0) > 0
+                || ($this->relationLoaded('mototrackDevices') && $this->mototrackDevices->isNotEmpty()),
             'types'             => $this->whenLoaded('types'),
             'statuses'          => $this->whenLoaded('statuses'),
             'favoritesUsers'    => $this->whenLoaded('favoritesUsers'),

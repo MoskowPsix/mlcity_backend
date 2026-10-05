@@ -38,6 +38,7 @@ class User extends Authenticatable
         'password',
         'avatar',
         'location_id',
+        'rfid_tag_number',
     ];
 
 
