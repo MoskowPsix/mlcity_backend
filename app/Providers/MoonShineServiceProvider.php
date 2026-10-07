@@ -19,6 +19,7 @@ use App\MoonShine\Resources\CategorySuggestionResource;
 use App\MoonShine\Resources\MototrackDevicePlaceMappingResource;
 use App\MoonShine\Resources\RfidTagMappingResource;
 use App\MoonShine\Resources\MoonUserResource;
+use App\MoonShine\Resources\YandexMetrikaSettingResource;
 use Illuminate\Support\ServiceProvider;
 use MoonShine\MoonShine;
 use MoonShine\Menu\MenuGroup;
@@ -51,6 +52,8 @@ class MoonShineServiceProvider extends MoonShineApplicationServiceProvider
                 MenuItem::make('Пользователи', new MoonUserResource())
                     ->translatable()
                     ->icon('heroicons.user-group'),
+                MenuItem::make('Яндекс Метрика', new YandexMetrikaSettingResource())
+                    ->icon('heroicons.chart-bar'),
                 MenuItem::make('Роли', new RoleResource())
                     ->translatable()
                     ->icon('heroicons.lock-closed'),

@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\CartingIntegrationController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\CheckpointController;
 use App\Http\Controllers\Api\CheckpointResultsController;
+use App\Http\Controllers\Api\YandexMetrikaController;
 
 Route::prefix('checkpoint')->middleware(['auth:sanctum', 'checkpoint.access'])->controller(CheckpointController::class)->group(function () {
     Route::get('competitions', 'competitions');
@@ -55,6 +56,8 @@ Route::post('checkpoint/invites/{token}/accept', [CheckpointController::class, '
 
 Route::get('events/{id}/checkpoint-results', [CheckpointResultsController::class, 'show']);
 Route::post('checkpoint/competitions/{id}/results', [CheckpointResultsController::class, 'ingest'])->middleware(['auth:sanctum', 'checkpoint.access']);
+
+Route::get('metrika', [YandexMetrikaController::class, 'show']);
 
 Route::controller(AppVersionController::class)->group(function () {
     Route::post('app/{platform}/{number}', 'setVersion')->middleware('root');
