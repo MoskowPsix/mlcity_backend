@@ -31,6 +31,7 @@ class EventCreateRequest extends FormRequest
             'dateEnd'                       => 'required|date|after_or_equal:dateStart',
             'type'                          => 'required|string',
             'status'                        => 'required',
+            'checkpoint_enabled'            => 'sometimes|boolean',
             'places'                        => 'nullable|array',
             'prices'                        => 'nullable|array',
             'ageLimit'                      => 'nullable|integer|min:0|max:18',

@@ -19,6 +19,8 @@
         "laravel/tinker": "^2.7",
         "monolog/monolog": "^3.0",
         "moonshine/moonshine": "^2.22",
+        "openspout/openspout": "^4.24",
+        "pusher/pusher-php-server": "^7.2",
         "socialiteproviders/apple": "^5.6",
         "socialiteproviders/telegram": "^4.1",
         "socialiteproviders/vkontakte": "^5.0",

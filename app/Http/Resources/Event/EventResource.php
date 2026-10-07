@@ -42,6 +42,7 @@ class EventResource extends JsonResource
         return [
             'id'                => $this->id,
             'name'              => $this->name,
+            'checkpoint_enabled' => (bool) $this->checkpoint_enabled,
             'sponsor'           => $this->sponsor,
             'date_start'        => $this->date_start,
             'date_end'          => $this->date_end,

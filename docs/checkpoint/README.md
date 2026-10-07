@@ -22,6 +22,7 @@
 | [03-yougile-tasks-stage-1-2.md](./03-yougile-tasks-stage-1-2.md) | Задачи этапов 1–2 (шаблоны карточек YouGile) |
 | [04-acceptance-rules.md](./04-acceptance-rules.md) | Definition of Done и сценарии приёмки |
 | [05-motocross-regression-checklist.md](./05-motocross-regression-checklist.md) | Чеклист регрессии мотокросса |
+| [06-results-contract-v1.md](./06-results-contract-v1.md) | Контракт результатов Checkpoint → Вокруг (v1, пилот) |
 
 Контракт импорта **v1.1** зафиксирован: этапы 1 и 2 можно вести параллельно (Чекпоинт сначала на моке).
 

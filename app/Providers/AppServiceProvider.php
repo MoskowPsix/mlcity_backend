@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Listeners\Notify\StartHoursListenersNotify;
+use App\Mail\VpnSafeMailManager;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -20,6 +21,9 @@ class AppServiceProvider extends ServiceProvider
     {
         $loader = \Illuminate\Foundation\AliasLoader::getInstance();
         $loader->alias('Debugbar', \Barryvdh\Debugbar\Facades\Debugbar::class);
+        $this->app->extend('mail.manager', function ($manager, $app) {
+            return new VpnSafeMailManager($app);
+        });
     }
 
     /**

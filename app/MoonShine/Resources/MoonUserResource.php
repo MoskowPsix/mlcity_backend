@@ -89,6 +89,8 @@ class MoonUserResource extends ModelResource
             Text::make('Имя', 'name'),
             Text::make('Email', 'email'),
             $this->emailVerifiedField(),
+            $this->checkpointField('Доступ Checkpoint', 'checkpoint_access', 'Открывает свою комиссию: группы, участники, Excel, RFID. Чужой старт, куда человека пригласили, открывается и без этой галки.'),
+            $this->checkpointField('Публикация результатов Checkpoint', 'checkpoint_publish_override', 'Разрешает приложению Checkpoint присылать результаты заезда на страницу мероприятия. Стартовый список работает и без этой галки.'),
             Image::make('Аватар', 'avatar')
                 ->changePreview(function ($data) use ($url) {
                     if (substr($data, 0, 4) == 'http') {
@@ -119,6 +121,8 @@ class MoonUserResource extends ModelResource
             Text::make('Имя', 'name')->sortable(),
             Text::make('Email', 'email')->sortable(),
             $this->emailVerifiedField(),
+            $this->checkpointField('Доступ Checkpoint', 'checkpoint_access', 'Открывает свою комиссию: группы, участники, Excel, RFID. Чужой старт, куда человека пригласили, открывается и без этой галки.'),
+            $this->checkpointField('Публикация результатов Checkpoint', 'checkpoint_publish_override', 'Разрешает приложению Checkpoint присылать результаты заезда на страницу мероприятия. Стартовый список работает и без этой галки.'),
             BelongsToMany::make('Роль', 'roles', resource: new RoleResource())->selectMode(),
             File::make('Аватар', 'avatar')
                 ->onApply(function (Model $item, $value, Field $field) {
@@ -154,6 +158,17 @@ class MoonUserResource extends ModelResource
                     $item->email_verified_at = null;
                 }
 
+                return $item;
+            });
+    }
+
+    private function checkpointField(string $label, string $attribute, string $hint): Checkbox
+    {
+        return Checkbox::make($label, $attribute)
+            ->hint($hint)
+            ->changeFill(fn (mixed $data): int => (int) (bool) data_get($data, $attribute))
+            ->onApply(function (Model $item, mixed $value) use ($attribute): Model {
+                $item->{$attribute} = in_array($value, [true, 1, '1', 'on'], true);
                 return $item;
             });
     }

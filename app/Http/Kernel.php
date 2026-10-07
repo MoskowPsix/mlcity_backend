@@ -56,6 +56,7 @@ class Kernel extends HttpKernel
      * @var array<string, class-string|string>
      */
     protected $routeMiddleware = [
+        'checkpoint.access' => \App\Http\Middleware\CheckpointAccess::class,
         'root' => \App\Http\Middleware\CheckRoleRoot::class,
         'admin' => \App\Http\Middleware\CheckRoleAdmin::class,
         'moderator' => \App\Http\Middleware\CheckRoleModerator::class,

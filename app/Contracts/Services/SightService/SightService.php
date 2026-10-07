@@ -23,6 +23,7 @@ use App\Filters\Sight\SightTypes;
 use App\Http\Requests\PageANDLimitRequest;
 use App\Http\Requests\SearchContentForTextRequest;
 use App\Http\Requests\Sight\CreateSightRequest;
+use App\Models\Status;
 use App\Http\Requests\Sight\GetSightsForMapRequest;
 use App\Http\Requests\Sight\GetSightsRequest;
 use App\Models\Event;
@@ -205,7 +206,11 @@ class SightService implements SightServiceInterface
 
         $types = explode(",",$request->type[0]);
         $sight->types()->sync($types);
-        $sight->statuses()->attach($request->status, ['last' => true]);
+        $incomingStatus = Status::find($request->status);
+        $statusId = $incomingStatus?->name === 'Черновик'
+            ? $incomingStatus->id
+            : Status::where('name', 'Опубликовано')->first()->id;
+        $sight->statuses()->attach($statusId, ['last' => true]);
         $sight->likes()->create();
 
         if ($request->vkFilesImg){

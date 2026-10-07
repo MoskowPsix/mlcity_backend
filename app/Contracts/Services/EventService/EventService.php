@@ -283,7 +283,8 @@ class EventService implements EventServiceInterface
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
                 'age_limit'     => $data->age_limit,
-                'organization_id' => $organizationId
+                'organization_id' => $organizationId,
+                'checkpoint_enabled' => (bool) $user->checkpoint_access && $data->boolean('checkpoint_enabled'),
             ]);
             // Устанавливаем цену
             foreach ($data->prices as $price) {
@@ -324,14 +325,12 @@ class EventService implements EventServiceInterface
             }
             $types = explode(",", $data->type);
             $event->types()->sync($types);
-            if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) {
-                $status = Status::where('name', 'Опубликовано')->first();
-                $event->statuses()->attach($status->id, ['last' => true]);
-                $event->likes()->create();
-            } else {
-                $event->statuses()->attach($data->status, ['last' => true]);
-                $event->likes()->create();
-            }
+            $incomingStatus = Status::find($data->status);
+            $statusId = $incomingStatus?->name === 'Черновик'
+                ? $incomingStatus->id
+                : Status::where('name', 'Опубликовано')->first()->id;
+            $event->statuses()->attach($statusId, ['last' => true]);
+            $event->likes()->create();
 
 
             if ($data->vkFilesImg) {

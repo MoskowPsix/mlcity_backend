@@ -36,9 +36,31 @@ class Event extends ElasticsearchModel
         'organization_id',
         'age_limit',
         'source_id',
-        'source_name'
+        'source_name',
+        'checkpoint_enabled',
     ];
+    protected $casts = ['checkpoint_enabled' => 'boolean'];
     protected array $dates = ['date_start', 'date_end'];
+
+    public function checkpointGroups(): HasMany
+    {
+        return $this->hasMany(CheckpointGroup::class);
+    }
+
+    public function checkpointParticipants(): HasMany
+    {
+        return $this->hasMany(CheckpointParticipant::class);
+    }
+
+    public function commissionMembers(): HasMany
+    {
+        return $this->hasMany(EventCommissionMember::class);
+    }
+
+    public function checkpointHeats(): HasMany
+    {
+        return $this->hasMany(CheckpointHeat::class);
+    }
 
     public function types(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
     {
