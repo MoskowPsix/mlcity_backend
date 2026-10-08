@@ -3,6 +3,8 @@
 - PHP 8
 - Laravel 9
 
+**Документация проекта Чекпоинт + Вокруг:** [docs/checkpoint/README.md](./docs/checkpoint/README.md)
+
 ## Содержание:
 1. [Как запустить для разработки](#install)
 2. [Пример развертывания проекта (deploy) на хостинге](#deploy)

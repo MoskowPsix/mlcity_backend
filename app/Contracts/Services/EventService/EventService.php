@@ -38,6 +38,7 @@ use App\Models\Organization;
 use App\Models\Sight;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 use Elastic\Elasticsearch\Client;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -236,26 +237,21 @@ class EventService implements EventServiceInterface
                 $types = explode(",",$data->type[0]);
                 $sight->types()->sync($types);
 
-                foreach ($data->files as $file) {
-                    $filename = uniqid('img_');
+                $localFiles = $data->file('localFilesImg') ?? [];
+                if ($localFiles instanceof UploadedFile) {
+                    $localFiles = [$localFiles];
+                }
+                $imageType = FileType::where('name', 'image')->first();
+                foreach ($localFiles as $file) {
                     $path = $file->store('sights/'.$sight->id, 'public');
-                    $type = FileType::where('name', 'image')->get();
-
                     $sight->files()->create([
-                        'name'  => $filename,
+                        'name'  => uniqid('img_'),
                         'link'  => '/storage/'.$path,
                         'local' => 1
-                    ])->file_types()->sync($type[0]->id);
-
-                    if ($data->localFilesImg) {
-                        $this->fileService->saveLocalFilesImg($sight, $data->localFilesImg);
-                    }
-                    if ($data->vkFilesImg) {
-                        $this->fileService->saveVkFilesImg($sight, $data->vkFilesImg);
-                    }
-                    if($data->localFilesImg || $data->vkFilesImg){
-                        $data->$file($sight,  $data->localFilesImg || $data->vkFilesImg);
-                    }
+                    ])->file_types()->sync($imageType->id);
+                }
+                if ($data->vkFilesImg) {
+                    $this->fileService->saveVkFilesImg($sight, $data->vkFilesImg);
                 }
 
                 $sight->organization()->create();
@@ -283,7 +279,8 @@ class EventService implements EventServiceInterface
                 'vk_group_id'   => $data->vkGroupId,
                 'vk_post_id'    => $data->vkPostId,
                 'age_limit'     => $data->age_limit,
-                'organization_id' => $organizationId
+                'organization_id' => $organizationId,
+                'checkpoint_enabled' => (bool) $user->checkpoint_access && $data->boolean('checkpoint_enabled'),
             ]);
             // Устанавливаем цену
             foreach ($data->prices as $price) {
@@ -301,7 +298,10 @@ class EventService implements EventServiceInterface
             }
             // Устанавливаем марки
             foreach ($data->places as $place) {
-                $coords = explode(',', $place['coords']);
+                if (!is_array($place)) {
+                    continue;
+                }
+                $coords = explode(',', (string) $place['coords']);
                 $latitude   = $coords[0]; // широта
                 $longitude  = $coords[1]; // долгота
                 $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
@@ -324,14 +324,12 @@ class EventService implements EventServiceInterface
             }
             $types = explode(",", $data->type);
             $event->types()->sync($types);
-            if (auth('api')->user()->hasRole('root') || auth('api')->user()->hasRole('Admin')) {
-                $status = Status::where('name', 'Опубликовано')->first();
-                $event->statuses()->attach($status->id, ['last' => true]);
-                $event->likes()->create();
-            } else {
-                $event->statuses()->attach($data->status, ['last' => true]);
-                $event->likes()->create();
-            }
+            $incomingStatus = Status::find($data->status);
+            $statusId = $incomingStatus?->name === 'Черновик'
+                ? $incomingStatus->id
+                : Status::where('name', 'Опубликовано')->first()->id;
+            $event->statuses()->attach($statusId, ['last' => true]);
+            $event->likes()->create();
 
 
             if ($data->vkFilesImg) {

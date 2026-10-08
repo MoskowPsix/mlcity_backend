@@ -28,6 +28,36 @@ use App\Http\Controllers\Api\AppVersionController;
 use App\Http\Controllers\Api\MototrackIntegrationController;
 use App\Http\Controllers\Api\CartingIntegrationController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\CheckpointController;
+use App\Http\Controllers\Api\CheckpointResultsController;
+use App\Http\Controllers\Api\YandexMetrikaController;
+
+Route::prefix('checkpoint')->middleware(['auth:sanctum', 'checkpoint.access'])->controller(CheckpointController::class)->group(function () {
+    Route::get('competitions', 'competitions');
+    Route::get('competitions/{id}', 'competition');
+    Route::get('competitions/{id}/export', 'export');
+    Route::get('events/{id}/settings', 'settings');
+    Route::patch('events/{id}/settings', 'updateSettings');
+    Route::get('events/{id}/commission', 'competition');
+    Route::post('events/{id}/groups', 'storeGroup');
+    Route::patch('events/{id}/groups/{groupId}', 'updateGroup');
+    Route::delete('events/{id}/groups/{groupId}', 'deleteGroup');
+    Route::post('events/{id}/participants', 'storeParticipant');
+    Route::patch('events/{id}/participants/{participantId}', 'updateParticipant');
+    Route::delete('events/{id}/participants/{participantId}', 'deleteParticipant');
+    Route::get('events/{id}/template', 'template');
+    Route::post('events/{id}/imports/preview', 'preview');
+    Route::post('events/{id}/imports', 'import');
+    Route::post('events/{id}/members', 'storeMember');
+    Route::delete('events/{id}/members/{memberId}', 'destroyMember');
+});
+
+Route::post('checkpoint/invites/{token}/accept', [CheckpointController::class, 'acceptInvite'])->middleware('auth:sanctum');
+
+Route::get('events/{id}/checkpoint-results', [CheckpointResultsController::class, 'show']);
+Route::post('checkpoint/competitions/{id}/results', [CheckpointResultsController::class, 'ingest'])->middleware(['auth:sanctum', 'checkpoint.access']);
+
+Route::get('metrika', [YandexMetrikaController::class, 'show']);
 
 Route::controller(AppVersionController::class)->group(function () {
     Route::post('app/{platform}/{number}', 'setVersion')->middleware('root');
@@ -292,4 +322,3 @@ Route::controller(CartingIntegrationController::class)
 //    Route::get('notify/chanel/all', 'public');
 //    Route::get('notify/view/{id}', 'view')->middleware('auth:sanctum');
 //});
-

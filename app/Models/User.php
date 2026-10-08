@@ -39,6 +39,8 @@ class User extends Authenticatable
         'avatar',
         'location_id',
         'rfid_tag_number',
+        'checkpoint_access',
+        'checkpoint_publish_override',
     ];
 
 
@@ -62,6 +64,11 @@ class User extends Authenticatable
     // ];
 
     protected $dates = ['deleted_at'];
+
+    protected $casts = [
+        'checkpoint_access' => 'boolean',
+        'checkpoint_publish_override' => 'boolean',
+    ];
 
 //    protected $with = ['socialAccount'];
 
@@ -174,6 +181,11 @@ class User extends Authenticatable
 
     public function organizations(){
         return $this->belongsToMany(Organization::class, "user_organization", "user_id","organization_id");
+    }
+
+    public function commissionMemberships(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(EventCommissionMember::class);
     }
 
     public function userAgreements(){

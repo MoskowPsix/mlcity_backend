@@ -10,6 +10,7 @@ use App\Http\Requests\Auth\RequestEditEmailNotVerification;
 use App\Http\Requests\Auth\ResetPasswordForAdminRequest;
 use App\Http\Requests\Auth\VerficationCodeRequest;
 use App\Http\Requests\RequestResetEmailVerificationCode;
+use App\Models\EventCommissionMember;
 use App\Models\Role;
 use App\Models\User;
 use App\Notifications\VerifyEmail;
@@ -40,6 +41,7 @@ class AuthServiceService implements AuthServiceInterface
                 'avatar' => 'https://api.dicebear.com/7.x/pixel-art/svg?seed=' . bcrypt($input['email'] . $input['name']),
                 'email' => $input['email'],
             ]);
+            EventCommissionMember::claimFor($user);
             DB::commit();
             return $user;
         } catch (Exception $e) {
@@ -77,6 +79,7 @@ class AuthServiceService implements AuthServiceInterface
         if (!$user || !Hash::check($request->password, $user->password)) {
             throw new Exception('Login failed');
         }
+        EventCommissionMember::claimFor($user);
         return $user;
     }
     public function logout(): bool

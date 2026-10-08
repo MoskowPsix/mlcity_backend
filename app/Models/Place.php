@@ -62,6 +62,11 @@ class Place extends Model
         return $this->belongsTo(Location::class)->with('locationParent');
     }
 
+    public function venue(): BelongsTo
+    {
+        return $this->belongsTo(Sight::class, 'sight_id');
+    }
+
     public function timezones(): \Illuminate\Database\Eloquent\Relations\BelongsTo
     {
         return $this->belongsTo(Timezone::class, "timezone_id");
