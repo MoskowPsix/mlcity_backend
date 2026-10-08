@@ -38,6 +38,7 @@ use App\Models\Organization;
 use App\Models\Sight;
 use App\Models\User;
 use Carbon\Carbon;
+use Illuminate\Http\UploadedFile;
 use Elastic\Elasticsearch\Client;
 use Exception;
 use Illuminate\Database\Eloquent\Builder;
@@ -236,26 +237,21 @@ class EventService implements EventServiceInterface
                 $types = explode(",",$data->type[0]);
                 $sight->types()->sync($types);
 
-                foreach ($data->files as $file) {
-                    $filename = uniqid('img_');
+                $localFiles = $data->file('localFilesImg') ?? [];
+                if ($localFiles instanceof UploadedFile) {
+                    $localFiles = [$localFiles];
+                }
+                $imageType = FileType::where('name', 'image')->first();
+                foreach ($localFiles as $file) {
                     $path = $file->store('sights/'.$sight->id, 'public');
-                    $type = FileType::where('name', 'image')->get();
-
                     $sight->files()->create([
-                        'name'  => $filename,
+                        'name'  => uniqid('img_'),
                         'link'  => '/storage/'.$path,
                         'local' => 1
-                    ])->file_types()->sync($type[0]->id);
-
-                    if ($data->localFilesImg) {
-                        $this->fileService->saveLocalFilesImg($sight, $data->localFilesImg);
-                    }
-                    if ($data->vkFilesImg) {
-                        $this->fileService->saveVkFilesImg($sight, $data->vkFilesImg);
-                    }
-                    if($data->localFilesImg || $data->vkFilesImg){
-                        $data->$file($sight,  $data->localFilesImg || $data->vkFilesImg);
-                    }
+                    ])->file_types()->sync($imageType->id);
+                }
+                if ($data->vkFilesImg) {
+                    $this->fileService->saveVkFilesImg($sight, $data->vkFilesImg);
                 }
 
                 $sight->organization()->create();
