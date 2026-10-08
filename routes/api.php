@@ -93,6 +93,7 @@ Route::controller(RfidTagController::class)->group(function () {
 
 Route::controller(MototrackRiderRunController::class)->group(function () {
     Route::get('users/cabinet/mototrack-runs', 'index')->middleware('auth:sanctum')->name('mototrack-runs.index');
+    Route::delete('users/cabinet/mototrack-runs/session', 'destroySession')->middleware('auth:sanctum')->name('mototrack-runs.destroy-session');
 });
 
 Route::controller(AuthSocialController::class)->group(function () {
