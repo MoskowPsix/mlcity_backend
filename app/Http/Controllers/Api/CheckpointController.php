@@ -208,15 +208,15 @@ class CheckpointController extends Controller
 
     private function participantData(Request $request, Event $event, ?CheckpointParticipant $participant = null): array
     {
-        $required = $participant ? 'sometimes|required' : 'required';
+        $presence = $participant ? ['sometimes', 'required'] : ['required'];
         return $request->validate([
-            'last_name' => "$required|string|max:255",
-            'first_name' => "$required|string|max:255",
+            'last_name' => [...$presence, 'string', 'max:255'],
+            'first_name' => [...$presence, 'string', 'max:255'],
             'middle_name' => 'nullable|string|max:255',
             'birth_date' => 'nullable|date_format:Y-m-d',
             'city' => 'nullable|string|max:255',
             'group_id' => ['nullable', 'integer', Rule::exists('checkpoint_groups', 'id')->where('event_id', $event->id)],
-            'start_number' => [$required, 'string', 'max:255', Rule::unique('checkpoint_participants')->where('event_id', $event->id)->ignore($participant?->id)],
+            'start_number' => [...$presence, 'string', 'max:255', Rule::unique('checkpoint_participants')->where('event_id', $event->id)->ignore($participant?->id)],
             'rfid' => 'nullable|string|max:255',
         ]);
     }

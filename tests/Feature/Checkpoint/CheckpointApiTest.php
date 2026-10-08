@@ -119,6 +119,19 @@ class CheckpointApiTest extends TestCase
         $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/events/'.$event->id.'/participants', $payload)->assertStatus(422);
     }
 
+    public function test_participant_update_keeps_its_start_number(): void
+    {
+        $owner = $this->user();
+        $event = $this->event($owner);
+        $created = $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/events/'.$event->id.'/participants', [
+            'last_name' => 'Иванов', 'first_name' => 'Иван', 'start_number' => '12',
+        ])->assertCreated();
+
+        $this->actingAs($owner, 'sanctum')->patchJson('/api/checkpoint/events/'.$event->id.'/participants/'.$created->json('id'), [
+            'last_name' => 'Петров', 'first_name' => 'Иван', 'start_number' => '12', 'middle_name' => '', 'rfid' => '',
+        ])->assertOk()->assertJsonPath('last_name', 'Петров')->assertJsonPath('start_number', '12');
+    }
+
     public function test_excel_import_upserts_by_start_number_and_reports_row_errors(): void
     {
         $owner = $this->user();
