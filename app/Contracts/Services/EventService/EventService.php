@@ -298,7 +298,10 @@ class EventService implements EventServiceInterface
             }
             // Устанавливаем марки
             foreach ($data->places as $place) {
-                $coords = explode(',', $place['coords']);
+                if (!is_array($place)) {
+                    continue;
+                }
+                $coords = explode(',', (string) $place['coords']);
                 $latitude   = $coords[0]; // широта
                 $longitude  = $coords[1]; // долгота
                 $timezone_id = Timezone::where('name', Location::find($place['locationId'])->time_zone)->first()->id;
