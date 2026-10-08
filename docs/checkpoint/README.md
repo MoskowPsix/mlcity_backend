@@ -19,12 +19,15 @@
 | [01-import-contract.md](./01-import-contract.md) | Контракт импорта Вокруг → Чекпоинт (v1.1) |
 | [fixtures/](./fixtures/) | Мок JSON и образец CSV участников |
 | [02-screen-map.md](./02-screen-map.md) | Карта экранов MVP |
-| [03-yougile-tasks-stage-1-2.md](./03-yougile-tasks-stage-1-2.md) | Задачи этапов 1–2 (шаблоны карточек YouGile) |
+| [03-yougile-tasks-stage-1-2.md](./03-yougile-tasks-stage-1-2.md) | Задачи этапов 1–2 (шаблоны карточек YouGile), включая **E2-11** локальные итоги |
 | [04-acceptance-rules.md](./04-acceptance-rules.md) | Definition of Done и сценарии приёмки |
 | [05-motocross-regression-checklist.md](./05-motocross-regression-checklist.md) | Чеклист регрессии мотокросса |
-| [06-results-contract-v1.md](./06-results-contract-v1.md) | Контракт результатов Checkpoint → Вокруг (v1, пилот) |
+| [06-results-contract-v1.md](./06-results-contract-v1.md) | Контракт результатов Checkpoint → Вокруг (v1, пилот / этап 3) |
 
-Контракт импорта **v1.1** зафиксирован: этапы 1 и 2 можно вести параллельно (Чекпоинт сначала на моке).
+Контракт импорта **v1.1** зафиксирован.  
+**UX выбора дисциплины:** модалка = выбор (+ добавить); editor = создать/править; Settings = сменить через ту же модалку ([02-screen-map B0–B2](./02-screen-map.md)).  
+**Дозакрытие этапа 2:** E2-11 (локальные итоги на телефоне).  
+**Следующий критичный блок MVP:** этап 3 — клиент ingest + UI карточки Вокруг + «поделиться» (гейт = флаг publish из админки до оплаты).
 
 ---
 
@@ -36,7 +39,7 @@
 | Developer A | Вокруг (`mlcity`): доступ, чекбокс, комиссия, API импорта; позже UI эфира на карточке |
 | Developer B | Чекпоинт (`hrono-app`): своя дисциплина, импорт, метки, заезд; позже отправка эфира |
 
-Этап 3 (трансляция): общий контракт live/final до кодирования; A — приём и UI карточки, B — отправка из Чекпоинта.
+Этап 3 (трансляция): контракт [06-results-contract-v1.md](./06-results-contract-v1.md) уже есть; A — UI карточки и share, B — отправка из Чекпоинта + очередь офлайн. Нарезку E3-* в YouGile сделать после E2-11.
 
 ---
 
