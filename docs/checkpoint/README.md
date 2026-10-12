@@ -22,12 +22,14 @@
 | [03-yougile-tasks-stage-1-2.md](./03-yougile-tasks-stage-1-2.md) | Задачи этапов 1–2 (шаблоны карточек YouGile), включая **E2-11** локальные итоги |
 | [04-acceptance-rules.md](./04-acceptance-rules.md) | Definition of Done и сценарии приёмки |
 | [05-motocross-regression-checklist.md](./05-motocross-regression-checklist.md) | Чеклист регрессии мотокросса |
-| [06-results-contract-v1.md](./06-results-contract-v1.md) | Контракт результатов Checkpoint → Вокруг (v1, пилот / этап 3) |
+| [06-results-contract-v1.md](./06-results-contract-v1.md) | Контракт результатов hrono-back → Вокруг (ingest v1) |
+| [08-hrono-back-checkpoint-api.md](./08-hrono-back-checkpoint-api.md) | API Чекпоинт → hrono-back (этап 3) |
+| [07-yougile-tasks-stage-3.md](./07-yougile-tasks-stage-3.md) | Задачи этапа 3 (эфир, итоги, share) |
 
 Контракт импорта **v1.1** зафиксирован.  
 **UX выбора дисциплины:** модалка = выбор (+ добавить); editor = создать/править; Settings = сменить через ту же модалку ([02-screen-map B0–B2](./02-screen-map.md)).  
 **Дозакрытие этапа 2:** E2-11 (локальные итоги на телефоне).  
-**Следующий критичный блок MVP:** этап 3 — клиент ingest + UI карточки Вокруг + «поделиться» (гейт = флаг publish из админки до оплаты).
+**Этап 3 (MVP):** цепочка **Чекпоинт → hrono-back → mlcity** ([08](./08-hrono-back-checkpoint-api.md) + [06](./06-results-contract-v1.md)); задачи [07](./07-yougile-tasks-stage-3.md) — один исполнитель `Stage3`; гейт = флаг publish из админки до оплаты.
 
 ---
 
@@ -36,10 +38,11 @@
 | Роль | Зона |
 |---|---|
 | Lead | Контракты, нарезка задач в YouGile, приёмка сценариев, decision-log, эскалация руководству |
-| Developer A | Вокруг (`mlcity`): доступ, чекбокс, комиссия, API импорта; позже UI эфира на карточке |
-| Developer B | Чекпоинт (`hrono-app`): своя дисциплина, импорт, метки, заезд; позже отправка эфира |
+| Developer A | Вокруг (`mlcity`): доступ, чекбокс, комиссия, API импорта (этапы 1–2) |
+| Developer B | Чекпоинт (`hrono-app`): своя дисциплина, импорт, метки, заезд (этап 2) |
+| Stage3 | Весь этап 3 в одном потоке: `hrono-back` (checkpoint API + forward) + клиент Чекпоинта + UI/share на карточке Вокруг (рекоменд. Developer B) |
 
-Этап 3 (трансляция): контракт [06-results-contract-v1.md](./06-results-contract-v1.md) уже есть; A — UI карточки и share, B — отправка из Чекпоинта + очередь офлайн. Нарезку E3-* в YouGile сделать после E2-11.
+Этап 3: телефон **не** бьёт в mlcity ingest напрямую; см. [08](./08-hrono-back-checkpoint-api.md) и [07](./07-yougile-tasks-stage-3.md).
 
 ---
 
@@ -49,9 +52,11 @@
 
 | Документ | Читают | Изменяют |
 |---|---|---|
-| Контракт + fixtures | A и B (обязательно) | Lead; ломающие правки — запись в decision-log + bump версии |
-| Карта экранов | A и B (по зоне) | Lead |
+| Контракт импорта + fixtures | A и B (обязательно) | Lead; ломающие правки — запись в decision-log + bump версии |
+| Контракты 06 / 08 (результаты) | Stage3 (обязательно) | Lead |
+| Карта экранов | A и B / Stage3 (по зоне) | Lead |
 | Задачи этапов 1–2 | A и B; текст переносится в YouGile | Lead |
+| Задачи этапа 3 (`07`) | Stage3; текст переносится в YouGile | Lead |
 | Правила приёмки | Вся команда | Lead |
 | Чеклист мотокросса | B (A — если затрагивает общее) | Lead; результат прогона — в комментарии YouGile к E2-10 |
 | Decision-log | Вся команда | Lead; предложения от разработчиков — через YouGile/чат, затем запись в лог |

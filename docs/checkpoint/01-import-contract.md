@@ -185,7 +185,7 @@
 
 ## 8. Что контракт НЕ описывает (позже)
 
-- Payload live / final (этап 3).
+- Payload live / final (этап 3): см. [08-hrono-back-checkpoint-api.md](./08-hrono-back-checkpoint-api.md) и [06-results-contract-v1.md](./06-results-contract-v1.md); телефон не пишет в mlcity ingest напрямую.
 - Sync шаблонов дисциплины в облаке.
 - Запись RFID из Чекпоинта в Вокруг.
 - «Заявиться».

@@ -96,6 +96,33 @@
 
 ---
 
+## 2026-10-12 — нарезка этапа 3 (устарело по исполнителям)
+
+| Решение | Почему |
+|---|---|
+| Задачи этапа 3 в [07-yougile-tasks-stage-3.md](./07-yougile-tasks-stage-3.md) | Этапы 1–2 закрываются; эфир — must-have MVP |
+| Бейдж «Эфир» в ленте — E3-10 опционально | Не блокер пилота |
+| Pusher на stage — по возможности; иначе poll-only явно | REST-снимок = источник правды |
+
+*Распределение A∥B и прямой POST телефона в mlcity снято записью 2026-10-13.*
+
+---
+
+## 2026-10-13 — этап 3 через hrono-back, один исполнитель
+
+| Решение | Почему |
+|---|---|
+| Публикация custom-заездов: **Чекпоинт → hrono-back → mlcity**, не прямой ingest с телефона в Вокруг | Зеркало паттерна MX (телефон → hrono-back → moto); единая точка persist/retry |
+| Новые таблицы/роуты checkpoint в hrono-back; **не** переиспользовать Arrival / final_results MX as-is | Другая доменная модель (vokrug event_id, custom heat) |
+| Ingest + GET snapshot в mlcity **оставляем**; клиент ingest = hrono-back (forward контракта 06) | Карточка Вокруг уже читает mlcity; не плодить второй зрительский API |
+| Auth на HB: `X-Api-Secret` + **проброс Bearer Вокруг** на mlcity; 401/403 отдавать приложению | Права publish остаются на стороне Вокруг |
+| Гейт `checkpoint_publish_override` / `publish_allowed` без изменений на mlcity | Freemium publish как раньше |
+| Весь этап 3 — **один разработчик** (`Stage3`, рекоменд. Developer B / Чекпоинт+hrono) | Не разъехать контракты HB↔mlcity↔app при параллели A/B |
+| Задачи: [07-yougile-tasks-stage-3.md](./07-yougile-tasks-stage-3.md); API HB: [08-hrono-back-checkpoint-api.md](./08-hrono-back-checkpoint-api.md) | Карточки и контракт моста в git |
+| Прямой POST results с телефона в mlcity **не** делать в бэклоге этапа 3 | Одна цепочка публикации |
+
+---
+
 ## Шаблон новой записи
 
 ```text
