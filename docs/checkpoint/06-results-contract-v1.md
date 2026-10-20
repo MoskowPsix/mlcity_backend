@@ -37,10 +37,33 @@ hrono-back **пробрасывает** Bearer, полученный от при
   "event_id": "2c594780-0084-4c31-a777-86884f5b5221",
   "type": "results.upsert",
   "occurred_at": "2026-10-06T12:30:00+05:00",
-  "heat": {"external_id": "heat-1", "name": "Финал, М18"},
-  "results": [{"participant_id": 55, "place": 1, "result": "00:35:12.420", "result_value_ms": 2112420}]
+  "heat": {
+    "external_id": "heat-1",
+    "name": "Финал, М18",
+    "type_slug": "mass_start_time",
+    "laps_target": 5
+  },
+  "results": [{
+    "participant_id": 55,
+    "place": 1,
+    "laps": 5,
+    "result": "00:35:12.420",
+    "result_value_ms": 2112420
+  }]
 }
 ```
+
+`heat.type_slug` и `heat.laps_target` передаются в `heat.open`, `results.upsert` и `heat.finish`. Старые сообщения без этих полей остаются читаемыми: колонка на карточке подписывается просто «Результат».
+
+| Поле | Смысл |
+|---|---|
+| `type_slug` | `mass_start_time` \| `qualification_best` \| `staggered_start` \| `timed_duration` |
+| `laps_target` | N для дистанции и раздельного старта; `null` для квалификации и гонки на время |
+| `laps` | Сколько кругов зачтено участнику |
+| `result` | Строка для зрителя |
+| `result_value_ms` | Время сравнения в этом типе. Дистанция и раздельный старт — от t0 (общего или личного якоря) до последнего зачётного круга. Квалификация — лучший круг. Гонка на время — время последнего зачётного круга от общего t0 |
+
+Места считает Чекпоинт. Вокруг сортирует строки по `place` и не пересчитывает протокол. Подпись колонки на карточке берётся из `type_slug` (см. [09-heat-timing-kinds.md](./09-heat-timing-kinds.md)).
 
 Типы: `heat.open`, `results.upsert`, `heat.finish`, `live.close`.
 

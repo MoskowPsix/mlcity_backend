@@ -130,7 +130,8 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 **Сделать:**
 - Сервис (напр. `checkpoint-results-sync`): вызовы **hrono-back** по контракту 08 (`X-Api-Secret` + Bearer Вокруг).
 - **Не** вызывать `POST …/checkpoint/competitions/…/results` на mlcity с телефона.
-- UUID `event_id` на каждое сообщение; `external_id` = локальный id custom heat; `participant_id` = id комиссии Вокруг; `place` / `result` / `result_value_ms`.
+- UUID `event_id` на каждое сообщение; `external_id` = локальный id custom heat; `participant_id` = id комиссии Вокруг; `place` / `laps` / `result` / `result_value_ms`.
+- В `heat`: `type_slug` и `laps_target` по [09-heat-timing-kinds.md](./09-heat-timing-kinds.md) и [06](./06-results-contract-v1.md). Места на сервере не пересчитывать.
 - Throttle live results (1–3 с или по изменению ranking).
 - Учитывать `publish_allowed` (E3-05 детализирует UX).
 
@@ -202,7 +203,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 **Сделать:**
 - Блок только при `checkpoint_enabled`.
 - Состояния: «Трансляция ещё не началась» / live-таблица / завершённые heats.
-- Колонки: место, номер, ФИО (если в снимке), результат.
+- Колонки: место, номер, ФИО (если в снимке), результат. Подпись колонки результата — по `heat.type_slug` ([09](./09-heat-timing-kinds.md)); порядок строк — по `place`. Если `type_slug` нет (старый снимок) — колонка «Результат».
 - Первичный `GET …/checkpoint-results`; poll (~10 с) и/или Pusher; после reconnect — повторный GET (REST = правда).
 - Не ломать остальную карточку.
 

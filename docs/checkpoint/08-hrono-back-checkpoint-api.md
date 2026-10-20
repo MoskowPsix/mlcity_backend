@@ -69,9 +69,13 @@ Forward URL: `{mlcity_api_url}checkpoint/competitions/{vokrugEventId}/results`.
 {
   "external_id": "heat-local-42",
   "name": "Финал, М18",
-  "heat_type": "mass_start_time"
+  "type_slug": "mass_start_time",
+  "laps_target": 5
 }
 ```
+
+`type_slug`: `mass_start_time` | `qualification_best` | `staggered_start` | `timed_duration`.  
+`laps_target`: N или `null` (квалификация и гонка на время).
 
 Ответ: heat создан/обновлён в БД hrono-back. Может сразу forward `heat.open` **или** open отдельным вызовом stream/open (предпочтительно отдельно — как MX).
 
@@ -84,9 +88,16 @@ Forward URL: `{mlcity_api_url}checkpoint/competitions/{vokrugEventId}/results`.
   "event_id": "2c594780-0084-4c31-a777-86884f5b5221",
   "occurred_at": "2026-10-13T10:00:00+05:00",
   "vokrug_event_id": 12345,
-  "heat": {"external_id": "heat-local-42", "name": "Финал, М18"}
+  "heat": {
+    "external_id": "heat-local-42",
+    "name": "Финал, М18",
+    "type_slug": "mass_start_time",
+    "laps_target": 5
+  }
 }
 ```
+
+`type_slug` и `laps_target` те же в `stream/close` и `final-results`. HB кладёт их в forward `heat.open` / `heat.finish` / `live.close`.
 
 HB: пометить heat live → forward type `heat.open` в mlcity.
 
@@ -99,17 +110,25 @@ HB: пометить heat live → forward type `heat.open` в mlcity.
   "event_id": "a1111111-0084-4c31-a777-86884f5b5221",
   "occurred_at": "2026-10-13T10:01:30+05:00",
   "vokrug_event_id": 12345,
-  "heat": {"external_id": "heat-local-42", "name": "Финал, М18"},
+  "heat": {
+    "external_id": "heat-local-42",
+    "name": "Финал, М18",
+    "type_slug": "mass_start_time",
+    "laps_target": 5
+  },
   "results": [
     {
       "participant_id": 55,
       "place": 1,
+      "laps": 3,
       "result": "00:35:12.420",
       "result_value_ms": 2112420
     }
   ]
 }
 ```
+
+Те же поля `heat.type_slug`, `heat.laps_target` и `results[].laps` — в final-results. Смысл `result` / `result_value_ms` — [06](./06-results-contract-v1.md) и [09](./09-heat-timing-kinds.md). Телефон присылает уже посчитанное `place`. HB его не пересортировывает.
 
 HB: сохранить последний snapshot → forward type `results.upsert`.  
 При ретрае forward достаточно **последнего** upsert по heat (не копить все тики).
