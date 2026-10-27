@@ -45,7 +45,9 @@ services:
             dockerfile: dockerfile
         ports:
             - "${APP_PORT:-8001}:80"
-            - "443:443"
+            # На проде 443 держит host nginx (/etc/nginx) + php-fpm.
+            # Маппинг 443:443 ломает up (address already in use).
+            # - "443:443"
         depends_on:
             - backend
         volumes:
