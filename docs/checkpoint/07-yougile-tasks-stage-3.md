@@ -70,6 +70,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | L |
 | **Зависимость** | контракт [08](./08-hrono-back-checkpoint-api.md); желательно E2-08 / E2-11 на стороне app позже |
+| **Статус (Vokrug)** | done — сервис `checkpoint-back` (мотошный HB не трогаем) |
 
 **Сделать:**
 - Миграции `checkpoint_heats` (+ results / JSON snapshot) — **не** таблицы Arrival MX.
@@ -100,6 +101,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | L |
 | **Зависимость** | E3-01; контракт [06](./06-results-contract-v1.md) |
+| **Статус (Vokrug)** | done — `CheckpointForwardService` + Feature tests |
 
 **Сделать:**
 - Сервис forward (по аналогии с `SendRaceResultsToMotoAction`): Bearer Вокруг из запроса → `POST {MLCITY_API_URL}checkpoint/competitions/{eventId}/results`.
@@ -126,9 +128,10 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | L |
 | **Зависимость** | E3-02; E2-08; желательно E2-11 |
+| **Статус (Vokrug)** | done — `hrono-app` → `checkpoint-back` (не мотошный HB) |
 
 **Сделать:**
-- Сервис (напр. `checkpoint-results-sync`): вызовы **hrono-back** по контракту 08 (`X-Api-Secret` + Bearer Вокруг).
+- Сервис (напр. `checkpoint-results-sync`): вызовы **checkpoint-back** (контракт 08; мотошный hrono-back не трогаем) (`X-Api-Secret` + Bearer Вокруг).
 - **Не** вызывать `POST …/checkpoint/competitions/…/results` на mlcity с телефона.
 - UUID `event_id` на каждое сообщение; `external_id` = локальный id custom heat; `participant_id` = id комиссии Вокруг; `place` / `laps` / `result` / `result_value_ms`.
 - В `heat`: `type_slug` и `laps_target` по [09-heat-timing-kinds.md](./09-heat-timing-kinds.md) и [06](./06-results-contract-v1.md). Места на сервере не пересчитывать.
@@ -153,9 +156,10 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | M |
 | **Зависимость** | E3-03 |
+| **Статус (Vokrug)** | done — `CheckpointPendingQueueService` (Preferences), flush on online + vokrug token |
 
 **Сделать:**
-- При отсутствии сети / 5xx: класть open / последний results / final / close в очередь (расширить `pending-http-queue` или отдельная checkpoint-очередь на **URL hrono-back**).
+- При отсутствии сети / 5xx: класть open / последний results / final / close в очередь (расширить `pending-http-queue` или отдельная checkpoint-очередь на **URL checkpoint-back**).
 - Политика: live = **последний** upsert по heat; `final-results` обязателен и не теряется.
 - Ретрай при сети + валидном токене Вокруг; те же UUID.
 
@@ -174,12 +178,14 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | M |
 | **Зависимость** | E3-03, E3-04 |
+| **Статус (Vokrug)** | done — publish gate + login target Вокруг/MX + Bearer только Вокруг на checkpoint |
 
 **Сделать:**
 - Если `publish_allowed === false` (и нет сценария члена комиссии с правом): хронометраж и локальные итоги работают; облачные вызовы не идут (или 403 без краша).
 - Сообщение: «Публикация в Вокруг недоступна. Обратитесь к организатору / включите публикацию в админке» (без оплаты в тексте пилота).
 - Привязка `vokrug_event_id` к сессии заезда.
 - Хуки: start → stream/open (+ meta heat); во время заезда → results; finish → final-results + close; не ломать MX (`mototreckStream` выкл. для custom).
+- Dual auth: логин **Вокруг** для эфира custom (MX Bearer на ingest не слать).
 
 **Критерий готовности:**
 - Без флага: локально ок; нет успешной публикации в облако.
@@ -197,6 +203,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | M |
 | **Зависимость** | GET snapshot уже есть; данные появляются после E3-02+ |
+| **Статус (Vokrug)** | done — `event-show` poll 10s + Pusher/Soketi fallback |
 
 **Контекст:** Черновик на `event-show` — довести до приёмки S3. Poll и reconnect — в этой же карточке (один исполнитель).
 
@@ -223,6 +230,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | S |
 | **Зависимость** | E3-06 |
+| **Статус (Vokrug)** | done — `shareContent` / кнопка у блока хронометража |
 
 **Сделать:**
 - «Поделиться» в контексте хронометража или общая share события (deep link на карточку достаточна).
@@ -243,6 +251,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | S |
 | **Зависимость** | E3-02 (минимум) |
+| **Статус (Vokrug)** | done — [09-stage-smoke.md](./09-stage-smoke.md) + `checkpoint-back/scripts/smoke-checkpoint-chain.sh`; Soketi profile `realtime`; poll-only ok |
 
 **Сделать:**
 - Stage: `API_SECRET` на HB; `MLCITY_API_URL`; приложение Чекпоинт смотрит на HB.
@@ -265,6 +274,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 (+ Lead принимает) |
 | **Размер** | S |
 | **Зависимость** | E3-05, E3-06, E3-07, E3-08 |
+| **Статус (Vokrug)** | done — приёмка [10-s3-acceptance.md](./10-s3-acceptance.md) 2026-10-27, пункты 1–6 PASS |
 
 **Сделать:**
 - Прогон [S3](./04-acceptance-rules.md): publish вкл. → вызовы HB (не прямой mlcity ingest) → live → finish → итоги → share.
@@ -284,6 +294,7 @@ Lead принимает S3 на E3-09. Code review — по договорённ
 | **Исполнитель** | Stage3 |
 | **Размер** | S |
 | **Зависимость** | E3-06 |
+| **Статус (Vokrug)** | done — `checkpoint_live` via withExists + badge на `event-card` |
 
 **Сделать:**
 - В ленте/превью индикатор открытого live (без тяжёлого poll на всю ленту, если дорого).

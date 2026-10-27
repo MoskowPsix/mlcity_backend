@@ -1,10 +1,10 @@
 <?php
 namespace App\Events;
 use Illuminate\Broadcasting\Channel;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
-class CheckpointResultsUpdated implements ShouldBroadcast {
+class CheckpointResultsUpdated implements ShouldBroadcastNow {
     use Dispatchable, SerializesModels;
     public function __construct(public int $eventId, public array $state) {}
     public function broadcastOn(): Channel { return new Channel('checkpoint.event.'.$this->eventId); }

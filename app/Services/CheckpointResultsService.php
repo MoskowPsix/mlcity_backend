@@ -7,6 +7,7 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\Rule;
 
 class CheckpointResultsService
@@ -41,7 +42,16 @@ class CheckpointResultsService
             return true;
         });
         $state = $this->state($event->fresh());
-        if ($wasNew) broadcast(new CheckpointResultsUpdated($event->id, $state));
+        if ($wasNew) {
+            try {
+                broadcast(new CheckpointResultsUpdated($event->id, $state));
+            } catch (\Throwable $e) {
+                Log::warning('checkpoint.broadcast_failed', [
+                    'event_id' => $event->id,
+                    'message' => $e->getMessage(),
+                ]);
+            }
+        }
         return ['accepted' => $wasNew, 'state' => $state];
     }
 

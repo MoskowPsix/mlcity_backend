@@ -43,6 +43,8 @@ class EventResource extends JsonResource
             'id'                => $this->id,
             'name'              => $this->name,
             'checkpoint_enabled' => (bool) $this->checkpoint_enabled,
+            // E3-10: открытый live heat (withExists, без poll ленты)
+            'checkpoint_live'   => (bool) ($this->checkpoint_live ?? false),
             'sponsor'           => $this->sponsor,
             'date_start'        => $this->date_start,
             'date_end'          => $this->date_end,

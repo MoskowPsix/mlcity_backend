@@ -67,6 +67,7 @@ class EventService implements EventServiceInterface
     public function getById(int $id): Event
     {
         $event = Event::query()->where('id', $id)->with('price', 'types', 'files', 'statuses', 'author', 'comments')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments', 'viewsUsers');
+        $this->withCheckpointLiveFlag($event);
         $response =
             app(Pipeline::class)
             ->send($event)
@@ -86,6 +87,7 @@ class EventService implements EventServiceInterface
         $page = $data->page;
         $limit = $data->limit && ($data->limit < 50) ? $data->limit : 6;
         $events = Event::with('files', 'author', 'types', 'price', 'statuses','viewCount', 'likes', 'organization.sight');
+        $this->withCheckpointLiveFlag($events);
 
         $response = app(Pipeline::class)
             ->send($events)
@@ -199,6 +201,7 @@ class EventService implements EventServiceInterface
         isset($data->page) ?  $page = $data->page :  $page = '';
         isset($data->limit) ?  $limit = $data->limit : $limit =  6;
         $events = Event::where('user_id', auth('api')->user()->id)->with('files', 'author', 'price', 'statuses', 'types')->withCount('viewsUsers', 'likedUsers', 'favoritesUsers', 'comments');
+        $this->withCheckpointLiveFlag($events);
 
         return app(Pipeline::class)
             ->send($events)
@@ -210,6 +213,14 @@ class EventService implements EventServiceInterface
             ->then(function ($events) use ($page, $limit, $data) {
                 return $events->orderBy('created_at', 'desc')->cursorPaginate($limit, ['*'], 'page', $page);
             });
+    }
+
+    /** Exists-подзапрос: есть heat со status=live (E3-10, без N+1 poll). */
+    private function withCheckpointLiveFlag($query): void
+    {
+        $query->withExists([
+            'checkpointHeats as checkpoint_live' => static fn ($q) => $q->where('status', 'live'),
+        ]);
     }
 
     public function store(EventCreateRequest $data): Event
