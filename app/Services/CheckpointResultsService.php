@@ -76,10 +76,25 @@ class CheckpointResultsService
                     ->where('id', '!=', $heat->id)
                     ->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
                 $heat->update(['status' => 'live', 'started_at' => $data['occurred_at']]);
+                // Новый старт — старые строки (abandon / прошлый прогон того же external_id) не оставляем.
+                $heat->results()->delete();
             }
             if ($data['type'] === 'heat.finish') $heat->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
-            if ($data['type'] === 'live.close' && $heat->status === 'live') $heat->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
-            foreach ($data['results'] ?? [] as $result) {
+            // abandon: live.close пока status=live. После heat.finish статус уже finished — результаты не трогаем.
+            if ($data['type'] === 'live.close' && $heat->status === 'live') {
+                $heat->results()->delete();
+                $heat->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
+            }
+            $incomingResults = $data['results'] ?? null;
+            if (is_array($incomingResults) && in_array($data['type'], ['results.upsert', 'heat.finish'], true)) {
+                $ids = array_values(array_map('intval', array_column($incomingResults, 'participant_id')));
+                if ($ids === []) {
+                    $heat->results()->delete();
+                } else {
+                    $heat->results()->whereNotIn('participant_id', $ids)->delete();
+                }
+            }
+            foreach ($incomingResults ?? [] as $result) {
                 $heat->results()->updateOrCreate(['participant_id' => $result['participant_id']], [
                     'place' => $result['place'] ?? null,
                     'laps' => $result['laps'] ?? null,

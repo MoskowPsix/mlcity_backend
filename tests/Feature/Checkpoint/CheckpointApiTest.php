@@ -221,6 +221,120 @@ class CheckpointApiTest extends TestCase
             ->assertJsonPath('accepted', false);
     }
 
+    public function test_live_close_while_live_clears_results_open_resets_too(): void
+    {
+        $owner = $this->user(true, true);
+        $event = $this->event($owner);
+        $participant = $event->checkpointParticipants()->create([
+            'last_name' => 'Иванов',
+            'first_name' => 'Иван',
+            'start_number' => '12',
+        ]);
+
+        $open = [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5301',
+            'type' => 'heat.open',
+            'occurred_at' => '2026-10-06T12:30:00+05:00',
+            'heat' => ['external_id' => 'heat-abandon', 'name' => 'Заезд'],
+            'results' => [],
+        ];
+        $this->actingAs($owner, 'sanctum')
+            ->postJson('/api/checkpoint/competitions/'.$event->id.'/results', $open)
+            ->assertOk();
+
+        $upsert = [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5302',
+            'type' => 'results.upsert',
+            'occurred_at' => '2026-10-06T12:31:00+05:00',
+            'heat' => ['external_id' => 'heat-abandon', 'name' => 'Заезд'],
+            'results' => [[
+                'participant_id' => $participant->id,
+                'place' => 1,
+                'result' => '00:01:00.000',
+                'result_value_ms' => 60000,
+            ]],
+        ];
+        $this->actingAs($owner, 'sanctum')
+            ->postJson('/api/checkpoint/competitions/'.$event->id.'/results', $upsert)
+            ->assertOk()
+            ->assertJsonPath('state.live.results.0.start_number', '12');
+
+        $close = [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5303',
+            'type' => 'live.close',
+            'occurred_at' => '2026-10-06T12:32:00+05:00',
+            'heat' => ['external_id' => 'heat-abandon', 'name' => 'Заезд'],
+            'results' => [],
+        ];
+        $this->actingAs($owner, 'sanctum')
+            ->postJson('/api/checkpoint/competitions/'.$event->id.'/results', $close)
+            ->assertOk();
+
+        $state = $this->getJson('/api/events/'.$event->id.'/checkpoint-results')->assertOk()->json();
+        $this->assertNull($state['live']);
+        $abandoned = collect($state['heats'])->firstWhere('id', 'heat-abandon');
+        $this->assertNotNull($abandoned);
+        $this->assertSame([], $abandoned['results']);
+
+        $reopen = [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5304',
+            'type' => 'heat.open',
+            'occurred_at' => '2026-10-06T12:40:00+05:00',
+            'heat' => ['external_id' => 'heat-abandon', 'name' => 'Заезд 2'],
+            'results' => [],
+        ];
+        $this->actingAs($owner, 'sanctum')
+            ->postJson('/api/checkpoint/competitions/'.$event->id.'/results', $reopen)
+            ->assertOk()
+            ->assertJsonPath('state.live.results', []);
+    }
+
+    public function test_heat_finish_keeps_results_after_live_close(): void
+    {
+        $owner = $this->user(true, true);
+        $event = $this->event($owner);
+        $participant = $event->checkpointParticipants()->create([
+            'last_name' => 'Петров',
+            'first_name' => 'Пётр',
+            'start_number' => '7',
+        ]);
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5401',
+            'type' => 'heat.open',
+            'occurred_at' => '2026-10-06T13:00:00+05:00',
+            'heat' => ['external_id' => 'heat-finish', 'name' => 'Финал'],
+            'results' => [],
+        ])->assertOk();
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5402',
+            'type' => 'heat.finish',
+            'occurred_at' => '2026-10-06T13:10:00+05:00',
+            'heat' => ['external_id' => 'heat-finish', 'name' => 'Финал'],
+            'results' => [[
+                'participant_id' => $participant->id,
+                'place' => 1,
+                'result' => '00:35:12.420',
+                'result_value_ms' => 2112420,
+            ]],
+        ])->assertOk();
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5403',
+            'type' => 'live.close',
+            'occurred_at' => '2026-10-06T13:10:01+05:00',
+            'heat' => ['external_id' => 'heat-finish', 'name' => 'Финал'],
+            'results' => [],
+        ])->assertOk();
+
+        $state = $this->getJson('/api/events/'.$event->id.'/checkpoint-results')->assertOk()->json();
+        $finished = collect($state['heats'])->firstWhere('id', 'heat-finish');
+        $this->assertNotNull($finished);
+        $this->assertCount(1, $finished['results']);
+        $this->assertSame('7', $finished['results'][0]['start_number']);
+    }
+
     public function test_author_can_share_commission_with_another_account(): void
     {
         Mail::fake();
