@@ -24,7 +24,8 @@ class CheckpointResultsService
             'heat.laps_target' => 'nullable|integer|min:0',
             'results' => 'nullable|array',
             'results.*.participant_id' => ['required','integer', Rule::exists('checkpoint_participants', 'id')->where('event_id', $event->id)],
-            'results.*.place' => 'nullable|integer|min:1',
+            // place 0 = DNS / без отметок — иначе весь upsert/finish падает на 422
+            'results.*.place' => 'nullable|integer|min:0',
             'results.*.laps' => 'nullable|integer|min:0',
             'results.*.result' => 'nullable|string|max:255',
             'results.*.result_value_ms' => 'nullable|numeric|min:0',
@@ -80,10 +81,12 @@ class CheckpointResultsService
                 $heat->results()->delete();
             }
             if ($data['type'] === 'heat.finish') $heat->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
-            // abandon: live.close пока status=live. После heat.finish статус уже finished — результаты не трогаем.
+            // abandon: live.close пока status=live — сносим заезд целиком (без пустого finished в списке).
+            // После heat.finish статус уже finished — live.close только закрывает эфир, результаты не трогаем.
             if ($data['type'] === 'live.close' && $heat->status === 'live') {
                 $heat->results()->delete();
-                $heat->update(['status' => 'finished', 'finished_at' => $data['occurred_at']]);
+                $heat->delete();
+                return true;
             }
             $incomingResults = $data['results'] ?? null;
             if (is_array($incomingResults) && in_array($data['type'], ['results.upsert', 'heat.finish'], true)) {
@@ -133,7 +136,7 @@ class CheckpointResultsService
             'status' => $heat->status,
             'started_at' => $heat->started_at?->toIso8601String(),
             'finished_at' => $heat->finished_at?->toIso8601String(),
-            'results' => $heat->results->sortBy(fn ($r) => $r->place ?? PHP_INT_MAX)->values()->map(fn ($r) => [
+            'results' => $heat->results->sortBy(fn ($r) => ($r->place === null || (int) $r->place <= 0) ? PHP_INT_MAX : (int) $r->place)->values()->map(fn ($r) => [
                 'participant_id' => $r->participant_id,
                 'start_number' => $r->participant?->start_number,
                 'name' => trim(($r->participant?->last_name ?? '').' '.($r->participant?->first_name ?? '')),

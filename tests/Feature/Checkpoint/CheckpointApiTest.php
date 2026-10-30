@@ -272,9 +272,8 @@ class CheckpointApiTest extends TestCase
 
         $state = $this->getJson('/api/events/'.$event->id.'/checkpoint-results')->assertOk()->json();
         $this->assertNull($state['live']);
-        $abandoned = collect($state['heats'])->firstWhere('id', 'heat-abandon');
-        $this->assertNotNull($abandoned);
-        $this->assertSame([], $abandoned['results']);
+        // Сброс live-заезда удаляет запись — пустой finished в списке не оставляем.
+        $this->assertNull(collect($state['heats'])->firstWhere('id', 'heat-abandon'));
 
         $reopen = [
             'event_id' => '2c594780-0084-4c31-a777-86884f5b5304',
@@ -287,6 +286,94 @@ class CheckpointApiTest extends TestCase
             ->postJson('/api/checkpoint/competitions/'.$event->id.'/results', $reopen)
             ->assertOk()
             ->assertJsonPath('state.live.results', []);
+    }
+
+    public function test_results_upsert_accepts_place_zero_dns(): void
+    {
+        $owner = $this->user(true, true);
+        $event = $this->event($owner);
+        $runner = $event->checkpointParticipants()->create([
+            'last_name' => 'Бегун',
+            'first_name' => 'Б',
+            'start_number' => '1',
+        ]);
+        $dns = $event->checkpointParticipants()->create([
+            'last_name' => 'Сошёл',
+            'first_name' => 'С',
+            'start_number' => '2',
+        ]);
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5501',
+            'type' => 'heat.open',
+            'occurred_at' => '2026-10-06T14:00:00+05:00',
+            'heat' => ['external_id' => 'heat-dns', 'name' => 'DNS'],
+            'results' => [],
+        ])->assertOk();
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5502',
+            'type' => 'results.upsert',
+            'occurred_at' => '2026-10-06T14:01:00+05:00',
+            'heat' => ['external_id' => 'heat-dns', 'name' => 'DNS'],
+            'results' => [
+                [
+                    'participant_id' => $runner->id,
+                    'place' => 1,
+                    'laps' => 1,
+                    'result' => '00:01:00.000',
+                    'result_value_ms' => 60000,
+                ],
+                [
+                    'participant_id' => $dns->id,
+                    'place' => 0,
+                    'laps' => 0,
+                    'result' => null,
+                    'result_value_ms' => null,
+                ],
+            ],
+        ])
+            ->assertOk()
+            ->assertJsonPath('state.live.results.0.start_number', '1')
+            ->assertJsonPath('state.live.results.1.start_number', '2')
+            ->assertJsonPath('state.live.results.1.place', 0);
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5503',
+            'type' => 'heat.finish',
+            'occurred_at' => '2026-10-06T14:10:00+05:00',
+            'heat' => ['external_id' => 'heat-dns', 'name' => 'DNS'],
+            'results' => [
+                [
+                    'participant_id' => $runner->id,
+                    'place' => 1,
+                    'laps' => 1,
+                    'result' => '00:01:00.000',
+                    'result_value_ms' => 60000,
+                ],
+                [
+                    'participant_id' => $dns->id,
+                    'place' => 0,
+                    'laps' => 0,
+                    'result' => null,
+                    'result_value_ms' => null,
+                ],
+            ],
+        ])->assertOk();
+
+        $this->actingAs($owner, 'sanctum')->postJson('/api/checkpoint/competitions/'.$event->id.'/results', [
+            'event_id' => '2c594780-0084-4c31-a777-86884f5b5504',
+            'type' => 'live.close',
+            'occurred_at' => '2026-10-06T14:11:00+05:00',
+            'heat' => ['external_id' => 'heat-dns', 'name' => 'DNS'],
+            'results' => [],
+        ])->assertOk();
+
+        $state = $this->getJson('/api/events/'.$event->id.'/checkpoint-results')->assertOk()->json();
+        $this->assertNull($state['live']);
+        $finished = collect($state['heats'])->firstWhere('id', 'heat-dns');
+        $this->assertNotNull($finished);
+        $this->assertCount(2, $finished['results']);
     }
 
     public function test_heat_finish_keeps_results_after_live_close(): void
